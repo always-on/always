@@ -1,0 +1,9 @@
+<taskModel about="urn:relationships.wpi.edu:examples:DemoTasks" xmlns="http://ce.org/cea-2018">
+
+	<task id="FaffAbout"/>
+
+	<task id="DailyPushups"/>
+	
+	<task id="Rummy"/>
+
+</taskModel>

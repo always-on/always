@@ -1,0 +1,15 @@
+<taskModel about="urn:relationships.wpi.edu:examples:DemoTasks" xmlns="http://ce.org/cea-2018">
+
+	<task id="MindlessChatter">
+	</task>
+	
+	<task id="FaffAbout">
+	</task>
+
+	<task id="PersonalQuestions">
+	</task>
+
+	<task id="DailyPushups">
+	</task>
+
+</taskModel>

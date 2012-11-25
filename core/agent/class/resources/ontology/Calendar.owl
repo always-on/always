@@ -1,0 +1,78 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(skos:=<http://www.w3.org/2004/02/skos/core#>)
+
+
+Ontology(
+Declaration(Class(<#Event>))
+
+Declaration(ObjectProperty(<#EventLocation>))
+ObjectPropertyDomain(<#EventLocation> <#Event>)
+ObjectPropertyRange(<#EventLocation> <#Place>)
+SubClassOf(<#Event> ObjectMaxCardinality(1 <#EventLocation> <#Place>))
+
+Declaration(DataProperty(<#EventDuration>))
+DataPropertyDomain(<#EventDuration> <#Event>)
+DataPropertyRange(<#EventDuration> <xsd:duration>)
+SubClassOf(<#Event> DataExactCardinality(1 <#EventDuration> <xsd:duration>))
+
+Declaration(DataProperty(<#EventStart>))
+DataPropertyDomain(<#EventStart> <#Event>)
+DataPropertyRange(<#EventStart> xsd:dateTime)
+SubClassOf(<#Event> DataExactCardinality(1 <#EventStart> xsd:dateTime))
+
+Declaration(DataProperty(<#EventType>))
+DataPropertyDomain(<#EventType> <#Event>)
+DataPropertyRange(<#EventType> xsd:string)
+SubClassOf(<#Event> DataExactCardinality(1 <#EventType> xsd:string))
+
+Declaration(DataProperty(<#EventUUID>))
+DataPropertyDomain(<#EventUUID> <#Event>)
+DataPropertyRange(<#EventUUID> xsd:string)
+SubClassOf(<#Event> DataExactCardinality(1 <#EventUUID> xsd:string))
+
+Declaration(ObjectProperty(<#EventPeople>))
+ObjectPropertyDomain(<#EventPeople> <#Event>)
+ObjectPropertyRange(<#EventPeople> <#Person>)
+
+
+
+Declaration(Class(<#RepeatingEvent>))
+SubClassOf(<#RepeatingEvent> <#Event>)
+
+Declaration(DataProperty(<#EventRepeatingUUID>))
+DataPropertyDomain(<#EventRepeatingUUID> <#RepeatingEvent>)
+DataPropertyRange(<#EventRepeatingUUID> xsd:string)
+SubClassOf(<#RepeatingEvent> DataExactCardinality(1 <#EventRepeatingUUID> xsd:string))
+
+
+Declaration(DataProperty(<#RepeatingStartDate>))
+DataPropertyDomain(<#RepeatingStartDate> <#RepeatingEvent>)
+DataPropertyRange(<#RepeatingStartDate> <xsd:date>)
+SubClassOf(<#RepeatingEvent> DataExactCardinality(1 <#RepeatingStartDate> <xsd:date>))
+
+Declaration(DataProperty(<#RepeatingEndDate>))
+DataPropertyDomain(<#RepeatingEndDate> <#RepeatingEvent>)
+DataPropertyRange(<#RepeatingEndDate> <xsd:date>)
+SubClassOf(<#RepeatingEvent> DataExactCardinality(1 <#RepeatingEndDate> <xsd:date>))
+
+Declaration(DataProperty(<#RepeatingStartTime>))
+DataPropertyDomain(<#RepeatingStartTime> <#RepeatingEvent>)
+DataPropertyRange(<#RepeatingStartTime> <xsd:time>)
+SubClassOf(<#RepeatingEvent> DataExactCardinality(1 <#RepeatingStartTime> <xsd:time>))
+
+Declaration(DataProperty(<#RepeatingDuration>))
+DataPropertyDomain(<#RepeatingDuration> <#RepeatingEvent>)
+DataPropertyRange(<#RepeatingDuration> <xsd:duration>)
+SubClassOf(<#RepeatingEvent> DataExactCardinality(1 <#RepeatingDuration> <xsd:duration>))
+
+Declaration(DataProperty(<#RepeatingFrequency>))
+DataPropertyDomain(<#RepeatingFrequency> <#RepeatingEvent>)
+DataPropertyRange(<#RepeatingFrequency> DataOneOf("DAILY"^^xsd:string "MONTHLY"^^xsd:string "WEEKLY"^^xsd:string "YEARLY"^^xsd:string))
+SubClassOf(<#RepeatingEvent> DataExactCardinality(1 <#RepeatingFrequency> DataOneOf("DAILY"^^xsd:string "MONTHLY"^^xsd:string "WEEKLY"^^xsd:string "YEARLY"^^xsd:string)))
+
+
+)

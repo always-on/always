@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<taskModel xmlns="http://ce.org/cea-2018" about="urn:relationships.wpi.edu:examples:Today">
+<task id="Today">
+<subtasks id="decomp0">
+<step name="Baseball" task="Baseball"/>
+</subtasks>
+<subtasks id="decomp1">
+<step name="Anecdotes" task="Anecdotes"/>
+<step name="choice0" task="choice0"/>
+</subtasks>
+<subtasks id="decomp4">
+<step name="Schedule" task="Schedule"/>
+<step name="choice2" task="choice2"/>
+</subtasks>
+<subtasks id="decomp7">
+<step name="Family" task="Family"/>
+</subtasks>
+<subtasks id="decomp8">
+<step name="Pills" task="Pills"/>
+<step name="choice4" task="choice4"/>
+</subtasks>
+</task>
+<task id="choice0">
+<subtasks id="decomp2">
+<step name="Convince" task="Convince"/>
+<step name="choice1" task="choice1"/>
+</subtasks>
+</task>
+<task id="choice1">
+<subtasks id="decomp3">
+<step name="Convince" task="Convince"/>
+</subtasks>
+</task>
+<task id="choice2">
+<subtasks id="decomp5">
+<step name="Convince" task="Convince"/>
+<step name="choice3" task="choice3"/>
+</subtasks>
+</task>
+<task id="choice3">
+<subtasks id="decomp6">
+<step name="Convince" task="Convince"/>
+</subtasks>
+</task>
+<task id="choice4">
+<subtasks id="decomp9">
+<step name="Convince" task="Convince"/>
+<step name="choice5" task="choice5"/>
+</subtasks>
+</task>
+<task id="choice5">
+<subtasks id="decomp10">
+<step name="Convince" task="Convince"/>
+</subtasks>
+</task>
+<task id="Baseball"/>
+<task id="Weather"/>
+<task id="CardGame"/>
+<task id="Television"/>
+<task id="Anecdotes"/>
+<task id="Politics"/>
+<task id="Books"/>
+<task id="Story"/>
+<task id="Schedule"/>
+<task id="Exercise"/>
+<task id="Family"/>
+<task id="Pills"/>
+<task id="Scrapbook"/>
+<task id="SocialMedia"/>
+<task id="PersonalTalk"/>
+<task id="Convince"/>
+<task id="FamilyIllness"/>
+<task id="Illness"/>
+</taskModel>

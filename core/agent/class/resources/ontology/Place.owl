@@ -1,0 +1,34 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(skos:=<http://www.w3.org/2004/02/skos/core#>)
+
+
+Ontology(
+
+Declaration(Class(<#Place>))
+
+
+Declaration(DataProperty(<#zip>))
+DataPropertyDomain(<#zip> <#Place>)
+DataPropertyRange(<#zip> xsd:string)
+SubClassOf(<#Place> DataMaxCardinality(1 <#zip> xsd:string))
+
+Declaration(DataProperty(<#cityName>))
+DataPropertyDomain(<#cityName> <#Place>)
+DataPropertyRange(<#cityName> xsd:string)
+SubClassOf(<#Place> DataMaxCardinality(1 <#cityName> xsd:string))
+
+Declaration(DataProperty(<#otherName>))
+DataPropertyDomain(<#otherName> <#Place>)
+DataPropertyRange(<#otherName> xsd:string)
+SubClassOf(<#Place> DataMaxCardinality(1 <#otherName> xsd:string))
+
+Declaration(DataProperty(<#timeZone>))
+DataPropertyDomain(<#timeZone> <#Place>)
+DataPropertyRange(<#timeZone> xsd:string)
+SubClassOf(<#Place> DataMaxCardinality(1 <#timeZone> xsd:string))
+
+)

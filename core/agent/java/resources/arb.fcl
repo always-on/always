@@ -1,0 +1,171 @@
+FUNCTION_BLOCK arbitrator
+
+VAR_INPUT
+    f_due : REAL;
+    o_due : REAL;
+
+    f_time : REAL;
+    o_time : REAL;
+    
+    f_spec : REAL;
+    o_spec : REAL;
+    
+    f_newActivity : REAL;
+    o_newActivity : REAL;
+    
+    f_container : REAL;
+    o_container : REAL;
+    
+    f_goodInterruptMoment : REAL;
+    o_goodInterruptMoment : REAL;
+    
+    f_timeActive : REAL;
+    o_timeActive : REAL;
+END_VAR
+
+VAR_OUTPUT
+    switch : REAL;
+END_VAR
+
+FUZZIFY f_due
+    TERM immediate := (0, 1) (3, 1) (4, 0) ; 
+    TERM soon := trian 0 4 8;
+    TERM distant := (5, 0) (20, 1);
+END_FUZZIFY
+
+FUZZIFY o_due
+    TERM immediate := (0, 1) (3, 1) (4, 0) ; 
+    TERM soon := trian 0 4 8;
+    TERM distant := (5, 0) (20, 1);
+END_FUZZIFY
+
+FUZZIFY o_time
+	TERM instant := (0, 1) (0.05, 0);
+    TERM short := (0, 1) (2, 1) (5, 0) ; 
+    TERM long := (5, 0) (12, 1) (100, 1);
+END_FUZZIFY
+
+FUZZIFY f_time
+	TERM instant := (0, 1) (0.05, 0);
+    TERM short := (0, 1) (2, 1) (5, 0) ; 
+    TERM long := (4, 0) (12, 1) (100, 1);
+END_FUZZIFY
+
+DEFUZZIFY f_spec
+    TERM low := (0, 1) (0.5, 0) (1, 0);
+    TERM high := (0, 0) (0.5, 0) (1, 1);
+END_DEFUZZIFY
+
+DEFUZZIFY o_spec
+    TERM low := (0, 1) (0.5, 0) (1, 0);
+    TERM high := (0, 0) (0.5, 0) (1, 1);
+END_DEFUZZIFY
+
+DEFUZZIFY f_newActivity
+    TERM notNew := (0, 1) (0.1, 0) (1, 0);
+    TERM new := (0, 0) (0.9, 0) (1, 1);
+END_DEFUZZIFY
+
+DEFUZZIFY o_newActivity
+    TERM notNew := (0, 1) (0.1, 0) (1, 0);
+    TERM new := (0, 0) (0.9, 0) (1, 1);
+END_DEFUZZIFY
+
+DEFUZZIFY f_container
+    TERM false := (0, 1) (0.1, 0) (1, 0);
+    TERM true := (0, 0) (0.9, 0) (1, 1);
+END_DEFUZZIFY
+
+DEFUZZIFY o_container
+    TERM false := (0, 1) (0.1, 0) (1, 0);
+    TERM true := (0, 0) (0.9, 0) (1, 1);
+END_DEFUZZIFY
+
+DEFUZZIFY f_goodInterruptMoment
+    TERM false := (0, 1) (0.1, 0) (1, 0);
+    TERM true := (0, 0) (0.9, 0) (1, 1);
+END_DEFUZZIFY
+
+DEFUZZIFY o_goodInterruptMoment
+    TERM false := (0, 1) (0.1, 0) (1, 0);
+    TERM true := (0, 0) (0.9, 0) (1, 1);
+END_DEFUZZIFY
+
+FUZZIFY o_timeActive
+    TERM veryShort := (0, 1) (1, 1) (3, 0) ; 
+    TERM long := (5, 0) (12, 1) (100, 1);
+END_FUZZIFY
+
+FUZZIFY f_timeActive
+    TERM veryShort := (0, 1) (2, 1) (4, 0) ;
+    TERM long := (5, 0) (12, 1) (100, 1);
+END_FUZZIFY
+
+DEFUZZIFY switch
+    TERM shouldNot := (0, 1) (0.05, 1) (0.1, 0) (1, 0);
+    TERM should := (0, 0) (0.9, 0) (0.95, 1) (1, 1);
+    // Use 'Center Of Gravity' defuzzification method
+    METHOD : COG;
+    // Default value is 0 (if no rule activates defuzzifier)
+    DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK R
+    AND : MIN;
+    ACT : MIN;
+    ACCU : SUM;
+
+	RULE 0: IF f_spec IS NOT low
+				THEN switch IS shouldNot WITH 0.1;
+
+	RULE 0.1: IF f_goodInterruptMoment IS false
+				THEN switch IS shouldNot;
+
+    RULE 1 : IF o_due IS immediate OR o_time IS instant
+                THEN switch IS should;
+                
+    RULE 2 : IF f_due IS immediate OR f_time IS instant
+    			THEN switch IS shouldNot;
+
+    RULE 3 : IF o_due IS soon AND NOT f_due IS NOT soon
+    			THEN switch IS should;
+    
+    RULE 3.5: IF o_due IS soon AND o_time IS short
+    			THEN switch IS should;
+    
+    RULE 4 : IF o_due IS distant AND o_time IS long
+    			THEN switch IS shouldNot;
+    			
+    RULE 5: IF f_time IS short AND f_spec IS NOT low
+    			THEN switch IS shouldNot;
+    
+    RULE 6: IF f_due IS soon AND f_spec IS high
+    			THEN switch IS shouldNot;
+    		
+    RULE 8: IF (o_spec IS high OR f_spec IS low) AND f_due IS NOT immediate
+    			THEN switch IS should;
+    			
+    RULE 9: IF (f_spec IS high OR o_spec IS low) AND o_due IS NOT immediate
+    			THEN switch IS shouldNot;
+    			
+    RULE 10: IF o_newActivity IS new AND f_spec IS high AND (o_due IS NOT immediate OR f_due IS immediate)
+    			THEN switch IS shouldNot;
+
+    RULE 11: IF f_newActivity IS new
+    			THEN switch IS should WITH 0.5;
+
+    RULE 12: IF f_spec IS low AND f_time IS instant
+    			THEN switch IS should;
+    
+    RULE 13: IF f_container Is true AND f_timeActive IS NOT veryShort
+    				AND o_container IS false AND o_spec IS high
+    			THEN switch IS should; 
+    
+    RULE 14: IF f_container Is false AND f_timeActive IS NOT veryShort
+    				AND o_container IS true AND o_spec IS high
+    				AND o_newActivity IS NOT new
+    			THEN switch IS should; 
+    
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

@@ -1,0 +1,60 @@
+<taskModel about="urn:relationships.wpi.edu:examples:StudyTasks" xmlns="http://ce.org/cea-2018">
+
+	<task id="Introduction">
+	</task>
+	
+	<task id="Baseball">
+	</task>
+
+	<task id="Weather">
+	</task>
+
+	<task id="CardGame">
+	</task>
+	
+	<task id="Television">
+	</task>
+		
+	<task id="Anecdotes">
+	</task>
+
+	<task id="Politics">
+	</task>
+	
+	<task id="Books">
+	</task>
+	
+	<task id="Story">
+	</task>
+	
+	<task id="Schedule">
+	</task>
+	
+	<task id="Exercise">
+	</task>
+	
+	<task id="Family">
+	</task>
+	
+	<task id="Pills">
+	</task>
+	
+	<task id="Scrapbook">
+	</task>
+	
+	<task id="SocialMedia">
+	</task>
+	
+	<task id="PersonalTalk">
+	</task>
+	
+	<task id="Convince">
+	</task>
+	
+	<task id="FamilyIllness">
+	</task>
+	
+	<task id="Illness">
+	</task>
+		
+</taskModel>
