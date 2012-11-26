@@ -1,0 +1,11 @@
+EVENT: Error; SENDER:  [RagClient.Components.NetworkConnection]; EVENTARGS: NetworkErrorEventArgs(System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:6969
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at RagClient.Components.NetworkConnection.BeginConnectCallback(IAsyncResult ar) in D:\Users\Liang\Projects\RagClient.NET\trunk\RagClient.NET\RagClient\Components\NetworkConnection.cs:line 106);
+EVENT: Sending; SENDER:  [RagClient.Components.NetworkConnection]; EVENTARGS: NetworkSendingEventArgs(<USER_EXIT/>);
+EVENT: Closed; SENDER:  [RagClient.Components.NetworkConnection]; EVENTARGS: System.EventArgs;
+EVENT: StatusChanged; SENDER: RagClient.Agent.AgentController; EVENTARGS: AgentControllerStatusChangedEventArgs(Busy);
+EVENT: ActionCompleted; SENDER: RagClient.Agent.AgentController; EVENTARGS: ActionCompletedEventArgs(9.Orientation(PS_orientation=PS_left));
+EVENT: ActionCompleted; SENDER: RagClient.Agent.AgentController; EVENTARGS: ActionCompletedEventArgs(12.Orientation(PS_orientation=PS_right));
+EVENT: ActionCompleted; SENDER: RagClient.Agent.AgentController; EVENTARGS: ActionCompletedEventArgs(13.Orientation(PS_orientation=PS_mid));
+EVENT: Disposed; SENDER: RagClient.Components.NetworkConnection; EVENTARGS: System.EventArgs;

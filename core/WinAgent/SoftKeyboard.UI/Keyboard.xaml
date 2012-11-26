@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="SoftKeyboard.UI.Keyboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SoftKeyboard.UI"
+             mc:Ignorable="d" 
+             x:Name="keyboard"
+             d:DesignHeight="500" d:DesignWidth="1400">
+    <StackPanel Name="verticalPanel">
+        <StackPanel Name="row0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <local:ShiftViewKey NormalContent="`" ShiftContent="~" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="1" ShiftContent="!" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="2" ShiftContent="@" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="3" ShiftContent="#" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="4" ShiftContent="$" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="5" ShiftContent="%" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="6" ShiftContent="^" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="7" ShiftContent="&amp;" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="8" ShiftContent="*" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="9" ShiftContent="(" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="0" ShiftContent=")" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="-" ShiftContent="_" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="=" ShiftContent="+" Shift="{Binding Shift, ElementName=keyboard}" />
+        </StackPanel>
+        <StackPanel Name="row1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <local:CharacterKey NormalContent="q" ShiftContent="Q" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="w" ShiftContent="W" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="e" ShiftContent="E" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="r" ShiftContent="R" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="t" ShiftContent="T" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="y" ShiftContent="Y" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="u" ShiftContent="U" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="i" ShiftContent="I" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="o" ShiftContent="O" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="p" ShiftContent="P" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="[" ShiftContent="{}{" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="]" ShiftContent="}" Shift="{Binding Shift, ElementName=keyboard}" />
+        </StackPanel>
+        <StackPanel Name="row2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <local:CharacterKey NormalContent="a" ShiftContent="A" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="s" ShiftContent="S" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="d" ShiftContent="D" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="f" ShiftContent="F" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="g" ShiftContent="G" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="h" ShiftContent="H" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="j" ShiftContent="J" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="k" ShiftContent="K" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="l" ShiftContent="L" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent=";" ShiftContent=":" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="'" ShiftContent="&quot;" Shift="{Binding Shift, ElementName=keyboard}" />
+        </StackPanel>
+        <StackPanel Name="row3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <local:ShiftKey x:Name="leftShift" IsChecked="{Binding Shift, ElementName=keyboard}"/>
+            <local:CharacterKey NormalContent="z" ShiftContent="Z" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="x" ShiftContent="X" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="c" ShiftContent="C" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="v" ShiftContent="V" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="b" ShiftContent="B" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="n" ShiftContent="N" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:CharacterKey NormalContent="m" ShiftContent="M" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="," ShiftContent="&lt;" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="." ShiftContent="&gt;" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftViewKey NormalContent="/" ShiftContent="?" Shift="{Binding Shift, ElementName=keyboard}" />
+            <local:ShiftKey x:Name="rightShift" IsChecked="{Binding Shift, ElementName=keyboard}"/>
+        </StackPanel>
+        <StackPanel Name="row4" Orientation="Horizontal" HorizontalAlignment="Center">
+            <local:SpaceKey />
+        </StackPanel>
+    </StackPanel>
+</UserControl>
