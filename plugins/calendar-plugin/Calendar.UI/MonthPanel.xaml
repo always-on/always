@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="Calendar.UI.MonthPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500"
+             xmlns:local="clr-namespace:Calendar.UI"
+             x:Name="root" Padding="0">
+    <UserControl.Resources>
+        <Style x:Key="MonthDayLabel" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Focusable="False"
+                                    HorizontalAlignment="Stretch">
+                            <TextBlock Text="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="FontSize" Value="70" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style x:Key="HighlightedMonthDayLabel" TargetType="Button" BasedOn="{StaticResource MonthDayLabel}">
+            <Setter Property="Background" Value="#E8F9FF" />
+        </Style>
+        <Style x:Key="DayStyle" TargetType="Label">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="30" />
+        </Style>
+    </UserControl.Resources>
+
+        <Grid Name="contentGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label Name="monthLabel" Content="MonthLabel" Grid.Column="0" Grid.ColumnSpan="7" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="48" />
+
+        <Label Name="day1" Content="Day 1" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="1" Style="{StaticResource DayStyle}" />
+        <Label Name="day2" Content="Day 1" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="1" Style="{StaticResource DayStyle}" />
+        <Label Name="day3" Content="Day 1" Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="1" Style="{StaticResource DayStyle}" />
+        <Label Name="day4" Content="Day 1" Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="1" Style="{StaticResource DayStyle}" />
+        <Label Name="day5" Content="Day 1" Grid.Column="4" Grid.ColumnSpan="1" Grid.Row="1" Style="{StaticResource DayStyle}" />
+        <Label Name="day6" Content="Day 1" Grid.Column="5" Grid.ColumnSpan="1" Grid.Row="1" Style="{StaticResource DayStyle}" />
+        <Label Name="day7" Content="Day 1" Grid.Column="6" Grid.ColumnSpan="1" Grid.Row="1" Style="{StaticResource DayStyle}" />
+    </Grid>
+    </UserControl>
+

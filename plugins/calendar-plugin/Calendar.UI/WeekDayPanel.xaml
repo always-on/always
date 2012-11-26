@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="Calendar.UI.WeekDayPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="root">
+    <UserControl.Resources>
+        <sys:Double x:Key="VerticalMargin" >5</sys:Double>
+        <sys:Double x:Key="VerticalPadding" >5</sys:Double>
+        <Style x:Key="EntryStyle" TargetType="{x:Type Control}">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" >
+                <Setter.Value>
+                    <Thickness Left="0" Top="{StaticResource VerticalMargin}" Right="0" Bottom="{StaticResource VerticalMargin}"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Padding" >
+                <Setter.Value>
+                    <Thickness Left="0" Top="{StaticResource VerticalPadding}" Right="0" Bottom="{StaticResource VerticalPadding}"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="EntryTitle" TargetType="Button" BasedOn="{StaticResource EntryStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Focusable="False"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch">
+                            <TextBlock Text="{TemplateBinding Content}"  TextWrapping="Wrap" Margin="{TemplateBinding Padding}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Background" Value="#E8F9FF" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Margin" >
+                <Setter.Value>
+                    <Thickness Left="5" Top="{StaticResource VerticalMargin}" Right="5" Bottom="{StaticResource VerticalMargin}"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Padding" >
+                <Setter.Value>
+                    <Thickness Left="5" Top="{StaticResource VerticalPadding}" Right="5" Bottom="{StaticResource VerticalPadding}"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="EntryDate" TargetType="Label" BasedOn="{StaticResource EntryStyle}">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Width" Value="65" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+        </Style>
+    </UserControl.Resources>
+
+    <Border BorderBrush="Silver" BorderThickness="3,0,0,0" Name="leftBorder">
+        <Border BorderBrush="Silver" BorderThickness="0,0,3,0" Name="rightBorder">
+            <Border BorderBrush="Silver" BorderThickness="0,3,0,0" Name="topBorder">
+                <Border BorderBrush="Silver" BorderThickness="0,0,0,3" Name="bottomBorder">
+                    <Grid Name="grid1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Date" Name="dateLabel" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="28" FontWeight="Bold" />
+
+                        <Border BorderBrush="Silver" BorderThickness="0,3,0,0" Grid.Row="1" Name="border2">
+                            <Grid Name="contentGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Border>
+        </Border>
+    </Border>
+
+
+
+
+</UserControl>
