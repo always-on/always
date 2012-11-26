@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Rummy.UI.CardShape"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Storyboard x:Name="aniFlipStart" x:Key="aniFlipStart">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CardCanvas" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CardCanvas" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1.1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="aniFlipEnd" x:Key="aniFlipEnd">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CardCanvas" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.100000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CardCanvas" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.100000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CardCanvas" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.X)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.100000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CardCanvas" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.Y)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.100000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    <Canvas x:Name="LayoutRoot">
+        <Canvas x:Name="CardCanvas" Height="97" Width="72" RenderTransformOrigin="0.5,0.5">
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Canvas.RenderTransform>
+            <Image Source="/Rummy.UI;component/Resources/Cards.PNG" Width="730" x:Name="imgCard" MouseEnter="imgCard_MouseEnter" MouseLeave="imgCard_MouseLeave" MouseLeftButtonDown="imgCard_MouseLeftButtonDown" MouseMove="imgCard_MouseMove" MouseLeftButtonUp="imgCard_MouseLeftButtonUp">
+                <Image.RenderTransform>
+                    <TranslateTransform/>
+                </Image.RenderTransform>
+                <Image.Clip>
+                    <RectangleGeometry Rect="0,0,72,97" RadiusX="5" RadiusY="5" />
+                </Image.Clip>
+            </Image>
+        </Canvas>
+        <Rectangle Height="103" Width="78" Visibility="Collapsed" Stroke="#FFFFF500" RadiusX="5" RadiusY="5" StrokeThickness="5" x:Name="rectBorder" Canvas.Left="-3" Canvas.Top="-3" Opacity="0.7"/>
+    </Canvas>
+</UserControl>

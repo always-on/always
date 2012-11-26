@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\core\WinAgent\packages\Newtonsoft.Json.4.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -88,15 +88,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Agent.Core\Agent.Core.csproj">
+    <ProjectReference Include="..\..\..\core\WinAgent\Agent.Core\Agent.Core.csproj">
       <Project>{FD346CEB-A57F-4A76-8FA0-6418F9AD529E}</Project>
       <Name>Agent.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Agent.Tcp\Agent.Tcp.csproj">
+    <ProjectReference Include="..\..\..\core\WinAgent\Agent.Tcp\Agent.Tcp.csproj">
       <Project>{721F79EC-9534-4D00-881E-842A6DFC1D1D}</Project>
       <Name>Agent.Tcp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Agent.UI\Agent.UI.csproj">
+    <ProjectReference Include="..\..\..\core\WinAgent\Agent.UI\Agent.UI.csproj">
       <Project>{47A8AF0B-EBB2-4825-8B0D-E0C06B5E2421}</Project>
       <Name>Agent.UI</Name>
     </ProjectReference>

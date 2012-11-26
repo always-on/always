@@ -18,7 +18,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -111,6 +111,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\plugins\calendar-plugin\Calendar.UI\Calendar.UI.csproj">
+      <Project>{A14CC577-645D-475E-BED0-09F56E049E7A}</Project>
+      <Name>Calendar.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\plugins\rummy-plugin\Rummy.UI\Rummy.UI.csproj">
+      <Project>{DBD0F6EC-9979-4120-B379-9221CCB12309}</Project>
+      <Name>Rummy.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\plugins\rummy-plugin\Rummy\Rummy.csproj">
+      <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
+      <Name>Rummy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Agent.Tcp\Agent.Tcp.csproj">
       <Project>{721F79EC-9534-4D00-881E-842A6DFC1D1D}</Project>
       <Name>Agent.Tcp</Name>

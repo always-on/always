@@ -1,0 +1,8 @@
+﻿<Window  xmlns:my="clr-namespace:Rummy.UI;assembly=Rummy.UI" x:Class="TestApp.GameTest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GameTest" MinHeight="700" MinWidth="1220" Top="4" SizeToContent="Manual">
+    <Grid>
+        <my:GameShape></my:GameShape>
+    </Grid>
+</Window>

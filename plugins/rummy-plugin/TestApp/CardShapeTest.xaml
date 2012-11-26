@@ -1,0 +1,15 @@
+﻿<Window xmlns:my="clr-namespace:Rummy.UI;assembly=Rummy.UI"  x:Class="TestApp.CardShapeTest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Background>
+        <RadialGradientBrush>
+            <GradientStop Color="orange" Offset="0" />
+            <GradientStop Color="brown" Offset="1" />
+        </RadialGradientBrush>
+    </Window.Background>
+    <Canvas Name="mainCanvas">
+        <my:CardShape x:Name="card" Canvas.Left="30" Canvas.Top="30" Face="CJ"/>
+        <Button x:Name="btnToggleHideFace" Click="btnToggleHideFace_Click">Toggle Hide Face</Button>
+    </Canvas>
+</Window>
