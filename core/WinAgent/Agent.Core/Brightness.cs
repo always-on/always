@@ -7,7 +7,7 @@ using System.Management;
 namespace Agent.Core
 {
     /// <summary>
-    /// Class for manipulating the brightness of the screen
+    /// Class for manipulating the brightness of the screen.
     /// </summary>
     public static class Brightness
     {

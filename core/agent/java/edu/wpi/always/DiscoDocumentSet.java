@@ -7,7 +7,7 @@ import org.w3c.dom.*;
 /***
  * A simple data class that holds a disco task model's xml Document and related
  * properties.
- * Properties can be null
+ * Properties can be null.
  * @author Bahador
  * 
  */
