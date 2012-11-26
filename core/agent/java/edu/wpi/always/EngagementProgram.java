@@ -1,20 +1,19 @@
 package edu.wpi.always;
 
 
-import java.awt.*;
-
-import javax.swing.*;
-
-import org.picocontainer.*;
-
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.engagement.*;
 import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.cm.perceptors.physical.*;
-import edu.wpi.always.cm.ragclient.*;
-import edu.wpi.always.*;
-import edu.wpi.always.user.*;
-import edu.wpi.always.user.owl.*;
+import edu.wpi.always.cm.perceptors.physical.PhysicalPerceptorsRegistry;
+import edu.wpi.always.cm.ragclient.RagClientRegistry;
+import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.owl.OntologyUserRegistry;
+
+import org.picocontainer.*;
+
+import java.awt.*;
+
+import javax.swing.*;
 
 public class EngagementProgram {
 
