@@ -115,18 +115,6 @@
       <Project>{721F79EC-9534-4D00-881E-842A6DFC1D1D}</Project>
       <Name>Agent.Tcp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Calendar.UI\Calendar.UI.csproj">
-      <Project>{A14CC577-645D-475E-BED0-09F56E049E7A}</Project>
-      <Name>Calendar.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\rummy\Rummy.UI\Rummy.UI.csproj">
-      <Project>{DBD0F6EC-9979-4120-B379-9221CCB12309}</Project>
-      <Name>Rummy.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\rummy\Rummy\Rummy.csproj">
-      <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
-      <Name>Rummy</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Agent.UI\Agent.UI.csproj">
       <Project>{47A8AF0B-EBB2-4825-8B0D-E0C06B5E2421}</Project>
       <Name>Agent.UI</Name>
@@ -138,10 +126,6 @@
     <ProjectReference Include="..\SoftKeyboard.UI\SoftKeyboard.UI.csproj">
       <Project>{F92ABCD7-571F-4438-8A37-668C7D7594EB}</Project>
       <Name>SoftKeyboard.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WpfApplication1\Story.UI.csproj">
-      <Project>{8E57E514-62EF-4DAE-A305-246EC4828603}</Project>
-      <Name>Story.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
