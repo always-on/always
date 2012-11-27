@@ -123,6 +123,10 @@
       <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
       <Name>Rummy</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\plugins\story-plugin\Story.UI\Story.UI.csproj">
+      <Project>{8E57E514-62EF-4DAE-A305-246EC4828603}</Project>
+      <Name>Story.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Agent.Tcp\Agent.Tcp.csproj">
       <Project>{721F79EC-9534-4D00-881E-842A6DFC1D1D}</Project>
       <Name>Agent.Tcp</Name>
