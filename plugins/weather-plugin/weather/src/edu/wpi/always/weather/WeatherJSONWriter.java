@@ -87,8 +87,7 @@ public class WeatherJSONWriter {
 		JsonObject alertRoot = new JsonObject();
 		if(alert==null)
 			return null;
-		else
-			alertRoot.addProperty("alertMessage", alert.getMessage());
+		alertRoot.addProperty("alertMessage", alert.getMessage());
 		return alertRoot;
 	}
 	private static JsonElement toJsonStructure(Almanac almanac) {
