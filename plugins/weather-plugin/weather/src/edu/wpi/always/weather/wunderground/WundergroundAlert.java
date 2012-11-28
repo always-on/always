@@ -33,7 +33,8 @@ public class WundergroundAlert implements Alert{
 			alertMessage = "There is an active severe alert in your area.";
 	}
 
-	public String getMessage() {
+	@Override
+   public String getMessage() {
 		return alertMessage;
 	}
 

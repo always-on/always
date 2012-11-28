@@ -38,11 +38,13 @@ public class WundergroundAlmanac implements Almanac{
 		return helper.getData(pathString);
 	}
 	
-	public RecordTemp getRecordLow(){
+	@Override
+   public RecordTemp getRecordLow(){
 		return recordLow;
 	}
 	
-	public RecordTemp getRecordHigh(){
+	@Override
+   public RecordTemp getRecordHigh(){
 		return recordHigh;
 	}
 	
