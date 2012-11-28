@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Frame Margin="12" Source="C:\src\WinAgent\WpfApplication1\SwfContainer.html" /> 
+       <Frame Margin="12" Source="/Story.UI;component/SwfContainer.html" />
     </Grid>
     
     
