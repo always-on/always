@@ -10,7 +10,7 @@ public class Program {
 	}
 
 	private static void configureCollaborationManager(IRelationshipManager rm) {
-		//new edu.wpi.always.collabman.Bootstrapper(rm).start();
+		//new edu.wpi.always.cm.Bootstrapper(rm).start();
 		new CollaborationManager( (RelationshipManager) rm).start();
 	}
 	

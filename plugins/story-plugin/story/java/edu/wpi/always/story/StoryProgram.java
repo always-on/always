@@ -22,7 +22,7 @@ public class StoryProgram {
 				container.as(Characteristics.CACHE).addComponent(IRelationshipManager.class, FakeRelationshipManager.class);
 				container.as(Characteristics.CACHE).addComponent(ICollaborationManager.class, edu.wpi.always.cm.Bootstrapper.class);
 				container.as(Characteristics.CACHE).addComponent(edu.wpi.always.story.StoryManager.class);
-//				container.as(Characteristics.CACHE).addComponent(edu.wpi.always.common.user.people.PeopleManager.class);
+//				container.as(Characteristics.CACHE).addComponent(edu.wpi.always.user.people.PeopleManager.class);
 			}
 		});
 		program.addRegistry(new OntologyUserRegistry("Test User"));

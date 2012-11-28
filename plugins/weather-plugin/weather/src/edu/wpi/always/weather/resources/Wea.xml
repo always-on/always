@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
+           xmlns:disco="urn:disco.wpi.edu:Disco"
+           about="urn:disco.wpi.edu:models:Wea">
+   <task id="Greeting">
+      <subtasks id="_Greeting_subtasks">
+         <step name="_Greeting_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_Greeting_ref" task="_Greeting_tree"/>
+         <binding slot="$_Greeting_step.text" value="&#34;Sure!&#34;"/>
+         <binding slot="$_Greeting_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="LocalAlert">
+      <precondition>($weatherJSON.alert !== undefined)?null:false</precondition>
+      <subtasks id="_LocalAlert_subtasks">
+         <step name="_LocalAlert_step" task="disco:edu.wpi.disco.lang.Say$Expression"/>
+         <step name="_LocalAlert_ref" task="_LocalAlert_tree"/>
+         <binding slot="$_LocalAlert_step.text" value="&#34;($weatherJSON.alert.alertMessage)&#34;"/>
+         <binding slot="$_LocalAlert_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="LocalWeather">
+      <precondition>($weatherJSON.currentWeather !== undefined)?null:false</precondition>
+      <subtasks id="_LocalWeather_subtasks">
+         <step name="_LocalWeather_step" task="disco:edu.wpi.disco.lang.Say$Expression"/>
+         <step name="_LocalWeather_ref" task="_LocalWeather_tree"/>
+         <binding slot="$_LocalWeather_step.text"
+                  value="&#34;\&#34;so your location is \&#34;+($weatherJSON.currentWeather.locationName)+\&#34;.  What do you want to know about weather?\&#34;&#34;"/>
+         <binding slot="$_LocalWeather_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="LocalWeatherExtended">
+      <precondition>($weatherJSON.almanac !== undefined)?null:false</precondition>
+      <subtasks id="_LocalWeatherExtended_subtasks">
+         <step name="_LocalWeatherExtended_step"
+               task="disco:edu.wpi.disco.lang.Say$Expression"/>
+         <step name="_LocalWeatherExtended_ref" task="_LocalWeatherExtended_tree"/>
+         <binding slot="$_LocalWeatherExtended_step.text"
+                  value="&#34;\&#34;The record high is \&#34;+($weatherJSON.almanac.recordHigh.extremeTemp)+\&#34; degrees. It happened in \&#34;+($weatherJSON.almanac.recordHigh.year)+\&#34;.\&#34;&#34;"/>
+         <binding slot="$_LocalWeatherExtended_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_FriendWeather">
+      <subtasks id="__FriendWeather_subtasks">
+         <step name="__FriendWeather_step" task="disco:edu.wpi.disco.lang.Say$Expression"/>
+         <binding slot="$__FriendWeather_step.text"
+                  value="&#34;\&#34;\&#34;+($friend.name)+\&#34; is in \&#34;+($friend.data.locationName)+\&#34;.  Right now it's \&#34;+($friend.data.weatherCondition)+\&#34; with a temperature of \&#34;+($friend.data.temperature)+\&#34; degrees fahrenheit and \&#34;+($friend.data.humidity)+\&#34; humidity.\&#34;&#34;"/>
+         <binding slot="$__FriendWeather_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="EndingText">
+      <subtasks id="_EndingText_subtasks">
+         <step name="_EndingText_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_EndingText_ref" task="_EndingText_tree"/>
+         <binding slot="$_EndingText_step.text" value="&#34;well, weather sure is interesting.&#34;"/>
+         <binding slot="$_EndingText_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_Greeting_tree">
+      <subtasks id="_d4e12_subtasks">
+         <step name="_d4e12_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e13_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <applicable>period=='morning'</applicable>
+         <binding slot="$_d4e12_step.text" value="&#34;Good Morning.&#34;"/>
+         <binding slot="$_d4e12_step.external" value="true"/>
+         <binding slot="$_d4e13_step.text" value="&#34;Good morning!&#34;"/>
+         <binding slot="$_d4e13_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e14_subtasks">
+         <step name="_d4e14_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e15_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <applicable>period=='afternoon'</applicable>
+         <binding slot="$_d4e14_step.text" value="&#34;Good Afternoon.&#34;"/>
+         <binding slot="$_d4e14_step.external" value="true"/>
+         <binding slot="$_d4e15_step.text" value="&#34;Good afternoon!&#34;"/>
+         <binding slot="$_d4e15_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e16_subtasks">
+         <step name="_d4e16_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e17_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <applicable>period=='evening'</applicable>
+         <binding slot="$_d4e16_step.text" value="&#34;Good Evening.&#34;"/>
+         <binding slot="$_d4e16_step.external" value="true"/>
+         <binding slot="$_d4e17_step.text" value="&#34;Good evening!&#34;"/>
+         <binding slot="$_d4e17_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e18_subtasks">
+         <step name="_d4e18_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e19_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <binding slot="$_d4e18_step.text" value="&#34;Hiddddd&#34;"/>
+         <binding slot="$_d4e18_step.external" value="true"/>
+         <binding slot="$_d4e19_step.text" value="&#34;HI there!&#34;"/>
+         <binding slot="$_d4e19_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_LocalAlert_tree">
+      <subtasks id="_d4e29_subtasks">
+         <step name="_d4e29_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <binding slot="$_d4e29_step.text" value="&#34;Thanks for letting me know&#34;"/>
+         <binding slot="$_d4e29_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="_LocalWeather_tree">
+      <subtasks id="_d4e32_subtasks">
+         <step name="_d4e32_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e33_step" task="disco:edu.wpi.disco.lang.Say$Expression"/>
+         <step name="_d4e34_step" task="_LocalWeather_tree"/>
+         <binding slot="$_d4e32_step.text" value="&#34;What's the temperature?&#34;"/>
+         <binding slot="$_d4e32_step.external" value="true"/>
+         <binding slot="$_d4e33_step.text"
+                  value="&#34;\&#34;Right now, the temperature is \&#34;+($weatherJSON.currentWeather.temperature)+\&#34; fahrenheit and it is \&#34;+($weatherJSON.currentWeather.weatherCondition)+\&#34;\&#34;&#34;"/>
+         <binding slot="$_d4e33_step.external" value="false"/>
+         <binding slot="$_d4e34_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e35_subtasks">
+         <step name="_d4e35_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e36_step" task="disco:edu.wpi.disco.lang.Say$Expression"/>
+         <step name="_d4e37_step" task="_LocalWeather_tree"/>
+         <binding slot="$_d4e35_step.text" value="&#34;How does it feel outside?&#34;"/>
+         <binding slot="$_d4e35_step.external" value="true"/>
+         <binding slot="$_d4e36_step.text"
+                  value="&#34;\&#34;With \&#34;+($weatherJSON.currentWeather.humidity)+\&#34; humidity, it feels like \&#34;+($weatherJSON.currentWeather.temperature)+\&#34; degrees fahrenheit.\&#34;&#34;"/>
+         <binding slot="$_d4e36_step.external" value="false"/>
+         <binding slot="$_d4e37_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e39_subtasks">
+         <step name="_d4e39_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <binding slot="$_d4e39_step.text" value="&#34;Ok I'm done with local weather&#34;"/>
+         <binding slot="$_d4e39_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="_LocalWeatherExtended_tree">
+      <subtasks id="_d4e42_subtasks">
+         <step name="_d4e42_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e43_step" task="disco:edu.wpi.disco.lang.Say$Expression"/>
+         <step name="_d4e44_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e45_step" task="disco:edu.wpi.disco.lang.Say$Expression"/>
+         <step name="_d4e45_ref" task="_d4e45_tree"/>
+         <binding slot="$_d4e42_step.text" value="&#34;Wow, go on.&#34;"/>
+         <binding slot="$_d4e42_step.external" value="true"/>
+         <binding slot="$_d4e43_step.text"
+                  value="&#34;\&#34;The record low is \&#34;+($weatherJSON.almanac.recordLow.extremeTemp)+\&#34; degrees. It happened in  \&#34;+($weatherJSON.almanac.recordLow.year)+\&#34;.\&#34;&#34;"/>
+         <binding slot="$_d4e43_step.external" value="false"/>
+         <binding slot="$_d4e44_step.text" value="&#34;That's pretty cold.&#34;"/>
+         <binding slot="$_d4e44_step.external" value="true"/>
+         <binding slot="$_d4e45_step.text"
+                  value="&#34;\&#34;Yeah.  Compared to the average temperatures of \&#34;+($weatherJSON.almanac.recordLow.averageTemp)+\&#34; and \&#34;+($weatherJSON.almanac.recordHigh.averageTemp)+\&#34;, that's a big difference.\&#34;&#34;"/>
+         <binding slot="$_d4e45_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e45_tree">
+      <subtasks id="_d4e46_subtasks">
+         <step name="_d4e46_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <binding slot="$_d4e46_step.text" value="&#34;Indeed.  Thanks for telling me.&#34;"/>
+         <binding slot="$_d4e46_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e47_subtasks">
+         <step name="_d4e47_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <binding slot="$_d4e47_step.text" value="&#34;Sure glad I'm here&#34;"/>
+         <binding slot="$_d4e47_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="_EndingText_tree">
+      <subtasks id="_d4e67_subtasks">
+         <step name="_d4e67_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e68_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <binding slot="$_d4e67_step.text" value="&#34;yes. I love talking about weather&#34;"/>
+         <binding slot="$_d4e67_step.external" value="true"/>
+         <binding slot="$_d4e68_step.text" value="&#34;yeh, me too.&#34;"/>
+         <binding slot="$_d4e68_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e69_subtasks">
+         <step name="_d4e69_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e70_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <binding slot="$_d4e69_step.text"
+                  value="&#34;yes, I need to know the weather before I go out&#34;"/>
+         <binding slot="$_d4e69_step.external" value="true"/>
+         <binding slot="$_d4e70_step.text" value="&#34;Feel free to ask me!&#34;"/>
+         <binding slot="$_d4e70_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e71_subtasks">
+         <step name="_d4e71_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <step name="_d4e72_step" task="disco:edu.wpi.disco.lang.Say"/>
+         <binding slot="$_d4e71_step.text"
+                  value="&#34;yes, but I only want to know about it sometimes&#34;"/>
+         <binding slot="$_d4e71_step.external" value="true"/>
+         <binding slot="$_d4e72_step.text" value="&#34;I'm ready to talk about it whenever you want&#34;"/>
+         <binding slot="$_d4e72_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="Weather">
+      <subtasks id="WeatherSubtask">
+         <step name="greeting" task="Greeting"/>
+         <step name="weatherChat" task="WeatherChat"/>
+         <step name="ending" task="Ending"/>
+      </subtasks>
+   </task>
+   <task id="WeatherChat">
+      <subtasks id="StartWeatherChatSubtask">
+         <step name="localalert" task="LocalAlert" minOccurs="0"/>
+         <step name="localweather" task="LocalWeather" minOccurs="0"/>
+         <step name="localweatherextended" task="LocalWeatherExtended" minOccurs="0"/>
+         <step name="relationshipweather" task="RelationshipWeather" minOccurs="0"
+               maxOccurs="5"/>
+      </subtasks>
+   </task>
+   <task id="RelationshipWeather">
+      <subtasks id="relationshipWeatherSubtasks">
+         <step name="pick" task="PickFriend"/>
+         <step name="weather" task="_FriendWeather"/>
+      </subtasks>
+   </task>
+   <task id="PickFriend">
+      <input name="selectedPerson" type="Person"/>
+      <binding slot="$this.external" value="false"/>
+      <script>
+			$friend = $this.selectedPerson;
+		</script>
+   </task>
+   <task id="Ending">
+      <subtasks id="EndingSubtask">
+         <step name="endingtext" task="EndingText"/>
+      </subtasks>
+   </task>
+   <script init="true">
+		var $friend;
+		function Person (name, data) { this.name = name; this.data = data; }
+		
+		Person.ENUM = {person0 : new Person("Ed",
+                                            {locationName: "Florida",
+                                            weatherCondition: "hot", 
+                                            temperature: "90",
+                                            humidity: "80 percent"})}
+    
+    	Person.prototype.toString = function () { return this.name; }	
+	
+	
+	
+		var $weatherJSON = {"currentWeather":{"locationName":"Worcester, MA","temperature":"67.1","weatherCondition":"Light Rain","humidity":"97%"},"radar":{"radarURL":"http://resize.wunderground.com/cgi-bin/resize_convert?ox\u003dgif\u0026url\u003dradblast/cgi-bin/radar/WUNIDS_composite%3Fcenterlat\u003d42.27581787%26centerlon\u003d-71.82014465%26radius\u003d75%26newmaps\u003d1%26smooth\u003d1%26reproj.automerc\u003d1%26api_key\u003dcd3b2dc51dd67e26"},"alert":{"alertMessage":"My Sample alert"},"almanac":{"recordLow":{"year":1934,"averageTemp":61,"extremeTemp":46},"recordHigh":{"year":1944,"averageTemp":78,"extremeTemp":96}},"forecast":[{"date":{"date":"08/16/12","daysApartFromToday":0},"summary":"Mostly cloudy with a chance of a thunderstorm and a chance of rain in the morning, then partly cloudy with a chance of a thunderstorm and a chance of rain. High of 81F. Winds from the NW at 5 to 10 mph. Chance of rain 30%."},{"date":{"date":"08/17/12","daysApartFromToday":1},"summary":"Partly cloudy. Fog overnight. Low of 63F. Winds from the West at 5 to 10 mph."},{"date":{"date":"08/18/12","daysApartFromToday":2},"summary":"Clear in the morning, then partly cloudy with a chance of a thunderstorm and a chance of rain. High of 84F. Winds from the WSW at 10 to 15 mph. Chance of rain 20%."}],"interestCities":{"Boston, MA":{"locationName":"Boston, MA","temperature":"70.4","weatherCondition":"Light Rain","humidity":"86%"},"Tampa, FL":{"locationName":"Tampa, FL","temperature":"80.2","weatherCondition":"Scattered Clouds","humidity":"80%"},"Memphis, TN":{"locationName":"Memphis, TN","temperature":"73","weatherCondition":"Partly Cloudy","humidity":"90%"}},"friends":{"Philip Morley":{"locationName":"Tampa, FL","temperature":"80.2","weatherCondition":"Scattered Clouds","humidity":"80%"},"Harriet Jones":{"locationName":"Boston, MA","temperature":"70.4","weatherCondition":"Light Rain","humidity":"86%"},"Marion Smith":{"locationName":"Dorchester, MA","temperature":"68.5","weatherCondition":"Light Rain","humidity":"92%"},"Diane Ferguson":{"locationName":"Boston, MA","temperature":"70.4","weatherCondition":"Light Rain","humidity":"86%"},"Linda Jefferson":{"locationName":"Memphis, TN","temperature":"73","weatherCondition":"Partly Cloudy","humidity":"90%"}}};
+		function setWeatherData(weatherData){
+			$weatherJSON = weatherData;
+			
+			Person.ENUM = {};
+			for (var key in weatherData.friends) {
+				var value = weatherData.friends[key];
+				Person.ENUM[key] = new Person(key, value);
+			}
+		}
+
+		//get time
+		var period;
+		if ( period == undefined ) { // for testing
+			var dTime = new Date();
+			var hours = dTime.getHours();
+			period = "morning";
+			if (hours &gt; 12) period = "afternoon";
+			if (hours &gt; 17) period = "evening";
+		}
+		
+	</script>
+</taskModel>

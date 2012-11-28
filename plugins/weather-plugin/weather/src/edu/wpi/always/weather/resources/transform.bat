@@ -1,0 +1,3 @@
+d4g2018.bat Wea
+PWD
+PAUSE

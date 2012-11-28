@@ -37,7 +37,7 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * edu.wpi.always.cm.realizer.Realizer#realize(edu.wpi.always.collabman
+	 * edu.wpi.always.cm.realizer.Realizer#realize(edu.wpi.always.cm
 	 * .realizer.CompoundBehavior)
 	 */
 	@Override
