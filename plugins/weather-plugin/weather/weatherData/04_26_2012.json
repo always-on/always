@@ -1,0 +1,75 @@
+{
+	"currentWeather" : {
+		"locationName" : "Woooorcester, MA",
+		"temperature" : "32.5",
+		"weatherCondition" : "Overcast",
+		"humidity" : "24%"
+	},
+	"radar" : {
+		"radarURL" : "http://resize.wunderground.com/cgi-bin/resize_convert?ox\u003dgif\u0026url\u003dradblast/cgi-bin/radar/WUNIDS_composite%3Fcenterlat\u003d42.27581787%26centerlon\u003d-71.82014465%26radius\u003d75%26newmaps\u003d1%26smooth\u003d1%26reproj.automerc\u003d1%26api_key\u003dcd3b2dc51dd67e26"
+	},
+	"alert" : {
+		"activeAlert" : false,
+		"alertMessage" : "No severe alert in your area."
+	},
+	"almanac" : {
+		"recordLow" : {
+			"year" : 1979,
+			"averageTemp" : 17,
+			"extremeTemp" : -11
+		},
+		"recordHigh" : {
+			"year" : 1908,
+			"averageTemp" : 34,
+			"extremeTemp" : 56
+		}
+	},
+	"forecast" : [{
+			"date" : {
+				"date" : "02/14/2012",
+				"daysApartFromToday" : 0
+			},
+			"summary" : "Cloudy. Near steady temperature in the lower 40s. Southwest winds 5 to 10 mph. "
+		}, {
+			"date" : {
+				"date" : "02/15/2012",
+				"daysApartFromToday" : 1
+			},
+			"summary" : "Cloudy. Lows around 30. West winds around 5 mph.  "
+		}
+	],
+	"interestCities" : {
+		"Miami" : {
+			"locationName" : "Miami, FL",
+			"temperature" : "76.7",
+			"weatherCondition" : "Mostly Cloudy",
+			"humidity" : "66%"
+		},
+		"San Francisco" : {
+			"locationName" : "San Francisco, CA",
+			"temperature" : "51.1",
+			"weatherCondition" : "Partly Cloudy",
+			"humidity" : "60%"
+		},
+		"Seattle" : {
+			"locationName" : "Seattle, WA",
+			"temperature" : "43",
+			"weatherCondition" : "Overcast",
+			"humidity" : "85%"
+		}
+	},
+	"friendsCities" : {
+		"Mary" : {
+			"locationName" : "Glendale, AZ",
+			"temperature" : "61.9",
+			"weatherCondition" : "Mostly Cloudy",
+			"humidity" : "22%"
+		},
+		"Lucy" : {
+			"locationName" : "Prospect Creek Camp, AK",
+			"temperature" : "16",
+			"weatherCondition" : "Mostly Cloudy",
+			"humidity" : "84%"
+		}
+	}
+}

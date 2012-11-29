@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model about="urn:disco.wpi.edu:models:WeatherStranger"
+       xmlns="http://www.cs.wpi.edu/~rich/d4g"
+       xmlns:t="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext">
+       		
+  <t:script init="true">
+		//use live data or not
+		var fileName; 
+		if ( fileName == undefined ) fileName = "live"; // for testing
+		
+		function toStream (file) {
+			file = java.lang.System.getProperty("user.dir")
+				+java.lang.System.getProperty("file.separator")+file;
+			return new java.io.FileInputStream(file);   
+		}
+	
+		var $weatherJSON;
+		
+		//which file to use?
+		function setDefaultValue(){
+			var path = "weatherData/";
+			if(fileName == "live")
+				$weatherJSON = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(toStream(path + todayDate() + ".json")));
+			else
+				$weatherJSON = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(toStream(path + fileName + ".json")));
+		}
+		
+		setDefaultValue();
+		
+		//return today's date	ex: 02_14_2012
+		function todayDate(){
+			var currentTime = new Date();
+			var month = currentTime.getMonth() + 1;
+			var day = currentTime.getDate();
+			var year = currentTime.getFullYear();	
+			return (pad2(month) + "_" + pad2(day) + "_" + year);
+		}
+		
+		//convert a single digit number to 2 digits, add 0 in front
+		function pad2(number) {return (10 > number ? '0' : '') + number;}
+		
+		var yesWeatherChat = false; //default: user does not want to talk about weather
+		
+		//get time
+	<!--	var period;
+		if ( period == undefined ) { // for testing
+			var dTime = new Date();
+			var hours = dTime.getHours();
+			period = "morning";
+			if (hours > 12) period = "afternoon";
+			if (hours > 17) period = "evening";  
+	   }         -->        
+  </t:script>  
+       
+  <!-- Level 1-->
+  <t:task id="WeatherStranger">
+    <t:subtasks id="WeatherLocalSubtask">      	
+      <t:step name="localweather" task="WeatherChat"/>
+      <t:step name="ending" task="Ending"/>
+    </t:subtasks>
+
+    <t:subtasks id="WeatherElsewhereSubtask">      	
+      <t:step name="weathercity" task="TalkCity"/>
+      <t:step name="ending" task="Ending"/>
+    </t:subtasks>
+
+    <t:subtasks id="NoWeatherSubtask">      	
+      <t:step name="ending" task="Closing"/>
+    </t:subtasks>
+  </t:task>
+    
+    
+  <!-- Level 2: WeatherChat--> 
+  <t:task id="WeatherChat">
+    <t:subtasks id="StartWeatherChatSubtask">
+      <t:step name="weatherhere" task="WeatherHere"></t:step> 
+      <t:step name="talkcities" task="TalkCity" 
+	      minOccurs="0"></t:step>
+      <t:step name="talkstats" task="TalkStats"></t:step>
+      <t:step name="talkAlert" task="TalkAlert"></t:step>
+    </t:subtasks>
+  </t:task>
+    
+  <agent id="WeatherHere" text="Today in {$weatherJSON.currentWeather.locationName} it is going to be {$weatherJSON.currentWeather.temperature} fahrenheit and it is {$weatherJSON.currentWeather.weatherCondition}">
+      <user text="How does it feel outside?">
+	<agent text="With {$weatherJSON.currentWeather.humidity} humidity, it feels like {$weatherJSON.currentWeather.temperature} fahrenheit.">
+	  <agent ref="WeatherHere"/>
+	</agent>
+      </user>
+      <user text="Please show me the Radar image">
+	<agent text="Here you go:  {$weatherJSON.radar.radarURL}">
+	  <agent ref="WeatherHere"/>
+	</agent>
+      </user>	
+      <user text="What's the forecast for tomorrow?">
+	<agent id="tomorrow" text=" {$weatherJSON.forecast[1].summary}">
+	  <agent ref="WeatherHere"/>
+	</agent>
+      </user>
+      <user text="ok, now I know the local weather!">
+      </user>	
+  </agent>
+     
+  <agent id="TalkCity"  text="Here's a list of cities I can tell you the weather for:">
+      <!-- if the user has expressed interest in a city, it will be in the UM.  Check and put those cities on this list -->
+      <user text="Seattle">
+	<agent text="Beautiful City.  The temperature is {$weatherJSON.interestCities.Seattle.temperature} fahrenheit.  It is {$weatherJSON.interestCities.Seattle.weatherCondition} now.">
+	  <agent ref="TalkCity"/>
+	</agent>
+      </user>
+      <user text="San Francisco">
+	<agent text="ah, the Golden Gate City.  The temperature is {$weatherJSON.interestCities['San Francisco'].temperature} fahrenheit.  It is {$weatherJSON.interestCities.Miami.weatherCondition} now.">
+	  <agent ref="TalkCity"/>
+	</agent>
+      </user>
+		
+      <user text="Miami">
+	<agent text="City of Beaches.  The temperature is {$weatherJSON.interestCities.Miami.temperature} fahrenheit.  It is {$weatherJSON.interestCities.Miami.weatherCondition} now.">
+	  <agent ref="TalkCity"/>
+	</agent>
+      </user>
+
+      <user text="I want a different city">
+	<agent text="Please type in the name of the city. I'll see if I can find the weather for it">
+	  <user text="yes">
+	      <!-- get softkeyboard, get name, see if weather available and present or say not available; add that city to a list of cities of interest for next time -->
+	      <agent text="need keyboard" />
+	  </user>
+	  <user text="no I just changed my mind."/>
+	</agent>
+      </user>
+    
+      <user text="I am done.  Thanks!">
+      </user>
+  </agent>    
+
+  <agent id="TalkStats"  text="Are you interested in knowing the record weather for today in the history?">
+      <user id="talk_stats_bad_option" text="No, I don't want to">
+	<agent text="Come on.  It is interesting to know those things!">
+	  <user text="Alright. What's the record weather?">
+	    <do task="TodayStats" />
+	  </user>
+	  <user text="no, not interested.">
+	    <agent text="ok"/>
+	  </user>
+	</agent>
+      </user>
+		   
+      <user text="okay I guess">
+	<do task="TodayStats"/>
+      </user>        
+		   
+      <user text="yes, tell me.">
+	<do task="TodayStats" />
+      </user>
+  </agent>
+    
+  <agent id="TodayStats" text="The record high is {$weatherJSON.almanac.recordHigh.extremeTemp} F. It happened in {$weatherJSON.almanac.recordHigh.year}.">
+    	<user text="Wow, go on.">
+	  <agent text="The record low is {$weatherJSON.almanac.recordLow.extremeTemp} F. It happened in  {$weatherJSON.almanac.recordLow.year}.">
+	    <user text="That's pretty cold.">
+	      <agent text="Yeah.  Compared to the average temperatures of {$weatherJSON.almanac.recordLow.averageTemp} and {$weatherJSON.almanac.recordHigh.averageTemp}, that's a big difference.">
+		<user text="It sure is.  Thanks for telling me." />
+		<user text="Sure glad I'm here"/>
+	      </agent>
+	    </user>
+	    <user text="That sounds about right"/>
+	  </agent>
+	</user>
+	<user text="uh-huh.  That's enough"/>
+  </agent>
+    
+  <agent id="TalkAlert" text="Let me check if there's a severe weather alert in your area.">
+      <user text="That's would be helpful.">
+	<agent text="{$weatherJSON.alert.alertMessage}">
+	  <user text="Good to know."/>
+	</agent>
+      </user>
+      <user text="No, I don't want to know">
+      </user>
+  </agent>   
+    
+  <t:task id="Ending">
+      <t:subtasks id="EndingSubtask">
+	<t:step name="endingtext" task="EndingText"/>
+      </t:subtasks>
+  </t:task>
+    
+  <agent id="EndingText" text="well, weather sure is interesting.">
+      <user text="yes. I love talking about weather">
+        <agent text="yeh, me too."/>
+      </user>
+      <user text="yes, I need to know the weather before I go out">
+	<agent text="Feel free to ask me!" />
+      </user>
+      <user text="yes, but I only want to know about it sometimes">
+	<agent text="I'm ready to talk about it whenever you want"/>
+      </user>
+  </agent>
+    
+  <agent id="Closing" text="okay, well maybe another day.">
+    <user text="sure"/>
+    <user text="no, I'm not interested in the weather.">
+	 <agent text="really? Not ever?">
+	   <user text="right, not ever">
+	     <!-- put in UM no weather -->
+	     <agent text="okay, I'll remember that."/>
+	   </user>
+	   <user text="well, not very often.">
+	     <agent text="okay, then I'll ask another time"/>
+	   </user>
+	 </agent>
+    </user>
+  </agent>
+
+</model>   
+    
+<!-- Level 3: TalkFriends   
+    <agent id="TalkFriends" text="Do you want to know what's the weather like in your friends' region?">
+      <user id="pickFriends" text="sure">
+	<agent text="Pick a friend and I'll tell you the weather where they are">
+	  <user text="Mary">
+	    <agent text="Mary is in  {$weatherJSON.friendsCities.Mary.locationName}.  It's usually very hot there.  Right now is {$weatherJSON.friendsCities.Mary.temperature}  fahrenheit.  Don't go there.">
+	      <agent ref="pickFriends"/>
+	    </agent>
+	  </user>
+    			
+	  <user text="Bob">
+	    <agent text="Bob is down the steet.  He is enjoying our weather as well.  BTW, you have an appointment with him 3 pm.  It's 2:50pm now.">
+    					
+	      <user text="Oh, I need to get going">
+	      </user>
+	      <user text="Ask his virtual agent to tell Bob that I don't want to go because of the weather.">
+		<agent text="Message sending.... Sent!">
+		  <user text="thanks">
+		    <agent ref="pickFriends"/>
+		  </user>
+		</agent>
+	      </user>
+	    </agent>
+	  </user>
+    			
+	  <user text="Lucy">
+	    <agent text="Lucy is in {$weatherJSON.friendsCities.Lucy.locationName}.  Right now it's {$weatherJSON.friendsCities.Lucy.temperature} fahrenheit. Compare that to {$weatherJSON.currentWeather.temperature} ! It is generally one of the coldest places in the US.">
+	      <agent ref="pickFriends"/>
+	    </agent>
+	  </user>
+    			
+	  <user text="okay, that's all for now">
+	  </user>    			
+	</agent>
+      </user>
+    	
+      <user text="No, not interested">
+      </user>
+    </agent>  -->
+    
