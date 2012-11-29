@@ -193,14 +193,15 @@
     User says "Yes. I love talking about weather."
     Agent says "Yeh, me too."
   > say
-[1] Ok.
-  >> 1
-    User says "Ok."
-    Agent says "Ok."
-  > say
 [1] Let's chat about weather.
   >> 1
     User says "Let's chat about weather."
     Agent says "Sure!"
+  > say
+[1] Good Morning.
+[2] Hi.
+  >> 1
+    User says "Good Morning."
+    Agent says "Good morning!"
   > quit
     
