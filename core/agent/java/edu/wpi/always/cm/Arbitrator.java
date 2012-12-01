@@ -26,10 +26,9 @@ public class Arbitrator implements Runnable {
 		
 		while(!freeResources.isEmpty() && !proposals.isEmpty()) {
 			CandidateBehavior f = null;
-		System.out.println("DECIDE "+selected);///////////////////////////////////
 
 			if(freeResources.contains(Resource.Focus))
-				f = findFocusOfConversation(proposals); // 
+				f = findFocusOfConversation(proposals); 
 			
 			CandidateBehavior a = decide(proposals, f);
 	
