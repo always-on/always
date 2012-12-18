@@ -1,10 +1,10 @@
 package edu.wpi.always.story;
 
-import java.util.*;
-
-import org.semanticweb.owlapi.model.*;
-
 import edu.wpi.always.user.owl.*;
+
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+
+import java.util.*;
 
 public class StoryManager {
 	

@@ -2,12 +2,7 @@ package edu.wpi.always.story;
 
 import java.io.*;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.*;
 
 
 public class AudioPlayer
@@ -44,7 +39,7 @@ public class AudioPlayer
 
 		line.start();
 		
-		int	nBytesWritten=0;
+		int	nBytesWritten;
 		int	nBytesRead = 0;
 		byte[]	abData = new byte[EXTERNAL_BUFFER_SIZE];
 		while (nBytesRead != -1){

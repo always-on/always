@@ -2,13 +2,7 @@ package edu.wpi.always.story;
 
 import java.io.*;
 
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.TargetDataLine;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.*;
 
 
 public class AudioRecorder extends Thread { 
@@ -28,7 +22,8 @@ public class AudioRecorder extends Thread {
 		
 	}
 
-	public void start(){
+	@Override
+   public void start(){
 		m_line.start();
 		super.start();
 	}
@@ -38,7 +33,8 @@ public class AudioRecorder extends Thread {
 		m_line.close();
 	}
 
-	public void run(){
+	@Override
+   public void run(){
 		try{
 			AudioSystem.write(
 					m_audioInputStream,

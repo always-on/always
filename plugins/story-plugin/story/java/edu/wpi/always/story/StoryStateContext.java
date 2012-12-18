@@ -1,8 +1,8 @@
 package edu.wpi.always.story;
 
-import edu.wpi.always.cm.ragclient.*;
-import edu.wpi.always.cm.ui.*;
-import edu.wpi.always.user.people.*;
+import edu.wpi.always.cm.ragclient.UIMessageDispatcher;
+import edu.wpi.always.cm.ui.Keyboard;
+import edu.wpi.always.user.people.PeopleManager;
 
 public class StoryStateContext {
 	

@@ -1,15 +1,15 @@
 package edu.wpi.always.story;
 
 
-import org.picocontainer.*;
-
-import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.perceptors.dummy.*;
-import edu.wpi.always.cm.perceptors.physical.*;
-import edu.wpi.always.cm.ragclient.*;
 import edu.wpi.always.*;
-import edu.wpi.always.user.*;
-import edu.wpi.always.user.owl.*;
+import edu.wpi.always.cm.FakeRelationshipManager;
+import edu.wpi.always.cm.perceptors.dummy.DummyPerceptorsRegistry;
+import edu.wpi.always.cm.perceptors.physical.PhysicalPerceptorsRegistry;
+import edu.wpi.always.cm.ragclient.RagClientRegistry;
+import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.owl.OntologyUserRegistry;
+
+import org.picocontainer.*;
 
 public class StoryProgram {
 

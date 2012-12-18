@@ -1,17 +1,9 @@
 package edu.wpi.always.story;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class SwingCheckBox extends JPanel implements ItemListener {
 	private static final long serialVersionUID = 6134347517304387577L;
@@ -73,7 +65,8 @@ public class SwingCheckBox extends JPanel implements ItemListener {
 		setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 	}
 
-	public void itemStateChanged(ItemEvent e) {
+	@Override
+   public void itemStateChanged(ItemEvent e) {
 
 		Object source = e.getItemSelectable();
 		if (e.getStateChange() == ItemEvent.SELECTED) {
