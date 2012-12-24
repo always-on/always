@@ -3,7 +3,6 @@ package edu.wpi.always.rummy;
 import edu.wpi.always.*;
 import edu.wpi.always.client.ClientRegistry;
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.perceptors.dummy.DummyPerceptorsRegistry;
 import edu.wpi.always.cm.schemas.*;
 import org.picocontainer.*;
 
@@ -12,7 +11,7 @@ public class RummyProgram {
    public static void main (String[] args) {
       final ProgramBootstrapper program = new ProgramBootstrapper(false);
       program.addRegistry(new PicoRegistry() {
-         
+
          @Override
          public void register (MutablePicoContainer container) {
             container.as(Characteristics.CACHE).addComponent(
@@ -22,24 +21,21 @@ public class RummyProgram {
                   edu.wpi.always.cm.CollaborationManager.class);
          }
       });
-
       program.addCMRegistry(new FakeGuiRegistry());
-      
       program.addCMRegistry(new SchemaRegistry() {
 
          @Override
-         public void register(SchemaManager manager) {
+         public void register (SchemaManager manager) {
             manager.registerSchema(DiscoBasedSchema.class, false);
             manager.registerSchema(SimpleGreetingsSchema.class, true);
             manager.registerSchema(MovementTrackerSchema.class, true);
-            //manager.registerSchema(FaceTrackerSchema.class, true);
+            // manager.registerSchema(FaceTrackerSchema.class, true);
             manager.registerSchema(ActivityStarterSchema.class, true);
-            manager.registerSchema(RummySchema.class, false); /////////
+            manager.registerSchema(RummySchema.class, false); // ///////
          }
       });
-      
       program.addCMRegistry(new ClientRegistry() {
-         
+
          @Override
          public void register (MutablePicoContainer container) {
             super.register(container);

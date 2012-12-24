@@ -1,58 +1,35 @@
 package edu.wpi.always.user.people;
 
-import org.joda.time.*;
-
-import edu.wpi.always.user.places.*;
-
+import edu.wpi.always.user.places.Place;
+import org.joda.time.MonthDay;
 
 public interface Person {
-	enum Gender {
-		Male, Female;
-	}
-	enum Relationship{
-		Friend,
-		
-		Parent,
-		Father,
-		Mother,
-		
-		Spouse,
-		Husband,
-		Wife,
 
-		Offspring,
-		Son,
-		Daughter,
-		
-		Sibling,
-		Brother,
-		Sister,
-		
-		Grandchild,
-		Grandson,
-		Granddaughter,
-		
-		Grandparent,
-		Grandfather,
-		Grandmother;
-	}
+   enum Gender {
+      Male, Female;
+   }
 
-	String getName();
+   enum Relationship {
+      Friend, Parent, Father, Mother, Spouse, Husband, Wife, Offspring, Son, Daughter, Sibling, Brother, Sister, Grandchild, Grandson, Granddaughter, Grandparent, Grandfather, Grandmother;
+   }
 
-	void addRelationship(Person otherPerson, Relationship relationship);
+   String getName ();
 
+   void addRelationship (Person otherPerson, Relationship relationship);
 
-	void setGender(Person.Gender gender);
+   void setGender (Person.Gender gender);
 
-	void setBirthday(MonthDay day);
-	MonthDay getBirthday();
+   void setBirthday (MonthDay day);
 
-	Place getLocation();
-	void setLocation(Place place);
+   MonthDay getBirthday ();
 
-	void setPhoneNumber(String number);
+   Place getLocation ();
 
-	String getPhoneNumber();
+   void setLocation (Place place);
 
-	Gender getGender();
+   void setPhoneNumber (String number);
+
+   String getPhoneNumber ();
+
+   Gender getGender ();
 }

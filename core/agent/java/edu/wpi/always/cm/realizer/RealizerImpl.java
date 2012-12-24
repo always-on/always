@@ -1,21 +1,18 @@
 package edu.wpi.always.cm.realizer;
 
 import edu.wpi.always.cm.*;
-
 import org.joda.time.DateTime;
-
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
 public class RealizerImpl implements Realizer, BehaviorHistory {
-   
+
    private final PrimitiveBehaviorControl primitiveControl;
    private final ExecutorService executor;
    private final Hashtable<Resource, CompoundRealizerHandle> behaviorHandles = new Hashtable<Resource, RealizerImpl.CompoundRealizerHandle>();
    private final ReentrantLock mainLock = new ReentrantLock();
    private final List<TimeStampedValue<CompoundBehavior>> history = new ArrayList<TimeStampedValue<CompoundBehavior>>();
-
    /*
     * Let's talk about history locks a little: Anything that wants to change the
     * history needs to acquire historyChangeLock. So both adding and removing
@@ -27,7 +24,6 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
     * to get historyShrinkLock.readLock()
     */
    private final Lock historyChangeLock = new ReentrantLock();
-
    private final ReadWriteLock historyShrinkLock = new ReentrantReadWriteLock();
 
    public RealizerImpl (PrimitiveBehaviorControl primitiveControl) {
@@ -38,19 +34,14 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
    @Override
    public void realize (CompoundBehavior behavior) {
       Set<Resource> resources = behavior.getResources();
-
       CompoundRealizerHandle handle = new CompoundRealizerHandle(behavior);
-
       mainLock.lock();
-
       try {
          if ( !isAlreadyInRunning(behavior) ) {
             for (Resource r : resources) {
                freeUpResource(r);
-
                behaviorHandles.put(r, handle);
             }
-
             handle.start();
          }
       } finally {
@@ -70,7 +61,6 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
    @Override
    public void freeUpResource (Resource r) {
       mainLock.lock();
-
       try {
          if ( behaviorHandles.containsKey(r) ) {
             CompoundRealizerHandle h = behaviorHandles.get(r);
@@ -87,7 +77,6 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
 
    private void saveDoneBehaviorInHistory (CompoundBehavior behavior) {
       historyChangeLock.lock();
-
       try {
          history.add(new TimeStampedValue<CompoundBehavior>(behavior));
          shrinkHistoryIfNecessary();
@@ -99,7 +88,6 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
    private void shrinkHistoryIfNecessary () {
       if ( history.size() > 110 ) {
          historyChangeLock.lock();
-
          try {
             historyShrinkLock.writeLock().lock();
             try {
@@ -118,20 +106,15 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
    @Override
    public boolean isDone (CompoundBehavior behavior, DateTime since) {
       historyShrinkLock.readLock().lock();
-
       try {
-
          for (int i = history.size() - 1; i >= 0; i--) {
             TimeStampedValue<CompoundBehavior> cur = history.get(i);
-
             if ( cur.getTimeStamp().isBefore(since) )
                break;
-
             if ( cur.getValue().equals(behavior) ) {
                return true;
             }
          }
-
          return false;
       } finally {
          historyShrinkLock.readLock().unlock();
@@ -139,12 +122,10 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
    }
 
    private class CompoundRealizerHandle implements CompoundRealizerObserver {
+
       private final CompoundBehavior behavior;
-
       private PrimitiveBehaviorControlDisconnectableWrapper primitiveAccess;
-
       private Future<?> task;
-
       private CompoundRealizer compoundRealizer;
 
       public CompoundRealizerHandle (CompoundBehavior behavior) {
@@ -165,7 +146,6 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
             cutPrimitiveBehaviorAccess();
             compoundRealizer.removeObserver(this);
             task.cancel(true);
-
             for (Resource r : behavior.getResources()) {
                stopPrimitiveOn(r);
                behaviorHandles.remove(r);
@@ -183,7 +163,5 @@ public class RealizerImpl implements Realizer, BehaviorHistory {
       public void compoundRealizerDone (CompoundRealizer sender) {
          saveDoneBehaviorInHistory(behavior);
       }
-
    }
-
 }

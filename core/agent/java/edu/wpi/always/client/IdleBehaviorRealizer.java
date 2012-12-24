@@ -1,21 +1,21 @@
 package edu.wpi.always.client;
 
-import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.always.cm.primitives.IdleBehavior;
+import edu.wpi.always.cm.realizer.SingleRunPrimitiveRealizer;
 
-public class IdleBehaviorRealizer extends SingleRunPrimitiveRealizer<IdleBehavior> {
+public class IdleBehaviorRealizer extends
+      SingleRunPrimitiveRealizer<IdleBehavior> {
 
-	private final ClientProxy proxy;
+   private final ClientProxy proxy;
 
-	public IdleBehaviorRealizer(IdleBehavior params, ClientProxy proxy) {
-		super(params);
-		this.proxy = proxy;
-	}
+   public IdleBehaviorRealizer (IdleBehavior params, ClientProxy proxy) {
+      super(params);
+      this.proxy = proxy;
+   }
 
-	@Override
-	protected void singleRun() {
-		proxy.idle(getParams().isEnable());
-		fireDoneMessage();
-	}
-
+   @Override
+   protected void singleRun () {
+      proxy.idle(getParams().isEnable());
+      fireDoneMessage();
+   }
 }

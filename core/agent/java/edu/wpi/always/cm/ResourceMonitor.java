@@ -1,14 +1,12 @@
 package edu.wpi.always.cm;
 
-import java.util.*;
-
-import org.joda.time.*;
-
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.always.cm.realizer.PrimitiveBehavior;
+import org.joda.time.DateTime;
+import java.util.List;
 
 public interface ResourceMonitor {
 
-	boolean allDone(List<PrimitiveBehavior> primitives, DateTime since);
-	boolean isDone(PrimitiveBehavior primitive, DateTime since);
+   boolean allDone (List<PrimitiveBehavior> primitives, DateTime since);
 
+   boolean isDone (PrimitiveBehavior primitive, DateTime since);
 }

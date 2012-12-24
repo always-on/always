@@ -1,56 +1,51 @@
 package edu.wpi.always.cm.perceptors.gui;
 
-import java.awt.*;
-
-import javax.swing.*;
-
-import org.joda.time.*;
-
 import edu.wpi.always.cm.perceptors.*;
+import org.joda.time.DateTime;
+import java.awt.Point;
+import javax.swing.JTextField;
 
 public class GuiFakeMovementPerceptor implements MovementPerceptor {
-	private final JTextField txtX;
-	private final JTextField txtY;
-	private volatile MovementPerception latest;
 
-	public GuiFakeMovementPerceptor(JTextField txtX, JTextField txtY) {
-		this.txtX = txtX;
-		this.txtY = txtY;
-	}
+   private final JTextField txtX;
+   private final JTextField txtY;
+   private volatile MovementPerception latest;
 
-	@Override
-	public void run() {
-		Point p = tryParsePoint();
-		if (p == null)
-			latest = null;
-		else
-			latest = new MovementPerceptionImpl(DateTime.now(), p);
-	}
+   public GuiFakeMovementPerceptor (JTextField txtX, JTextField txtY) {
+      this.txtX = txtX;
+      this.txtY = txtY;
+   }
 
-	private Point tryParsePoint() {
-		return tryParsePoint(txtX.getText(), txtY.getText());
-	}
+   @Override
+   public void run () {
+      Point p = tryParsePoint();
+      if ( p == null )
+         latest = null;
+      else
+         latest = new MovementPerceptionImpl(DateTime.now(), p);
+   }
 
-	public static Point tryParsePoint(String xText, String yText) {
-		int x, y;
-		try {
-			x = Integer.parseInt(xText);
-		} catch (NumberFormatException ex) {
-			return null;
-		}
+   private Point tryParsePoint () {
+      return tryParsePoint(txtX.getText(), txtY.getText());
+   }
 
-		try {
-			y = Integer.parseInt(yText);
-		} catch (NumberFormatException ex) {
-			return null;
-		}
+   public static Point tryParsePoint (String xText, String yText) {
+      int x, y;
+      try {
+         x = Integer.parseInt(xText);
+      } catch (NumberFormatException ex) {
+         return null;
+      }
+      try {
+         y = Integer.parseInt(yText);
+      } catch (NumberFormatException ex) {
+         return null;
+      }
+      return new Point(x, y);
+   }
 
-		return new Point(x, y);
-	}
-
-	@Override
-	public MovementPerception getLatest() {
-		return latest;
-	}
-
+   @Override
+   public MovementPerception getLatest () {
+      return latest;
+   }
 }

@@ -1,9 +1,9 @@
 package edu.wpi.always.cm;
 
-import org.joda.time.*;
-
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.always.cm.realizer.CompoundBehavior;
+import org.joda.time.DateTime;
 
 public interface BehaviorHistory {
-	boolean isDone(CompoundBehavior behavior, DateTime since);
+
+   boolean isDone (CompoundBehavior behavior, DateTime since);
 }

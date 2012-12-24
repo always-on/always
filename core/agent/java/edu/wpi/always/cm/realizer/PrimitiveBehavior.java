@@ -1,58 +1,57 @@
 package edu.wpi.always.cm.realizer;
 
-import edu.wpi.always.cm.*;
+import edu.wpi.always.cm.Resource;
 
 public abstract class PrimitiveBehavior {
-	public abstract Resource getResource();
 
-	@Override
-	public abstract boolean equals(Object o);
+   public abstract Resource getResource ();
 
-	@Override
-	public abstract int hashCode();
+   @Override
+   public abstract boolean equals (Object o);
 
-	@Override
-	public String toString() { return getResource().toString(); }
+   @Override
+   public abstract int hashCode ();
 
-	private static class NullPrimitiveBehavior extends PrimitiveBehavior {
-		private final Resource resource;
+   @Override
+   public String toString () {
+      return getResource().toString();
+   }
 
-		public NullPrimitiveBehavior(Resource r) {
-			this.resource = r;
-		}
+   private static class NullPrimitiveBehavior extends PrimitiveBehavior {
 
-		@Override
-		public Resource getResource() {
-			return resource;
-		}
+      private final Resource resource;
 
-		@Override
-		public boolean equals(Object o) {
-			if (this == o)
-				return true;
+      public NullPrimitiveBehavior (Resource r) {
+         this.resource = r;
+      }
 
-			if (!(o instanceof NullPrimitiveBehavior))
-				return false;
+      @Override
+      public Resource getResource () {
+         return resource;
+      }
 
-			NullPrimitiveBehavior theOther = (NullPrimitiveBehavior) o;
+      @Override
+      public boolean equals (Object o) {
+         if ( this == o )
+            return true;
+         if ( !(o instanceof NullPrimitiveBehavior) )
+            return false;
+         NullPrimitiveBehavior theOther = (NullPrimitiveBehavior) o;
+         return theOther.resource.equals(this.resource);
+      }
 
-			return theOther.resource.equals(this.resource);
-		}
+      @Override
+      public int hashCode () {
+         return resource.hashCode();
+      }
 
-		@Override
-		public int hashCode() {
-			return resource.hashCode();
-		}
+      @Override
+      public String toString () {
+         return "Null behavior on <" + resource + ">";
+      }
+   }
 
-		@Override
-		public String toString() {
-			return "Null behavior on <" + resource + ">";
-		}
-
-	}
-
-	public static PrimitiveBehavior nullBehavior(Resource resource) {
-		return new NullPrimitiveBehavior(resource);
-	}
-
+   public static PrimitiveBehavior nullBehavior (Resource resource) {
+      return new NullPrimitiveBehavior(resource);
+   }
 }

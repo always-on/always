@@ -1,6 +1,6 @@
 package edu.wpi.always.cm;
 
-import org.joda.time.*;
+import org.joda.time.DateTime;
 
 public class TimeStampedValue<T> {
 
@@ -23,8 +23,9 @@ public class TimeStampedValue<T> {
    public DateTime getTimeStamp () {
       return timeStamp;
    }
-   
+
    @Override
-   public String toString () { return val+":"+timeStamp; } 
-   
+   public String toString () {
+      return val + ":" + timeStamp;
+   }
 }

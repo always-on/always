@@ -1,7 +1,6 @@
 package edu.wpi.always.cm;
 
 import edu.wpi.always.cm.realizer.*;
-
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -26,7 +25,6 @@ public class ThreadPools {
 
    public static ScheduledExecutorService newScheduledThreadPool (
          int corePoolSize) {
-
       return new ScheduledThreadPoolExecutor(corePoolSize) {
 
          @Override
@@ -50,9 +48,10 @@ public class ThreadPools {
       };
    }
 
-   // note using weak hash map to avoid memory leak due to many tasks while always on
-   private static final Map<RunnableScheduledFuture<? extends Object>, String> names 
-     = Collections.synchronizedMap(new WeakHashMap<RunnableScheduledFuture<? extends Object>, String>());
+   // note using weak hash map to avoid memory leak due to many tasks while
+   // always on
+   private static final Map<RunnableScheduledFuture<? extends Object>, String> names = Collections
+         .synchronizedMap(new WeakHashMap<RunnableScheduledFuture<? extends Object>, String>());
 
    private static class ThreadPoolExecutor extends
          java.util.concurrent.ThreadPoolExecutor {
@@ -87,17 +86,17 @@ public class ThreadPools {
          try {
             ((Future<?>) r).get(1, TimeUnit.MILLISECONDS);
          } catch (CancellationException ce) {
-            System.err.println("Cancelled "+getName(r));
+            System.err.println("Cancelled " + getName(r));
          } catch (ExecutionException ee) {
             t = ee.getCause();
          } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
          } catch (TimeoutException te) {
-            System.err.println("Timeout "+getName(r));
+            System.err.println("Timeout " + getName(r));
          }
       }
       if ( t != null ) {
-         System.err.println("Exception executing "+getName(r));
+         System.err.println("Exception executing " + getName(r));
          t.printStackTrace();
       }
    }
@@ -106,14 +105,17 @@ public class ThreadPools {
       if ( runnable instanceof ThreadPools.FutureTask<?> )
          runnable = ((ThreadPools.FutureTask<?>) runnable).getInner();
       if ( runnable instanceof Behavior || runnable instanceof CompoundBehavior
-           || runnable instanceof CompoundRealizer )
+         || runnable instanceof CompoundRealizer )
          return runnable.toString();
       String name = names.get(runnable);
-      if ( name != null ) return name;
+      if ( name != null )
+         return name;
       return runnable.getClass().getName();
    }
-   
-   private static class FutureTask<V> extends java.util.concurrent.FutureTask<V> {
+
+   private static class FutureTask<V> extends
+         java.util.concurrent.FutureTask<V> {
+
       private final Runnable inner;
 
       private FutureTask (Runnable inner, V value) {

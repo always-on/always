@@ -1,80 +1,76 @@
 package edu.wpi.always.client;
 
-import java.util.*;
-
 import com.google.gson.*;
+import java.util.Map;
 
 public class Message {
-	private final String type;
-	private final JsonObject body;
 
-	public Message (String type, JsonObject body) {
-		super();
-		this.type = type;
-		this.body = body;
-	}
+   private final String type;
+   private final JsonObject body;
 
-	public Message (String type, Map<String, String> properties) {
-		this.type = type;
+   public Message (String type, JsonObject body) {
+      super();
+      this.type = type;
+      this.body = body;
+   }
 
-		this.body = new Gson()
-				.toJsonTree(properties)
-				.getAsJsonObject();
-	}
+   public Message (String type, Map<String, String> properties) {
+      this.type = type;
+      this.body = new Gson().toJsonTree(properties).getAsJsonObject();
+   }
 
-	public String getType () {
-		return type;
-	}
+   public String getType () {
+      return type;
+   }
 
-	public JsonObject getBody () {
-		return body;
-	}
+   public JsonObject getBody () {
+      return body;
+   }
 
-	public String getProperty (String property) {
-		return body.get(property).getAsString();
-	}
+   public String getProperty (String property) {
+      return body.get(property).getAsString();
+   }
 
-	public static Builder builder (String messageType) {
-		return new Builder(messageType);
-	}
+   public static Builder builder (String messageType) {
+      return new Builder(messageType);
+   }
 
-	public static class Builder {
-		private final String type;
-		private final JsonObject body = new JsonObject();
+   public static class Builder {
 
-		private Builder (String messageType) {
-			this.type = messageType;
-		}
+      private final String type;
+      private final JsonObject body = new JsonObject();
 
-		public Builder add (String name, String value) {
-			body.addProperty(name, value);
-			return this;
-		}
+      private Builder (String messageType) {
+         this.type = messageType;
+      }
 
-		public Builder add (String name, Number value) {
-			body.addProperty(name, value);
-			return this;
-		}
+      public Builder add (String name, String value) {
+         body.addProperty(name, value);
+         return this;
+      }
 
-		public Builder add (String name, Boolean value) {
-			body.addProperty(name, value);
-			return this;
-		}
+      public Builder add (String name, Number value) {
+         body.addProperty(name, value);
+         return this;
+      }
 
-		public Builder add (String name, JsonElement inner) {
-			body.add(name, inner);
-			return this;
-		}
+      public Builder add (String name, Boolean value) {
+         body.addProperty(name, value);
+         return this;
+      }
 
-		public Builder add (Message inner) {
-			add(inner.getType(), inner.getBody());
-			return this;
-		}
+      public Builder add (String name, JsonElement inner) {
+         body.add(name, inner);
+         return this;
+      }
 
-		public Message build () {
-			return new Message(type, body);
-		}
+      public Builder add (Message inner) {
+         add(inner.getType(), inner.getBody());
+         return this;
+      }
 
-	}
-
+      public Message build () {
+         return new Message(type, body);
+      }
+   }
 }

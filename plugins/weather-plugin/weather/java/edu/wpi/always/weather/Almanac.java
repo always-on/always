@@ -2,33 +2,32 @@ package edu.wpi.always.weather;
 
 public interface Almanac {
 
-	public RecordTemp getRecordLow();
-	
-	public RecordTemp getRecordHigh();
+   public RecordTemp getRecordLow ();
 
-	class RecordTemp{
-		private int year;
-		private int averageTemp;
-		private int extremeTemp;
+   public RecordTemp getRecordHigh ();
 
-		public RecordTemp(int year, int averageTemp, int extremeTemp) {
-			this.year = year;
-			this.averageTemp = averageTemp;
-			this.extremeTemp = extremeTemp;
-		}
+   class RecordTemp {
 
-		public int getYear() {
-			return year;
-		}
+      private int year;
+      private int averageTemp;
+      private int extremeTemp;
 
-		public int getAverageTemp() {
-			return averageTemp;
-		}
+      public RecordTemp (int year, int averageTemp, int extremeTemp) {
+         this.year = year;
+         this.averageTemp = averageTemp;
+         this.extremeTemp = extremeTemp;
+      }
 
-		public int getExtremeTemp() {
-			return extremeTemp;
-		}
-		
-		
-	}
+      public int getYear () {
+         return year;
+      }
+
+      public int getAverageTemp () {
+         return averageTemp;
+      }
+
+      public int getExtremeTemp () {
+         return extremeTemp;
+      }
+   }
 }

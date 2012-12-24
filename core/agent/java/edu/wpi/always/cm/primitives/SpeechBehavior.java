@@ -1,46 +1,42 @@
 package edu.wpi.always.cm.primitives;
 
-import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.always.cm.Resource;
+import edu.wpi.always.cm.realizer.PrimitiveBehavior;
 
 public class SpeechBehavior extends PrimitiveBehavior {
 
-	private final String text;
+   private final String text;
 
-	public SpeechBehavior(String text) {
-		this.text = text;
-	}
+   public SpeechBehavior (String text) {
+      this.text = text;
+   }
 
-	@Override
-	public Resource getResource() {
-		return Resource.Speech;
-	}
+   @Override
+   public Resource getResource () {
+      return Resource.Speech;
+   }
 
-	@Override
-	public boolean equals(Object o) {
-		if (o == this)
-			return true;
+   @Override
+   public boolean equals (Object o) {
+      if ( o == this )
+         return true;
+      if ( !(o instanceof SpeechBehavior) )
+         return false;
+      SpeechBehavior theOther = (SpeechBehavior) o;
+      return this.getText().equals(theOther.getText());
+   }
 
-		if (!(o instanceof SpeechBehavior))
-			return false;
+   @Override
+   public int hashCode () {
+      return getText().hashCode();
+   }
 
-		SpeechBehavior theOther = (SpeechBehavior) o;
+   public String getText () {
+      return text;
+   }
 
-		return this.getText().equals(theOther.getText());
-	}
-
-	@Override
-	public int hashCode() {
-		return getText().hashCode();
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	@Override
-	public String toString() {
-		return "Speech(\"" + text + "\")";
-	}
-
+   @Override
+   public String toString () {
+      return "Speech(\"" + text + "\")";
+   }
 }

@@ -4,7 +4,6 @@ import edu.wpi.always.PicoRegistry;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.console.ConsoleRealizersRegistry;
 import edu.wpi.always.cm.ui.Keyboard;
-
 import org.picocontainer.*;
 
 public class DummyClientRegistry implements PicoRegistry {
@@ -12,6 +11,7 @@ public class DummyClientRegistry implements PicoRegistry {
    @Override
    public void register (MutablePicoContainer container) {
       container.addComponent(new UIMessageDispatcher() {
+
          @Override
          public void send (Message message) {
          }
@@ -34,6 +34,7 @@ public class DummyClientRegistry implements PicoRegistry {
          }
       });
       container.as(Characteristics.CACHE).addComponent(new Keyboard() {
+
          @Override
          public void showKeyboard (String prompt) {
          }
@@ -43,21 +44,14 @@ public class DummyClientRegistry implements PicoRegistry {
             return "";
          }
       });
-		/*
-		container.as(Characteristics.CACHE).addComponent(new CalendarUI() {
-			@Override
-			public void showWeek(LocalDate startDay, CalendarUIListener listener, boolean touchable) {
-			}
-			
-			@Override
-			public void showMonth(LocalDate startDay, CalendarUIListener listener) {
-			}
-			
-			@Override
-			public void showDay(LocalDate day, CalendarUIListener listener, boolean touchable) {
-			}
-		});
-		*/
-	}
-
+      /*
+       * container.as(Characteristics.CACHE).addComponent(new CalendarUI() {
+       * @Override public void showWeek(LocalDate startDay, CalendarUIListener
+       * listener, boolean touchable) { }
+       * @Override public void showMonth(LocalDate startDay, CalendarUIListener
+       * listener) { }
+       * @Override public void showDay(LocalDate day, CalendarUIListener
+       * listener, boolean touchable) { } });
+       */
+   }
 }

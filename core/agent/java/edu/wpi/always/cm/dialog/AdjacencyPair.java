@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.dialog;
 
-import java.util.*;
+import java.util.List;
 
 public interface AdjacencyPair {
 

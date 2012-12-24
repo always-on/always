@@ -1,57 +1,57 @@
 package edu.wpi.always.weather.wunderground;
 
-import java.io.*;
+import edu.wpi.always.weather.Almanac;
+import org.xml.sax.SAXException;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 
-import javax.xml.parsers.*;
-import javax.xml.xpath.*;
+public class WundergroundAlmanac implements Almanac {
 
-import org.xml.sax.*;
+   private RecordTemp recordLow;
+   private RecordTemp recordHigh;
+   private WundergroundHelper helper;
 
-import edu.wpi.always.weather.*;
+   WundergroundAlmanac (String zip) throws IOException,
+         ParserConfigurationException, SAXException, NumberFormatException,
+         XPathExpressionException {
+      helper = new WundergroundHelper("almanac", zip);
+      recordLow = fillRecordTemp(HighLow.temp_low);
+      recordHigh = fillRecordTemp(HighLow.temp_high);
+   }
 
-public class WundergroundAlmanac implements Almanac{
-	private RecordTemp recordLow;
-	private RecordTemp recordHigh;
+   private RecordTemp fillRecordTemp (HighLow hl) throws NumberFormatException,
+         XPathExpressionException {
+      return new RecordTemp(Integer.parseInt(getRecordYear(hl.toString())),
+            Integer.parseInt(getTemp(hl.toString(), "normal")),
+            Integer.parseInt(getTemp(hl.toString(), "record")));
+   }
 
-	private WundergroundHelper helper;
+   private String getTemp (String lowOrHigh, String normalOrRecord)
+         throws XPathExpressionException {
+      String pathString = "/response/almanac/" + lowOrHigh + "/"
+         + normalOrRecord + "/F/text()";
+      return helper.getData(pathString);
+   }
 
-	WundergroundAlmanac(String zip) throws IOException, ParserConfigurationException, SAXException, NumberFormatException, XPathExpressionException {
-		helper = new WundergroundHelper("almanac", zip);
+   private String getRecordYear (String lowOrHigh)
+         throws XPathExpressionException {
+      String pathString = "/response/almanac/" + lowOrHigh
+         + "/recordyear/text()";
+      return helper.getData(pathString);
+   }
 
-		recordLow = fillRecordTemp(HighLow.temp_low);
-		recordHigh = fillRecordTemp(HighLow.temp_high);
-	}
+   @Override
+   public RecordTemp getRecordLow () {
+      return recordLow;
+   }
 
-	private RecordTemp fillRecordTemp(HighLow hl) throws NumberFormatException,XPathExpressionException{
-		return new RecordTemp(Integer.parseInt(getRecordYear(hl.toString())),
-				Integer.parseInt(getTemp(hl.toString(), "normal")),
-				Integer.parseInt(getTemp(hl.toString(), "record")));
-	}
+   @Override
+   public RecordTemp getRecordHigh () {
+      return recordHigh;
+   }
 
-	private String getTemp(String lowOrHigh, String normalOrRecord) throws XPathExpressionException {
-		String pathString = "/response/almanac/" + lowOrHigh + "/" + normalOrRecord + "/F/text()";
-		return helper.getData(pathString);
-	}
-
-	private String getRecordYear(String lowOrHigh) throws XPathExpressionException {
-		String pathString = "/response/almanac/" + lowOrHigh + "/recordyear/text()";
-		return helper.getData(pathString);
-	}
-	
-	@Override
-   public RecordTemp getRecordLow(){
-		return recordLow;
-	}
-	
-	@Override
-   public RecordTemp getRecordHigh(){
-		return recordHigh;
-	}
-	
-	enum HighLow{
-		temp_high, temp_low
-	}
-
+   enum HighLow {
+      temp_high, temp_low
+   }
 }
-
-

@@ -1,17 +1,16 @@
 package edu.wpi.always.user.calendar;
 
-
 public interface CalendarEntryType {
 
-	String getTitle(CalendarEntry entry);
+   String getTitle (CalendarEntry entry);
 
-	String getDisplayName();
-	String getId();
+   String getDisplayName ();
 
-	String getPersonQuestion();
+   String getId ();
 
-	void prefill(RepeatingCalendarEntry newEntry);
+   String getPersonQuestion ();
 
-	void prefill(CalendarEntry newEntry);
+   void prefill (RepeatingCalendarEntry newEntry);
 
+   void prefill (CalendarEntry newEntry);
 }

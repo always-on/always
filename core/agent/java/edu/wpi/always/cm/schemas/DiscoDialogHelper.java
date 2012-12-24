@@ -5,18 +5,17 @@ import edu.wpi.cetask.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.actions.UserGenerate;
-
 import java.util.List;
 
 public class DiscoDialogHelper {
+
    private Plan plan;
-
    private String lastUtterance;
-
    private final Disco disco;
 
    public DiscoDialogHelper (boolean startConsole) {
       Agent me = new Agent("agent") {
+
          @SuppressWarnings("unused")
          public void say (String utterance) {
             DiscoDialogHelper.this.lastUtterance = utterance;
@@ -50,5 +49,4 @@ public class DiscoDialogHelper {
       List<Item> items = generateUserTasks();
       disco.getInteraction().choose(items, idx + 1, formatted);
    }
-
 }

@@ -2,17 +2,16 @@ package edu.wpi.always.client;
 
 public interface RemoteConnection {
 
-	void connect ();
+   void connect ();
 
-	boolean isConnected ();
+   boolean isConnected ();
 
-	/**
-	 * non-blocking send
-	 */
-	void beginSend (String message);
+   /**
+    * non-blocking send
+    */
+   void beginSend (String message);
 
-	void removeObserver (TcpConnectionObserver o);
+   void removeObserver (TcpConnectionObserver o);
 
-	void addObserver (TcpConnectionObserver o);
-
+   void addObserver (TcpConnectionObserver o);
 }

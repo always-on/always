@@ -1,64 +1,64 @@
 package edu.wpi.always.weather.wunderground;
 
-import java.io.*;
+import edu.wpi.always.weather.CurrentWeather;
+import org.xml.sax.SAXException;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 
-import javax.xml.parsers.*;
-import javax.xml.xpath.*;
+public class WundergroundCurrentWeather implements CurrentWeather {
 
-import org.xml.sax.*;
+   private WundergroundHelper helper;
+   private String weatherCondition;
+   private String temperature;
+   private String humidity;
+   private String locationName;
+   private final String zip;
 
-import edu.wpi.always.weather.*;
+   WundergroundCurrentWeather (String zip) throws IOException,
+         ParserConfigurationException, SAXException, XPathExpressionException {
+      helper = new WundergroundHelper("conditions", zip);
+      this.zip = zip;
+      weatherCondition = currentCondition("weather");
+      temperature = currentCondition("temp_f");
+      humidity = currentCondition("relative_humidity");
+      locationName = locationName();
+   }
 
-public class WundergroundCurrentWeather implements CurrentWeather{
+   private String currentCondition (String catagory)
+         throws XPathExpressionException {
+      String pathString = "/response/current_observation/" + catagory
+         + "/text()";
+      return helper.getData(pathString);
+   }
 
-	private WundergroundHelper helper;
-	private String weatherCondition;
-	private String temperature;
-	private String humidity;
-	private String locationName;
-	private final String zip;
-	WundergroundCurrentWeather(String zip) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException{
-		helper = new WundergroundHelper("conditions", zip);
-		this.zip = zip;
+   private String locationName () throws XPathExpressionException {
+      String pathString = "/response/current_observation/display_location/full/text()";
+      return helper.getData(pathString);
+   }
 
-		weatherCondition = currentCondition("weather");
-		temperature = currentCondition("temp_f");
-		humidity = currentCondition("relative_humidity");
-		locationName = locationName();
-	}
+   @Override
+   public String getZip () {
+      return zip;
+   }
 
-	private String currentCondition(String catagory) throws XPathExpressionException{
-		String pathString = "/response/current_observation/" + catagory + "/text()";
-		return helper.getData(pathString);
-	}
+   @Override
+   public String getWeatherCondition () {
+      return weatherCondition;
+   }
 
-	private String locationName() throws XPathExpressionException{
-		String pathString = "/response/current_observation/display_location/full/text()";
-		return helper.getData(pathString);
-	}
+   @Override
+   public String getTemperature () {
+      return temperature;
+   }
 
-	@Override
-	public String getZip() {
-		return zip;
-	}
+   @Override
+   public String getHumidity () {
+      return humidity;
+   }
 
-	@Override
-	public String getWeatherCondition() {
-		return weatherCondition;
-	}
-
-	@Override
-	public String getTemperature() {
-		return temperature;
-	}
-
-	@Override
-	public String getHumidity() {
-		return humidity;
-	}
-
-	@Override
-	public String getLocationName() {
-		return locationName;
-	}
+   @Override
+   public String getLocationName () {
+      return locationName;
+   }
 }

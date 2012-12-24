@@ -1,31 +1,32 @@
 package edu.wpi.always.cm;
 
 public class CandidateBehavior {
-	private final Behavior behavior;
-	private final Schema proposer;
-	private final BehaviorMetadata meta;
 
-	public CandidateBehavior (Behavior behavior, Schema proposer, BehaviorMetadata meta) {
-		this.behavior = behavior;
-		this.proposer = proposer;
-		this.meta = meta;
-	}
+   private final Behavior behavior;
+   private final Schema proposer;
+   private final BehaviorMetadata meta;
 
-	public Behavior getBehavior () {
-		return behavior;
-	}
+   public CandidateBehavior (Behavior behavior, Schema proposer,
+         BehaviorMetadata meta) {
+      this.behavior = behavior;
+      this.proposer = proposer;
+      this.meta = meta;
+   }
 
-	public Schema getProposer () {
-		return proposer;
-	}
+   public Behavior getBehavior () {
+      return behavior;
+   }
 
-	public BehaviorMetadata getMetadata () {
-		return meta;
-	}
+   public Schema getProposer () {
+      return proposer;
+   }
 
-	@Override
-	public String toString () { 
-		return "<"+proposer+": "+behavior+">";
-	}
+   public BehaviorMetadata getMetadata () {
+      return meta;
+   }
 
+   @Override
+   public String toString () {
+      return "<" + proposer + ": " + behavior + ">";
+   }
 }

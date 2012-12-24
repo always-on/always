@@ -1,19 +1,18 @@
 package edu.wpi.always.cm.primitives.console;
 
-import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.always.cm.primitives.SpeechBehavior;
+import edu.wpi.always.cm.realizer.SingleRunPrimitiveRealizer;
 
 public class ConsoleSpeechRealizer extends
-		SingleRunPrimitiveRealizer<SpeechBehavior> {
+      SingleRunPrimitiveRealizer<SpeechBehavior> {
 
-	public ConsoleSpeechRealizer(SpeechBehavior params) {
-		super(params);
-	}
+   public ConsoleSpeechRealizer (SpeechBehavior params) {
+      super(params);
+   }
 
-	@Override
-	protected void singleRun() {
-		System.out.println("Saying: " + getParams().getText());
-		fireDoneMessage();
-	}
-
+   @Override
+   protected void singleRun () {
+      System.out.println("Saying: " + getParams().getText());
+      fireDoneMessage();
+   }
 }

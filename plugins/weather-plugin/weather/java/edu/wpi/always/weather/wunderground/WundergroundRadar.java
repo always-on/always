@@ -1,33 +1,29 @@
 package edu.wpi.always.weather.wunderground;
 
-import java.io.*;
+import edu.wpi.always.weather.Radar;
+import org.xml.sax.SAXException;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 
-import javax.xml.parsers.*;
-import javax.xml.xpath.*;
+public class WundergroundRadar implements Radar {
 
-import org.xml.sax.*;
+   private String radarURL;
+   private WundergroundHelper helper;
 
-import edu.wpi.always.weather.*;
+   WundergroundRadar (String zip) throws IOException,
+         ParserConfigurationException, SAXException, XPathExpressionException {
+      helper = new WundergroundHelper("radar", zip);
+      radarURL = getImageUrl();
+   }
 
-public class WundergroundRadar implements Radar{
+   private String getImageUrl () throws XPathExpressionException {
+      String pathString = "/response/radar/image_url/text()";
+      return helper.getData(pathString);
+   }
 
-	private String radarURL;
-	private WundergroundHelper helper;
-
-	WundergroundRadar(String zip) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException {
-		helper = new WundergroundHelper("radar", zip);
-
-		radarURL = getImageUrl();
-	}
-
-	private String getImageUrl() throws XPathExpressionException {
-		String pathString = "/response/radar/image_url/text()";
-		return helper.getData(pathString);
-	}
-	
-	@Override
-	public String getImageURL(){
-		return radarURL;
-	}
-
+   @Override
+   public String getImageURL () {
+      return radarURL;
+   }
 }

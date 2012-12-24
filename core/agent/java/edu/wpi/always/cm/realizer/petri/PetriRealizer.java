@@ -1,186 +1,173 @@
 package edu.wpi.always.cm.realizer.petri;
 
 import com.google.common.collect.Maps;
-
 import edu.wpi.always.cm.realizer.*;
 import edu.wpi.always.cm.utils.*;
-
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PetriRealizer implements CompoundRealizer {
-	private final CompoundBehaviorWithConstraints behavior;
-	private final Map<PrimitiveBehavior, BehaviorStartPlace> startPlaces = Maps.newHashMap();
-	private final Map<PrimitiveBehavior, BehaviorEndPlace> endPlaces = Maps.newHashMap();
-	private final PrimitiveBehaviorControl control;
-	private final List<CompoundRealizerObserver> observers = new CopyOnWriteArrayList<CompoundRealizerObserver>();
-	private boolean done;
 
-	public PetriRealizer(CompoundBehaviorWithConstraints behavior, PrimitiveBehaviorControl control) {
-		this.behavior = behavior;
-		this.control = control;
-	}
+   private final CompoundBehaviorWithConstraints behavior;
+   private final Map<PrimitiveBehavior, BehaviorStartPlace> startPlaces = Maps
+         .newHashMap();
+   private final Map<PrimitiveBehavior, BehaviorEndPlace> endPlaces = Maps
+         .newHashMap();
+   private final PrimitiveBehaviorControl control;
+   private final List<CompoundRealizerObserver> observers = new CopyOnWriteArrayList<CompoundRealizerObserver>();
+   private boolean done;
 
-	public CompoundBehaviorWithConstraints getBehavior() {
-		return behavior;
-	}
+   public PetriRealizer (CompoundBehaviorWithConstraints behavior,
+         PrimitiveBehaviorControl control) {
+      this.behavior = behavior;
+      this.control = control;
+   }
 
-	@Override
-	public void run() {
-		Transition start = createBasicStructure();
-		createConstraints();
+   public CompoundBehaviorWithConstraints getBehavior () {
+      return behavior;
+   }
 
-		PetriNetRunner petriRunner = new PetriNetRunner(start);
-		petriRunner.run();
+   @Override
+   public void run () {
+      Transition start = createBasicStructure();
+      createConstraints();
+      PetriNetRunner petriRunner = new PetriNetRunner(start);
+      petriRunner.run();
+      if ( !petriRunner.getFailedPlaces().isEmpty() ) {
+         System.out.println();
+         System.out.println("WARNING: PetriRealizer failed in "
+            + petriRunner.getFailedPlaces().size() + " places!");
+         System.out.println();
+      }
+      setDone();
+   }
 
-		if (!petriRunner.getFailedPlaces().isEmpty()) {
-			System.out.println();
-			System.out.println("WARNING: PetriRealizer failed in " + petriRunner.getFailedPlaces().size() + " places!");
-			System.out.println();
-		}
+   private void setDone () {
+      done = true;
+      for (CompoundRealizerObserver o : observers)
+         o.compoundRealizerDone(this);
+   }
 
-		setDone();
-	}
+   // This function only creates the structure for primitives, without
+   // considering the constraints
+   private Transition createBasicStructure () {
+      Transition firstTransition = new Transition();
+      Place firstPlace = new Place();
+      firstTransition.addOutput(firstPlace);
+      for (PrimitiveBehavior pb : behavior.getPrimitives()) {
+         Place prevPlace = firstPlace;
+         for (SyncPoint syncPoint : SyncPoint.values()) {
+            Place curPlace = getPlace(pb, syncPoint);
+            Transition before = new Transition();
+            curPlace.setInput(before);
+            before.addInput(prevPlace);
+            prevPlace = curPlace;
+         }
+      }
+      return firstTransition;
+   }
 
-	private void setDone() {
-		done = true;
+   private void createConstraints () {
+      for (Constraint c : behavior.getConstraints()) {
+         switch (c.getType()) {
+         case Sync:
+            synchronize(c.getFirst(), c.getSecond());
+            break;
+         case After:
+            after(c.getFirst(), c.getSecond(), c.getOffset());
+            break;
+         case Before:
+            before(c.getFirst(), c.getSecond(), c.getOffset());
+            break;
+         }
+      }
+   }
 
-		for (CompoundRealizerObserver o : observers)
-			o.compoundRealizerDone(this);
-	}
+   private void after (SyncRef first, SyncRef second, int offset) {
+      if ( offset >= 0 ) {
+         Place p1 = getPlace(first);
+         Place p2 = getPlace(second);
+         if ( offset == 0 ) {
+            p1.addOutput(p2.getInput());
+         } else {
+            TimerPlace tp = new TimerPlace(offset);
+            Transition beforetp = new Transition();
+            beforetp.addOutput(tp);
+            p1.addOutput(beforetp);
+            tp.addOutput(p2.getInput());
+         }
+      } else {
+         before(first, second, -offset);
+      }
+   }
 
-	// This function only creates the structure for primitives, without
-	// considering the constraints
-	private Transition createBasicStructure() {
-		Transition firstTransition = new Transition();
-		Place firstPlace = new Place();
-		firstTransition.addOutput(firstPlace);
+   private void before (SyncRef first, SyncRef second, int offset) {
+      after(second, first, offset);
+   }
 
-		for (PrimitiveBehavior pb : behavior.getPrimitives()) {
-			Place prevPlace = firstPlace;
-			for (SyncPoint syncPoint : SyncPoint.values()) {
-				Place curPlace = getPlace(pb, syncPoint);
+   private void synchronize (SyncRef first, SyncRef second) {
+      Place p1 = getPlace(first);
+      Place p2 = getPlace(second);
+      p1.getInput().mergeWith(p2.getInput());
+   }
 
-				Transition before = new Transition();
+   private Place getPlace (SyncRef ref) {
+      return getPlace(ref.getBehavior(), ref.getSyncPoint());
+   }
 
-				curPlace.setInput(before);
-				before.addInput(prevPlace);
+   private Place getPlace (PrimitiveBehavior pb, SyncPoint syncPoint) {
+      if ( syncPoint == null )
+         throw new RArgumentNullException("syncPoint");
+      if ( pb == null )
+         throw new RArgumentNullException("pb");
+      switch (syncPoint) {
+      case Start:
+         if ( startPlaces.containsKey(pb) )
+            return startPlaces.get(pb);
+         return createStartPlace(pb);
+      case End:
+         if ( endPlaces.containsKey(pb) )
+            return endPlaces.get(pb);
+         return createEndPlace(pb);
+      }
+      throw new RuntimeException("SyncPoint not supported: " + syncPoint);
+   }
 
-				prevPlace = curPlace;
-			}
-		}
+   private Place createEndPlace (PrimitiveBehavior pb) {
+      BehaviorEndPlace p = new BehaviorEndPlace(getRealizerHandleFor(pb), pb);
+      endPlaces.put(pb, p);
+      return p;
+   }
 
-		return firstTransition;
-	}
+   private Place createStartPlace (PrimitiveBehavior pb) {
+      BehaviorStartPlace p = new BehaviorStartPlace(pb, control);
+      startPlaces.put(pb, p);
+      return p;
+   }
 
-	private void createConstraints() {
-		for (Constraint c : behavior.getConstraints()) {
-			switch (c.getType()) {
-			case Sync:
-				synchronize(c.getFirst(), c.getSecond());
-				break;
-			case After:
-				after(c.getFirst(), c.getSecond(), c.getOffset());
-				break;
-			case Before:
-				before(c.getFirst(), c.getSecond(), c.getOffset());
-				break;
-			}
-		}
-	}
+   private FutureValue<PrimitiveRealizerHandle> getRealizerHandleFor (
+         PrimitiveBehavior pb) {
+      BehaviorStartPlace p = (BehaviorStartPlace) getPlace(pb, SyncPoint.Start);
+      return p.GetRealizerHandle();
+   }
 
-	private void after(SyncRef first, SyncRef second, int offset) {
-		if (offset >= 0) {
-			Place p1 = getPlace(first);
-			Place p2 = getPlace(second);
+   @Override
+   public boolean isDone () {
+      return done;
+   }
 
-			if(offset == 0) {
-				p1.addOutput(p2.getInput());
-			} else {
-				TimerPlace tp = new TimerPlace(offset);
-				Transition beforetp = new Transition();
-				beforetp.addOutput(tp);
+   @Override
+   public void addObserver (CompoundRealizerObserver observer) {
+      observers.add(observer);
+   }
 
-				p1.addOutput(beforetp);
-				
-				tp.addOutput(p2.getInput());
-			}
-		} else {
-			before(first, second, -offset);
-		}
-	}
+   @Override
+   public void removeObserver (CompoundRealizerObserver observer) {
+      observers.remove(observer);
+   }
 
-	private void before(SyncRef first, SyncRef second, int offset) {
-		after(second, first, offset);
-	}
-
-	private void synchronize(SyncRef first, SyncRef second) {
-		Place p1 = getPlace(first);
-		Place p2 = getPlace(second);
-
-		p1.getInput().mergeWith(p2.getInput());
-	}
-
-	private Place getPlace(SyncRef ref) {
-		return getPlace(ref.getBehavior(), ref.getSyncPoint());
-	}
-
-	private Place getPlace(PrimitiveBehavior pb, SyncPoint syncPoint) {
-		if (syncPoint == null)
-			throw new RArgumentNullException("syncPoint");
-
-		if (pb == null)
-			throw new RArgumentNullException("pb");
-
-		switch (syncPoint) {
-		case Start:
-			if (startPlaces.containsKey(pb))
-				return startPlaces.get(pb);
-
-			return createStartPlace(pb);
-		case End:
-			if (endPlaces.containsKey(pb))
-				return endPlaces.get(pb);
-
-			return createEndPlace(pb);
-		}
-
-		throw new RuntimeException("SyncPoint not supported: " + syncPoint);
-	}
-
-	private Place createEndPlace(PrimitiveBehavior pb) {
-		BehaviorEndPlace p = new BehaviorEndPlace(getRealizerHandleFor(pb), pb);
-		endPlaces.put(pb, p);
-		return p;
-	}
-
-	private Place createStartPlace(PrimitiveBehavior pb) {
-		BehaviorStartPlace p = new BehaviorStartPlace(pb, control);
-		startPlaces.put(pb, p);
-		return p;
-	}
-
-	private FutureValue<PrimitiveRealizerHandle> getRealizerHandleFor(PrimitiveBehavior pb) {
-		BehaviorStartPlace p = (BehaviorStartPlace) getPlace(pb, SyncPoint.Start);
-		return p.GetRealizerHandle();
-	}
-
-	@Override
-	public boolean isDone() {
-		return done;
-	}
-
-	@Override
-	public void addObserver(CompoundRealizerObserver observer) {
-		observers.add(observer);
-	}
-
-	@Override
-	public void removeObserver(CompoundRealizerObserver observer) {
-		observers.remove(observer);
-	}
-	
-	@Override
-	public String toString () { return behavior.toString();	}
+   @Override
+   public String toString () {
+      return behavior.toString();
+   }
 }
-

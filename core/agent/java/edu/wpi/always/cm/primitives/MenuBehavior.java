@@ -1,17 +1,14 @@
 package edu.wpi.always.cm.primitives;
 
 import com.google.common.collect.Lists;
-
 import edu.wpi.always.Utils;
 import edu.wpi.always.cm.Resource;
 import edu.wpi.always.cm.realizer.PrimitiveBehavior;
-
 import java.util.*;
 
 public class MenuBehavior extends PrimitiveBehavior {
 
    private final List<String> items;
-
    private final boolean twoColumn;
 
    public MenuBehavior (List<String> items) {
@@ -51,10 +48,8 @@ public class MenuBehavior extends PrimitiveBehavior {
             return false;
       } else if ( !items.equals(other.items) )
          return false;
-
       if ( twoColumn != other.twoColumn )
          return false;
-
       return true;
    }
 
@@ -70,5 +65,4 @@ public class MenuBehavior extends PrimitiveBehavior {
    public String toString () {
       return (twoColumn ? "Menu2(" : "Menu(") + Utils.listify(items) + ')';
    }
-
 }

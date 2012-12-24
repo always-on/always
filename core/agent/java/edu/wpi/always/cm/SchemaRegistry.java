@@ -2,7 +2,7 @@ package edu.wpi.always.cm;
 
 import edu.wpi.always.Registry;
 
+public interface SchemaRegistry extends Registry {
 
-public interface SchemaRegistry extends Registry{
-	void register(SchemaManager manager);
+   void register (SchemaManager manager);
 }

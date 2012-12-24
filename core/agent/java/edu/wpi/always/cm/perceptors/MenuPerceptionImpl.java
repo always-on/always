@@ -1,31 +1,28 @@
 package edu.wpi.always.cm.perceptors;
 
-import org.joda.time.*;
+import org.joda.time.DateTime;
 
 public class MenuPerceptionImpl implements MenuPerception {
 
-	private final DateTime t;
-	private final String menu;
-	
-	
-	public MenuPerceptionImpl(String selectedMenu, DateTime ts) {
-		this.t = ts;
-		this.menu = selectedMenu;
-	}
+   private final DateTime t;
+   private final String menu;
 
-	public MenuPerceptionImpl(String selectedMenu) {
-		this(selectedMenu, DateTime.now());
-	}
+   public MenuPerceptionImpl (String selectedMenu, DateTime ts) {
+      this.t = ts;
+      this.menu = selectedMenu;
+   }
 
-	
-	@Override
-	public DateTime getTimeStamp() {
-		return t;
-	}
+   public MenuPerceptionImpl (String selectedMenu) {
+      this(selectedMenu, DateTime.now());
+   }
 
-	@Override
-	public String selectedMenu() {
-		return menu;
-	}
+   @Override
+   public DateTime getTimeStamp () {
+      return t;
+   }
 
+   @Override
+   public String selectedMenu () {
+      return menu;
+   }
 }

@@ -1,13 +1,12 @@
 package edu.wpi.always.weather;
 
-import org.joda.time.*;
+import org.joda.time.LocalDate;
 
 public interface Forecast {
 
-	String getSummary();
+   String getSummary ();
 
-	LocalDate getDate();
+   LocalDate getDate ();
 
-	int getDaysApartFromToday();
-
+   int getDaysApartFromToday ();
 }

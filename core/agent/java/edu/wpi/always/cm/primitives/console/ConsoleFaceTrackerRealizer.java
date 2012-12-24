@@ -1,26 +1,26 @@
 package edu.wpi.always.cm.primitives.console;
 
 import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.always.cm.primitives.FaceTrackBehavior;
+import edu.wpi.always.cm.realizer.PrimitiveRealizerImplBase;
 
 public class ConsoleFaceTrackerRealizer extends
-		PrimitiveRealizerImplBase<FaceTrackBehavior> {
-	private final FacePerceptor perceptor;
+      PrimitiveRealizerImplBase<FaceTrackBehavior> {
 
-	public ConsoleFaceTrackerRealizer(FaceTrackBehavior params,
-			FacePerceptor perceptor) {
-		super(params);
-		this.perceptor = perceptor;
-	}
+   private final FacePerceptor perceptor;
 
-	@Override
-	public void run() {
-		FacePerception perception = perceptor.getLatest();
-		if (perception != null)
-			System.out.println("Tracking face @ " + perception.faceLocation());
-		else
-			System.out.println("WARNING: no face, but face tracker is active");
-	}
+   public ConsoleFaceTrackerRealizer (FaceTrackBehavior params,
+         FacePerceptor perceptor) {
+      super(params);
+      this.perceptor = perceptor;
+   }
 
+   @Override
+   public void run () {
+      FacePerception perception = perceptor.getLatest();
+      if ( perception != null )
+         System.out.println("Tracking face @ " + perception.faceLocation());
+      else
+         System.out.println("WARNING: no face, but face tracker is active");
+   }
 }

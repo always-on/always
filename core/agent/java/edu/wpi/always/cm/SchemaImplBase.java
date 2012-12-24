@@ -1,8 +1,8 @@
 package edu.wpi.always.cm;
 
-import org.joda.time.*;
-import edu.wpi.always.cm.primitives.*;
+import edu.wpi.always.cm.primitives.FocusRequestBehavior;
 import edu.wpi.always.cm.realizer.*;
+import org.joda.time.DateTime;
 
 //The propose family of methods, append focus resource request based on
 //  needsFocusResource field.
@@ -10,7 +10,6 @@ public abstract class SchemaImplBase implements Schema {
 
    public static final int NORMAL_PRIORITY = 0;
    public static boolean backchanneling = false; // for story, temp?
-   
    private final BehaviorProposalReceiver behaviorReceiver;
    private final BehaviorHistory behaviorHistory;
    private TimeStampedValue<Behavior> lastProposal;
@@ -57,7 +56,7 @@ public abstract class SchemaImplBase implements Schema {
 
    protected CompoundBehavior appendFocusRequestIfNecessary (
          CompoundBehavior behavior) {
-      if ( true /*!needsFocusResource */)
+      if ( true /* !needsFocusResource */)
          return behavior;
       return new SequenceOfCompoundBehaviors(behavior,
             new SimpleCompoundBehavior(new FocusRequestBehavior()));
@@ -89,8 +88,8 @@ public abstract class SchemaImplBase implements Schema {
       BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(
             specificity).build();
       // if necessary, focus will be set by the propose function called below
-      Behavior b = new ProposalBuilder(FocusRequirement.NotRequired) 
-            .say(".").gazeAtUser().build();
+      Behavior b = new ProposalBuilder(FocusRequirement.NotRequired).say(".")
+            .gazeAtUser().build();
       propose(b, m);
    }
 

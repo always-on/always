@@ -8,12 +8,15 @@ public class Utils {
       StringBuffer buffer = new StringBuffer();
       boolean first = true;
       for (Object object : list) {
-         if ( first ) first = false;
-         else buffer.append(", ");
+         if ( first )
+            first = false;
+         else
+            buffer.append(", ");
          buffer.append(object);
       }
-      return buffer.toString(); 
+      return buffer.toString();
    }
-   
-   private Utils () {}
+
+   private Utils () {
+   }
 }

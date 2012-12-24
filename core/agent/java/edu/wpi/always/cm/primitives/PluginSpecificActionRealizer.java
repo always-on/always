@@ -1,17 +1,17 @@
 package edu.wpi.always.cm.primitives;
 
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.always.cm.realizer.SingleRunPrimitiveRealizer;
 
-public class PluginSpecificActionRealizer extends SingleRunPrimitiveRealizer<PluginSpecificBehavior> {
+public class PluginSpecificActionRealizer extends
+      SingleRunPrimitiveRealizer<PluginSpecificBehavior> {
 
-	public PluginSpecificActionRealizer (PluginSpecificBehavior params) {
-		super(params);
-	}
+   public PluginSpecificActionRealizer (PluginSpecificBehavior params) {
+      super(params);
+   }
 
-	@Override
-	protected void singleRun () {
-		getParams().getPlugin().doAction(getParams().getActionName());
-		fireDoneMessage();
-	}
-
+   @Override
+   protected void singleRun () {
+      getParams().getPlugin().doAction(getParams().getActionName());
+      fireDoneMessage();
+   }
 }

@@ -1,28 +1,25 @@
 package edu.wpi.always.cm.perceptors;
 
-import java.awt.*;
-
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import java.awt.Point;
 
 public class MovementPerceptionImpl implements MovementPerception {
 
-	private final DateTime stamp;
-	private final Point location;
+   private final DateTime stamp;
+   private final Point location;
 
-	public MovementPerceptionImpl(DateTime t, Point location) {
-		this.stamp = t;
-		this.location = location;
+   public MovementPerceptionImpl (DateTime t, Point location) {
+      this.stamp = t;
+      this.location = location;
+   }
 
-	}
+   @Override
+   public DateTime getTimeStamp () {
+      return stamp;
+   }
 
-	@Override
-	public DateTime getTimeStamp() {
-		return stamp;
-	}
-
-	@Override
-	public Point movementLocation() {
-		return location;
-	}
-
+   @Override
+   public Point movementLocation () {
+      return location;
+   }
 }

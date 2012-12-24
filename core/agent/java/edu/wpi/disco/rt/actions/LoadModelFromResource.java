@@ -5,19 +5,16 @@ import edu.wpi.disco.rt.*;
 
 public class LoadModelFromResource implements DiscoAction {
 
-	private final String resourcePath;
+   private final String resourcePath;
 
-	public LoadModelFromResource (String resourcePath) {
-		this.resourcePath = resourcePath;
+   public LoadModelFromResource (String resourcePath) {
+      this.resourcePath = resourcePath;
+   }
 
-	}
-
-	@Override
-	public void execute (Disco disco) {
-		DiscoDocumentSet set = DiscoUtils.loadDocumentFromResource(resourcePath);
-		
-		disco.load(null, set.getMainDocument(), set.getProperties(), set.getTranslateProperties());
-	}
-
-
+   @Override
+   public void execute (Disco disco) {
+      DiscoDocumentSet set = DiscoUtils.loadDocumentFromResource(resourcePath);
+      disco.load(null, set.getMainDocument(), set.getProperties(),
+            set.getTranslateProperties());
+   }
 }

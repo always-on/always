@@ -1,13 +1,12 @@
 package edu.wpi.always.cm;
 
-import org.picocontainer.*;
+import org.picocontainer.PicoContainer;
 
 public interface SchemaFactory {
 
-	long getUpdateDelay();
-	
-	Class<? extends Schema> getSchemaType();
+   long getUpdateDelay ();
 
-	Schema create(PicoContainer container);
+   Class<? extends Schema> getSchemaType ();
 
+   Schema create (PicoContainer container);
 }

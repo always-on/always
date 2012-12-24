@@ -1,46 +1,43 @@
 package edu.wpi.always.cm.primitives;
 
-import edu.wpi.always.client.*;
-import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.always.client.AgentFaceExpression;
+import edu.wpi.always.cm.Resource;
+import edu.wpi.always.cm.realizer.PrimitiveBehavior;
 
 public class FaceExpressionBehavior extends PrimitiveBehavior {
 
-	private final AgentFaceExpression expression;
+   private final AgentFaceExpression expression;
 
-	public FaceExpressionBehavior(AgentFaceExpression expression) {
-		this.expression = expression;
-	}
+   public FaceExpressionBehavior (AgentFaceExpression expression) {
+      this.expression = expression;
+   }
 
-	@Override
-	public Resource getResource() {
-		return Resource.FaceExpression;
-	}
+   @Override
+   public Resource getResource () {
+      return Resource.FaceExpression;
+   }
 
-	public AgentFaceExpression getExpression() {
-		return expression;
-	}
+   public AgentFaceExpression getExpression () {
+      return expression;
+   }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
+   @Override
+   public boolean equals (Object o) {
+      if ( this == o )
+         return true;
+      if ( !(o instanceof FaceExpressionBehavior) )
+         return false;
+      FaceExpressionBehavior theOther = (FaceExpressionBehavior) o;
+      return theOther.getExpression().equals(this.getExpression());
+   }
 
-		if (!(o instanceof FaceExpressionBehavior))
-			return false;
+   @Override
+   public int hashCode () {
+      return getExpression().hashCode();
+   }
 
-		FaceExpressionBehavior theOther = (FaceExpressionBehavior) o;
-		return theOther.getExpression().equals(this.getExpression());
-	}
-
-	@Override
-	public int hashCode() {
-		return getExpression().hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return "FaceExpression(" + expression + ')';
-	}
-
+   @Override
+   public String toString () {
+      return "FaceExpression(" + expression + ')';
+   }
 }

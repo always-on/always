@@ -1,9 +1,9 @@
 package edu.wpi.always.cm.perceptors;
 
-import java.awt.*;
-
-import edu.wpi.always.cm.*;
+import edu.wpi.always.cm.Perception;
+import java.awt.Point;
 
 public interface FacePerception extends Perception {
-	Point faceLocation();
+
+   Point faceLocation ();
 }

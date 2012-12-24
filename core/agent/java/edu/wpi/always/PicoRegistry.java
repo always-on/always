@@ -1,7 +1,8 @@
 package edu.wpi.always;
 
-import org.picocontainer.*;
+import org.picocontainer.MutablePicoContainer;
 
 public interface PicoRegistry extends Registry {
-	void register (MutablePicoContainer container);
+
+   void register (MutablePicoContainer container);
 }
