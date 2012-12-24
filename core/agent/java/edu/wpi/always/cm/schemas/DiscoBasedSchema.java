@@ -7,14 +7,14 @@ import com.google.common.collect.*;
 
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.dialog.*;
-import edu.wpi.always.cm.disco.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
+import edu.wpi.disco.rt.DiscoUtteranceFormatter;
 
 public class DiscoBasedSchema extends SchemaImplBase implements AdjacencyPair {
 
 	DiscoDialogHelper discoHelper = new DiscoDialogHelper(true);
-	private final UtteranceFormatterHelper formatter;
+	private final DiscoUtteranceFormatter formatter;
 	private MenuTurnStateMachine stateMachine;
 	private APCache currentAP;
 
@@ -22,7 +22,7 @@ public class DiscoBasedSchema extends SchemaImplBase implements AdjacencyPair {
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor, MenuPerceptor menuPerceptor) {
 		super(behaviorReceiver, behaviorHistory);
 
-		formatter = new UtteranceFormatterHelper(discoHelper.getDisco());
+		formatter = new DiscoUtteranceFormatter(discoHelper.getDisco());
 
 		stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor, menuPerceptor, new RepeatMenuTimeoutHandler());
 		stateMachine.setSpecificityMetadata(0.9);

@@ -42,7 +42,7 @@ public class GazeBehavior extends PrimitiveBehavior {
 
 	@Override
 	public String toString() {
-		return "Gaze(" + point + ")";
+		return "Gaze(" + point + ')';
 	}
 
 }

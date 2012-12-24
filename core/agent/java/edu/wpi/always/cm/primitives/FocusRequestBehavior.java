@@ -25,7 +25,6 @@ public class FocusRequestBehavior extends PrimitiveBehavior {
 
 	@Override
 	public String toString() {
-		return "Focus change request behavior";
+		return "FocusRequest";
 	}
-
 }

@@ -45,7 +45,7 @@ public class WeatherPlugin extends ConversationPlugin{
 
 	
 	public String toString(){
-		return "Weather Plugin";
+		return "Weather ClientPlugin";
 	}
 	
 	public void report(){

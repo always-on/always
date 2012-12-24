@@ -45,7 +45,7 @@ public class AudioFileBehavior extends PrimitiveBehavior {
 
 	@Override
 	public String toString() {
-		return "audio file (" + resourceURL.getPath() + ")";
+		return "AudioFile(" + resourceURL.getPath() + ')';
 	}
 
 }

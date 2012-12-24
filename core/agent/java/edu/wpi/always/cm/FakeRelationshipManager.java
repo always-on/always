@@ -3,7 +3,8 @@ package edu.wpi.always.cm;
 import org.w3c.dom.*;
 
 import edu.wpi.always.*;
-import edu.wpi.always.cm.disco.*;
+import edu.wpi.always.test.*;
+import edu.wpi.disco.rt.*;
 
 
 public class FakeRelationshipManager implements IRelationshipManager {

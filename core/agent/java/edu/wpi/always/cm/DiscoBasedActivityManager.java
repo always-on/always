@@ -1,13 +1,12 @@
 package edu.wpi.always.cm;
 
-import edu.wpi.always.*;
-import edu.wpi.always.cm.disco.*;
-import edu.wpi.always.cm.disco.actions.*;
-import edu.wpi.always.cm.schemas.*;
-import edu.wpi.always.cm.utils.exceptions.*;
-
+import edu.wpi.always.IRelationshipManager;
+import edu.wpi.always.cm.schemas.DiscoBasedSchema;
+import edu.wpi.always.cm.utils.RNotImplementedException;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.actions.*;
 
 public class DiscoBasedActivityManager {
 	private static final String TODAY_PLAN_NAME = "_Today";
@@ -19,7 +18,7 @@ public class DiscoBasedActivityManager {
 	public DiscoBasedActivityManager(IRelationshipManager relationshipManager, SchemaManager schemaManager) {
 		this.relationshipManager = relationshipManager;
 		this.schemaManager = schemaManager;
-		disco = new DiscoSynchronizedWrapper(new DiscoBootstrapper().bootstrap(false, new Agent("agent"), new CollaborationManagerDiscoUser("user")));
+		disco = new DiscoSynchronizedWrapper(new DiscoBootstrapper().bootstrap(false, new Agent("agent"), new DiscoUser("user")));
 	}
 
 	public void initFromRelationshipManager() {

@@ -1,15 +1,16 @@
 package edu.wpi.always.cm.primitives;
 
+import edu.wpi.always.client.ClientPlugin;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.realizer.*;
 
 public class PluginSpecificBehavior extends PrimitiveBehavior {
 
-	private final Plugin plugin;
+	private final ClientPlugin plugin;
 	private final String actionName;
 	private final Resource resource;
 
-	public PluginSpecificBehavior (Plugin plugin, String actionName, Resource resource) {
+	public PluginSpecificBehavior (ClientPlugin plugin, String actionName, Resource resource) {
 		this.plugin = plugin;
 		this.actionName = actionName;
 		this.resource = resource;
@@ -57,13 +58,13 @@ public class PluginSpecificBehavior extends PrimitiveBehavior {
 		return actionName;
 	}
 
-	public Plugin getPlugin () {
+	public ClientPlugin getPlugin () {
 		return plugin;
 	}
 
 	@Override
 	public String toString() {
-		return actionName + "@" + plugin + " on <" + resource + ">";
+		return plugin.toString() + '(' + actionName.toString() +", " + resource.toString() + ')';
 	}
 
 }

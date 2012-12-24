@@ -8,6 +8,7 @@ import org.semanticweb.owlapi.model.*;
 
 import edu.wpi.always.cm.*;
 import edu.wpi.always.*;
+import edu.wpi.always.test.*;
 import edu.wpi.always.user.*;
 import edu.wpi.always.user.owl.*;
 import edu.wpi.always.user.people.*;

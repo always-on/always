@@ -12,7 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.w3c.dom.Document;
 
-//import edu.wpi.always.owl.Ontology;
+//import edu.wpi.always.test.owl.Ontology;
 import edu.wpi.always.rm.*;
 
 public class TestPlugin extends ActivityPlugin {

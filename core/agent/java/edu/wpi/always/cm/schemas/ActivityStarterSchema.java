@@ -8,16 +8,17 @@ import com.google.common.collect.*;
 
 import edu.wpi.always.*;
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.disco.*;
-import edu.wpi.always.cm.disco.actions.*;
 import edu.wpi.always.cm.engagement.*;
 import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.always.test.*;
 
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.lang.*;
 import edu.wpi.disco.plugin.*;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.actions.*;
 
 public class ActivityStarterSchema extends SchemaImplBase implements
 		DialogContentProvider {
@@ -25,7 +26,7 @@ public class ActivityStarterSchema extends SchemaImplBase implements
 	private final Perceptor<GeneralEngagementPerception> engagementPerceptor;
 	private boolean alreadyEngaged;
 	private TopsPlugin topsPlugin;
-	private final UtteranceFormatterHelper formatter;
+	private final DiscoUtteranceFormatter formatter;
 	private OldDialogStateMachine stateMachine;
 	private Plan awaitUserAcceptance;
 	private RespondPlugin.Accept acceptPlugin;
@@ -47,7 +48,7 @@ public class ActivityStarterSchema extends SchemaImplBase implements
 
 		setNeedsFocusResouce();
 		
-		formatter = new UtteranceFormatterHelper(disco);
+		formatter = new DiscoUtteranceFormatter(disco);
 
 		stateMachine = new OldDialogStateMachine(behaviorHistoryWithAutomaticInclusionOfFocus(), this,
 				menuPerceptor);
@@ -218,16 +219,11 @@ public class ActivityStarterSchema extends SchemaImplBase implements
 	}
 
 	private List<Item> currentOptionsOfTheUser(boolean human) {
-		List<Item> items;
-		if (awaitUserAcceptance == null) {
-			items = getProposeItems(human);
-		} else {
-			items = new ArrayList<Item>();
-
-			items.addAll(acceptPlugin.apply(awaitUserAcceptance));
-			items.addAll(rejectPlugin.apply(awaitUserAcceptance));
-		}
-		return items;
+		if (awaitUserAcceptance == null) return getProposeItems(human);
+		List<Item> accept = acceptPlugin.apply(awaitUserAcceptance),
+		      reject = rejectPlugin.apply(awaitUserAcceptance);
+		return accept == null ? reject : 
+		   (List<Item>) (reject == null ? accept : accept.addAll(reject));
 	}
 
 	@Override

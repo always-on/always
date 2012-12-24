@@ -1,31 +1,24 @@
 package edu.wpi.always.calendar.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import edu.wpi.always.user.calendar.AbstractCalendar;
-import edu.wpi.always.user.calendar.CalendarEntry;
+import edu.wpi.always.user.calendar.*;
+import java.util.*;
 
 /**
  * A sample implementation of a simple calendar api for the Always On Project
  * 
  * @author mwills
- * 
- * 
  */
-public class ListCalendar extends AbstractCalendar{
+public class ListCalendar extends AbstractCalendar {
 
-	private final List<CalendarEntry> entries = new ArrayList<CalendarEntry>();
+   private final List<CalendarEntry> entries = new ArrayList<CalendarEntry>();
 
-	@Override
-	public Iterator<CalendarEntry> iterator() {
-		return entries.iterator();
-	}
+   @Override
+   public Iterator<CalendarEntry> iterator () {
+      return entries.iterator();
+   }
 
-	@Override
-	public void addEntry(CalendarEntry entry) {
-		entries.add(entry.clone());
-	}
-
+   @Override
+   public void addEntry (CalendarEntry entry) {
+      entries.add(entry.clone());
+   }
 }

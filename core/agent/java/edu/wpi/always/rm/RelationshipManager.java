@@ -2,9 +2,11 @@ package edu.wpi.always.rm;
 
 import edu.wpi.always.*;
 import edu.wpi.always.rm.plugin.*;
+import edu.wpi.always.test.*;
 import edu.wpi.always.user.owl.OntologyRM;
 import edu.wpi.cetask.Task;
 import edu.wpi.disco.*;
+import edu.wpi.disco.rt.*;
 
 import org.semanticweb.owlapi.model.*;
 import org.w3c.dom.*;

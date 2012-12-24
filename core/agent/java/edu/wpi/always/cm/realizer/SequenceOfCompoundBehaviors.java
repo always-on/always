@@ -5,6 +5,7 @@ import java.util.concurrent.*;
 
 import com.google.common.collect.*;
 
+import edu.wpi.always.Utils;
 import edu.wpi.always.cm.*;
 
 public class SequenceOfCompoundBehaviors implements CompoundBehavior {
@@ -66,15 +67,18 @@ public class SequenceOfCompoundBehaviors implements CompoundBehavior {
 		
 		return h;
 	}
-
-
+	
+	@Override
+	public String toString () {
+	   return "Sequence("+Utils.listify(innerList)+')';
+	}
 
 	private static class SequenceCompoundRealizer extends CompoundRealizerImplBase {
 
 		private final SequenceOfCompoundBehaviors behavior;
 		private final PrimitiveBehaviorControl pbc;
 		private boolean done;
-		private final ExecutorService executor = Executors.newCachedThreadPool();
+		private final ExecutorService executor = ThreadPools.newCachedThreadPool();
 
 		public SequenceCompoundRealizer(PrimitiveBehaviorControl pbc, SequenceOfCompoundBehaviors behavior) {
 			this.pbc = pbc;
@@ -126,6 +130,8 @@ public class SequenceOfCompoundBehaviors implements CompoundBehavior {
 			return done;
 		}
 
+		@Override
+		public String toString () { return behavior.toString(); }
 	}
 
 }

@@ -1,9 +1,9 @@
 package edu.wpi.always.cm.dialog;
 
-import java.util.*;
-import java.util.regex.*;
+import edu.wpi.always.cm.utils.RArgumentNullException;
 
-import edu.wpi.always.cm.utils.exceptions.*;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class RepeatMenuTimeoutHandler implements MenuTimeoutHandler {
 

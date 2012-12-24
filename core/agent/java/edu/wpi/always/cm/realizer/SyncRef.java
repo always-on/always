@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.realizer;
 
-import edu.wpi.always.cm.utils.exceptions.*;
+import edu.wpi.always.cm.utils.RArgumentNullException;
 
 public class SyncRef {
 	private final SyncPoint syncPoint;

@@ -1,11 +1,11 @@
 package edu.wpi.always;
 
 
+import edu.wpi.always.client.ClientRegistry;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.engagement.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.physical.PhysicalPerceptorsRegistry;
-import edu.wpi.always.cm.ragclient.RagClientRegistry;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.OntologyUserRegistry;
 
@@ -25,14 +25,14 @@ public class EngagementProgram {
 			@Override
 			public void register(MutablePicoContainer container) {
 				container.as(Characteristics.CACHE).addComponent(IRelationshipManager.class, FakeRelationshipManager.class);
-				container.as(Characteristics.CACHE).addComponent(ICollaborationManager.class, edu.wpi.always.cm.Bootstrapper.class);
+				container.as(Characteristics.CACHE).addComponent(ICollaborationManager.class, edu.wpi.always.cm.CollaborationManager.class);
 			}
 		});
 		program.addRegistry(new OntologyUserRegistry("Test User"));
 
 		program.addCMRegistry(new PhysicalPerceptorsRegistry());
 		program.addCMRegistry(new EngagementRegistry());
-		program.addCMRegistry(new RagClientRegistry());
+		program.addCMRegistry(new ClientRegistry());
 		
 		program.start();
 		
@@ -77,8 +77,8 @@ public class EngagementProgram {
 		frame.setAlwaysOnTop(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		EmotiveFacePerceptor facePerceptor = program.getContainer().getComponent(Bootstrapper.class).getContainer().getComponent(EmotiveFacePerceptor.class);
-		GeneralEngagementPerceptor engagementPerceptor = program.getContainer().getComponent(Bootstrapper.class).getContainer().getComponent(GeneralEngagementPerceptor.class);
+		EmotiveFacePerceptor facePerceptor = program.getContainer().getComponent(CollaborationManager.class).getContainer().getComponent(EmotiveFacePerceptor.class);
+		GeneralEngagementPerceptor engagementPerceptor = program.getContainer().getComponent(CollaborationManager.class).getContainer().getComponent(GeneralEngagementPerceptor.class);
 		while(true){
 			try {Thread.sleep(200);} catch (InterruptedException e) {}
 			facePerception = facePerceptor.getLatest();

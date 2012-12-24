@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.primitives;
 
+import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.ragclient.*;
 import edu.wpi.always.cm.realizer.*;
 
 public class FaceExpressionBehavior extends PrimitiveBehavior {
@@ -40,7 +40,7 @@ public class FaceExpressionBehavior extends PrimitiveBehavior {
 
 	@Override
 	public String toString() {
-		return "Face Expression(" + getExpression() + ")";
+		return "FaceExpression(" + expression + ')';
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.google.common.collect.*;
 
+import edu.wpi.always.Utils;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.realizer.petri.*;
 
@@ -75,6 +76,8 @@ public class CompoundBehaviorWithConstraints implements CompoundBehavior {
 	}
 
 	@Override
-	public String toString () { return getResources().toString(); }
+	public String toString () { 
+	   return "Constraints("+Utils.listify(primitives)+')'; 
+	}
 	
 }

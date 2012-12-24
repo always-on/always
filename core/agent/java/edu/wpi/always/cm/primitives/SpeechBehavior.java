@@ -40,7 +40,7 @@ public class SpeechBehavior extends PrimitiveBehavior {
 
 	@Override
 	public String toString() {
-		return "speech (" + text + ")";
+		return "Speech(\"" + text + "\")";
 	}
 
 }

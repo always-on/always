@@ -39,7 +39,7 @@ public class IdleBehavior extends PrimitiveBehavior {
 
 	@Override
 	public String toString() {
-		return "Idle Behavior(enable=" + enabled + ")";
+		return "Idle(" + enabled + ')';
 	}
 
 }

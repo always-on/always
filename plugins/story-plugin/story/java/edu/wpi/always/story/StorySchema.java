@@ -1,9 +1,9 @@
 package edu.wpi.always.story;
 
+import edu.wpi.always.client.UIMessageDispatcher;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.cm.ragclient.UIMessageDispatcher;
 import edu.wpi.always.cm.ui.Keyboard;
 import edu.wpi.always.user.people.PeopleManager;
 

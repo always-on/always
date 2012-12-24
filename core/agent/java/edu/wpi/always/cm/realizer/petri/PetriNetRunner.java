@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
+import edu.wpi.always.cm.ThreadPools;
 import edu.wpi.always.cm.realizer.petri.Place.State;
 
 public class PetriNetRunner implements Runnable {
@@ -15,7 +16,7 @@ public class PetriNetRunner implements Runnable {
 
 	public PetriNetRunner(Transition start) {
 		this.start = start;
-		executor = Executors.newCachedThreadPool();
+		executor = ThreadPools.newCachedThreadPool();
 	}
 
 	@Override

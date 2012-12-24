@@ -1,4 +1,4 @@
-<taskModel about="urn:edu.wpi.always.plugin.WeatherPlugin:WeatherTalk" xmlns="http://ce.org/cea-2018">
+<taskModel about="urn:edu.wpi.always.test.plugin.WeatherPlugin:WeatherTalk" xmlns="http://ce.org/cea-2018">
 
 	<task id="WeatherTalk">
 	</task>

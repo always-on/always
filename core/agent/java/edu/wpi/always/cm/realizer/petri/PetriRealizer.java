@@ -1,14 +1,12 @@
 package edu.wpi.always.cm.realizer.petri;
 
-import java.util.*;
-import java.util.concurrent.*;
-
-import com.google.common.collect.*;
+import com.google.common.collect.Maps;
 
 import edu.wpi.always.cm.realizer.*;
-import edu.wpi.always.cm.realizer.Constraint;
 import edu.wpi.always.cm.utils.*;
-import edu.wpi.always.cm.utils.exceptions.*;
+
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PetriRealizer implements CompoundRealizer {
 	private final CompoundBehaviorWithConstraints behavior;
@@ -181,4 +179,8 @@ public class PetriRealizer implements CompoundRealizer {
 	public void removeObserver(CompoundRealizerObserver observer) {
 		observers.remove(observer);
 	}
+	
+	@Override
+	public String toString () { return behavior.toString();	}
 }
+

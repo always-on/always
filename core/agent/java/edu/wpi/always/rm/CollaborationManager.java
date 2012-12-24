@@ -3,9 +3,10 @@ package edu.wpi.always.rm;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import edu.wpi.always.DiscoSynchronizedWrapper;
 import edu.wpi.always.rm.RelationshipManager.relationshipStage;
 import edu.wpi.disco.*;
+import edu.wpi.disco.rt.DiscoSynchronizedWrapper;
+
 import org.w3c.dom.Document;
 
 

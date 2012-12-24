@@ -34,7 +34,7 @@ public abstract class ActivityPlugin {
 	
 	
 	// translate task stuff to relationship stuff? to what degree? how task-specific is this?
-	// the Activity Plugin is stored somewhere by the program performing the activity. It uses
+	// the Activity ClientPlugin is stored somewhere by the program performing the activity. It uses
 	// this to call the relevant functions (written here).
 	
 	

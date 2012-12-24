@@ -1,21 +1,10 @@
 package edu.wpi.always.cm;
 
-import javax.swing.*;
-
-import edu.wpi.always.cm.disco.*;
-import edu.wpi.always.cm.disco.actions.*;
 import edu.wpi.disco.*;
+import edu.wpi.disco.rt.DiscoUtils;
+import edu.wpi.disco.rt.actions.LoadModelFromResource;
 
 public class DiscoBootstrapper {
-	private DiscoConsolePanel buildPanel(){
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		DiscoConsolePanel panel = new DiscoConsolePanel();
-		frame.add(panel);
-		frame.setSize(600, 500);
-		frame.setVisible(true);
-		return panel;
-	}
 	
 	public Disco bootstrap(Actor me, boolean startConsole) {
 		return bootstrap(startConsole, me, new User("user"));
@@ -26,16 +15,7 @@ public class DiscoBootstrapper {
 		interaction.setOk(false);
 		Disco disco = interaction.getDisco();
 
-		if (startConsole){
-			final DiscoConsolePanel panel = buildPanel();
-			Console console = new Console(null, interaction);
-			console.setReader(panel.getInput());
-			interaction.setConsole(console);
-			console.setOut(panel.getOutput());
-			console.init(interaction.getDisco());
-
-			interaction.start(true);
-		}
+		if (startConsole) new ConsoleWindow(interaction, 600, 500, 14);
 
 		DiscoUtils.setAgendaInteraction(interaction.getExternal().getAgenda(),
 				interaction);

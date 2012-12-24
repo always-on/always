@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.google.common.collect.*;
 
+import edu.wpi.always.Utils;
 import edu.wpi.always.cm.*;
 
 public class SimpleCompoundBehavior implements CompoundBehavior {
@@ -63,7 +64,9 @@ public class SimpleCompoundBehavior implements CompoundBehavior {
 	}
 
 	@Override
-	public String toString () { return getPrimitives().toString(); }
+	public String toString () { 
+	   return "Simple("+Utils.listify(primitives)+')'; 
+	}
 	
 	public static class Realizer
 			extends CompoundRealizerImplBase
@@ -71,29 +74,28 @@ public class SimpleCompoundBehavior implements CompoundBehavior {
 
 		private final PrimitiveBehaviorControl primitiveControl;
 		private final Map<PrimitiveBehavior, Boolean> primitivesStatus = new HashMap<PrimitiveBehavior, Boolean>();
+		private final List<PrimitiveBehavior> primitives;
+		
 
 		public Realizer(PrimitiveBehaviorControl primitiveControl, List<PrimitiveBehavior> primitives) {
 			this.primitiveControl = primitiveControl;
-
-			for (PrimitiveBehavior pb : primitives)
+			this.primitives = primitives;
+			for (PrimitiveBehavior pb : primitives) 
 				primitivesStatus.put(pb, false);
 		}
 
 		@Override
 		public void run() {
 			primitiveControl.addObserver(this);
-
 			for (PrimitiveBehavior pb : primitivesStatus.keySet())
 				primitiveControl.realize(pb);
 		}
 
 		@Override
 		public boolean isDone() {
-
 			for (Boolean b : primitivesStatus.values())
 				if (!b)
 					return false;
-
 			return true;
 		}
 
@@ -112,5 +114,10 @@ public class SimpleCompoundBehavior implements CompoundBehavior {
 		public void primitiveStopped(PrimitiveBehaviorControl sender, PrimitiveBehavior pb) {
 		}
 
+		
+		@Override
+		public String toString () { 
+		   return "Simple("+Utils.listify(primitives)+')'; 
+		}
 	}
 }

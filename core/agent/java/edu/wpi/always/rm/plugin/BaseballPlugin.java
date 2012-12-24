@@ -22,7 +22,7 @@ public class BaseballPlugin extends ConversationPlugin{
 	
 	
 	public String toString(){
-		return "Baseball Plugin";
+		return "Baseball ClientPlugin";
 	}
 	
 	public void report(){

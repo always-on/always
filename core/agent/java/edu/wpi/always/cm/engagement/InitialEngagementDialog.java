@@ -13,7 +13,7 @@ public class InitialEngagementDialog  extends AdjacencyPairImpl<Object> {
 			@Override
 			public AdjacencyPair run() {
 				try {
-					schemaManager.start((Class<? extends Schema>) Class.forName("edu.wpi.always.weather.WeatherSchema"));
+					schemaManager.start((Class<? extends Schema>) Class.forName("edu.wpi.always.test.weather.WeatherSchema"));
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

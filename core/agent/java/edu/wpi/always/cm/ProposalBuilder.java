@@ -4,20 +4,21 @@ import java.util.*;
 
 import com.google.common.collect.*;
 
+import edu.wpi.always.client.ClientPlugin;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.realizer.*;
 
 public class ProposalBuilder implements BehaviorBuilder {
 
 	private final ArrayList<PrimitiveBehavior> primitives = Lists.newArrayList();
-	private final Plugin plugin;
+	private final ClientPlugin plugin;
 	private BehaviorMetadataBuilder metadataBuilder = new BehaviorMetadataBuilder();
 
-	public ProposalBuilder (Plugin plugin, FocusRequirement focus) {
+	public ProposalBuilder (ClientPlugin plugin, FocusRequirement focus) {
 		this.plugin = plugin;
 		
 		if(focus == FocusRequirement.Required)
-			primitives.add(new FocusRequestBehavior());
+		   primitives.add(new FocusRequestBehavior());
 	}
 
 	public ProposalBuilder (FocusRequirement focus) {

@@ -1,9 +1,10 @@
 package edu.wpi.always.story;
 
+import edu.wpi.always.client.ClientPluginUtils;
+import edu.wpi.always.client.ClientPluginUtils.InstanceResuseMode;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.ui.*;
-import edu.wpi.always.cm.ui.PluginUtils.InstanceResuseMode;
 import edu.wpi.always.user.people.*;
 
 public class StoryAdjacencyPairs {
@@ -29,7 +30,7 @@ public class StoryAdjacencyPairs {
 			});
 		}
 		public void enter(){
-			PluginUtils.startPlugin(getContext().getDispatcher(), "story", InstanceResuseMode.Reuse, null);
+			ClientPluginUtils.startPlugin(getContext().getDispatcher(), "story", InstanceResuseMode.Reuse, null);
 		}
 	}
 
@@ -44,7 +45,7 @@ public class StoryAdjacencyPairs {
 			});
 		}
 		public void enter(){
-			PluginUtils.startPlugin(getContext().getDispatcher(), "story", InstanceResuseMode.Reuse, null);
+			ClientPluginUtils.startPlugin(getContext().getDispatcher(), "story", InstanceResuseMode.Reuse, null);
 			recorder.record(storyNameToSave);			
 //			SchemaImplBase.backchanneling = true;
 		}

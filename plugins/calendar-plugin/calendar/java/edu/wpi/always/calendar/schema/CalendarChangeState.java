@@ -1,239 +1,260 @@
 package edu.wpi.always.calendar.schema;
 
-import org.joda.time.*;
-
-import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.EventDayAdjacencyPair;
-import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.HowLongAdjacencyPair;
-import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.TimeAdjacencyPair;
-import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.WhereAdjacencyPair;
+import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.*;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.user.calendar.*;
+import org.joda.time.*;
 
 abstract class CalendarChangeState {
-	
-	public static class EventThisWeek extends CalendarAdjacencyPairImpl{
-		private final LocalDate week;
 
-		public EventThisWeek(final CalendarStateContext context, final LocalDate week){
-			super("Is the event you want to change this week?", context);
-			this.week = week;
-			choice("yes, its this week", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new SelectEvent(context, week);
-				}
-			});
+   public static class EventThisWeek extends CalendarAdjacencyPairImpl {
 
-			choice("no, its next week", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new SelectEvent(context, week.plusWeeks(1));
-				}
-			});
+      private final LocalDate week;
 
-			choice("no, its in the future", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new EventThisWeek(context, week.plusWeeks(2));
-				}
-			});
+      public EventThisWeek (final CalendarStateContext context,
+            final LocalDate week) {
+         super("Is the event you want to change this week?", context);
+         this.week = week;
+         choice("yes, its this week", new DialogStateTransition() {
 
-			choice("never mind", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new WhatDo(getContext());
-				}
-			});
-		}
-		
-		@Override
-		public void enter(){
-			getContext().getCalendarUI().showWeek(week, this, false);
-		}
-	}
+            @Override
+            public AdjacencyPair run () {
+               return new SelectEvent(context, week);
+            }
+         });
+         choice("no, its next week", new DialogStateTransition() {
 
-	private static class SelectEvent extends CalendarAdjacencyPairImpl{
-		private final LocalDate week;
+            @Override
+            public AdjacencyPair run () {
+               return new SelectEvent(context, week.plusWeeks(1));
+            }
+         });
+         choice("no, its in the future", new DialogStateTransition() {
 
-		public SelectEvent(final CalendarStateContext context, final LocalDate week){
-			super("Please touch the event", context);
-			this.week = week;
-			choice("Cancel", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new WhatDo(context);
-				}
-			});
-		}
-		@Override
-		public void enter(){
-			getContext().getCalendarUI().showWeek(week, this, true);
-		}
+            @Override
+            public AdjacencyPair run () {
+               return new EventThisWeek(context, week.plusWeeks(2));
+            }
+         });
+         choice("never mind", new DialogStateTransition() {
 
-		@Override
-		public AdjacencyPair selected(CalendarEntry entry) {
-			if(getContext().getCalendar().isRepeating(entry))
-				return new UpdateAll(getContext(), entry);
-			return new WhatChange(entry, getContext(), false);
-		}
-	}
+            @Override
+            public AdjacencyPair run () {
+               return new WhatDo(getContext());
+            }
+         });
+      }
 
-	private static class UpdateAll extends CalendarAdjacencyPairImpl{
+      @Override
+      public void enter () {
+         getContext().getCalendarUI().showWeek(week, this, false);
+      }
+   }
 
-		public UpdateAll(final CalendarStateContext context, final CalendarEntry entry){
-			super("Do you want to change all occurences of the event?", context);
-			choice("Yes, change all occurences", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new WhatChange(entry, context, true);
-				}
-			});
-			choice("No, just change the one I selected", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new WhatChange(entry, context, false);
-				}
-			});
-		}
-	}
-	public static class WhatChange extends CalendarAdjacencyPairImpl {
-		private final CalendarEntry entry;
+   private static class SelectEvent extends CalendarAdjacencyPairImpl {
 
-		public WhatChange(final CalendarEntry entry, final CalendarStateContext context, final boolean updateAll) {
-			super("How do you want to change the event?", context);
-			this.entry = entry;
+      private final LocalDate week;
 
-			if(!updateAll){
-				choice("the date", new DialogStateTransition() {
-					@Override
-					public AdjacencyPair run() {
-						return new EventDay(entry, context, updateAll);
-					}
-				});
-			}
-			
-			choice("the time", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new WhenStart(entry, CalendarUtil.getTime(entry.getStart()), getContext(), updateAll);
-				}
-			});
-			
-			choice("the length", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new HowLong(entry, context, updateAll);
-				}
-			});
-			
-			choice("the location", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new Where(entry, context, updateAll);
-				}
-			});
-			
-			choice("I don't want to change anything", new DialogStateTransition() {
-				@Override
-				public AdjacencyPair run() {
-					return new WhatDo(context);
-				}
-			});
-		}
+      public SelectEvent (final CalendarStateContext context,
+            final LocalDate week) {
+         super("Please touch the event", context);
+         this.week = week;
+         choice("Cancel", new DialogStateTransition() {
 
-		public void enter(){
-			getContext().getCalendarUI().showWeek(CalendarUtil.getDate(entry.getStart()), null, false);
-		}
-	}
+            @Override
+            public AdjacencyPair run () {
+               return new WhatDo(context);
+            }
+         });
+      }
 
+      @Override
+      public void enter () {
+         getContext().getCalendarUI().showWeek(week, this, true);
+      }
 
-	public static class EventDay extends EventDayAdjacencyPair {
+      @Override
+      public AdjacencyPair selected (CalendarEntry entry) {
+         if ( getContext().getCalendar().isRepeating(entry) )
+            return new UpdateAll(getContext(), entry);
+         return new WhatChange(entry, getContext(), false);
+      }
+   }
 
-		private final CalendarEntry entry;
-		private final boolean updateAll;
-		public EventDay(final CalendarEntry entry, final CalendarStateContext context, final boolean updateAll) {
-			super("Is the "+entry.getDisplayTitle()+" during the week", context, CalendarUtil.getDate(entry.getStart()));
-			this.entry = entry;
-			this.updateAll = updateAll;
-		}
+   private static class UpdateAll extends CalendarAdjacencyPairImpl {
 
-		@Override
-		public AdjacencyPair nextState(LocalDate date) {
-			if(updateAll)
-				((RepeatingCalendarEntry)entry).setRepeatStartDate(date);
-			entry.setStart(CalendarUtil.toDateTime(date, CalendarUtil.getTime(entry.getStart())));
-			getContext().getCalendar().update(entry, updateAll);
-			return new WhatChange(entry, getContext(), updateAll);
-		}
+      public UpdateAll (final CalendarStateContext context,
+            final CalendarEntry entry) {
+         super("Do you want to change all occurences of the event?", context);
+         choice("Yes, change all occurences", new DialogStateTransition() {
 
-	}
+            @Override
+            public AdjacencyPair run () {
+               return new WhatChange(entry, context, true);
+            }
+         });
+         choice("No, just change the one I selected",
+               new DialogStateTransition() {
 
-	private static class WhenStart extends TimeAdjacencyPair {
-		private final boolean updateAll;
-		private final CalendarEntry entry;
-		public WhenStart(final CalendarEntry entry, final LocalTime startTime, final CalendarStateContext context, final boolean updateAll) {
-			super("What time does the "+entry.getDisplayTitle()+" start", startTime, context);
-			this.entry = entry;
-			this.updateAll = updateAll;
-		}
+                  @Override
+                  public AdjacencyPair run () {
+                     return new WhatChange(entry, context, false);
+                  }
+               });
+      }
+   }
 
-		@Override
-		public TimeAdjacencyPair changeStartTime(LocalTime time) {
-			return new WhenStart(entry, time, getContext(), updateAll);
-		}
+   public static class WhatChange extends CalendarAdjacencyPairImpl {
 
-		@Override
-		public AdjacencyPair nextState(LocalTime time) {
-			if(updateAll){
-				((RepeatingCalendarEntry)entry).setRepeatStartTime(time);
-			}
-			else{
-				entry.setStart(CalendarUtil.toDateTime(CalendarUtil.getDate(entry.getStart()), time));
-			}
-			getContext().getCalendar().update(entry, updateAll);
-			return new WhatChange(entry, getContext(), updateAll);
-		}
-	}
+      private final CalendarEntry entry;
 
-	private static class HowLong extends HowLongAdjacencyPair {
+      public WhatChange (final CalendarEntry entry,
+            final CalendarStateContext context, final boolean updateAll) {
+         super("How do you want to change the event?", context);
+         this.entry = entry;
+         if ( !updateAll ) {
+            choice("the date", new DialogStateTransition() {
 
-		private final boolean updateAll;
-		private final CalendarEntry entry;
+               @Override
+               public AdjacencyPair run () {
+                  return new EventDay(entry, context, updateAll);
+               }
+            });
+         }
+         choice("the time", new DialogStateTransition() {
 
-		public HowLong(CalendarEntry entry, final CalendarStateContext context, boolean updateAll) {
-			super(context);
-			this.entry = entry;
-			this.updateAll = updateAll;
-		}
+            @Override
+            public AdjacencyPair run () {
+               return new WhenStart(entry, CalendarUtil.getTime(entry
+                     .getStart()), getContext(), updateAll);
+            }
+         });
+         choice("the length", new DialogStateTransition() {
 
-		@Override
-		public AdjacencyPair nextState(ReadablePeriod d) {
-			if(updateAll){
-				((RepeatingCalendarEntry)entry).setRepeatDuration(d);
-			}
-			else{
-				entry.setDuration(d);
-			}
-			getContext().getCalendar().update(entry, updateAll);
-			return new WhatChange(entry, getContext(), updateAll);
-		}
-	}
+            @Override
+            public AdjacencyPair run () {
+               return new HowLong(entry, context, updateAll);
+            }
+         });
+         choice("the location", new DialogStateTransition() {
 
-	private static class Where extends WhereAdjacencyPair {
-		private final CalendarEntry entry;
-		private final boolean updateAll;
+            @Override
+            public AdjacencyPair run () {
+               return new Where(entry, context, updateAll);
+            }
+         });
+         choice("I don't want to change anything", new DialogStateTransition() {
 
-		public Where(CalendarEntry entry, CalendarStateContext context, boolean updateAll) {
-			super(context);
-			this.entry = entry;
-			this.updateAll = updateAll;
-		}
+            @Override
+            public AdjacencyPair run () {
+               return new WhatDo(context);
+            }
+         });
+      }
 
-		@Override
-		public AdjacencyPair nextState(String place) {
-			entry.setPlace(getContext().getPlaceManager().getPlace(place));
-			getContext().getCalendar().update(entry, updateAll);
-			return new WhatChange(entry, getContext(), updateAll);
-		}
-	};
+      @Override
+      public void enter () {
+         getContext().getCalendarUI().showWeek(
+               CalendarUtil.getDate(entry.getStart()), null, false);
+      }
+   }
+
+   public static class EventDay extends EventDayAdjacencyPair {
+
+      private final CalendarEntry entry;
+      private final boolean updateAll;
+
+      public EventDay (final CalendarEntry entry,
+            final CalendarStateContext context, final boolean updateAll) {
+         super("Is the " + entry.getDisplayTitle() + " during the week",
+               context, CalendarUtil.getDate(entry.getStart()));
+         this.entry = entry;
+         this.updateAll = updateAll;
+      }
+
+      @Override
+      public AdjacencyPair nextState (LocalDate date) {
+         if ( updateAll )
+            ((RepeatingCalendarEntry) entry).setRepeatStartDate(date);
+         entry.setStart(CalendarUtil.toDateTime(date,
+               CalendarUtil.getTime(entry.getStart())));
+         getContext().getCalendar().update(entry, updateAll);
+         return new WhatChange(entry, getContext(), updateAll);
+      }
+   }
+
+   private static class WhenStart extends TimeAdjacencyPair {
+
+      private final boolean updateAll;
+      private final CalendarEntry entry;
+
+      public WhenStart (final CalendarEntry entry, final LocalTime startTime,
+            final CalendarStateContext context, final boolean updateAll) {
+         super("What time does the " + entry.getDisplayTitle() + " start",
+               startTime, context);
+         this.entry = entry;
+         this.updateAll = updateAll;
+      }
+
+      @Override
+      public TimeAdjacencyPair changeStartTime (LocalTime time) {
+         return new WhenStart(entry, time, getContext(), updateAll);
+      }
+
+      @Override
+      public AdjacencyPair nextState (LocalTime time) {
+         if ( updateAll ) {
+            ((RepeatingCalendarEntry) entry).setRepeatStartTime(time);
+         } else {
+            entry.setStart(CalendarUtil.toDateTime(
+                  CalendarUtil.getDate(entry.getStart()), time));
+         }
+         getContext().getCalendar().update(entry, updateAll);
+         return new WhatChange(entry, getContext(), updateAll);
+      }
+   }
+
+   private static class HowLong extends HowLongAdjacencyPair {
+
+      private final boolean updateAll;
+      private final CalendarEntry entry;
+
+      public HowLong (CalendarEntry entry, final CalendarStateContext context,
+            boolean updateAll) {
+         super(context);
+         this.entry = entry;
+         this.updateAll = updateAll;
+      }
+
+      @Override
+      public AdjacencyPair nextState (ReadablePeriod d) {
+         if ( updateAll ) {
+            ((RepeatingCalendarEntry) entry).setRepeatDuration(d);
+         } else {
+            entry.setDuration(d);
+         }
+         getContext().getCalendar().update(entry, updateAll);
+         return new WhatChange(entry, getContext(), updateAll);
+      }
+   }
+
+   private static class Where extends WhereAdjacencyPair {
+
+      private final CalendarEntry entry;
+      private final boolean updateAll;
+
+      public Where (CalendarEntry entry, CalendarStateContext context,
+            boolean updateAll) {
+         super(context);
+         this.entry = entry;
+         this.updateAll = updateAll;
+      }
+
+      @Override
+      public AdjacencyPair nextState (String place) {
+         entry.setPlace(getContext().getPlaceManager().getPlace(place));
+         getContext().getCalendar().update(entry, updateAll);
+         return new WhatChange(entry, getContext(), updateAll);
+      }
+   };
 }
