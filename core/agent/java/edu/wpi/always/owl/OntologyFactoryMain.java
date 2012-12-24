@@ -1,7 +1,6 @@
 package edu.wpi.always.owl;
 
 import edu.wpi.always.*;
-import edu.wpi.always.cm.FakeRelationshipManager;
 import edu.wpi.always.user.owl.*;
 import org.picocontainer.*;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
@@ -18,7 +17,7 @@ public class OntologyFactoryMain {
 
    public static void main (String[] args) {
       final ProgramBootstrapper program = new ProgramBootstrapper(false);
-      program.addRegistry(new PicoRegistry() {
+      program.addRegistry(new SimpleRegistry() {
 
          @Override
          public void register (MutablePicoContainer container) {

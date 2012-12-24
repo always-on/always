@@ -20,7 +20,7 @@ public class CollaborationManager implements ICollaborationManager {
    private final Scheduler scheduler = new Scheduler();
    private final MutablePicoContainer pico;
    private final List<SchemaRegistry> schemaRegistries = new ArrayList<SchemaRegistry>();
-   private final List<PicoRegistry> picoRegistries = new ArrayList<PicoRegistry>();
+   private final List<SimpleRegistry> picoRegistries = new ArrayList<SimpleRegistry>();
 
    public CollaborationManager (PicoContainer programContainer) {
       pico = new DefaultPicoContainer(new OptInCaching(), programContainer);
@@ -46,8 +46,8 @@ public class CollaborationManager implements ICollaborationManager {
 
    @Override
    public void addRegistry (Registry registry) {
-      if ( registry instanceof PicoRegistry )
-         picoRegistries.add((PicoRegistry) registry);
+      if ( registry instanceof SimpleRegistry )
+         picoRegistries.add((SimpleRegistry) registry);
       if ( registry instanceof SchemaRegistry )
          schemaRegistries.add((SchemaRegistry) registry);
    }
@@ -55,7 +55,7 @@ public class CollaborationManager implements ICollaborationManager {
    @Override
    public void start () {
       initDisco();
-      for (PicoRegistry registry : picoRegistries) {
+      for (SimpleRegistry registry : picoRegistries) {
          registry.register(pico);
       }
       SchemaManager schemaManager = getContainer().getComponent(

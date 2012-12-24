@@ -1,7 +1,6 @@
 package edu.wpi.always.owl;
 
 import edu.wpi.always.*;
-import edu.wpi.always.cm.FakeRelationshipManager;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.*;
 import edu.wpi.always.user.people.*;
@@ -17,7 +16,7 @@ public class DianeGeneratingProgram {
 
    public static void main (String[] args) {
       ProgramBootstrapper program = new ProgramBootstrapper(false);
-      program.addRegistry(new PicoRegistry() {
+      program.addRegistry(new SimpleRegistry() {
 
          @Override
          public void register (MutablePicoContainer container) {

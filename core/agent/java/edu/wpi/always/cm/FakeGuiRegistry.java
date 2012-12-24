@@ -1,13 +1,13 @@
 package edu.wpi.always.cm;
 
-import edu.wpi.always.PicoRegistry;
+import edu.wpi.always.SimpleRegistry;
 import edu.wpi.always.cm.perceptors.gui.GuiFakePerceptors;
 import edu.wpi.always.cm.schemas.AquariumTripSchema;
 import edu.wpi.always.cm.schemas.registries.SchemaRegistry;
 import edu.wpi.disco.rt.*;
 import org.picocontainer.*;
 
-public class FakeGuiRegistry implements PicoRegistry, SchemaRegistry {
+public class FakeGuiRegistry implements SimpleRegistry, SchemaRegistry {
 
    private GuiFakePerceptors gui = new GuiFakePerceptors();
 

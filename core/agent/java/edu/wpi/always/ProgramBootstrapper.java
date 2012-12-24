@@ -22,12 +22,12 @@ public class ProgramBootstrapper {
       pico.addComponent(pico);
    }
 
-   private final List<PicoRegistry> picoRegistries = new ArrayList<PicoRegistry>();
+   private final List<SimpleRegistry> picoRegistries = new ArrayList<SimpleRegistry>();
    private final List<OntologyRegistry> ontologyRegistries = new ArrayList<OntologyRegistry>();
 
    public void addRegistry (Registry registry) {
-      if ( registry instanceof PicoRegistry )
-         picoRegistries.add((PicoRegistry) registry);
+      if ( registry instanceof SimpleRegistry )
+         picoRegistries.add((SimpleRegistry) registry);
       if ( registry instanceof OntologyRegistry )
          ontologyRegistries.add((OntologyRegistry) registry);
    }
@@ -39,7 +39,7 @@ public class ProgramBootstrapper {
    }
 
    public void start () {
-      for (PicoRegistry registry : picoRegistries)
+      for (SimpleRegistry registry : picoRegistries)
          registry.register(pico);
       OntologyRuleHelper helper = pico.getComponent(OntologyRuleHelper.class);
       for (OntologyRegistry registry : ontologyRegistries)

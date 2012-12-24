@@ -9,7 +9,7 @@ public class Program {
 
    public static void main (String[] args) {
       ProgramBootstrapper program = new ProgramBootstrapper(false);
-      program.addRegistry(new PicoRegistry() {
+      program.addRegistry(new SimpleRegistry() {
 
          @Override
          public void register (MutablePicoContainer container) {

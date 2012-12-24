@@ -1,13 +1,13 @@
 package edu.wpi.always.weather;
 
-import edu.wpi.always.PicoRegistry;
+import edu.wpi.always.SimpleRegistry;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.schemas.registries.SchemaRegistry;
 import edu.wpi.always.weather.wunderground.WundergroundWeatherProvider;
 import edu.wpi.disco.rt.*;
 import org.picocontainer.MutablePicoContainer;
 
-public class WeatherPluginRegistry implements SchemaRegistry, PicoRegistry {
+public class WeatherPluginRegistry implements SchemaRegistry, SimpleRegistry {
 
    @Override
    public void register (SchemaManager manager) {

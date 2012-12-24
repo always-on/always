@@ -1,13 +1,13 @@
 package edu.wpi.always.cm.perceptors.physical;
 
-import edu.wpi.always.PicoRegistry;
+import edu.wpi.always.SimpleRegistry;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.physical.face.OCVEmotiveFacePerceptor;
 import edu.wpi.always.cm.perceptors.physical.pir.PIRMotionPerceptor;
 import edu.wpi.always.cm.perceptors.physical.speech.LaunSpeechPerceptor;
 import org.picocontainer.*;
 
-public class PhysicalPerceptorsRegistry implements PicoRegistry {
+public class PhysicalPerceptorsRegistry implements SimpleRegistry {
 
    @Override
    public void register (MutablePicoContainer container) {

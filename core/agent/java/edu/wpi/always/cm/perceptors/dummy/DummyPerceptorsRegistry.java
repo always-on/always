@@ -1,9 +1,9 @@
 package edu.wpi.always.cm.perceptors.dummy;
 
-import edu.wpi.always.PicoRegistry;
+import edu.wpi.always.SimpleRegistry;
 import org.picocontainer.MutablePicoContainer;
 
-public class DummyPerceptorsRegistry implements PicoRegistry {
+public class DummyPerceptorsRegistry implements SimpleRegistry {
 
    @Override
    public void register (MutablePicoContainer container) {

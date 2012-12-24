@@ -1,5 +1,6 @@
-package edu.wpi.always;
+package edu.wpi.always.cm;
 
+import edu.wpi.always.*;
 import edu.wpi.always.client.ClientRegistry;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.engagement.*;
@@ -15,7 +16,7 @@ public class EngagementProgram {
 
    public static void main (String[] args) {
       final ProgramBootstrapper program = new ProgramBootstrapper(false);
-      program.addRegistry(new PicoRegistry() {
+      program.addRegistry(new SimpleRegistry() {
 
          @Override
          public void register (MutablePicoContainer container) {

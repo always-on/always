@@ -1,10 +1,10 @@
 package edu.wpi.always.client;
 
-import edu.wpi.always.PicoRegistry;
+import edu.wpi.always.SimpleRegistry;
 import edu.wpi.always.cm.primitives.AudioFileRealizer;
 import org.picocontainer.*;
 
-public class ClientRegistry implements PicoRegistry {
+public class ClientRegistry implements SimpleRegistry {
 
    @Override
    public void register (MutablePicoContainer container) {

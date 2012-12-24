@@ -3,7 +3,6 @@ package edu.wpi.always.calendar;
 import edu.wpi.always.*;
 import edu.wpi.always.calendar.schema.CalendarViewerPluginRegistry;
 import edu.wpi.always.client.ClientRegistry;
-import edu.wpi.always.cm.FakeRelationshipManager;
 import edu.wpi.always.cm.perceptors.dummy.DummyPerceptorsRegistry;
 import edu.wpi.always.user.owl.OntologyUserRegistry;
 import org.picocontainer.*;
@@ -12,7 +11,7 @@ public class CalendarProgram {
 
    public static void main (String[] args) {
       final ProgramBootstrapper program = new ProgramBootstrapper(false);
-      program.addRegistry(new PicoRegistry() {
+      program.addRegistry(new SimpleRegistry() {
 
          @Override
          public void register (MutablePicoContainer container) {
