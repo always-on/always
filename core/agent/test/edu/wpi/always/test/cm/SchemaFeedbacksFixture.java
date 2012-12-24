@@ -9,7 +9,7 @@ import org.picocontainer.behaviors.*;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.primitives.console.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.disco.rt.realizer.*;
 
 public class SchemaFeedbacksFixture {
 	private MutablePicoContainer pico;

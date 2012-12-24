@@ -2,8 +2,9 @@ package edu.wpi.always.cm;
 
 import com.google.common.collect.Lists;
 import edu.wpi.always.cm.primitives.SpeechBehavior;
-import edu.wpi.always.cm.realizer.*;
-import edu.wpi.always.cm.realizer.Constraint.Type;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.realizer.*;
+import edu.wpi.disco.rt.realizer.Constraint.Type;
 import java.util.*;
 
 public class SyncSayBuilder implements BehaviorBuilder {

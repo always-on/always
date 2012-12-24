@@ -5,6 +5,7 @@ import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.engagement.GeneralEngagementPerception.EngagementState;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.*;
+import edu.wpi.disco.rt.*;
 import java.util.Arrays;
 
 public class EngagementSchema extends SchemaImplBase {

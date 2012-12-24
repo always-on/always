@@ -6,6 +6,7 @@ import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.ui.Keyboard;
 import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.disco.rt.*;
 
 public class StorySchema extends SchemaImplBase {
 

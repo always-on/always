@@ -4,6 +4,8 @@ import edu.wpi.always.*;
 import edu.wpi.always.client.ClientRegistry;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.schemas.*;
+import edu.wpi.always.cm.schemas.registries.SchemaRegistry;
+import edu.wpi.disco.rt.*;
 import org.picocontainer.*;
 
 public class RummyProgram {

@@ -10,7 +10,7 @@ import org.junit.*;
 
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.disco.rt.realizer.*;
 
 // TODO:
 //	- Ignore primitives that use resources other than those in behavior

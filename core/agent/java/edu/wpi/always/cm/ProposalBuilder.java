@@ -3,7 +3,8 @@ package edu.wpi.always.cm;
 import com.google.common.collect.Lists;
 import edu.wpi.always.client.ClientPlugin;
 import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.cm.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 import java.util.ArrayList;
 
 public class ProposalBuilder implements BehaviorBuilder {
@@ -27,7 +28,7 @@ public class ProposalBuilder implements BehaviorBuilder {
       return Behavior.newInstance(primitives);
    }
 
-   private void intenalAdd (PrimitiveBehavior pb) {
+   private void internalAdd (PrimitiveBehavior pb) {
       Resource r = pb.getResource();
       for (PrimitiveBehavior b : primitives) {
          if ( b.getResource().equals(r) ) {
@@ -39,17 +40,17 @@ public class ProposalBuilder implements BehaviorBuilder {
    }
 
    public ProposalBuilder say (String text) {
-      intenalAdd(new SpeechBehavior(text));
+      internalAdd(new SpeechBehavior(text));
       return this;
    }
 
    public ProposalBuilder pluginAction (String actionName, Resource resource) {
-      intenalAdd(new PluginSpecificBehavior(plugin, actionName, resource));
+      internalAdd(new PluginSpecificBehavior(plugin, actionName, resource));
       return this;
    }
 
    public ProposalBuilder gazeAtUser () {
-      intenalAdd(new FaceTrackBehavior());
+      internalAdd(new FaceTrackBehavior());
       return this;
    }
 

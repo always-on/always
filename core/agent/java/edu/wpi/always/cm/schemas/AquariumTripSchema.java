@@ -2,6 +2,7 @@ package edu.wpi.always.cm.schemas;
 
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.primitives.SpeechBehavior;
+import edu.wpi.disco.rt.*;
 import org.joda.time.*;
 import org.joda.time.format.*;
 import javax.swing.JTextField;

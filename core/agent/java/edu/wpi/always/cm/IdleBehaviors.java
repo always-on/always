@@ -1,6 +1,7 @@
 package edu.wpi.always.cm;
 
-import edu.wpi.always.cm.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 
 public interface IdleBehaviors {
 

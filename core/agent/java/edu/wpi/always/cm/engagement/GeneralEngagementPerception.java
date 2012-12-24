@@ -1,9 +1,9 @@
 package edu.wpi.always.cm.engagement;
 
-import edu.wpi.always.cm.Perception;
 import edu.wpi.always.cm.engagement.GeneralEngagementPerceptorImpl.FaceDistanceTransition;
 import edu.wpi.always.cm.engagement.GeneralEngagementPerceptorImpl.MotionTransition;
 import edu.wpi.always.cm.engagement.GeneralEngagementPerceptorImpl.TouchTransition;
+import edu.wpi.disco.rt.perceptor.Perception;
 
 public interface GeneralEngagementPerception extends Perception {
 

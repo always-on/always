@@ -1,7 +1,7 @@
 package edu.wpi.always.test.cm;
 
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.disco.rt.realizer.*;
 
 class DummyPrimitive extends PrimitiveBehavior {
 

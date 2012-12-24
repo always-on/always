@@ -6,7 +6,7 @@ import java.util.concurrent.*;
 
 import org.junit.*;
 
-import edu.wpi.always.cm.utils.*;
+import edu.wpi.disco.rt.utils.*;
 
 public class FutureValueFixture {
 	private FutureValue<Integer> subject;

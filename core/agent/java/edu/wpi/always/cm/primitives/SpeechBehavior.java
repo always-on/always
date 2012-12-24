@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.primitives;
 
-import edu.wpi.always.cm.Resource;
-import edu.wpi.always.cm.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 
 public class SpeechBehavior extends PrimitiveBehavior {
 
@@ -13,7 +13,7 @@ public class SpeechBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return Resource.Speech;
+      return PhysicalResources.SPEECH;
    }
 
    @Override
@@ -37,6 +37,6 @@ public class SpeechBehavior extends PrimitiveBehavior {
 
    @Override
    public String toString () {
-      return "Speech(\"" + text + "\")";
+      return "SPEECH(\"" + text + "\")";
    }
 }

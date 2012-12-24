@@ -1,7 +1,8 @@
 package edu.wpi.always.cm.perceptors.physical.speech;
 
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.perceptors.async.*;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.perceptor.*;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

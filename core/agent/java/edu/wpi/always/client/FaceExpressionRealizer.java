@@ -1,7 +1,7 @@
 package edu.wpi.always.client;
 
 import edu.wpi.always.cm.primitives.FaceExpressionBehavior;
-import edu.wpi.always.cm.realizer.SingleRunPrimitiveRealizer;
+import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
 
 public class FaceExpressionRealizer extends
       SingleRunPrimitiveRealizer<FaceExpressionBehavior> {

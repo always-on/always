@@ -1,6 +1,7 @@
 package edu.wpi.always.rummy;
 
 import edu.wpi.always.cm.*;
+import edu.wpi.disco.rt.*;
 
 public class RummySchema extends SchemaImplBase {
 

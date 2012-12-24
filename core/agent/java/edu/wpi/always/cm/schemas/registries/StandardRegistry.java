@@ -2,6 +2,7 @@ package edu.wpi.always.cm.schemas.registries;
 
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.schemas.*;
+import edu.wpi.disco.rt.*;
 
 public class StandardRegistry implements SchemaRegistry {
 

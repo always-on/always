@@ -2,11 +2,11 @@ package edu.wpi.always.cm;
 
 import edu.wpi.always.IRelationshipManager;
 import edu.wpi.always.cm.schemas.DiscoBasedSchema;
-import edu.wpi.always.cm.utils.RNotImplementedException;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.actions.*;
+import edu.wpi.disco.rt.utils.RNotImplementedException;
 
 public class DiscoBasedActivityManager {
 

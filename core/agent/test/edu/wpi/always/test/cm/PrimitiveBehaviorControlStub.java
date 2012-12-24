@@ -5,7 +5,7 @@ import static com.google.common.collect.Lists.*;
 import java.util.*;
 
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.disco.rt.realizer.*;
 
 class PrimitiveBehaviorControlStub implements PrimitiveBehaviorControl {
 

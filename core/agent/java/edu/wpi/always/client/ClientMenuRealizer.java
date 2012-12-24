@@ -1,7 +1,7 @@
 package edu.wpi.always.client;
 
 import edu.wpi.always.cm.primitives.MenuBehavior;
-import edu.wpi.always.cm.realizer.SingleRunPrimitiveRealizer;
+import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
 
 public class ClientMenuRealizer extends
       SingleRunPrimitiveRealizer<MenuBehavior> implements ClientProxyObserver {

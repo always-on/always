@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.primitives;
 
-import edu.wpi.always.cm.Resource;
-import edu.wpi.always.cm.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 
 public class IdleBehavior extends PrimitiveBehavior {
 
@@ -13,7 +13,7 @@ public class IdleBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return Resource.Idle;
+      return PhysicalResources.IDLE;
    }
 
    public boolean isEnable () {
@@ -37,6 +37,6 @@ public class IdleBehavior extends PrimitiveBehavior {
 
    @Override
    public String toString () {
-      return "Idle(" + enabled + ')';
+      return "IDLE(" + enabled + ')';
    }
 }

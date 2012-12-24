@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.dialog;
 
 import com.google.common.collect.Lists;
-import edu.wpi.always.cm.utils.RArgumentNullException;
+import edu.wpi.disco.rt.utils.RArgumentNullException;
 import java.util.*;
 
 public class AdjacencyPairImpl<C> implements AdjacencyPair {

@@ -5,7 +5,7 @@ import java.util.*;
 import com.google.common.collect.*;
 
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.disco.rt.realizer.*;
 
 public class RealizerStub implements Realizer {
 

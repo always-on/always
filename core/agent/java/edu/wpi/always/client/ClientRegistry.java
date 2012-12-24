@@ -1,7 +1,7 @@
 package edu.wpi.always.client;
 
 import edu.wpi.always.PicoRegistry;
-import edu.wpi.always.cm.realizer.AudioFileRealizer;
+import edu.wpi.always.cm.primitives.AudioFileRealizer;
 import org.picocontainer.*;
 
 public class ClientRegistry implements PicoRegistry {

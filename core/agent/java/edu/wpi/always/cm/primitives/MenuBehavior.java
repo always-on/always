@@ -1,9 +1,8 @@
 package edu.wpi.always.cm.primitives;
 
 import com.google.common.collect.Lists;
-import edu.wpi.always.Utils;
-import edu.wpi.always.cm.Resource;
-import edu.wpi.always.cm.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 import java.util.*;
 
 public class MenuBehavior extends PrimitiveBehavior {
@@ -22,7 +21,7 @@ public class MenuBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return Resource.Menu;
+      return PhysicalResources.MENU;
    }
 
    @Override
@@ -63,6 +62,6 @@ public class MenuBehavior extends PrimitiveBehavior {
 
    @Override
    public String toString () {
-      return (twoColumn ? "Menu2(" : "Menu(") + Utils.listify(items) + ')';
+      return (twoColumn ? "Menu2(" : "MENU(") + Utils.listify(items) + ')';
    }
 }

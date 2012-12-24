@@ -2,7 +2,7 @@ package edu.wpi.always.cm.primitives.console;
 
 import com.google.gson.Gson;
 import edu.wpi.always.cm.primitives.MenuBehavior;
-import edu.wpi.always.cm.realizer.SingleRunPrimitiveRealizer;
+import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
 
 public class ConsoleMenuRealizer extends
       SingleRunPrimitiveRealizer<MenuBehavior> {

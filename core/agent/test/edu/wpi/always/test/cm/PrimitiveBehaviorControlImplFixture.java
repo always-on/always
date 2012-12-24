@@ -8,7 +8,7 @@ import java.util.concurrent.*;
 import org.junit.*;
 
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.disco.rt.realizer.*;
 
 public class PrimitiveBehaviorControlImplFixture {
 

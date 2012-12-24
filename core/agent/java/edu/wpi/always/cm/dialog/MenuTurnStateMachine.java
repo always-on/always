@@ -4,8 +4,9 @@ import com.google.common.collect.Lists;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.cm.realizer.*;
-import edu.wpi.always.cm.realizer.Constraint.Type;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.realizer.*;
+import edu.wpi.disco.rt.realizer.Constraint.Type;
 import org.joda.time.DateTime;
 import java.util.List;
 

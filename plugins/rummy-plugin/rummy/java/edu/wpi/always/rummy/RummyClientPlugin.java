@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.primitives.*;
+import edu.wpi.disco.rt.*;
 import org.joda.time.DateTime;
 import java.awt.Point;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -90,7 +91,7 @@ public class RummyClientPlugin implements ClientPlugin {
          && availableMove.getValue().length() > 0 ) {
          PluginSpecificBehavior move = new PluginSpecificBehavior(this,
                availableMove.getValue() + "@" + availableMove.getTimeStamp(),
-               Resource.Hand);
+               PhysicalResources.HAND);
          GazeBehavior gazeAtCard = new GazeBehavior(new Point(-22, 0));
          FaceTrackBehavior lookBackAtFace = new FaceTrackBehavior();
          String toSay = "";

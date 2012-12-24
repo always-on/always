@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.primitives.console;
 
 import edu.wpi.always.cm.primitives.GazeBehavior;
-import edu.wpi.always.cm.realizer.PrimitiveRealizerImplBase;
+import edu.wpi.disco.rt.realizer.PrimitiveRealizerImplBase;
 
 public class ConsoleGazeRealizer extends
       PrimitiveRealizerImplBase<GazeBehavior> {
@@ -12,6 +12,6 @@ public class ConsoleGazeRealizer extends
 
    @Override
    public void run () {
-      System.out.println("Gaze @ " + getParams().getPoint());
+      System.out.println("GAZE @ " + getParams().getPoint());
    }
 }

@@ -3,6 +3,7 @@ package edu.wpi.always.cm.schemas;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
+import edu.wpi.disco.rt.*;
 
 public class MovementTrackerSchema extends SchemaImplBase {
 

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
-import edu.wpi.always.cm.realizer.petri.*;
+import edu.wpi.disco.rt.realizer.petri.*;
 
 public class PetriNetRunnerFixture {
 	@Test

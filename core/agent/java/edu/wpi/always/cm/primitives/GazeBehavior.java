@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.primitives;
 
-import edu.wpi.always.cm.Resource;
-import edu.wpi.always.cm.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 import java.awt.Point;
 
 public class GazeBehavior extends PrimitiveBehavior {
@@ -15,7 +15,7 @@ public class GazeBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return Resource.Gaze;
+      return PhysicalResources.GAZE;
    }
 
    public Point getPoint () {
@@ -39,6 +39,6 @@ public class GazeBehavior extends PrimitiveBehavior {
 
    @Override
    public String toString () {
-      return "Gaze(" + point + ')';
+      return "GAZE(" + point + ')';
    }
 }

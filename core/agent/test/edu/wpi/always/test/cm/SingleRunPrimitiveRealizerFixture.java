@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.disco.rt.realizer.*;
 
 public class SingleRunPrimitiveRealizerFixture {
 

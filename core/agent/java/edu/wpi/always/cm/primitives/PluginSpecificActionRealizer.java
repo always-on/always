@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.primitives;
 
-import edu.wpi.always.cm.realizer.SingleRunPrimitiveRealizer;
+import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
 
 public class PluginSpecificActionRealizer extends
       SingleRunPrimitiveRealizer<PluginSpecificBehavior> {

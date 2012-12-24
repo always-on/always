@@ -2,6 +2,7 @@ package edu.wpi.always.cm.engagement;
 
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.dialog.*;
+import edu.wpi.disco.rt.*;
 
 public class InitialEngagementDialog extends AdjacencyPairImpl<Object> {
 

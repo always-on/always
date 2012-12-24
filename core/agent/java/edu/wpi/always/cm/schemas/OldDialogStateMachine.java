@@ -3,6 +3,7 @@ package edu.wpi.always.cm.schemas;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.*;
+import edu.wpi.disco.rt.*;
 import java.util.List;
 
 public class OldDialogStateMachine implements BehaviorBuilder {

@@ -2,7 +2,7 @@ package edu.wpi.always.client;
 
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
-import edu.wpi.always.cm.realizer.PrimitiveRealizerImplBase;
+import edu.wpi.disco.rt.realizer.PrimitiveRealizerImplBase;
 
 public class FaceTrackerRealizer extends
       PrimitiveRealizerImplBase<FaceTrackBehavior> {

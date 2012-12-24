@@ -1,8 +1,8 @@
 package edu.wpi.always.cm.primitives;
 
 import edu.wpi.always.client.AgentFaceExpression;
-import edu.wpi.always.cm.Resource;
-import edu.wpi.always.cm.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 
 public class FaceExpressionBehavior extends PrimitiveBehavior {
 
@@ -14,7 +14,7 @@ public class FaceExpressionBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return Resource.FaceExpression;
+      return PhysicalResources.FACE_EXPRESSION;
    }
 
    public AgentFaceExpression getExpression () {
@@ -38,6 +38,6 @@ public class FaceExpressionBehavior extends PrimitiveBehavior {
 
    @Override
    public String toString () {
-      return "FaceExpression(" + expression + ')';
+      return "FACE_EXPRESSION(" + expression + ')';
    }
 }

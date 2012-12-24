@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.dialog;
 
-import edu.wpi.always.cm.utils.RArgumentNullException;
+import edu.wpi.disco.rt.utils.RArgumentNullException;
 
 public class MultithreadAdjacencyPair<C> extends AdjacencyPairImpl<C> {
 

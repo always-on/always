@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.perceptors;
 
-import edu.wpi.always.cm.perceptors.async.*;
+import edu.wpi.disco.rt.perceptor.*;
 
 public interface SpeechPerceptor extends BufferablePerceptor<SpeechPerception>,
       AsyncPerceptor<SpeechPerception> {

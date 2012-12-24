@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.perceptors;
 
-import edu.wpi.always.cm.Perceptor;
+import edu.wpi.disco.rt.perceptor.Perceptor;
 
 public interface EmotiveFacePerceptor extends Perceptor<EmotiveFacePerception> {
 }

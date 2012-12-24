@@ -1,7 +1,7 @@
 package edu.wpi.always.cm;
 
-import edu.wpi.always.cm.primitives.FocusRequestBehavior;
-import edu.wpi.always.cm.realizer.*;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.realizer.*;
 import org.joda.time.DateTime;
 
 //The propose family of methods, append focus resource request based on
