@@ -12,7 +12,6 @@ public class DiscoBootstrapper {
 
    public Disco bootstrap (boolean startConsole, Actor me, Actor userActor) {
       Interaction interaction = new Interaction(me, userActor);
-      interaction.setOk(false);
       Disco disco = interaction.getDisco();
       if ( startConsole )
          new ConsoleWindow(interaction, 600, 500, 14);
