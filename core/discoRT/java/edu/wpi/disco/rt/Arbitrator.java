@@ -1,7 +1,6 @@
 package edu.wpi.disco.rt;
 
 import com.google.common.collect.Lists;
-import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.realizer.*;
 import java.util.List;
 
