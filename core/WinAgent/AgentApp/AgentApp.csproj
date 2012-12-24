@@ -123,13 +123,13 @@
       <Project>{A14CC577-645D-475E-BED0-09F56E049E7A}</Project>
       <Name>Calendar.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\plugins\rummy-plugin\Rummy.Game\Rummy.Game.csproj">
+      <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
+      <Name>Rummy.Game</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\plugins\rummy-plugin\Rummy.UI\Rummy.UI.csproj">
       <Project>{DBD0F6EC-9979-4120-B379-9221CCB12309}</Project>
       <Name>Rummy.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\plugins\rummy-plugin\Rummy\Rummy.csproj">
-      <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
-      <Name>Rummy</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\plugins\story-plugin\Story.UI\Story.UI.csproj">
       <Project>{8E57E514-62EF-4DAE-A305-246EC4828603}</Project>

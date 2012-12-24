@@ -105,9 +105,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rummy\Rummy.csproj">
+    <ProjectReference Include="..\Rummy.Game\Rummy.Game.csproj">
       <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
-      <Name>Rummy</Name>
+      <Name>Rummy.Game</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

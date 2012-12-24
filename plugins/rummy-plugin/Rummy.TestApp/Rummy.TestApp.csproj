@@ -108,13 +108,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Rummy.Game\Rummy.Game.csproj">
+      <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
+      <Name>Rummy.Game</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rummy.UI\Rummy.UI.csproj">
       <Project>{DBD0F6EC-9979-4120-B379-9221CCB12309}</Project>
       <Name>Rummy.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Rummy\Rummy.csproj">
-      <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
-      <Name>Rummy</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
