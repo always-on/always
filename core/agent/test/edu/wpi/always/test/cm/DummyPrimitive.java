@@ -1,48 +1,43 @@
 package edu.wpi.always.test.cm;
 
-import edu.wpi.always.cm.*;
-import edu.wpi.disco.rt.realizer.*;
+import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 
 class DummyPrimitive extends PrimitiveBehavior {
 
-	Integer fakeParam;
-	private final Resource resource;
+   Integer fakeParam;
+   private final Resource resource;
 
-	public DummyPrimitive(Resource resource,
-			int somethingToDistinguishItFromOthers) {
-		this.resource = resource;
-		this.fakeParam = somethingToDistinguishItFromOthers;
-	}
+   public DummyPrimitive (Resource resource,
+         int somethingToDistinguishItFromOthers) {
+      this.resource = resource;
+      this.fakeParam = somethingToDistinguishItFromOthers;
+   }
 
-	@Override
-	public Resource getResource() {
-		return resource;
-	}
+   @Override
+   public Resource getResource () {
+      return resource;
+   }
 
-	@Override
-	public boolean equals(Object o) {
-		if (o == this)
-			return true;
+   @Override
+   public boolean equals (Object o) {
+      if ( o == this )
+         return true;
+      if ( !(o instanceof DummyPrimitive) )
+         return false;
+      DummyPrimitive theOther = (DummyPrimitive) o;
+      if ( theOther.resource != this.resource )
+         return false;
+      return theOther.fakeParam == this.fakeParam;
+   }
 
-		if (!(o instanceof DummyPrimitive))
-			return false;
+   @Override
+   public int hashCode () {
+      return fakeParam.hashCode();
+   }
 
-		DummyPrimitive theOther = (DummyPrimitive) o;
-
-		if (theOther.resource != this.resource)
-			return false;
-
-		return theOther.fakeParam == this.fakeParam;
-	}
-
-	@Override
-	public int hashCode() {
-		return fakeParam.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return "DummyPrimitive(" + fakeParam + ")";
-	}
-
+   @Override
+   public String toString () {
+      return "DummyPrimitive(" + fakeParam + ")";
+   }
 }
