@@ -24,8 +24,12 @@
 	<classpathentry kind="lib" path="lib/owlapi/pellet-el.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-owlapiv3.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-rules.jar"/>
+<<<<<<< HEAD
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry exported="true" kind="lib" path="lib/disco1.6.2/lib/disco.jar"/>
+=======
+	<classpathentry exported="true" kind="lib" path="lib/disco1.6.2.jar"/>
+>>>>>>> 5dee357fa9504a6aa63f1d90759f91b87f7cef1b
 	<classpathentry kind="output" path="class"/>
 </classpath>
