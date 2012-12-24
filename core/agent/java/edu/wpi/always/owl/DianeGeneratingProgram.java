@@ -1,20 +1,17 @@
 package edu.wpi.always.owl;
 
-import java.util.*;
-
-import org.joda.time.*;
-import org.picocontainer.*;
-import org.semanticweb.owlapi.model.*;
-
-import edu.wpi.always.cm.*;
 import edu.wpi.always.*;
-import edu.wpi.always.test.*;
-import edu.wpi.always.user.*;
+import edu.wpi.always.cm.FakeRelationshipManager;
+import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.*;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
-import edu.wpi.always.user.places.*;
+import edu.wpi.always.user.places.Place;
+import org.joda.time.MonthDay;
+import org.picocontainer.*;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import java.util.Set;
 
 public class DianeGeneratingProgram {
 

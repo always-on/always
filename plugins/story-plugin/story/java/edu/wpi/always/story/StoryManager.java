@@ -1,9 +1,7 @@
 package edu.wpi.always.story;
 
-import edu.wpi.always.user.owl.*;
-
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-
+import edu.wpi.always.user.owl.*;
 import java.util.*;
 
 public class StoryManager {

@@ -1,15 +1,10 @@
 package edu.wpi.disco.rt.actions;
 
-import java.util.*;
-
-import org.w3c.dom.*;
-
-
-import edu.wpi.always.*;
-import edu.wpi.always.test.*;
-import edu.wpi.cetask.*;
-import edu.wpi.disco.*;
+import edu.wpi.cetask.TaskModel;
+import edu.wpi.disco.Disco;
 import edu.wpi.disco.rt.*;
+import org.w3c.dom.Document;
+import java.util.Properties;
 
 public class LoadModelFromDocument implements DiscoFunc<TaskModel> {
 

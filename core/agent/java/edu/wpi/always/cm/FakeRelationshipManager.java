@@ -1,10 +1,8 @@
 package edu.wpi.always.cm;
 
-import org.w3c.dom.*;
-
-import edu.wpi.always.*;
-import edu.wpi.always.test.*;
+import edu.wpi.always.IRelationshipManager;
 import edu.wpi.disco.rt.*;
+import org.w3c.dom.Document;
 
 
 public class FakeRelationshipManager implements IRelationshipManager {

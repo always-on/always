@@ -1,12 +1,9 @@
 package edu.wpi.always.cm;
 
-import org.picocontainer.*;
-
 import edu.wpi.always.*;
-import edu.wpi.always.client.*;
-import edu.wpi.always.cm.schemas.registries.*;
-import edu.wpi.always.test.*;
-
+import edu.wpi.always.client.ClientRegistry;
+import edu.wpi.always.cm.schemas.registries.StandardRegistry;
+import org.picocontainer.*;
 
 public class Program {
 

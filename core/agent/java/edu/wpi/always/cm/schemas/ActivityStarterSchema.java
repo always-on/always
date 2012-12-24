@@ -1,24 +1,19 @@
 package edu.wpi.always.cm.schemas;
 
-import java.util.*;
-
-import org.joda.time.*;
-
-import com.google.common.collect.*;
-
-import edu.wpi.always.*;
+import com.google.common.collect.Lists;
+import edu.wpi.always.IRelationshipManager;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.engagement.*;
-import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.test.*;
-
+import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
-import edu.wpi.disco.lang.*;
+import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.*;
 import edu.wpi.disco.rt.*;
-import edu.wpi.disco.rt.actions.*;
+import edu.wpi.disco.rt.actions.ItemDone;
+import org.joda.time.DateTime;
+import java.util.*;
 
 public class ActivityStarterSchema extends SchemaImplBase implements
 		DialogContentProvider {

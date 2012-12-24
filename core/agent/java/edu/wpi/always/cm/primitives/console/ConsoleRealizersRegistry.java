@@ -1,9 +1,7 @@
 package edu.wpi.always.cm.primitives.console;
 
-import org.picocontainer.*;
-
 import edu.wpi.always.PicoRegistry;
-import edu.wpi.always.test.*;
+import org.picocontainer.MutablePicoContainer;
 
 public class ConsoleRealizersRegistry implements PicoRegistry {
 

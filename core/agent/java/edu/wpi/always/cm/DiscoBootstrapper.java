@@ -1,13 +1,5 @@
 package edu.wpi.always.cm;
 
-<<<<<<< HEAD
-=======
-import javax.swing.*;
-
-import edu.wpi.always.cm.disco.*;
-import edu.wpi.always.cm.disco.actions.*;
-import edu.wpi.cetask.ShellWindow;
->>>>>>> 5dee357fa9504a6aa63f1d90759f91b87f7cef1b
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.DiscoUtils;
 import edu.wpi.disco.rt.actions.LoadModelFromResource;

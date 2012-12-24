@@ -1,16 +1,13 @@
 package edu.wpi.always.owl;
 
-import java.io.*;
-
-import org.picocontainer.*;
-import org.semanticweb.owlapi.io.*;
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.vocab.*;
-
-import edu.wpi.always.cm.*;
 import edu.wpi.always.*;
-import edu.wpi.always.test.*;
+import edu.wpi.always.cm.FakeRelationshipManager;
 import edu.wpi.always.user.owl.*;
+import org.picocontainer.*;
+import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
+import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
+import java.io.FileOutputStream;
 /**
  * 
  * A program for generating ontologies

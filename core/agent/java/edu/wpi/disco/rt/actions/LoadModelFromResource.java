@@ -1,9 +1,6 @@
 package edu.wpi.disco.rt.actions;
 
-import edu.wpi.always.*;
-import edu.wpi.always.test.*;
-
-import edu.wpi.disco.*;
+import edu.wpi.disco.Disco;
 import edu.wpi.disco.rt.*;
 
 public class LoadModelFromResource implements DiscoAction {

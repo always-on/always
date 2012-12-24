@@ -1,20 +1,16 @@
 package edu.wpi.always.rm;
 
-import edu.wpi.always.*;
+import edu.wpi.always.IRelationshipManager;
 import edu.wpi.always.rm.plugin.*;
-import edu.wpi.always.test.*;
 import edu.wpi.always.user.owl.OntologyRM;
 import edu.wpi.cetask.Task;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
-
 import org.semanticweb.owlapi.model.*;
 import org.w3c.dom.*;
-
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
