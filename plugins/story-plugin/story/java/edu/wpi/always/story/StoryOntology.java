@@ -2,7 +2,7 @@ package edu.wpi.always.story;
 
 import edu.wpi.always.user.owl.*;
 
-public class OntologyStory {
+public class StoryOntology {
 
    public static final String STORY_CLASS = "Story";
    public static final String NAME_PROPERTY = "name";
@@ -12,7 +12,7 @@ public class OntologyStory {
    private final OntologyIndividual owlPlace;
    private final OntologyHelper helper;
 
-   public OntologyStory (Ontology ontology, OntologyIndividual owlPlace) {
+   public StoryOntology (Ontology ontology, OntologyIndividual owlPlace) {
       this.owlPlace = owlPlace;
       helper = new OntologyHelper(ontology);
    }

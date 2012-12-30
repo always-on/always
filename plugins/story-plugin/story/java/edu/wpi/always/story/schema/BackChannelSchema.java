@@ -1,10 +1,11 @@
-package edu.wpi.always.story;
+package edu.wpi.always.story.schema;
 
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.SpeechPerception.SpeechState;
 import edu.wpi.always.cm.primitives.*;
+import edu.wpi.always.story.SwingCheckBox;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.perceptor.PerceptorBuffer;
 import edu.wpi.disco.rt.schema.SchemaBase;

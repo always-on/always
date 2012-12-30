@@ -21,7 +21,7 @@ public class Activity {
     * @param relational The relational utility (increase in closeness) resulting
     *                    from this activity
     */
-   public Activity (Plugin plugin, String name,
+   public Activity (Class<? extends Plugin> plugin, String name,
          int required, int duration, int instrumental, int relational) {
       this.plugin = plugin;
       this.name = name;
@@ -31,11 +31,11 @@ public class Activity {
       this.relational = relational;
    }
     
-   private final Plugin plugin;
+   private final Class<? extends Plugin> plugin;
    private final String name;
    private final int required, duration, instrumental, relational;
    
-   public Plugin getPlugin () { return plugin;  }
+   public Class<? extends Plugin> getPlugin () { return plugin;  }
    public String getName () { return name; }
    public int getRequired () { return required; }
    public int getDuration () { return duration; }
@@ -44,4 +44,4 @@ public class Activity {
 
    @Override
    public String toString () { return plugin+":"+name; }
-}
+ }

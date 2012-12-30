@@ -15,25 +15,14 @@ import org.picocontainer.*;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import java.util.Set;
 
-public class DianeGeneratingProgram {
+public class DianeGenerator {
 
    public static void main (String[] args) {
-      Bootstrapper program = new Bootstrapper(false);
-      program.addRegistry(new ComponentRegistry() {
-
-         @Override
-         public void register (MutablePicoContainer container) {
-            container.as(Characteristics.CACHE).addComponent(
-                  IRelationshipManager.class, DummyRelationshipManager.class);
-            container.as(Characteristics.CACHE).addComponent(
-                  ICollaborationManager.class, DummyCollaborationManager.class);
-         }
-      });
-      program.addRegistry(new OntologyUserRegistry("Diane Ferguson"));
-      program.start();
-      OntologyPeopleManager peopleHelper = program.getContainer().getComponent(
+      Always always = new Always(true);
+      always.start();
+      OntologyPeopleManager peopleHelper = always.getContainer().getComponent(
             OntologyPeopleManager.class);
-      OntologyPlaceManager placeHelper = program.getContainer().getComponent(
+      OntologyPlaceManager placeHelper = always.getContainer().getComponent(
             OntologyPlaceManager.class);
       peopleHelper.getUser().setLocation(placeHelper.getPlace("02118"));
       peopleHelper.getUser().setGender(Gender.Female);
@@ -66,9 +55,9 @@ public class DianeGeneratingProgram {
       System.out.println();
       System.out.println();
       System.out.println("Listing all people:");
-      listPeople(program.getContainer().getComponent(Ontology.class),
+      listPeople(always.getContainer().getComponent(Ontology.class),
             peopleHelper);
-      UserModel model = program.getContainer().getComponent(UserModel.class);
+      UserModel model = always.getContainer().getComponent(UserModel.class);
       model.save();
       System.exit(0);
    }

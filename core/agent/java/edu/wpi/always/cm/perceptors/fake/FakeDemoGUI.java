@@ -4,7 +4,7 @@ import edu.wpi.always.cm.perceptors.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class FakeGUI extends JFrame {
+public class FakeDemoGUI extends JFrame {
 
    private static final long serialVersionUID = 4262187476237471244L;
    private JPanel contentPane;
@@ -17,7 +17,7 @@ public class FakeGUI extends JFrame {
    /**
     * Create the frame.
     */
-   public FakeGUI () {
+   public FakeDemoGUI () {
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setBounds(100, 100, 450, 300);
       contentPane = new JPanel();

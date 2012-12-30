@@ -10,76 +10,66 @@ import java.util.*;
  */
 public abstract class PluginBase implements Plugin {
    
-   private final List<Activity> activities;
-   private final List<Registry> registries = new ArrayList<Registry>(2);
+   private final List<Activity> activities = new ArrayList<Activity>();
+   private final Map<String,List<Registry>> registries = new HashMap<String,List<Registry>>();
    
    /**
-    * Construct simple plugin in which all metadata parameters for activity are zero.
-    * 
-    * @param name of activity
-    * @param schema for activity
-    * @param components for additional optional components
-    * 
-    * @see #PluginBase(String,Class,int,int,int,int,Class...)
-    */
-   protected PluginBase (String name, Class<? extends Schema> schema,
-                         Class<? extends Object>... components) {
-      this  (name, schema, 0, 0 , 0 , 0, components);
-   }
- 
-   /**
-    * Construct simple plugin with one fixed activity implemented by one schema.
-    *  
-    * @param name of activity
-    * @param schema for activity
-    * @param components for additional optional components 
+    * Add activity with specified metadata parameters and components.  Note any schema 
+    * components will be automatically started.
     * <p>
-    * See {@link Plugin} for metadata parameters.
-    * @see #PluginBase(String,Class,int,int,int,int,ComponentRegistry)
+    * See {@link Activity} for metadata parameters.
+    * 
+    * @see #addActivity(String,int,int,int,int,Registry...)
     */
-   protected PluginBase (String name, final Class<? extends Schema> schema, 
-         int required, int duration, int instrumental, int relational,
-         final Class<? extends Object>... components) {
-      this(name, schema, required, duration, instrumental, relational,
-            components.length == 0 ? null :
-               new ComponentRegistry() {
+   protected void addActivity (String name,
+         int required, int duration, int instrumental, int relational, 
+         Class<? extends Object>... components) {
+      final List<Class<? extends Schema>> schemas = new ArrayList<Class<? extends Schema>>();
+      final List<Class<? extends Object>> other = new ArrayList<Class<? extends Object>>();
+      for (Class<? extends Object> c : components)
+          if ( Schema.class.isAssignableFrom(c) )
+             schemas.add((Class<? extends Schema>) c);
+          else other.add(c); 
+      addActivity(name, required, duration, instrumental, relational,
+            new Registry[] {
+         new SchemaRegistry() {
 
-         @Override
-         public void register (MutablePicoContainer container) {
-            for (Object c : components)
-               container.as(Characteristics.CACHE).addComponent(c);
+            @Override
+            public void register (SchemaManager manager) {
+               for (Class<? extends Schema> s : schemas)
+                  manager.registerSchema(s, true); // start it automatically
+            }
+         },
+         new ComponentRegistry() {
+
+            @Override
+            public void register (MutablePicoContainer container) {
+               for (Class<? extends Object> c : other)
+                  container.as(Characteristics.CACHE).addComponent(c);
+            }
          }});
    }
    
    /**
-    * 
-    * Construct simple plugin with one fixed activity implemented by one schema.
-    *
-    * @param name of activity
-    * @param schema for activity
-    * @param components for additional optional components
+    * Add activity with specified metadata parameters and registries.
     * <p>
-    * See {@link Plugin} for metadata parameters
+    * See {@link Activity} for metadata parameters.
     */
-   protected PluginBase (String name, final Class<? extends Schema> schema, 
-         int required, int duration, int instrumental, int relational,
-         ComponentRegistry components) {
-       activities = Collections.singletonList(
-               new Activity(this, name, required, duration, instrumental, relational));
-       registries.add(new SchemaRegistry() {
-
-            @Override
-            public void register (SchemaManager manager) {
-               manager.registerSchema(schema, true); // start it automatically
-            }
-         });
-         if ( components != null ) registries.add(components);
+   protected void addActivity (String name,
+         int required, int duration, int instrumental, int relational, 
+         Registry... registries) {
+      activities.add(new Activity(getClass(), name, required, duration, instrumental, relational));
+      this.registries.put(name, Arrays.asList(registries));
    }
-  
+   
    @Override
    public List<Activity> getActivities (int baseline) { return activities; }
 
    @Override
-   public List<Registry> getRegistries (Activity activity) { return registries; }
+   public List<Registry> getRegistries (Activity activity) { 
+      if ( activity.getPlugin() != getClass() ) 
+         throw new IllegalArgumentException("Not this plugin: "+activity);
+      return registries.get(activity.getName());
+   }
 
 }

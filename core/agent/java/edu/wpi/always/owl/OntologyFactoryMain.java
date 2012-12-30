@@ -19,21 +19,11 @@ import java.io.FileOutputStream;
 public class OntologyFactoryMain {
 
    public static void main (String[] args) {
-      final Bootstrapper program = new Bootstrapper(false);
-      program.addRegistry(new ComponentRegistry() {
-
-         @Override
-         public void register (MutablePicoContainer container) {
-            container.as(Characteristics.CACHE).addComponent(
-                  IRelationshipManager.class, DummyRelationshipManager.class);
-            container.as(Characteristics.CACHE).addComponent(
-                  ICollaborationManager.class, DummyCollaborationManager.class);
-         }
-      });
-      program.addRegistry(new OntologyUserRegistry("Test User",
-            "ontology/OntologyTmp.owl"));
-      program.start();
-      OntologyRuleHelper ontology = program.getContainer().getComponent(
+      Always always = new Always(true);
+      // always.addRegistry(new OntologyUserRegistry("Test User",
+      //      "ontology/OntologyTmp.owl"));
+      always.start();
+      OntologyRuleHelper ontology = always.getContainer().getComponent(
             OntologyRuleHelper.class);
       OntologyClass clazz = new OntologyClass(ontology.getOntologyDataObject(),
             ontology.getClass("MyClass"));

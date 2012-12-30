@@ -1,7 +1,8 @@
-package edu.wpi.always.cm;
+package edu.wpi.always.cm.perceptors.fake;
 
-import edu.wpi.always.Bootstrapper;
+import edu.wpi.always.*;
 import edu.wpi.always.client.ClientRegistry;
+import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.SensorsRegistry;
 import edu.wpi.always.rm.*;
@@ -12,28 +13,14 @@ import org.picocontainer.*;
 import java.awt.*;
 import javax.swing.*;
 
-public class EngagementProgram {
+public class FakeEngagementGUI {
 
    private static FacePerception facePerception;
 
    public static void main (String[] args) {
-      final Bootstrapper program = new Bootstrapper(false);
-      program.addRegistry(new ComponentRegistry() {
-
-         @Override
-         public void register (MutablePicoContainer container) {
-            container.as(Characteristics.CACHE).addComponent(
-                  IRelationshipManager.class, DummyRelationshipManager.class);
-            container.as(Characteristics.CACHE).addComponent(
-                  ICollaborationManager.class,
-                  edu.wpi.always.cm.CollaborationManager.class);
-         }
-      });
-      program.addRegistry(new OntologyUserRegistry("Test User"));
-      program.addCMRegistry(new SensorsRegistry());
-      program.addCMRegistry(new ClientRegistry());
-      program.start();
-      program.getContainer().getComponent(UserModel.class).load();
+      Always always = new Always(true);
+      always.start();
+      always.getContainer().getComponent(UserModel.class).load();
       JFrame frame = new JFrame("Face Location");
       frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
       JLabel locationLabel = new JLabel();
@@ -72,12 +59,12 @@ public class EngagementProgram {
       frame.setVisible(true);
       frame.setAlwaysOnTop(true);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      FacePerceptor facePerceptor = program.getContainer()
+      FacePerceptor facePerceptor = always.getContainer()
             .getComponent(CollaborationManager.class).getContainer()
             .getComponent(FacePerceptor.class);
-      EngagementPerceptor engagementPerceptor = program.getContainer()
+      IEngagementPerceptor engagementPerceptor = always.getContainer()
             .getComponent(CollaborationManager.class).getContainer()
-            .getComponent(EngagementPerceptor.class);
+            .getComponent(IEngagementPerceptor.class);
       while (true) {
          try {
             Thread.sleep(200);

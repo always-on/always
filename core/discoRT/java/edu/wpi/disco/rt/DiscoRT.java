@@ -44,8 +44,9 @@ public class DiscoRT {
    public void addRegistry (Registry registry) {
       if ( registry instanceof ComponentRegistry )
          registries.add((ComponentRegistry) registry);
-      if ( registry instanceof SchemaRegistry )
+      else if ( registry instanceof SchemaRegistry )
          schemaRegistries.add((SchemaRegistry) registry);
+      else throw new IllegalArgumentException("Unknown registry type: "+registry);
    }
 
    public void start () {

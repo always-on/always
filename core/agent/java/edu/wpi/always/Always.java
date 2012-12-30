@@ -48,7 +48,8 @@ public class Always {
       container.as(Characteristics.CACHE).addComponent(
             // note using DUMMY relationship manager!
             IRelationshipManager.class, DummyRelationshipManager.class);
-      addRegistry(new OntologyUserRegistry("Test User")); ///// NEED USER HERE!!
+      // TODO get real user info here
+      addRegistry(new OntologyUserRegistry("Diane Ferguson")); 
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas());
    }
@@ -56,11 +57,12 @@ public class Always {
    /**
     * Constructor for debugging given plugin activity.
     */
-   public Always (boolean logToConsole, Class<? extends Plugin> plugin, Activity activity) {
+   public Always (boolean logToConsole, Class<? extends Plugin> plugin, String name) {
       this(logToConsole);
       container.addComponent(plugin);
       Plugin p = container.getComponent(plugin);
-      for (Registry r : p.getRegistries(activity)) addCMRegistry(r);
+      for (Registry r : p.getRegistries(new Activity(plugin, name, 0, 0, 0, 0)))
+            addCMRegistry(r);
    }
                                                                          
    private final List<OntologyRegistry> ontologyRegistries = new ArrayList<OntologyRegistry>();
@@ -70,8 +72,9 @@ public class Always {
    public void addRegistry (Registry registry) {
       if ( registry instanceof ComponentRegistry )
          registries.add((ComponentRegistry) registry);
-      if ( registry instanceof OntologyRegistry )
+      else if ( registry instanceof OntologyRegistry )
          ontologyRegistries.add((OntologyRegistry) registry);
+      else throw new IllegalArgumentException("Unknown registry type: "+registry);
    }
 
    public void addCMRegistry (Registry registry) {

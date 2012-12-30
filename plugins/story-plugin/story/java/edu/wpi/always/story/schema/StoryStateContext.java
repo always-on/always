@@ -1,6 +1,7 @@
-package edu.wpi.always.story;
+package edu.wpi.always.story.schema;
 
 import edu.wpi.always.client.*;
+import edu.wpi.always.story.StoryManager;
 import edu.wpi.always.user.people.PeopleManager;
 
 public class StoryStateContext {

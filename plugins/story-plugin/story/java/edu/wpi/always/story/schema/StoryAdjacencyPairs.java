@@ -1,8 +1,9 @@
-package edu.wpi.always.story;
+package edu.wpi.always.story.schema;
 
 import edu.wpi.always.client.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceResuseMode;
 import edu.wpi.always.cm.dialog.*;
+import edu.wpi.always.story.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.disco.rt.schema.SchemaBase;
 
@@ -12,7 +13,7 @@ public class StoryAdjacencyPairs {
    private static AudioPlayer player = new AudioPlayer();
    private static String storyNameToSave, storyNameToPlayOrEdit, storyMood,
          storyReplayMoodChoice, storyAudience = "";
-   private static OntologyStory[] storyList;
+   private static StoryOntology[] storyList;
 
    public static class StoryStartAdjacencyPair extends
          AdjacencyPairBase<StoryStateContext> {
@@ -313,7 +314,7 @@ public class StoryAdjacencyPairs {
       public StoryReplayShowStoriesAdjacencyPair (
             final StoryStateContext context) {
          super("I remember these:", context);
-         for (final OntologyStory storyInstance : storyList)
+         for (final StoryOntology storyInstance : storyList)
             if ( storyInstance.getAttitude().contains(storyReplayMoodChoice)
                || storyReplayMoodChoice.equals("all") )
                choice(storyInstance.getName(), new DialogStateTransition() {

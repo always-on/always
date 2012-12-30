@@ -5,9 +5,9 @@ import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.schema.*;
 import org.picocontainer.*;
 
-public class FakeGUIRegistry implements ComponentRegistry, SchemaRegistry {
+public class FakeDemoGUIRegistry implements ComponentRegistry, SchemaRegistry {
 
-   private FakeGUI gui = new FakeGUI();
+   private FakeDemoGUI gui = new FakeDemoGUI();
 
    @Override
    public void register (SchemaManager manager) {
