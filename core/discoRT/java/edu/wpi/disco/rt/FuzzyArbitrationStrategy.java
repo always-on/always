@@ -2,6 +2,7 @@ package edu.wpi.disco.rt;
 
 import java.io.InputStream;
 import java.util.List;
+import edu.wpi.cetask.Utils;
 
 public class FuzzyArbitrationStrategy implements ArbitrationStrategy {
 
@@ -13,12 +14,7 @@ public class FuzzyArbitrationStrategy implements ArbitrationStrategy {
    }
 
    public static String loadFuzzyRules () {
-      String path = "/resources/arb.fcl";
-      InputStream stream = Arbitrator.class.getResourceAsStream(path);
-      if ( stream == null )
-         throw new FuzzyException(
-               "Cannot load fuzzy arbitration rules from resource: " + path);
-      return Utils.readAllText(stream);
+      return Utils.toString(Arbitrator.class.getResourceAsStream("Arbitrator.fcl"));
    }
 
    @Override

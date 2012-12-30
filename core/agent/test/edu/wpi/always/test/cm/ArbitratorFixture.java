@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.realizer.*;
+import edu.wpi.disco.rt.schema.Schema;
 import org.junit.*;
 import java.awt.Point;
 import java.util.*;

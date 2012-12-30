@@ -2,7 +2,13 @@ package edu.wpi.disco.rt.perceptor;
 
 import org.joda.time.DateTime;
 
-public interface Perception {
+public abstract class Perception {
 
-   DateTime getTimeStamp ();
+   protected final DateTime stamp;
+   
+   protected Perception (DateTime stamp) { this.stamp = stamp; }
+   
+   public DateTime getTimeStamp () {
+      return stamp;
+   }
 }

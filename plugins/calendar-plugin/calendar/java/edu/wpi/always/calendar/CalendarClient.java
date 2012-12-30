@@ -3,7 +3,6 @@ package edu.wpi.always.calendar;
 import com.google.gson.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceResuseMode;
-import edu.wpi.always.cm.ui.*;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.calendar.Calendar;
 import org.joda.time.*;

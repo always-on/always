@@ -1,7 +1,7 @@
 package edu.wpi.disco.rt.realizer.petri;
 
 import edu.wpi.disco.rt.realizer.*;
-import edu.wpi.disco.rt.utils.FutureValue;
+import edu.wpi.disco.rt.util.FutureValue;
 
 public class BehaviorStartPlace extends Place {
 

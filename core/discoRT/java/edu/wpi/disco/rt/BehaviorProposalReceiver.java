@@ -1,5 +1,7 @@
 package edu.wpi.disco.rt;
 
+import edu.wpi.disco.rt.schema.Schema;
+
 
 public interface BehaviorProposalReceiver {
 

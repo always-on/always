@@ -6,10 +6,11 @@ import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.schema.SchemaBase;
 import java.io.IOException;
 import java.util.List;
 
-public class DiscoBasedSchema extends SchemaImplBase implements AdjacencyPair {
+public class DiscoBasedSchema extends SchemaBase implements AdjacencyPair {
 
    DiscoDialogHelper discoHelper = new DiscoDialogHelper(true);
    private final DiscoUtteranceFormatter formatter;

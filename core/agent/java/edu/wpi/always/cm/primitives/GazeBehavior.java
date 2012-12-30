@@ -15,7 +15,7 @@ public class GazeBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return PhysicalResources.GAZE;
+      return AgentResources.GAZE;
    }
 
    public Point getPoint () {

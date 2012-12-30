@@ -1,25 +1,27 @@
 package edu.wpi.always.cm.schemas;
 
 import com.google.common.collect.Lists;
-import edu.wpi.always.IRelationshipManager;
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.engagement.*;
-import edu.wpi.always.cm.perceptors.MenuPerceptor;
+import edu.wpi.always.cm.dialog.*;
+import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.always.rm.IRelationshipManager;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.*;
 import edu.wpi.disco.rt.*;
-import edu.wpi.disco.rt.actions.ItemDone;
+import edu.wpi.disco.rt.action.*;
 import edu.wpi.disco.rt.perceptor.Perceptor;
+import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.util.Utils;
 import org.joda.time.DateTime;
 import java.util.*;
 
-public class ActivityStarterSchema extends SchemaImplBase implements
+public class ActivityStarterSchema extends SchemaBase implements
       DialogContentProvider {
 
-   private final Perceptor<GeneralEngagementPerception> engagementPerceptor;
+   private final Perceptor<EngagementPerception> engagementPerceptor;
    private boolean alreadyEngaged;
    private TopsPlugin topsPlugin;
    private final DiscoUtteranceFormatter formatter;
@@ -29,17 +31,22 @@ public class ActivityStarterSchema extends SchemaImplBase implements
    private RespondPlugin.Reject rejectPlugin;
    private DateTime lastProposal = DateTime.now();
    private Agenda agenda;
-   private final DiscoBasedActivityManager topicManager;
+   private final ActivityManager activityManager;
    private final List<String> containerTaskIds = new ArrayList<String>();
+   
+   // for debugging
+   private String session;
+   public void setSession (String session) { this.session = session; }
 
+   public ActivityManager getActivityManager () { return activityManager; }
+   
    public ActivityStarterSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory resourceMonitor, DiscoSynchronizedWrapper disco,
          IRelationshipManager relationshipManager,
-         GeneralEngagementPerceptor engagementPerceptor,
+         IEngagementPerceptor engagementPerceptor,
          MenuPerceptor menuPerceptor, SchemaManager schemaManager) {
       super(behaviorReceiver, resourceMonitor);
-      this.topicManager = new DiscoBasedActivityManager(relationshipManager,
-            schemaManager);
+      this.activityManager = new ActivityManager(relationshipManager, schemaManager);
       this.engagementPerceptor = engagementPerceptor;
       setNeedsFocusResouce();
       formatter = new DiscoUtteranceFormatter(disco);
@@ -51,11 +58,11 @@ public class ActivityStarterSchema extends SchemaImplBase implements
    }
 
    public boolean CheckEngagementStatus () {
-      GeneralEngagementPerception engPerc = engagementPerceptor.getLatest();
-      if ( engPerc != null && engPerc.engaged() ) {
+      EngagementPerception perception = engagementPerceptor.getLatest();
+      if ( perception != null && perception.isEngaged() ) {
          if ( !alreadyEngaged ) {
             formatter.clearTranslationCache();
-            topicManager.initFromRelationshipManager();
+            activityManager.init(session);
             topsPlugin = createTopsPlugin();
             acceptPlugin = new RespondPlugin.Accept(topsPlugin.getAgenda(), 1);
             rejectPlugin = new RespondPlugin.Reject(topsPlugin.getAgenda(), 1);
@@ -92,7 +99,7 @@ public class ActivityStarterSchema extends SchemaImplBase implements
                if ( items.size() < 4 ) {
                   for (String tid : containerTaskIds) {
                      TaskClass taskClass = disco.getTaskClass(tid);
-                     if ( !topicManager.isRunning(taskClass) ) {
+                     if ( !activityManager.isRunning(taskClass) ) {
                         items.add(topsPlugin.new Item(Propose.Should
                               .newInstance(disco, human,
                                     taskClass.newInstance()), null));
@@ -115,7 +122,7 @@ public class ActivityStarterSchema extends SchemaImplBase implements
 
    private Agenda createAgenda () {
       Actor actor = getInteraction().getExternal();
-      return DiscoUtils.createEmptyAgendaFor(actor);
+      return Utils.createEmptyAgendaFor(actor);
    }
 
    private Interaction getInteraction () {
@@ -163,7 +170,7 @@ public class ActivityStarterSchema extends SchemaImplBase implements
                @Override
                public void execute (Disco disco) {
                   done(selected);
-                  topicManager.runSchemaBasedOnTaskOnTopOfStack();
+                  activityManager.runSchemaBasedOnTaskOnTopOfStack();
                }
             });
             lastProposal = DateTime.now();
@@ -210,10 +217,10 @@ public class ActivityStarterSchema extends SchemaImplBase implements
    }
 
    public DiscoSynchronizedWrapper getDisco () {
-      return topicManager.getDisco();
+      return activityManager.getDisco();
    }
 
    public Plan getTodaysPlan () {
-      return topicManager.getPlan();
+      return activityManager.getPlan();
    }
 }

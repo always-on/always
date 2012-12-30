@@ -3,6 +3,7 @@ package edu.wpi.always.cm.primitives;
 import com.google.common.collect.Lists;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.util.Utils;
 import java.util.*;
 
 public class MenuBehavior extends PrimitiveBehavior {
@@ -21,7 +22,7 @@ public class MenuBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return PhysicalResources.MENU;
+      return AgentResources.MENU;
    }
 
    @Override

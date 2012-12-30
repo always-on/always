@@ -1,12 +1,15 @@
 package edu.wpi.always.owl;
 
 import edu.wpi.always.*;
+import edu.wpi.always.cm.*;
+import edu.wpi.always.rm.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.*;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
+import edu.wpi.disco.rt.ComponentRegistry;
 import org.joda.time.MonthDay;
 import org.picocontainer.*;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -15,15 +18,15 @@ import java.util.Set;
 public class DianeGeneratingProgram {
 
    public static void main (String[] args) {
-      ProgramBootstrapper program = new ProgramBootstrapper(false);
-      program.addRegistry(new SimpleRegistry() {
+      Bootstrapper program = new Bootstrapper(false);
+      program.addRegistry(new ComponentRegistry() {
 
          @Override
          public void register (MutablePicoContainer container) {
             container.as(Characteristics.CACHE).addComponent(
-                  IRelationshipManager.class, FakeRelationshipManager.class);
+                  IRelationshipManager.class, DummyRelationshipManager.class);
             container.as(Characteristics.CACHE).addComponent(
-                  ICollaborationManager.class, FakeCollaborationManager.class);
+                  ICollaborationManager.class, DummyCollaborationManager.class);
          }
       });
       program.addRegistry(new OntologyUserRegistry("Diane Ferguson"));

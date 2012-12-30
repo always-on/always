@@ -1,14 +1,14 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.SimpleRegistry;
 import edu.wpi.always.user.*;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.disco.rt.ComponentRegistry;
 import org.picocontainer.*;
 import java.io.File;
 
-public class OntologyUserRegistry implements SimpleRegistry, OntologyRegistry {
+public class OntologyUserRegistry implements ComponentRegistry, OntologyRegistry {
 
    private final String username;
    private final File userDataLocation;

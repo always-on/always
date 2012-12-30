@@ -3,7 +3,8 @@ package edu.wpi.always.test.cm;
 import static org.junit.Assert.assertEquals;
 import com.google.common.collect.Lists;
 import edu.wpi.always.client.ClientPlugin;
-import edu.wpi.always.cm.ProposalBuilder;
+import edu.wpi.always.cm.*;
+import edu.wpi.always.cm.ProposalBuilder.FocusRequirement;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.realizer.*;
@@ -16,11 +17,11 @@ public class ProposalBuilderFixture {
    public void testRequired () {
       DummyPlugin plugin = new DummyPlugin();
       Behavior b = new ProposalBuilder(plugin, FocusRequirement.NotRequired)
-            .say("Hello").pluginAction("Meld", PhysicalResources.HAND).gazeAtUser()
+            .say("Hello").pluginAction("Meld", AgentResources.HAND).gazeAtUser()
             .build();
       ArrayList<PrimitiveBehavior> l = Lists.newArrayList();
       l.add(new SpeechBehavior("Hello"));
-      l.add(new PluginSpecificBehavior(plugin, "Meld", PhysicalResources.HAND));
+      l.add(new PluginSpecificBehavior(plugin, "Meld", AgentResources.HAND));
       l.add(new FaceTrackBehavior());
       CompoundBehavior expected = new SimpleCompoundBehavior(l);
       assertEquals(expected, b.getInner());

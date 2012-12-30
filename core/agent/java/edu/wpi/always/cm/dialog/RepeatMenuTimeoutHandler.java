@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.dialog;
 
-import edu.wpi.disco.rt.utils.RArgumentNullException;
+import edu.wpi.disco.rt.util.NullArgumentException;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -9,7 +9,7 @@ public class RepeatMenuTimeoutHandler implements MenuTimeoutHandler {
    @Override
    public AdjacencyPair handle (AdjacencyPair original) {
       if ( original == null )
-         throw new RArgumentNullException("original");
+         throw new NullArgumentException("original");
       if ( original instanceof RepeatAdjacencyPairWrapper )
          return original;
       return new RepeatAdjacencyPairWrapper(original);

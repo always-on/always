@@ -1,7 +1,8 @@
 package edu.wpi.disco.rt;
 
 import edu.wpi.disco.*;
-import edu.wpi.disco.rt.actions.LoadModelFromResource;
+import edu.wpi.disco.rt.action.LoadModelFromResource;
+import edu.wpi.disco.rt.util.Utils;
 
 public class DiscoBootstrapper {
 
@@ -14,9 +15,9 @@ public class DiscoBootstrapper {
       Disco disco = interaction.getDisco();
       if ( startConsole )
          new ConsoleWindow(interaction, 600, 500, 14);
-      DiscoUtils.setAgendaInteraction(interaction.getExternal().getAgenda(),
+      Utils.setAgendaInteraction(interaction.getExternal().getAgenda(),
             interaction);
-      DiscoUtils.setAgendaInteraction(interaction.getSystem().getAgenda(),
+      Utils.setAgendaInteraction(interaction.getSystem().getAgenda(),
             interaction);
       loadMainModels(disco);
       return disco;

@@ -14,7 +14,7 @@ public class FaceExpressionBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return PhysicalResources.FACE_EXPRESSION;
+      return AgentResources.FACE_EXPRESSION;
    }
 
    public AgentFaceExpression getExpression () {

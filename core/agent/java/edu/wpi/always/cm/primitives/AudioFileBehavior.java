@@ -16,7 +16,7 @@ public class AudioFileBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return PhysicalResources.SPEECH;
+      return AgentResources.SPEECH;
    }
 
    @Override

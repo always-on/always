@@ -1,7 +1,7 @@
 package edu.wpi.disco.rt.realizer.petri;
 
-import edu.wpi.disco.rt.ThreadPools;
 import edu.wpi.disco.rt.realizer.petri.Place.State;
+import edu.wpi.disco.rt.util.ThreadPools;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;

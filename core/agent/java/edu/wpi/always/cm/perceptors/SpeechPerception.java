@@ -1,12 +1,26 @@
 package edu.wpi.always.cm.perceptors;
 
 import edu.wpi.disco.rt.perceptor.Perception;
+import org.joda.time.DateTime;
 
-public interface SpeechPerception extends Perception {
+public class SpeechPerception extends Perception {
+   
+   public enum SpeechState { Silent, Normal, Loud }
 
-   public enum SpeechState {
-      Silent, Normal, Loud
+   private final SpeechState state;
+
+   public SpeechPerception (DateTime stamp, SpeechState state) {
+      super(stamp);
+      this.state = state;
    }
 
-   public SpeechState speakingState ();
+   public SpeechState getState () {
+      return state;
+   }
+
+   @Override
+   public String toString () {
+      return "Speech[state=" + state + ", stamp=" + stamp + "]";
+   }
+   
 }

@@ -4,7 +4,7 @@ import edu.wpi.always.cm.perceptors.*;
 
 public class ClientMenuPerceptor implements MenuPerceptor, ClientProxyObserver {
 
-   private volatile MenuPerceptionImpl latest;
+   private volatile MenuPerception latest;
 
    public ClientMenuPerceptor (ClientProxy proxy) {
       proxy.addObserver(this);
@@ -25,6 +25,6 @@ public class ClientMenuPerceptor implements MenuPerceptor, ClientProxyObserver {
 
    @Override
    public void notifyMenuSelected (ClientProxy ragClientProxy, String text) {
-      latest = new MenuPerceptionImpl(text);
+      latest = new MenuPerception(text);
    }
 }

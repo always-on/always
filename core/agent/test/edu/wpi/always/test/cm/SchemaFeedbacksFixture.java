@@ -6,6 +6,7 @@ import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.primitives.console.ConsoleSpeechRealizer;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.realizer.*;
+import edu.wpi.disco.rt.schema.SchemaBase;
 import org.junit.*;
 import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
@@ -59,7 +60,7 @@ public class SchemaFeedbacksFixture {
    private MutablePicoContainer configureContainer () {
       MutablePicoContainer pico = new DefaultPicoContainer(new OptInCaching());
       pico.as(Characteristics.CACHE).addComponent(
-            PrimitiveBehaviorControlImpl.class);
+            PrimitiveBehaviorManager.class);
       pico.as(Characteristics.CACHE).addComponent(RealizerImpl.class);
       pico.as(Characteristics.CACHE).addComponent(FakeSchema.class);
       pico.as(Characteristics.CACHE).addComponent(
@@ -84,7 +85,7 @@ public class SchemaFeedbacksFixture {
       return pico;
    }
 
-   public static class FakeSchema extends SchemaImplBase {
+   public static class FakeSchema extends SchemaBase {
 
       private boolean done = false;
 
@@ -108,7 +109,7 @@ public class SchemaFeedbacksFixture {
       }
    }
 
-   public static class HigherPriorityDummySchema extends SchemaImplBase {
+   public static class HigherPriorityDummySchema extends SchemaBase {
 
       public HigherPriorityDummySchema (
             BehaviorProposalReceiver behaviorReceiver,

@@ -1,35 +1,36 @@
 package edu.wpi.always.cm;
 
-import edu.wpi.always.*;
+import edu.wpi.always.Bootstrapper;
 import edu.wpi.always.client.ClientRegistry;
-import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.engagement.*;
 import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.cm.perceptors.physical.PhysicalPerceptorsRegistry;
+import edu.wpi.always.cm.perceptors.sensor.SensorsRegistry;
+import edu.wpi.always.rm.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.OntologyUserRegistry;
+import edu.wpi.disco.rt.ComponentRegistry;
 import org.picocontainer.*;
 import java.awt.*;
 import javax.swing.*;
 
 public class EngagementProgram {
 
+   private static FacePerception facePerception;
+
    public static void main (String[] args) {
-      final ProgramBootstrapper program = new ProgramBootstrapper(false);
-      program.addRegistry(new SimpleRegistry() {
+      final Bootstrapper program = new Bootstrapper(false);
+      program.addRegistry(new ComponentRegistry() {
 
          @Override
          public void register (MutablePicoContainer container) {
             container.as(Characteristics.CACHE).addComponent(
-                  IRelationshipManager.class, FakeRelationshipManager.class);
+                  IRelationshipManager.class, DummyRelationshipManager.class);
             container.as(Characteristics.CACHE).addComponent(
                   ICollaborationManager.class,
                   edu.wpi.always.cm.CollaborationManager.class);
          }
       });
       program.addRegistry(new OntologyUserRegistry("Test User"));
-      program.addCMRegistry(new PhysicalPerceptorsRegistry());
-      program.addCMRegistry(new EngagementRegistry());
+      program.addCMRegistry(new SensorsRegistry());
       program.addCMRegistry(new ClientRegistry());
       program.start();
       program.getContainer().getComponent(UserModel.class).load();
@@ -71,12 +72,12 @@ public class EngagementProgram {
       frame.setVisible(true);
       frame.setAlwaysOnTop(true);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      EmotiveFacePerceptor facePerceptor = program.getContainer()
+      FacePerceptor facePerceptor = program.getContainer()
             .getComponent(CollaborationManager.class).getContainer()
-            .getComponent(EmotiveFacePerceptor.class);
-      GeneralEngagementPerceptor engagementPerceptor = program.getContainer()
+            .getComponent(FacePerceptor.class);
+      EngagementPerceptor engagementPerceptor = program.getContainer()
             .getComponent(CollaborationManager.class).getContainer()
-            .getComponent(GeneralEngagementPerceptor.class);
+            .getComponent(EngagementPerceptor.class);
       while (true) {
          try {
             Thread.sleep(200);
@@ -84,13 +85,13 @@ public class EngagementProgram {
          }
          facePerception = facePerceptor.getLatest();
          if ( facePerception != null ) {
-            locationLabel.setText("Location: " + facePerception.getLocation());
+            locationLabel.setText("Location: " + facePerception.getPoint());
             sizeLabel.setText("Size: "
                + (facePerception.getRight() - facePerception.getLeft()) + " x "
                + (facePerception.getBottom() - facePerception.getTop())
                + (facePerception.isNear() ? " is near" : " is far"));
          }
-         GeneralEngagementPerception engagementPerception = engagementPerceptor
+         EngagementPerception engagementPerception = engagementPerceptor
                .getLatest();
          if ( engagementPerception != null ) {
             stateLabel.setText("State: " + engagementPerception.getState());
@@ -99,5 +100,4 @@ public class EngagementProgram {
       }
    }
 
-   private static EmotiveFacePerception facePerception;
 }

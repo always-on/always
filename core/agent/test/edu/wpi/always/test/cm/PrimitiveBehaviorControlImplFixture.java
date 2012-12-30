@@ -1,7 +1,6 @@
 package edu.wpi.always.test.cm;
 
 import static org.junit.Assert.*;
-import edu.wpi.always.cm.IdleBehaviors;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.Resource;
 import edu.wpi.disco.rt.realizer.*;
@@ -13,7 +12,7 @@ public class PrimitiveBehaviorControlImplFixture {
 
    private static final int SOMETHING = 1;
    private PrimitiveRealizerFactory factory;
-   private PrimitiveBehaviorControlImpl realizer;
+   private PrimitiveBehaviorManager realizer;
 
    @Before
    public void setUp () {
@@ -25,32 +24,32 @@ public class PrimitiveBehaviorControlImplFixture {
             return null;
          }
       };
-      realizer = new PrimitiveBehaviorControlImpl(factory, np);
+      realizer = new PrimitiveBehaviorManager(factory, np);
    }
 
    @Test
    public void onePrimitive () {
-      DummyPrimitive gazePrimitive = new DummyPrimitive(PhysicalResources.GAZE,
+      DummyPrimitive gazePrimitive = new DummyPrimitive(AgentResources.GAZE,
             SOMETHING);
       realizer.realize(gazePrimitive);
-      assertNotNull(realizer.currentRealizerFor(PhysicalResources.GAZE));
-      assertEquals(gazePrimitive, realizer.currentRealizerFor(PhysicalResources.GAZE)
+      assertNotNull(realizer.currentRealizerFor(AgentResources.GAZE));
+      assertEquals(gazePrimitive, realizer.currentRealizerFor(AgentResources.GAZE)
             .getParams());
       DummyPrimitiveRealizer primitiveRealizer = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(PhysicalResources.GAZE);
+            .currentRealizerFor(AgentResources.GAZE);
       sleep(50);
       assertTrue(primitiveRealizer.runCallsCount > 0);
-      assertNull(realizer.currentRealizerFor(PhysicalResources.SPEECH));
+      assertNull(realizer.currentRealizerFor(AgentResources.SPEECH));
    }
 
    @Test
    public void primitiveRealizersAreScheduleOnSeparateThreads () {
-      realizer.realize(new DummyPrimitive(PhysicalResources.GAZE, SOMETHING));
-      realizer.realize(new DummyPrimitive(PhysicalResources.SPEECH, SOMETHING));
+      realizer.realize(new DummyPrimitive(AgentResources.GAZE, SOMETHING));
+      realizer.realize(new DummyPrimitive(AgentResources.SPEECH, SOMETHING));
       DummyPrimitiveRealizer gazeRealizer = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(PhysicalResources.GAZE);
+            .currentRealizerFor(AgentResources.GAZE);
       DummyPrimitiveRealizer speechRealizer = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(PhysicalResources.SPEECH);
+            .currentRealizerFor(AgentResources.SPEECH);
       // wait for their run() function to be called 3 times
       int n = 0;
       while (gazeRealizer.runCallsCount < 3 && speechRealizer.runCallsCount < 3) {
@@ -70,9 +69,9 @@ public class PrimitiveBehaviorControlImplFixture {
       final int paramForFirstBehavior = 1;
       final int paramForSecondBehavior = 2;
       realizer
-            .realize(new DummyPrimitive(PhysicalResources.GAZE, paramForFirstBehavior));
+            .realize(new DummyPrimitive(AgentResources.GAZE, paramForFirstBehavior));
       DummyPrimitiveRealizer r1 = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(PhysicalResources.GAZE);
+            .currentRealizerFor(AgentResources.GAZE);
       int n = 0;
       while (r1.runCallsCount == 0) {
          sleep(20);
@@ -83,16 +82,16 @@ public class PrimitiveBehaviorControlImplFixture {
          }
       }
       realizer
-            .realize(new DummyPrimitive(PhysicalResources.GAZE, paramForSecondBehavior));
+            .realize(new DummyPrimitive(AgentResources.GAZE, paramForSecondBehavior));
       DummyPrimitiveRealizer r2 = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(PhysicalResources.GAZE);
+            .currentRealizerFor(AgentResources.GAZE);
       assertNotSame(r1, r2);
       assertFalse(r1.getParams().equals(r2.getParams()));
       // now making sure that r2 is running and r1 is stopped
       int r1CountSaved = r1.runCallsCount;
       n = 0;
       while (r2.runCallsCount <= 3) {
-         sleep(PrimitiveBehaviorControlImpl.REALIZERS_INTERVAL);
+         sleep(PrimitiveBehaviorManager.REALIZERS_INTERVAL);
          n++;
          if ( n > 10 )
             fail("timeout in waiting for r2 to be called 4 times");
@@ -105,46 +104,46 @@ public class PrimitiveBehaviorControlImplFixture {
    public void whenOnePrimitiveIsDone_ShouldFireDoneEvent () {
       FakeRealizerEventObserver observer = addObserverToRealizer();
       final int DOES_NOT_MATTER = 1;
-      DummyPrimitive b1 = new DummyPrimitive(PhysicalResources.GAZE, DOES_NOT_MATTER);
+      DummyPrimitive b1 = new DummyPrimitive(AgentResources.GAZE, DOES_NOT_MATTER);
       realizer.realize(b1);
       sleep(10);
       assertFalse(observer.doneReceivedFor(b1));
-      ((DummyPrimitiveRealizer) realizer.currentRealizerFor(PhysicalResources.GAZE))
+      ((DummyPrimitiveRealizer) realizer.currentRealizerFor(AgentResources.GAZE))
             .done();
       assertTrue(observer.doneReceivedFor(b1));
    }
 
    @Test
    public void testStopResource () {
-      DummyPrimitive behavior = new DummyPrimitive(PhysicalResources.GAZE, SOMETHING);
+      DummyPrimitive behavior = new DummyPrimitive(AgentResources.GAZE, SOMETHING);
       realizer.realize(behavior);
       DummyPrimitiveRealizer r = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(PhysicalResources.GAZE);
+            .currentRealizerFor(AgentResources.GAZE);
       sleep(10);
-      realizer.stop(PhysicalResources.GAZE);
+      realizer.stop(AgentResources.GAZE);
       assertNotRunning(r);
    }
 
    @Test
    public void whenNullPrimitiveBehaviorIsSetForBehavior_ItShouldStopCurrentRealizerOnThatResource () {
-      DummyPrimitive behavior = new DummyPrimitive(PhysicalResources.GAZE, SOMETHING);
+      DummyPrimitive behavior = new DummyPrimitive(AgentResources.GAZE, SOMETHING);
       realizer.realize(behavior);
       DummyPrimitiveRealizer r = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(PhysicalResources.GAZE);
-      realizer.realize(PrimitiveBehavior.nullBehavior(PhysicalResources.GAZE));
+            .currentRealizerFor(AgentResources.GAZE);
+      realizer.realize(PrimitiveBehavior.nullBehavior(AgentResources.GAZE));
       assertNotRunning(r);
    }
 
    @Test
    public void whenARealizerForTheSameBehaviorIsInEffect_ShouldNotStopIt () {
-      DummyPrimitive b1 = new DummyPrimitive(PhysicalResources.GAZE, SOMETHING);
-      DummyPrimitive b2 = new DummyPrimitive(PhysicalResources.GAZE, SOMETHING);
+      DummyPrimitive b1 = new DummyPrimitive(AgentResources.GAZE, SOMETHING);
+      DummyPrimitive b2 = new DummyPrimitive(AgentResources.GAZE, SOMETHING);
       realizer.realize(b1);
       PrimitiveRealizer<?> firstRealizer = realizer
-            .currentRealizerFor(PhysicalResources.GAZE);
+            .currentRealizerFor(AgentResources.GAZE);
       realizer.realize(b2);
       PrimitiveRealizer<?> secondRealizer = realizer
-            .currentRealizerFor(PhysicalResources.GAZE);
+            .currentRealizerFor(AgentResources.GAZE);
       assertSame(firstRealizer, secondRealizer);
    }
 
@@ -161,7 +160,7 @@ public class PrimitiveBehaviorControlImplFixture {
     */
    private void assertNotRunning (DummyPrimitiveRealizer r) {
       int savedCount = r.runCallsCount;
-      sleep(PrimitiveBehaviorControlImpl.REALIZERS_INTERVAL * 2);
+      sleep(PrimitiveBehaviorManager.REALIZERS_INTERVAL * 2);
       assertEquals(savedCount, r.runCallsCount);
    }
 

@@ -1,11 +1,12 @@
 package edu.wpi.always.rm;
 
-import edu.wpi.always.IRelationshipManager;
 import edu.wpi.always.rm.plugin.*;
 import edu.wpi.always.user.owl.OntologyRM;
 import edu.wpi.cetask.Task;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.action.DiscoAction;
+import edu.wpi.disco.rt.util.DiscoDocument;
 import org.semanticweb.owlapi.model.*;
 import org.w3c.dom.*;
 import java.io.File;
@@ -18,6 +19,10 @@ import javax.xml.transform.stream.StreamResult;
 
 public class RelationshipManager extends Thread implements IRelationshipManager {
 
+    public static void main (String[] args) {
+      new FakeCollaborationManager(new RelationshipManager()).start();
+   }
+
    // Has handles for each plug-in,
    // stores relevant data (important locations, etc.)
    static double maxDuration = 3;
@@ -26,7 +31,7 @@ public class RelationshipManager extends Thread implements IRelationshipManager 
    Context context;
    Properties userModel;
    OntologyRM ontology;
-   CollaborationManager collab;
+
    public relationshipStage currentStage;
    double baseCloseness;
    double currentCloseness;
@@ -47,23 +52,7 @@ public class RelationshipManager extends Thread implements IRelationshipManager 
    }
 
    public RelationshipManager () {
-      ontology = new OntologyRM("User");
-      currentStage = relationshipStage.STRANGERS;
-      baseCloseness = 0;
-      plugins = new ArrayList<ActivityPlugin>();
-      plugins.add(new StudyPlugin());
-      for (ActivityPlugin plugin : plugins) {
-         plugin.initial(this);
-      }
-      context = new Context();
-      context.closeness = 0;
-      activityOccurrences = new Hashtable<String, Occurrence>();
-   }
-
-   public RelationshipManager (CollaborationManager collabManager) {
       ontology = new OntologyRM("User"); // TODO: user name input
-      collab = collabManager;
-      collab.setRelationshipModule(this);
       currentStage = relationshipStage.STRANGERS;
       baseCloseness = 0;
       plugins = new ArrayList<ActivityPlugin>();
@@ -88,7 +77,7 @@ public class RelationshipManager extends Thread implements IRelationshipManager 
     * plugin); plugin.initial(this); } }
     */
    /*
-    * private void addActivity(String task, float salience){ // Process task to
+    * private void addActivity(String task, double salience){ // Process task to
     * calculate initial salience values }
     */
    public void report (ActivityReport r) {
@@ -528,15 +517,10 @@ public class RelationshipManager extends Thread implements IRelationshipManager 
 
       double closeness;
    }
-
+   
    @Override
-   public DiscoDocumentSet getLatestPlan () {
-      return null;
-   }
-
-   @Override
-   public Document getLatestPlanInDoc () {
-      return plan().taskModel;
+   public DiscoDocument getSession () {
+      return new DiscoDocument(plan().taskModel, null, null);
    }
 
    // public void afterInteraction(DiscoSynchronizedWrapper discoWrapper){}
@@ -729,7 +713,7 @@ public class RelationshipManager extends Thread implements IRelationshipManager 
    // disco state to determine information about the interaction.
    @Override
    public void afterInteraction (DiscoSynchronizedWrapper discoWrap,
-         float closeness, int time) {
+         int closeness, int time) {
       // currentCloseness = closeness;
       closenessTime = new Date();
       discoWrap.execute(new DiscoAction() {

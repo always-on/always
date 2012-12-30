@@ -4,8 +4,9 @@ import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.schema.SchemaBase;
 
-public class FaceTrackerSchema extends SchemaImplBase {
+public class FaceTrackerSchema extends SchemaBase {
 
    private final FacePerceptor facePerceptor;
 

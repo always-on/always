@@ -1,12 +1,11 @@
 package edu.wpi.always.client;
 
-import edu.wpi.always.SimpleRegistry;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.console.ConsoleRealizersRegistry;
-import edu.wpi.always.cm.ui.Keyboard;
+import edu.wpi.disco.rt.ComponentRegistry;
 import org.picocontainer.*;
 
-public class DummyClientRegistry implements SimpleRegistry {
+public class DummyClientRegistry implements ComponentRegistry {
 
    @Override
    public void register (MutablePicoContainer container) {

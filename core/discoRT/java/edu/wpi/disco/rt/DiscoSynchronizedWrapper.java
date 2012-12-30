@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt;
 
-import edu.wpi.disco.Disco;
+import edu.wpi.disco.*;
+import edu.wpi.disco.rt.action.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**

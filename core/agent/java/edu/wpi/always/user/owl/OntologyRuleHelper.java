@@ -102,9 +102,6 @@ public class OntologyRuleHelper extends OntologyHelper {
    /**
     * If B is property of A and C is property of B and A is not C then C is
     * property of A
-    * 
-    * @param property
-    * @return
     */
    public SWRLRule isTransitiveExclusiveRule (OWLObjectProperty property) {
       SWRLVariable varA = getSWRLVariable("varA");

@@ -13,7 +13,7 @@ public class IdleBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return PhysicalResources.IDLE;
+      return AgentResources.IDLE;
    }
 
    public boolean isEnable () {

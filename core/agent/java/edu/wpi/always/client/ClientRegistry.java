@@ -1,10 +1,10 @@
 package edu.wpi.always.client;
 
-import edu.wpi.always.SimpleRegistry;
 import edu.wpi.always.cm.primitives.AudioFileRealizer;
+import edu.wpi.disco.rt.ComponentRegistry;
 import org.picocontainer.*;
 
-public class ClientRegistry implements SimpleRegistry {
+public class ClientRegistry implements ComponentRegistry {
 
    @Override
    public void register (MutablePicoContainer container) {
@@ -20,7 +20,6 @@ public class ClientRegistry implements SimpleRegistry {
       container.addComponent(ClientMenuPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(
             KeyboardMessageHandler.class);
-      // container.as(Characteristics.CACHE).addComponent(RagCalendar.class);
       container.as(Characteristics.CACHE).addComponent(ClientProxy.class);
    }
 }

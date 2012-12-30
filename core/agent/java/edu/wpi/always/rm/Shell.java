@@ -3,28 +3,22 @@ package edu.wpi.always.rm;
 import java.beans.Statement;
 import java.io.*;
 import java.util.StringTokenizer;
+import edu.wpi.always.cm.ICollaborationManager;
+
+// CR: Not clear this works
 
 public class Shell {
 
-   protected BufferedReader input;
+   private final BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
    protected String prompt = ">";
-   CollaborationManager collab;
+   RelationshipManager rm = new RelationshipManager();
+   FakeCollaborationManager cm = new FakeCollaborationManager(rm);
 
-   // private static Shell shell; //?????
    public static void main (String[] args) {
       try {
-         make(args, new CollaborationManager()).loop();
+         new Shell().loop();
       } catch (Throwable e) {
       }
-   }
-
-   public static Shell make (String[] args, CollaborationManager cm) {
-      return new Shell(cm);
-   }
-
-   protected Shell (CollaborationManager cm) {
-      input = new BufferedReader(new InputStreamReader(System.in));
-      collab = cm;
    }
 
    public void loop () {
@@ -87,20 +81,20 @@ public class Shell {
    public void makeplan (String from) {
       System.out.println("Requesting plan.");
       // collab.relationshipModule.doPlan = true;
-      collab.relationshipModule.plan();
+      rm.plan();
    }
 
    public void scenarios (String from) {
       System.out.println("Requesting plans.");
-      collab.relationshipModule.scenarioPlans();
+      rm.scenarioPlans();
    }
 
    public void testing (String from) {
-      collab.relationshipModule.test();
+      rm.test();
    }
 
    public void testrelevance (String from) {
-      collab.relationshipModule.relevanceTest();
+      rm.relevanceTest();
    }
 
    // for UM properties files
@@ -111,6 +105,6 @@ public class Shell {
    public void getProperty (String input) {
       System.out.println("Getting property: " + input);
       System.out
-            .println(collab.relationshipModule.userModel.getProperty(input));
+            .println(rm.userModel.getProperty(input));
    }
 }

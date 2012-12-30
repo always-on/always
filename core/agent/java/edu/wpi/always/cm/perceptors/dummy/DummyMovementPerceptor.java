@@ -6,7 +6,7 @@ import java.awt.Point;
 
 public class DummyMovementPerceptor implements MovementPerceptor {
 
-   volatile MovementPerception latest;
+   private volatile MovementPerception latest;
 
    @Override
    public MovementPerception getLatest () {
@@ -15,19 +15,7 @@ public class DummyMovementPerceptor implements MovementPerceptor {
 
    @Override
    public void run () {
-      latest = new MovementPerception() {
-
-         DateTime d = DateTime.now();
-
-         @Override
-         public DateTime getTimeStamp () {
-            return d;
-         }
-
-         @Override
-         public Point movementLocation () {
-            return new Point(10, 10);
-         }
-      };
+      latest = new MovementPerception(false, null);
    }
+
 }

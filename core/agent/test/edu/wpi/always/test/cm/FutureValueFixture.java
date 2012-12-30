@@ -1,7 +1,7 @@
 package edu.wpi.always.test.cm;
 
 import static org.junit.Assert.*;
-import edu.wpi.disco.rt.utils.FutureValue;
+import edu.wpi.disco.rt.util.FutureValue;
 import org.junit.*;
 import java.util.concurrent.*;
 

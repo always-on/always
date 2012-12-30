@@ -1,6 +1,6 @@
 package edu.wpi.disco.rt.realizer;
 
-import edu.wpi.disco.rt.utils.RArgumentNullException;
+import edu.wpi.disco.rt.util.NullArgumentException;
 
 public class SyncRef {
 
@@ -9,9 +9,9 @@ public class SyncRef {
 
    public SyncRef (SyncPoint syncPoint, PrimitiveBehavior behavior) {
       if ( syncPoint == null )
-         throw new RArgumentNullException("syncPoint");
+         throw new NullArgumentException("syncPoint");
       if ( behavior == null )
-         throw new RArgumentNullException("behavior");
+         throw new NullArgumentException("behavior");
       this.syncPoint = syncPoint;
       this.behavior = behavior;
    }

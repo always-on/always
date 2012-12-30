@@ -3,11 +3,12 @@ package edu.wpi.always.cm.schemas;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.primitives.SpeechBehavior;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.schema.SchemaBase;
 import org.joda.time.*;
 import org.joda.time.format.*;
 import javax.swing.JTextField;
 
-public class AquariumTripSchema extends SchemaImplBase {
+public class AquariumTripSchema extends SchemaBase {
 
    private final JTextField fakeTimeTextBox;
 

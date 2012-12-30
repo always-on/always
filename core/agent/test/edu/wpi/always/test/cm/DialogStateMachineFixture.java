@@ -2,10 +2,9 @@ package edu.wpi.always.test.cm;
 
 import static org.junit.Assert.*;
 import com.google.common.collect.Lists;
-import edu.wpi.always.cm.DialogContentProvider;
+import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.cm.schemas.OldDialogStateMachine;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.realizer.*;
 import org.joda.time.DateTime;
@@ -92,7 +91,7 @@ public class DialogStateMachineFixture {
       } catch (InterruptedException e) {
          e.printStackTrace();
       }
-      menuPerceptor.perception = new MenuPerceptionImpl("Hello");
+      menuPerceptor.perception = new MenuPerception("Hello");
       b = subject.build();
       assertEquals("Hello", contentProvider.lastUserSaid);
       resourceMonitor.done = false;
@@ -116,7 +115,7 @@ public class DialogStateMachineFixture {
       } catch (InterruptedException e) {
          e.printStackTrace();
       }
-      menuPerceptor.perception = new MenuPerceptionImpl("Okay");
+      menuPerceptor.perception = new MenuPerception("Okay");
       subject.build();
       assertEquals("Okay", contentProvider.lastUserSaid);
    }

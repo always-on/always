@@ -6,7 +6,7 @@ import java.awt.Point;
 
 public class DummyFacePerceptor implements FacePerceptor {
 
-   FacePerception latest;
+   private volatile FacePerception latest;
 
    @Override
    public FacePerception getLatest () {
@@ -15,19 +15,6 @@ public class DummyFacePerceptor implements FacePerceptor {
 
    @Override
    public void run () {
-      latest = new FacePerception() {
-
-         DateTime d = DateTime.now();
-
-         @Override
-         public DateTime getTimeStamp () {
-            return d;
-         }
-
-         @Override
-         public Point faceLocation () {
-            return new Point(10, 20);
-         }
-      };
+      latest = new FacePerception(0, 0, 0, 0, -1);
    }
 }

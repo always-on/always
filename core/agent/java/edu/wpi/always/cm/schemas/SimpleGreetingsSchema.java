@@ -1,24 +1,24 @@
 package edu.wpi.always.cm.schemas;
 
 import com.google.common.collect.Lists;
-import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.engagement.*;
+import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.schema.SchemaBase;
 import java.util.*;
 
-public class SimpleGreetingsSchema extends SchemaImplBase implements
+public class SimpleGreetingsSchema extends SchemaBase implements
       DialogContentProvider {
 
    private final FacePerceptor facePerceptor;
    private State state = State.Init;
-   private final GeneralEngagementPerceptorImpl engagementPerceptor;
+   private final EngagementPerceptor engagementPerceptor;
    private OldDialogStateMachine stateMachine;
 
    public SimpleGreetingsSchema (BehaviorProposalReceiver behaviorReceiver,
          final BehaviorHistory resourceMonitor, FacePerceptor facePerceptor,
          MenuPerceptor menuPerceptor,
-         GeneralEngagementPerceptorImpl engagementPerceptor) {
+         EngagementPerceptor engagementPerceptor) {
       super(behaviorReceiver, resourceMonitor);
       this.facePerceptor = facePerceptor;
       this.engagementPerceptor = engagementPerceptor;
@@ -31,10 +31,10 @@ public class SimpleGreetingsSchema extends SchemaImplBase implements
 
    @Override
    public void run () {
-      GeneralEngagementPerception engPerception = engagementPerceptor
+      EngagementPerception engPerception = engagementPerceptor
             .getLatest();
       if ( state == State.Done
-         && (engPerception == null || !engPerception.engaged()) ) {
+         && (engPerception == null || !engPerception.isEngaged()) ) {
          changeStateTo(State.Init);
       }
       propose(stateMachine);
@@ -59,7 +59,7 @@ public class SimpleGreetingsSchema extends SchemaImplBase implements
    public String whatToSay () {
       if ( state == State.Init ) {
          FacePerception f = facePerceptor.getLatest();
-         if ( f != null && f.faceLocation() != null ) {
+         if ( f != null && f.getPoint() != null ) {
             return "Hi";
          }
       }

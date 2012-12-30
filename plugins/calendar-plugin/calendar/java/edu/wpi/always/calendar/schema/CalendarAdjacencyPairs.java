@@ -1,7 +1,6 @@
 package edu.wpi.always.calendar.schema;
 
 import edu.wpi.always.cm.dialog.*;
-import edu.wpi.always.cm.ui.KeyboardAdjacenyPair;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.people.Person;
 import org.joda.time.*;
@@ -59,7 +58,7 @@ abstract class CalendarAdjacencyPairs {
    }
 
    public static class EventCustomTypeAdjacencyPair extends
-         KeyboardAdjacenyPair<CalendarStateContext> {
+         KeyboardAdjacencyPair<CalendarStateContext> {
 
       private final EventTypeAdjacencyPair pair;
 

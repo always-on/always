@@ -1,17 +1,17 @@
 package edu.wpi.always.calendar.schema;
 
 import edu.wpi.always.calendar.CalendarUI;
-import edu.wpi.always.client.UIMessageDispatcher;
+import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.MenuPerceptor;
-import edu.wpi.always.cm.ui.Keyboard;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.schema.SchemaBase;
 
-public class CalendarSchema extends SchemaImplBase {
+public class CalendarSchema extends SchemaBase {
 
    private final MenuTurnStateMachine stateMachine;
 

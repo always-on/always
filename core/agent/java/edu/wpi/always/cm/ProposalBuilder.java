@@ -8,6 +8,8 @@ import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 import java.util.ArrayList;
 
 public class ProposalBuilder implements BehaviorBuilder {
+   
+   public enum FocusRequirement { Required, NotRequired }
 
    private final ArrayList<PrimitiveBehavior> primitives = Lists.newArrayList();
    private final ClientPlugin plugin;
@@ -54,6 +56,10 @@ public class ProposalBuilder implements BehaviorBuilder {
       return this;
    }
 
+   public ProposalBuilder idle () {
+      return say(".").gazeAtUser();
+   }
+   
    @Override
    public BehaviorMetadata getMetadata () {
       return metadataBuilder.build();

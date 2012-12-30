@@ -1,9 +1,9 @@
 package edu.wpi.always.cm.primitives.console;
 
-import edu.wpi.always.SimpleRegistry;
+import edu.wpi.disco.rt.ComponentRegistry;
 import org.picocontainer.MutablePicoContainer;
 
-public class ConsoleRealizersRegistry implements SimpleRegistry {
+public class ConsoleRealizersRegistry implements ComponentRegistry {
 
    @Override
    public void register (MutablePicoContainer container) {

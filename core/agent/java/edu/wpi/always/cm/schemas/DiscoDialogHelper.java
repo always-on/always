@@ -4,7 +4,7 @@ import edu.wpi.cetask.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.DiscoBootstrapper;
-import edu.wpi.disco.rt.actions.UserGenerate;
+import edu.wpi.disco.rt.action.UserGenerate;
 import java.util.List;
 
 public class DiscoDialogHelper {

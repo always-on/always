@@ -4,6 +4,7 @@ import edu.wpi.cetask.Plan;
 import edu.wpi.disco.*;
 import edu.wpi.disco.Agenda.Plugin;
 import edu.wpi.disco.plugin.ProposeShouldNotPlugin;
+import edu.wpi.disco.rt.util.Utils;
 import java.util.*;
 
 public class DiscoProposeShouldNotPlugin extends Plugin {
@@ -22,7 +23,7 @@ public class DiscoProposeShouldNotPlugin extends Plugin {
    private void tryCreateInnerPluginIfNotCreatedYet () {
       if ( innerPlugin != null )
          return;
-      Agenda agendaInstanceNeverToBeUsed = DiscoUtils
+      Agenda agendaInstanceNeverToBeUsed = Utils
             .createEmptyAgendaFor(actor);
       if ( agendaInstanceNeverToBeUsed != null )
          innerPlugin = new ProposeShouldNotPlugin(agendaInstanceNeverToBeUsed,

@@ -1,8 +1,8 @@
 package edu.wpi.always.story;
 
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.schemas.registries.SchemaRegistry;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.schema.*;
 
 public class StoryPluginRegistry implements SchemaRegistry {
 

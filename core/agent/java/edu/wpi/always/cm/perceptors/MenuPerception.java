@@ -1,8 +1,27 @@
 package edu.wpi.always.cm.perceptors;
 
 import edu.wpi.disco.rt.perceptor.Perception;
+import org.joda.time.DateTime;
 
-public interface MenuPerception extends Perception {
+public class MenuPerception extends Perception {
 
-   String selectedMenu ();
+   private final String selected;
+
+   public MenuPerception (String selected, DateTime stamp) {
+      super(stamp);
+      this.selected = selected;
+   }
+
+   public MenuPerception (String selected) {
+      this(selected, DateTime.now());
+   }
+   public String getSelected () { return selected; }
+
+   @Override
+   public String toString () {
+      return "Menu[selected=" + selected + ", stamp=" + stamp
+         + "]";
+   }
+
+   
 }

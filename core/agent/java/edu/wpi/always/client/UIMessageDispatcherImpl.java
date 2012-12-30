@@ -1,6 +1,6 @@
 package edu.wpi.always.client;
 
-import edu.wpi.disco.rt.ThreadPools;
+import edu.wpi.disco.rt.util.ThreadPools;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 

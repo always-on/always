@@ -19,7 +19,7 @@ public class ConsoleFaceTrackerRealizer extends
    public void run () {
       FacePerception perception = perceptor.getLatest();
       if ( perception != null )
-         System.out.println("Tracking face @ " + perception.faceLocation());
+         System.out.println("Tracking face @ " + perception.getPoint());
       else
          System.out.println("WARNING: no face, but face tracker is active");
    }

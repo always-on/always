@@ -1,7 +1,10 @@
 package edu.wpi.always.owl;
 
 import edu.wpi.always.*;
+import edu.wpi.always.cm.*;
+import edu.wpi.always.rm.*;
 import edu.wpi.always.user.owl.*;
+import edu.wpi.disco.rt.ComponentRegistry;
 import org.picocontainer.*;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.*;
@@ -16,15 +19,15 @@ import java.io.FileOutputStream;
 public class OntologyFactoryMain {
 
    public static void main (String[] args) {
-      final ProgramBootstrapper program = new ProgramBootstrapper(false);
-      program.addRegistry(new SimpleRegistry() {
+      final Bootstrapper program = new Bootstrapper(false);
+      program.addRegistry(new ComponentRegistry() {
 
          @Override
          public void register (MutablePicoContainer container) {
             container.as(Characteristics.CACHE).addComponent(
-                  IRelationshipManager.class, FakeRelationshipManager.class);
+                  IRelationshipManager.class, DummyRelationshipManager.class);
             container.as(Characteristics.CACHE).addComponent(
-                  ICollaborationManager.class, FakeCollaborationManager.class);
+                  ICollaborationManager.class, DummyCollaborationManager.class);
          }
       });
       program.addRegistry(new OntologyUserRegistry("Test User",

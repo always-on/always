@@ -7,6 +7,7 @@ import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.realizer.Constraint.Type;
+import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;
 import java.util.List;
 
@@ -128,9 +129,9 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private String checkMenuSelected (List<String> userChoices,
          DateTime menuShownAt) {
       MenuPerception p = menuPerceptor.getLatest();
-      if ( p != null && userChoices.contains(p.selectedMenu())
+      if ( p != null && userChoices.contains(p.getSelected())
          && p.getTimeStamp().isAfter(menuShownAt) ) {
-         return p.selectedMenu();
+         return p.getSelected();
       }
       return null;
    }

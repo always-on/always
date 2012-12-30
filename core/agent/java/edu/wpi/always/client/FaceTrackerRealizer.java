@@ -9,13 +9,13 @@ public class FaceTrackerRealizer extends
 
    public static final long FACE_TRACK_TIME_DAMPENING = 1000;
    private final ClientProxy proxy;
-   private final EmotiveFacePerceptor perceptor;
+   private final FacePerceptor perceptor;
    private AgentTurn lastDir;
    private AgentTurn nextDir;
    private long lastNewNext = 0;
 
    public FaceTrackerRealizer (FaceTrackBehavior params,
-         EmotiveFacePerceptor perceptor, ClientProxy proxy) {
+         FacePerceptor perceptor, ClientProxy proxy) {
       super(params);
       this.proxy = proxy;
       this.perceptor = perceptor;
@@ -23,10 +23,9 @@ public class FaceTrackerRealizer extends
 
    @Override
    public void run () {
-      EmotiveFacePerception perception = perceptor.getLatest();
+      FacePerception perception = perceptor.getLatest();
       if ( perception != null ) {
-         AgentTurn dir = GazeRealizer.translateToAgentTurn(perception
-               .getLocation());
+         AgentTurn dir = GazeRealizer.translateToAgentTurn(perception.getPoint());
          if ( dir != lastDir ) {
             if ( dir != nextDir ) {
                lastNewNext = System.currentTimeMillis();

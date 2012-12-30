@@ -7,7 +7,7 @@ public class FaceTrackBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return PhysicalResources.GAZE;
+      return AgentResources.GAZE;
    }
 
    @Override

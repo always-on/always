@@ -1,15 +1,15 @@
 package edu.wpi.always.story;
 
-import edu.wpi.always.client.AgentFaceExpression;
+import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.SpeechPerception.SpeechState;
 import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.cm.ui.Keyboard;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.perceptor.PerceptorBuffer;
+import edu.wpi.disco.rt.schema.SchemaBase;
 
-public class BackChannelSchema extends SchemaImplBase {
+public class BackChannelSchema extends SchemaBase {
 
    AudioFileBehavior speechBehavior = new AudioFileBehavior(
          BackChannelSchema.class
@@ -66,7 +66,7 @@ public class BackChannelSchema extends SchemaImplBase {
       //
       BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0.9)
             .build();
-      SpeechState newState = perception.speakingState();
+      SpeechState newState = perception.getState();
       if ( newState != lastState ) {
          if ( newState == SpeechState.Silent ) {
             if ( System.currentTimeMillis() - lastSilentAction > MIN_SILENT_ACTION_DELAY ) {

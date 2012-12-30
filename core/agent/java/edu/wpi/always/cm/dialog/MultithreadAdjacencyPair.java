@@ -1,8 +1,8 @@
 package edu.wpi.always.cm.dialog;
 
-import edu.wpi.disco.rt.utils.RArgumentNullException;
+import edu.wpi.disco.rt.util.NullArgumentException;
 
-public class MultithreadAdjacencyPair<C> extends AdjacencyPairImpl<C> {
+public class MultithreadAdjacencyPair<C> extends AdjacencyPairBase<C> {
 
    public MultithreadAdjacencyPair (String message, C context) {
       super(message, context);
@@ -21,7 +21,7 @@ public class MultithreadAdjacencyPair<C> extends AdjacencyPairImpl<C> {
 
    public void setNextState (AdjacencyPair state) {
       if ( state == null )
-         throw new RArgumentNullException("state");
+         throw new NullArgumentException("state");
       abruptNextState = state;
    }
 

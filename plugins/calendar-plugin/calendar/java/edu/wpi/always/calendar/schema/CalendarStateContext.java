@@ -1,8 +1,7 @@
 package edu.wpi.always.calendar.schema;
 
 import edu.wpi.always.calendar.CalendarUI;
-import edu.wpi.always.client.UIMessageDispatcher;
-import edu.wpi.always.cm.ui.Keyboard;
+import edu.wpi.always.client.*;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;

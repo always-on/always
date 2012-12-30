@@ -2,7 +2,7 @@ package edu.wpi.disco.rt.realizer.petri;
 
 import com.google.common.collect.Maps;
 import edu.wpi.disco.rt.realizer.*;
-import edu.wpi.disco.rt.utils.*;
+import edu.wpi.disco.rt.util.*;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -117,9 +117,9 @@ public class PetriRealizer implements CompoundRealizer {
 
    private Place getPlace (PrimitiveBehavior pb, SyncPoint syncPoint) {
       if ( syncPoint == null )
-         throw new RArgumentNullException("syncPoint");
+         throw new NullArgumentException("syncPoint");
       if ( pb == null )
-         throw new RArgumentNullException("pb");
+         throw new NullArgumentException("pb");
       switch (syncPoint) {
       case Start:
          if ( startPlaces.containsKey(pb) )

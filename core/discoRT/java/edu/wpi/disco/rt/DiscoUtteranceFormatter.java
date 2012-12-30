@@ -5,7 +5,7 @@ import edu.wpi.cetask.Utils;
 import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.*;
 import edu.wpi.disco.lang.Utterance;
-import edu.wpi.disco.rt.actions.TranslateUtterance;
+import edu.wpi.disco.rt.action.TranslateUtterance;
 import java.util.*;
 
 public class DiscoUtteranceFormatter {

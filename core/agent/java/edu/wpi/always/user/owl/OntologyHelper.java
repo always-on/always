@@ -223,8 +223,6 @@ public class OntologyHelper {
    /**
     * If B is initialProperty of A and C is throughProperty of B then C is
     * resultProperty of A
-    * 
-    * @return
     */
    public OWLSubPropertyChainOfAxiom getOWLSubPropertyChainOfAxiom (
          OWLObjectProperty initialProperty,

@@ -38,7 +38,7 @@ public class PlanNode {
             - (long) (myActivity.duration * Activity.DURATIONUNIT * 60000) - RM.activityOccurrences
                .get(myActivity.name).date.getTime()) / 60000;
          elapsedMins = Math.max(elapsedMins, 60);
-         double coefficient = (1 - (.99 / (Math.pow(elapsedMins / 60, 0.5))));
+         double coefficient = (double) (1 - (.99 / (Math.pow(elapsedMins / 60, 0.5))));
          closeness *= coefficient;
          virtue *= coefficient;
       }
@@ -85,7 +85,7 @@ public class PlanNode {
          // Activity.DURATIONUNIT * 60000)
          // - projectedHistory.get(myActivity.name).date.getTime()) / 60000, 1);
          elapsedMins = Math.max(elapsedMins, 60);
-         double coefficient = (1 - (.9 / (Math.pow(elapsedMins / 60, 0.5))));
+         double coefficient = (double) (1 - (.9 / (Math.pow(elapsedMins / 60, 0.5))));
          // System.out.println(coefficient);
          closeness *= coefficient;
          virtue *= coefficient;

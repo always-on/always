@@ -2,10 +2,9 @@ package edu.wpi.always.story;
 
 import edu.wpi.always.client.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceResuseMode;
-import edu.wpi.always.cm.SchemaImplBase;
 import edu.wpi.always.cm.dialog.*;
-import edu.wpi.always.cm.ui.KeyboardAdjacenyPair;
 import edu.wpi.always.user.people.Person;
+import edu.wpi.disco.rt.schema.SchemaBase;
 
 public class StoryAdjacencyPairs {
 
@@ -16,7 +15,7 @@ public class StoryAdjacencyPairs {
    private static OntologyStory[] storyList;
 
    public static class StoryStartAdjacencyPair extends
-         AdjacencyPairImpl<StoryStateContext> {
+         AdjacencyPairBase<StoryStateContext> {
 
       public StoryStartAdjacencyPair (final StoryStateContext context) {
          super(
@@ -47,7 +46,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class StoryRecordingAdjacencyPair extends
-         AdjacencyPairImpl<StoryStateContext> {
+         AdjacencyPairBase<StoryStateContext> {
 
       public StoryRecordingAdjacencyPair (final StoryStateContext context) {
          super("Go ahead, I'm listening...", context);
@@ -70,7 +69,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class StoryReplayAdjacencyPair extends
-         AdjacencyPairImpl<StoryStateContext> {
+         AdjacencyPairBase<StoryStateContext> {
 
       public StoryReplayAdjacencyPair (final StoryStateContext context) {
          super("", context);
@@ -90,7 +89,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class StoryRecordDoneGetAttitudeAdjacencyPair extends
-         AdjacencyPairImpl<StoryStateContext> {
+         AdjacencyPairBase<StoryStateContext> {
 
       public StoryRecordDoneGetAttitudeAdjacencyPair (
             final StoryStateContext context) {
@@ -125,13 +124,13 @@ public class StoryAdjacencyPairs {
 
       @Override
       public void enter () {
-         SchemaImplBase.backchanneling = false;
+         SchemaBase.backchanneling = false;
          recorder.stopRecording();
       }
    }
 
    public static class StoryRecordDoneGetAudienceAdjacencyPair extends
-         AdjacencyPairImpl<StoryStateContext> {
+         AdjacencyPairBase<StoryStateContext> {
 
       public StoryRecordDoneGetAudienceAdjacencyPair (
             final StoryStateContext context) {
@@ -187,7 +186,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class StoryRecordDoneSaveOntologyAdjacencyPair extends
-         AdjacencyPairImpl<StoryStateContext> {
+         AdjacencyPairBase<StoryStateContext> {
 
       public StoryRecordDoneSaveOntologyAdjacencyPair (
             final StoryStateContext context) {
@@ -209,7 +208,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class EnterAudienceName extends
-         KeyboardAdjacenyPair<StoryStateContext> {
+         KeyboardAdjacencyPair<StoryStateContext> {
 
       public EnterAudienceName (StoryStateContext context) {
          super("Type his or her name, I will remember.", context, context
@@ -229,7 +228,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class EnterStoryNameToRecord extends
-         KeyboardAdjacenyPair<StoryStateContext> {
+         KeyboardAdjacencyPair<StoryStateContext> {
 
       public EnterStoryNameToRecord (StoryStateContext context) {
          super("What do you want the name of it to be?", context, context
@@ -249,7 +248,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class StoryReplayStoryTypeChoiceAdjacencyPair extends
-         AdjacencyPairImpl<StoryStateContext> {
+         AdjacencyPairBase<StoryStateContext> {
 
       public StoryReplayStoryTypeChoiceAdjacencyPair (
             final StoryStateContext context) {
@@ -309,7 +308,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class StoryReplayShowStoriesAdjacencyPair extends
-         AdjacencyPairImpl<StoryStateContext> {
+         AdjacencyPairBase<StoryStateContext> {
 
       public StoryReplayShowStoriesAdjacencyPair (
             final StoryStateContext context) {
@@ -333,7 +332,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class StoryReplayEditOneStory extends
-         AdjacencyPairImpl<StoryStateContext> {
+         AdjacencyPairBase<StoryStateContext> {
 
       public StoryReplayEditOneStory (final StoryStateContext context) {
          super("Do you want to play it, edit the name or just delete it?",
@@ -367,7 +366,7 @@ public class StoryAdjacencyPairs {
    }
 
    public static class EnterStoryNameToPlay extends
-         KeyboardAdjacenyPair<StoryStateContext> {
+         KeyboardAdjacencyPair<StoryStateContext> {
 
       public EnterStoryNameToPlay (StoryStateContext context) {
          super("Tell me the story name:", context, context.getKeyboard());
