@@ -1,0 +1,276 @@
+	 DEVELOPMENT ENVIRONMENT SETUP FOR ALWAYS-ON PROJECT
+
+		  http://web.cs.wpi.edu/~rich/always
+
+		      rich@wpi.edu, Nov 28, 2012
+
+The goal of this document is help a new project developer get his/her
+software environment conveniently configured.  The project uses GitHub
+(http://github.com) for development and the gitflow branching
+model described at:
+
+  http://nvie.com/posts/a-successful-git-branching-model
+
+We recommend using this feature branching model on your private fork,
+but it is not required, since changes to the main repository will be
+done exclusively via pull requests on the 'develop' branch (see
+details below).
+
+There are many free tutorials available on how to use Git and GitHub,
+including:
+
+  http://www.vogella.com/articles/Git/article.html.
+
+  https://help.github.com/articles/where-can-i-learn-more-about-git-and-github  
+
+---REQUIRED SOFTWARE CONFIGURATION---
+
+   Windows 7 (64-bit)
+   Java 1.7 (64-bit)
+   .Net 4.0
+   Eclipse 3.8 (Juno) Service Release 1
+   Visual Studio 2010 SP1 (Target Platform: Any CPU)
+   Git 1.7
+
+   Target Display Size 1600x900
+
+   * Notes
+
+     -loaded dll's should be for 64 bit configuration!
+     -Git can coexist with SVN
+
+---REPOSITORY SETUP---
+
+   * Create a (free, personal) GitHub account, if you don't already have one.
+
+   * Fork the main project repository
+
+     -browse to https://github.com/always-on/always
+     -in the Watch dropdown menu (upper right), select Ignored (so you won't
+      get notifications for the main repository)
+     -click on 'Fork' button (upper right corner)
+     -this will create a repository yourname/always
+
+   * Install Windows GitHub application
+
+     -click the 'Clone in Windows' button (middle left), which will
+      take you to http://windows.github.com
+     -click on 'download' button (upper right corner)
+     -run the downloaded installation file for Windows GitHub application
+     -this will create two desk shortcuts named GitHub and Git Shell
+     -GitHub will start automatically in 'connect' window
+     -enter your GitHub username and password and login
+     -in 'configure' window enter the full name and email address 
+      and click 'continue'
+     -click on 'dashboard' link
+     -click on your github username on dashboard
+     -you should see your forked repository yourname/always
+
+    * Clone the forked repository onto your local machine
+
+      -click on the 'CLONE' icon for yourname/always
+      -when clone completed, click on the (local) repositories icon
+      -double-click on yourname/always to view local copy of 
+       your forked repository
+      -make *certain* that the current branch (see branch icon at top) is 'develop'
+      -if current branch is not 'develop', make it the current branch using drop-down
+       menu on branch icon (note this menu is used to create and merge new branches;
+       see 'manage' icon in drop-down)
+      -click on 'tools' icon (top right) and select 'open a shell here', which
+       will open a Git Shell with the working directory for your forked repository
+      -configure the 'upstream' remote (i.e., the main repository) by typing
+       the following command to the shell:
+
+       [develop] > git remote add upstream https://github.com/always-on/always.git
+      
+      -make no fast-forward (--no-ff) the default for merging (recommended for gitflow)
+
+       [develop] > git config merge.ff false
+
+      -close the shell
+
+---INSTALL GIT DEVELOPMENT TOOL EXTENSIONS--- (OPTIONAL)
+
+You can use the Windows GitHub application for all Git operations if
+you wish, but we recommend the following convenient extensions for
+development tools.
+
+   * Install TortoiseGit
+
+     -browse to http://code.google.com/p/tortoisegit/wiki/Download
+     -click and run Git_1.7... 64-bit version
+     -install with all defaults
+     -after you reboot machine, you should see icons next to files
+      in working directory indicated Git status
+
+   * Install Git for Windows
+
+     -browse to http://msysgit.github.com
+     -select Download link for "Pure Users of Git'
+     -select and run Git-1.7.11... link
+     -install using all default choices
+     -you can delete the Git Bash shortcut installed on Desktop
+      (the Git Shell from GitHub is better)
+
+   * Install gitscc in Visual Studio
+
+     -menu bar Tools > Extension Manager > Online Gallery
+     -type 'git' into search box (upper right corner)
+     -select Git Source Control Provider and click Download
+     -click Install
+     -click Restart Now to restart Visual Studio
+     -menu bar Tools > Options > Source Control
+     -in 'Current source control plug-in:' dropdown, select Git Source...
+
+   * Install EGit in Eclipse
+
+     -menu bar Help > Install New Software
+     -in 'Work with' dropdown, select 
+      Juno - http://download.eclipse.org/releases/juno
+     -in main window, open Collaboration folder and select 
+      Eclipse EGit and Eclipse EGit Mylin GitHub Feature
+     -click Next > Finish
+     -restart Eclipse
+
+---ECLIPSE SETUP---
+
+    * Inform Eclipse of repository location
+
+      -menu bar Window > Show View > Other > Git > Git Repositories
+      -in Git Repositories window, click on Add an existing local Git repository
+      -Browse to always folder, e.g., in C:\Users\...\Documents\GitHub
+      -click Finish
+
+    * Create a working set
+
+      -menu File > New > Java Working Set
+      -fill in Working set name as 'always' > Finish
+      
+    * Open Java projects
+
+      -menu bar File > Import > Git > Projects from Git > Local
+      -select always repository > Next 
+      -select Import existing projects > Next
+      -click 'Add project to working sets' and select 'always'
+      -click Finish
+
+---VISUAL STUDIO SETUP---
+
+     * Open Solution
+
+       -menu bar File > Open > Project/Solution
+       -browse to repository always\core\WinAgent
+       -select WinAgent.sln > Open
+
+     * Fix configuration
+
+       -make sure Build Platform in menu bar is 'Any CPU'
+       -right-click on AgentApp project and select Set as Start Project
+
+---UPDATE FROM UPSTREAM (MAIN) REPOSITORY---
+
+It is *very* important that before you start working on a personal
+feature and before you make a pull request (see below), you update
+your fork with any changes that have been made "upstream" (i.e., on
+main repository) since you originally forked.
+
+     * Update develop branch from upstream remote 
+
+       -open Windows GitHub application
+       -right click on local forked always repository and select
+        'open shell here'
+       -type following commands into shell
+
+        [develop] > git fetch upstream
+        [develop] > git merge upstream/develop
+   
+       -close shell     
+
+---NEW FEATURE DEVELOPMENT---
+
+It is recommended, but not necessary, that, following gitflow, you
+create a new branch for each feature development.  You create the new
+branch when you start working on the feature and and delete it after
+your fully-tested feature is merged back into develop (see below).
+
+     * Create a new feature branch (optional)
+
+       -open Windows GitHub application to local forked repository yourname/always
+       -click on branching icon at top of page
+       -in FILTER OR CREATE NEW box type in name of new branch, e.g., New-Story-Interface
+       -click create branch button
+       -the new branch is now the current branch
+       -click Publish (top line) so branch can be sync'ed with GitHub for backup
+
+     * Develop and debug new feature
+
+       -commit changes to local repository as you go using context menu in:
+           Eclipse (Team > Commit), 
+           Visual Studio (Git > Commit),
+           and/or TortoiseGit (TortoiseGit > Commit)
+       -note this only changes local repository!
+
+     * Synch (push) changeds to your fork on GitHub for backup
+
+       -push your local repository regularly to GitHub whenever you want 
+        for backup
+       -use sync button (top menu) in Windows GitHub application or Push options
+        in context menus, as noted above
+
+---SUBMIT NEW FEATURE---
+
+Submitting your new feature (currently on your fork) for incorporation
+into the main repository is called a "pull request", because you are
+requesting the main repository to "pull" your changes from your fork.
+
+The goal of the steps below is to try to avoid, as much as possible,
+broken code getting into the main repository.
+
+     * Update your fork from the main repository using the "UPDATE
+       FROM UPSTREAM" instructions above.
+
+     * Merge your feature branch into the 'develop' branch (Optional)
+
+       -this step is required if and only if you created a feature
+        branch as recommended above
+       -open Windows GitHub application
+       -switch to develop branch
+       -click on branch icon
+       -select MANAGE icon
+       -set up merge of feature branch into develop branch by dragging into merge boxes
+       -make sure feature branch is first, develop is second and output is develop!
+       -click MERGE
+
+     * Test new feature
+        
+        -make sure develop branch is selected
+        -test feature to make sure your feature still works correctly!
+	-if merging with develop broke your code, fix it before moving on!
+        -you can either start a new feature branch now (recommended) or continue
+	 in the develop branch
+        -when everything is working, do a last sych on 'develop' branch push
+	 your changes to your fork on GitHub
+
+     * Submit feature
+
+       -browse to the page for your forked repository on GitHub
+       -click on Pull Request (top middle)
+       -Write a short summary of your feature
+       -click on Send pull request
+
+     * Delete feature branch (Optional)
+
+        -since your feature branch is merged into 'develop', you can clean up your history
+         by deleting it (the original commits are now recorded in develop history)
+	-in Windows GitHub application and click on branching icon
+        -select MANAGE icon
+        -select feature branch
+        -click on trash can to delete
+        
+#EOF
+       
+  
+       
+
+
+
