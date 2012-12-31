@@ -4,7 +4,7 @@ import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.perceptors.sensor.pir.PIRMovementPerceptor;
 import edu.wpi.always.cm.perceptors.sensor.speech.LaunSpeechPerceptor;
-import edu.wpi.disco.rt.ComponentRegistry;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 
 public class SensorsRegistry implements ComponentRegistry {

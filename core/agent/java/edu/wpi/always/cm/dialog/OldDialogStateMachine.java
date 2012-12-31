@@ -4,6 +4,7 @@ import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.util.TimeStampedValue;
 import java.util.List;
 

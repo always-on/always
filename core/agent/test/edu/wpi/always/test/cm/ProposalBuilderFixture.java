@@ -7,6 +7,7 @@ import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.ProposalBuilder.FocusRequirement;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import org.junit.Test;
 import java.util.ArrayList;

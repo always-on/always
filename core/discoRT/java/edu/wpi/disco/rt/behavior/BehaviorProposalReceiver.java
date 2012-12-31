@@ -1,4 +1,4 @@
-package edu.wpi.disco.rt;
+package edu.wpi.disco.rt.behavior;
 
 import edu.wpi.disco.rt.schema.Schema;
 

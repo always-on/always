@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.primitives.console;
 
-import edu.wpi.disco.rt.ComponentRegistry;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.MutablePicoContainer;
 
 public class ConsoleRealizersRegistry implements ComponentRegistry {

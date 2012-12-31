@@ -4,7 +4,7 @@ import edu.wpi.always.user.*;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
-import edu.wpi.disco.rt.ComponentRegistry;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 import java.io.File;
 

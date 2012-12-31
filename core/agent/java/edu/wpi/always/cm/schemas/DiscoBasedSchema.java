@@ -6,6 +6,7 @@ import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 import java.io.IOException;
 import java.util.List;

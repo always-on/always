@@ -4,7 +4,7 @@ import edu.wpi.always.*;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.rm.*;
 import edu.wpi.always.user.owl.*;
-import edu.wpi.disco.rt.ComponentRegistry;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.*;

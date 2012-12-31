@@ -2,7 +2,7 @@ package edu.wpi.always.client;
 
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.console.ConsoleRealizersRegistry;
-import edu.wpi.disco.rt.ComponentRegistry;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 
 public class DummyClientRegistry implements ComponentRegistry {

@@ -3,6 +3,7 @@ package edu.wpi.disco.rt;
 import java.io.InputStream;
 import java.util.List;
 import edu.wpi.cetask.Utils;
+import edu.wpi.disco.rt.behavior.BehaviorMetadata;
 
 public class FuzzyArbitrationStrategy implements ArbitrationStrategy {
 

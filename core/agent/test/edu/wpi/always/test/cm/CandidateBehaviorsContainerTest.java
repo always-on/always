@@ -5,6 +5,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import org.joda.time.DateTime;
 import org.junit.*;

@@ -4,6 +4,7 @@ import edu.wpi.disco.Agent;
 import edu.wpi.disco.rt.perceptor.Perceptor;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
 import java.util.*;

@@ -8,6 +8,7 @@ import edu.wpi.always.story.*;
 import edu.wpi.always.story.schema.StoryAdjacencyPairs.StoryStartAdjacencyPair;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 
 public class StorySchema extends SchemaBase {

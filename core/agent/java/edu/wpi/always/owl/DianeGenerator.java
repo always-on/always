@@ -9,7 +9,7 @@ import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
-import edu.wpi.disco.rt.ComponentRegistry;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.joda.time.MonthDay;
 import org.picocontainer.*;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;

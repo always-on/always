@@ -5,6 +5,7 @@ import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.primitives.console.ConsoleSpeechRealizer;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 import org.junit.*;

@@ -1,6 +1,7 @@
 package edu.wpi.always.test.cm;
 
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 
 public class Old_Arbitrate {
 

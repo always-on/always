@@ -1,6 +1,6 @@
 package edu.wpi.always.client;
 
-import edu.wpi.disco.rt.BehaviorBuilder;
+import edu.wpi.disco.rt.behavior.BehaviorBuilder;
 
 public interface ClientPlugin {
 

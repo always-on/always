@@ -1,7 +1,7 @@
 package edu.wpi.always.client;
 
 import edu.wpi.always.cm.primitives.AudioFileRealizer;
-import edu.wpi.disco.rt.ComponentRegistry;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 
 public class ClientRegistry implements ComponentRegistry {

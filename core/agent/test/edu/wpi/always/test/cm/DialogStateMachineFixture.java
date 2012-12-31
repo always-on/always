@@ -6,6 +6,7 @@ import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import org.joda.time.DateTime;
 import org.junit.*;

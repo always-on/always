@@ -1,4 +1,4 @@
-package edu.wpi.disco.rt.util;
+package edu.wpi.disco.rt.action;
 
 public class DiscoActionFailed extends RuntimeException {
 

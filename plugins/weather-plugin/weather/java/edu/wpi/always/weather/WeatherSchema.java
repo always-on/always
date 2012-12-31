@@ -6,6 +6,7 @@ import edu.wpi.always.cm.schemas.DiscoBasedSchema;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import java.io.IOException;
 
 public class WeatherSchema extends DiscoBasedSchema {

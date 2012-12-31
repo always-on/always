@@ -8,7 +8,7 @@ import edu.wpi.always.cm.perceptors.sensor.SensorsRegistry;
 import edu.wpi.always.rm.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.OntologyUserRegistry;
-import edu.wpi.disco.rt.ComponentRegistry;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 import java.awt.*;
 import javax.swing.*;

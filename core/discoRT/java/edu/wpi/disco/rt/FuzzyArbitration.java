@@ -1,5 +1,6 @@
 package edu.wpi.disco.rt;
 
+import edu.wpi.disco.rt.behavior.BehaviorMetadata;
 import net.sourceforge.jFuzzyLogic.*;
 import net.sourceforge.jFuzzyLogic.rule.*;
 import org.antlr.runtime.RecognitionException;

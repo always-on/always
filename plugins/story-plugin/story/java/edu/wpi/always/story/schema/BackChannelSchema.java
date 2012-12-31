@@ -7,6 +7,7 @@ import edu.wpi.always.cm.perceptors.SpeechPerception.SpeechState;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.story.SwingCheckBox;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.perceptor.PerceptorBuffer;
 import edu.wpi.disco.rt.schema.SchemaBase;
 

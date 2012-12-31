@@ -1,4 +1,4 @@
-package edu.wpi.disco.rt;
+package edu.wpi.disco.rt.behavior;
 
 public class BehaviorMetadata {
 

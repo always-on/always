@@ -2,6 +2,7 @@ package edu.wpi.always;
 
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 import java.util.*;
 

@@ -3,6 +3,7 @@ package edu.wpi.always.rummy;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.ProposalBuilder.FocusRequirement;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 
 public class RummySchema extends SchemaBase {

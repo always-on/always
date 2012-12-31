@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt.schema;
 
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;

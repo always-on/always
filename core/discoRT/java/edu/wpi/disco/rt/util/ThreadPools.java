@@ -1,6 +1,6 @@
 package edu.wpi.disco.rt.util;
 
-import edu.wpi.disco.rt.Behavior;
+import edu.wpi.disco.rt.behavior.Behavior;
 import edu.wpi.disco.rt.realizer.*;
 import java.util.*;
 import java.util.concurrent.*;

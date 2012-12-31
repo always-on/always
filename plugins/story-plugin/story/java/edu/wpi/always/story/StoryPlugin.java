@@ -4,8 +4,8 @@ import org.picocontainer.*;
 import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.dummy.DummySpeechPerceptor;
 import edu.wpi.always.story.schema.*;
-import edu.wpi.disco.rt.ComponentRegistry;
 import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 
 public class StoryPlugin extends Plugin {
    

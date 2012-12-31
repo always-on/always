@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import com.google.common.collect.Lists;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.schema.Schema;
 import org.junit.*;

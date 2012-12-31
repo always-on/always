@@ -2,6 +2,7 @@ package edu.wpi.always.test.cm;
 
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 import java.awt.Point;
 

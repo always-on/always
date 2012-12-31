@@ -12,6 +12,7 @@ import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.action.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.perceptor.Perceptor;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.Utils;

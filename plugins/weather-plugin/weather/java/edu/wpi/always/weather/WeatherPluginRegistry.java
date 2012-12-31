@@ -4,6 +4,7 @@ import edu.wpi.always.cm.*;
 import edu.wpi.always.weather.wunderground.WundergroundWeatherProvider;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.MutablePicoContainer;
 
 public class WeatherPluginRegistry implements SchemaRegistry, ComponentRegistry {
