@@ -31,7 +31,7 @@ public class DiscoRT {
    private void configure () {
       container.addComponent(container);
       container.as(Characteristics.CACHE).addComponent(PrimitiveBehaviorManager.class);
-      container.as(Characteristics.CACHE).addComponent(RealizerImpl.class);
+      container.as(Characteristics.CACHE).addComponent(Realizer.class);
       container.addComponent(FocusRequestRealizer.class);
       container.addComponent(FuzzyArbitrationStrategy.class);
       container.as(Characteristics.CACHE).addComponent(CandidateBehaviorsContainer.class);

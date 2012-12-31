@@ -5,7 +5,7 @@ import edu.wpi.disco.rt.Resource;
 import edu.wpi.disco.rt.realizer.*;
 import java.util.List;
 
-public class RealizerStub implements Realizer {
+public class RealizerStub implements IRealizer {
 
    public List<CompoundBehavior> realizedBehaviors = Lists.newArrayList();
 

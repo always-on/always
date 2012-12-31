@@ -8,11 +8,11 @@ import java.util.List;
 public class Arbitrator implements Runnable {
 
    private final ICandidateBehaviorsContainer candidateBehaviors;
-   private final Realizer realizer;
+   private final IRealizer realizer;
    private final ArbitrationStrategy strategy;
    private Schema focus;
 
-   public Arbitrator (ArbitrationStrategy strategy, Realizer realizer,
+   public Arbitrator (ArbitrationStrategy strategy, IRealizer realizer,
          ICandidateBehaviorsContainer behaviors) {
       this.strategy = strategy;
       this.realizer = realizer;

@@ -61,7 +61,7 @@ public class SchemaFeedbacksFixture {
       MutablePicoContainer pico = new DefaultPicoContainer(new OptInCaching());
       pico.as(Characteristics.CACHE).addComponent(
             PrimitiveBehaviorManager.class);
-      pico.as(Characteristics.CACHE).addComponent(RealizerImpl.class);
+      pico.as(Characteristics.CACHE).addComponent(Realizer.class);
       pico.as(Characteristics.CACHE).addComponent(FakeSchema.class);
       pico.as(Characteristics.CACHE).addComponent(
             HigherPriorityDummySchema.class);
