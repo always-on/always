@@ -4,7 +4,7 @@ import com.sun.jna.Native;
 import java.io.*;
 import java.util.Map;
 
-public class NativeUtil {
+public abstract class NativeUtil {
 
    public static void copyLibraryFromResource (String sourceResource,
          String targetName) {
@@ -47,4 +47,6 @@ public class NativeUtil {
       copyLibraryFromResource(sourceResource, name);
       return Native.loadLibrary(name, interfaceClass);
    }
+   
+   private NativeUtil () {}
 }

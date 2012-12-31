@@ -15,7 +15,7 @@ public class BehaviorStartPlace extends Place {
       this.control = control;
    }
 
-   public FutureValue<PrimitiveRealizerHandle> GetRealizerHandle () {
+   public FutureValue<PrimitiveRealizerHandle> getRealizerHandle () {
       return handle;
    }
 

@@ -3,7 +3,7 @@ package edu.wpi.disco.rt.realizer;
 import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class SingleRunPrimitiveRealizer<T extends PrimitiveBehavior>
-      extends PrimitiveRealizerImplBase<T> {
+      extends PrimitiveRealizerBase<T> {
 
    Boolean ranOnce = false, done = false;
    ReentrantLock lock = new ReentrantLock();

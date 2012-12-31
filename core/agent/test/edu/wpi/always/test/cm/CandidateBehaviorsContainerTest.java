@@ -15,12 +15,12 @@ import java.util.concurrent.*;
 public class CandidateBehaviorsContainerTest {
 
    private static final int ANY_PRIORITY = 1;
-   CandidateBehaviorsContainerImpl container;
+   CandidateBehaviorsContainer container;
    BehaviorHistory resourceMonitor;
 
    @Before
    public void setUp () {
-      container = new CandidateBehaviorsContainerImpl();
+      container = new CandidateBehaviorsContainer();
       resourceMonitor = new BehaviorHistory() {
 
          @Override

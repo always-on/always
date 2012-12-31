@@ -4,7 +4,7 @@ import edu.wpi.disco.rt.util.FutureValue;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
-public class PrimitiveRealizerHandleImpl implements PrimitiveRealizerHandle,
+public class PrimitiveRealizerHandleObserver implements PrimitiveRealizerHandle,
       PrimitiveBehaviorControlObserver, PrimitiveRealizerObserver {
 
    private enum State {
@@ -12,11 +12,11 @@ public class PrimitiveRealizerHandleImpl implements PrimitiveRealizerHandle,
    }
 
    // if it is not set, it means it is Running but not Done
-   FutureValue<State> state = new FutureValue<PrimitiveRealizerHandleImpl.State>();
+   FutureValue<State> state = new FutureValue<PrimitiveRealizerHandleObserver.State>();
    Lock stateWriteLock = new ReentrantLock();
    private PrimitiveBehavior behavior;
 
-   public PrimitiveRealizerHandleImpl (PrimitiveBehavior behavior,
+   public PrimitiveRealizerHandleObserver (PrimitiveBehavior behavior,
          PrimitiveRealizer<?> realizer, PrimitiveBehaviorControl control) {
       this.behavior = behavior;
       control.addObserver(this);
@@ -64,6 +64,11 @@ public class PrimitiveRealizerHandleImpl implements PrimitiveRealizerHandle,
          throws InterruptedException, ExecutionException, TimeoutException {
       state.get(timeout);
    }
+   
+   @Override
+   public PrimitiveBehavior getBehavior () {
+      return behavior;
+   }
 
    @Override
    public void primitiveDone (PrimitiveBehaviorControl sender,
@@ -84,11 +89,6 @@ public class PrimitiveRealizerHandleImpl implements PrimitiveRealizerHandle,
             stateWriteLock.unlock();
          }
       }
-   }
-
-   @Override
-   public PrimitiveBehavior getBehavior () {
-      return behavior;
    }
 
    @Override

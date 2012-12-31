@@ -2,7 +2,7 @@ package edu.wpi.always.rummy;
 
 import edu.wpi.always.*;
 
-public class RummyPlugin extends PluginBase {
+public class RummyPlugin extends Plugin {
    
    public RummyPlugin () { 
       addActivity("PlayRummy", 0, 0, 0, 0, RummySchema.class, RummyClientPlugin.class); 

@@ -12,7 +12,7 @@ public class PrimitiveBehaviorManager implements PrimitiveBehaviorControl,
 
    public static final int REALIZERS_INTERVAL = 300; // in milliseconds
    public static final int NUM_THREADS = 2;
-   private final PrimitiveRealizerFactory factory;
+   private final IPrimitiveRealizerFactory factory;
    private final Map<Resource, PrimitiveRealizer<?>> realizersInEffect;
    private final Map<PrimitiveRealizer<?>, ScheduledFuture<?>> runningTasks;
    private final ScheduledExecutorService executor;
@@ -20,7 +20,7 @@ public class PrimitiveBehaviorManager implements PrimitiveBehaviorControl,
    ReentrantLock lock = new ReentrantLock();
    private final IdleBehaviors nullPrimitives;
 
-   public PrimitiveBehaviorManager (PrimitiveRealizerFactory factory,
+   public PrimitiveBehaviorManager (IPrimitiveRealizerFactory factory,
          IdleBehaviors nullPrimitives) {
       this.nullPrimitives = nullPrimitives;
       realizersInEffect = new HashMap<Resource, PrimitiveRealizer<?>>();
@@ -39,7 +39,7 @@ public class PrimitiveBehaviorManager implements PrimitiveBehaviorControl,
             || !currentRealizer.getParams().equals(behavior) )
             currentRealizer = runPrimitive(behavior);
          if ( currentRealizer != null )
-            return new PrimitiveRealizerHandleImpl(behavior, currentRealizer,
+            return new PrimitiveRealizerHandleObserver(behavior, currentRealizer,
                   this);
          else
             return alreadyDoneRealizerHandle(behavior);

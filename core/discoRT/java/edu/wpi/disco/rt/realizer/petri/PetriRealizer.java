@@ -148,7 +148,7 @@ public class PetriRealizer implements CompoundRealizer {
    private FutureValue<PrimitiveRealizerHandle> getRealizerHandleFor (
          PrimitiveBehavior pb) {
       BehaviorStartPlace p = (BehaviorStartPlace) getPlace(pb, SyncPoint.Start);
-      return p.GetRealizerHandle();
+      return p.getRealizerHandle();
    }
 
    @Override

@@ -62,7 +62,7 @@ public class SimpleCompoundBehavior implements CompoundBehavior {
       return "Simple(" + Utils.listify(primitives) + ')';
    }
 
-   public static class Realizer extends CompoundRealizerImplBase implements
+   public static class Realizer extends CompoundRealizerBase implements
          PrimitiveBehaviorControlObserver {
 
       private final PrimitiveBehaviorControl primitiveControl;

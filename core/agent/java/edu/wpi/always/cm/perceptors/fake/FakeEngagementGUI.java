@@ -62,9 +62,9 @@ public class FakeEngagementGUI {
       FacePerceptor facePerceptor = always.getContainer()
             .getComponent(CollaborationManager.class).getContainer()
             .getComponent(FacePerceptor.class);
-      IEngagementPerceptor engagementPerceptor = always.getContainer()
+      EngagementPerceptor engagementPerceptor = always.getContainer()
             .getComponent(CollaborationManager.class).getContainer()
-            .getComponent(IEngagementPerceptor.class);
+            .getComponent(EngagementPerceptor.class);
       while (true) {
          try {
             Thread.sleep(200);

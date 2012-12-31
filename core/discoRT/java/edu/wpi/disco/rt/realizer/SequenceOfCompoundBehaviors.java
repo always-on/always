@@ -64,7 +64,7 @@ public class SequenceOfCompoundBehaviors implements CompoundBehavior {
    }
 
    private static class SequenceCompoundRealizer extends
-         CompoundRealizerImplBase {
+         CompoundRealizerBase {
 
       private final SequenceOfCompoundBehaviors behavior;
       private final PrimitiveBehaviorControl pbc;

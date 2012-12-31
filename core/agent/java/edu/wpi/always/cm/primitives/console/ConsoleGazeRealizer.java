@@ -1,10 +1,10 @@
 package edu.wpi.always.cm.primitives.console;
 
 import edu.wpi.always.cm.primitives.GazeBehavior;
-import edu.wpi.disco.rt.realizer.PrimitiveRealizerImplBase;
+import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
 
 public class ConsoleGazeRealizer extends
-      PrimitiveRealizerImplBase<GazeBehavior> {
+      PrimitiveRealizerBase<GazeBehavior> {
 
    public ConsoleGazeRealizer (GazeBehavior params) {
       super(params);

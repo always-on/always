@@ -34,9 +34,9 @@ public class DiscoRT {
       container.as(Characteristics.CACHE).addComponent(RealizerImpl.class);
       container.addComponent(FocusRequestRealizer.class);
       container.addComponent(FuzzyArbitrationStrategy.class);
-      container.as(Characteristics.CACHE).addComponent(CandidateBehaviorsContainerImpl.class);
+      container.as(Characteristics.CACHE).addComponent(CandidateBehaviorsContainer.class);
       container.as(Characteristics.CACHE).addComponent(Arbitrator.class);
-      container.as(Characteristics.CACHE).addComponent(ResourceMonitorImpl.class);
+      container.as(Characteristics.CACHE).addComponent(ResourceMonitor.class);
       container.addComponent(scheduler);
       container.as(Characteristics.CACHE).addComponent(SchemaManager.class);
    }
@@ -59,7 +59,7 @@ public class DiscoRT {
       for (SchemaRegistry registry : schemaRegistries) {
          registry.register(schemaManager);
       }
-      PrimitiveRealizerFactoryImpl realizerFactory = new PrimitiveRealizerFactoryImpl(container);
+      PrimitiveRealizerFactory realizerFactory = new PrimitiveRealizerFactory(container);
       container.addComponent(realizerFactory);
       realizerFactory.registerAllRealizerInContainer();
       Arbitrator arbitrator = getContainer().getComponent(Arbitrator.class);

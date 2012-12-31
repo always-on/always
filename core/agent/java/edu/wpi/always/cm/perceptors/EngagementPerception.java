@@ -1,8 +1,8 @@
 package edu.wpi.always.cm.perceptors;
 
-import edu.wpi.always.cm.perceptors.EngagementPerceptor.FaceTransition;
-import edu.wpi.always.cm.perceptors.EngagementPerceptor.MovementTransition;
-import edu.wpi.always.cm.perceptors.EngagementPerceptor.TouchTransition;
+import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.FaceTransition;
+import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.MovementTransition;
+import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.TouchTransition;
 import edu.wpi.disco.rt.perceptor.Perception;
 import org.joda.time.DateTime;
 

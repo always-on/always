@@ -6,7 +6,7 @@ import edu.wpi.disco.rt.perceptor.Perceptor;
 import org.joda.time.DateTime;
 import java.awt.Point;
 
-public class DummyEngagementPerceptor implements IEngagementPerceptor {
+public class DummyEngagementPerceptor implements EngagementPerceptor {
 
    private volatile EngagementPerception latest;
 

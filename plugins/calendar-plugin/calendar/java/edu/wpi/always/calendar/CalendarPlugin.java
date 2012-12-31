@@ -3,7 +3,7 @@ package edu.wpi.always.calendar;
 import edu.wpi.always.*;
 import edu.wpi.always.calendar.schema.CalendarSchema;
 
-public class CalendarPlugin extends PluginBase {
+public class CalendarPlugin extends Plugin {
    
    public CalendarPlugin () { 
       addActivity("UseCalendar", 0, 0, 0, 0, CalendarSchema.class, CalendarClient.class); 

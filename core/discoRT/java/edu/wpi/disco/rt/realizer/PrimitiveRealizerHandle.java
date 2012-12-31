@@ -4,21 +4,14 @@ import java.util.concurrent.*;
 
 public interface PrimitiveRealizerHandle {
 
-   PrimitiveBehavior getBehavior ();
+   void waitUntilDoneOrCanceled (long timeout)
+         throws InterruptedException, ExecutionException, TimeoutException;
 
-   boolean isDone ();
+   void waitUntilDoneOrCanceled () throws InterruptedException, ExecutionException;
 
    boolean isRunning ();
 
-   void waitUntilDoneOrCanceled () throws InterruptedException,
-         ExecutionException;
+   boolean isDone ();
 
-   /**
-    * @param timeout in milliseconds
-    * @throws TimeoutException
-    * @throws ExecutionException
-    * @throws InterruptedException
-    */
-   void waitUntilDoneOrCanceled (long timeout) throws InterruptedException,
-         ExecutionException, TimeoutException;
-}
+   PrimitiveBehavior getBehavior ();
+};

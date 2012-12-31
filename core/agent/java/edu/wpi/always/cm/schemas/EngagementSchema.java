@@ -12,12 +12,12 @@ import java.util.Arrays;
 public class EngagementSchema extends SchemaBase {
 
    private final MenuTurnStateMachine stateMachine;
-   private final IEngagementPerceptor engagementPerceptor;
+   private final EngagementPerceptor engagementPerceptor;
    private final FacePerceptor facePerceptor;
    private SchemaManager schemaManager;
 
    public EngagementSchema (BehaviorProposalReceiver behaviorReceiver,
-         IEngagementPerceptor engagementPerceptor,
+         EngagementPerceptor engagementPerceptor,
          FacePerceptor facePerceptor, BehaviorHistory behaviorHistory,
          ResourceMonitor resourceMonitor, MenuPerceptor menuPerceptor,
          SchemaManager schemaManager) {

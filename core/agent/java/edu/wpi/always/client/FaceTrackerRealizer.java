@@ -2,10 +2,10 @@ package edu.wpi.always.client;
 
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
-import edu.wpi.disco.rt.realizer.PrimitiveRealizerImplBase;
+import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
 
 public class FaceTrackerRealizer extends
-      PrimitiveRealizerImplBase<FaceTrackBehavior> {
+      PrimitiveRealizerBase<FaceTrackBehavior> {
 
    public static final long FACE_TRACK_TIME_DAMPENING = 1000;
    private final ClientProxy proxy;

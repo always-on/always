@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class PrimitiveBehaviorControlImplFixture {
 
    private static final int SOMETHING = 1;
-   private PrimitiveRealizerFactory factory;
+   private IPrimitiveRealizerFactory factory;
    private PrimitiveBehaviorManager realizer;
 
    @Before
@@ -193,7 +193,7 @@ public class PrimitiveBehaviorControlImplFixture {
       }
    }
 
-   static class FakeRealizerFactory implements PrimitiveRealizerFactory {
+   static class FakeRealizerFactory implements IPrimitiveRealizerFactory {
 
       @Override
       public PrimitiveRealizer<?> create (PrimitiveBehavior primitiveBehavior) {

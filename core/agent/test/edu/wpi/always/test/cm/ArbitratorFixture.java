@@ -112,7 +112,7 @@ public class ArbitratorFixture {
       };
    }
 
-   public static class FakeContainer implements CandidateBehaviorsContainer {
+   public static class FakeContainer implements ICandidateBehaviorsContainer {
 
       java.util.List<CandidateBehavior> list = newArrayList();
 

@@ -3,7 +3,7 @@ package edu.wpi.disco.rt.realizer;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class CompoundRealizerImplBase implements CompoundRealizer {
+public abstract class CompoundRealizerBase implements CompoundRealizer {
 
    protected final List<CompoundRealizerObserver> observers = new CopyOnWriteArrayList<CompoundRealizerObserver>();
 

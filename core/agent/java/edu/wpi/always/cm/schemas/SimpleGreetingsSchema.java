@@ -12,13 +12,13 @@ public class SimpleGreetingsSchema extends SchemaBase implements
 
    private final FacePerceptor facePerceptor;
    private State state = State.Init;
-   private final EngagementPerceptor engagementPerceptor;
+   private final FaceMovementMenuEngagementPerceptor engagementPerceptor;
    private OldDialogStateMachine stateMachine;
 
    public SimpleGreetingsSchema (BehaviorProposalReceiver behaviorReceiver,
          final BehaviorHistory resourceMonitor, FacePerceptor facePerceptor,
          MenuPerceptor menuPerceptor,
-         EngagementPerceptor engagementPerceptor) {
+         FaceMovementMenuEngagementPerceptor engagementPerceptor) {
       super(behaviorReceiver, resourceMonitor);
       this.facePerceptor = facePerceptor;
       this.engagementPerceptor = engagementPerceptor;

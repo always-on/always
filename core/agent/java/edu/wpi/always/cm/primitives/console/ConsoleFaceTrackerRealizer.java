@@ -2,10 +2,10 @@ package edu.wpi.always.cm.primitives.console;
 
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
-import edu.wpi.disco.rt.realizer.PrimitiveRealizerImplBase;
+import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
 
 public class ConsoleFaceTrackerRealizer extends
-      PrimitiveRealizerImplBase<FaceTrackBehavior> {
+      PrimitiveRealizerBase<FaceTrackBehavior> {
 
    private final FacePerceptor perceptor;
 

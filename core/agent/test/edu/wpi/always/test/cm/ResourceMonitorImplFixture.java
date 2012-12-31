@@ -2,7 +2,7 @@ package edu.wpi.always.test.cm;
 
 import static org.junit.Assert.*;
 import edu.wpi.always.cm.primitives.*;
-import edu.wpi.disco.rt.ResourceMonitorImpl;
+import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 import org.joda.time.DateTime;
 import org.junit.*;
@@ -14,12 +14,12 @@ import java.util.ArrayList;
 public class ResourceMonitorImplFixture {
 
    private PrimitiveBehaviorControlStub realizer;
-   private ResourceMonitorImpl resMon;
+   private ResourceMonitor resMon;
 
    @Before
    public void setUp () {
       realizer = new PrimitiveBehaviorControlStub();
-      resMon = new ResourceMonitorImpl(realizer);
+      resMon = new ResourceMonitor(realizer);
    }
 
    @Test

@@ -7,7 +7,7 @@ import edu.wpi.always.story.schema.*;
 import edu.wpi.disco.rt.ComponentRegistry;
 import edu.wpi.disco.rt.schema.*;
 
-public class StoryPlugin extends PluginBase {
+public class StoryPlugin extends Plugin {
    
    public StoryPlugin () { 
       // note we have to use longer form of addActivity because we

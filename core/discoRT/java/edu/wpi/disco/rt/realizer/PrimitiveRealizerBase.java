@@ -2,13 +2,13 @@ package edu.wpi.disco.rt.realizer;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class PrimitiveRealizerImplBase<T extends PrimitiveBehavior>
+public abstract class PrimitiveRealizerBase<T extends PrimitiveBehavior>
       implements PrimitiveRealizer<T> {
 
    private final T params;
    private final CopyOnWriteArrayList<PrimitiveRealizerObserver> observers = new CopyOnWriteArrayList<PrimitiveRealizerObserver>();
 
-   public PrimitiveRealizerImplBase (T params) {
+   public PrimitiveRealizerBase (T params) {
       this.params = params;
    }
 

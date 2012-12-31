@@ -43,7 +43,7 @@ public class ActivityStarterSchema extends SchemaBase implements
    public ActivityStarterSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory resourceMonitor, DiscoSynchronizedWrapper disco,
          IRelationshipManager relationshipManager,
-         IEngagementPerceptor engagementPerceptor,
+         EngagementPerceptor engagementPerceptor,
          MenuPerceptor menuPerceptor, SchemaManager schemaManager) {
       super(behaviorReceiver, resourceMonitor);
       this.activityManager = new ActivityManager(relationshipManager, schemaManager);

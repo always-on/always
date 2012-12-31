@@ -66,10 +66,10 @@ public class SchemaFeedbacksFixture {
       pico.as(Characteristics.CACHE).addComponent(
             HigherPriorityDummySchema.class);
       pico.as(Characteristics.CACHE).addComponent(
-            CandidateBehaviorsContainerImpl.class);
+            CandidateBehaviorsContainer.class);
       pico.addComponent(FuzzyArbitrationStrategy.class);
       pico.as(Characteristics.CACHE).addComponent(Arbitrator.class);
-      pico.addComponent(ResourceMonitorImpl.class);
+      pico.addComponent(ResourceMonitor.class);
       pico.addComponent(new IdleBehaviors() {
 
          @Override
@@ -78,7 +78,7 @@ public class SchemaFeedbacksFixture {
          }
       });
       pico.addComponent(pico);
-      PrimitiveRealizerFactoryImpl realizerFactory = new PrimitiveRealizerFactoryImpl(
+      PrimitiveRealizerFactory realizerFactory = new PrimitiveRealizerFactory(
             pico);
       pico.addComponent(realizerFactory);
       realizerFactory.register(ConsoleSpeechRealizer.class);
