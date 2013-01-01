@@ -1,7 +1,7 @@
 package edu.wpi.always.story.schema;
 
 import edu.wpi.always.client.*;
-import edu.wpi.always.client.ClientPluginUtils.InstanceResuseMode;
+import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.story.*;
 import edu.wpi.always.user.people.Person;
@@ -42,7 +42,7 @@ public class StoryAdjacencyPairs {
       @Override
       public void enter () {
          ClientPluginUtils.startPlugin(getContext().getDispatcher(), "story",
-               InstanceResuseMode.Reuse, null);
+               InstanceReuseMode.Reuse, null);
       }
    }
 
@@ -63,7 +63,7 @@ public class StoryAdjacencyPairs {
       @Override
       public void enter () {
          ClientPluginUtils.startPlugin(getContext().getDispatcher(), "story",
-               InstanceResuseMode.Reuse, null);
+               InstanceReuseMode.Reuse, null);
          recorder.record(storyNameToSave);
          // SchemaImplBase.backchanneling = true;
       }

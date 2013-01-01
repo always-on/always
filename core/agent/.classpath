@@ -25,5 +25,6 @@
 	<classpathentry kind="lib" path="lib/owlapi/pellet-owlapiv3.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-rules.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/discoRT"/>
+	<classpathentry exported="true" kind="lib" path="../../user"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

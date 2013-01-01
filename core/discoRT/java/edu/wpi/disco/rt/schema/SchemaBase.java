@@ -10,14 +10,14 @@ import org.joda.time.DateTime;
 //  needsFocusResource field.
 public abstract class SchemaBase implements Schema {
 
-   public static final int NORMAL_PRIORITY = 0;
+   public static int NORMAL_PRIORITY = 0;
    public static boolean backchanneling = false; // for story, temp?
    private final BehaviorProposalReceiver behaviorReceiver;
    private final BehaviorHistory behaviorHistory;
    private TimeStampedValue<Behavior> lastProposal;
    private boolean needsFocusResource;
 
-   public SchemaBase (BehaviorProposalReceiver behaviorReceiver,
+   protected SchemaBase (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory) {
       this.behaviorReceiver = behaviorReceiver;
       this.behaviorHistory = behaviorHistory;

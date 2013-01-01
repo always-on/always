@@ -34,10 +34,6 @@ public class ActivityStarterSchema extends SchemaBase implements
    private Agenda agenda;
    private final ActivityManager activityManager;
    private final List<String> containerTaskIds = new ArrayList<String>();
-   
-   // for debugging
-   private String session;
-   public void setSession (String session) { this.session = session; }
 
    public ActivityManager getActivityManager () { return activityManager; }
    
@@ -47,7 +43,7 @@ public class ActivityStarterSchema extends SchemaBase implements
          EngagementPerceptor engagementPerceptor,
          MenuPerceptor menuPerceptor, SchemaManager schemaManager) {
       super(behaviorReceiver, resourceMonitor);
-      this.activityManager = new ActivityManager(relationshipManager, schemaManager);
+      this.activityManager = new ActivityManager(relationshipManager, schemaManager, disco);
       this.engagementPerceptor = engagementPerceptor;
       setNeedsFocusResouce();
       formatter = new DiscoUtteranceFormatter(disco);
@@ -55,7 +51,10 @@ public class ActivityStarterSchema extends SchemaBase implements
             behaviorHistoryWithAutomaticInclusionOfFocus(), this, menuPerceptor);
       stateMachine.setSpecificityMetadata(0.6);
       stateMachine.setNewActivity(true);
-      containerTaskIds.add("Rummy");
+      Disco engine = disco.getDisco();
+      for (TaskClass top : engine.getTops())
+         if ( top.getProperty("@container", false) )
+            containerTaskIds.add(top.getId());
    }
 
    public boolean CheckEngagementStatus () {
@@ -63,7 +62,7 @@ public class ActivityStarterSchema extends SchemaBase implements
       if ( perception != null && perception.isEngaged() ) {
          if ( !alreadyEngaged ) {
             formatter.clearTranslationCache();
-            activityManager.init(session);
+            activityManager.initSession();
             topsPlugin = createTopsPlugin();
             acceptPlugin = new RespondPlugin.Accept(topsPlugin.getAgenda(), 1);
             rejectPlugin = new RespondPlugin.Reject(topsPlugin.getAgenda(), 1);
@@ -94,17 +93,20 @@ public class ActivityStarterSchema extends SchemaBase implements
 
             @Override
             public List<Item> execute (Disco disco) {
-               HashMap<Task, Item> map = new HashMap<Task, Item>();
-               agenda.visit(getTodaysPlan(), map, null);
+               Plan plan = getSessionPlan();
+               if ( plan == null ) {
+                  // for running with dummy relationship manager
+                  List<Item> items = new ArrayList<Item>();
+                  for (TaskClass top : disco.getTops()) 
+                     items.add(newItem(disco, human, top));
+                  return items;
+               }
+               Map<Task,Item> map = new HashMap<Task, Item>();
+               agenda.visit(plan, map, null);
                List<Item> items = Lists.newArrayList(map.values());
                if ( items.size() < 4 ) {
-                  for (String tid : containerTaskIds) {
-                     TaskClass taskClass = disco.getTaskClass(tid);
-                     if ( !activityManager.isRunning(taskClass) ) {
-                        items.add(topsPlugin.new Item(Propose.Should
-                              .newInstance(disco, human,
-                                    taskClass.newInstance()), null));
-                     }
+                  for (String id : containerTaskIds) { 
+                     items.add(newItem(disco, human, disco.getTaskClass(id))); 
                      if ( items.size() >= 4 )
                         break;
                   }
@@ -116,6 +118,12 @@ public class ActivityStarterSchema extends SchemaBase implements
       return null;
    }
 
+   private Item newItem (Disco disco, boolean external, TaskClass taskClass) {
+     return topsPlugin.new Item(Propose.Should
+                              .newInstance(disco, external,
+                                    taskClass.newInstance()), null); 
+   }
+   
    private TopsPlugin createTopsPlugin () {
       Agenda agenda = createAgenda();
       return new TopsPlugin(agenda, 1, true);
@@ -221,7 +229,7 @@ public class ActivityStarterSchema extends SchemaBase implements
       return activityManager.getDisco();
    }
 
-   public Plan getTodaysPlan () {
+   public Plan getSessionPlan () {
       return activityManager.getPlan();
    }
 }

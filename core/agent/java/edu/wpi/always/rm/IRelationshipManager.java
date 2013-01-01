@@ -12,6 +12,5 @@ public interface IRelationshipManager {
     */
    DiscoDocument getSession ();
 
-   void afterInteraction (DiscoSynchronizedWrapper disco, int closeness,
-         int time);
+   void afterInteraction (DiscoSynchronizedWrapper disco, int closeness, int time);
 }

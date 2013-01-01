@@ -1,6 +1,7 @@
 package edu.wpi.always.weather.wunderground;
 
 import edu.wpi.always.weather.*;
+import edu.wpi.always.weather.provider.*;
 
 public class WundergroundWeatherProvider implements WeatherProvider {
 

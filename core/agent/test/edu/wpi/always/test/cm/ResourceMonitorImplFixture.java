@@ -9,8 +9,8 @@ import org.junit.*;
 import java.awt.Point;
 import java.util.ArrayList;
 
-// TODO:
-//	- Ignore primitives that use resources other than those in behavior
+// TODO Ignore primitives that use resources other than those in behavior
+
 public class ResourceMonitorImplFixture {
 
    private PrimitiveBehaviorControlStub realizer;

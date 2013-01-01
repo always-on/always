@@ -7,11 +7,11 @@ import org.w3c.dom.Document;
 import java.util.Properties;
 import edu.wpi.disco.rt.util.DiscoDocument;
 
-public class LoadModelFromDocument implements DiscoFunc<TaskModel> {
+public class LoadModelDocument implements DiscoFunc<TaskModel> {
 
    private final DiscoDocument document;
 
-   public LoadModelFromDocument (DiscoDocument model) { this.document = model; }
+   public LoadModelDocument (DiscoDocument model) { this.document = model; }
    
    @Override
    public TaskModel execute (Disco disco) {

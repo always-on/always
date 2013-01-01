@@ -28,6 +28,6 @@ public class ClientMenuRealizer extends
    }
 
    @Override
-   public void notifyMenuSelected (ClientProxy ragClientProxy, String text) {
+   public void notifyMenuSelected (ClientProxy proxy, String text) {
    }
 }

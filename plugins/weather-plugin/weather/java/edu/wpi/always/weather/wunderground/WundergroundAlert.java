@@ -1,6 +1,6 @@
 package edu.wpi.always.weather.wunderground;
 
-import edu.wpi.always.weather.Alert;
+import edu.wpi.always.weather.provider.Alert;
 import org.xml.sax.SAXException;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;

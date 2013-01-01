@@ -1,6 +1,6 @@
 package edu.wpi.always.weather.wunderground;
 
-import edu.wpi.always.weather.Forecast;
+import edu.wpi.always.weather.provider.Forecast;
 import org.joda.time.LocalDate;
 import org.xml.sax.SAXException;
 import java.io.IOException;

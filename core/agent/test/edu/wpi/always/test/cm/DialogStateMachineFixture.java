@@ -12,8 +12,6 @@ import org.joda.time.DateTime;
 import org.junit.*;
 import java.util.*;
 
-/* TODO
- */
 public class DialogStateMachineFixture {
 
    private FakeResourceMonitor resourceMonitor;

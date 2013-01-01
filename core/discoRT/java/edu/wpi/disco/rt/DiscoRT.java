@@ -24,9 +24,11 @@ public class DiscoRT {
       configure();
    }
 
-   public DiscoRT (PicoContainer parent) {
+   public DiscoRT (MutablePicoContainer parent) {
       container = new DefaultPicoContainer(new OptInCaching(), parent);
       configure();
+      // give parent system access to  
+      parent.addComponent(container.getComponent(DiscoSynchronizedWrapper.class));
    }
    
    private void configure () {
@@ -38,8 +40,10 @@ public class DiscoRT {
       container.as(Characteristics.CACHE).addComponent(CandidateBehaviorsContainer.class);
       container.as(Characteristics.CACHE).addComponent(Arbitrator.class);
       container.as(Characteristics.CACHE).addComponent(ResourceMonitor.class);
-      container.addComponent(scheduler);
       container.as(Characteristics.CACHE).addComponent(SchemaManager.class);
+      container.addComponent(scheduler);
+      container.addComponent(new DiscoSynchronizedWrapper(
+            new Agent("agent"), "Disco Session"));
    }
 
    public void addRegistry (Registry registry) {
@@ -51,8 +55,6 @@ public class DiscoRT {
    }
 
    public void start () {
-      container.addComponent(new DiscoSynchronizedWrapper(
-            new DiscoBootstrapper().bootstrap(new Agent("agent"), false)));
       for (ComponentRegistry registry : registries) {
          registry.register(container);
       }

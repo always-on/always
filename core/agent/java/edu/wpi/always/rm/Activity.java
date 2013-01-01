@@ -15,7 +15,7 @@ public class Activity {
                     // in curveType?
    public double buildup; // required buildup / "temporary closeness" to access
    double duration;
-   public static final double DURATIONUNIT = 60; // value of one "duration" in
+   public static double DURATIONUNIT = 60; // value of one "duration" in
                                                  // minutes
    ArrayList<OWLNamedIndividual> associatedTopics;
    // double priority;

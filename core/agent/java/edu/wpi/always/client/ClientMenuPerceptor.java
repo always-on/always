@@ -24,7 +24,7 @@ public class ClientMenuPerceptor implements MenuPerceptor, ClientProxyObserver {
    }
 
    @Override
-   public void notifyMenuSelected (ClientProxy ragClientProxy, String text) {
+   public void notifyMenuSelected (ClientProxy proxy, String text) {
       latest = new MenuPerception(text);
    }
 }

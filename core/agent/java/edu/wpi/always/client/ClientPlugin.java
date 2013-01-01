@@ -11,4 +11,5 @@ public interface ClientPlugin {
    BehaviorBuilder updateInteraction (boolean lastProposalIsDone);
 
    void endInteraction ();
+
 }

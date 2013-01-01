@@ -7,7 +7,7 @@ import edu.wpi.disco.rt.behavior.BehaviorMetadata;
 
 public class FuzzyArbitrationStrategy implements ArbitrationStrategy {
 
-   public static final double SWITCH_THRESHOLD = 0.501;
+   public static double SWITCH_THRESHOLD = 0.501;
    private String fclDefinition;
 
    public FuzzyArbitrationStrategy () {

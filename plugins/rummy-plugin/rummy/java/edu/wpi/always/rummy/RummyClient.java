@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
 import java.awt.Point;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class RummyClientPlugin implements ClientPlugin {
+public class RummyClient implements ClientPlugin {
 
    private static final String MSG_AVAILABLE_ACTION = "rummy.available_action";
    private static final String MSG_MOVE_HAPPENED = "rummy.move_happened";
@@ -28,7 +28,7 @@ public class RummyClientPlugin implements ClientPlugin {
    private int agentCardsNum = 10;
    private int userCardsNum = 10;
 
-   public RummyClientPlugin (UIMessageDispatcher dispatcher) {
+   public RummyClient (UIMessageDispatcher dispatcher) {
       this.dispatcher = dispatcher;
       registerHandlerFor(MSG_AVAILABLE_ACTION);
       registerHandlerFor(MSG_MOVE_HAPPENED);

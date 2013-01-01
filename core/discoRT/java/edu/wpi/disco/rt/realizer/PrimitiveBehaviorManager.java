@@ -10,8 +10,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PrimitiveBehaviorManager implements PrimitiveBehaviorControl,
       PrimitiveRealizerObserver {
 
-   public static final int REALIZERS_INTERVAL = 300; // in milliseconds
-   public static final int NUM_THREADS = 2;
+   public static int REALIZERS_INTERVAL = 300; // in milliseconds
+   public static int NUM_THREADS = 2;
    private final IPrimitiveRealizerFactory factory;
    private final Map<Resource, PrimitiveRealizer<?>> realizersInEffect;
    private final Map<PrimitiveRealizer<?>, ScheduledFuture<?>> runningTasks;

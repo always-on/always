@@ -5,7 +5,7 @@ import edu.wpi.always.*;
 public class RummyPlugin extends Plugin {
    
    public RummyPlugin () { 
-      addActivity("PlayRummy", 0, 0, 0, 0, RummySchema.class, RummyClientPlugin.class); 
+      addActivity("PlayRummy", 0, 0, 0, 0, RummySchema.class, RummyClient.class); 
    }
    
    /**

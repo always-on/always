@@ -1,6 +1,6 @@
 package edu.wpi.always.weather.wunderground;
 
-import edu.wpi.always.weather.CurrentWeather;
+import edu.wpi.always.weather.provider.CurrentWeather;
 import org.xml.sax.SAXException;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;

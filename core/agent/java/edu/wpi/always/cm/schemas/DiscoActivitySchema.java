@@ -11,14 +11,14 @@ import edu.wpi.disco.rt.schema.SchemaBase;
 import java.io.IOException;
 import java.util.List;
 
-public class DiscoBasedSchema extends SchemaBase implements AdjacencyPair {
+public class DiscoActivitySchema extends SchemaBase implements AdjacencyPair {
 
-   DiscoDialogHelper discoHelper = new DiscoDialogHelper(true);
+   DiscoActivityHelper discoHelper = new DiscoActivityHelper(getClass().getName());
    private final DiscoUtteranceFormatter formatter;
    private MenuTurnStateMachine stateMachine;
    private APCache currentAP;
 
-   public DiscoBasedSchema (BehaviorProposalReceiver behaviorReceiver,
+   public DiscoActivitySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor) {
       super(behaviorReceiver, behaviorHistory);

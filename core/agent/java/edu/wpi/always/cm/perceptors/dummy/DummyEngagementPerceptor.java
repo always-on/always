@@ -8,7 +8,8 @@ import java.awt.Point;
 
 public class DummyEngagementPerceptor implements EngagementPerceptor {
 
-   private volatile EngagementPerception latest;
+   private volatile EngagementPerception latest = 
+         new EngagementPerception(EngagementState.Engaged);
 
    @Override
    public EngagementPerception getLatest () {

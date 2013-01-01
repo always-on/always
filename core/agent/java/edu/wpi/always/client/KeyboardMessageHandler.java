@@ -1,7 +1,7 @@
 package edu.wpi.always.client;
 
 import com.google.gson.JsonObject;
-import edu.wpi.always.client.ClientPluginUtils.InstanceResuseMode;
+import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 
 public class KeyboardMessageHandler implements Keyboard, MessageHandler {
 
@@ -27,7 +27,7 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler {
       JsonObject data = new JsonObject();
       data.addProperty("contextMessage", prompt);
       ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
-            InstanceResuseMode.Remove, data);
+            InstanceReuseMode.Remove, data);
       latest = null;
    }
 

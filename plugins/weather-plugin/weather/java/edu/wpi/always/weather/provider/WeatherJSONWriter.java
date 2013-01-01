@@ -1,9 +1,10 @@
-package edu.wpi.always.weather;
+package edu.wpi.always.weather.provider;
 
 import com.google.gson.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
-import edu.wpi.always.weather.Almanac.RecordTemp;
+import edu.wpi.always.weather.provider.*;
+import edu.wpi.always.weather.provider.Almanac.RecordTemp;
 import org.joda.time.LocalDate;
 import org.joda.time.format.*;
 import java.io.Writer;

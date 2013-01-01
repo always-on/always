@@ -8,12 +8,11 @@ import java.util.*;
 
 public class ResourceMonitor implements PrimitiveBehaviorControlObserver {
 
-   List<TimeStampedValue<PrimitiveBehavior>> doneBehaviors;
+   final List<TimeStampedValue<PrimitiveBehavior>> doneBehaviors
+    = Collections.synchronizedList(new ArrayList<TimeStampedValue<PrimitiveBehavior>>());
 
    public ResourceMonitor (PrimitiveBehaviorControl realizer) {
       realizer.addObserver(this);
-      doneBehaviors = Collections
-            .synchronizedList(new ArrayList<TimeStampedValue<PrimitiveBehavior>>());
    }
 
    public boolean allDone (List<PrimitiveBehavior> primitiveBehaviors,

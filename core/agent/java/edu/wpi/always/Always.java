@@ -6,7 +6,7 @@ import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.always.rm.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.*;
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
@@ -18,15 +18,15 @@ public class Always {
 
    /**
     * Main method for starting complete Always-On system
-    * 
-    * @param args optional first arg is path to load session model instead of calling
-    *              relationship manager
     */
    public static void main (String[] args) {
-      Always always = new Always(true);
-      if ( args.length == 0 ) {}   ///////////// TODO
-      always.start();
+      new Always(true).start();
    }
+
+    /**
+    * Most recent instance of Always.  Useful for scripts in user/Init.xml
+    */
+   public static Always THIS;
 
    /**
     * The container for holding all the components of the system
@@ -53,6 +53,7 @@ public class Always {
       addRegistry(new OntologyUserRegistry("Diane Ferguson")); 
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas());
+      THIS = this;
    }
 
    /**

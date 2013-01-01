@@ -1,4 +1,4 @@
-package edu.wpi.always.weather;
+package edu.wpi.always.weather.provider;
 
 public interface CurrentWeather {
 

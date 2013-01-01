@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class SwingCheckBox extends JPanel implements ItemListener {
+public class BackchannelOptions extends JPanel implements ItemListener {
 
    private static final long serialVersionUID = 6134347517304387577L;
    JCheckBox nodButton;
@@ -15,7 +15,7 @@ public class SwingCheckBox extends JPanel implements ItemListener {
    public static boolean choices[];
    JLabel pictureLabel;
 
-   public SwingCheckBox () {
+   public BackchannelOptions () {
       super(new BorderLayout());
       nodButton = new JCheckBox("Nod");
       nodButton.setMnemonic(KeyEvent.VK_C);
@@ -98,7 +98,7 @@ public class SwingCheckBox extends JPanel implements ItemListener {
       JFrame.setDefaultLookAndFeelDecorated(true);
       JFrame frame = new JFrame("Choose Back-Channel Behavior");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      JComponent newContentPane = new SwingCheckBox();
+      JComponent newContentPane = new BackchannelOptions();
       newContentPane.setOpaque(true);
       frame.setContentPane(newContentPane);
       frame.pack();

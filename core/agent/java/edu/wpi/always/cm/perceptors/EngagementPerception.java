@@ -8,14 +8,14 @@ import org.joda.time.DateTime;
 
 public class EngagementPerception extends Perception {
 
-   public static final long IDLE_FACE_TIME = 1000;
-   public static final long ATTENTION_NO_FACE_TIMEOUT = 10000;
-   public static final long ATTENTION_FACE_TIME = 2000;
-   public static final long INITIATION_NOT_NEAR_TIMEOUT = 20000;
-   public static final long ENGAGED_NO_TOUCH_TIMEOUT = 20000;
-   public static final long ENGAGED_NOT_NEAR_TIMEOUT = 15000;
-   public static final long RECOVERING_NO_TOUCH_TIMEOUT = 60000;
-   public static final long RECOVERING_NOT_NEAR_TIMEOUT = 10000;
+   public static long IDLE_FACE_TIME = 1000;
+   public static long ATTENTION_NO_FACE_TIMEOUT = 10000;
+   public static long ATTENTION_FACE_TIME = 2000;
+   public static long INITIATION_NOT_NEAR_TIMEOUT = 20000;
+   public static long ENGAGED_NO_TOUCH_TIMEOUT = 20000;
+   public static long ENGAGED_NOT_NEAR_TIMEOUT = 15000;
+   public static long RECOVERING_NO_TOUCH_TIMEOUT = 60000;
+   public static long RECOVERING_NOT_NEAR_TIMEOUT = 10000;
    
    private final EngagementState state;
 

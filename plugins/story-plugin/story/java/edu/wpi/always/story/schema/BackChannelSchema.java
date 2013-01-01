@@ -5,7 +5,7 @@ import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.SpeechPerception.SpeechState;
 import edu.wpi.always.cm.primitives.*;
-import edu.wpi.always.story.SwingCheckBox;
+import edu.wpi.always.story.BackchannelOptions;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.perceptor.PerceptorBuffer;
@@ -18,7 +18,7 @@ public class BackChannelSchema extends SchemaBase {
                .getResource("/edu/wpi/always/story/mmmhmm.wav"));
    private int speechCounter = 0;
    private static final int SPEECH_PERIOD = 0;
-   public SwingCheckBox swingCheckBox;
+   public BackchannelOptions swingCheckBox;
    private final PerceptorBuffer<SpeechPerception> speechPerceptorBuffer;
    private SpeechState lastState = SpeechState.Silent;
    private long lastSilentAction = 0;
@@ -33,7 +33,7 @@ public class BackChannelSchema extends SchemaBase {
       speechPerceptorBuffer = speechPerceptor.newBuffer();
       //
       //
-      swingCheckBox = new SwingCheckBox();
+      swingCheckBox = new BackchannelOptions();
       swingCheckBox.createAndShowGUI();
       //
       //

@@ -1,6 +1,6 @@
 package edu.wpi.always.cm;
 
-import edu.wpi.always.cm.schemas.DiscoBasedSchema;
+import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.always.rm.IRelationshipManager;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
@@ -19,17 +19,17 @@ public class ActivityManager {
    private final SchemaManager schemaManager;
 
    public ActivityManager (IRelationshipManager relationshipManager,
-         SchemaManager schemaManager) {
+         SchemaManager schemaManager, DiscoSynchronizedWrapper disco) {
       this.rm = relationshipManager;
       this.schemaManager = schemaManager;
-      this.disco = new DiscoSynchronizedWrapper(new DiscoBootstrapper().bootstrap(
-            false, new Agent("agent"), new DiscoUser("user")));
+      this.disco = disco;
    }
 
-   public void init (String source) {
-      if ( source == null ) disco.execute(new LoadModelFromDocument(rm.getSession()));
-      else disco.execute(new LoadModel(source));
-      session = getDisco().execute(new AddNewTask(sessionName));
+   public void initSession () {
+      // TODO make a new disco for each session
+      // need to cleanup old disco (what about other Disco data lying around???)
+      disco.execute(new LoadModelDocument(rm.getSession()));
+      // session = getDisco().execute(new AddNewTask(sessionName));
    }
 
    public DiscoSynchronizedWrapper getDisco () {
@@ -60,7 +60,7 @@ public class ActivityManager {
             } else if ( pluginClassName != null ) {
                throw new NotImplementedException();
             } else if ( taskId != null ) {
-               schemaManager.start(DiscoBasedSchema.class).setTaskId(taskId);
+               schemaManager.start(DiscoActivitySchema.class).setTaskId(taskId);
             }
          }
       });

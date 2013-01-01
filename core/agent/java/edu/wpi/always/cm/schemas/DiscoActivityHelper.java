@@ -3,25 +3,27 @@ package edu.wpi.always.cm.schemas;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.*;
-import edu.wpi.disco.rt.DiscoBootstrapper;
+import edu.wpi.disco.lang.Utterance;
+import edu.wpi.disco.rt.DiscoSynchronizedWrapper;
 import edu.wpi.disco.rt.action.UserGenerate;
 import java.util.List;
 
-public class DiscoDialogHelper {
+public class DiscoActivityHelper {
 
    private Plan plan;
    private String lastUtterance;
    private final Disco disco;
 
-   public DiscoDialogHelper (boolean startConsole) {
+   public DiscoActivityHelper (String consoleTitle) {
       Agent me = new Agent("agent") {
 
-         @SuppressWarnings("unused")
-         public void say (String utterance) {
-            DiscoDialogHelper.this.lastUtterance = utterance;
+         @Override
+         public void say (Utterance utterance) {
+            DiscoActivityHelper.this.lastUtterance = 
+                  utterance.getDisco().formatUtterance(utterance);
          }
       };
-      disco = new DiscoBootstrapper().bootstrap(me, startConsole);
+      disco = new DiscoSynchronizedWrapper(me, consoleTitle).getDisco();
    }
 
    public Disco getDisco () {

@@ -1,17 +1,15 @@
 package edu.wpi.always.story.schema;
 
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.story.*;
-import edu.wpi.always.story.schema.StoryAdjacencyPairs.StoryStartAdjacencyPair;
+import edu.wpi.always.cm.schemas.ActivitySchema;
+import edu.wpi.always.story.StoryManager;
 import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.schema.SchemaBase;
 
-public class StorySchema extends SchemaBase {
+public class StorySchema extends ActivitySchema {
 
    private final MenuTurnStateMachine stateMachine;
 

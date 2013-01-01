@@ -54,10 +54,9 @@ public class EngagementSchema extends SchemaBase {
                   new SpeechBehavior("Hi")), m);
             break;
          case Engaged:
-            if ( lastState != EngagementState.Engaged )
-               stateMachine.setAdjacencyPair(new EngagementDialog(
-                     schemaManager));
-            propose(stateMachine);
+            //if ( lastState != EngagementState.Engaged )
+            //   stateMachine.setAdjacencyPair(new EngagementDialog(schemaManager));
+            //propose(stateMachine);
             break;
          case Recovering:
             propose(Behavior.newInstance(new FaceTrackBehavior(),

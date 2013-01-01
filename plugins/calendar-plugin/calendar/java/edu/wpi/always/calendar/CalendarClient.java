@@ -2,14 +2,15 @@ package edu.wpi.always.calendar;
 
 import com.google.gson.*;
 import edu.wpi.always.client.*;
-import edu.wpi.always.client.ClientPluginUtils.InstanceResuseMode;
+import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.calendar.Calendar;
+import edu.wpi.disco.rt.behavior.BehaviorBuilder;
 import org.joda.time.*;
 import org.joda.time.format.*;
 import java.util.*;
 
-public class CalendarClient implements CalendarUI {
+public class CalendarClient implements ClientPlugin, CalendarUI {
 
    private static final String PLUGIN_NAME = "calendar";
    private static final String MSG_CALENDAR_DISPLAY = "calendar.display";
@@ -64,7 +65,7 @@ public class CalendarClient implements CalendarUI {
    private void show (CalendarUIListener listener) {
       this.listener = listener;
       ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
-            InstanceResuseMode.Reuse, null);
+            InstanceReuseMode.Reuse, null);
    }
 
    @Override
@@ -212,5 +213,31 @@ public class CalendarClient implements CalendarUI {
       jsonObject.addProperty("isToday", new DateMidnight().equals(day));
       jsonObject.addProperty("label", day.getDayOfMonth());
       return jsonObject;
+   }
+
+   // TODO the coding above should make use of ClientPlugin methods below
+   
+   @Override
+   public void doAction (String actionName) {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void initInteraction () {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public BehaviorBuilder updateInteraction (boolean lastProposalIsDone) {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   @Override
+   public void endInteraction () {
+      // TODO Auto-generated method stub
+      
    }
 }

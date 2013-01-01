@@ -1,4 +1,4 @@
-package edu.wpi.always.weather;
+package edu.wpi.always.weather.provider;
 
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
