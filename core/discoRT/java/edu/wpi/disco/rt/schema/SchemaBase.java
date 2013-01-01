@@ -56,6 +56,8 @@ public abstract class SchemaBase implements Schema {
       return new Behavior(appendFocusRequestIfNecessary(behavior.getInner()));
    }
 
+   // FIXME Fix bug with inconsistent addition of focus requests
+   
    protected CompoundBehavior appendFocusRequestIfNecessary (
          CompoundBehavior behavior) {
       if ( true /* !needsFocusResource */)

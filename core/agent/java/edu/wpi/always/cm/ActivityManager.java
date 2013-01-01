@@ -26,7 +26,7 @@ public class ActivityManager {
    }
 
    public void initSession () {
-      // TODO make a new disco for each session
+      // FIXME make a new disco for each session
       // need to cleanup old disco (what about other Disco data lying around???)
       disco.execute(new LoadModelDocument(rm.getSession()));
       // session = getDisco().execute(new AddNewTask(sessionName));

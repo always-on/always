@@ -15,6 +15,8 @@ public class Activity {
     * "Activity Planning for Long-Term Relationships", W. Coon, C. Rich and C. Sidner
     * (to be submitted).  They are all non-negative integers.
     * 
+    * FIXME review closeness values in RM
+    * 
     * @param required The minimum required closeness (see {@link edu.wpi.always.rm.Closeness})
     * @param duration The expected duration (in minutes)
     * @param instrumental The instrumental utility resulting from this activity

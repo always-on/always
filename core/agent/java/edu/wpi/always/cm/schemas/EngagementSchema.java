@@ -54,6 +54,7 @@ public class EngagementSchema extends SchemaBase {
                   new SpeechBehavior("Hi")), m);
             break;
          case Engaged:
+            // FIXME Disabled engagement dialogue for testing...
             //if ( lastState != EngagementState.Engaged )
             //   stateMachine.setAdjacencyPair(new EngagementDialog(schemaManager));
             //propose(stateMachine);
