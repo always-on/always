@@ -8,6 +8,9 @@ import java.util.List;
 
 public class Utils {
 
+   // FIXME figure out why need to call visit directly and then
+   //        remove these methods
+   
    static Field getAgendaInteractionField ()
          throws NoSuchFieldException {
       Field field;

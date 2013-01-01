@@ -10,7 +10,6 @@ public class StartupSchemas implements SchemaRegistry {
    @Override
    public void register (SchemaManager manager) {
       manager.registerSchema(DiscoActivitySchema.class, false);
-      //manager.registerSchema(SimpleGreetingsSchema.class, true);
       manager.registerSchema(MovementTrackerSchema.class, true);
       manager.registerSchema(FaceTrackerSchema.class, true);
       manager.registerSchema(ActivityStarterSchema.class, true);

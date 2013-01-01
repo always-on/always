@@ -4,6 +4,8 @@ import com.sun.jna.Native;
 import java.io.*;
 import java.util.Map;
 
+// FIXME Remove duplicate USB library and move native face libraries
+
 public abstract class NativeUtil {
 
    public static void copyLibraryFromResource (String sourceResource,

@@ -49,7 +49,7 @@ public class Always {
       container.as(Characteristics.CACHE).addComponent(
             // note using DUMMY relationship manager!
             IRelationshipManager.class, DummyRelationshipManager.class);
-      // TODO get real user info here
+      // FIXME get real user info here
       addRegistry(new OntologyUserRegistry("Diane Ferguson")); 
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas());

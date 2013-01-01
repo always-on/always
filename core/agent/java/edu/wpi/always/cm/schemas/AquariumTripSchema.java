@@ -9,7 +9,7 @@ import org.joda.time.*;
 import org.joda.time.format.*;
 import javax.swing.JTextField;
 
-// TODO This is for testing only--should be moved.
+// FIXME This is for testing only--should be moved.
 
 public class AquariumTripSchema extends SchemaBase {
 

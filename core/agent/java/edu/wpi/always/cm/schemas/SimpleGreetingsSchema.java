@@ -8,6 +8,8 @@ import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 import java.util.*;
 
+// FIXME Not used
+
 public class SimpleGreetingsSchema extends SchemaBase implements
       DialogContentProvider {
 
