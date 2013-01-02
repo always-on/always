@@ -122,17 +122,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Agent.Core\Agent.Core.csproj">
+    <ProjectReference Include="..\Agent.Core\Client.Core.csproj">
       <Project>{FD346CEB-A57F-4A76-8FA0-6418F9AD529E}</Project>
-      <Name>Agent.Core</Name>
+      <Name>Client.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Agent.Tcp\Agent.Tcp.csproj">
+    <ProjectReference Include="..\Agent.Tcp\Client.Tcp.csproj">
       <Project>{721F79EC-9534-4D00-881E-842A6DFC1D1D}</Project>
-      <Name>Agent.Tcp</Name>
+      <Name>Client.Tcp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Agent.UI\Agent.UI.csproj">
+    <ProjectReference Include="..\Agent.UI\Client.UI.csproj">
       <Project>{47A8AF0B-EBB2-4825-8B0D-E0C06B5E2421}</Project>
-      <Name>Agent.UI</Name>
+      <Name>Client.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

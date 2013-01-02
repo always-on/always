@@ -32,7 +32,6 @@ namespace AgentApp
 	{
 		Random rnd = new Random();
 		public int _agentTurns;
-		private PhotoSlide _slideControl;
 
 		public MainWindow()
 		{
@@ -110,18 +109,6 @@ namespace AgentApp
 			t.Interval = interval;
 			t.Tick += (s, e2) => actionOnTick((Timer)s);
 			t.Start();
-		}
-
-		private void StopSlideShow()
-		{
-			_slideControl = null;
-			LayoutPageWithoutPlugin();
-		}
-
-		private void StartSlideShow()
-		{
-			_slideControl = new PhotoSlide();
-			ShowPlugin(_slideControl);
 		}
 
 		private void LayoutPageWithPlugin()
