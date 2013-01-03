@@ -48,7 +48,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\core\WinAgent\packages\Newtonsoft.Json.4.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\core\Client\Lib\Newtonsoft.Json.4.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -100,25 +100,35 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="reelspin.gif" />
+    <Resource Include="reelspin.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\core\WinAgent\Agent.Core\Agent.Core.csproj">
+    <Resource Include="tape.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="reelSpinSwf.swf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sampleSwf.swf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="SwfContainer.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\core\Client\Client.Core\Client.Core.csproj">
       <Project>{FD346CEB-A57F-4A76-8FA0-6418F9AD529E}</Project>
-      <Name>Agent.Core</Name>
+      <Name>Client.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\core\WinAgent\Agent.Tcp\Agent.Tcp.csproj">
+    <ProjectReference Include="..\..\..\core\Client\Client.Tcp\Client.Tcp.csproj">
       <Project>{721F79EC-9534-4D00-881E-842A6DFC1D1D}</Project>
-      <Name>Agent.Tcp</Name>
+      <Name>Client.Tcp</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="tape.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="reelSpinSwf.swf" />
-    <Content Include="sampleSwf.swf" />
-    <Content Include="SwfContainer.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

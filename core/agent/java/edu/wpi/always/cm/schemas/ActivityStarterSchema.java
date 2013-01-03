@@ -94,20 +94,14 @@ public class ActivityStarterSchema extends SchemaBase implements
             @Override
             public List<Item> execute (Disco disco) {
                Plan plan = getSessionPlan();
-               if ( plan == null ) {
-                  // for running with dummy relationship manager
-                  List<Item> items = new ArrayList<Item>();
-                  for (TaskClass top : disco.getTops()) 
-                     items.add(newItem(disco, human, top));
-                  return items;
-               }
                Map<Task,Item> map = new HashMap<Task, Item>();
                agenda.visit(plan, map, null);
                List<Item> items = Lists.newArrayList(map.values());
-               if ( items.size() < 4 ) {
+               // FIXME This is not correct way to use containers?
+               if ( items.size() < 2 ) {
                   for (String id : containerTaskIds) { 
                      items.add(newItem(disco, human, disco.getTaskClass(id))); 
-                     if ( items.size() >= 4 )
+                     if ( items.size() >= 2 )
                         break;
                   }
                }
@@ -208,10 +202,10 @@ public class ActivityStarterSchema extends SchemaBase implements
    private List<Item> currentOptionsOfTheUser (boolean human) {
       if ( awaitUserAcceptance == null )
          return getProposeItems(human);
-      List<Item> accept = acceptPlugin.apply(awaitUserAcceptance), reject = rejectPlugin
-            .apply(awaitUserAcceptance);
-      return accept == null ? reject : (List<Item>) (reject == null ? accept
-         : accept.addAll(reject));
+      List<Item> accept = acceptPlugin.apply(awaitUserAcceptance), 
+                 reject = rejectPlugin.apply(awaitUserAcceptance);
+      return accept == null ? reject :
+         (List<Item>) (reject == null ? accept : accept.addAll(reject));
    }
 
    @Override

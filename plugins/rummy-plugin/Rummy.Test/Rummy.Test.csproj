@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\..\core\WinAgent\Lib\NUnit\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\core\Client\Lib\NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,6 +57,10 @@
     <ProjectReference Include="..\Rummy.Game\Rummy.Game.csproj">
       <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
       <Name>Rummy.Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rummy.UI\Rummy.UI.csproj">
+      <Project>{DBD0F6EC-9979-4120-B379-9221CCB12309}</Project>
+      <Name>Rummy.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

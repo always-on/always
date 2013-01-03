@@ -42,14 +42,10 @@ public class TcpConnection implements RemoteConnection {
                      System.out.println("received: " + s);
                      fireMessageReceived(s);
                   }
-               } catch (Exception e) {
-                  e.printStackTrace();
-               }
+               } catch (Exception e) { e.printStackTrace(); }
             }
          });
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
+      } catch (Exception e) { throw new RuntimeException(e); }
    }
 
    protected void fireMessageReceived (String s) {

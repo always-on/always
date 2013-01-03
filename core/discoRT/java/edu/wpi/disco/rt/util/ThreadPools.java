@@ -96,10 +96,7 @@ public class ThreadPools {
             System.err.println("Timeout " + getName(r));
          }
       }
-      if ( t != null ) {
-         System.err.println("Exception executing " + getName(r));
-         t.printStackTrace();
-      }
+      if ( t != null ) { throw new RuntimeException(t); }
    }
 
    private static String getName (Runnable runnable) {

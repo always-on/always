@@ -159,13 +159,16 @@ development tools.
      * Open Solution
 
        -menu bar File > Open > Project/Solution
-       -browse to repository always\core\WinAgent
-       -select WinAgent.sln > Open
+       -browse to repository always\core\Client
+       -select Client.sln > Open
 
      * Fix configuration
 
-       -make sure Build Platform in menu bar is 'Any CPU'
-       -right-click on AgentApp project and select Set as Start Project
+       -make sure Build Platform in menu bar is 'Mixed Platforms' (this
+        is because current RagClient assemblies are compiled for x86; in the
+        future everything should be compiled for Any CPU, if possible)
+
+       -right-click on Plugins.Startup project and select Set as Start Project
 
 ---UPDATE FROM UPSTREAM (MAIN) REPOSITORY---
 

@@ -46,9 +46,7 @@ public class FakeDemoGUIRegistry implements ComponentRegistry, SchemaRegistry {
          public void run () {
             try {
                gui.setVisible(true);
-            } catch (Exception e) {
-               e.printStackTrace();
-            }
+            } catch (Exception e) { e.printStackTrace(); }
          }
       });
    }

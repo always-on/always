@@ -11,7 +11,7 @@ namespace Story.UI
 {
     class StoryPlugin : IPlugin
     {
-		StoryPage story;
+		//StoryPage story;
         IMessageDispatcher _remote;
         IUIThreadDispatcher _uiThreadDispatcher;
 
@@ -21,7 +21,7 @@ namespace Story.UI
             this._uiThreadDispatcher = uiThreadDispatcher;
             uiThreadDispatcher.BlockingInvoke(() =>
             {
-                story = new StoryPage();
+                // story = new StoryPage();
             });
             //
             //_remote.RegisterReceiveHandler("calendar.display",
@@ -37,7 +37,7 @@ namespace Story.UI
 
         public System.Windows.UIElement GetUIElement()
         {
-            return story;
+            return null;// story;
         }
     }
 }

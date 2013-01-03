@@ -31,8 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\core\WinAgent\packages\Newtonsoft.Json.4.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.0.7.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\core\Client\Lib\Newtonsoft.Json.4.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -88,17 +89,21 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\core\WinAgent\Agent.Core\Agent.Core.csproj">
+    <ProjectReference Include="..\..\..\core\Client\Client.Core\Client.Core.csproj">
       <Project>{FD346CEB-A57F-4A76-8FA0-6418F9AD529E}</Project>
-      <Name>Agent.Core</Name>
+      <Name>Client.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\core\WinAgent\Agent.Tcp\Agent.Tcp.csproj">
+    <ProjectReference Include="..\..\..\core\Client\Client.Tcp\Client.Tcp.csproj">
       <Project>{721F79EC-9534-4D00-881E-842A6DFC1D1D}</Project>
-      <Name>Agent.Tcp</Name>
+      <Name>Client.Tcp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\core\WinAgent\Agent.UI\Agent.UI.csproj">
+    <ProjectReference Include="..\..\..\core\Client\Client.UI\Client.UI.csproj">
       <Project>{47A8AF0B-EBB2-4825-8B0D-E0C06B5E2421}</Project>
-      <Name>Agent.UI</Name>
+      <Name>Client.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\core\Client\SoftKeyboard.UI\SoftKeyboard.UI.csproj">
+      <Project>{F92ABCD7-571F-4438-8A37-668C7D7594EB}</Project>
+      <Name>SoftKeyboard.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

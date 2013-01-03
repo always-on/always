@@ -14,6 +14,8 @@
 
   <task id="DiscussWeather"/>
 
+  <task id="TellStory"/>
+
   <script init="true">
 
   /*

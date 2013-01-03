@@ -112,6 +112,10 @@
       <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>
       <Name>Rummy.Game</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Rummy.Test\Rummy.Test.csproj">
+      <Project>{6B8615A3-D069-4006-AE24-98ADC2EDAA5E}</Project>
+      <Name>Rummy.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rummy.UI\Rummy.UI.csproj">
       <Project>{DBD0F6EC-9979-4120-B379-9221CCB12309}</Project>
       <Name>Rummy.UI</Name>
