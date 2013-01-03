@@ -164,8 +164,9 @@ development tools.
 
      * Fix configuration
 
-       -make sure Build Platform in menu bar is 'Mixed Platforms' (this
-        is because current RagClient assemblies are compiled for x86; in the
+       -set the Build Platform in menu bar to 'Mixed Platforms' or, if this
+        options is not available 'Any CPU".  (This is because current
+        RagClient assemblies are compiled for x86; in the
         future everything should be compiled for Any CPU, if possible)
 
        -right-click on Plugins.Startup project and select Set as Start Project
