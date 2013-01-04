@@ -1,0 +1,33 @@
+All are in RagClient.Agent.Actions
+
+Background(string image)
+Blink() -> H_blink
+Camera(string zoom)
+	zoom in a double as a string representing the zoom of the camera
+Display(string cmd)
+	SHOW -> B_idle
+	?    -> B1_warm_walkOff
+DocLoad(string file, string page)
+DocPoint(string shape, string x, string y)
+Eyebrows(string dir)
+	UP -> H_raiseBrows
+	?  -> H_idle
+Face(string expr)
+	HAPPY   -> H_happy
+	SMILE   -> H_happy
+	CONCERN -> H_concern
+	?       -> H_warm
+Gaze(string dir)
+	AWAY -> H_lookaway
+	?    -> H_idle
+Gesture(string hand, string cmd)
+	arm gestures
+Headnod() -> H_nod
+HideDoc()
+Idle(string cmd)
+	ON -> idle behavior enabled
+	?  -> idle behavior disabled
+IdleBody()
+IdleHead()
+Posture()
+ShowDoc(string page)
