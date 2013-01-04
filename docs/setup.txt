@@ -159,8 +159,8 @@ development tools.
      * Open Solution
 
        -menu bar File > Open > Project/Solution
-       -browse to repository always\core\Client
-       -select Client.sln > Open
+       -browse to repository always\plugins
+       -select Plugins.sln > Open
 
      * Fix configuration
 
