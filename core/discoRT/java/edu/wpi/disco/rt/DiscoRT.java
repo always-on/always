@@ -43,7 +43,7 @@ public class DiscoRT {
       container.as(Characteristics.CACHE).addComponent(SchemaManager.class);
       container.addComponent(scheduler);
       container.addComponent(new DiscoSynchronizedWrapper(
-            new Agent("agent"), "Disco Session"));
+            new Agent("agent"), "DiscoRT Session"));
    }
 
    public void addRegistry (Registry registry) {
