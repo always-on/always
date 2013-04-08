@@ -4,9 +4,9 @@ import edu.wpi.always.user.ZipCodes;
 
 public interface PlaceManager {
 
-   public Place getPlace (String zip);
+   Place getPlace (String zip);
 
-   public ZipCodes getZipCodes ();
+   ZipCodes getZipCodes ();
 
-   public Place[] getPlaces ();
+   Place[] getPlaces ();
 }

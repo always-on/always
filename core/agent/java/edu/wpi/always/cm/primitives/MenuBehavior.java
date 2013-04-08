@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.primitives;
 
 import com.google.common.collect.Lists;
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.Resource;
 import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 import edu.wpi.disco.rt.util.Utils;
 import java.util.*;

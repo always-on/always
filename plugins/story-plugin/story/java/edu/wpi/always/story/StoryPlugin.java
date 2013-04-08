@@ -4,12 +4,14 @@ import org.picocontainer.*;
 import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.dummy.DummySpeechPerceptor;
 import edu.wpi.always.story.schema.*;
+import edu.wpi.always.user.UserModel;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 
 public class StoryPlugin extends Plugin {
    
-   public StoryPlugin () { 
+   public StoryPlugin (UserModel userModel) {
+      super("Story", userModel);
       // note we have to use longer form of addActivity because we
       // need to specify non-default update intervals below
       addActivity("RecordStory", 0, 0, 0, 0,

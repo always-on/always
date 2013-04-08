@@ -1,8 +1,7 @@
 package edu.wpi.always.rm;
 
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.DiscoSynchronizedWrapper;
 import edu.wpi.disco.rt.util.DiscoDocument;
-import org.w3c.dom.Document;
 
 // TODO think about replan requests
 public interface IRelationshipManager {

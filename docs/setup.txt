@@ -154,6 +154,14 @@ development tools.
       -click 'Add project to working sets' and select 'always'
       -click Finish
 
+    * [Optional] Set default Java indentation to 3 spaces
+
+      -since this is default formatting for rest of Always-On project,
+       it will avoid spurious changes to existing code
+      -select Preferences > Java > Code Style > Formatter > Edit
+      -set Indentation size and tab size to 3
+      -set Tab policy to "Spaces only"
+
 ---VISUAL STUDIO SETUP---
 
      * Open Solution

@@ -62,7 +62,7 @@ abstract class CalendarSingleAddState {
             final CalendarStateContext context) {
          super("Is the " + data.getDisplayTitle() + " during this week",
                context, data.getStart() == null ? new LocalDate()
-                  : CalendarUtil.getDate(data.getStart()));
+                  : CalendarUtils.getDate(data.getStart()));
          this.data = data;
          if ( data.getStart() != null )
             skipTo(new HowLong(data, getContext()));
@@ -70,7 +70,7 @@ abstract class CalendarSingleAddState {
 
       @Override
       public AdjacencyPair nextState (LocalDate date) {
-         data.setStart(CalendarUtil.toDateTime(date, new LocalTime()));
+         data.setStart(CalendarUtils.toDateTime(date, new LocalTime()));
          return new WhenStart(data, new LocalTime(10, 0), getContext());
       }
    }
@@ -100,8 +100,8 @@ abstract class CalendarSingleAddState {
 
       @Override
       public AdjacencyPair nextState (LocalTime time) {
-         entry.setStart(CalendarUtil.toDateTime(
-               CalendarUtil.getDate(entry.getStart()), time));
+         entry.setStart(CalendarUtils.toDateTime(
+               CalendarUtils.getDate(entry.getStart()), time));
          return new HowLong(entry, getContext());
       }
    }
@@ -190,7 +190,7 @@ abstract class CalendarSingleAddState {
       public void enter () {
          getContext().getCalendar().create(data);
          getContext().getCalendarUI().showWeek(
-               CalendarUtil.getDate(data.getStart()), null, false);
+               CalendarUtils.getDate(data.getStart()), null, false);
       }
    };
 

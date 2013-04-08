@@ -1,7 +1,6 @@
 package edu.wpi.always.cm.schemas;
 
 import com.google.common.collect.ImmutableList;
-import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.disco.Agenda.Plugin.Item;

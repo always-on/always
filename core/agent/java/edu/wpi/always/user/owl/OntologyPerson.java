@@ -4,7 +4,7 @@ import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
 import org.joda.time.*;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.*;
 import java.util.*;
 
 public class OntologyPerson implements Person {
@@ -45,7 +45,21 @@ public class OntologyPerson implements Person {
    }
 
    @Override
-   public void addRelationship (Person otherPerson, Relationship relationship) {
+   public Person[] getRelated (Relationship relationship) {
+      Set<OWLNamedIndividual> values = owlPerson.getObjectPropertyValues(relationship.name());
+      if ( values.isEmpty() ) return null;
+      else {
+         Person[] related = new Person[values.size()];
+         int i = 0;
+         for (OWLNamedIndividual value : values) 
+            related[i++] = model.getPeopleManager().getPerson(
+                  new OntologyIndividual(helper.getOntologyDataObject(), value));
+         return related;
+      }
+   }
+   
+   @Override
+   public void addRelated (Person otherPerson, Relationship relationship) {
       owlPerson.addObjectProperty(relationship.name(),
             helper.getNamedIndividual(otherPerson.getName()));// TODO remove
                                                               // dependancy on
@@ -127,6 +141,9 @@ public class OntologyPerson implements Person {
       }
    }
 
+   @Override
+   public String toString () { return getName(); }
+   
    @Override
    public int hashCode () {
       return getName().hashCode();

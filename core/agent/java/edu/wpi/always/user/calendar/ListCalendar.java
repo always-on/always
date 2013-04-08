@@ -1,6 +1,5 @@
 package edu.wpi.always.user.calendar;
 
-import edu.wpi.always.user.calendar.*;
 import java.util.*;
 
 /**

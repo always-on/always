@@ -1,6 +1,6 @@
 package edu.wpi.always.rm;
 
-import edu.wpi.always.cm.*;
+import edu.wpi.always.cm.ICollaborationManager;
 import edu.wpi.always.rm.RelationshipManager.relationshipStage;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;

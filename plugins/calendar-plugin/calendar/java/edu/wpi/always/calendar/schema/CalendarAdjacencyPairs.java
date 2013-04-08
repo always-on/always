@@ -132,7 +132,7 @@ abstract class CalendarAdjacencyPairs {
          super("on which day does it take place", context);
          this.week = week;
          for (int i = 1; i <= 7; i++) {
-            LocalDate d = CalendarUtil.withDayOfWeek(week, i);
+            LocalDate d = CalendarUtils.withDayOfWeek(week, i);
             choice(dayOfWeek(d), transitionTo(pair, d));
          }
       }

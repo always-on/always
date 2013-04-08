@@ -4,7 +4,7 @@ import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.always.rm.IRelationshipManager;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.DiscoSynchronizedWrapper;
 import edu.wpi.disco.rt.action.*;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.*;

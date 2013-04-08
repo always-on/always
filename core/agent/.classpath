@@ -13,7 +13,11 @@
 	<classpathentry kind="lib" path="lib/jna.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.9.0.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/owlapi/owlapi-bin.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/owlapi-bin.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://owlapi.sourceforge.net/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/owlapi/aterm-java-1.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/owlapi/HermiT.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/jfact_src.jar"/>

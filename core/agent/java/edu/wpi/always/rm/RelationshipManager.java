@@ -4,7 +4,7 @@ import edu.wpi.always.rm.plugin.*;
 import edu.wpi.always.user.owl.OntologyRM;
 import edu.wpi.cetask.Task;
 import edu.wpi.disco.*;
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.DiscoSynchronizedWrapper;
 import edu.wpi.disco.rt.action.DiscoAction;
 import edu.wpi.disco.rt.util.DiscoDocument;
 import org.semanticweb.owlapi.model.*;

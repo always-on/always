@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.schemas;
 
 import com.google.common.collect.Lists;
-import edu.wpi.always.cm.*;
+import edu.wpi.always.cm.ActivityManager;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.rm.IRelationshipManager;

@@ -2,10 +2,8 @@ package edu.wpi.always.cm.schemas;
 
 // not currently used because no implementation of perceptor
 
-import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
-import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 

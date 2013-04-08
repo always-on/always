@@ -41,9 +41,9 @@ public class OntologyIndividual {
                helper.getFactory().getOWLDataPropertyAssertionAxiom(property,
                      individual, oldValue));
       }
+      helper.applyChanges(changes);
       if ( value != null )
          addDataProperty(property, value);
-      helper.applyChanges(changes);
    }
 
    public void addDataProperty (OWLDataProperty property, OntologyValue value) {

@@ -3,8 +3,7 @@ package edu.wpi.always.user.calendar;
 import org.joda.time.*;
 import java.util.*;
 
-public abstract class AbstractCalendar implements Calendar,
-      Iterable<CalendarEntry> {
+public abstract class AbstractCalendar implements Calendar {
 
    public abstract void addEntry (CalendarEntry entry);
 
@@ -73,7 +72,7 @@ public abstract class AbstractCalendar implements Calendar,
    }
 
    private boolean isRepeatingException (RepeatingCalendarEntry entry) {
-      if ( !CalendarUtil.getTime(entry.getStart()).equals(
+      if ( !CalendarUtils.getTime(entry.getStart()).equals(
             entry.getRepeatStartTime()) )
          return true;
       if ( !entry.getDuration().toPeriod()
@@ -81,7 +80,7 @@ public abstract class AbstractCalendar implements Calendar,
          return true;
       boolean foundDate = false;
       for (LocalDate currentDate : entry.getRepeatDateIterator()) {
-         if ( CalendarUtil.getDate(entry.getStart()).equals(currentDate) )
+         if ( CalendarUtils.getDate(entry.getStart()).equals(currentDate) )
             foundDate = true;
       }
       if ( !foundDate )
@@ -110,7 +109,7 @@ public abstract class AbstractCalendar implements Calendar,
                boolean found = false;
                for (RepeatingCalendarEntry storedEntry : storedEntries)
                   // all elements of stored entry should be valid
-                  if ( CalendarUtil.getDate(storedEntry.getStart()).equals(
+                  if ( CalendarUtils.getDate(storedEntry.getStart()).equals(
                         currentDate) )
                      found = true;
                if ( !found )
@@ -135,7 +134,7 @@ public abstract class AbstractCalendar implements Calendar,
             }
             // create map of stored UUIDs
             for (RepeatingCalendarEntry storedEntry : storedEntries)
-               storedUUIDs.put(CalendarUtil.getDate(storedEntry.getStart()),
+               storedUUIDs.put(CalendarUtils.getDate(storedEntry.getStart()),
                      storedEntry.getId());
          }
          // calculate all of the entries for the updated event
@@ -156,7 +155,7 @@ public abstract class AbstractCalendar implements Calendar,
                   id = UUID.randomUUID();
                newEntries.add(new RepeatingCalendarEntryImpl(id, repeatingEntry
                      .getType(), repeatingEntry.getPeople(), repeatingEntry
-                     .getPlace(), CalendarUtil.toDateTime(date,
+                     .getPlace(), CalendarUtils.toDateTime(date,
                      repeatingEntry.getRepeatStartTime()), repeatingEntry
                      .getRepeatDuration(), repeatingEntry.getRepeatId(),
                      repeatingEntry.getRepeatStartDate(), repeatingEntry
@@ -168,8 +167,8 @@ public abstract class AbstractCalendar implements Calendar,
          // make sure that the input entry has the same id as the one in the
          // calendar (such as if you get a new event
          for (RepeatingCalendarEntry newEntry : newEntries)
-            if ( CalendarUtil.getDate(repeatingEntry.getStart()).equals(
-                  CalendarUtil.getDate(newEntry.getStart())) )
+            if ( CalendarUtils.getDate(repeatingEntry.getStart()).equals(
+                  CalendarUtils.getDate(newEntry.getStart())) )
                repeatingEntry.setId(newEntry.getId());
          // calculate conflicts
          List<Conflict> conflicts = new ArrayList<Conflict>();

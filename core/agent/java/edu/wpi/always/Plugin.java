@@ -1,15 +1,66 @@
 package edu.wpi.always;
 
-import edu.wpi.disco.rt.*;
+import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.owl.OntologyUserModel;
+import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
+import java.io.InputStream;
 import java.util.*;
 
 /**
  * Base class for plugins.
  */
 public abstract class Plugin {
+   
+   protected final UserModel userModel;
+   protected final String name;
+   
+   /**
+    * @param name used as prefix for plugin-specific user properties
+    * @param userModel shared user model
+    */
+   protected Plugin (String name, UserModel userModel) {
+      this.name = name;
+      this.userModel = userModel;
+      InputStream stream = getClass().getResourceAsStream(name+".owl");
+      if ( stream != null ) {
+         System.out.println("Loading "+name+".owl");
+         ((OntologyUserModel) userModel).addAxiomsFromInputStream(stream);
+      }
+   }
+   
+   /**
+    * Get user property associated with this plugin.  Property is stored
+    * in user model.  Note property must be declared in [plugin name].owl resource file
+    * in toplevel package of plugin class.
+    * 
+    * @param property name of property (must be a constant and start with plugin name)
+    */
+   public String getProperty (String property) {
+      checkProperty(property);
+      return userModel.getProperty(property);
+   }
+   
+   /**
+    * Set user property associated with this plugin.  Property is stored
+    * in user model.  Note property must be declared in [plugin name].owl resource file
+    * in toplevel package of plugin class.
+    *
+    * @param property name of property (must be a constant and start with plugin name)
+    * @param value property value
+    */
+   public void setProperty (String property, String value) { 
+      checkProperty(property);
+      userModel.setProperty(property, value);
+   }
+   
+   private void checkProperty (String property) {
+      if ( !property.startsWith(name) ) 
+         throw new IllegalArgumentException(
+               "Property "+property+" must start with plugin name "+name); 
+   }
    
    private final List<Activity> activities = new ArrayList<Activity>();
    private final Map<String,List<Registry>> registries = new HashMap<String,List<Registry>>();

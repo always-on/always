@@ -1,7 +1,6 @@
 package edu.wpi.always.cm.dialog;
 
 import edu.wpi.always.client.Keyboard;
-import edu.wpi.always.cm.dialog.*;
 
 public abstract class KeyboardAdjacencyPair<C> extends AdjacencyPairBase<C> {
 

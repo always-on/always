@@ -73,7 +73,7 @@ public class CalendarClient implements ClientPlugin, CalendarUI {
          boolean touchable) {
       show(listener);
       String label = WEEK_DATE_FORMAT.print(day);
-      DateMidnight dayInstant = CalendarUtil.toMidnight(day);
+      DateMidnight dayInstant = CalendarUtils.toMidnight(day);
       Message m = Message.builder(MSG_CALENDAR_DISPLAY).add("type", "day")
             .add("label", label)
             .add("dayData", getDayData(dayInstant, touchable)).build();
@@ -84,10 +84,10 @@ public class CalendarClient implements ClientPlugin, CalendarUI {
    public void showWeek (LocalDate startDay, CalendarUIListener listener,
          boolean touchable) {
       show(listener);
-      startDay = CalendarUtil.getFirstDayOfWeek(startDay);
+      startDay = CalendarUtils.getFirstDayOfWeek(startDay);
       String weekLabel = WEEK_DATE_FORMAT.print(startDay) + " - "
          + WEEK_DATE_FORMAT.print(startDay.plusDays(6));
-      DateMidnight dayInstant = CalendarUtil.toMidnight(startDay);
+      DateMidnight dayInstant = CalendarUtils.toMidnight(startDay);
       Message m = Message.builder(MSG_CALENDAR_DISPLAY).add("type", "week")
             .add("weekLabel", weekLabel)
             .add("dayData", getWeekDayData(dayInstant, touchable)).build();
@@ -107,7 +107,7 @@ public class CalendarClient implements ClientPlugin, CalendarUI {
 
    public int getWeeksInMonth (LocalDate startDay) {
       int numWeeks = 0;
-      for (LocalDate day = CalendarUtil.getFirstDayOfWeek(startDay
+      for (LocalDate day = CalendarUtils.getFirstDayOfWeek(startDay
             .withDayOfMonth(1)); day.getMonthOfYear() == startDay
             .getMonthOfYear() || day.isBefore(startDay); day = day.plusWeeks(1))
          ++numWeeks;
@@ -128,7 +128,7 @@ public class CalendarClient implements ClientPlugin, CalendarUI {
    }
 
    public JsonElement getMonthDaysOfWeek (LocalDate day) {
-      day = CalendarUtil.withDayOfWeek(day, 1);
+      day = CalendarUtils.withDayOfWeek(day, 1);
       JsonArray monthDays = new JsonArray();
       for (int c = 0; c < 7; ++c) {
          monthDays.add(new JsonPrimitive(MONTH_DAY_FORMAT.print(day)));
@@ -138,13 +138,13 @@ public class CalendarClient implements ClientPlugin, CalendarUI {
    }
 
    public JsonElement getMonthDayData (LocalDate startDay, int numWeeks) {
-      LocalDate day = CalendarUtil.getFirstDayOfWeek(startDay);
+      LocalDate day = CalendarUtils.getFirstDayOfWeek(startDay);
       JsonArray monthDayData = new JsonArray();
       for (int r = 0; r < numWeeks; ++r) {
          for (int c = 0; c < 7; ++c) {
             monthDayData.add(asMonthJson(r, c,
-                  CalendarUtil.toMidnight(startDay),
-                  CalendarUtil.toMidnight(day)));
+                  CalendarUtils.toMidnight(startDay),
+                  CalendarUtils.toMidnight(day)));
             day = day.plusDays(1);
          }
       }
@@ -196,7 +196,7 @@ public class CalendarClient implements ClientPlugin, CalendarUI {
       jsonObject.addProperty("title", src.getDisplayTitle());
       jsonObject.addProperty("when", EVENT_DAY_FORMAT.print(src.getStart()));
       DateTime start = src.getStart();
-      jsonObject.addProperty("start", CalendarUtil.getDayOfWeek(start) - 1);
+      jsonObject.addProperty("start", CalendarUtils.getDayOfWeek(start) - 1);
       return jsonObject;
    }
 

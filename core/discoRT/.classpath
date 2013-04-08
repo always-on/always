@@ -2,7 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="java"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry exported="true" kind="lib" path="lib/joda-time-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/joda-time-2.0.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://joda-time.sourceforge.net/apidocs/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/guava-10.0.1.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc"/>
@@ -15,6 +19,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jFuzzyLogic_v2.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/task"/>
 	<classpathentry exported="true" kind="lib" path="lib/disco1.6.3/lib/disco.jar" sourcepath="/disco/java">
 		<attributes>
 			<attribute name="javadoc_location" value="http://www.cs.wpi.edu/~rich/disco_api"/>

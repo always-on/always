@@ -6,6 +6,8 @@ import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.always.rm.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.*;
+import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.apache.log4j.BasicConfigurator;
@@ -35,6 +37,10 @@ public class Always {
          new PicoBuilder().withBehaviors(new OptInCaching())
             .withConstructorInjection().build();
    
+   public MutablePicoContainer getContainer () {
+      return container;
+   }
+   
    /**
     * Create new system instance.
     */
@@ -44,6 +50,7 @@ public class Always {
       else
          BasicConfigurator.configure(new NullAppender());
       container.addComponent(container); 
+      container.addComponent(this);
       container.as(Characteristics.CACHE).addComponent(
             ICollaborationManager.class, CollaborationManager.class);
       container.as(Characteristics.CACHE).addComponent(
@@ -56,15 +63,17 @@ public class Always {
       THIS = this;
    }
 
+   // for constructor below--see start
+   private Class<? extends Plugin> plugin; 
+   private String activity;
+   
    /**
     * Constructor for debugging given plugin activity.
     */
-   public Always (boolean logToConsole, Class<? extends Plugin> plugin, String name) {
+   public Always (boolean logToConsole, Class<? extends Plugin> plugin, String activity) {
       this(logToConsole);
-      container.addComponent(plugin);
-      Plugin p = container.getComponent(plugin);
-      for (Registry r : p.getRegistries(new Activity(plugin, name, 0, 0, 0, 0)))
-            addCMRegistry(r);
+      this.plugin = plugin; 
+      this.activity = activity;
    }
                                                                          
    private final List<OntologyRegistry> ontologyRegistries = new ArrayList<OntologyRegistry>();
@@ -90,20 +99,21 @@ public class Always {
       for (OntologyRegistry registry : ontologyRegistries)
          registry.register(helper);
       UserModel userModel = container.getComponent(UserModel.class);
-      if ( userModel != null ) {
-         userModel.load();
-         System.out.println("Loaded user model");
+      if ( userModel != null ) userModel.load();
+      if ( plugin != null) {
+         container.addComponent(plugin);
+         Plugin p = container.getComponent(plugin);
+         for (Registry r : p.getRegistries(new Activity(plugin, activity, 0, 0, 0, 0)))
+            addCMRegistry(r);
       }
       ICollaborationManager cm = container.getComponent(ICollaborationManager.class);
       for (Registry registry : cmRegistries)
          cm.addRegistry(registry);
+     
       System.out.println("Starting Collaboration Manager");
       cm.start();
       System.out.println("Always running...");
    }
 
-   public MutablePicoContainer getContainer () {
-      return container;
-   }
 }
 

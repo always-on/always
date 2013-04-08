@@ -1,8 +1,7 @@
 package edu.wpi.always.test.cm;
 
 import static org.junit.Assert.*;
-import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.primitives.*;
+import edu.wpi.always.cm.primitives.SpeechBehavior;
 import edu.wpi.always.cm.primitives.console.ConsoleSpeechRealizer;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;

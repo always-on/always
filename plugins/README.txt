@@ -5,7 +5,7 @@ This folder contains a subfolder for each plugin:
                     most of logic on server side)
 
   rummy-plugin - plugin for playing rummy (example of plugin with
-                 appliation-specific GUI and most of logic on client side)
+                 application-specific GUI and most of logic on client side)
 
   story-plugin - plugin for audio story recording (example of plugin
                  with application-specific GUI, but most of logic
