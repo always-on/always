@@ -1,4 +1,4 @@
-package edu.wpi.always.user;
+package edu.wpi.always.user.places;
 
 import org.joda.time.DateTimeZone;
 import java.io.*;
