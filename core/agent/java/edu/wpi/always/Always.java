@@ -31,6 +31,13 @@ public class Always {
    public static Always THIS;
 
    /**
+    * For convenience in Disco task models.
+    */
+   public static UserModel getUserModel () {
+      return THIS.container.getComponent(UserModel.class);
+   }
+   
+   /**
     * The container for holding all the components of the system
     */
    private final MutablePicoContainer container =
