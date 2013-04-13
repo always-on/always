@@ -56,7 +56,7 @@ public class ZipCodes {
    public ZipCodes () throws IOException {
       // data from http://www.boutell.com/zipcodes/
       try (Scanner s = new Scanner(new BufferedInputStream(getClass()
-            .getResourceAsStream("/edu/wpi/always/user/ZipCodes.csv")))) {
+            .getResourceAsStream("/edu/wpi/always/user/places/ZipCodes.csv")))) {
          s.nextLine();// read first line
          while (s.hasNextLine()) {
             String line = s.nextLine();
