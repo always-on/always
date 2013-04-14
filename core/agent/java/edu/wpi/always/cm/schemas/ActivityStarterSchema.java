@@ -204,8 +204,10 @@ public class ActivityStarterSchema extends SchemaBase implements
          return getProposeItems(human);
       List<Item> accept = acceptPlugin.apply(awaitUserAcceptance), 
                  reject = rejectPlugin.apply(awaitUserAcceptance);
-      return accept == null ? reject :
-         (List<Item>) (reject == null ? accept : accept.addAll(reject));
+      if ( accept == null ) return reject;
+      if ( reject == null ) return accept;
+      accept.addAll(reject);
+      return accept;
    }
 
    @Override

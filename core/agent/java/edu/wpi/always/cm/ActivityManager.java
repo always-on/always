@@ -46,7 +46,7 @@ public class ActivityManager {
          @SuppressWarnings("unchecked")
          @Override
          public void execute (Disco disco) {
-            Plan plan = disco.getStack().peek().getPlan();
+            Plan plan = disco.getFocus(true);
             String schemaClassName = Utils.getProperty(plan, "ref_schema");
             String pluginClassName = Utils.getProperty(plan, "ref_plugin");
             String taskId = Utils.getProperty(plan, "ref_task");
