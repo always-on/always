@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+# Usage: _run <main> <filename> <cp1> <cp2> ...
+#
+# Helper to run the given script file using given main class and classpath elements
+# to compare resulting temporary log with corresponding test log file <filename>.test, 
+# if it exists. 
+#
+# Note this runs headless by default (to avoid grabbing focus for test case). 
+# Applications that use this script and require a window should use
+# System.setProperty("java.awt.headless", "false").
+#
+start=`date +%s`
+dir="`dirname $0`/.."
+main="$1"
+filename="$2"
+shift 2
+cp=""
+tmp=/tmp
+uname=`uname -s`
+for arg in "$@"
+  do
+    if [ "$cp" ]; then cp="$cp:"; fi
+    cp="$cp$dir/$arg"
+  done
+if [[ $uname == CYGWIN* ]]; then 
+  cp="$(cygpath -wp "$cp")"
+  tmp="$(cygpath -w "$tmp")"
+fi
+if [ "$filename" ]; then
+  java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main" "$filename"
+else
+  java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main"
+fi
+end=`date +%s`
+if [ "$filename" ]; then
+  good="$filename.test"
+  base=`basename "$filename"`
+  # keep all test cases in Unix lines
+  if [[ $uname == CYGWIN* ]]; then dos2unix -q "$tmp/$base.test"; fi
+  if [ -f "$good" ]; then 
+    # ignore comments and blank lines (Unix and Windows)
+    diff -qBI "^.$\|\#" "$tmp/$base.test" "$good"
+    diff=$?
+    if [ $diff = 0 ]; then echo "Succeed" $base "("`expr $end - $start` "sec)" ; fi;
+    exit $diff
+  fi;
+fi
