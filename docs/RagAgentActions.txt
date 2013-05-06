@@ -1,5 +1,8 @@
 All are in RagClient.Agent.Actions
 
+WARNING: Do not use these calls directly!  Use markup described in
+alwayson-client-readme.txt.
+
 Background(string image)
 Blink() -> H_blink
 Camera(string zoom)
