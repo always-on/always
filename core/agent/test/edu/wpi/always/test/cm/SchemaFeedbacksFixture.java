@@ -104,6 +104,7 @@ public class SchemaFeedbacksFixture {
          }
       }
 
+      @Override
       public boolean isDone () {
          return done || lastProposalIsDone();
       }
