@@ -1,36 +1,23 @@
 package edu.wpi.always.story;
 
-import org.picocontainer.*;
 import edu.wpi.always.*;
+import edu.wpi.always.cm.ICollaborationManager;
 import edu.wpi.always.cm.perceptors.dummy.DummySpeechPerceptor;
 import edu.wpi.always.story.schema.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
+import org.picocontainer.*;
 
 public class StoryPlugin extends Plugin {
    
-   public StoryPlugin (UserModel userModel) {
-      super("Story", userModel);
-      // note we have to use longer form of addActivity because we
-      // need to specify non-default update intervals below
+   public StoryPlugin (UserModel userModel, ICollaborationManager cm) {
+      super("Story", userModel, cm);
       addActivity("RecordStory", 0, 0, 0, 0,
-         new SchemaRegistry() {
-
-            @Override
-            public void register (SchemaManager manager) {
-               manager.registerSchema(BackChannelSchema.class, 100, true);
-               manager.registerSchema(StorySchema.class, 1000, true);
-            }},
-
-         new ComponentRegistry() {
-
-            @Override
-            public void register (MutablePicoContainer container) {
-               container.as(Characteristics.CACHE).addComponent(StoryManager.class);
-               container.as(Characteristics.CACHE).addComponent(DummySpeechPerceptor.class);
-            }
-         });
+            new SchemaConfig(StorySchema.class, 1000, true),
+            new SchemaConfig(BackChannelSchema.class, 100, false),
+            StoryManager.class,
+            DummySpeechPerceptor.class);
    }
    
    /**

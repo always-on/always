@@ -4,6 +4,7 @@ import edu.wpi.always.cm.ICollaborationManager;
 import edu.wpi.always.rm.RelationshipManager.relationshipStage;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
+import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -58,5 +59,14 @@ public class FakeCollaborationManager extends Thread implements ICollaborationMa
       // TODO Auto-generated method stub
       
    }
+
+   @Override
+   public MutablePicoContainer getContainer () {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   @Override
+   public void start (boolean allPlugins) { super.start(); }
 
 }

@@ -2,10 +2,11 @@ package edu.wpi.always.rummy;
 
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.ProposalBuilder.FocusRequirement;
-import edu.wpi.always.cm.schemas.ActivitySchema;
+import edu.wpi.disco.rt.Scheduler;
 import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.schema.SchemaBase;
 
-public class RummySchema extends ActivitySchema {
+public class RummySchema extends SchemaBase {
 
    private final RummyClient plugin;
    private boolean firstRun = true;
@@ -14,7 +15,7 @@ public class RummySchema extends ActivitySchema {
          BehaviorHistory resourceMonitor, RummyClient plugin) {
       super(behaviorReceiver, resourceMonitor);
       this.plugin = plugin;
-      setNeedsFocusResouce();
+      setNeedsFocusResource(true);
    }
 
    @Override

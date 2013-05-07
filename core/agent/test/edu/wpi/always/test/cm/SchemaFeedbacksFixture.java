@@ -90,8 +90,8 @@ public class SchemaFeedbacksFixture {
       private boolean done = false;
 
       public FakeSchema (BehaviorProposalReceiver behaviorReceiver,
-            BehaviorHistory resourceMonitor) {
-         super(behaviorReceiver, resourceMonitor);
+            BehaviorHistory behaviorHistory) {
+         super(behaviorReceiver, behaviorHistory);
       }
 
       @Override
@@ -113,8 +113,8 @@ public class SchemaFeedbacksFixture {
 
       public HigherPriorityDummySchema (
             BehaviorProposalReceiver behaviorReceiver,
-            BehaviorHistory resourceMonitor) {
-         super(behaviorReceiver, resourceMonitor);
+            BehaviorHistory behaviorHistory) {
+         super(behaviorReceiver, behaviorHistory);
       }
 
       private boolean enabled = true;

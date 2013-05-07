@@ -1,7 +1,9 @@
 package edu.wpi.always;
 
+import edu.wpi.always.cm.ICollaborationManager;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.OntologyUserModel;
+import edu.wpi.cetask.TaskClass;
 import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
@@ -14,16 +16,17 @@ import java.util.*;
  */
 public abstract class Plugin {
    
-   protected final UserModel userModel;
    protected final String name;
+   protected final UserModel userModel;
+   private final SchemaManager schemaManager;
    
    /**
     * @param name used as prefix for plugin-specific user properties
-    * @param userModel shared user model
     */
-   protected Plugin (String name, UserModel userModel) {
+   protected Plugin (String name, UserModel userModel, ICollaborationManager cm) {
       this.name = name;
       this.userModel = userModel;
+      this.schemaManager = cm.getContainer().getComponent(SchemaManager.class);
       InputStream stream = getClass().getResourceAsStream(name+".owl");
       if ( stream != null ) {
          System.out.println("Loading "+name+".owl");
@@ -64,6 +67,8 @@ public abstract class Plugin {
    
    private final List<Activity> activities = new ArrayList<Activity>();
    private final Map<String,List<Registry>> registries = new HashMap<String,List<Registry>>();
+   private final Map<String,List<Class<? extends Schema>>> schemas = 
+         new HashMap<String,List<Class<? extends Schema>>>(); // not run at startup
     
     /**
     * Returns the activities that this plugin currently makes available.  This method
@@ -75,8 +80,7 @@ public abstract class Plugin {
      
    /**
     * Returns registries containing the schemas and other components that
-    * implement the given activity. This method is called by
-    * {@link edu.wpi.always.cm.ICollaborationManager}.
+    * implement the given activity. 
     */
    public List<Registry> getRegistries (Activity activity) { 
       if ( activity.getPlugin() != getClass() ) 
@@ -85,8 +89,17 @@ public abstract class Plugin {
    }
 
    /**
-    * Add activity with specified metadata parameters and components.  Note any schema 
-    * components will be automatically started.
+    * Start schema(s) that implement given activity.
+    */
+   public void startActivity (String name) {
+      for (Class<? extends Schema> schema : schemas.get(name))
+        schemaManager.start(schema);
+   }
+   
+   /**
+    * Add activity with specified metadata parameters and components.  Components
+    * are either classes (including schema classes) or instances of {@link SchemaConfig}
+    * (for schemas that should be automatically started or have non-default interval).
     * <p>
     * See {@link Activity} for metadata parameters.
     * 
@@ -94,21 +107,33 @@ public abstract class Plugin {
     */
    protected void addActivity (String name,
          int required, int duration, int instrumental, int relational, 
-         Class<? extends Object>... components) {
+         Object... components) {
+      final List<SchemaConfig> configs = new ArrayList<SchemaConfig>();
       final List<Class<? extends Schema>> schemas = new ArrayList<Class<? extends Schema>>();
-      final List<Class<? extends Object>> other = new ArrayList<Class<? extends Object>>();
-      for (Class<? extends Object> c : components)
-          if ( Schema.class.isAssignableFrom(c) )
-             schemas.add((Class<? extends Schema>) c);
-          else other.add(c); 
-      addActivity(name, required, duration, instrumental, relational,
-            new Registry[] {
+      final List<Class<?>> other = new ArrayList<Class<? extends Object>>();
+      for (Object c : components)
+          if ( c instanceof SchemaConfig ) {
+             SchemaConfig config = (SchemaConfig) c;
+             configs.add(config);
+             if ( !config.getRunOnStartup() ) schemas.add(config.getType());
+          } else if ( c instanceof Class ) {
+             Class<?> cls = (Class<?>) c;
+             if ( Schema.class.isAssignableFrom(cls) ) {
+                Class<? extends Schema> schema = (Class<? extends Schema>) cls;
+                configs.add(new SchemaConfig(schema, Schema.DEFAULT_INTERVAL, false));
+                schemas.add(schema);
+             } else other.add(cls);
+          } else throw new IllegalArgumentException("Should be class: "+c);
+      this.schemas.put(name, schemas);
+      activities.add(new Activity(getClass(), name, required, duration, instrumental,
+                                              relational));
+      registries.put(name, Arrays.asList(new Registry[] {
          new SchemaRegistry() {
 
             @Override
             public void register (SchemaManager manager) {
-               for (Class<? extends Schema> s : schemas)
-                  manager.registerSchema(s, true); // start it automatically
+               for (SchemaConfig config : configs)
+                  manager.registerSchema(config);
             }
          },
          new ComponentRegistry() {
@@ -118,18 +143,25 @@ public abstract class Plugin {
                for (Class<? extends Object> c : other)
                   container.as(Characteristics.CACHE).addComponent(c);
             }
-         }});
+         }}));
    }
    
-   /**
-    * Add activity with specified metadata parameters and registries.
-    * <p>
-    * See {@link Activity} for metadata parameters.
-    */
-   protected void addActivity (String name,
-         int required, int duration, int instrumental, int relational, 
-         Registry... registries) {
-      activities.add(new Activity(getClass(), name, required, duration, instrumental, relational));
-      this.registries.put(name, Arrays.asList(registries));
+   public static Plugin getPlugin (TaskClass task, MutablePicoContainer container) {
+      String plugin = task.getEngine().getProperty(getActivity(task)+"@plugin");
+      try { 
+         Class<?> cls = Class.forName(plugin);
+         Plugin instance = (Plugin) container.getComponent(cls);  
+         if ( instance != null ) return instance;
+         container.as(Characteristics.CACHE).addComponent(cls);
+         return (Plugin) container.getComponent(cls);  
+      } catch (ClassNotFoundException e) {
+         throw new RuntimeException("Plugin not found for task "+task, e);
+      }
    }
+   
+   public static String getActivity (TaskClass task) {
+      String activity = task.getProperty("@activity");
+      return activity == null ? task.getId() : activity;
+   }
+
 }

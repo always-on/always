@@ -45,7 +45,7 @@ public class ActivityStarterSchema extends SchemaBase implements
       super(behaviorReceiver, resourceMonitor);
       this.activityManager = new ActivityManager(relationshipManager, schemaManager, disco);
       this.engagementPerceptor = engagementPerceptor;
-      setNeedsFocusResouce();
+      setNeedsFocusResource(true);
       formatter = new DiscoUtteranceFormatter(disco);
       stateMachine = new OldDialogStateMachine(
             behaviorHistoryWithAutomaticInclusionOfFocus(), this, menuPerceptor);
@@ -57,12 +57,12 @@ public class ActivityStarterSchema extends SchemaBase implements
             containerTaskIds.add(top.getId());
    }
 
-   public boolean CheckEngagementStatus () {
+   private boolean CheckEngagementStatus () {
       EngagementPerception perception = engagementPerceptor.getLatest();
       if ( perception != null && perception.isEngaged() ) {
          if ( !alreadyEngaged ) {
             formatter.clearTranslationCache();
-            activityManager.initSession();
+            // activityManager.initSession();
             topsPlugin = createTopsPlugin();
             acceptPlugin = new RespondPlugin.Accept(topsPlugin.getAgenda(), 1);
             rejectPlugin = new RespondPlugin.Reject(topsPlugin.getAgenda(), 1);
@@ -85,9 +85,6 @@ public class ActivityStarterSchema extends SchemaBase implements
    }
 
    private List<Item> getProposeItems (final boolean human) {
-      // if(true)
-      // throw new
-      // RuntimeException("New Activity Schema needs to be fixed because of disco constructor visibility change");
       if ( CheckEngagementStatus() ) {
          return getDisco().execute(new DiscoFunc<List<Item>>() {
 

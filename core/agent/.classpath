@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="java"/>
+	<classpathentry kind="src" path="USER"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.17.jar">
 		<attributes>
@@ -29,6 +30,5 @@
 	<classpathentry kind="lib" path="lib/owlapi/pellet-owlapiv3.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-rules.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/discoRT"/>
-	<classpathentry exported="true" kind="lib" path="../../user"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

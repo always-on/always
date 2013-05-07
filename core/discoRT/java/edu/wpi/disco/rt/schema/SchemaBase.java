@@ -5,17 +5,22 @@ import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;
+import java.util.concurrent.ScheduledFuture;
 
 //The propose family of methods, append focus resource request based on
 //  needsFocusResource field.
+
 public abstract class SchemaBase implements Schema {
 
    public static int NORMAL_PRIORITY = 0;
    public static boolean backchanneling = false; // for story, temp?
+   
    private final BehaviorProposalReceiver behaviorReceiver;
    private final BehaviorHistory behaviorHistory;
+   
    private TimeStampedValue<Behavior> lastProposal;
    private boolean needsFocusResource;
+   private ScheduledFuture<?> future;
 
    protected SchemaBase (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory) {
@@ -23,10 +28,25 @@ public abstract class SchemaBase implements Schema {
       this.behaviorHistory = behaviorHistory;
       lastProposal = new TimeStampedValue<Behavior>(Behavior.NULL);
    }
-
+ 
    @Override
-   public abstract void run ();
-
+   public void cancel () { 
+      if ( future != null ) future.cancel(false);
+   }
+ 
+   @Override
+   public boolean isDone () {
+      return future == null || future.isDone();
+   }
+   
+   private long focus;
+   
+   @Override
+   public void focus () { focus = System.currentTimeMillis(); }
+   
+   @Override
+   public long getFocusMillis () { return focus; }
+   
    protected void proposeNothing () {
       propose(Behavior.NULL, 0);
    }
@@ -90,10 +110,6 @@ public abstract class SchemaBase implements Schema {
 
    protected boolean getNeedsFocusResource () {
       return needsFocusResource;
-   }
-
-   protected void setNeedsFocusResouce () {
-      setNeedsFocusResource(true);
    }
 
    protected void setNeedsFocusResource (boolean val) {

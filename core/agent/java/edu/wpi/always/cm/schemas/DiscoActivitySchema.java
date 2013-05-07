@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.disco.Agenda.Plugin.Item;
+import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
@@ -12,10 +13,10 @@ import java.util.List;
 
 public class DiscoActivitySchema extends SchemaBase implements AdjacencyPair {
 
-   DiscoActivityHelper discoHelper = new DiscoActivityHelper(getClass().getName());
+   DiscoActivityHelper discoHelper = new DiscoActivityHelper(getClass().getSimpleName());
    private final DiscoUtteranceFormatter formatter;
-   private MenuTurnStateMachine stateMachine;
-   private APCache currentAP;
+   protected MenuTurnStateMachine stateMachine;
+   protected APCache currentAP;
 
    public DiscoActivitySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -25,7 +26,7 @@ public class DiscoActivitySchema extends SchemaBase implements AdjacencyPair {
       stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
             menuPerceptor, new RepeatMenuTimeoutHandler());
       stateMachine.setSpecificityMetadata(0.9);
-      setNeedsFocusResouce();
+      setNeedsFocusResource(true);
    }
 
    public void setTaskId (String taskId) {
@@ -47,8 +48,9 @@ public class DiscoActivitySchema extends SchemaBase implements AdjacencyPair {
       }
    }
 
-   private List<Item> generateUserTasks () {
-      return discoHelper.generateUserTasks();
+   public List<Item> generateUserTasks () {
+      Interaction interaction = discoHelper.getDisco().getInteraction();
+      return interaction.getExternal().generate(interaction);
    }
 
    @Override
@@ -64,22 +66,20 @@ public class DiscoActivitySchema extends SchemaBase implements AdjacencyPair {
    public AdjacencyPair nextState (String text) {
       List<Item> items = generateUserTasks();
       List<String> choices = formatter.format(items);
-      if ( choices.contains(text) ) {
-         int idx = choices.indexOf(text);
-         discoHelper.userItemDone(idx, text);
-      }
+      int i = choices.indexOf(text);
+      if ( i >= 0 ) discoHelper.userItemDone(items.get(i), text);
       updateCurrentAP();
       return this;
    }
 
-   private void updateCurrentAP () {
+   protected void updateCurrentAP () {
       discoHelper.getDisco().getInteraction().getSystem()
             .respond(discoHelper.getDisco().getInteraction(), false, true);
       currentAP = new APCache(discoHelper.getlastUtterance(),
             getChoicesFromDisco());
    }
 
-   private List<String> getChoicesFromDisco () {
+   protected List<String> getChoicesFromDisco () {
       List<Item> items = generateUserTasks();
       return formatter.format(items);
    }
@@ -112,7 +112,7 @@ public class DiscoActivitySchema extends SchemaBase implements AdjacencyPair {
       discoHelper.getDisco().load(resourcePath);
    }
 
-   private static class APCache {
+   public static class APCache {
 
       private final String message;
       private final List<String> menus;

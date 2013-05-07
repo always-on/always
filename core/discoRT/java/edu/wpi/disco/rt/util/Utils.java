@@ -1,7 +1,9 @@
 package edu.wpi.disco.rt.util;
 
-import edu.wpi.cetask.Plan;
+import org.picocontainer.*;
+import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
+import edu.wpi.disco.Agenda.Plugin;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -18,7 +20,7 @@ public class Utils {
       field.setAccessible(true);
       return field;
    }
-
+   
    public static String getProperty (Plan plan, String propertyName) {
       return plan.getGoal().getType().getProperty("@" + propertyName);
    }

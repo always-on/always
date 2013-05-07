@@ -1,11 +1,10 @@
 <taskModel about="urn:always.wpi.edu:models:Init"
            xmlns="http://ce.org/cea-2018">
 
-  <!-- This model is loaded by the relationship manager at startup
-       to register all of the plugins.  Note that only one activity
-       per plugin needs to be included.
+  <!-- This model is loaded at startup to register all of the activities and
+       their respective plugins.
 
-       See Init.properties for plugin information
+       See Activities.properties for plugin information
   -->
 
   <task id="UseCalendar"/>
@@ -13,8 +12,6 @@
   <task id="PlayRummy"/>
 
   <task id="DiscussWeather"/>
-
-  <task id="TellStory"/>
 
   <script init="true">
 

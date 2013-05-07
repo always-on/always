@@ -5,22 +5,15 @@ import edu.wpi.disco.rt.action.LoadModelDocument;
 import edu.wpi.disco.rt.util.DiscoDocument;
 
 /**
- * Dummy version of relationship manager for testing that always
- * returns Init.xml.
+ * Dummy version of relationship manager for testing 
  */
 public class DummyRelationshipManager implements IRelationshipManager {
 
-   private DiscoDocument session;
-   
-   public DummyRelationshipManager (DiscoSynchronizedWrapper disco) {
-      session = new DiscoDocument(disco.getDisco(), "Init.xml");
-      // load init model now to register plugins (this copy of
-      // of Disco will be gc'ed when first session starts)
-      disco.execute(new LoadModelDocument(session));
-   }
-   
+   // TODO Prepare three handcoded session plans: Stranger.xml, Acquaintance.xml, 
+   //      and Companion.xml
+
    @Override
-   public DiscoDocument getSession () { return session; }
+   public DiscoDocument getSession () { return null; }
 
    @Override
    public void afterInteraction (DiscoSynchronizedWrapper disco,

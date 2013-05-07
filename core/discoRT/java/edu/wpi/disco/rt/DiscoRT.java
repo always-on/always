@@ -18,20 +18,26 @@ public class DiscoRT {
    protected final MutablePicoContainer container;
    protected final List<SchemaRegistry> schemaRegistries = new ArrayList<SchemaRegistry>();
    protected final List<ComponentRegistry> registries = new ArrayList<ComponentRegistry>();
-
-   public DiscoRT () {
+  
+   /**
+    * @param title Title for console window (if null, no console created)
+    */
+   public DiscoRT (String title) {
       container = new PicoBuilder().withBehaviors(new OptInCaching()).withConstructorInjection().build(); 
-      configure();
+      configure(title);
    }
 
-   public DiscoRT (MutablePicoContainer parent) {
+    /**
+    * @param title Title for console window (if null, no console created)
+    */
+   public DiscoRT (String title, MutablePicoContainer parent) {
       container = new DefaultPicoContainer(new OptInCaching(), parent);
-      configure();
+      configure(title);
       // give parent system access to  
       parent.addComponent(container.getComponent(DiscoSynchronizedWrapper.class));
    }
    
-   private void configure () {
+   private void configure (String title) {
       container.addComponent(container);
       container.as(Characteristics.CACHE).addComponent(PrimitiveBehaviorManager.class);
       container.as(Characteristics.CACHE).addComponent(Realizer.class);
@@ -42,8 +48,7 @@ public class DiscoRT {
       container.as(Characteristics.CACHE).addComponent(ResourceMonitor.class);
       container.as(Characteristics.CACHE).addComponent(SchemaManager.class);
       container.addComponent(scheduler);
-      container.addComponent(new DiscoSynchronizedWrapper(
-            new Agent("agent"), "DiscoRT Session"));
+      container.addComponent(new DiscoSynchronizedWrapper(new Agent("agent"), title));
    }
 
    public void addRegistry (Registry registry) {

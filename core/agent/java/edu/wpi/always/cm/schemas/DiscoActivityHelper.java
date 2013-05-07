@@ -47,8 +47,8 @@ public class DiscoActivityHelper {
       return new UserGenerate(plan).execute(disco);
    }
 
-   public void userItemDone (int idx, String formatted) {
-      List<Item> items = generateUserTasks();
-      disco.getInteraction().choose(items, idx + 1, formatted);
+   public void userItemDone (Item item, String formatted) {
+      disco.doneUtterance(item.task, formatted);
+      disco.getInteraction().done(true, item.task, item.contributes);
    }
 }

@@ -14,7 +14,9 @@ the toplevel packages in edu.wpi.always are:
   user - code for managing user-specific information
 
 The main class edu.wpi.always.Always starts the complete system with
-all the plugins listed at user/Init.xml.  [As of 1/3/12, this main
-class is disabled.  Use main classes for each plugin]
+all the activities and plugins listed at user/Activities.xml. 
+
+WARNING: Make certain that the plugin classes listed in Activities.properties
+are on the classpath (see docs/setup.txt)!
 
 For more information contact rich@wpi.edu.

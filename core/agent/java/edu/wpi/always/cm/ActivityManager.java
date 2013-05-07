@@ -25,13 +25,6 @@ public class ActivityManager {
       this.disco = disco;
    }
 
-   public void initSession () {
-      // FIXME make a new disco for each session
-      // need to cleanup old disco (what about other Disco data lying around???)
-      disco.execute(new LoadModelDocument(rm.getSession()));
-      // session = getDisco().execute(new AddNewTask(sessionName));
-   }
-
    public DiscoSynchronizedWrapper getDisco () {
       return disco;
    }

@@ -26,7 +26,7 @@ public class Always {
    }
 
     /**
-    * Most recent instance of Always.  Useful for scripts in user/Init.xml
+    * Most recent instance of Always.  Useful for scripts.
     */
    public static Always THIS;
 
@@ -52,7 +52,11 @@ public class Always {
     * Create new system instance.
     */
    public Always (boolean logToConsole) {
-      if ( logToConsole )
+      init(logToConsole, true);
+   }
+ 
+   private void init (boolean logToConsole, boolean allPlugins) {
+       if ( logToConsole )
          BasicConfigurator.configure();
       else
          BasicConfigurator.configure(new NullAppender());
@@ -66,10 +70,9 @@ public class Always {
       // FIXME get real user info here
       addRegistry(new OntologyUserRegistry("Diane Ferguson")); 
       addCMRegistry(new ClientRegistry());
-      addCMRegistry(new StartupSchemas());
+      addCMRegistry(new StartupSchemas(allPlugins));
       THIS = this;
    }
-
    // for constructor below--see start
    private Class<? extends Plugin> plugin; 
    private String activity;
@@ -78,7 +81,7 @@ public class Always {
     * Constructor for debugging given plugin activity.
     */
    public Always (boolean logToConsole, Class<? extends Plugin> plugin, String activity) {
-      this(logToConsole);
+      init(logToConsole, false);
       this.plugin = plugin; 
       this.activity = activity;
    }
@@ -107,19 +110,19 @@ public class Always {
          registry.register(helper);
       UserModel userModel = container.getComponent(UserModel.class);
       if ( userModel != null ) userModel.load();
+      ICollaborationManager cm = container.getComponent(ICollaborationManager.class);
+      // for debugging given plugin activity
       if ( plugin != null) {
          container.addComponent(plugin);
          Plugin p = container.getComponent(plugin);
          for (Registry r : p.getRegistries(new Activity(plugin, activity, 0, 0, 0, 0)))
             addCMRegistry(r);
       }
-      ICollaborationManager cm = container.getComponent(ICollaborationManager.class);
-      for (Registry registry : cmRegistries)
-         cm.addRegistry(registry);
-     
+      for (Registry registry : cmRegistries) cm.addRegistry(registry);
       System.out.println("Starting Collaboration Manager");
-      cm.start();
+      cm.start(plugin == null);
       System.out.println("Always running...");
+      if ( plugin != null ) container.getComponent(plugin).startActivity(activity);
    }
 
 }

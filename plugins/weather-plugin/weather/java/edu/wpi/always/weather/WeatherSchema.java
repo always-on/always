@@ -4,7 +4,7 @@ import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
-import edu.wpi.disco.rt.ResourceMonitor;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import java.io.IOException;
 
@@ -18,8 +18,9 @@ public class WeatherSchema extends DiscoActivitySchema {
          PlaceManager placeManager) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
       try {
-         eval("fileName = \"04_26_2012\";", "Cached data"); 
-         loadModel("models/WeatherStranger.xml");        
+         eval("fileName = \"edu/wpi/always/weather/resources/04_26_2012.json\";", 
+               "Cached weather data"); 
+         loadModel("edu/wpi/always/weather/resources/WeatherStranger.xml");        
          setTaskId("WeatherStranger");
       } catch (IOException e) { throw new RuntimeException(e); }
    }

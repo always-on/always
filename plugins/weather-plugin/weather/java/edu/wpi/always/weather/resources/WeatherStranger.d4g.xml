@@ -4,25 +4,28 @@
        xmlns:t="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext">
        		
   <t:script init="true">
+  
+      // automatically start
+      $disco.addTop("WeatherStranger").getGoal().setShould(true);
+      
 		//use live data or not
 		var fileName; 
 		if ( fileName == undefined ) fileName = "live"; // for testing
 		
-		function toStream (file) {
-			file = java.lang.System.getProperty("user.dir")
-				+java.lang.System.getProperty("file.separator")+file;
-			return new java.io.FileInputStream(file);   
+		function parse (source) {
+			return JSON.parse(Packages.edu.wpi.cetask.Utils.toString(
+			    Packages.edu.wpi.cetask.Utils.toURL(source).openStream()));
 		}
 	
 		var $weatherJSON;
 		
 		//which file to use?
 		function setDefaultValue(){
-			var path = "weatherData/";
 			if(fileName == "live")
-				$weatherJSON = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(toStream(path + todayDate() + ".json")));
+			   // see live weatherData in always/user 
+				$weatherJSON = parse("weatherData/" + todayDate() + ".json");
 			else
-				$weatherJSON = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(toStream(path + fileName + ".json")));
+				$weatherJSON = parse(fileName);
 		}
 		
 		setDefaultValue();
