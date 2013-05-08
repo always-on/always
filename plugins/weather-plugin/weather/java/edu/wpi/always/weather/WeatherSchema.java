@@ -18,8 +18,7 @@ public class WeatherSchema extends DiscoActivitySchema {
          PlaceManager placeManager) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
       try {
-         eval("fileName = \"edu/wpi/always/weather/resources/04_26_2012.json\";", 
-               "Cached weather data"); 
+         eval("date = \"04_26_2012\";", "Cached weather data");
          loadModel("edu/wpi/always/weather/resources/WeatherStranger.xml");        
          setTaskId("WeatherStranger");
       } catch (IOException e) { throw new RuntimeException(e); }

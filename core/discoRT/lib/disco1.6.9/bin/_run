@@ -15,7 +15,7 @@ dir="`dirname $0`/.."
 main="$1"
 filename="$2"
 shift 2
-cp=""
+cp="$CLASSPATH"
 tmp=/tmp
 uname=`uname -s`
 for arg in "$@"
@@ -40,7 +40,7 @@ if [ "$filename" ]; then
   if [[ $uname == CYGWIN* ]]; then dos2unix -q "$tmp/$base.test"; fi
   if [ -f "$good" ]; then 
     # ignore comments and blank lines (Unix and Windows)
-    diff -qBI "^.$\|\#" "$tmp/$base.test" "$good"
+    diff -qBI "^.$\|\#" --strip-trailing-cr "$tmp/$base.test" "$good"
     diff=$?
     if [ $diff = 0 ]; then echo "Succeed" $base "("`expr $end - $start` "sec)" ; fi;
     exit $diff

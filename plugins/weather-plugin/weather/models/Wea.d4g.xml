@@ -3,54 +3,40 @@
        xmlns="http://www.cs.wpi.edu/~rich/d4g"
        xmlns:t="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext">
        		
-	<t:script init="true">
-		//use live data or not
-		var fileName; 
-		if ( fileName == undefined ) fileName = "live"; // for testing
-		
-		function toStream (file) {
-			file = java.lang.System.getProperty("user.dir")
-				+java.lang.System.getProperty("file.separator")+file;
-			return new java.io.FileInputStream(file);   
-		}
-	
-		var $weatherJSON;
-		
-		//which file to use?
-		function setDefaultValue(){
-			var path = "weatherData/";
-			if(fileName == "live")
-				$weatherJSON = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(toStream(path + todayDate() + ".json")));
-			else
-				$weatherJSON = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(toStream(path + fileName + ".json")));
-		}
-		
-		setDefaultValue();
-		
-		//return today's date	ex: 02_14_2012
-		function todayDate(){
-			var currentTime = new Date();
-			var month = currentTime.getMonth() + 1;
-			var day = currentTime.getDate();
-			var year = currentTime.getFullYear();	
-			return (pad2(month) + "_" + pad2(day) + "_" + year);
-		}
-		
-		//convert a single digit number to 2 digits, add 0 in front
-		function pad2(number) {return (10 > number ? '0' : '') + number;}
-		
-		var yesWeatherChat = false; //default: user does not want to talk about weather
-		
-		//get time
-		var period;
-		if ( period == undefined ) { // for testing
-			var dTime = new Date();
-			var hours = dTime.getHours();
-			period = "morning";
-			if (hours > 12) period = "afternoon";
-			if (hours > 17) period = "evening";
-	   }                 
-	</t:script>  
+  <t:script init="true">
+
+   var date;
+   
+        // load date from always/user (must be on classpath!)
+	var $weatherJSON = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(
+		    java.lang.ClassLoader.getSystemResource("weatherData/"+
+		    (date == undefined ? todayDate() : date)+
+		    ".json").openStream()));
+
+	//return today's date	ex: 02_14_2012
+	function todayDate(){
+		var currentTime = new Date();
+		var month = currentTime.getMonth() + 1;
+		var day = currentTime.getDate();
+		var year = currentTime.getFullYear();	
+		return (pad2(month) + "_" + pad2(day) + "_" + year);
+	}
+
+	//convert a single digit number to 2 digits, add 0 in front
+	function pad2(number) {return (10 > number ? '0' : '') + number;}
+
+	var yesWeatherChat = false; //default: user does not want to talk about weather
+
+	//get time
+	var period;
+	if ( period == undefined ) { // for testing
+		var dTime = new Date();
+		var hours = dTime.getHours();
+		period = "morning";
+		if (hours > 12) period = "afternoon";
+		if (hours > 17) period = "evening";
+	}                 
+  </t:script>  
        
  	<!-- Level 1-->
     <t:task id="Weather">

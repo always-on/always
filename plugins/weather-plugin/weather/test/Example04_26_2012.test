@@ -2,7 +2,7 @@
     Welcome to Disco! (Type 'help' for command list)
   > eval period = "morning"
     # Returned 'morning'
-  > eval fileName = "04_26_2012"
+  > eval date = "04_26_2012"
     # Returned '04_26_2012'
   > load models/Wea.xml
   > task Weather
