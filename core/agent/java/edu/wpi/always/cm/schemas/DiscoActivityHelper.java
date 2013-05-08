@@ -48,7 +48,6 @@ public class DiscoActivityHelper {
    }
 
    public void userItemDone (Item item, String formatted) {
-      disco.doneUtterance(item.task, formatted);
-      disco.getInteraction().done(true, item.task, item.contributes);
+      disco.getInteraction().doneUtterance((Utterance) item.task, item.contributes, formatted);
    }
 }
