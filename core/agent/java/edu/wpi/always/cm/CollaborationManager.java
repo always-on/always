@@ -4,14 +4,14 @@ import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.primitives.PluginSpecificActionRealizer;
 import edu.wpi.cetask.*;
-import edu.wpi.disco.Disco;
+import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
 import org.picocontainer.*;
 
 public class CollaborationManager extends DiscoRT implements ICollaborationManager {
 
    public CollaborationManager (MutablePicoContainer parent) {
-      super(null, parent); // Disco instance only used once below to load plugins
+      super(parent); 
       container.as(Characteristics.CACHE).addComponent(CollaborationIdleBehaviors.class);
       container.addComponent(PluginSpecificActionRealizer.class);
    }
@@ -22,15 +22,14 @@ public class CollaborationManager extends DiscoRT implements ICollaborationManag
       container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class); 
       container.as(Characteristics.CACHE).addComponent(DummyFacePerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
-      Disco disco = container.getComponent(DiscoSynchronizedWrapper.class).getDisco();
       if ( allPlugins) 
-         for (TaskClass top : disco.load("Activities.xml").getTaskClasses()) {
+         for (TaskClass top : interaction.load("Activities.xml").getTaskClasses()) {
             Plugin plugin = Plugin.getPlugin(top, container);
             for (Activity activity : plugin.getActivities(0)) // not using closeness value
                for (Registry r : plugin.getRegistries(activity))
                   addRegistry(r);
             System.out.println("Loaded plugin: "+plugin);
          }
-      super.start();
+      super.start(allPlugins ? "Session" : null);
    }
 }

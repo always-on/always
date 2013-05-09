@@ -1,7 +1,6 @@
 package edu.wpi.always.rm;
 
-import edu.wpi.disco.rt.DiscoSynchronizedWrapper;
-import edu.wpi.disco.rt.action.LoadModelDocument;
+import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.util.DiscoDocument;
 
 /**
@@ -16,7 +15,6 @@ public class DummyRelationshipManager implements IRelationshipManager {
    public DiscoDocument getSession () { return null; }
 
    @Override
-   public void afterInteraction (DiscoSynchronizedWrapper disco,
-         int closeness, int time) {}
-
+   public void afterInteraction (Interaction interaction, int closeness,
+         int time) { }
 }

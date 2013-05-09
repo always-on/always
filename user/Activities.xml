@@ -1,4 +1,4 @@
-<taskModel about="urn:always.wpi.edu:models:Init"
+<taskModel about="urn:always.wpi.edu:Actitivies"
            xmlns="http://ce.org/cea-2018">
 
   <!-- This model is loaded at startup to register all of the activities and

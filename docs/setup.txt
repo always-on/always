@@ -2,7 +2,7 @@
 
 		  http://web.cs.wpi.edu/~rich/always
 
-		      rich@wpi.edu, Nov 28, 2012
+		      rich@wpi.edu, May 9, 2013
 
 The goal of this document is help a new project developer get his/her
 software environment conveniently configured.  The project uses GitHub
@@ -233,6 +233,12 @@ main repository) since you originally forked.
         [develop] > git merge upstream/develop
    
        -close shell     
+
+---CAMERA SETUP---
+
+***Add instructions here for how to disable builtin camera utilities
+   on HP and ASUS as needed
+***
 
 ---NEW FEATURE DEVELOPMENT---
 

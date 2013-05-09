@@ -39,7 +39,7 @@ public class FakeCollaborationManager extends Thread implements ICollaborationMa
       }
       int closeness = 0;
       int time = 3;
-      rm.afterInteraction(new DiscoSynchronizedWrapper(disco),
+      rm.afterInteraction(interaction,
             closeness, time);
    }
 

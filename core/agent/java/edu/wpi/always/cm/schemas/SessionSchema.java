@@ -4,7 +4,7 @@ import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.always.rm.IRelationshipManager;
 import edu.wpi.cetask.*;
-import edu.wpi.disco.Disco;
+import edu.wpi.disco.*;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.Schema;
@@ -12,27 +12,20 @@ import edu.wpi.disco.rt.util.DiscoDocument;
 import org.picocontainer.MutablePicoContainer;
 import java.util.*;
 
-// FIXME replacement for DiscoActivitySchema? ActivityStarterSchema?
-
-public class SessionSchema extends DiscoActivitySchema {
-   
-   // TODO Sort out Disco vs. SyncronizedDiscoWrapper
-   // TODO New schema started for every session
+public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    private final MutablePicoContainer container; // for plugins
    
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, IRelationshipManager rm, Always always) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
+         MenuPerceptor menuPerceptor, Interaction interaction,
+         IRelationshipManager rm, Always always) {
+      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
       container = always.getContainer();
-      Disco disco = discoHelper.getDisco();
-      disco.load("Activities.xml");
       DiscoDocument session = rm.getSession();
       if ( session != null )
-         disco.load("Relationship Manager", 
+         interaction.load("Relationship Manager", 
                session.getDocument(), session.getProperties(), session.getTranslate());
-      stateMachine.setAdjacencyPair(this);
       // lower specificity below activities
       stateMachine.setSpecificityMetadata(0.5);
    }
@@ -41,7 +34,7 @@ public class SessionSchema extends DiscoActivitySchema {
    
    @Override
    public void run () {
-      Plan focus = discoHelper.getDisco().getFocus();
+      Plan focus = interaction.getFocus();
       if ( focus != null ) {
          Task goal = focus.getGoal();
          Schema schema = started.get(goal);

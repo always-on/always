@@ -1,6 +1,6 @@
 package edu.wpi.disco.rt.realizer;
 
-import edu.wpi.disco.rt.FocusRequestBehavior;
+import edu.wpi.disco.rt.behavior.FocusRequestBehavior;
 
 public class FocusRequestRealizer extends
       SingleRunPrimitiveRealizer<FocusRequestBehavior> {

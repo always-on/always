@@ -1,5 +1,6 @@
-package edu.wpi.disco.rt;
+package edu.wpi.disco.rt.behavior;
 
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
 
 public class FocusRequestBehavior extends PrimitiveBehavior {
