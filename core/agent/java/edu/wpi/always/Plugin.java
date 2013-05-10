@@ -1,6 +1,7 @@
 package edu.wpi.always;
 
 import edu.wpi.always.cm.ICollaborationManager;
+import edu.wpi.always.cm.schemas.ActivitySchema;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.TaskClass;
@@ -97,20 +98,21 @@ public abstract class Plugin {
    }
    
    /**
-    * Add activity with specified metadata parameters and components.  Components
-    * are either classes (including schema classes) or instances of {@link SchemaConfig}
-    * (for schemas that should be automatically started or have non-default interval).
+    * Add activity with specified metadata parameters, activity schema and
+    * optional other components. Components are either classes (including schema
+    * classes) or instances of {@link SchemaConfig} (for schemas that should be
+    * automatically started or have non-default interval).
     * <p>
     * See {@link Activity} for metadata parameters.
-    * 
-    * @see #addActivity(String,int,int,int,int,Registry...)
     */
    protected void addActivity (String name,
          int required, int duration, int instrumental, int relational, 
-         Object... components) {
+         Class<? extends ActivitySchema> activity, Object... components) {
       final List<SchemaConfig> configs = new ArrayList<SchemaConfig>();
       final List<Class<? extends Schema>> schemas = new ArrayList<Class<? extends Schema>>();
       final List<Class<?>> other = new ArrayList<Class<? extends Object>>();
+      configs.add(newSchemaConfig(activity));
+      schemas.add(activity);
       for (Object c : components)
           if ( c instanceof SchemaConfig ) {
              SchemaConfig config = (SchemaConfig) c;
@@ -120,7 +122,7 @@ public abstract class Plugin {
              Class<?> cls = (Class<?>) c;
              if ( Schema.class.isAssignableFrom(cls) ) {
                 Class<? extends Schema> schema = (Class<? extends Schema>) cls;
-                configs.add(new SchemaConfig(schema, Schema.DEFAULT_INTERVAL, false));
+                configs.add(newSchemaConfig(schema));
                 schemas.add(schema);
              } else other.add(cls);
           } else throw new IllegalArgumentException("Should be class: "+c);
@@ -146,6 +148,10 @@ public abstract class Plugin {
          }}));
    }
    
+   private SchemaConfig newSchemaConfig (Class<? extends Schema> schema) {
+      return new SchemaConfig(schema, Schema.DEFAULT_INTERVAL, false);
+   }
+
    public static Plugin getPlugin (TaskClass task, MutablePicoContainer container) {
       String plugin = task.getEngine().getProperty(getActivity(task)+"@plugin");
       try { 

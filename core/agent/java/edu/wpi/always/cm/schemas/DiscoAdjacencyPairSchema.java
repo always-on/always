@@ -10,7 +10,7 @@ import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 import java.util.*;
 
-public class DiscoAdjacencyPairSchema extends SchemaBase implements AdjacencyPair {
+public class DiscoAdjacencyPairSchema extends ActivitySchema implements AdjacencyPair {
 
    protected final Interaction interaction; 
    protected final MenuTurnStateMachine stateMachine;
@@ -25,7 +25,6 @@ public class DiscoAdjacencyPairSchema extends SchemaBase implements AdjacencyPai
             menuPerceptor, new RepeatMenuTimeoutHandler());
       stateMachine.setSpecificityMetadata(0.9);
       stateMachine.setAdjacencyPair(this);
-      setNeedsFocusResource(true);
    }
 
    @Override
