@@ -14,7 +14,7 @@ public class StoryPlugin extends Plugin {
    public StoryPlugin (UserModel userModel, ICollaborationManager cm) {
       super("Story", userModel, cm);
       addActivity("RecordStory", 0, 0, 0, 0,
-            new SchemaConfig(StorySchema.class, 1000, true),
+            StorySchema.class, 
             new SchemaConfig(BackChannelSchema.class, 100, false),
             StoryManager.class,
             DummySpeechPerceptor.class);

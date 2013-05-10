@@ -4,6 +4,7 @@ import edu.wpi.always.calendar.CalendarUI;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.MenuPerceptor;
+import edu.wpi.always.cm.schemas.ActivitySchema;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
@@ -11,7 +12,7 @@ import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 
-public class CalendarSchema extends SchemaBase {
+public class CalendarSchema extends ActivitySchema {
 
    private final MenuTurnStateMachine stateMachine;
 
@@ -27,7 +28,6 @@ public class CalendarSchema extends SchemaBase {
       stateMachine.setAdjacencyPair(new WhatDo(new CalendarStateContext(
             keyboard, calendarUI, calendar, dispatcher, placeManager,
             peopleManager)));
-      setNeedsFocusResource(true);
    }
 
    @Override
