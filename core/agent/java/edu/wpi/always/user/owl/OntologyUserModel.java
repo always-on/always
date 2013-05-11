@@ -17,6 +17,7 @@ public class OntologyUserModel implements UserModel {
    }
 
    private final String userName;
+   private final OntologyIndividual user;
    private final OntologyHelper ontology;
    private final File userDataFile;
    private final OntologyCalendar calendar;
@@ -24,10 +25,15 @@ public class OntologyUserModel implements UserModel {
    private final OntologyPlaceManager placeManager;
 
    public OntologyUserModel (@UserName
-   String userName, OntologyHelper ontology, @UserOntologyLocation
-   File userDataFile, OntologyCalendar calendar,
+         String userName, OntologyHelper ontology, @UserOntologyLocation
+         File userDataFile, OntologyCalendar calendar,
          OntologyPeopleManager peopleManager, OntologyPlaceManager placeManager) {
       this.userName = userName;
+      this.user =  ontology.getNamedIndividual(userName);
+      if ( !user.hasSuperclass(OntologyPerson.USER_CLASS) ) {
+         user.addSuperclass(OntologyPerson.USER_CLASS);
+         peopleManager.addPerson(userName, null, null);
+      }
       this.ontology = ontology;
       this.userDataFile = userDataFile;
       this.calendar = calendar;
@@ -54,7 +60,21 @@ public class OntologyUserModel implements UserModel {
    public String getUserName () {
       return userName;
    }
-
+   
+   @Override
+   public String getProperty (String property) {
+      return user.getDataPropertyValue(property).asString();
+   }
+   
+   @Override
+   public void setProperty (String property, String value) {
+      user.setDataProperty(property, value == null ? null : ontology.getLiteral(value));
+   }
+    
+   public void addAxiomsFromInputStream (InputStream stream) {
+      ontology.addAxiomsFromInputStream(stream);
+   }
+   
    private static final Set<AxiomType<?>> types = new HashSet<AxiomType<?>>();
    static {
       types.add(AxiomType.CLASS_ASSERTION);
@@ -63,6 +83,7 @@ public class OntologyUserModel implements UserModel {
       types.add(AxiomType.OBJECT_PROPERTY_ASSERTION);
    }
 
+   
    @Override
    public void save () {
       try {
@@ -75,6 +96,7 @@ public class OntologyUserModel implements UserModel {
                userAxioms.add(new AddAxiom(userOntology, ax));
          }
          manager.applyChanges(userAxioms);
+         System.out.println("Saving user ontology to: "+userDataFile);
          manager.saveOntology(userOntology,
                new OWLFunctionalSyntaxOntologyFormat(), new FileOutputStream(
                      userDataFile));
@@ -90,10 +112,14 @@ public class OntologyUserModel implements UserModel {
 
    @Override
    public void load () {
-      if ( userDataFile != null && userDataFile.exists() )
+      if ( userDataFile != null && userDataFile.exists() ) {
+         System.out.println("Loading user ontology from: "+userDataFile);
          ontology.addAxiomsFromFile(userDataFile);
-      else {
+      } else {
          peopleManager.getUser();// force the user's OWLIndividual to be created
       }
    }
+   
+   @Override
+   public String toString () { return userName; }
 }

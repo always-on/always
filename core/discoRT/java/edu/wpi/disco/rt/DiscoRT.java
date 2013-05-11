@@ -1,12 +1,13 @@
 package edu.wpi.disco.rt;
 
-import edu.wpi.disco.Agent;
+import edu.wpi.disco.*;
 import edu.wpi.disco.rt.perceptor.Perceptor;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
+import java.awt.Frame;
 import java.util.*;
 
 public class DiscoRT {
@@ -15,23 +16,20 @@ public class DiscoRT {
    private static final long PERCEPTORS_INTERVAL = 200;
    
    private final Scheduler scheduler = new Scheduler();
+   protected final Interaction interaction =  new Interaction(new Agent("agent"), new User("user"));
    protected final MutablePicoContainer container;
    protected final List<SchemaRegistry> schemaRegistries = new ArrayList<SchemaRegistry>();
    protected final List<ComponentRegistry> registries = new ArrayList<ComponentRegistry>();
-
+  
    public DiscoRT () {
       container = new PicoBuilder().withBehaviors(new OptInCaching()).withConstructorInjection().build(); 
-      configure();
    }
 
    public DiscoRT (MutablePicoContainer parent) {
       container = new DefaultPicoContainer(new OptInCaching(), parent);
-      configure();
-      // give parent system access to  
-      parent.addComponent(container.getComponent(DiscoSynchronizedWrapper.class));
    }
    
-   private void configure () {
+   private void configure (String title) {
       container.addComponent(container);
       container.as(Characteristics.CACHE).addComponent(PrimitiveBehaviorManager.class);
       container.as(Characteristics.CACHE).addComponent(Realizer.class);
@@ -42,8 +40,17 @@ public class DiscoRT {
       container.as(Characteristics.CACHE).addComponent(ResourceMonitor.class);
       container.as(Characteristics.CACHE).addComponent(SchemaManager.class);
       container.addComponent(scheduler);
-      container.addComponent(new DiscoSynchronizedWrapper(
-            new Agent("agent"), "DiscoRT Session"));
+      container.addComponent(interaction);
+      if ( title != null ) new DiscoRT.ConsoleWindow(interaction, title);
+   }
+
+   public static class ConsoleWindow extends edu.wpi.disco.ConsoleWindow {
+      
+      public ConsoleWindow (Interaction interaction, String title) {
+         super(interaction, 600, 500, 14);
+         setExtendedState(Frame.ICONIFIED);
+         setTitle(title);
+      }
    }
 
    public void addRegistry (Registry registry) {
@@ -54,7 +61,8 @@ public class DiscoRT {
       else throw new IllegalArgumentException("Unknown registry type: "+registry);
    }
 
-   public void start () {
+   public void start (String title) {
+      configure(title);
       for (ComponentRegistry registry : registries) {
          registry.register(container);
       }

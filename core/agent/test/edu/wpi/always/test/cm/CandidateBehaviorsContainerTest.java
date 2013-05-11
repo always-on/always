@@ -17,12 +17,12 @@ public class CandidateBehaviorsContainerTest {
 
    private static final int ANY_PRIORITY = 1;
    CandidateBehaviorsContainer container;
-   BehaviorHistory resourceMonitor;
+   BehaviorHistory behaviorHistory;
 
    @Before
    public void setUp () {
       container = new CandidateBehaviorsContainer();
-      resourceMonitor = new BehaviorHistory() {
+      behaviorHistory = new BehaviorHistory() {
 
          @Override
          public boolean isDone (CompoundBehavior behavior, DateTime since) {
@@ -45,7 +45,7 @@ public class CandidateBehaviorsContainerTest {
    }
 
    private DummySchema newDummySchema () {
-      return new DummySchema(container, resourceMonitor);
+      return new DummySchema(container, behaviorHistory);
    }
 
    private void assertContainsOneCandidate (List<CandidateBehavior> candidates,
@@ -78,7 +78,7 @@ public class CandidateBehaviorsContainerTest {
       ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
       List<ScheduledFuture<?>> schemaTasks = Lists.newArrayListWithCapacity(3);
       for (int i = 0; i < gazePoints.size(); i++) {
-         FakeGazeSchema schema = new FakeGazeSchema(container, resourceMonitor,
+         FakeGazeSchema schema = new FakeGazeSchema(container, behaviorHistory,
                gazePoints.get(i));
          int period = rnd.nextInt(201) + 100;
          ScheduledFuture<?> future = executor.scheduleAtFixedRate(schema, 0,

@@ -125,7 +125,7 @@ abstract class CalendarChangeState {
 
             @Override
             public AdjacencyPair run () {
-               return new WhenStart(entry, CalendarUtil.getTime(entry
+               return new WhenStart(entry, CalendarUtils.getTime(entry
                      .getStart()), getContext(), updateAll);
             }
          });
@@ -155,7 +155,7 @@ abstract class CalendarChangeState {
       @Override
       public void enter () {
          getContext().getCalendarUI().showWeek(
-               CalendarUtil.getDate(entry.getStart()), null, false);
+               CalendarUtils.getDate(entry.getStart()), null, false);
       }
    }
 
@@ -167,7 +167,7 @@ abstract class CalendarChangeState {
       public EventDay (final CalendarEntry entry,
             final CalendarStateContext context, final boolean updateAll) {
          super("Is the " + entry.getDisplayTitle() + " during the week",
-               context, CalendarUtil.getDate(entry.getStart()));
+               context, CalendarUtils.getDate(entry.getStart()));
          this.entry = entry;
          this.updateAll = updateAll;
       }
@@ -176,8 +176,8 @@ abstract class CalendarChangeState {
       public AdjacencyPair nextState (LocalDate date) {
          if ( updateAll )
             ((RepeatingCalendarEntry) entry).setRepeatStartDate(date);
-         entry.setStart(CalendarUtil.toDateTime(date,
-               CalendarUtil.getTime(entry.getStart())));
+         entry.setStart(CalendarUtils.toDateTime(date,
+               CalendarUtils.getTime(entry.getStart())));
          getContext().getCalendar().update(entry, updateAll);
          return new WhatChange(entry, getContext(), updateAll);
       }
@@ -206,8 +206,8 @@ abstract class CalendarChangeState {
          if ( updateAll ) {
             ((RepeatingCalendarEntry) entry).setRepeatStartTime(time);
          } else {
-            entry.setStart(CalendarUtil.toDateTime(
-                  CalendarUtil.getDate(entry.getStart()), time));
+            entry.setStart(CalendarUtils.toDateTime(
+                  CalendarUtils.getDate(entry.getStart()), time));
          }
          getContext().getCalendar().update(entry, updateAll);
          return new WhatChange(entry, getContext(), updateAll);

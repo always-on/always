@@ -3,7 +3,6 @@ package edu.wpi.always.rm;
 import java.beans.Statement;
 import java.io.*;
 import java.util.StringTokenizer;
-import edu.wpi.always.cm.ICollaborationManager;
 
 // CR: Not clear this works
 

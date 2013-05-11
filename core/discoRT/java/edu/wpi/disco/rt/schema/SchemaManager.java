@@ -6,62 +6,56 @@ import java.util.*;
 
 public class SchemaManager {
 
-   private static final long DEFAULT_SCHEMAS_INTERVAL = 500;
-   private final Scheduler scheduler;
    private final MutablePicoContainer container;
-   private ArrayList<Class<? extends Schema>> toRunAtStartUp = new ArrayList<Class<? extends Schema>>();
-   private ArrayList<Class<? extends Schema>> alwaysAvailableOnes = new ArrayList<Class<? extends Schema>>();
-   private HashMap<Class<? extends Schema>, SchemaFactory> factories = new HashMap<Class<? extends Schema>, SchemaFactory>();
+   private final Scheduler scheduler;
+   private final List<Class<? extends Schema>> toRunAtStartUp = new ArrayList<Class<? extends Schema>>();
+   private final List<Class<? extends Schema>> alwaysAvailableOnes = new ArrayList<Class<? extends Schema>>();
+   private final Map<Class<? extends Schema>, SchemaFactory> factories = new HashMap<Class<? extends Schema>, SchemaFactory>();
    private boolean startUpDone = false;
 
-   public SchemaManager (MutablePicoContainer container, Scheduler scheduler) {
+   public SchemaManager (MutablePicoContainer container) {
       this.container = container;
-      this.scheduler = scheduler;
+      this.scheduler = container.getComponent(Scheduler.class);
    }
 
    public void startUp () {
       assert !startUpDone : "SchemaManager.startUp() was already called";
       for (Class<? extends Schema> s : toRunAtStartUp) {
-         schedule(s);
+         start(s);
       }
       startUpDone = true;
    }
 
-   private <T extends Schema> T schedule (Class<T> type) {
+   public <T extends Schema> T start (Class<T> type) {
       if ( factories.containsKey(type) ) {
          SchemaFactory factory = factories.get(type);
          @SuppressWarnings("unchecked")
          T instance = (T) factory.create(container);
-         schedule(instance, factory.getUpdateDelay());
+         scheduler.schedule(instance, factory.getUpdateDelay());
          return instance;
       }
       T instance = container.getComponent(type);
-      scheduler.schedule(instance, DEFAULT_SCHEMAS_INTERVAL);
+      scheduler.schedule(instance, Schema.DEFAULT_INTERVAL);
       return instance;
    }
 
-   private void schedule (Schema s, long updateDelay) {
-      scheduler.schedule(s, updateDelay);
-   }
-
-   public void registerSchema (Class<? extends Schema> type,
-         boolean runOnStartup) {
-      registerSchema(type, DEFAULT_SCHEMAS_INTERVAL, runOnStartup);
+   public void registerSchema (Class<? extends Schema> type, boolean runOnStartup) {
+      registerSchema(type, Schema.DEFAULT_INTERVAL, runOnStartup);
    }
 
    public void registerSchema (Class<? extends Schema> type, long updateDelay,
          boolean runOnStartup) {
-      registerSchema(new SchemaConfig(type, updateDelay), runOnStartup);
+      registerSchema(new SchemaConfig(type, updateDelay, runOnStartup));
    }
 
-   public void registerSchema (SchemaConfig config, boolean runOnStartup) {
-      registerSchema(new ConfigSchemaFactory(config), runOnStartup);
+   public void registerSchema (SchemaConfig config) {
+      registerSchema(new ConfigSchemaFactory(config));
    }
 
-   public void registerSchema (SchemaFactory factory, boolean runOnStartup) {
+   public void registerSchema (SchemaFactory factory) {
       Class<? extends Schema> type = factory.getSchemaType();
       factories.put(type, factory);
-      if ( runOnStartup ) {
+      if ( factory.getRunOnStartup() ) {
          assert !startUpDone : "SchemaManager.RegisterSchema() called with a startup schema, after startUp was called";
          toRunAtStartUp.add(type);
       }
@@ -80,6 +74,11 @@ public class SchemaManager {
       public long getUpdateDelay () {
          return config.getUpdateDelay();
       }
+      
+      @Override
+      public boolean getRunOnStartup () {      
+         return config.getRunOnStartup();
+      }
 
       @Override
       public Class<? extends Schema> getSchemaType () {
@@ -90,13 +89,11 @@ public class SchemaManager {
       public Schema create (PicoContainer container) {
          return container.getComponent(getSchemaType());
       }
+
    }
 
    public List<Class<? extends Schema>> getAlwaysAvailableSchemas () {
       return Collections.unmodifiableList(alwaysAvailableOnes);
    }
 
-   public <T extends Schema> T start (Class<T> type) {
-      return schedule(type);
-   }
 }

@@ -2,7 +2,7 @@
 
 		  http://web.cs.wpi.edu/~rich/always
 
-		      rich@wpi.edu, Nov 28, 2012
+		      rich@wpi.edu, May 9, 2013
 
 The goal of this document is help a new project developer get his/her
 software environment conveniently configured.  The project uses GitHub
@@ -38,6 +38,24 @@ including:
 
      -loaded dll's should be for 64 bit configuration!
      -Git can coexist with SVN
+
+---SHELL PATH SETUP (OPTIONAL)---
+
+Following is for convenience in Disco-based development to run disco and d4g2018
+shell commands (in either Windows or Cygwin shell)
+
+   * Open Control Panel and type "env" into search bar in upper right corner
+   * Click on Edit the system environment variables
+   * Click on Environment Variables
+   * Under System variables, scroll down to Path and click Edit
+   * Add a semicolon to end of current path, followed by:
+
+     ...always\core\discoRT\lib\disco1.6.x\bin
+
+     where ... is replaced by the path leading up to where always installed and
+     'x' is replaced by the installed Disco version number.
+
+   * Test in a new shell by typing 'disco'
 
 ---REPOSITORY SETUP---
 
@@ -154,6 +172,32 @@ development tools.
       -click 'Add project to working sets' and select 'always'
       -click Finish
 
+    * Create run/debug configuration for Always.main()
+
+      [Note agent project does/should not require plugin projects to compile,
+       but since it loads plugins at run time using reflection (based on
+       always/user/Activities.xml), the plugin projects must be on 
+       the classpath at run time.]
+
+      -select Agent project in Package Explorer
+      -menu bar Run > Run Configurations
+      -click add icon (upper left corner)
+      -enter edu.wpi.always.Always in Main class
+      -select Classpath tab
+      -select User Entries
+      -select Add Projects
+      -select all the plugin projects (e.g., rummy, weather and calendar)
+      -click Apply and Close
+      -use this configuration for run/debug
+
+    * [Optional] Set default Java indentation to 3 spaces
+
+      -since this is default formatting for rest of Always-On project,
+       it will avoid spurious changes to existing code
+      -select Preferences > Java > Code Style > Formatter > Edit
+      -set Indentation size and tab size to 3
+      -set Tab policy to "Spaces only"
+
 ---VISUAL STUDIO SETUP---
 
      * Open Solution
@@ -189,6 +233,12 @@ main repository) since you originally forked.
         [develop] > git merge upstream/develop
    
        -close shell     
+
+---CAMERA SETUP---
+
+***Add instructions here for how to disable builtin camera utilities
+   on HP and ASUS as needed
+***
 
 ---NEW FEATURE DEVELOPMENT---
 

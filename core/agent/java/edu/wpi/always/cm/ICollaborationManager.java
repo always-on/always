@@ -1,11 +1,13 @@
 package edu.wpi.always.cm;
 
+import org.picocontainer.MutablePicoContainer;
 import edu.wpi.disco.rt.Registry;
-
 
 public interface ICollaborationManager {
 
-   public void start ();
+   void start (boolean allPlugins);
 
-   public void addRegistry (Registry registry);
+   void addRegistry (Registry registry);
+   
+   MutablePicoContainer getContainer ();
 }

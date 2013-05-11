@@ -1,5 +1,5 @@
   > eval period = "morning"
-  > eval fileName = "04_26_2012"
+  > eval date = "04_26_2012"
   > load models/Wea.xml
   > task Weather
   > say

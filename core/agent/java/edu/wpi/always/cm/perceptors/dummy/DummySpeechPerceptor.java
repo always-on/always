@@ -2,8 +2,6 @@ package edu.wpi.always.cm.perceptors.dummy;
 
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.disco.rt.perceptor.*;
-import org.joda.time.DateTime;
-import java.awt.Point;
 
 public class DummySpeechPerceptor implements SpeechPerceptor {
 

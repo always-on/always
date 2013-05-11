@@ -11,6 +11,7 @@ import edu.wpi.disco.rt.schema.Schema;
 import org.junit.*;
 import java.awt.Point;
 import java.util.*;
+import java.util.concurrent.ScheduledFuture;
 
 public class ArbitratorFixture {
 
@@ -106,10 +107,16 @@ public class ArbitratorFixture {
 
    private Schema someSchema () {
       return new Schema() {
-
          @Override
-         public void run () {
-         }
+         public void run () {}
+         @Override
+         public void cancel () {}
+         @Override
+         public boolean isDone () { return false; }
+         @Override
+         public long getFocusMillis () { return 0; }
+         @Override
+         public void focus () {}
       };
    }
 

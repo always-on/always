@@ -1,4 +1,4 @@
-This folder contains user-specific information.  The Init.xml model
+This folder contains user-specific information.  The Plugins.xml model
 registers all the plugins that will be used by
 edu.wpi.always.Always.main().
 

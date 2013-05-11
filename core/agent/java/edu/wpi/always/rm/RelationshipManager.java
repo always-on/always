@@ -4,8 +4,6 @@ import edu.wpi.always.rm.plugin.*;
 import edu.wpi.always.user.owl.OntologyRM;
 import edu.wpi.cetask.Task;
 import edu.wpi.disco.*;
-import edu.wpi.disco.rt.*;
-import edu.wpi.disco.rt.action.DiscoAction;
 import edu.wpi.disco.rt.util.DiscoDocument;
 import org.semanticweb.owlapi.model.*;
 import org.w3c.dom.*;
@@ -712,85 +710,80 @@ public class RelationshipManager extends Thread implements IRelationshipManager 
    // This method is called after an interaction (surprising), analyzes the
    // disco state to determine information about the interaction.
    @Override
-   public void afterInteraction (DiscoSynchronizedWrapper discoWrap,
+   public void afterInteraction (Interaction interaction,
          int closeness, int time) {
       // currentCloseness = closeness;
       closenessTime = new Date();
-      discoWrap.execute(new DiscoAction() {
+      Disco disco = interaction.getDisco();
 
-         @Override
-         public void execute (Disco disco) {
-            ArrayList<Task> history = linearizeStack(disco.getStack());
-            // Stack<Segment> stack = disco.getStack();
-            // disco.history(System.out);
-            // ArrayList<TaskClass> history = new ArrayList<TaskClass>();
-            /*
-             * for(int i = 0; i < stack.size(); i++){ Segment seg =
-             * stack.get(i); Iterator<Object> children = seg.children();
-             * while(children.hasNext()){ Object child = children.next();
-             * if((child instanceof Task) && true){ history.add(((Task)
-             * child).getType()); } } }
-             */
-            /*
-             * for(Task task : history){ System.out.println(task.toString()); }
-             */
-            /*
-             * for(TaskClass task : history){ String name = task.toString();
-             * for(Activity act : latestActivities){ if (act.name == name){
-             * currentCloseness += act.social; break; } } }
-             */
-            /*
-             * Date now = new Date(); //System.out.println("History:"); for(Task
-             * task : history){ String name = task.toString();
-             * //System.out.println(name); for(Activity act : activityQueue){ if
-             * (act.name == name){ activityOccurrences.put(name, new
-             * Occurrence(now, act)); stockedSocial += act.social; //modulate
-             * via usual methods? break; } } }
-             */
-            for (Task task : history) {
-               String name = task.toString();
-               Activity activity = null;
-               for (Activity potentialActivity : activityQueue) {
-                  if ( name == potentialActivity.name ) {
-                     activity = potentialActivity;
-                     break;
-                  }
-               }
-               if ( activity != null ) {
-                  currentCloseness += activity.social; // TODO: modify based on
-                                                       // damping! timing of
-                                                       // activities important
-                                                       // here.
-               }
+      ArrayList<Task> history = linearizeStack(disco.getStack());
+      // Stack<Segment> stack = disco.getStack();
+      // disco.history(System.out);
+      // ArrayList<TaskClass> history = new ArrayList<TaskClass>();
+      /*
+       * for(int i = 0; i < stack.size(); i++){ Segment seg =
+       * stack.get(i); Iterator<Object> children = seg.children();
+       * while(children.hasNext()){ Object child = children.next();
+       * if((child instanceof Task) && true){ history.add(((Task)
+       * child).getType()); } } }
+       */
+      /*
+       * for(Task task : history){ System.out.println(task.toString()); }
+       */
+      /*
+       * for(TaskClass task : history){ String name = task.toString();
+       * for(Activity act : latestActivities){ if (act.name == name){
+       * currentCloseness += act.social; break; } } }
+       */
+      /*
+       * Date now = new Date(); //System.out.println("History:"); for(Task
+       * task : history){ String name = task.toString();
+       * //System.out.println(name); for(Activity act : activityQueue){ if
+       * (act.name == name){ activityOccurrences.put(name, new
+       * Occurrence(now, act)); stockedSocial += act.social; //modulate
+       * via usual methods? break; } } }
+       */
+      for (Task task : history) {
+         String name = task.toString();
+         Activity activity = null;
+         for (Activity potentialActivity : activityQueue) {
+            if ( name == potentialActivity.name ) {
+               activity = potentialActivity;
+               break;
             }
-            // informative printing:
-            /*
-             * for(int i = 0; i < stack.size(); i++){ Iterator<Object> children
-             * = stack.get(i).children(); System.out.println("Stack element " +
-             * i + " - " + stack.get(i).toString()+ ":");
-             * System.out.println("  Children:"); while(children.hasNext()){
-             * Object child = children.next(); if(child instanceof Task){
-             * System.out.println("    " + disco.toHistoryString(((Task)
-             * child))); } else if(child instanceof Segment){
-             * System.out.println("    segment - " + ((Segment)
-             * child).toString()); }else{ System.out.println("    ???"); } }
-             * System.out.println("  Parent:"); Segment parent =
-             * stack.get(i).getParent(); if(parent != null){
-             * System.out.println("  " + stack.get(i).getParent().toString()); }
-             * else { System.out.println("  null"); } }
-             */
-            if ( stockedSocial >= 50 && stockedSocial < 100 ) {
-               currentStage = relationshipStage.ACQUAINTANCES;
-            } else if ( stockedSocial >= 100 ) {
-               System.out.println("Friends!");
-               currentStage = relationshipStage.FRIENDS;
-               baseCloseness += 2;
-            }
-            System.out.println("Replanning:");
-            System.out.println("Current Closeness:" + currentCloseness);
-            plan();
          }
-      });
+         if ( activity != null ) {
+            currentCloseness += activity.social; // TODO: modify based on
+            // damping! timing of
+            // activities important
+            // here.
+         }
+      }
+      // informative printing:
+      /*
+       * for(int i = 0; i < stack.size(); i++){ Iterator<Object> children
+       * = stack.get(i).children(); System.out.println("Stack element " +
+       * i + " - " + stack.get(i).toString()+ ":");
+       * System.out.println("  Children:"); while(children.hasNext()){
+       * Object child = children.next(); if(child instanceof Task){
+       * System.out.println("    " + disco.toHistoryString(((Task)
+       * child))); } else if(child instanceof Segment){
+       * System.out.println("    segment - " + ((Segment)
+       * child).toString()); }else{ System.out.println("    ???"); } }
+       * System.out.println("  Parent:"); Segment parent =
+       * stack.get(i).getParent(); if(parent != null){
+       * System.out.println("  " + stack.get(i).getParent().toString()); }
+       * else { System.out.println("  null"); } }
+       */
+      if ( stockedSocial >= 50 && stockedSocial < 100 ) {
+         currentStage = relationshipStage.ACQUAINTANCES;
+      } else if ( stockedSocial >= 100 ) {
+         System.out.println("Friends!");
+         currentStage = relationshipStage.FRIENDS;
+         baseCloseness += 2;
+      }
+      System.out.println("Replanning:");
+      System.out.println("Current Closeness:" + currentCloseness);
       plan();
    }
 

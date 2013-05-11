@@ -1,7 +1,6 @@
 package edu.wpi.always.cm.dialog;
 
 import edu.wpi.always.client.Keyboard;
-import edu.wpi.always.cm.dialog.*;
 
 public abstract class KeyboardAdjacencyPair<C> extends AdjacencyPairBase<C> {
 
@@ -13,7 +12,7 @@ public abstract class KeyboardAdjacencyPair<C> extends AdjacencyPairBase<C> {
    }
 
    public KeyboardAdjacencyPair (String prompt, C context, Keyboard keyboard) {
-      super("Let me know when your done", context);
+      super("Let me know when you're done", context);
       this.prompt = prompt;
       this.keyboard = keyboard;
       choice("I'm Done", new DialogStateTransition() {

@@ -1,8 +1,8 @@
 package edu.wpi.always.user.owl;
 
 import edu.wpi.always.user.*;
-import edu.wpi.always.user.ZipCodes.ZipCodeEntry;
 import edu.wpi.always.user.places.*;
+import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import java.util.Set;
 

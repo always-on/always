@@ -3,7 +3,7 @@ package edu.wpi.always.user.calendar;
 import org.joda.time.*;
 import java.util.*;
 
-public interface Calendar {
+public interface Calendar extends Iterable<CalendarEntry> {
 
    /**
     * Insert a new event into the system

@@ -54,4 +54,8 @@ public class OntologyPlace implements Place {
       owlPlace.setDataProperty(TIMEZONE_PROPERTY,
             helper.getLiteral(timezone.getID()));
    }
+   
+   @Override
+   public String toString () { return getCityName(); }
+   
 }

@@ -62,7 +62,7 @@ abstract class CalendarRepeatAddState {
       public EventDay (final RepeatingCalendarEntry data,
             final CalendarStateContext context) {
          super("Is the first time this event happens this week", context, data
-               .getStart() != null ? CalendarUtil.getDate(data.getStart())
+               .getStart() != null ? CalendarUtils.getDate(data.getStart())
             : new LocalDate());
          this.data = data;
          if ( data.getRepeatStartDate() != null
@@ -74,8 +74,8 @@ abstract class CalendarRepeatAddState {
       @Override
       public AdjacencyPair nextState (LocalDate date) {
          data.setRepeatStartDate(date);
-         data.setStart(CalendarUtil.toDateTime(date, data.getStart() != null
-            ? CalendarUtil.getTime(data.getStart()) : new LocalTime()));
+         data.setStart(CalendarUtils.toDateTime(date, data.getStart() != null
+            ? CalendarUtils.getTime(data.getStart()) : new LocalTime()));
          return new Frequency(data, getContext());
       }
    }
@@ -162,8 +162,8 @@ abstract class CalendarRepeatAddState {
 
       @Override
       public AdjacencyPair nextState (LocalTime time) {
-         entry.setStart(CalendarUtil.toDateTime(
-               CalendarUtil.getDate(entry.getStart()), time));
+         entry.setStart(CalendarUtils.toDateTime(
+               CalendarUtils.getDate(entry.getStart()), time));
          entry.setRepeatStartTime(time);
          return new HowLong(entry, getContext());
       }
@@ -255,7 +255,7 @@ abstract class CalendarRepeatAddState {
       public void enter () {
          getContext().getCalendar().create(data);
          getContext().getCalendarUI().showWeek(
-               CalendarUtil.getDate(data.getStart()), null, false);
+               CalendarUtils.getDate(data.getStart()), null, false);
       }
    };
 

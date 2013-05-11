@@ -1,9 +1,10 @@
 package edu.wpi.always.rm;
 
-import edu.wpi.always.cm.*;
+import edu.wpi.always.cm.ICollaborationManager;
 import edu.wpi.always.rm.RelationshipManager.relationshipStage;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
+import org.picocontainer.MutablePicoContainer;
 import org.w3c.dom.Document;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -38,7 +39,7 @@ public class FakeCollaborationManager extends Thread implements ICollaborationMa
       }
       int closeness = 0;
       int time = 3;
-      rm.afterInteraction(new DiscoSynchronizedWrapper(disco),
+      rm.afterInteraction(interaction,
             closeness, time);
    }
 
@@ -58,5 +59,14 @@ public class FakeCollaborationManager extends Thread implements ICollaborationMa
       // TODO Auto-generated method stub
       
    }
+
+   @Override
+   public MutablePicoContainer getContainer () {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   @Override
+   public void start (boolean allPlugins) { super.start(); }
 
 }

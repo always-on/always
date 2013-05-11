@@ -1,8 +1,7 @@
 package edu.wpi.always.test.cm;
 
 import static org.junit.Assert.*;
-import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.primitives.*;
+import edu.wpi.always.cm.primitives.SpeechBehavior;
 import edu.wpi.always.cm.primitives.console.ConsoleSpeechRealizer;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
@@ -91,8 +90,8 @@ public class SchemaFeedbacksFixture {
       private boolean done = false;
 
       public FakeSchema (BehaviorProposalReceiver behaviorReceiver,
-            BehaviorHistory resourceMonitor) {
-         super(behaviorReceiver, resourceMonitor);
+            BehaviorHistory behaviorHistory) {
+         super(behaviorReceiver, behaviorHistory);
       }
 
       @Override
@@ -105,6 +104,7 @@ public class SchemaFeedbacksFixture {
          }
       }
 
+      @Override
       public boolean isDone () {
          return done || lastProposalIsDone();
       }
@@ -114,8 +114,8 @@ public class SchemaFeedbacksFixture {
 
       public HigherPriorityDummySchema (
             BehaviorProposalReceiver behaviorReceiver,
-            BehaviorHistory resourceMonitor) {
-         super(behaviorReceiver, resourceMonitor);
+            BehaviorHistory behaviorHistory) {
+         super(behaviorReceiver, behaviorHistory);
       }
 
       private boolean enabled = true;

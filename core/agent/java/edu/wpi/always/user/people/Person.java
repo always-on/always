@@ -3,6 +3,9 @@ package edu.wpi.always.user.people;
 import edu.wpi.always.user.places.Place;
 import org.joda.time.MonthDay;
 
+/* 
+ * This interface defines accessors for the core properties of a person.
+ */
 public interface Person {
 
    enum Gender {
@@ -15,21 +18,27 @@ public interface Person {
 
    String getName ();
 
-   void addRelationship (Person otherPerson, Relationship relationship);
-
+   Gender getGender ();
+   
    void setGender (Person.Gender gender);
 
-   void setBirthday (MonthDay day);
-
    MonthDay getBirthday ();
+   
+   void setBirthday (MonthDay day);
 
    Place getLocation ();
 
    void setLocation (Place place);
 
+   String getPhoneNumber ();
+   
    void setPhoneNumber (String number);
 
-   String getPhoneNumber ();
+   /**
+    * @return null if no related persons
+    */
+   Person[] getRelated (Relationship relationship);
+   
+   void addRelated (Person otherPerson, Relationship relationship);
 
-   Gender getGender ();
 }

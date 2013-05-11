@@ -6,6 +6,8 @@ import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.always.rm.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.*;
+import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.apache.log4j.BasicConfigurator;
@@ -24,10 +26,17 @@ public class Always {
    }
 
     /**
-    * Most recent instance of Always.  Useful for scripts in user/Init.xml
+    * Most recent instance of Always.  Useful for scripts.
     */
    public static Always THIS;
 
+   /**
+    * For convenience in Disco task models.
+    */
+   public static UserModel getUserModel () {
+      return THIS.container.getComponent(UserModel.class);
+   }
+   
    /**
     * The container for holding all the components of the system
     */
@@ -35,15 +44,24 @@ public class Always {
          new PicoBuilder().withBehaviors(new OptInCaching())
             .withConstructorInjection().build();
    
+   public MutablePicoContainer getContainer () {
+      return container;
+   }
+   
    /**
     * Create new system instance.
     */
    public Always (boolean logToConsole) {
-      if ( logToConsole )
+      init(logToConsole, true);
+   }
+ 
+   private void init (boolean logToConsole, boolean allPlugins) {
+       if ( logToConsole )
          BasicConfigurator.configure();
       else
          BasicConfigurator.configure(new NullAppender());
       container.addComponent(container); 
+      container.addComponent(this);
       container.as(Characteristics.CACHE).addComponent(
             ICollaborationManager.class, CollaborationManager.class);
       container.as(Characteristics.CACHE).addComponent(
@@ -52,19 +70,20 @@ public class Always {
       // FIXME get real user info here
       addRegistry(new OntologyUserRegistry("Diane Ferguson")); 
       addCMRegistry(new ClientRegistry());
-      addCMRegistry(new StartupSchemas());
+      addCMRegistry(new StartupSchemas(allPlugins));
       THIS = this;
    }
-
+   // for constructor below--see start
+   private Class<? extends Plugin> plugin; 
+   private String activity;
+   
    /**
     * Constructor for debugging given plugin activity.
     */
-   public Always (boolean logToConsole, Class<? extends Plugin> plugin, String name) {
-      this(logToConsole);
-      container.addComponent(plugin);
-      Plugin p = container.getComponent(plugin);
-      for (Registry r : p.getRegistries(new Activity(plugin, name, 0, 0, 0, 0)))
-            addCMRegistry(r);
+   public Always (boolean logToConsole, Class<? extends Plugin> plugin, String activity) {
+      init(logToConsole, false);
+      this.plugin = plugin; 
+      this.activity = activity;
    }
                                                                          
    private final List<OntologyRegistry> ontologyRegistries = new ArrayList<OntologyRegistry>();
@@ -90,20 +109,21 @@ public class Always {
       for (OntologyRegistry registry : ontologyRegistries)
          registry.register(helper);
       UserModel userModel = container.getComponent(UserModel.class);
-      if ( userModel != null ) {
-         userModel.load();
-         System.out.println("Loaded user model");
-      }
+      if ( userModel != null ) userModel.load();
       ICollaborationManager cm = container.getComponent(ICollaborationManager.class);
-      for (Registry registry : cmRegistries)
-         cm.addRegistry(registry);
+      // for debugging given plugin activity
+      if ( plugin != null) {
+         container.addComponent(plugin);
+         Plugin p = container.getComponent(plugin);
+         for (Registry r : p.getRegistries(new Activity(plugin, activity, 0, 0, 0, 0)))
+            addCMRegistry(r);
+      }
+      for (Registry registry : cmRegistries) cm.addRegistry(registry);
       System.out.println("Starting Collaboration Manager");
-      cm.start();
+      cm.start(plugin == null);
       System.out.println("Always running...");
+      if ( plugin != null ) container.getComponent(plugin).startActivity(activity);
    }
 
-   public MutablePicoContainer getContainer () {
-      return container;
-   }
 }
 
