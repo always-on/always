@@ -135,6 +135,7 @@ public class Realizer implements IRealizer, BehaviorHistory {
       }
 
       public void start () {
+         System.out.println("Starting: "+behavior);
          primitiveAccess = new PrimitiveBehaviorControlDisconnectableWrapper(
                primitiveControl);
          compoundRealizer = behavior.createRealizer(primitiveAccess);

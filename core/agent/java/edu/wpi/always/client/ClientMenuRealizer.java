@@ -6,7 +6,7 @@ import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
 public class ClientMenuRealizer extends
       SingleRunPrimitiveRealizer<MenuBehavior> implements ClientProxyObserver {
 
-   private final ClientProxy proxy;
+   protected final ClientProxy proxy;
 
    public ClientMenuRealizer (MenuBehavior params, ClientProxy proxy) {
       super(params);
@@ -16,7 +16,8 @@ public class ClientMenuRealizer extends
    @Override
    protected void singleRun () {
       proxy.addObserver(this);
-      proxy.showMenu(getParams().getItems(), getParams().isTwoColumn());
+      MenuBehavior params = getParams();
+      proxy.showMenu(params.getItems(), params.isTwoColumn(), params.isExtension());
    }
 
    @Override

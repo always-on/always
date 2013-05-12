@@ -8,9 +8,6 @@ import edu.wpi.disco.rt.util.DiscoDocument;
  */
 public class DummyRelationshipManager implements IRelationshipManager {
 
-   // TODO Prepare three handcoded session plans: Stranger.xml, Acquaintance.xml, 
-   //      and Companion.xml
-
    @Override
    public DiscoDocument getSession () { return null; }
 

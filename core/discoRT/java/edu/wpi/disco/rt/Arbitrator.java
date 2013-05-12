@@ -62,6 +62,7 @@ public class Arbitrator implements Runnable {
    private void setCurrentFocus (Schema proposer) {
       focus = proposer;
       proposer.focus();
+      System.out.println("SetCurrentFocus: "+proposer);
    }
 
    /**

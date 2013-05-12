@@ -18,7 +18,7 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    }
    
    protected void start (String id) {
-      Plan plan = interaction.addTop("WeatherStranger");
+      Plan plan = interaction.addTop(id);
       plan.getGoal().setShould(true);
       interaction.push(plan);
    }

@@ -15,7 +15,7 @@
 
   <script init="true">
 
-  /*
+    /*
      This element contains Javascript that is evaluated when this model
      is loaded.  This is convenient place to set parameters, etc., without
      changing source code.  Note that all Java classes and methods can
@@ -24,8 +24,10 @@
 
      Note the 'eval' command in the Disco console window can be used
      similarly.
-  */
-  edu.wpi.always = Packages.edu.wpi.always;
+    */
+  
+    edu.wpi.always = Packages.edu.wpi.always;
+    ALWAYS = edu.wpi.always.Always.THIS;
 
   </script>
 

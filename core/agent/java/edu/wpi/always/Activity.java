@@ -17,7 +17,7 @@ public class Activity {
     * 
     * FIXME review closeness values in RM
     * 
-    * @param required The minimum required closeness (see {@link edu.wpi.always.rm.Closeness})
+    * @param required The minimum required closeness 
     * @param duration The expected duration (in minutes)
     * @param instrumental The instrumental utility resulting from this activity
     * @param relational The relational utility (increase in closeness) resulting

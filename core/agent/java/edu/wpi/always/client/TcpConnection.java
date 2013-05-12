@@ -38,8 +38,7 @@ public class TcpConnection implements RemoteConnection {
                try {
                   while ((n = in.read(buf)) != -1) {
                      String s = new String(buf, 0, n);
-                     System.out.println();
-                     System.out.println("received: " + s);
+                     System.out.println("Received: " + s);
                      fireMessageReceived(s);
                   }
                } catch (Exception e) { e.printStackTrace(); }
@@ -80,7 +79,7 @@ public class TcpConnection implements RemoteConnection {
       if ( !isConnected() )
          connect();
       if ( isConnected() ) {
-         System.out.println("sending... " + message);
+         System.out.println("Sending... " + message);
          out.print(message);
          out.flush();
       }

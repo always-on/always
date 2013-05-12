@@ -26,6 +26,9 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private final ResourceMonitor resourceMonitor;
    private boolean addSomethingToDifferentiateFromLastProposal;
    private final MenuTimeoutHandler timeoutHandler;
+   private boolean extension;
+   
+   public void setExtension (boolean extension) { this.extension = extension; }
 
    private enum State {
       Say, Hear
@@ -72,7 +75,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       Behavior b = Behavior.NULL;
       if ( choicesExist )
          menuBehavior = new MenuBehavior(userChoices,
-               currentAdjacencyPair.isTwoColumnMenu());
+               currentAdjacencyPair.isTwoColumnMenu(), extension);
       if ( hasSomethingToSay(currentAdjacencyPair) )
          speechBehavior = new SpeechBehavior(currentAdjacencyPair.getMessage());
       if ( speechBehavior != null && menuBehavior != null ) {

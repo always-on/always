@@ -62,11 +62,25 @@
   </xsl:template>
 
   <!-- start templates for first pass -->
+
   <xsl:template match="g:model" mode="first-pass">
     <xsl:element name="taskModel">
 
-      <!-- force inclusion of disco namespace (XSLT 2.0 only) -->
+      <!-- note namespace element only supported in XSLT 2.0 -->
+
+      <!-- force inclusion of disco namespace -->
       <xsl:namespace name="disco" select="'urn:disco.wpi.edu:Disco'"/>
+      
+      <!-- include other input prefixes, since might be used inside of task id's -->
+      <xsl:variable name="model" select="."/>
+      <xsl:for-each select="in-scope-prefixes(.)">
+        <xsl:variable name="prefix" select="."/>
+        <xsl:if test="not(string-length($prefix)=0 or 
+                    namespace-uri-for-prefix($prefix,$model)='http://www.cs.wpi.edu/~rich/d4g' or
+                    namespace-uri-for-prefix($prefix,$model)='http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext')">
+          <xsl:namespace name="{$prefix}" select="namespace-uri-for-prefix($prefix,$model)"/>
+        </xsl:if>
+      </xsl:for-each>
 
       <!-- take care of 'about' URN to make unique -->
       <xsl:attribute name="about">

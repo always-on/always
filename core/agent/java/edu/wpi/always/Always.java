@@ -37,6 +37,13 @@ public class Always {
       return THIS.container.getComponent(UserModel.class);
    }
    
+    /**
+    * For convenience in Disco console.
+    */
+   public static IRelationshipManager getRM () {
+      return THIS.container.getComponent(IRelationshipManager.class);
+   }
+   
    /**
     * The container for holding all the components of the system
     */
@@ -65,8 +72,7 @@ public class Always {
       container.as(Characteristics.CACHE).addComponent(
             ICollaborationManager.class, CollaborationManager.class);
       container.as(Characteristics.CACHE).addComponent(
-            // note using DUMMY relationship manager!
-            IRelationshipManager.class, DummyRelationshipManager.class);
+            IRelationshipManager.class, FakeRelationshipManager.class);
       // FIXME get real user info here
       addRegistry(new OntologyUserRegistry("Diane Ferguson")); 
       addCMRegistry(new ClientRegistry());

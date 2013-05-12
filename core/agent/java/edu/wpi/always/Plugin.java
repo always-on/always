@@ -75,7 +75,7 @@ public abstract class Plugin {
     * Returns the activities that this plugin currently makes available.  This method
     * is called by {@link edu.wpi.always.rm.IRelationshipManager}.
     * 
-    * @param baseline The closeness at the start of this session (see {@link edu.wpi.always.rm.Closeness})
+    * @param baseline The closeness at the start of this session
     */
    public List<Activity> getActivities (int baseline) { return activities; }
      

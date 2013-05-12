@@ -9,20 +9,25 @@ import java.util.*;
 public class MenuBehavior extends PrimitiveBehavior {
 
    private final List<String> items;
-   private final boolean twoColumn;
+   private final boolean twoColumn, extension;
 
    public MenuBehavior (List<String> items) {
-      this(items, false);
+      this(items, false, false);
    }
 
    public MenuBehavior (List<String> items, boolean twoColumn) {
+      this(items, twoColumn, false);
+   }
+
+   public MenuBehavior (List<String> items, boolean twoColumn, boolean extension) {
       this.items = Collections.unmodifiableList(Lists.newArrayList(items));
       this.twoColumn = twoColumn;
+      this.extension = extension;
    }
 
    @Override
    public Resource getResource () {
-      return AgentResources.MENU;
+      return extension ? AgentResources.MENU_EXTENSION : AgentResources.MENU;
    }
 
    @Override
@@ -31,6 +36,7 @@ public class MenuBehavior extends PrimitiveBehavior {
       int result = 1;
       result = prime * result + ((items == null) ? 0 : items.hashCode());
       result = prime * result + (twoColumn ? 1231 : 1237);
+      result = prime * result + (extension ? 1231 : 1237);
       return result;
    }
 
@@ -50,6 +56,8 @@ public class MenuBehavior extends PrimitiveBehavior {
          return false;
       if ( twoColumn != other.twoColumn )
          return false;
+      if ( extension != other.extension )
+         return false;
       return true;
    }
 
@@ -60,9 +68,14 @@ public class MenuBehavior extends PrimitiveBehavior {
    public boolean isTwoColumn () {
       return twoColumn;
    }
+   
+   public boolean isExtension () {
+      return extension;
+   }
 
    @Override
    public String toString () {
-      return (twoColumn ? "Menu2(" : "MENU(") + Utils.listify(items) + ')';
+      return (extension ? "MENU_EXT(" : twoColumn ? "MENU2(" : "MENU(")
+            + Utils.listify(items) + ')';
    }
 }

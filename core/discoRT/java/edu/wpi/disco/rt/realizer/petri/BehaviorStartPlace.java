@@ -21,9 +21,7 @@ public class BehaviorStartPlace extends Place {
 
    @Override
    public void run () {
-      System.out.println();
-      System.out.println("starting on " + behavior.getClass());
-      System.out.println();
+      // System.out.println("starting on " + behavior.getClass());
       handle.set(control.realize(behavior));
       done();
    }
