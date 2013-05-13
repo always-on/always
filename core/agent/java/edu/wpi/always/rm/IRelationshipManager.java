@@ -1,8 +1,7 @@
 package edu.wpi.always.rm;
 
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.util.DiscoDocument;
-import org.w3c.dom.Document;
 
 // TODO think about replan requests
 public interface IRelationshipManager {
@@ -12,5 +11,5 @@ public interface IRelationshipManager {
     */
    DiscoDocument getSession ();
 
-   void afterInteraction (DiscoSynchronizedWrapper disco, int closeness, int time);
+   void afterInteraction (Interaction interaction, int closeness, int time);
 }

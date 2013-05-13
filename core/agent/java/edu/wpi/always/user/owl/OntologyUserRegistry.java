@@ -3,7 +3,7 @@ package edu.wpi.always.user.owl;
 import edu.wpi.always.user.*;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.always.user.places.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 import java.io.File;
@@ -17,11 +17,11 @@ public class OntologyUserRegistry implements ComponentRegistry, OntologyRegistry
       this.username = username;
       if ( userOntologyPath == null )
          throw new IllegalArgumentException("Ontology path cannot be null");
-      userDataLocation = UserUtil.getUserFile(userOntologyPath);
+      userDataLocation = UserUtils.getUserFile(userOntologyPath);
    }
 
    public OntologyUserRegistry (String username) {
-      this(username, "UserOntologyData.owl");
+      this(username, "User.owl");
    }
 
    @Override
@@ -55,10 +55,10 @@ public class OntologyUserRegistry implements ComponentRegistry, OntologyRegistry
    @Override
    public void register (OntologyRuleHelper ontology) {
       ontology.addAxiomsFromInputStream(getClass().getResourceAsStream(
-            "/resources/ontology/People.owl"));
+            "/edu/wpi/always/user/owl/People.owl"));
       ontology.addAxiomsFromInputStream(getClass().getResourceAsStream(
-            "/resources/ontology/Calendar.owl"));
+            "/edu/wpi/always/user/owl/Calendar.owl"));
       ontology.addAxiomsFromInputStream(getClass().getResourceAsStream(
-            "/resources/ontology/Place.owl"));
+            "/edu/wpi/always/user/owl/Place.owl"));
    }
 }

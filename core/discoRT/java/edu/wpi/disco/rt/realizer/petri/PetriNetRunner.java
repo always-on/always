@@ -35,8 +35,7 @@ public class PetriNetRunner implements Runnable {
                continue;
             }
             try {
-               System.out.println("\nPetriNetRunner: waiting for Place <" + p
-                  + ">");
+               // System.out.println("\nPetriNetRunner: waiting for Place <" + p + ">");
                future.get();
             } catch (InterruptedException e) {
             } catch (ExecutionException e) {

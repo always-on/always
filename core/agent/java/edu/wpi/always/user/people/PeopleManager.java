@@ -5,12 +5,11 @@ import edu.wpi.always.user.people.Person.Relationship;
 
 public interface PeopleManager {
 
-   public Person getUser ();
+   Person getUser ();
 
-   public Person addPerson (String name, Relationship relationship,
-         Gender gender);
+   Person addPerson (String name, Relationship relationship, Gender gender);
 
-   public Person getPerson (String name);
+   Person getPerson (String name);
 
-   public Person[] getPeople ();
+   Person[] getPeople ();
 }

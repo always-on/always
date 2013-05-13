@@ -1,7 +1,7 @@
 package edu.wpi.always.client;
 
 import java.io.*;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
@@ -38,14 +38,14 @@ public class TcpConnection implements RemoteConnection {
                try {
                   while ((n = in.read(buf)) != -1) {
                      String s = new String(buf, 0, n);
-                     System.out.println();
-                     System.out.println("received: " + s);
+                     System.out.println("Received: " + s);
                      fireMessageReceived(s);
                   }
                } catch (Exception e) { e.printStackTrace(); }
             }
          });
-      } catch (Exception e) { throw new RuntimeException(e); }
+      } catch (ConnectException e) { System.err.println("Unable to connect to "+hostname+" "+port); }
+        catch (Exception e) { throw new RuntimeException(e); }
    }
 
    protected void fireMessageReceived (String s) {
@@ -79,7 +79,7 @@ public class TcpConnection implements RemoteConnection {
       if ( !isConnected() )
          connect();
       if ( isConnected() ) {
-         System.out.println("sending... " + message);
+         System.out.println("Sending... " + message);
          out.print(message);
          out.flush();
       }

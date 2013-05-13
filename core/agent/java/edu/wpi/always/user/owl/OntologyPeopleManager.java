@@ -43,7 +43,7 @@ public class OntologyPeopleManager implements PeopleManager {
             helper.getOntologyDataObject(), model, owlPerson);
       person.setName(name);
       if ( relationship != null )
-         getUser().addRelationship(person, relationship);
+         getUser().addRelated(person, relationship);
       if ( gender != null )
          person.setGender(gender);
       return person;

@@ -1,12 +1,9 @@
 package edu.wpi.always.test.client;
 
 import static org.junit.Assert.*;
-
-import org.junit.*;
-
-import com.google.gson.*;
-
+import com.google.gson.JsonObject;
 import edu.wpi.always.client.*;
+import org.junit.*;
 
 //ToDo:
 // - when text passed to handleMessage() is null

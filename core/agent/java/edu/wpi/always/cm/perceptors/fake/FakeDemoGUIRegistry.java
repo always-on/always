@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.perceptors.fake;
 
-import edu.wpi.always.cm.schemas.*;
-import edu.wpi.disco.rt.*;
+import edu.wpi.always.cm.schemas.AquariumTripSchema;
+import edu.wpi.disco.rt.Scheduler;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
@@ -32,8 +32,13 @@ public class FakeDemoGUIRegistry implements ComponentRegistry, SchemaRegistry {
          public long getUpdateDelay () {
             return Schema.DEFAULT_INTERVAL;
          }
+
+         @Override
+         public boolean getRunOnStartup () {
+            return true;
+         }
       };
-      manager.registerSchema(factory, true);
+      manager.registerSchema(factory);
    }
 
    @Override

@@ -1,12 +1,9 @@
 package edu.wpi.always.test.client;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import edu.wpi.always.client.JsonBreakDown;
+import org.junit.Test;
 import java.util.*;
-
-import org.junit.*;
-
-import edu.wpi.always.client.*;
 
 public class JsonBreakDownFixture {
 	@Test

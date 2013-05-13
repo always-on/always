@@ -1,5 +1,0 @@
-load models/today.xml
-say
-1
-say
-1

@@ -33,7 +33,7 @@ public class ClientProxy {
 
                @Override
                public void handleMessage (JsonObject body) {
-                  fireMenuSelectedMessage(body.get("text").getAsString());
+                  fireMenuSelectedMessage(body.get("text").getAsString()); 
                }
             });
    }
@@ -85,14 +85,14 @@ public class ClientProxy {
          o.notifyMenuSelected(this, text);
       }
    }
-
-   public void showMenu (List<String> items, boolean twoColumn) {
+   
+   public void showMenu (List<String> items, boolean twoColumn, boolean extension) {
       JsonArray menus = new JsonArray();
-      for (String s : items)
-         menus.add(new JsonPrimitive(s));
+      for (String s : items) menus.add(new JsonPrimitive(s));
       JsonObject body = new JsonObject();
       body.add("menus", menus);
       body.addProperty("twoColumn", twoColumn);
+      body.addProperty("extension", extension);
       enqueue(new Message("show_menu", body));
    }
 

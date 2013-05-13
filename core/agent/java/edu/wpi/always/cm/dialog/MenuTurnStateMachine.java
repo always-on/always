@@ -1,10 +1,9 @@
 package edu.wpi.always.cm.dialog;
 
 import com.google.common.collect.Lists;
-import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.*;
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.realizer.Constraint.Type;
@@ -27,6 +26,9 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private final ResourceMonitor resourceMonitor;
    private boolean addSomethingToDifferentiateFromLastProposal;
    private final MenuTimeoutHandler timeoutHandler;
+   private boolean extension;
+   
+   public void setExtension (boolean extension) { this.extension = extension; }
 
    private enum State {
       Say, Hear
@@ -73,7 +75,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       Behavior b = Behavior.NULL;
       if ( choicesExist )
          menuBehavior = new MenuBehavior(userChoices,
-               currentAdjacencyPair.isTwoColumnMenu());
+               currentAdjacencyPair.isTwoColumnMenu(), extension);
       if ( hasSomethingToSay(currentAdjacencyPair) )
          speechBehavior = new SpeechBehavior(currentAdjacencyPair.getMessage());
       if ( speechBehavior != null && menuBehavior != null ) {

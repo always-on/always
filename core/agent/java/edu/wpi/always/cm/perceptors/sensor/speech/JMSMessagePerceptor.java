@@ -1,7 +1,5 @@
 package edu.wpi.always.cm.perceptors.sensor.speech;
 
-import edu.wpi.always.cm.*;
-import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.perceptor.*;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import java.util.List;

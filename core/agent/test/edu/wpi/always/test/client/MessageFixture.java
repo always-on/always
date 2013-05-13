@@ -1,12 +1,9 @@
 package edu.wpi.always.test.client;
 
-import static org.junit.Assert.*;
-
-import java.util.*;
-
-import org.junit.*;
-
-import edu.wpi.always.client.*;
+import static org.junit.Assert.assertEquals;
+import edu.wpi.always.client.Message;
+import org.junit.Test;
+import java.util.HashMap;
 
 public class MessageFixture {
 

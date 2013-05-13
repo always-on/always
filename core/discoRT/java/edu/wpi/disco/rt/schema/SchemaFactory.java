@@ -5,6 +5,8 @@ import org.picocontainer.PicoContainer;
 public interface SchemaFactory {
 
    long getUpdateDelay ();
+   
+   boolean getRunOnStartup ();
 
    Class<? extends Schema> getSchemaType ();
 

@@ -36,7 +36,7 @@ public class Arbitrator implements Runnable {
          selected.add(a);
          for (CandidateBehavior p : Lists.newArrayList(proposals)) {
             for (Resource r : p.getBehavior().getResources()) {
-               if ( !freeResources.contains(r) ) {// yourtvseri.es
+               if ( !freeResources.contains(r) ) {
                   proposals.remove(p);
                   break;
                }
@@ -61,6 +61,8 @@ public class Arbitrator implements Runnable {
 
    private void setCurrentFocus (Schema proposer) {
       focus = proposer;
+      proposer.focus();
+      System.out.println("SetCurrentFocus: "+proposer);
    }
 
    /**

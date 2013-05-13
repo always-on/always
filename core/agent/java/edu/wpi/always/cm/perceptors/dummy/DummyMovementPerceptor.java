@@ -1,8 +1,6 @@
 package edu.wpi.always.cm.perceptors.dummy;
 
 import edu.wpi.always.cm.perceptors.*;
-import org.joda.time.DateTime;
-import java.awt.Point;
 
 public class DummyMovementPerceptor implements MovementPerceptor {
 

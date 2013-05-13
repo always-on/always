@@ -87,6 +87,8 @@ namespace Agent.Tcp
 				_agent.Idle(true);
 		}
 
+        private List<string> extension = new List<string>(0);
+
 		private void ShowMenu(JObject args)
 		{
 			List<string> menus;
@@ -97,8 +99,13 @@ namespace Agent.Tcp
 			bool twoCol = false;
 			if (args["twoColumn"] != null)
 				twoCol = (bool)args["twoColumn"];
-
-			_agent.ShowMenu(menus, twoCol);
+            if (args["extension"] != null && (bool)args["extension"])
+                extension = menus;
+            else
+            {
+              if ( !twoCol ) menus.AddRange(extension);
+              _agent.ShowMenu(menus, twoCol);
+            }
 
 			SendActionDone("show_menu", new JArray(menus).ToString());
 		}

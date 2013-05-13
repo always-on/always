@@ -1,0 +1,34 @@
+<taskModel about="urn:always.wpi.edu:Actitivies"
+           xmlns="http://ce.org/cea-2018">
+
+  <!-- This model is loaded at startup to register all of the activities and
+       their respective plugins.
+
+       See Activities.properties for plugin information
+  -->
+
+  <task id="UseCalendar"/>
+
+  <task id="PlayRummy"/>
+
+  <task id="DiscussWeather"/>
+
+  <script init="true">
+
+    /*
+     This element contains Javascript that is evaluated when this model
+     is loaded.  This is convenient place to set parameters, etc., without
+     changing source code.  Note that all Java classes and methods can
+     be accessed from Javascript.  The variable edu.wpi.always.Always.THIS
+     contains the most recent instance of the system.
+
+     Note the 'eval' command in the Disco console window can be used
+     similarly.
+    */
+  
+    edu.wpi.always = Packages.edu.wpi.always;
+    ALWAYS = edu.wpi.always.Always.THIS;
+
+  </script>
+
+</taskModel>
