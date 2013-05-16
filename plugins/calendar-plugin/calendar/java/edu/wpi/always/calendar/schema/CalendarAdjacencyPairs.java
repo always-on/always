@@ -308,4 +308,6 @@ abstract class CalendarAdjacencyPairs {
          return new WhatDo(getContext());
       }
    };
+   
+   private CalendarAdjacencyPairs () {}
 }

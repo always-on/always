@@ -92,9 +92,14 @@ public abstract class Plugin {
    /**
     * Start schema(s) that implement given activity.
     */
-   public void startActivity (String name) {
-      for (Class<? extends Schema> schema : schemas.get(name))
-        schemaManager.start(schema);
+   public ActivitySchema startActivity (String name) {
+      ActivitySchema activity = null;
+      for (Class<? extends Schema> schema : schemas.get(name)) {
+        Schema instance = schemaManager.start(schema);
+        if ( instance instanceof ActivitySchema ) activity = (ActivitySchema) instance;
+      }
+      if ( activity == null ) throw new IllegalStateException("No activity schema for: "+name);
+      return activity;
    }
    
    /**

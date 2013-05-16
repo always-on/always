@@ -10,6 +10,7 @@ import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;
 import java.awt.Point;
+import java.util.Collections;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RummyClient implements ClientPlugin {
@@ -67,6 +68,7 @@ public class RummyClient implements ClientPlugin {
    public BehaviorBuilder updateInteraction (boolean lastProposalIsDone) {
       processInbox();
       ProposalBuilder res = newProposal();
+      res.showMenu(Collections.<String>emptyList(), false); // for menu extension, if any
       BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
       metadata.timeRemaining(agentCardsNum + userCardsNum);
       metadata.specificity(0.9);
@@ -99,14 +101,15 @@ public class RummyClient implements ClientPlugin {
          FaceTrackBehavior lookBackAtFace = new FaceTrackBehavior();
          String toSay = "";
          if ( isMeld(availableMove.getValue()) ) {
-            toSay = "Now, $ I am going to do $ this meld, and $ done!";
+            toSay = "Now, $ I am going to do $ this meld, and $ done! $ .";
          } else if ( isDraw(availableMove.getValue()) ) {
-            toSay = "Okay, $ I have to draw a card. $ The Card is drawn, and let me see what I can do with it! $ .";
+            toSay = "Okay, $ I have to draw a card. $ The Card is drawn, and let me see what I can do with it! $ . $.";
          } else if ( isDiscard(availableMove.getValue()) ) {
-            toSay = "I $ am done, so I'll $ discard this one, and now it's $ your turn.";
+            toSay = "I $ am done, so I'll $ discard this one, and now it's $ your turn. $ .";
          }
          SyncSayBuilder b = new SyncSayBuilder(toSay, gazeAtCard, move,
-               lookBackAtFace, new FocusRequestBehavior());
+               lookBackAtFace, new FocusRequestBehavior(),
+               MenuBehavior.EMPTY); // for menu extension, if any
          b.setMetaData(metadata);
          lastMoveProposal = b;
          availableMove = null;
@@ -115,6 +118,7 @@ public class RummyClient implements ClientPlugin {
          lastMoveProposal = null;
          if ( userMadeAMeldAfterMyLastMove() ) {
             res = newProposal().say("Good one!");
+            res.showMenu(Collections.<String>emptyList(), false); // for menu extension, if any
          }
       }
       return res;
@@ -139,7 +143,7 @@ public class RummyClient implements ClientPlugin {
    }
 
    private ProposalBuilder newProposal () {
-      return new ProposalBuilder(this, FocusRequirement.Required);
+      return new ProposalBuilder(this, FocusRequirement.NotRequired); //*********************
    }
 
    private void processInbox () {

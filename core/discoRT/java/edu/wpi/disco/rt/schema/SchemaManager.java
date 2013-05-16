@@ -27,6 +27,7 @@ public class SchemaManager {
    }
 
    public <T extends Schema> T start (Class<T> type) {
+      System.out.println("Starting: "+type);
       if ( factories.containsKey(type) ) {
          SchemaFactory factory = factories.get(type);
          @SuppressWarnings("unchecked")

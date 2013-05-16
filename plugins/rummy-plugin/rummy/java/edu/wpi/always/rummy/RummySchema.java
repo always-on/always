@@ -16,6 +16,7 @@ public class RummySchema extends ActivitySchema {
          BehaviorHistory resourceMonitor, RummyClient plugin) {
       super(behaviorReceiver, resourceMonitor);
       this.plugin = plugin;
+      setNeedsFocusResource(false); //// ********************
    }
 
    @Override

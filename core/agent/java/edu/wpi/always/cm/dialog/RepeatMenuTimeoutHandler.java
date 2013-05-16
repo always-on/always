@@ -37,13 +37,14 @@ public class RepeatMenuTimeoutHandler implements MenuTimeoutHandler {
          return inner.nextState(text);
       }
 
+      private final static Pattern pattern = Pattern.compile("[a-zA-Z0-9]"); 
+
       @Override
       public String getMessage () {
          String original = inner.getMessage();
-         Pattern p = Pattern.compile("[a-zA-Z0-9]");
-         if ( original == null || !p.matcher(original).find() )
+         if ( original == null || !pattern.matcher(original).find() )
             return original;
-         return "I said, " + original;
+         return "So, " + original;
       }
 
       @Override

@@ -6,7 +6,7 @@ import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
-import java.util.ArrayList;
+import java.util.*;
 
 public class ProposalBuilder implements BehaviorBuilder {
    
@@ -57,6 +57,11 @@ public class ProposalBuilder implements BehaviorBuilder {
       return this;
    }
 
+   public ProposalBuilder showMenu (List<String> choices, boolean twoColumn) {
+      internalAdd(new MenuBehavior(choices, twoColumn, false));
+      return this;
+   }
+   
    public ProposalBuilder idle () {
       return say(".").gazeAtUser();
    }

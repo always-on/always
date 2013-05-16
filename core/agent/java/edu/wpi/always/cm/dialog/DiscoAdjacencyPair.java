@@ -26,9 +26,8 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
 
    protected void update () {
       Agent agent = (Agent) interaction.getSystem();
-      agent.respond(interaction, false, true);
-      update(agent.getLastUtterance(),
-            interaction.getExternal().generate(interaction));
+      update(agent.respond(interaction, false, true) ? agent.getLastUtterance() : null,
+             interaction.getExternal().generate(interaction));
    }
 
    protected void update (Utterance utterance, List<Plugin.Item> menu) {
@@ -36,7 +35,7 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
    }
 
    @Override
-   public double timeRemaining () { return 5; }
+   public double timeRemaining () { return 0; }
 
    @Override
    public void enter () {}

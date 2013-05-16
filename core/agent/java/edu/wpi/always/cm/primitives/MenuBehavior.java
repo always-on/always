@@ -11,6 +11,13 @@ public class MenuBehavior extends PrimitiveBehavior {
    private final List<String> items;
    private final boolean twoColumn, extension;
 
+   /**
+    * Due to the extension menu {@link #equals(Object)} is defined so that an empty
+    * non-extension menu behavior is <em>not</em> equal to another empty non-extension menu 
+    * behavior, so it can be used to refresh the extension, if any.
+    */
+   public static final MenuBehavior EMPTY = new MenuBehavior(Collections.<String>emptyList());
+
    public MenuBehavior (List<String> items) {
       this(items, false, false);
    }
@@ -20,7 +27,7 @@ public class MenuBehavior extends PrimitiveBehavior {
    }
 
    public MenuBehavior (List<String> items, boolean twoColumn, boolean extension) {
-      this.items = Collections.unmodifiableList(Lists.newArrayList(items));
+      this.items = Collections.unmodifiableList(items);
       this.twoColumn = twoColumn;
       this.extension = extension;
    }
@@ -42,8 +49,7 @@ public class MenuBehavior extends PrimitiveBehavior {
 
    @Override
    public boolean equals (Object obj) {
-      if ( this == obj )
-         return true;
+      if ( this == obj ) return true;
       if ( obj == null )
          return false;
       if ( getClass() != obj.getClass() )
@@ -58,7 +64,7 @@ public class MenuBehavior extends PrimitiveBehavior {
          return false;
       if ( extension != other.extension )
          return false;
-      return true;
+      return !(!extension && (items == null || items.size() == 0));
    }
 
    public List<String> getItems () {

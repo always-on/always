@@ -77,6 +77,7 @@
         <xsl:variable name="prefix" select="."/>
         <xsl:if test="not(string-length($prefix)=0 or 
                     namespace-uri-for-prefix($prefix,$model)='http://www.cs.wpi.edu/~rich/d4g' or
+                    namespace-uri-for-prefix($prefix,$model)='http://ce.org/cea-2018' or
                     namespace-uri-for-prefix($prefix,$model)='http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext')">
           <xsl:namespace name="{$prefix}" select="namespace-uri-for-prefix($prefix,$model)"/>
         </xsl:if>
@@ -486,7 +487,7 @@
             <xsl:text>_step</xsl:text>
           </xsl:attribute>
           <xsl:attribute name="task">
-	    <xsl:text>disco:edu.wpi.disco.lang.Say</xsl:text>
+	    <xsl:text>disco:Say</xsl:text>
 	    <!-- need to test here (and elsewhere) whether text has any variables -CR -->
 	    <xsl:if test="matches($prepre-text,'[^\\]\{')">  
               <xsl:text>$Expression</xsl:text>

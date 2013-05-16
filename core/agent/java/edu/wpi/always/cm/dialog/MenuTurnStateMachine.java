@@ -15,24 +15,23 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
 
    private static final int TIMEOUT_DELAY = 10000;
    private static final int MENU_DELAY = 10;
+   
    private final BehaviorHistory behaviorHistory;
    private final MenuPerceptor menuPerceptor;
-   private AdjacencyPair currentAdjacencyPair = null;
+   private final ResourceMonitor resourceMonitor;
+   private final MenuTimeoutHandler timeoutHandler;
+
+   private AdjacencyPair currentAdjacencyPair;
    private State state;
    private DateTime waitingForResponseSince;
-   private TimeStampedValue<Behavior> lastProposal = new TimeStampedValue<Behavior>(
-         Behavior.NULL);
+   private TimeStampedValue<Behavior> lastProposal = new TimeStampedValue<Behavior>(Behavior.NULL);
    private AdjacencyPair stateOfLastProposal;
-   private final ResourceMonitor resourceMonitor;
    private boolean addSomethingToDifferentiateFromLastProposal;
-   private final MenuTimeoutHandler timeoutHandler;
    private boolean extension;
    
    public void setExtension (boolean extension) { this.extension = extension; }
 
-   private enum State {
-      Say, Hear
-   }
+   private enum State { Say, Hear }  // state of system
 
    public MenuTurnStateMachine (BehaviorHistory behaviorHistory,
          ResourceMonitor resourceMonitor, MenuPerceptor menuPerceptor,
@@ -61,9 +60,8 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          return Behavior.NULL;
       }
       if ( !hasSomethingToSay(currentAdjacencyPair)
-         && !hasChoicesForUser(currentAdjacencyPair) ) {
-         AdjacencyPair nextState = currentAdjacencyPair.nextState(null);
-         setAdjacencyPair(nextState);
+            && !hasChoicesForUser(currentAdjacencyPair) ) {
+         setAdjacencyPair(currentAdjacencyPair.nextState(null));
          return Behavior.NULL;
       }
       if ( currentAdjacencyPair.prematureEnd() )
@@ -161,12 +159,13 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    }
 
    public void setAdjacencyPair (AdjacencyPair pair) {
-      setState(State.Say);
-      addSomethingToDifferentiateFromLastProposal = false;
-      if ( pair == null )
-         return;
-      currentAdjacencyPair = pair;
-      pair.enter();
+      if ( currentAdjacencyPair != pair ) {
+         setState(State.Say);
+         addSomethingToDifferentiateFromLastProposal = false;
+         if ( pair == null ) return;
+         currentAdjacencyPair = pair;
+         pair.enter();
+      }
    }
 
    private double specificity;

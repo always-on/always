@@ -19,7 +19,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jFuzzyLogic_v2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/disco1.6.9/lib/disco.jar" sourcepath="lib/disco1.6.9/src.zip">
+	<classpathentry exported="true" kind="lib" path="lib/disco1.6.10/lib/disco.jar" sourcepath="lib/disco1.6.10/src.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="http://www.cs.wpi.edu/~rich/disco_api"/>
 		</attributes>

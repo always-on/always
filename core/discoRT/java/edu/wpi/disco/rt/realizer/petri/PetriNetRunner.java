@@ -23,7 +23,7 @@ public class PetriNetRunner implements Runnable {
    public void run () {
       subscribeToAllPlaces();
       boolean ran = start.fireIfYouCan();
-      assert ran : "the staring transition should be ready to just fire!";
+      assert ran : "the starting transition should be ready to just fire!";
       boolean continueWait = true;
       while (continueWait) {
          continueWait = false;
@@ -35,7 +35,7 @@ public class PetriNetRunner implements Runnable {
                continue;
             }
             try {
-               // System.out.println("\nPetriNetRunner: waiting for Place <" + p + ">");
+               //System.out.println("\nPetriNetRunner: waiting for Place <" + p + ">");
                future.get();
             } catch (InterruptedException e) {
             } catch (ExecutionException e) {
