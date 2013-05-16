@@ -11,20 +11,15 @@ import java.util.*;
 public class DiscoAdjacencyPair implements AdjacencyPair {
 
    protected final Interaction interaction; 
-   protected final MenuTurnStateMachine stateMachine;
    private Cache current;
 
    public DiscoAdjacencyPair (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Interaction interaction) {
       this.interaction = interaction;
-      stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
-            menuPerceptor, new RepeatMenuTimeoutHandler());
-      stateMachine.setSpecificityMetadata(0.9);
-      stateMachine.setAdjacencyPair(this);
    }
-
-   protected void update () {
+   
+   public void update () {
       Agent agent = (Agent) interaction.getSystem();
       update(agent.respond(interaction, false, true) ? agent.getLastUtterance() : null,
              interaction.getExternal().generate(interaction));
@@ -46,7 +41,7 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
       if ( i >= 0 ) {
          interaction.doneUtterance((Utterance) current.items.get(i).task, 
                current.items.get(i).contributes, text);
-         update();
+         update(); 
       }
       return this;
    }
@@ -76,11 +71,12 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
       private final List<String> choices;
 
       public Cache (Utterance utterance, List<Plugin.Item> items) {
-         this.message = utterance == null ? null : interaction.formatUtterance(utterance);
+         this.message = utterance == null ? null : interaction.formatUtterance(utterance, true);
          this.items = items;
          choices = new ArrayList<String>(items.size());
          for (Plugin.Item item : items) 
-            choices.add(interaction.formatUtterance((Utterance) item.task));
+            choices.add(interaction.formatUtterance((Utterance) item.task, false));
       }
    }
+
 }

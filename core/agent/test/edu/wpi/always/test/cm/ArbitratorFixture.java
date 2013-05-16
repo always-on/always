@@ -117,6 +117,8 @@ public class ArbitratorFixture {
          public long getFocusMillis () { return 0; }
          @Override
          public void focus () {}
+         @Override
+         public void setFuture (ScheduledFuture<?> future) {}
       };
    }
 

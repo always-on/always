@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt;
 
 import com.google.common.collect.Lists;
+import edu.wpi.disco.rt.behavior.CompoundBehavior;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.schema.Schema;
 import java.util.List;

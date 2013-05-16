@@ -1,5 +1,6 @@
-package edu.wpi.disco.rt.realizer;
+package edu.wpi.disco.rt.realizer.petri;
 
+import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import edu.wpi.disco.rt.util.NullArgumentException;
 
 public class SyncRef {

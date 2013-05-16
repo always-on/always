@@ -1,11 +1,13 @@
 package edu.wpi.always.cm.schemas;
 
 import edu.wpi.always.*;
-import edu.wpi.always.cm.dialog.DiscoAdjacencyPair;
+import edu.wpi.always.client.ClientProxy;
+import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.always.rm.IRelationshipManager;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
+import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -23,10 +25,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Interaction interaction,
-         IRelationshipManager rm, Always always) {
+         IRelationshipManager rm, ClientProxy proxy, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
       container = always.getContainer();
-      stop = new Stop(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
+      stop = new Stop(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction,
+                      proxy);
       DiscoDocument session = rm.getSession();
       if ( session != null ) {
          interaction.load("Relationship Manager", 
@@ -57,10 +60,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             if ( schema.isDone() ) {
                focus.setComplete(true);
                started.remove(goal);
-            } else {
-               propose(stateMachine);
-               return;
-            }
+            } 
          } else {
             if ( focus.isLive() && Utils.isTrue(goal.getShould()) ) {
                if ( !focus.isStarted() ) {
@@ -69,42 +69,50 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                         Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
                   focus.setStarted(true);
                   stop.setGoal(goal);
+                  stop.update();
                   stateMachine.setAdjacencyPair(stop);
                   stateMachine.setExtension(true);
                   stateMachine.setSpecificityMetadata(0.5);
                   setNeedsFocusResource(false);
                }
-               propose(stateMachine);
-               return;
             }
          }
       }
       // fall through when session plan exhausted or focused activity schema done 
       // or focused task stopped 
-      stateMachine.setAdjacencyPair(discoAdjacencyPair);
-      stateMachine.setExtension(false);
-      stateMachine.setSpecificityMetadata(0.9);
-      setNeedsFocusResource(true);
       propose(stateMachine);
    }
    
    private class Stop extends DiscoAdjacencyPair {
       
       private Task goal;
+      private final ClientProxy proxy;
       
       private void setGoal (Task goal) { this.goal = goal; }
       
       public Stop (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction) {
+         MenuPerceptor menuPerceptor, Interaction interaction, ClientProxy proxy) {
          super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
-         this.goal = goal;
+         this.proxy = proxy;
       }
       
       @Override
-      protected void update () {
-          update(null, Collections.singletonList(
-                Agenda.newItem(new Propose.Stop(interaction.getDisco(), true, goal), null)));
+      public void update () {
+         update(null, Collections.singletonList(
+               Agenda.newItem(new Propose.Stop(interaction.getDisco(), true, goal), null)));
+      }
+      
+      @Override
+      public AdjacencyPair nextState (String text) {
+         super.nextState(text);
+         proxy.showMenu(Collections.<String>emptyList(), false, true); // clear extension menu
+         // TODO clear client plugin display
+         discoAdjacencyPair.update();
+         stateMachine.setExtension(false);
+         stateMachine.setSpecificityMetadata(0.9);
+         setNeedsFocusResource(true);
+         return discoAdjacencyPair; // one shot
       }
    }
  

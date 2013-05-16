@@ -68,7 +68,6 @@ public class RummyClient implements ClientPlugin {
    public BehaviorBuilder updateInteraction (boolean lastProposalIsDone) {
       processInbox();
       ProposalBuilder res = newProposal();
-      res.showMenu(Collections.<String>emptyList(), false); // for menu extension, if any
       BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
       metadata.timeRemaining(agentCardsNum + userCardsNum);
       metadata.specificity(0.9);
@@ -118,7 +117,6 @@ public class RummyClient implements ClientPlugin {
          lastMoveProposal = null;
          if ( userMadeAMeldAfterMyLastMove() ) {
             res = newProposal().say("Good one!");
-            res.showMenu(Collections.<String>emptyList(), false); // for menu extension, if any
          }
       }
       return res;
@@ -143,7 +141,7 @@ public class RummyClient implements ClientPlugin {
    }
 
    private ProposalBuilder newProposal () {
-      return new ProposalBuilder(this, FocusRequirement.NotRequired); //*********************
+      return new ProposalBuilder(this, FocusRequirement.Required); 
    }
 
    private void processInbox () {

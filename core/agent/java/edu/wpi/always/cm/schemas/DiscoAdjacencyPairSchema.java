@@ -13,8 +13,8 @@ import java.util.*;
 public class DiscoAdjacencyPairSchema extends ActivitySchema {
 
    protected final Interaction interaction; 
-   protected final MenuTurnStateMachine stateMachine;
    protected final DiscoAdjacencyPair discoAdjacencyPair;
+   protected final MenuTurnStateMachine stateMachine;
 
    public DiscoAdjacencyPairSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,

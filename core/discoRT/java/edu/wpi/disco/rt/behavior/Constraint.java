@@ -1,4 +1,6 @@
-package edu.wpi.disco.rt.realizer;
+package edu.wpi.disco.rt.behavior;
+
+import edu.wpi.disco.rt.realizer.petri.SyncRef;
 
 public class Constraint {
 

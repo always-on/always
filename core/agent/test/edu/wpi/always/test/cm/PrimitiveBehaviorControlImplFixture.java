@@ -3,6 +3,7 @@ package edu.wpi.always.test.cm;
 import static org.junit.Assert.*;
 import edu.wpi.always.cm.primitives.AgentResources;
 import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import org.junit.*;
 import java.util.*;

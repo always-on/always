@@ -49,22 +49,14 @@ public abstract class AdjacencyPairBase<C> implements AdjacencyPair {
    }
 
    @Override
-   public double timeRemaining () {
-      return 0;
-   }
+   public double timeRemaining () { return 0; }
 
    @Override
-   public void enter () {
-      //
-   }
+   public void enter () {}
 
    @Override
-   public boolean isTwoColumnMenu () {
-      return twoColumn;
-   }
+   public boolean isTwoColumnMenu () { return twoColumn; }
 
    @Override
-   public boolean prematureEnd () {
-      return false;
-   }
+   public boolean prematureEnd () { return false; }
 }

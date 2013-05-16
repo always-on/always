@@ -3,7 +3,7 @@ package edu.wpi.always.test.cm;
 import static org.junit.Assert.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.ResourceMonitor;
-import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import org.joda.time.DateTime;
 import org.junit.*;
 import java.awt.Point;

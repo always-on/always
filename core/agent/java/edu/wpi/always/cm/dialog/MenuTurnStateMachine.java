@@ -5,8 +5,9 @@ import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.behavior.Constraint.Type;
 import edu.wpi.disco.rt.realizer.*;
-import edu.wpi.disco.rt.realizer.Constraint.Type;
+import edu.wpi.disco.rt.realizer.petri.*;
 import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;
 import java.util.List;
@@ -97,14 +98,17 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          b = Behavior.newInstance(menuBehavior);
       }
       if ( stateOfLastProposal != currentAdjacencyPair ) {
-         if ( lastProposal.getValue().equals(b) )
+         if ( lastProposal.getValue().equals(b) ) 
             addSomethingToDifferentiateFromLastProposal = true;
          setLastProposal(Behavior.NULL);
       }
-      if ( addSomethingToDifferentiateFromLastProposal )
-         b = new Behavior(new SequenceOfCompoundBehaviors(
-               new SimpleCompoundBehavior(new SpeechBehavior(".")),
-               b.getInner()));
+      if ( addSomethingToDifferentiateFromLastProposal ) {
+         CompoundBehavior inner = b.getInner();
+         b = new Behavior(new SequenceOfCompoundBehaviors(new SimpleCompoundBehavior(
+               // make null behavior that uses same resource as inner
+               PrimitiveBehavior.nullBehavior(inner.getResources().iterator().next())),
+               inner));
+      }
       boolean alreadyDone = saveProposalAndCheckIfAlreadyDone(b);
       if ( alreadyDone && state == State.Say )
          setState(State.Hear);
@@ -115,7 +119,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          if ( selectedMenu != null )
             return gotoSaying(selectedMenu);
       }
-      if ( state == State.Hear
+      if ( state == State.Hear && !extension
          && waitingForResponseSince.isBefore(DateTime.now().minusMillis(
                TIMEOUT_DELAY)) ) {
          AdjacencyPair newPair = timeoutHandler.handle(currentAdjacencyPair);
@@ -157,15 +161,15 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       setAdjacencyPair(currentAdjacencyPair.nextState(text));
       return build();
    }
+   
+   public AdjacencyPair getAdjacencyPair () { return currentAdjacencyPair; }
 
    public void setAdjacencyPair (AdjacencyPair pair) {
-      if ( currentAdjacencyPair != pair ) {
-         setState(State.Say);
-         addSomethingToDifferentiateFromLastProposal = false;
-         if ( pair == null ) return;
-         currentAdjacencyPair = pair;
-         pair.enter();
-      }
+      setState(State.Say);
+      addSomethingToDifferentiateFromLastProposal = false;
+      if ( pair == null ) return;
+      currentAdjacencyPair = pair;
+      pair.enter();
    }
 
    private double specificity;

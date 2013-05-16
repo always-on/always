@@ -3,6 +3,7 @@ package edu.wpi.disco.rt.schema;
 import edu.wpi.disco.rt.Scheduler;
 import org.picocontainer.*;
 import java.util.*;
+import java.util.concurrent.ScheduledFuture;
 
 public class SchemaManager {
 
@@ -32,7 +33,8 @@ public class SchemaManager {
          SchemaFactory factory = factories.get(type);
          @SuppressWarnings("unchecked")
          T instance = (T) factory.create(container);
-         scheduler.schedule(instance, factory.getUpdateDelay());
+         ScheduledFuture<?> future = scheduler.schedule(instance, factory.getUpdateDelay());
+         instance.setFuture(future);
          return instance;
       }
       T instance = container.getComponent(type);

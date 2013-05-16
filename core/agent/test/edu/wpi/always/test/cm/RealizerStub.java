@@ -2,6 +2,7 @@ package edu.wpi.always.test.cm;
 
 import com.google.common.collect.Lists;
 import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.behavior.CompoundBehavior;
 import edu.wpi.disco.rt.realizer.*;
 import java.util.List;
 

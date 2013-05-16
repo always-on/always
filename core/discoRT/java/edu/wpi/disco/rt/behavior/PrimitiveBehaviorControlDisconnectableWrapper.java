@@ -1,6 +1,7 @@
-package edu.wpi.disco.rt.realizer;
+package edu.wpi.disco.rt.behavior;
 
 import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.realizer.*;
 import java.util.concurrent.*;
 
 public class PrimitiveBehaviorControlDisconnectableWrapper implements

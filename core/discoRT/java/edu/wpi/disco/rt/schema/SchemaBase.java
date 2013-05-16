@@ -21,6 +21,8 @@ public abstract class SchemaBase implements Schema {
    private TimeStampedValue<Behavior> lastProposal;
    private boolean needsFocusResource;
    private ScheduledFuture<?> future;
+   
+   public void setFuture (ScheduledFuture<?> future) { this.future = future; }
 
    protected SchemaBase (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory) {

@@ -2,6 +2,7 @@ package edu.wpi.always.test.cm;
 
 import static com.google.common.collect.Lists.newArrayList;
 import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import edu.wpi.disco.rt.realizer.*;
 import java.util.List;
 

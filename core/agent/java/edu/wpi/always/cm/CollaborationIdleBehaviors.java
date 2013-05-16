@@ -3,6 +3,7 @@ package edu.wpi.always.cm;
 import edu.wpi.always.client.AgentFaceExpression;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import java.awt.Point;
 import java.util.ArrayList;
