@@ -47,7 +47,7 @@ public abstract class PrimitiveBehavior {
 
       @Override
       public String toString () {
-         return "Null behavior on <" + resource + ">";
+         return "Null<" + resource + ">";
       }
    }
 

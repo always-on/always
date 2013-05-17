@@ -96,6 +96,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          if ( menuBehavior == null )
             return gotoSaying(null);
          b = Behavior.newInstance(menuBehavior);
+         waitingForResponseSince = DateTime.now(); // reset now since nothing said
       }
       if ( stateOfLastProposal != currentAdjacencyPair ) {
          if ( lastProposal.getValue().equals(b) ) 
@@ -104,10 +105,9 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       }
       if ( addSomethingToDifferentiateFromLastProposal ) {
          CompoundBehavior inner = b.getInner();
-         b = new Behavior(new SequenceOfCompoundBehaviors(new SimpleCompoundBehavior(
+         b = new Behavior(new SequenceOfCompoundBehaviors(inner,
                // make null behavior that uses same resource as inner
-               PrimitiveBehavior.nullBehavior(inner.getResources().iterator().next())),
-               inner));
+               new SimpleCompoundBehavior(PrimitiveBehavior.nullBehavior(inner.getResources().iterator().next()))));
       }
       boolean alreadyDone = saveProposalAndCheckIfAlreadyDone(b);
       if ( alreadyDone && state == State.Say )

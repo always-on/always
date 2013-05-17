@@ -15,7 +15,7 @@ public class CollaborationIdleBehaviors implements IdleBehaviors {
       if ( resource instanceof AgentResources ) {
          switch ((AgentResources) resource) {
          case MENU:
-            return new MenuBehavior(new ArrayList<String>());
+            return new MenuBehavior(new ArrayList<String>()); // sic
          case FACE_EXPRESSION:
             return new FaceExpressionBehavior(AgentFaceExpression.Warm);
          case GAZE:

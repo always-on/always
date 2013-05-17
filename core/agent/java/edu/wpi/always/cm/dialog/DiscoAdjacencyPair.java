@@ -3,7 +3,7 @@ package edu.wpi.always.cm.dialog;
 import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.disco.Agenda.Plugin;
 import edu.wpi.disco.*;
-import edu.wpi.disco.lang.Utterance;
+import edu.wpi.disco.lang.*;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import java.util.*;
@@ -21,8 +21,10 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
    
    public void update () {
       Agent agent = (Agent) interaction.getSystem();
-      update(agent.respond(interaction, false, true) ? agent.getLastUtterance() : null,
-             interaction.getExternal().generate(interaction));
+      update(agent.respond(interaction, false, true) ? agent.getLastUtterance() :
+         // new Say(interaction.getDisco(), false, "what do you want to do?"),
+         null, 
+         interaction.getExternal().generate(interaction));
    }
 
    protected void update (Utterance utterance, List<Plugin.Item> menu) {
