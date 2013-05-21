@@ -93,21 +93,24 @@ public class RummyClient implements ClientPlugin {
       } else if ( availableMove != null
          && availableMove.getValue().length() > 0 ) {
          PluginSpecificBehavior move = new PluginSpecificBehavior(this,
+               // for printing only, action name not used in doAction below
                availableMove.getValue() + "@" + availableMove.getTimeStamp(),
                AgentResources.HAND);
          GazeBehavior gazeAtCard = new GazeBehavior(new Point(-22, 0));
          FaceTrackBehavior lookBackAtFace = new FaceTrackBehavior();
          String toSay = "";
          if ( isMeld(availableMove.getValue()) ) {
-            toSay = "Now, $ I am going to do $ this meld, and $ done! $ . $ .";
+            toSay = "Now, I am going to do this meld, $ and done!";         
          } else if ( isDraw(availableMove.getValue()) ) {
-            toSay = "Okay, $ I have to draw a card. $ The Card is drawn, and let me see what I can do with it! $ . $. $ .";
+            // toSay = "Okay, I have to draw a card. <GAZE DIR=AWAY/> $ The Card is drawn, and let me see what I can do with it! <GAZE DIR=TOWARD/>";
+            toSay = "Okay, I have to draw a card. $ The Card is drawn, and let me see what I can do with it!";
          } else if ( isDiscard(availableMove.getValue()) ) {
-            toSay = "I $ am done, so I'll $ discard this one, and now it's $ your turn. $ . $ .";
+            toSay = "I am done, so I'll discard this one, $ and now it's your turn.";
          }
-         SyncSayBuilder b = new SyncSayBuilder(toSay, gazeAtCard, move, lookBackAtFace,
-               MenuBehavior.EMPTY, // for menu extension if any (constrained to after all actions)_
-               new FocusRequestBehavior());  // focus request unconstrained (live at start)
+         SyncSayBuilder b = new SyncSayBuilder(toSay, move,
+               // following behaviors are unconstrained (live at start)
+               MenuBehavior.EMPTY, // for menu extension if any 
+               new FocusRequestBehavior());  
          b.setMetaData(metadata);
          lastMoveProposal = b;
          availableMove = null;
@@ -174,7 +177,7 @@ public class RummyClient implements ClientPlugin {
    }
 
    @Override
-   public void doAction (String actionName) { // not using actionName
+   public void doAction (String actionName) { // ignoring actionName
       Message m = Message.builder("rummy.best_move").build();
       sendToEngine(m);
    }
