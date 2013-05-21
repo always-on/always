@@ -75,6 +75,7 @@ public class Realizer implements IRealizer, BehaviorHistory {
 
    private void stopPrimitiveOn (Resource r) {
       primitiveControl.stop(r);
+      System.out.println("Stopping: "+r);
    }
 
    private void saveDoneBehaviorInHistory (CompoundBehavior behavior) {

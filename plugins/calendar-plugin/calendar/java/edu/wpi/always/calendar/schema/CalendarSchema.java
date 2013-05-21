@@ -2,15 +2,13 @@ package edu.wpi.always.calendar.schema;
 
 import edu.wpi.always.calendar.CalendarUI;
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.dialog.*;
-import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.always.cm.schemas.ActivitySchema;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.schema.SchemaBase;
+import edu.wpi.disco.rt.menu.*;
 
 public class CalendarSchema extends ActivitySchema {
 

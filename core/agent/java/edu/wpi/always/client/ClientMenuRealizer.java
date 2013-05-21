@@ -1,6 +1,6 @@
 package edu.wpi.always.client;
 
-import edu.wpi.always.cm.primitives.MenuBehavior;
+import edu.wpi.disco.rt.menu.MenuBehavior;
 import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
 
 public class ClientMenuRealizer extends

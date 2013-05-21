@@ -2,16 +2,14 @@ package edu.wpi.always.cm.schemas;
 
 import edu.wpi.always.*;
 import edu.wpi.always.client.ClientProxy;
-import edu.wpi.always.cm.dialog.*;
-import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.always.rm.IRelationshipManager;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
-import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.DiscoDocument;
 import org.picocontainer.MutablePicoContainer;

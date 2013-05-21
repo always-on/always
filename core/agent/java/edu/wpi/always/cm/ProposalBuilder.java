@@ -5,6 +5,7 @@ import edu.wpi.always.client.ClientPlugin;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.MenuBehavior;
 import java.util.*;
 
 public class ProposalBuilder implements BehaviorBuilder {

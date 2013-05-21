@@ -1,8 +1,9 @@
 package edu.wpi.always.calendar.schema;
 
-import edu.wpi.always.cm.dialog.*;
+import edu.wpi.always.client.KeyboardAdjacencyPair;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.people.Person;
+import edu.wpi.disco.rt.menu.*;
 import org.joda.time.*;
 import org.joda.time.format.*;
 import java.util.List;

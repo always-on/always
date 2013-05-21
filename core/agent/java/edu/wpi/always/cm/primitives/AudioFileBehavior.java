@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.primitives;
 
-import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import java.io.IOException;
 import java.net.URL;
@@ -16,7 +16,7 @@ public class AudioFileBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return AgentResources.SPEECH;
+      return Resources.SPEECH;
    }
 
    @Override

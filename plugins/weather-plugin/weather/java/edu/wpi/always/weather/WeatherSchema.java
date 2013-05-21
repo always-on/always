@@ -1,11 +1,11 @@
 package edu.wpi.always.weather;
 
-import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.MenuPerceptor;
 import java.io.IOException;
 
 public class WeatherSchema extends DiscoActivitySchema {

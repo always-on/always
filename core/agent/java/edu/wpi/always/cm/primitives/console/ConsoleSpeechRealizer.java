@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.primitives.console;
 
-import edu.wpi.always.cm.primitives.SpeechBehavior;
+import edu.wpi.disco.rt.behavior.SpeechBehavior;
 import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
 
 public class ConsoleSpeechRealizer extends

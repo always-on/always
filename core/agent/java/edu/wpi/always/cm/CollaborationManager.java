@@ -2,9 +2,8 @@ package edu.wpi.always.cm;
 
 import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.dummy.*;
-import edu.wpi.always.cm.primitives.PluginSpecificActionRealizer;
-import edu.wpi.cetask.*;
-import edu.wpi.disco.*;
+import edu.wpi.always.cm.primitives.*;
+import edu.wpi.cetask.TaskClass;
 import edu.wpi.disco.rt.*;
 import org.picocontainer.*;
 
@@ -12,7 +11,8 @@ public class CollaborationManager extends DiscoRT implements ICollaborationManag
 
    public CollaborationManager (MutablePicoContainer parent) {
       super(parent); 
-      container.as(Characteristics.CACHE).addComponent(CollaborationIdleBehaviors.class);
+      container.removeComponent(Resources.class);
+      container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
    }
  

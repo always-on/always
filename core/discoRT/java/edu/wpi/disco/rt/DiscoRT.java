@@ -27,6 +27,7 @@ public class DiscoRT {
 
    public DiscoRT (MutablePicoContainer parent) {
       container = new DefaultPicoContainer(new OptInCaching(), parent);
+      container.as(Characteristics.CACHE).addComponent(Resources.class);
    }
    
    private void configure (String title) {

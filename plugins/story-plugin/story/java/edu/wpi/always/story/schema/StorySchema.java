@@ -1,14 +1,13 @@
 package edu.wpi.always.story.schema;
 
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.dialog.*;
-import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.always.cm.perceptors.SpeechPerceptor;
 import edu.wpi.always.cm.schemas.ActivitySchema;
 import edu.wpi.always.story.StoryManager;
 import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.schema.SchemaBase;
+import edu.wpi.disco.rt.menu.*;
 
 public class StorySchema extends ActivitySchema {
 
