@@ -75,7 +75,7 @@ public class Realizer implements IRealizer, BehaviorHistory {
 
    private void stopPrimitiveOn (Resource r) {
       primitiveControl.stop(r);
-      System.out.println("Stopping: "+r);
+      if ( DiscoRT.TRACE ) System.out.println("Stopping: "+r);
    }
 
    private void saveDoneBehaviorInHistory (CompoundBehavior behavior) {
@@ -136,7 +136,7 @@ public class Realizer implements IRealizer, BehaviorHistory {
       }
 
       public void start () {
-         System.out.println("Starting: "+behavior);
+         if ( DiscoRT.TRACE ) System.out.println("Starting: "+behavior);
          primitiveAccess = new PrimitiveBehaviorControlDisconnectableWrapper(
                primitiveControl);
          compoundRealizer = behavior.createRealizer(primitiveAccess);

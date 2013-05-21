@@ -1,7 +1,7 @@
 package edu.wpi.disco.rt.menu;
 
 import com.google.common.collect.Lists;
-import edu.wpi.disco.rt.ResourceMonitor;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.behavior.Constraint.Type;
 import edu.wpi.disco.rt.realizer.petri.*;
@@ -54,7 +54,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    @Override
    public Behavior build () {
       if ( currentAdjacencyPair == null ) {
-         System.out.println("Nothing to say/do");
+         if ( DiscoRT.TRACE) System.out.println("Nothing to say/do");
          return Behavior.NULL;
       }
       if ( !hasSomethingToSay(currentAdjacencyPair)
@@ -131,6 +131,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private String checkMenuSelected (List<String> userChoices,
          DateTime menuShownAt) {
       MenuPerception p = menuPerceptor.getLatest();
+      // ignore selection that is not in choices, since could be from menu extension (or vice versa)
       if ( p != null && userChoices.contains(p.getSelected())
          && p.getTimeStamp().isAfter(menuShownAt) ) {
          return p.getSelected();

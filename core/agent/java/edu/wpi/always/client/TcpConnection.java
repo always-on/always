@@ -1,5 +1,6 @@
 package edu.wpi.always.client;
 
+import edu.wpi.always.Always;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -38,7 +39,8 @@ public class TcpConnection implements RemoteConnection {
                try {
                   while ((n = in.read(buf)) != -1) {
                      String s = new String(buf, 0, n);
-                     System.out.println("Received: " + s);
+                     // note can receive more than one message in buffer
+                     if ( Always.TRACE ) System.out.println("Received: " + s);
                      fireMessageReceived(s);
                   }
                } catch (Exception e) { e.printStackTrace(); }
@@ -79,7 +81,7 @@ public class TcpConnection implements RemoteConnection {
       if ( !isConnected() )
          connect();
       if ( isConnected() ) {
-         System.out.println("Sending... " + message);
+         if ( Always.TRACE ) System.out.println("Sending... " + message);
          out.print(message);
          out.flush();
       }

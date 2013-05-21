@@ -1,5 +1,6 @@
 package edu.wpi.always.cm.perceptors;
 
+import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
 import edu.wpi.disco.rt.menu.*;
 
@@ -80,7 +81,7 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
 
    protected void setState (EngagementState newState) {
       synchronized (stateLock) {
-         System.out.println("Engagement Status: "
+         if ( Always.TRACE ) System.out.println("Engagement Status: "
             + (latest != null ? latest.getState() : "") + " -> " + newState);
          // reset timing for new state
          if ( lastMovementChange != null )

@@ -58,7 +58,7 @@ public class Resources implements Resource {
     */
    public PrimitiveBehavior getIdleBehavior (Resource resource) {
       return ( resource == MENU ) ? // no idle behavior for MENU_EXTENSION 
-         new MenuBehavior(new ArrayList<String>()) // sic not MenuBehavior.EMPTY 
+         new MenuBehavior(Collections.<String>emptyList()) // sic not MenuBehavior.EMPTY 
          : null;
    }
    

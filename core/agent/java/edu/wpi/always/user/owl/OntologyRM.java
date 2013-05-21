@@ -34,7 +34,7 @@ public class OntologyRM {
                factory.getOWLClass(":User", pm), toAdd);
          manager.addAxiom(ontology, isUser);
       } catch (OWLOntologyCreationException e) {
-         System.out.println("Failed to load ontology: " + e.getMessage());
+         System.err.println("Failed to load ontology: " + e.getMessage());
       }
    }
 
@@ -106,7 +106,7 @@ public class OntologyRM {
          manager.applyChanges(axioms);
          manager.saveOntology(ontology, IRI.create(new File(location).toURI()));
       } catch (OWLOntologyCreationException e) {
-         System.out.println("Could not create ontology: " + e.getMessage());
+         System.err.println("Could not create ontology: " + e.getMessage());
       } catch (OWLOntologyStorageException e) {
          // Auto-generated catch block
          e.printStackTrace();

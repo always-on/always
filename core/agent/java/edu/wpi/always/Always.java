@@ -6,9 +6,8 @@ import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.always.rm.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.*;
-import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.always.user.places.PlaceManager;
-import edu.wpi.disco.rt.Registry;
+import edu.wpi.disco.Disco;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
@@ -43,6 +42,16 @@ public class Always {
    public static IRelationshipManager getRM () {
       return THIS.container.getComponent(IRelationshipManager.class);
    }
+   
+   /**
+    * To enabled tracing of DiscoRT implementation.  Note this variable can be conveniently
+    * set using eval command in Disco console or in init script of a task model, such 
+    * as Activities.xml.
+    * 
+    * @see DiscoRT#TRACE
+    * @see Disco#TRACE
+    */
+   public static boolean TRACE;
    
    /**
     * The container for holding all the components of the system

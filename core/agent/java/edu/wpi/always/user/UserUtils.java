@@ -14,10 +14,7 @@ public abstract class UserUtils {
    
    public static final File userProgramDataRoot = new File(userHomeDir, "AlwaysOn");
    
-   static {
-      userProgramDataRoot.mkdirs();
-      System.out.println("User data folder: " + userProgramDataRoot.getPath());
-   }
+   // TODO Use DropBox folder or give warning and use temp folder
 
    public static File getUserFile (String path) {
       return new File(userProgramDataRoot, path);

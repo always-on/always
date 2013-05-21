@@ -64,7 +64,7 @@ public class Arbitrator implements Runnable {
       if ( focus != proposer ) {
          focus = proposer;
          proposer.focus();
-         System.out.println("SetCurrentFocus: "+proposer);
+         if ( DiscoRT.TRACE ) System.out.println("SetCurrentFocus: "+proposer);
       }
    }
 

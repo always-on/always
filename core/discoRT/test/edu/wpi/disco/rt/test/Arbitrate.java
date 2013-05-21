@@ -42,7 +42,7 @@ public class Arbitrate {
             System.out
                   .println("UNSTABLE switch! Information about the reverse case follows:");
             shouldSwitch(o, f, false);
-            throw new RuntimeException("swithing was not stable in this case");
+            throw new RuntimeException("switching was not stable in this case");
          }
       }
       return shouldSwitch;

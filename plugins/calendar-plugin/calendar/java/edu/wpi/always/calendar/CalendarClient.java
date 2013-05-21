@@ -10,7 +10,14 @@ import org.joda.time.*;
 import org.joda.time.format.*;
 import java.util.*;
 
-public class CalendarClient implements ClientPlugin, CalendarUI {
+/*
+ Note this class does not implement {@link ClientPlugin} because
+ all of the client-specific actions happen in the enter() and nextState() methods
+ of adjacency pairs and are therefore called during the {@link CalendarSchema}'s run() method (via
+ MenuTurnStateMachine).  This also means that these actions are not "interruptible"
+ by the arbitrator's resource reassignment.
+ */
+public class CalendarClient implements CalendarUI {
 
    private static final String PLUGIN_NAME = "calendar";
    private static final String MSG_CALENDAR_DISPLAY = "calendar.display";
@@ -215,29 +222,4 @@ public class CalendarClient implements ClientPlugin, CalendarUI {
       return jsonObject;
    }
 
-   // TODO the coding above should make use of ClientPlugin methods below
-   
-   @Override
-   public void doAction (String actionName) {
-      // TODO Auto-generated method stub
-      
-   }
-
-   @Override
-   public void initInteraction () {
-      // TODO Auto-generated method stub
-      
-   }
-
-   @Override
-   public BehaviorBuilder updateInteraction (boolean lastProposalIsDone) {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   @Override
-   public void endInteraction () {
-      // TODO Auto-generated method stub
-      
-   }
 }

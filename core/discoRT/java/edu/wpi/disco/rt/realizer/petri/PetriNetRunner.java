@@ -1,5 +1,6 @@
 package edu.wpi.disco.rt.realizer.petri;
 
+import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.realizer.petri.Place.State;
 import edu.wpi.disco.rt.util.ThreadPools;
 import java.util.*;
@@ -35,7 +36,7 @@ public class PetriNetRunner implements Runnable {
                continue;
             }
             try {
-               //System.out.println("\nPetriNetRunner: waiting for Place <" + p + ">");
+               if ( DiscoRT.TRACE) System.out.println("\nPetriNetRunner: waiting for Place <" + p + ">");
                future.get();
             } catch (InterruptedException e) {
             } catch (ExecutionException e) {
@@ -43,11 +44,8 @@ public class PetriNetRunner implements Runnable {
                // Place behavior may have set success and then an exception
                // happened
                if ( p.getState() == Place.State.ExecutionSuccessful ) {
-                  System.out.println();
-                  System.out
-                        .println("WARNING: Place executed successfuly, but an ExecutionException was thrown: ");
+                  System.err.println("WARNING: Place executed successfuly, but an ExecutionException was thrown: ");
                   e.printStackTrace();
-                  System.out.println();
                } else {
                   failedPlaces.add(p);
                }

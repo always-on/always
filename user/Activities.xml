@@ -27,8 +27,17 @@
     */
   
     edu.wpi.always = Packages.edu.wpi.always;
+    edu.wpi.disco = Packages.edu.wpi.disco;
+    edu.wpi.cetask = Packages.edu.wpi.cetask;
+    
     ALWAYS = edu.wpi.always.Always.THIS;
-
+    
+    /* These variables can be changed either here or using eval command in console */
+    
+    edu.wpi.always.Always.TRACE = true;
+    edu.wpi.always.DiscoRT.TRACE = false;
+    edu.wpi.disco.Disco.TRACE = false;
+    
   </script>
 
 </taskModel>
