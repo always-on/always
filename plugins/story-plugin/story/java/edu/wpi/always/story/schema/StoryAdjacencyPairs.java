@@ -2,9 +2,9 @@ package edu.wpi.always.story.schema;
 
 import edu.wpi.always.client.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
-import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.story.*;
 import edu.wpi.always.user.people.Person;
+import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 
 public class StoryAdjacencyPairs {

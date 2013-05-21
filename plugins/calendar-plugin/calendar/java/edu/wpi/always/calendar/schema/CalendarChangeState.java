@@ -1,8 +1,11 @@
 package edu.wpi.always.calendar.schema;
 
-import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.*;
-import edu.wpi.always.cm.dialog.*;
+import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.EventDayAdjacencyPair;
+import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.HowLongAdjacencyPair;
+import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.TimeAdjacencyPair;
+import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.WhereAdjacencyPair;
 import edu.wpi.always.user.calendar.*;
+import edu.wpi.disco.rt.menu.*;
 import org.joda.time.*;
 
 abstract class CalendarChangeState {

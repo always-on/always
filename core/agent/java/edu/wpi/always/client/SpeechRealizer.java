@@ -1,6 +1,6 @@
 package edu.wpi.always.client;
 
-import edu.wpi.always.cm.primitives.SpeechBehavior;
+import edu.wpi.disco.rt.behavior.SpeechBehavior;
 import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
 
 public class SpeechRealizer extends SingleRunPrimitiveRealizer<SpeechBehavior>

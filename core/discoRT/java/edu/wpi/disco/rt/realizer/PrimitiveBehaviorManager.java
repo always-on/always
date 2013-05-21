@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt.realizer;
 
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.util.ThreadPools;
 import java.util.*;
@@ -18,11 +19,11 @@ public class PrimitiveBehaviorManager implements PrimitiveBehaviorControl,
    private final ScheduledExecutorService executor;
    private final CopyOnWriteArrayList<PrimitiveBehaviorControlObserver> observers = new CopyOnWriteArrayList<PrimitiveBehaviorControlObserver>();
    ReentrantLock lock = new ReentrantLock();
-   private final IdleBehaviors nullPrimitives;
+   private final Resources resources;
 
    public PrimitiveBehaviorManager (IPrimitiveRealizerFactory factory,
-         IdleBehaviors nullPrimitives) {
-      this.nullPrimitives = nullPrimitives;
+         Resources resources) {
+      this.resources = resources;
       realizersInEffect = new HashMap<Resource, PrimitiveRealizer<?>>();
       runningTasks = new HashMap<PrimitiveRealizer<?>, ScheduledFuture<?>>();
       this.factory = factory;
@@ -197,14 +198,14 @@ public class PrimitiveBehaviorManager implements PrimitiveBehaviorControl,
    private boolean nullRealizerInEffect (Resource resource) {
       PrimitiveRealizer<?> realizer = realizersInEffect.get(resource);
       if ( realizer != null ) {
-         if ( realizer.getParams().equals(nullPrimitives.get(resource)) )
+         if ( realizer.getParams().equals(resources.getIdleBehavior(resource)) )
             return true;
       }
       return false;
    }
 
    private void runNullRealizerOnResource (Resource resource) {
-      PrimitiveBehavior p = nullPrimitives.get(resource);
+      PrimitiveBehavior p = resources.getIdleBehavior(resource);
       if ( p != null )
          realize(p);
    }

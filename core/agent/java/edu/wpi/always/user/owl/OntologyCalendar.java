@@ -1,5 +1,6 @@
 package edu.wpi.always.user.owl;
 
+import edu.wpi.always.Always;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.calendar.RepeatingCalendarEntry.Frequency;
 import edu.wpi.always.user.people.Person;
@@ -126,7 +127,7 @@ public class OntologyCalendar extends AbstractCalendar {
                helper.getLiteral(repeatingEntry.getRepeatDuration()));
          owlEntry.setDataProperty(REPEATING_FREQUENCY_PROPERTY,
                helper.getLiteral(repeatingEntry.getRepeat().name()));
-         System.out.println(repeatingEntry.getRepeatId() + " - "
+         if ( Always.TRACE ) System.out.println(repeatingEntry.getRepeatId() + " - "
             + repeatingEntry.getRepeatStartDate() + " - "
             + repeatingEntry.getRepeatEndDate() + " - "
             + repeatingEntry.getRepeatStartTime() + " - "

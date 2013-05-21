@@ -1,6 +1,7 @@
 package edu.wpi.always.client;
 
 import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.disco.rt.menu.*;
 
 public class ClientMenuPerceptor implements MenuPerceptor, ClientProxyObserver {
 

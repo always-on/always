@@ -1,5 +1,7 @@
 package edu.wpi.disco.rt.schema;
 
+import java.util.concurrent.ScheduledFuture;
+
 /**
  *  A Schema's run() method will be called periodically by the executor. 
  *  Do not block the thread!
@@ -31,4 +33,9 @@ public interface Schema extends Runnable {
     * Called by executor each time this schema is given focus resource.
     */
     void focus ();
+    
+    /**
+    * Called by schema manager.
+    */
+   void setFuture (ScheduledFuture<?> future);
 }

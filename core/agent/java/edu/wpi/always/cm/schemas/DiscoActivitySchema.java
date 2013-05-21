@@ -1,10 +1,10 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.always.cm.perceptors.MenuPerceptor;
 import edu.wpi.cetask.Plan;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.*;
 
 public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
 

@@ -1,7 +1,7 @@
 package edu.wpi.disco.rt.realizer;
 
 import edu.wpi.disco.rt.*;
-import edu.wpi.disco.rt.behavior.BehaviorHistory;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.util.*;
 import org.joda.time.DateTime;
 import java.util.*;
@@ -75,6 +75,7 @@ public class Realizer implements IRealizer, BehaviorHistory {
 
    private void stopPrimitiveOn (Resource r) {
       primitiveControl.stop(r);
+      if ( DiscoRT.TRACE ) System.out.println("Stopping: "+r);
    }
 
    private void saveDoneBehaviorInHistory (CompoundBehavior behavior) {
@@ -135,7 +136,7 @@ public class Realizer implements IRealizer, BehaviorHistory {
       }
 
       public void start () {
-         System.out.println("Starting: "+behavior);
+         if ( DiscoRT.TRACE ) System.out.println("Starting: "+behavior);
          primitiveAccess = new PrimitiveBehaviorControlDisconnectableWrapper(
                primitiveControl);
          compoundRealizer = behavior.createRealizer(primitiveAccess);

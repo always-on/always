@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt.util;
 
-import edu.wpi.disco.rt.behavior.Behavior;
+import edu.wpi.disco.rt.DiscoRT;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -87,13 +88,13 @@ public class ThreadPools {
          try {
             ((Future<?>) r).get(1, TimeUnit.MILLISECONDS);
          } catch (CancellationException ce) {
-            System.err.println("Cancelled " + getName(r));
+            if ( DiscoRT.TRACE ) System.out.println("Cancelled " + getName(r));
          } catch (ExecutionException ee) {
             t = ee.getCause();
          } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
          } catch (TimeoutException te) {
-            System.err.println("Timeout " + getName(r));
+            if ( DiscoRT.TRACE ) System.out.println("Timeout " + getName(r));
          }
       }
       if ( t != null ) { throw new RuntimeException(t); }

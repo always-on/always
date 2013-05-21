@@ -14,6 +14,16 @@ public class DiscoRT {
    
    private static final long ARBITRATOR_INTERVAL = 50;
    private static final long PERCEPTORS_INTERVAL = 200;
+      
+   /**
+    * To enabled tracing of DiscoRT implementation.  Note this variable can be conveniently
+    * set using eval command in Disco console or in init script of a task model, 
+    * such as Activities.xml.
+    * 
+    * @see Disco#TRACE
+    */
+   public static boolean TRACE;
+   
    
    private final Scheduler scheduler = new Scheduler();
    protected final Interaction interaction =  new Interaction(new Agent("agent"), new User("user"));
@@ -27,6 +37,7 @@ public class DiscoRT {
 
    public DiscoRT (MutablePicoContainer parent) {
       container = new DefaultPicoContainer(new OptInCaching(), parent);
+      container.as(Characteristics.CACHE).addComponent(Resources.class);
    }
    
    private void configure (String title) {

@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.primitives;
 
 import edu.wpi.disco.rt.Resource;
-import edu.wpi.disco.rt.realizer.PrimitiveBehavior;
+import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import java.awt.Point;
 
 public class GazeBehavior extends PrimitiveBehavior {

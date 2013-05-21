@@ -1,5 +1,6 @@
 package edu.wpi.disco.rt.realizer;
 
+import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import org.picocontainer.*;
 import java.lang.reflect.*;
 import java.util.*;

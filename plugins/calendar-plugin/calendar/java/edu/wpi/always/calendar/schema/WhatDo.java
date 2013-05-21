@@ -1,6 +1,6 @@
 package edu.wpi.always.calendar.schema;
 
-import edu.wpi.always.cm.dialog.*;
+import edu.wpi.disco.rt.menu.*;
 import org.joda.time.LocalDate;
 
 public class WhatDo extends CalendarAdjacencyPairImpl {

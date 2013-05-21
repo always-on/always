@@ -1,8 +1,9 @@
 package edu.wpi.disco.rt.schema;
 
-import edu.wpi.disco.rt.Scheduler;
+import edu.wpi.disco.rt.*;
 import org.picocontainer.*;
 import java.util.*;
+import java.util.concurrent.ScheduledFuture;
 
 public class SchemaManager {
 
@@ -27,11 +28,13 @@ public class SchemaManager {
    }
 
    public <T extends Schema> T start (Class<T> type) {
+      if ( DiscoRT.TRACE ) System.out.println("Starting: "+type);
       if ( factories.containsKey(type) ) {
          SchemaFactory factory = factories.get(type);
          @SuppressWarnings("unchecked")
          T instance = (T) factory.create(container);
-         scheduler.schedule(instance, factory.getUpdateDelay());
+         ScheduledFuture<?> future = scheduler.schedule(instance, factory.getUpdateDelay());
+         instance.setFuture(future);
          return instance;
       }
       T instance = container.getComponent(type);

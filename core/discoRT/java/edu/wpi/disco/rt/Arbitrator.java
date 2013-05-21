@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt;
 
 import com.google.common.collect.Lists;
+import edu.wpi.disco.rt.behavior.CompoundBehavior;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.schema.Schema;
 import java.util.List;
@@ -60,9 +61,11 @@ public class Arbitrator implements Runnable {
    }
 
    private void setCurrentFocus (Schema proposer) {
-      focus = proposer;
-      proposer.focus();
-      System.out.println("SetCurrentFocus: "+proposer);
+      if ( focus != proposer ) {
+         focus = proposer;
+         proposer.focus();
+         if ( DiscoRT.TRACE ) System.out.println("SetCurrentFocus: "+proposer);
+      }
    }
 
    /**
