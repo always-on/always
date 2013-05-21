@@ -36,7 +36,6 @@
     
     edu.wpi.always.Always.TRACE = true;
     edu.wpi.always.DiscoRT.TRACE = false;
-    edu.wpi.disco.Disco.TRACE = false;
     
   </script>
 
