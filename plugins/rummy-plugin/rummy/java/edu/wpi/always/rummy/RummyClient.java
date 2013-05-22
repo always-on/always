@@ -5,6 +5,7 @@ import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.ProposalBuilder.FocusRequirement;
 import edu.wpi.always.cm.primitives.*;
+import edu.wpi.always.cm.schemas.ActivitySchema;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuBehavior;
 import edu.wpi.disco.rt.util.TimeStampedValue;
@@ -66,25 +67,25 @@ public class RummyClient implements ClientPlugin {
    @Override
    public BehaviorBuilder updateInteraction (boolean lastProposalIsDone) {
       processInbox();
-      ProposalBuilder res = newProposal();
+      ProposalBuilder builder = newProposal();
       BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
       metadata.timeRemaining(agentCardsNum + userCardsNum);
-      metadata.specificity(0.9);
-      res.setMetadata(metadata);
+      metadata.specificity(ActivitySchema.SPECIFICITY);
+      builder.setMetadata(metadata);
       // don't want to mistake lastPropsalIsDone with one about a *move*,
       // hence the check for lastMoveProposal not being null
       if ( gameOver() && lastMoveProposal == null ) {
          if ( !lastProposalIsDone && !reactedToFinishedGameAlready ) {
             if ( userWon ) {
-               res.say("You won. Oh, well.");
+               builder.say("You won. Oh, well.");
             } else {
-               res.say("Yay! I won!");
+               builder.say("Yay! I won!");
             }
-            res.metadataBuilder().timeRemaining(0);
+            builder.metadataBuilder().timeRemaining(0);
          } else {
             reactedToFinishedGameAlready = true;
          }
-         return res;
+         return builder;
       }
       if ( lastMoveProposal != null && lastProposalIsDone )
          myLastMoveTime = DateTime.now();
@@ -118,10 +119,10 @@ public class RummyClient implements ClientPlugin {
       } else {
          lastMoveProposal = null;
          if ( userMadeAMeldAfterMyLastMove() ) {
-            res = newProposal().say("Good one!");
+            builder = newProposal().say("Good one!");
          }
       }
-      return res;
+      return builder;
    }
 
    private boolean userMadeAMeldAfterMyLastMove () {

@@ -2,41 +2,29 @@ package edu.wpi.always.story.schema;
 
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.perceptors.SpeechPerceptor;
-import edu.wpi.always.cm.schemas.ActivitySchema;
+import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.always.story.StoryManager;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class StorySchema extends ActivitySchema {
-
-   private final MenuTurnStateMachine stateMachine;
+public class StorySchema extends ActivityStateMachineSchema {
 
    public StorySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard,
          SpeechPerceptor speechPerceptor, UIMessageDispatcher dispatcher,
          StoryManager storyManager, PeopleManager peopleManager) {
-      super(behaviorReceiver, behaviorHistory);
-      stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
-            menuPerceptor, new RepeatMenuTimeoutHandler());
-      stateMachine.setSpecificityMetadata(.1);
-      stateMachine
-            .setAdjacencyPair(new StoryAdjacencyPairs.StoryStartAdjacencyPair(
-                  new StoryStateContext(dispatcher, storyManager, keyboard,
-                        peopleManager)));
+      super(new StoryAdjacencyPairs.StoryStartAdjacencyPair(
+                  new StoryStateContext(dispatcher, storyManager, keyboard, peopleManager)),
+            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
    }
-
-   boolean hasDisplayed = false;
 
    @Override
    public void run () {
       if ( stateMachine.equals(Behavior.NULL) )
          proposeNothing();
       propose(stateMachine);
-      // else
-      // propose(stateMachine.menuBehavior, stateMachine.getMetadata());
-      // proposeNothing();
    }
 }

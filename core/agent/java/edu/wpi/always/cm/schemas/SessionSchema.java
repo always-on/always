@@ -58,7 +58,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             if ( schema.isDone() ) {
                focus.setComplete(true);
                started.remove(goal);
-            } 
+            } else yield(goal);
          } else {
             if ( focus.isLive() && Utils.isTrue(goal.getShould()) ) {
                if ( !focus.isStarted() ) {
@@ -66,12 +66,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                   started.put(goal,
                         Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
                   focus.setStarted(true);
-                  stop.setGoal(goal);
-                  stop.update();
-                  stateMachine.setAdjacencyPair(stop);
-                  stateMachine.setExtension(true);
-                  stateMachine.setSpecificityMetadata(0.5);
-                  setNeedsFocusResource(false);
+                  yield(goal);
                }
             }
          }
@@ -79,6 +74,15 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       // fall through when session plan exhausted or focused activity schema done 
       // or focused task stopped 
       propose(stateMachine);
+   }
+   
+   private void yield (Task goal) {
+      stop.setGoal(goal);
+      stop.update();
+      stateMachine.setAdjacencyPair(stop);
+      stateMachine.setExtension(true);
+      stateMachine.setSpecificityMetadata(0.5);
+      setNeedsFocusResource(false);
    }
    
    private class Stop extends DiscoAdjacencyPair {
@@ -108,7 +112,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          // TODO clear client plugin display
          discoAdjacencyPair.update();
          stateMachine.setExtension(false);
-         stateMachine.setSpecificityMetadata(0.9);
+         stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
          setNeedsFocusResource(true);
          return discoAdjacencyPair; // one shot
       }
