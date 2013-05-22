@@ -2,7 +2,6 @@ package edu.wpi.always.cm.schemas;
 
 import edu.wpi.always.*;
 import edu.wpi.always.client.ClientProxy;
-import edu.wpi.always.rm.IRelationshipManager;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.lang.Propose;
@@ -23,7 +22,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Interaction interaction,
-         IRelationshipManager rm, ClientProxy proxy, Always always) {
+         RelationshipManager rm, ClientProxy proxy, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
       container = always.getContainer();
       stop = new Stop(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction,

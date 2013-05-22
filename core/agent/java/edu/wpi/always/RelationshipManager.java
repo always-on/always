@@ -1,20 +1,23 @@
-package edu.wpi.always.rm;
+package edu.wpi.always;
 
-import edu.wpi.always.cm.ICollaborationManager;
+import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.util.DiscoDocument;
 
 /**
- * Fake version of relationship manager 
+ * This is a reduced implementation of the relationship management algorithm described
+ * in docs/CoonSidnerRich2012 in which three session plans are precomputed. 
  */
-public class FakeRelationshipManager implements IRelationshipManager {
+public class RelationshipManager {
 
    private final Interaction interaction;
    
-   public FakeRelationshipManager (ICollaborationManager cm) {
+   public RelationshipManager (CollaborationManager cm) {
       interaction = cm.getContainer().getComponent(Interaction.class);
    }
    
+   public enum Closeness { Stranger, Acquaintance, Companion }
+
    private Closeness closeness = Closeness.Stranger;
    
    /**
@@ -26,7 +29,6 @@ public class FakeRelationshipManager implements IRelationshipManager {
       this.closeness = closeness;
    }
    
-   @Override
    public DiscoDocument getSession () { 
       return new DiscoDocument(interaction.getDisco(),
             closeness == Closeness.Stranger ? "Stranger.xml" :
@@ -35,7 +37,6 @@ public class FakeRelationshipManager implements IRelationshipManager {
                      null);
    }
 
-   @Override
    public void afterInteraction (Interaction interaction, int closeness,
          int time) { }
 }

@@ -1,4 +1,4 @@
-package edu.wpi.always.owl;
+package edu.wpi.always.user.owl;
 
 import edu.wpi.always.Always;
 import edu.wpi.always.user.owl.*;

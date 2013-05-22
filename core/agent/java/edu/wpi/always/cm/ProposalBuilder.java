@@ -18,8 +18,10 @@ public class ProposalBuilder implements BehaviorBuilder {
 
    public ProposalBuilder (ClientPlugin plugin, FocusRequirement focus) {
       this.plugin = plugin;
+      /*
       if ( focus == FocusRequirement.Required )
          primitives.add(new FocusRequestBehavior());
+         */
    }
 
    public ProposalBuilder (FocusRequirement focus) {

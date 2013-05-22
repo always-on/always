@@ -3,20 +3,21 @@ package edu.wpi.always.cm;
 import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.primitives.*;
+import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.cetask.TaskClass;
 import edu.wpi.disco.rt.*;
 import org.picocontainer.*;
 
-public class CollaborationManager extends DiscoRT implements ICollaborationManager {
+public class CollaborationManager extends DiscoRT {
 
    public CollaborationManager (MutablePicoContainer parent) {
       super(parent); 
       container.removeComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
+      setSchema(null, SessionSchema.class);
    }
  
-   @Override
    public void start (boolean allPlugins) {
       // FIXME Try to use real sensors
       container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class); 
