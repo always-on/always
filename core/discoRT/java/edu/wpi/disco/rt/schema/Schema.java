@@ -22,14 +22,8 @@ public interface Schema extends Runnable {
     * Return true iff this schema is no longer scheduled for execution.  
     */
    boolean isDone ();
-   
+    
    /**
-    * Return the value of {@link System#currentTimeMillis()} when {@link #focus()}
-    * was last called or zero if it has never been called.
-    */
-   long getFocusMillis ();
-   
-    /**
     * Called by executor each time this schema is given focus resource.
     */
     void focus ();

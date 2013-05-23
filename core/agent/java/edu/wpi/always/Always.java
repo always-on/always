@@ -43,12 +43,11 @@ public class Always {
    }
    
    /**
-    * To enabled tracing of DiscoRT implementation.  Note this variable can be conveniently
+    * To enabled tracing of Always implementation.  Note this variable can be conveniently
     * set using eval command in Disco console or in init script of a task model, such 
     * as Activities.xml.
     * 
     * @see DiscoRT#TRACE
-    * @see Disco#TRACE
     */
    public static boolean TRACE;
    

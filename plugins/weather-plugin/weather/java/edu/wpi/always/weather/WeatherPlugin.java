@@ -1,17 +1,16 @@
 package edu.wpi.always.weather;
 
 import edu.wpi.always.*;
-import edu.wpi.always.cm.ICollaborationManager;
-import edu.wpi.always.user.*;
+import edu.wpi.always.cm.CollaborationManager;
+import edu.wpi.always.user.UserModel;
 import edu.wpi.always.weather.wunderground.WundergroundWeatherProvider;
-import edu.wpi.disco.rt.schema.SchemaManager;
 
 // TODO Make this work with live data
 //      using generateNewReport(), loadRecentDataFromFile();
 
 public class WeatherPlugin extends Plugin {
    
-   public WeatherPlugin (UserModel userModel, ICollaborationManager cm) {
+   public WeatherPlugin (UserModel userModel, CollaborationManager cm) {
       super("Weather", userModel, cm);
       addActivity("DiscussWeather", 0, 0, 0, 0, WeatherSchema.class, WundergroundWeatherProvider.class); 
    }

@@ -3,7 +3,6 @@ package edu.wpi.always.rummy;
 import com.google.gson.JsonObject;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.ProposalBuilder.FocusRequirement;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.ActivitySchema;
 import edu.wpi.disco.rt.behavior.*;
@@ -11,6 +10,7 @@ import edu.wpi.disco.rt.menu.MenuBehavior;
 import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;
 import java.awt.Point;
+import java.util.Collections;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RummyClient implements ClientPlugin {
@@ -65,8 +65,9 @@ public class RummyClient implements ClientPlugin {
    }
 
    @Override
-   public BehaviorBuilder updateInteraction (boolean lastProposalIsDone) {
+   public BehaviorBuilder updateInteraction (boolean lastProposalIsDone, double focusMillis) {
       processInbox();
+      // always propose at least an empty menu for extension
       ProposalBuilder builder = newProposal();
       BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
       metadata.timeRemaining(agentCardsNum + userCardsNum);
@@ -109,9 +110,9 @@ public class RummyClient implements ClientPlugin {
             toSay = "I am done, so I'll discard this one, $ and now it's your turn.";
          }
          SyncSayBuilder b = new SyncSayBuilder(toSay, move,
-               // following behaviors are unconstrained (live at start)
-               MenuBehavior.EMPTY, // for menu extension if any 
-               new FocusRequestBehavior());  
+               // following behavior is unconstrained (live at start)
+               // for menu extension if any 
+               MenuBehavior.EMPTY);
          b.setMetaData(metadata);
          lastMoveProposal = b;
          availableMove = null;
@@ -119,9 +120,12 @@ public class RummyClient implements ClientPlugin {
       } else {
          lastMoveProposal = null;
          if ( userMadeAMeldAfterMyLastMove() ) {
-            builder = newProposal().say("Good one!");
+            builder.say("Good one!");
          }
       }
+      // check if waiting for user to make move since last focus
+      if ( focusMillis > 2000 ) 
+         builder.say("It's your turn").showMenu(Collections.<String>emptyList(), false);
       return builder;
    }
 
@@ -144,7 +148,7 @@ public class RummyClient implements ClientPlugin {
    }
 
    private ProposalBuilder newProposal () {
-      return new ProposalBuilder(this, FocusRequirement.Required); 
+      return new ProposalBuilder(this); 
    }
 
    private void processInbox () {

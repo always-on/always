@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import com.google.common.collect.Lists;
 import edu.wpi.always.client.ClientPlugin;
 import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.ProposalBuilder.FocusRequirement;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
@@ -16,7 +15,7 @@ public class ProposalBuilderFixture {
    @Test
    public void testRequired () {
       DummyPlugin plugin = new DummyPlugin();
-      Behavior b = new ProposalBuilder(plugin, FocusRequirement.NotRequired)
+      Behavior b = new ProposalBuilder(plugin)
             .say("Hello").pluginAction("Meld", AgentResources.HAND).gazeAtUser()
             .build();
       ArrayList<PrimitiveBehavior> l = Lists.newArrayList();
@@ -29,8 +28,7 @@ public class ProposalBuilderFixture {
 
    @Test
    public void whenAddinRequireds_IfABehaviorForTheResourceAlreadyExists_JustOverrideThatWithTheNewOne () {
-      Behavior b = new ProposalBuilder(new DummyPlugin(),
-            FocusRequirement.NotRequired).say("Hello").gazeAtUser()
+      Behavior b = new ProposalBuilder(new DummyPlugin()).say("Hello").gazeAtUser()
             .gazeAtUser().say("Good morning").build();
       ArrayList<PrimitiveBehavior> l = Lists.newArrayList();
       l.add(new SpeechBehavior("Good morning"));
@@ -50,7 +48,7 @@ public class ProposalBuilderFixture {
       }
 
       @Override
-      public BehaviorBuilder updateInteraction (boolean lastProposalIsDone) {
+      public BehaviorBuilder updateInteraction (boolean lastProposalIsDone, double focusMillis) {
          return null;
       }
 

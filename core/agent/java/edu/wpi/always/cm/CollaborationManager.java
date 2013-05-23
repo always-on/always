@@ -15,7 +15,6 @@ public class CollaborationManager extends DiscoRT {
       container.removeComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
-      setSchema(null, SessionSchema.class);
    }
  
    public void start (boolean allPlugins) {
@@ -32,5 +31,6 @@ public class CollaborationManager extends DiscoRT {
             System.out.println("Loaded plugin: "+plugin);
          }
       super.start(allPlugins ? "Session" : null);
+      setSchema(null, SessionSchema.class);
    }
 }

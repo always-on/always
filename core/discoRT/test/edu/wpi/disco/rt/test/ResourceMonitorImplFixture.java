@@ -1,9 +1,9 @@
-package edu.wpi.always.test;
+package edu.wpi.disco.rt.test;
 
 import static org.junit.Assert.*;
-import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.MenuBehavior;
 import org.joda.time.DateTime;
 import org.junit.*;
 import java.awt.Point;
@@ -50,12 +50,11 @@ public class ResourceMonitorImplFixture {
       DateTime someEarlierTime = DateTime.now().minusMinutes(1);
       ArrayList<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
       primitives.add(new SpeechBehavior("Good"));
-      primitives.add(new GazeBehavior(new Point(1, 1)));
+      primitives.add(MenuBehavior.EMPTY);
       assertFalse(resMon.allDone(primitives, someEarlierTime));
       realizer.observer.primitiveDone(realizer, new SpeechBehavior("Good"));
       assertFalse(resMon.allDone(primitives, someEarlierTime));
-      realizer.observer.primitiveDone(realizer, new GazeBehavior(
-            new Point(1, 1)));
+      realizer.observer.primitiveDone(realizer, MenuBehavior.EMPTY);
       assertTrue(resMon.allDone(primitives, someEarlierTime));
    }
 
@@ -64,12 +63,11 @@ public class ResourceMonitorImplFixture {
       DateTime someEarlierTime = DateTime.now().minusMinutes(1);
       ArrayList<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
       primitives.add(new SpeechBehavior("Good"));
-      primitives.add(new GazeBehavior(new Point(1, 1)));
+      primitives.add(MenuBehavior.EMPTY);
       realizer.observer.primitiveDone(realizer, new SpeechBehavior("Good"));
       realizer.observer.primitiveDone(realizer, new SpeechBehavior(
             "something else"));
-      realizer.observer.primitiveDone(realizer, new GazeBehavior(
-            new Point(1, 1)));
+      realizer.observer.primitiveDone(realizer, MenuBehavior.EMPTY);
       assertFalse(resMon.allDone(primitives, someEarlierTime));
    }
 
@@ -78,9 +76,8 @@ public class ResourceMonitorImplFixture {
       DateTime someEarlierTime = DateTime.now().minusMinutes(1);
       ArrayList<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
       primitives.add(new SpeechBehavior("Good"));
-      primitives.add(new GazeBehavior(new Point(1, 1)));
-      realizer.observer.primitiveDone(realizer, new GazeBehavior(
-            new Point(1, 1)));
+      primitives.add(MenuBehavior.EMPTY);
+      realizer.observer.primitiveDone(realizer, MenuBehavior.EMPTY);
       realizer.observer.primitiveDone(realizer, new SpeechBehavior("Good"));
       realizer.observer.primitiveDone(realizer, new SpeechBehavior("Good"));
       assertTrue(resMon.allDone(primitives, someEarlierTime));

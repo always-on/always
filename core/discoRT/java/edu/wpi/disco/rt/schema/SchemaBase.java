@@ -22,6 +22,7 @@ public abstract class SchemaBase implements Schema {
    private boolean needsFocusResource;
    private ScheduledFuture<?> future;
    
+   @Override
    public void setFuture (ScheduledFuture<?> future) { this.future = future; }
 
    protected SchemaBase (BehaviorProposalReceiver behaviorReceiver,
@@ -46,8 +47,10 @@ public abstract class SchemaBase implements Schema {
    @Override
    public void focus () { focus = System.currentTimeMillis(); }
    
-   @Override
-   public long getFocusMillis () { return focus; }
+   /**
+    * Return the number of milliseconds since this schema last had focus.
+    */
+   protected long getFocusMillis () { return System.currentTimeMillis() - focus; }
    
    protected void proposeNothing () {
       propose(Behavior.NULL, 0);
@@ -78,14 +81,13 @@ public abstract class SchemaBase implements Schema {
       return new Behavior(appendFocusRequestIfNecessary(behavior.getInner()));
    }
 
-   // FIXME Fix bug with inconsistent addition of focus requests
-   
+   ////////////////////////////////////////////////////////////////////
    protected CompoundBehavior appendFocusRequestIfNecessary (
          CompoundBehavior behavior) {
-      if ( true /* !needsFocusResource */)
-         return behavior;
-      return new SequenceOfCompoundBehaviors(behavior,
-            new SimpleCompoundBehavior(new FocusRequestBehavior()));
+      return needsFocusResource ?
+         new SequenceOfCompoundBehaviors(behavior,
+               new SimpleCompoundBehavior(new FocusRequestBehavior()))
+         : behavior;
    }
 
    private void updateLastProposal (Behavior behavior) {

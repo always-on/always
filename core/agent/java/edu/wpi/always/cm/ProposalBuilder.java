@@ -10,22 +10,16 @@ import java.util.*;
 
 public class ProposalBuilder implements BehaviorBuilder {
    
-   public enum FocusRequirement { Required, NotRequired }
-
    private final ArrayList<PrimitiveBehavior> primitives = Lists.newArrayList();
    private final ClientPlugin plugin;
    private BehaviorMetadataBuilder metadataBuilder = new BehaviorMetadataBuilder();
 
-   public ProposalBuilder (ClientPlugin plugin, FocusRequirement focus) {
+   public ProposalBuilder (ClientPlugin plugin) {
       this.plugin = plugin;
-      /*
-      if ( focus == FocusRequirement.Required )
-         primitives.add(new FocusRequestBehavior());
-         */
    }
 
-   public ProposalBuilder (FocusRequirement focus) {
-      this(null, focus);
+   public ProposalBuilder () {
+      this(null);
    }
 
    @Override

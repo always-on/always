@@ -37,6 +37,5 @@ public class RelationshipManager {
                      null);
    }
 
-   public void afterInteraction (Interaction interaction, int closeness,
-         int time) { }
+   public void afterInteraction (Interaction interaction, int closeness, int time) { }
 }

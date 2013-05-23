@@ -2,12 +2,12 @@ package edu.wpi.always.calendar;
 
 import edu.wpi.always.*;
 import edu.wpi.always.calendar.schema.CalendarSchema;
-import edu.wpi.always.cm.ICollaborationManager;
+import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.user.UserModel;
 
 public class CalendarPlugin extends Plugin {
    
-   public CalendarPlugin (UserModel userModel, ICollaborationManager cm) {
+   public CalendarPlugin (UserModel userModel, CollaborationManager cm) {
       super("Calendar", userModel, cm);
       addActivity("UseCalendar", 0, 0, 0, 0, CalendarSchema.class, CalendarClient.class); 
    }

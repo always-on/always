@@ -1,4 +1,4 @@
-package edu.wpi.always.test;
+package edu.wpi.disco.rt.test;
 
 import edu.wpi.disco.rt.Scheduler;
 import edu.wpi.disco.rt.behavior.*;
