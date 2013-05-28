@@ -20,7 +20,7 @@ public class DiscoAdjacencyPairSchema extends ActivitySchema {
                                                   resourceMonitor, menuPerceptor, interaction);
       stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
             menuPerceptor, new RepeatMenuTimeoutHandler());
-      stateMachine.setSpecificityMetadata(0.9);
+      stateMachine.setSpecificityMetadata(SPECIFICITY);
       stateMachine.setAdjacencyPair(discoAdjacencyPair);
    }
 

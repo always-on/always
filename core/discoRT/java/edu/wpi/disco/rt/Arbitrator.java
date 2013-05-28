@@ -1,8 +1,10 @@
 package edu.wpi.disco.rt;
 
 import com.google.common.collect.Lists;
+import edu.wpi.cetask.*;
+import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.behavior.CompoundBehavior;
-import edu.wpi.disco.rt.realizer.*;
+import edu.wpi.disco.rt.realizer.IRealizer;
 import edu.wpi.disco.rt.schema.Schema;
 import java.util.List;
 
@@ -11,61 +13,94 @@ public class Arbitrator implements Runnable {
    private final ICandidateBehaviorsContainer candidateBehaviors;
    private final IRealizer realizer;
    private final ArbitrationStrategy strategy;
-   private Schema focus;
+   private final Interaction interaction;
+   private final DiscoRT discoRT;
+   private Schema focusSchema;
+   private List<Resource> freeResources;
+   private List<CandidateBehavior> proposals, selected;
 
    public Arbitrator (ArbitrationStrategy strategy, IRealizer realizer,
-         ICandidateBehaviorsContainer behaviors) {
+         ICandidateBehaviorsContainer behaviors, DiscoRT discoRT) {
       this.strategy = strategy;
       this.realizer = realizer;
       candidateBehaviors = behaviors;
+      this.discoRT = discoRT;
+      this.interaction = discoRT.getInteraction();
    }
 
    @Override
    public void run () {
-      List<Resource> freeResources = Lists.newArrayList(Resources.values());
-      List<CandidateBehavior> proposals = filterOutEmptyCandidates(candidateBehaviors
-            .all());
-      List<CandidateBehavior> selected = Lists.newArrayList();
-      while (!freeResources.isEmpty() && !proposals.isEmpty()) {
-         CandidateBehavior f = null;
-         if ( freeResources.contains(Resources.FOCUS) )
-            f = findFocusOfConversation(proposals);
-         CandidateBehavior a = decide(proposals, f);
-         if ( a.getBehavior().getResources().contains(Resources.FOCUS) )
-            setCurrentFocus(a.getProposer());
-         freeResources.removeAll(a.getBehavior().getResources());
-         selected.add(a);
-         for (CandidateBehavior p : Lists.newArrayList(proposals)) {
-            for (Resource r : p.getBehavior().getResources()) {
-               if ( !freeResources.contains(r) ) {
-                  proposals.remove(p);
+      freeResources = Lists.newArrayList(Resources.values());
+      proposals = filterOutEmptyCandidates(candidateBehaviors.all());
+      selected = Lists.newArrayList();
+      // first assign focus based on Disco
+      Plan focusPlan = interaction.getFocusExhausted(true);
+      Class<? extends Schema> schema = focusPlan == null ?
+            discoRT.getSchema(null) : getSchema(focusPlan);
+      CandidateBehavior focusProposal = null;
+      if ( schema != null ) {
+         for (CandidateBehavior proposal : proposals) {
+            Schema proposer = proposal.getProposer();
+            if ( schema.isAssignableFrom(proposer.getClass()) ) {
+               if ( proposal.getBehavior().getResources().contains(Resources.FOCUS) ) {
+                  choose(proposal);
+                  focusProposal = proposal;
+                  proposer.focus();
+                  if ( proposer != focusSchema ) {
+                     focusSchema = proposer;
+                     /* if ( DiscoRT.TRACE ) */ System.out.println("New focus: "+focusSchema);
+                  }
                   break;
                }
             }
          }
+         warning:
+         if ( focusProposal == null ) {
+            focusSchema = null;
+            if ( focusPlan == null || focusPlan.isStarted() ) {
+               for (CandidateBehavior p : candidateBehaviors.all()) // including empty behaviors
+                  if ( p.getProposer().getClass() == schema ) break warning;
+               System.err.println("WARNING: Focus schema is not running: "+schema);
+            }
+         } else focusProposal = null; // for decide
+      } else { // Disco doesn't care
+         for (CandidateBehavior proposal : proposals)
+            if ( proposal.getProposer() == focusSchema && !proposal.getBehavior().isEmpty() ) { 
+               focusProposal = proposal; 
+               break;
+            }
       }
-      for (CandidateBehavior p : selected)
-         execute(p.getBehavior().getInner());
-      for (Resource r : freeResources) {
-         realizer.freeUpResource(r);
-      }
+      while ( !freeResources.isEmpty() && !proposals.isEmpty() )
+         choose(decide(proposals, focusProposal));
+      for (CandidateBehavior p : selected) execute(p.getBehavior().getInner());
+      for (Resource r : freeResources) realizer.freeUpResource(r);
    }
 
-   private List<CandidateBehavior> filterOutEmptyCandidates (
-         List<CandidateBehavior> source) {
+   private Class<? extends Schema> getSchema (Plan plan) {
+      Class<? extends Schema> schema = discoRT.getSchema(plan.getType());
+      return schema != null ? schema :
+         interaction.getDisco().isTop(plan) ? null : getSchema(plan.getParent());
+   }
+
+   private void choose (CandidateBehavior chosen) {
+      freeResources.removeAll(chosen.getBehavior().getResources());
+      selected.add(chosen);
+      for (CandidateBehavior p : Lists.newArrayList(proposals)) {
+         for (Resource r : p.getBehavior().getResources()) {
+            if ( !freeResources.contains(r) ) {
+               proposals.remove(p);
+               break;
+            }
+         }
+      }
+   }
+   
+   private List<CandidateBehavior> filterOutEmptyCandidates (List<CandidateBehavior> source) {
       List<CandidateBehavior> result = Lists.newArrayList();
       for (CandidateBehavior c : source)
          if ( !c.getBehavior().isEmpty() )
             result.add(c);
       return result;
-   }
-
-   private void setCurrentFocus (Schema proposer) {
-      if ( focus != proposer ) {
-         focus = proposer;
-         proposer.focus();
-         if ( DiscoRT.TRACE ) System.out.println("SetCurrentFocus: "+proposer);
-      }
    }
 
    /**
@@ -79,23 +114,9 @@ public class Arbitrator implements Runnable {
       realizer.realize(behavior);
    }
 
-   private CandidateBehavior findFocusOfConversation (
-         List<CandidateBehavior> candidates) {
-      CandidateBehavior focusedOne = null;
-      for (CandidateBehavior c : candidates) {
-         if ( c.getProposer() == focus ) {
-            if ( !c.getBehavior().isEmpty() )
-               focusedOne = c;
-            break;
-         }
-      }
-      return focusedOne;
-   }
-
    private CandidateBehavior decide (List<CandidateBehavior> candidates,
          CandidateBehavior focusedOne) {
-      if ( focusedOne == null )
-         return strategy.decide(candidates);
-      return strategy.decide(candidates, focusedOne);
+      return focusedOne == null ? strategy.decide(candidates) :
+         strategy.decide(candidates, focusedOne);
    }
 }

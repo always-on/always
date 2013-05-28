@@ -1,11 +1,8 @@
 package edu.wpi.always.rummy;
 
-import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.ProposalBuilder.FocusRequirement;
+import edu.wpi.always.cm.ProposalBuilder;
 import edu.wpi.always.cm.schemas.ActivitySchema;
-import edu.wpi.disco.rt.Scheduler;
 import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.schema.SchemaBase;
 
 public class RummySchema extends ActivitySchema {
 
@@ -24,11 +21,12 @@ public class RummySchema extends ActivitySchema {
          firstRun = false;
          plugin.initInteraction();
       }
-      BehaviorBuilder r = plugin.updateInteraction(lastProposalIsDone());
+      BehaviorBuilder r = plugin.updateInteraction(lastProposalIsDone(), getFocusMillis());
       BehaviorMetadata m = r.getMetadata();
       Behavior b = r.build();
       if ( b.equals(Behavior.NULL) && !plugin.gameOver() ) {
-         propose(new ProposalBuilder(FocusRequirement.NotRequired).idle().build(), 0.7);
+         propose(new ProposalBuilder().idle().build(),
+               ActivitySchema.SPECIFICITY);
       } else {
          propose(b, m);
       }

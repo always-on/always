@@ -1,11 +1,11 @@
-package edu.wpi.always.test;
+package edu.wpi.disco.rt.test;
 
 import static org.junit.Assert.*;
 import com.google.common.base.Function;
 import com.google.common.collect.*;
-import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.MenuBehavior;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.test.*;
 import org.joda.time.DateTime;
@@ -36,8 +36,7 @@ public class CandidateBehaviorsContainerTest {
    @Test
    public void testAll_AddRecoverSingleCandidate () {
       DummySchema schema = newDummySchema();
-      Behavior behavior = Behavior
-            .newInstance(new GazeBehavior(new Point(1, 1)));
+      Behavior behavior = Behavior.newInstance(MenuBehavior.EMPTY);
       BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(
             ANY_PRIORITY).build();
       container.add(schema, behavior, m);
@@ -59,10 +58,8 @@ public class CandidateBehaviorsContainerTest {
    @Test
    public void testAll_AddTwiceFromTheSameSchema_ShouldIndluceOnlyLastOne () {
       DummySchema schema = newDummySchema();
-      Behavior behavior1 = Behavior.newInstance(new GazeBehavior(
-            new Point(1, 1)));
-      Behavior behavior2 = Behavior.newInstance(new GazeBehavior(
-            new Point(2, 2)));
+      Behavior behavior1 = Behavior.newInstance(new SpeechBehavior("Hi"));
+      Behavior behavior2 = Behavior.newInstance(new SpeechBehavior("Ho"));     
       BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(
             ANY_PRIORITY).build();
       container.add(schema, behavior1, m);
@@ -73,14 +70,13 @@ public class CandidateBehaviorsContainerTest {
 
    @Test
    public void testAll_ProposingBehaviorsFromDifferentThreads () {
-      List<Point> gazePoints = Lists.newArrayList(new Point(1, 1), new Point(2,
-            3), new Point(10, 20));
+      List<String> texts = Lists.newArrayList("One", "Two", "Three");
       Random rnd = new Random();
       ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
       List<ScheduledFuture<?>> schemaTasks = Lists.newArrayListWithCapacity(3);
-      for (int i = 0; i < gazePoints.size(); i++) {
-         FakeGazeSchema schema = new FakeGazeSchema(container, behaviorHistory,
-               gazePoints.get(i));
+      for (int i = 0; i < texts.size(); i++) {
+         FakeSpeechSchema schema = new FakeSpeechSchema(container, behaviorHistory,
+               texts.get(i));
          int period = rnd.nextInt(201) + 100;
          ScheduledFuture<?> future = executor.scheduleAtFixedRate(schema, 0,
                period, TimeUnit.MILLISECONDS);
@@ -93,18 +89,18 @@ public class CandidateBehaviorsContainerTest {
             assertFalse(schemaTasks.get(j).isDone());
          List<CandidateBehavior> candidates = container.all();
          assertEquals(3, candidates.size());
-         Iterable<Point> pointsFromBehaviors = Iterables.transform(candidates,
-               new Function<CandidateBehavior, Point>() {
+         Iterable<String> textsFromBehaviors = Iterables.transform(candidates,
+               new Function<CandidateBehavior, String>() {
 
                   @Override
-                  public Point apply (CandidateBehavior cb) {
-                     GazeBehavior gazeBehavior = (GazeBehavior) ((SimpleCompoundBehavior) cb
+                  public String apply (CandidateBehavior cb) {
+                     SpeechBehavior speechBehavior = (SpeechBehavior) ((SimpleCompoundBehavior) cb
                            .getBehavior().getInner()).getPrimitives().get(0);
-                     return gazeBehavior.getPoint();
+                     return speechBehavior.getText();
                   }
                });
-         for (Point expected : gazePoints) {
-            assertTrue(Iterables.contains(pointsFromBehaviors, expected));
+         for (String expected : texts) {
+            assertTrue(Iterables.contains(textsFromBehaviors, expected));
          }
          sleep(200);
       }

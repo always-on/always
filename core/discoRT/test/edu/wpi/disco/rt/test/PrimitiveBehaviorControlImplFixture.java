@@ -1,7 +1,6 @@
-package edu.wpi.always.test;
+package edu.wpi.disco.rt.test;
 
 import static org.junit.Assert.*;
-import edu.wpi.always.cm.primitives.AgentResources;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
@@ -23,27 +22,27 @@ public class PrimitiveBehaviorControlImplFixture {
 
    @Test
    public void onePrimitive () {
-      DummyPrimitive gazePrimitive = new DummyPrimitive(AgentResources.GAZE,
+      DummyPrimitive gazePrimitive = new DummyPrimitive(Resources.FOCUS,
             SOMETHING);
       realizer.realize(gazePrimitive);
-      assertNotNull(realizer.currentRealizerFor(AgentResources.GAZE));
-      assertEquals(gazePrimitive, realizer.currentRealizerFor(AgentResources.GAZE)
+      assertNotNull(realizer.currentRealizerFor(Resources.FOCUS));
+      assertEquals(gazePrimitive, realizer.currentRealizerFor(Resources.FOCUS)
             .getParams());
       DummyPrimitiveRealizer primitiveRealizer = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(AgentResources.GAZE);
+            .currentRealizerFor(Resources.FOCUS);
       sleep(50);
       assertTrue(primitiveRealizer.runCallsCount > 0);
-      assertNull(realizer.currentRealizerFor(AgentResources.SPEECH));
+      assertNull(realizer.currentRealizerFor(Resources.SPEECH));
    }
 
    @Test
    public void primitiveRealizersAreScheduleOnSeparateThreads () {
-      realizer.realize(new DummyPrimitive(AgentResources.GAZE, SOMETHING));
-      realizer.realize(new DummyPrimitive(AgentResources.SPEECH, SOMETHING));
+      realizer.realize(new DummyPrimitive(Resources.MENU, SOMETHING));
+      realizer.realize(new DummyPrimitive(Resources.SPEECH, SOMETHING));
       DummyPrimitiveRealizer gazeRealizer = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(AgentResources.GAZE);
+            .currentRealizerFor(Resources.MENU);
       DummyPrimitiveRealizer speechRealizer = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(AgentResources.SPEECH);
+            .currentRealizerFor(Resources.SPEECH);
       // wait for their run() function to be called 3 times
       int n = 0;
       while (gazeRealizer.runCallsCount < 3 && speechRealizer.runCallsCount < 3) {
@@ -63,9 +62,9 @@ public class PrimitiveBehaviorControlImplFixture {
       final int paramForFirstBehavior = 1;
       final int paramForSecondBehavior = 2;
       realizer
-            .realize(new DummyPrimitive(AgentResources.GAZE, paramForFirstBehavior));
+            .realize(new DummyPrimitive(Resources.FOCUS, paramForFirstBehavior));
       DummyPrimitiveRealizer r1 = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(AgentResources.GAZE);
+            .currentRealizerFor(Resources.FOCUS);
       int n = 0;
       while (r1.runCallsCount == 0) {
          sleep(20);
@@ -76,9 +75,9 @@ public class PrimitiveBehaviorControlImplFixture {
          }
       }
       realizer
-            .realize(new DummyPrimitive(AgentResources.GAZE, paramForSecondBehavior));
+            .realize(new DummyPrimitive(Resources.FOCUS, paramForSecondBehavior));
       DummyPrimitiveRealizer r2 = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(AgentResources.GAZE);
+            .currentRealizerFor(Resources.FOCUS);
       assertNotSame(r1, r2);
       assertFalse(r1.getParams().equals(r2.getParams()));
       // now making sure that r2 is running and r1 is stopped
@@ -98,46 +97,46 @@ public class PrimitiveBehaviorControlImplFixture {
    public void whenOnePrimitiveIsDone_ShouldFireDoneEvent () {
       FakeRealizerEventObserver observer = addObserverToRealizer();
       final int DOES_NOT_MATTER = 1;
-      DummyPrimitive b1 = new DummyPrimitive(AgentResources.GAZE, DOES_NOT_MATTER);
+      DummyPrimitive b1 = new DummyPrimitive(Resources.FOCUS, DOES_NOT_MATTER);
       realizer.realize(b1);
       sleep(10);
       assertFalse(observer.doneReceivedFor(b1));
-      ((DummyPrimitiveRealizer) realizer.currentRealizerFor(AgentResources.GAZE))
+      ((DummyPrimitiveRealizer) realizer.currentRealizerFor(Resources.FOCUS))
             .done();
       assertTrue(observer.doneReceivedFor(b1));
    }
 
    @Test
    public void testStopResource () {
-      DummyPrimitive behavior = new DummyPrimitive(AgentResources.GAZE, SOMETHING);
+      DummyPrimitive behavior = new DummyPrimitive(Resources.FOCUS, SOMETHING);
       realizer.realize(behavior);
       DummyPrimitiveRealizer r = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(AgentResources.GAZE);
+            .currentRealizerFor(Resources.FOCUS);
       sleep(10);
-      realizer.stop(AgentResources.GAZE);
+      realizer.stop(Resources.FOCUS);
       assertNotRunning(r);
    }
 
    @Test
    public void whenNullPrimitiveBehaviorIsSetForBehavior_ItShouldStopCurrentRealizerOnThatResource () {
-      DummyPrimitive behavior = new DummyPrimitive(AgentResources.GAZE, SOMETHING);
+      DummyPrimitive behavior = new DummyPrimitive(Resources.FOCUS, SOMETHING);
       realizer.realize(behavior);
       DummyPrimitiveRealizer r = (DummyPrimitiveRealizer) realizer
-            .currentRealizerFor(AgentResources.GAZE);
-      realizer.realize(PrimitiveBehavior.nullBehavior(AgentResources.GAZE));
+            .currentRealizerFor(Resources.FOCUS);
+      realizer.realize(PrimitiveBehavior.nullBehavior(Resources.FOCUS));
       assertNotRunning(r);
    }
 
    @Test
    public void whenARealizerForTheSameBehaviorIsInEffect_ShouldNotStopIt () {
-      DummyPrimitive b1 = new DummyPrimitive(AgentResources.GAZE, SOMETHING);
-      DummyPrimitive b2 = new DummyPrimitive(AgentResources.GAZE, SOMETHING);
+      DummyPrimitive b1 = new DummyPrimitive(Resources.FOCUS, SOMETHING);
+      DummyPrimitive b2 = new DummyPrimitive(Resources.FOCUS, SOMETHING);
       realizer.realize(b1);
       PrimitiveRealizer<?> firstRealizer = realizer
-            .currentRealizerFor(AgentResources.GAZE);
+            .currentRealizerFor(Resources.FOCUS);
       realizer.realize(b2);
       PrimitiveRealizer<?> secondRealizer = realizer
-            .currentRealizerFor(AgentResources.GAZE);
+            .currentRealizerFor(Resources.FOCUS);
       assertSame(firstRealizer, secondRealizer);
    }
 

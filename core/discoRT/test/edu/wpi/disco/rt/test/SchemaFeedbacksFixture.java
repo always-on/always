@@ -1,7 +1,6 @@
-package edu.wpi.always.test;
+package edu.wpi.disco.rt.test;
 
 import static org.junit.Assert.*;
-import edu.wpi.always.cm.primitives.console.ConsoleSpeechRealizer;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
@@ -20,6 +19,7 @@ public class SchemaFeedbacksFixture {
    @Before
    public void setUp () {
       pico = configureContainer();
+      pico.addComponent(new DiscoRT());
       schemaUnderTest = pico.getComponent(FakeSchema.class);
       otherSchema = pico.getComponent(HigherPriorityDummySchema.class);
       arbitrator = pico.getComponent(Arbitrator.class);
@@ -74,7 +74,7 @@ public class SchemaFeedbacksFixture {
       PrimitiveRealizerFactory realizerFactory = new PrimitiveRealizerFactory(
             pico);
       pico.addComponent(realizerFactory);
-      realizerFactory.register(ConsoleSpeechRealizer.class);
+      realizerFactory.register(FakeSpeechRealizer.class);
       return pico;
    }
 
@@ -123,6 +123,18 @@ public class SchemaFeedbacksFixture {
             propose(new SpeechBehavior("This is not good"), NORMAL_PRIORITY + 1);
          else
             proposeNothing();
+      }
+   }
+   
+   public static class FakeSpeechRealizer extends
+      SingleRunPrimitiveRealizer<SpeechBehavior> {
+
+      public FakeSpeechRealizer (SpeechBehavior params) { super(params); }
+
+      @Override
+      protected void singleRun () {
+         System.out.println("Saying: " + getParams().getText());
+         fireDoneMessage();
       }
    }
 }

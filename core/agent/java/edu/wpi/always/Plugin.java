@@ -1,10 +1,11 @@
 package edu.wpi.always;
 
-import edu.wpi.always.cm.ICollaborationManager;
+import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.ActivitySchema;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.TaskClass;
+import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
@@ -19,15 +20,20 @@ public abstract class Plugin {
    
    protected final String name;
    protected final UserModel userModel;
+   protected final CollaborationManager cm;
    private final SchemaManager schemaManager;
+   private final Interaction interaction;
    
    /**
     * @param name used as prefix for plugin-specific user properties
     */
-   protected Plugin (String name, UserModel userModel, ICollaborationManager cm) {
+   protected Plugin (String name, UserModel userModel, CollaborationManager cm) {
       this.name = name;
       this.userModel = userModel;
-      this.schemaManager = cm.getContainer().getComponent(SchemaManager.class);
+      this.cm = cm;
+      MutablePicoContainer container = cm.getContainer();
+      schemaManager = container.getComponent(SchemaManager.class);
+      interaction = container.getComponent(Interaction.class);
       InputStream stream = getClass().getResourceAsStream(name+".owl");
       if ( stream != null ) {
          System.out.println("Loading "+name+".owl");
@@ -73,7 +79,7 @@ public abstract class Plugin {
     
     /**
     * Returns the activities that this plugin currently makes available.  This method
-    * is called by {@link edu.wpi.always.rm.IRelationshipManager}.
+    * is called by {@link edu.wpi.always.RelationshipManager}.
     * 
     * @param baseline The closeness at the start of this session
     */
@@ -101,7 +107,7 @@ public abstract class Plugin {
       if ( activity == null ) throw new IllegalStateException("No activity schema for: "+name);
       return activity;
    }
-   
+      
    /**
     * Add activity with specified metadata parameters, activity schema and
     * optional other components. Components are either classes (including schema
@@ -118,6 +124,16 @@ public abstract class Plugin {
       final List<Class<?>> other = new ArrayList<Class<? extends Object>>();
       configs.add(newSchemaConfig(activity));
       schemas.add(activity);
+      // store information for arbitrator focus assignment
+      String task = name;
+      Properties properties = interaction.getDisco().getProperties(); 
+      for ( String key : properties.stringPropertyNames() ) 
+         if ( key.endsWith("@activity") && name.equals(properties.get(key)) )
+            task = key.substring(0, key.length()-9);
+      // TODO handle ambiguous task id's properly here
+      TaskClass type = interaction.getDisco().getTaskClass(task);
+      if ( type == null ) throw new RuntimeException("Unknown task class for activity: "+name);
+      cm.setSchema(type, activity);
       for (Object c : components)
           if ( c instanceof SchemaConfig ) {
              SchemaConfig config = (SchemaConfig) c;
@@ -172,7 +188,7 @@ public abstract class Plugin {
    
    public static String getActivity (TaskClass task) {
       String activity = task.getProperty("@activity");
-      return activity == null ? task.getId() : activity;
+      return activity == null ? task.getPropertyId() : activity;
    }
 
 }

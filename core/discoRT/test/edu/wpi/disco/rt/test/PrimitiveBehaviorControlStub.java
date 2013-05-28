@@ -1,4 +1,4 @@
-package edu.wpi.always.test;
+package edu.wpi.disco.rt.test;
 
 import static com.google.common.collect.Lists.newArrayList;
 import edu.wpi.disco.rt.Resource;

@@ -1,14 +1,12 @@
-package edu.wpi.always.test;
+package edu.wpi.disco.rt.test;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.*;
 import com.google.common.collect.Lists;
-import edu.wpi.always.cm.primitives.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuBehavior;
 import edu.wpi.disco.rt.schema.Schema;
-import edu.wpi.disco.rt.test.RealizerStub;
 import org.junit.*;
 import java.awt.Point;
 import java.util.*;
@@ -24,14 +22,14 @@ public class ArbitratorFixture {
    public void setUp () {
       container = new FakeContainer();
       realizer = new RealizerStub();
-      arbitrator = new Arbitrator(new FuzzyArbitrationStrategy(), realizer,
-            container);
+      arbitrator = new Arbitrator(new FuzzyArbitrationStrategy(), realizer, container, 
+            new DiscoRT());
    }
 
    @Test
    public void simpleTestWithOneSchema () {
       SpeechBehavior b1 = new SpeechBehavior("something");
-      GazeBehavior b2 = new GazeBehavior(new Point(1, 1));
+      MenuBehavior b2 = MenuBehavior.EMPTY;
       BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(1).build();
       container.changeTo(new CandidateBehavior(Behavior.newInstance(b1, b2),
             someSchema(), m));
@@ -62,10 +60,9 @@ public class ArbitratorFixture {
 
    @Test
    public void whenTwoSchemasGiveNonConflictingProposals_ShouldListenToBoth () {
-      new AgentResources(); // for gaze
       SpeechBehavior speech = new SpeechBehavior("something");
       MenuBehavior menu = new MenuBehavior(new ArrayList<String>());
-      GazeBehavior gaze = new GazeBehavior(new Point(10, 10));
+      FocusRequestBehavior focus = new FocusRequestBehavior();
       BehaviorMetadata m3 = new BehaviorMetadataBuilder().specificity(1)
             .build();
       BehaviorMetadata m2 = new BehaviorMetadataBuilder().specificity(0.7)
@@ -75,7 +72,7 @@ public class ArbitratorFixture {
       container
             .changeTo(new CandidateBehavior(Behavior.newInstance(speech, menu),
                   someSchema(), m3),
-                  new CandidateBehavior(Behavior.newInstance(gaze),
+                  new CandidateBehavior(Behavior.newInstance(focus),
                         someSchema(), m2), new CandidateBehavior(Behavior.NULL,
                         someSchema(), m1) // caught
             // a bug
@@ -83,7 +80,7 @@ public class ArbitratorFixture {
             // this
             );
       arbitrator.run();
-      assertBehaviorsRealized(realizer.realizedBehaviors, gaze, speech, menu);
+      assertBehaviorsRealized(realizer.realizedBehaviors, focus, speech, menu);
    }
 
    private void assertBehaviorsRealized (
@@ -115,8 +112,6 @@ public class ArbitratorFixture {
          public void cancel () {}
          @Override
          public boolean isDone () { return false; }
-         @Override
-         public long getFocusMillis () { return 0; }
          @Override
          public void focus () {}
          @Override

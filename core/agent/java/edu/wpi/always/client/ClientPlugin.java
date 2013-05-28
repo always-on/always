@@ -8,7 +8,7 @@ public interface ClientPlugin {
 
    void initInteraction ();
 
-   BehaviorBuilder updateInteraction (boolean lastProposalIsDone);
+   BehaviorBuilder updateInteraction (boolean lastProposalIsDone, double focusMillis);
 
    void endInteraction ();
 

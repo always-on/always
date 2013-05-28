@@ -1,9 +1,8 @@
 package edu.wpi.always;
 
 import edu.wpi.always.client.ClientRegistry;
-import edu.wpi.always.cm.*;
+import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.StartupSchemas;
-import edu.wpi.always.rm.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.*;
 import edu.wpi.disco.Disco;
@@ -39,17 +38,16 @@ public class Always {
     /**
     * For convenience in Disco console.
     */
-   public static IRelationshipManager getRM () {
-      return THIS.container.getComponent(IRelationshipManager.class);
+   public static RelationshipManager getRM () {
+      return THIS.container.getComponent(RelationshipManager.class);
    }
    
    /**
-    * To enabled tracing of DiscoRT implementation.  Note this variable can be conveniently
+    * To enabled tracing of Always implementation.  Note this variable can be conveniently
     * set using eval command in Disco console or in init script of a task model, such 
     * as Activities.xml.
     * 
     * @see DiscoRT#TRACE
-    * @see Disco#TRACE
     */
    public static boolean TRACE;
    
@@ -78,10 +76,8 @@ public class Always {
          BasicConfigurator.configure(new NullAppender());
       container.addComponent(container); 
       container.addComponent(this);
-      container.as(Characteristics.CACHE).addComponent(
-            ICollaborationManager.class, CollaborationManager.class);
-      container.as(Characteristics.CACHE).addComponent(
-            IRelationshipManager.class, FakeRelationshipManager.class);
+      container.as(Characteristics.CACHE).addComponent(CollaborationManager.class);
+      container.as(Characteristics.CACHE).addComponent(RelationshipManager.class);
       // FIXME get real user info here
       addRegistry(new OntologyUserRegistry("Diane Ferguson")); 
       addCMRegistry(new ClientRegistry());
@@ -125,7 +121,7 @@ public class Always {
          registry.register(helper);
       UserModel userModel = container.getComponent(UserModel.class);
       if ( userModel != null ) userModel.load();
-      ICollaborationManager cm = container.getComponent(ICollaborationManager.class);
+      CollaborationManager cm = container.getComponent(CollaborationManager.class);
       // for debugging given plugin activity
       if ( plugin != null) {
          container.addComponent(plugin);
