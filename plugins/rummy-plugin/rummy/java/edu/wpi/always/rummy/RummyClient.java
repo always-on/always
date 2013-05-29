@@ -73,7 +73,7 @@ public class RummyClient implements ClientPlugin {
       metadata.timeRemaining(agentCardsNum + userCardsNum);
       metadata.specificity(ActivitySchema.SPECIFICITY);
       builder.setMetadata(metadata);
-      // don't want to mistake lastPropsalIsDone with one about a *move*,
+      // don't want to mistake lastProposalIsDone with one about a *move*,
       // hence the check for lastMoveProposal not being null
       if ( gameOver() && lastMoveProposal == null ) {
          if ( !lastProposalIsDone && !reactedToFinishedGameAlready ) {
@@ -92,14 +92,11 @@ public class RummyClient implements ClientPlugin {
          myLastMoveTime = DateTime.now();
       if ( lastMoveProposal != null && !lastProposalIsDone ) {
          return lastMoveProposal;
-      } else if ( availableMove != null
-         && availableMove.getValue().length() > 0 ) {
+      } else if ( availableMove != null && availableMove.getValue().length() > 0 ) {
          PluginSpecificBehavior move = new PluginSpecificBehavior(this,
                // for printing only, action name not used in doAction below
                availableMove.getValue() + "@" + availableMove.getTimeStamp(),
                AgentResources.HAND);
-         GazeBehavior gazeAtCard = new GazeBehavior(new Point(-22, 0));
-         FaceTrackBehavior lookBackAtFace = new FaceTrackBehavior();
          String toSay = "";
          if ( isMeld(availableMove.getValue()) ) {
             toSay = "Now, I am going to do this meld, $ and done!";         

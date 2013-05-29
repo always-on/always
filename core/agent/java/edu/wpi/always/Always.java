@@ -122,16 +122,9 @@ public class Always {
       UserModel userModel = container.getComponent(UserModel.class);
       if ( userModel != null ) userModel.load();
       CollaborationManager cm = container.getComponent(CollaborationManager.class);
-      // for debugging given plugin activity
-      if ( plugin != null) {
-         container.addComponent(plugin);
-         Plugin p = container.getComponent(plugin);
-         for (Registry r : p.getRegistries(new Activity(plugin, activity, 0, 0, 0, 0)))
-            addCMRegistry(r);
-      }
       for (Registry registry : cmRegistries) cm.addRegistry(registry);
       System.out.println("Starting Collaboration Manager");
-      cm.start(plugin == null);
+      cm.start(plugin, activity);
       System.out.println("Always running...");
       if ( plugin != null ) container.getComponent(plugin).startActivity(activity);
    }
