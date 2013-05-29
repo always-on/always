@@ -35,7 +35,7 @@
     /* These variables can be changed either here or using eval command in console */
     
     edu.wpi.always.Always.TRACE = true;
-    edu.wpi.always.DiscoRT.TRACE = false;
+    edu.wpi.disco.rt.DiscoRT.TRACE = false;
     
   </script>
 

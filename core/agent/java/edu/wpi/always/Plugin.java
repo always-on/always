@@ -126,7 +126,8 @@ public abstract class Plugin {
       schemas.add(activity);
       // store information for arbitrator focus assignment
       String task = name;
-      Properties properties = interaction.getDisco().getProperties(); 
+      Properties properties = interaction.getDisco().getModel("urn:always.wpi.edu:Actitivies")
+                                 .getProperties(); 
       for ( String key : properties.stringPropertyNames() ) 
          if ( key.endsWith("@activity") && name.equals(properties.get(key)) )
             task = key.substring(0, key.length()-9);
