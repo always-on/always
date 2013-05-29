@@ -1,6 +1,8 @@
 package edu.wpi.disco.rt.schema;
 
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.behavior.Behavior;
 import org.picocontainer.*;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
@@ -29,16 +31,20 @@ public class SchemaManager {
 
    public <T extends Schema> T start (Class<T> type) {
       if ( DiscoRT.TRACE ) System.out.println("Starting: "+type);
+      T instance = null;
       if ( factories.containsKey(type) ) {
          SchemaFactory factory = factories.get(type);
-         @SuppressWarnings("unchecked")
-         T instance = (T) factory.create(container);
+         instance = (T) factory.create(container);
          ScheduledFuture<?> future = scheduler.schedule(instance, factory.getUpdateDelay());
          instance.setFuture(future);
          return instance;
+      } else {
+         instance = container.getComponent(type);
+         scheduler.schedule(instance, Schema.DEFAULT_INTERVAL);
       }
-      T instance = container.getComponent(type);
-      scheduler.schedule(instance, Schema.DEFAULT_INTERVAL);
+      // initialize with empty behavior to avoid focus warning in Arbitrator
+      container.getComponent(BehaviorProposalReceiver.class)
+         .add(instance, Behavior.NULL, new BehaviorMetadataBuilder().specificity(0).build());
       return instance;
    }
 

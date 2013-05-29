@@ -25,8 +25,7 @@ public class RummySchema extends ActivitySchema {
       BehaviorMetadata m = r.getMetadata();
       Behavior b = r.build();
       if ( b.equals(Behavior.NULL) && !plugin.gameOver() ) {
-         propose(new ProposalBuilder().idle().build(),
-               ActivitySchema.SPECIFICITY);
+         propose(new ProposalBuilder().idle().build(), ActivitySchema.SPECIFICITY);
       } else {
          propose(b, m);
       }

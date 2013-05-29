@@ -11,12 +11,12 @@ public class CandidateBehaviorsContainer implements
       BehaviorProposalReceiver, ICandidateBehaviorsContainer {
 
    private final Map<Schema, CandidateBehavior> candidates = Maps.newHashMap();
-   private final ConcurrentLinkedQueue<CandidateBehavior> newPropsals = new ConcurrentLinkedQueue<CandidateBehavior>();
+   private final ConcurrentLinkedQueue<CandidateBehavior> newProposals = new ConcurrentLinkedQueue<CandidateBehavior>();
    private final ReentrantLock LOCK_candidates = new ReentrantLock();
 
    @Override
    public void add (Schema schema, Behavior behavior, BehaviorMetadata metadata) {
-      newPropsals.add(new CandidateBehavior(behavior, schema, metadata));
+      newProposals.add(new CandidateBehavior(behavior, schema, metadata));
    }
 
    @Override
@@ -29,7 +29,7 @@ public class CandidateBehaviorsContainer implements
    // according to current design, only arbitrator would cause this to be
    // called
    private void copyNewProposalsToCandidatesList () {
-      CandidateBehavior p = newPropsals.poll();
+      CandidateBehavior p = newProposals.poll();
       while (p != null) {
          LOCK_candidates.lock();
          try {
@@ -38,7 +38,7 @@ public class CandidateBehaviorsContainer implements
          } finally {
             LOCK_candidates.unlock();
          }
-         p = newPropsals.poll();
+         p = newProposals.poll();
       }
    }
 }

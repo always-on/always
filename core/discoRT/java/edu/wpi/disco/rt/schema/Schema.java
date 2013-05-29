@@ -25,6 +25,8 @@ public interface Schema extends Runnable {
     
    /**
     * Called by executor each time this schema is given focus resource.
+    * 
+    * @see Schema.Base#getFocusMillis()
     */
     void focus ();
     
