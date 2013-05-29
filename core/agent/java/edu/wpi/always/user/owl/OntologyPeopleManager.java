@@ -3,6 +3,9 @@ package edu.wpi.always.user.owl;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
+import edu.wpi.always.user.places.Place;
+import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
+
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import java.util.Set;
 
@@ -48,6 +51,34 @@ public class OntologyPeopleManager implements PeopleManager {
          person.setGender(gender);
       return person;
    }
+   
+   @Override
+   public OntologyPerson addPerson(String name, Relationship relationship, Gender gender, 
+		   String age, String phoneNumber, String SkypeNumber, String address, String ZipCode, String spouse){
+	      OntologyIndividual owlPerson = helper.getNamedIndividual(name);
+	      owlPerson.addSuperclass(OntologyPerson.PERSON_CLASS);
+	      OntologyPerson person = new OntologyPerson(
+	            helper.getOntologyDataObject(), model, owlPerson);
+	      person.setName(name);
+	      if ( relationship != null )
+	         getUser().addRelated(person, relationship);
+	      if ( gender != null )
+	         person.setGender(gender);
+	      if ( age != null)
+	    	 person.setAge(age);
+	      if ( phoneNumber != null)
+	    	  person.setPhoneNumber(phoneNumber);
+	      if ( SkypeNumber != null) 
+	    	  person.setSkypeNumber(SkypeNumber);
+	      if ( address != null)
+	    	  person.setAddress(address);
+	      if ( ZipCode != null)
+	    	  person.setZipCode(ZipCode);
+	      if ( spouse != null)
+	    	  person.setSpouse(spouse);
+	      return person;
+	   }
+	   
 
    public OntologyPerson getPerson (OntologyIndividual owlPerson) {
       if ( owlPerson == null )

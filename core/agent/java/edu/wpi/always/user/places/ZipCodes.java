@@ -13,7 +13,7 @@ public class ZipCodes {
       private final String state;
       private final DateTimeZone timezone;
 
-      ZipCodeEntry (String rawData) {
+      public ZipCodeEntry (String rawData) {
          String[] dataStrings = rawData.split(",");
          for (int i = 0; i < dataStrings.length; ++i) {
             dataStrings[i] = dataStrings[i].substring(1,

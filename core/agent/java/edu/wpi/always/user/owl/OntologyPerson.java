@@ -3,6 +3,8 @@ package edu.wpi.always.user.owl;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
+import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
+
 import org.joda.time.*;
 import org.semanticweb.owlapi.model.*;
 import java.util.*;
@@ -15,8 +17,14 @@ public class OntologyPerson implements Person {
    public static final String MALE_PERSON_CLASS = "MalePerson";
    public static final String NAME_PROPERTY = "PersonName";
    public static final String BIRTHDAY_PROPERTY = "PersonBirthday";
-   public static final String LIVES_IN_PROPERTY = "PersonLivesIn";
+   public static final String ADDRESS_PROPERTY = "PersonAddress";
+   public static final String ZIPCODE_PROPERTY = "PersonZipCode";
    public static final String PHONE_NUMBER_PROPERTY = "PersonPhoneNumber";
+   public static final String SKYPE_NUMBER_PROPERTY = "PersonSkypeNumber";
+   public static final String AGE_PROPERTY = "PersonAge";
+   public static final String SPOUSE_PROPERTY = "PersonSpouse";
+   public static final String RELATION_PROPERTY = "PersonRelation";
+   public static final String LIVES_IN_PROPERTY = "PersonLivesIn";
    private final OntologyHelper helper;
    private final OntologyIndividual owlPerson;
    private final OntologyUserModel model;
@@ -76,6 +84,46 @@ public class OntologyPerson implements Person {
    public String getPhoneNumber () {
       return owlPerson.getDataPropertyValue(PHONE_NUMBER_PROPERTY).asString();
    }
+   
+   @Override
+   public void setSpouse (String spouse) {
+	   owlPerson.setDataProperty(SPOUSE_PROPERTY, helper.getLiteral(spouse));
+   }
+   
+   @Override
+   public String getSpouse () {
+	   return owlPerson.getDataPropertyValue(SPOUSE_PROPERTY).asString();
+   }
+   
+   @Override
+   public void setSkypeNumber (String number) {
+	   owlPerson.setDataProperty(SKYPE_NUMBER_PROPERTY, helper.getLiteral(number));
+   }
+   
+   @Override 
+   public String getSkypeNumber () {
+	   return owlPerson.getDataPropertyValue(SKYPE_NUMBER_PROPERTY).asString();
+   }
+   
+   @Override
+   public void setAge (String age){
+	   owlPerson.setDataProperty(AGE_PROPERTY, helper.getLiteral(age));
+   }
+   
+   @Override
+   public String getAge () {
+	   return owlPerson.getDataPropertyValue(AGE_PROPERTY).asString();
+   }
+   
+   @Override
+   public void setRelationship(Relationship relationship){
+	   owlPerson.setDataProperty(RELATION_PROPERTY, helper.getLiteral(relationship.toString()));
+   }
+   
+   @Override
+   public String getRelationship () {
+	   return owlPerson.getDataPropertyValue(RELATION_PROPERTY).asString();
+   }
 
    @Override
    public void setGender (Gender gender) {
@@ -104,17 +152,25 @@ public class OntologyPerson implements Person {
    public MonthDay getBirthday () {
       return owlPerson.getDataPropertyValue(BIRTHDAY_PROPERTY).asMonthDay();
    }
-
+   
    @Override
-   public Place getLocation () {
-      return model.getPlaceManager().getPlace(
-            owlPerson.getObjectPropertyValue(LIVES_IN_PROPERTY));
+   public void setAddress(String Address){
+	   owlPerson.setDataProperty(ADDRESS_PROPERTY, helper.getLiteral(Address));
+   }
+   
+   @Override
+   public String getAddress () {
+	   return owlPerson.getDataPropertyValue(ADDRESS_PROPERTY).asString();
    }
 
    @Override
-   public void setLocation (Place place) {
-      owlPerson.setObjectProperty(LIVES_IN_PROPERTY, model.getPlaceManager()
-            .getPlace(place.getZip()).getIndividual());
+   public String getZipCode () {
+	   return owlPerson.getDataPropertyValue(ZIPCODE_PROPERTY).asString();
+   }
+
+   @Override
+   public void setZipCode (String ZipCode) {
+	   owlPerson.setDataProperty(ZIPCODE_PROPERTY, helper.getLiteral(ZipCode));
    }
 
    @Override
@@ -139,6 +195,18 @@ public class OntologyPerson implements Person {
          birthdayEntry.setStart(day.toDateTime(new DateMidnight()));
          model.getCalendar().update(birthdayEntry, true);
       }
+   }
+   
+   @Override
+   public Place getLocation () {
+      return model.getPlaceManager().getPlace(
+            owlPerson.getObjectPropertyValue(LIVES_IN_PROPERTY));
+   }
+
+   @Override
+   public void setLocation (Place place) {
+      owlPerson.setObjectProperty(LIVES_IN_PROPERTY, model.getPlaceManager()
+            .getPlace(place.getZip()).getIndividual());
    }
 
    @Override
