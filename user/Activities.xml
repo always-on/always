@@ -12,6 +12,8 @@
   <task id="PlayRummy"/>
 
   <task id="DiscussWeather"/>
+  
+  <task id="EnrollUser"/>
 
   <script init="true">
 

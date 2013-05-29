@@ -1,13 +1,13 @@
 package edu.wpi.always.enroll;
 
 import edu.wpi.always.*;
-import edu.wpi.always.cm.ICollaborationManager;
+import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.enroll.schema.EnrollSchema;
 import edu.wpi.always.user.UserModel;
 
 public class EnrollPlugin extends Plugin{
 
-	public EnrollPlugin(UserModel userModel, ICollaborationManager cm) {
+	public EnrollPlugin(UserModel userModel, CollaborationManager cm) {
 		super("Enroll", userModel, cm);
 		addActivity("EnrollUser", 0, 0, 0, 0, EnrollSchema.class); 
 	}
