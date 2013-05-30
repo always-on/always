@@ -88,7 +88,7 @@ public class ClientProxy {
    
    public void showMenu (List<String> items, boolean twoColumn, boolean extension) {
       JsonArray menus = new JsonArray();
-      for (String s : items) menus.add(new JsonPrimitive(s));
+      if ( items != null ) for (String s : items) menus.add(new JsonPrimitive(s));
       JsonObject body = new JsonObject();
       body.add("menus", menus);
       body.addProperty("twoColumn", twoColumn);

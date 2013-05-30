@@ -1,6 +1,8 @@
 package edu.wpi.disco.rt.realizer.petri;
 
 import com.google.common.collect.Maps;
+import edu.wpi.disco.rt.DiscoRT;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.util.*;
 import java.util.*;
@@ -34,10 +36,9 @@ public class PetriRealizer implements CompoundRealizer {
       PetriNetRunner petriRunner = new PetriNetRunner(start);
       petriRunner.run();
       if ( !petriRunner.getFailedPlaces().isEmpty() ) {
-         System.out.println();
-         System.out.println("WARNING: PetriRealizer failed in "
+         // can happen if resources stopped during compound execution
+         if ( DiscoRT.TRACE) System.err.println("WARNING: PetriRealizer failed in "
             + petriRunner.getFailedPlaces().size() + " places!");
-         System.out.println();
       }
       setDone();
    }

@@ -5,6 +5,7 @@ import java.util.List;
 public abstract class Utils {
  
    public static String listify (List<?> list) {
+      if ( list == null ) return "()";
       StringBuffer buffer = new StringBuffer();
       boolean first = true;
       for (Object object : list) {

@@ -66,6 +66,7 @@ namespace Agent.Tcp
 				dir = AgentGaze.Mid;
 
 			_agent.Turn(dir);
+
 		}
 
 		private void Express(JObject args)

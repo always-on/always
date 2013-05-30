@@ -2,36 +2,24 @@ package edu.wpi.always.calendar.schema;
 
 import edu.wpi.always.calendar.CalendarUI;
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.dialog.*;
-import edu.wpi.always.cm.perceptors.MenuPerceptor;
-import edu.wpi.always.cm.schemas.ActivitySchema;
+import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
-import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.schema.SchemaBase;
+import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public class CalendarSchema extends ActivitySchema {
-
-   private final MenuTurnStateMachine stateMachine;
+public class CalendarSchema extends ActivityStateMachineSchema {
 
    public CalendarSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, CalendarUI calendarUI,
          Calendar calendar, UIMessageDispatcher dispatcher,
          PlaceManager placeManager, PeopleManager peopleManager) {
-      super(behaviorReceiver, behaviorHistory);
-      stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
-            menuPerceptor, new RepeatMenuTimeoutHandler());
-      stateMachine.setSpecificityMetadata(.9);
-      stateMachine.setAdjacencyPair(new WhatDo(new CalendarStateContext(
-            keyboard, calendarUI, calendar, dispatcher, placeManager,
-            peopleManager)));
+      super(new WhatDo(new CalendarStateContext(
+                keyboard, calendarUI, calendar, dispatcher, placeManager, peopleManager)),
+            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
    }
 
-   @Override
-   public void run () {
-      propose(stateMachine);
-   }
 }

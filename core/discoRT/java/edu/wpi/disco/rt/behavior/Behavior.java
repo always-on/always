@@ -6,8 +6,8 @@ import java.util.*;
 
 public class Behavior {
 
-   public static Behavior NULL = new Behavior(
-         Collections.<PrimitiveBehavior> emptyList());
+   public static Behavior NULL = new Behavior(Collections.<PrimitiveBehavior> emptyList());
+   
    private final CompoundBehavior inner;
 
    private Behavior (List<PrimitiveBehavior> required) {

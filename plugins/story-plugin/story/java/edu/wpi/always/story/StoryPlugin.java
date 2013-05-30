@@ -1,17 +1,15 @@
 package edu.wpi.always.story;
 
 import edu.wpi.always.*;
-import edu.wpi.always.cm.ICollaborationManager;
+import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.dummy.DummySpeechPerceptor;
 import edu.wpi.always.story.schema.*;
 import edu.wpi.always.user.UserModel;
-import edu.wpi.disco.rt.schema.*;
-import edu.wpi.disco.rt.util.ComponentRegistry;
-import org.picocontainer.*;
+import edu.wpi.disco.rt.schema.SchemaConfig;
 
 public class StoryPlugin extends Plugin {
    
-   public StoryPlugin (UserModel userModel, ICollaborationManager cm) {
+   public StoryPlugin (UserModel userModel, CollaborationManager cm) {
       super("Story", userModel, cm);
       addActivity("RecordStory", 0, 0, 0, 0,
             StorySchema.class, 

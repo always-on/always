@@ -1,8 +1,8 @@
 package edu.wpi.always.calendar.schema;
 
 import edu.wpi.always.calendar.CalendarUIListener;
-import edu.wpi.always.cm.dialog.*;
 import edu.wpi.always.user.calendar.CalendarEntry;
+import edu.wpi.disco.rt.menu.*;
 import org.joda.time.LocalDate;
 
 public class CalendarAdjacencyPairImpl extends

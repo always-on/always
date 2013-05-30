@@ -18,7 +18,7 @@ public class UIMessagingJson {
          }
          o = g.fromJson(jsonStr, JsonElement.class).getAsJsonObject();
       } catch (com.google.gson.JsonSyntaxException ex) {
-         System.out.println("json syntax error for <" + jsonStr + ">");
+         System.err.println("json syntax error for <" + jsonStr + ">");
          if ( ex.getCause() instanceof java.io.EOFException
             || ex.getCause() instanceof com.google.gson.stream.MalformedJsonException ) {
             saved = jsonStr;

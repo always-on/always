@@ -1,15 +1,14 @@
 package edu.wpi.always.cm.schemas;
 
 import edu.wpi.always.*;
-import edu.wpi.always.cm.dialog.DiscoAdjacencyPair;
-import edu.wpi.always.cm.perceptors.MenuPerceptor;
-import edu.wpi.always.rm.IRelationshipManager;
+import edu.wpi.always.client.ClientProxy;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.DiscoDocument;
 import org.picocontainer.MutablePicoContainer;
@@ -23,10 +22,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Interaction interaction,
-         IRelationshipManager rm, Always always) {
+         RelationshipManager rm, ClientProxy proxy, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
       container = always.getContainer();
-      stop = new Stop(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
+      stop = new Stop(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction,
+                      proxy);
       DiscoDocument session = rm.getSession();
       if ( session != null ) {
          interaction.load("Relationship Manager", 
@@ -38,59 +38,82 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                       .setInterrupt(false);
    }
 
-   private final Map<Task,Schema> started = new HashMap<Task,Schema>();
+   // activities for which startActivity has been called (not same as Plan.isStarted)
+   private final Map<Task,ActivitySchema> started = new HashMap<Task,ActivitySchema>();
    
    // note this schema uses menu with focus and menu extension without focus
    
    @Override
    public void run () {
-      Plan focus = interaction.getFocus();
+      Plan focus = interaction.getFocusExhausted(true);
       if ( focus != null ) {
          Task goal = focus.getGoal();
+         if ( goal instanceof Propose.Should ) {
+            goal = ((Propose.Should) goal).getGoal();
+            focus = focus.getParent();
+         }
          Schema schema = started.get(goal);
          if ( schema != null ) {
             if ( schema.isDone() ) {
                focus.setComplete(true);
                started.remove(goal);
+            } else yield(goal);
+         } else {
+            if ( focus.isLive() && Utils.isTrue(goal.getShould()) ) {
+               if ( !focus.isStarted() ) {
+                  TaskClass task = goal.getType();
+                  started.put(goal,
+                        Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
+                  focus.setStarted(true);
+                  yield(goal);
+               }
             }
-         } else if ( focus.isLive() && edu.wpi.cetask.Utils.isTrue(goal.getShould())
-               && !focus.isStarted() ) {
-            TaskClass task = goal.getType();
-            Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task));
-            focus.setStarted(true);
-            stop.setGoal(goal);
-            stateMachine.setAdjacencyPair(stop);
-            stateMachine.setExtension(true);
-            stateMachine.setSpecificityMetadata(0.5);
-            setNeedsFocusResource(false);
-            propose(stateMachine);
-            return; 
          }
-      } // fall through
-      stateMachine.setAdjacencyPair(discoAdjacencyPair);
-      stateMachine.setExtension(false);
-      stateMachine.setSpecificityMetadata(0.9);
-      setNeedsFocusResource(true);
+      }
+      // fall through when session plan exhausted or focused activity schema done 
+      // or focused task stopped 
       propose(stateMachine);
+   }
+   
+   private void yield (Task goal) {
+      stop.setGoal(goal);
+      stop.update();
+      stateMachine.setAdjacencyPair(stop);
+      stateMachine.setExtension(true);
+      stateMachine.setSpecificityMetadata(0.5);
+      setNeedsFocusResource(false);
    }
    
    private class Stop extends DiscoAdjacencyPair {
       
       private Task goal;
+      private final ClientProxy proxy;
       
       private void setGoal (Task goal) { this.goal = goal; }
       
       public Stop (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction) {
+         MenuPerceptor menuPerceptor, Interaction interaction, ClientProxy proxy) {
          super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
-         this.goal = goal;
+         this.proxy = proxy;
       }
       
       @Override
-      protected void update () {
-          update(null, Collections.singletonList(
-                Agenda.newItem(new Propose.Stop(interaction.getDisco(), true, goal), null)));
+      public void update () {
+         update(null, Collections.singletonList(
+               Agenda.newItem(new Propose.Stop(interaction.getDisco(), true, goal), null)));
+      }
+      
+      @Override
+      public AdjacencyPair nextState (String text) {
+         super.nextState(text);
+         proxy.showMenu(Collections.<String>emptyList(), false, true); // clear extension menu
+         // TODO clear client plugin display
+         discoAdjacencyPair.update();
+         stateMachine.setExtension(false);
+         stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
+         setNeedsFocusResource(true);
+         return discoAdjacencyPair; // one shot
       }
    }
  

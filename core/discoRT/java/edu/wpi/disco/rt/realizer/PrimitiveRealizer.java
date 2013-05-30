@@ -1,5 +1,7 @@
 package edu.wpi.disco.rt.realizer;
 
+import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
+
 /**
  * A PrimitiveRealizer's run() method will be called periodically for it to do
  * something (if needed). Do not hold the thread. A PrimitiveRealizer should not
