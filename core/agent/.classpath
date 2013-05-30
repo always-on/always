@@ -38,5 +38,5 @@
 	<classpathentry kind="lib" path="lib/owlapi/pellet-owlapiv3.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-rules.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/discoRT"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="class"/>
 </classpath>
