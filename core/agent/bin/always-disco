@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Usage: always-disco[ <filename> ]
+#
+# Runs the given script file using UserUtils.Disco and compares resulting temporary
+# log with corresponding test log file <filename>.test, if it exists
+#
+dir="`dirname $0`"
+"$dir/../../discoRT/lib/disco1.6.10/bin/_run" edu.wpi.always.user.UserUtils\$Disco "$1" ../../../../core/agent/class ../../../../core/discoRT/class lib/disco.jar ../../../../core/agent/lib/log4j-1.2.17.jar ../../../../core/discoRT/lib/picocontainer-2.14.1.jar
