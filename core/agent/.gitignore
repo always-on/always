@@ -1,2 +1,4 @@
 # ignore linked resource
 USER
+# override default
+!bin/*
