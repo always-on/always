@@ -27,7 +27,11 @@ public class EnrollStateContext {
 	public Keyboard getKeyboard() {
 		return keyboard;
 	}
-
+	
+	public void hideKeyboard() {
+		keyboard.hideKeyboard();
+	}
+	
 
 	public UIMessageDispatcher getDispatcher() {
 		return dispatcher;

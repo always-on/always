@@ -25,6 +25,7 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			PersonName = text;
 			return new PersonAgeAdjacencyPair(getContext());
 		}
@@ -33,7 +34,6 @@ public abstract class EnrollAdjacencyPairs{
 		public AdjacencyPair cancel() {
 			return new InitialEnroll(getContext());
 		}
-
 	}
 
 	public static class PersonAgeAdjacencyPair extends
@@ -45,6 +45,7 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			PersonAge = text;
 			return new PersonGenderAdjacencyPair(getContext());
 		}
@@ -95,6 +96,7 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			address = text;
 			return new PersonZipCodeAdjacencyPair(getContext());
 		}
@@ -115,6 +117,7 @@ public abstract class EnrollAdjacencyPairs{
 		@Override
 		public AdjacencyPair success(String text) {
 			final AdjacencyPair result;
+			getContext().hideKeyboard();
 			if(ZipCode.isZipCodeValid(text)){
 				zipcode = text; 
 				result = new PersonRelationshipAdjacencyPair(getContext());
@@ -142,6 +145,7 @@ public abstract class EnrollAdjacencyPairs{
 		@Override
 		public AdjacencyPair success(String text) {
 			final AdjacencyPair result;
+			getContext().hideKeyboard();
 			if(ZipCode.isZipCodeValid(text)){
 				zipcode = text;
 				result = new PersonRelationshipAdjacencyPair(getContext());
@@ -287,6 +291,7 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			Spouse = text;
 			return new PersonContactAdjacencyPair(getContext());
 		}
@@ -333,6 +338,7 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			PhoneNumber = text;
 			return new SkypeNumberAdjacencyPair(getContext());
 		}
@@ -352,6 +358,7 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			SkypeNumber = text;
 			return new CheckCorrectionAdjacencyPair(getContext());
 		}

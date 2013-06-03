@@ -87,6 +87,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			PersonName = text;
 			return new CheckCorrectionAdjacencyPair(getContext());
 		}
@@ -130,6 +131,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			PersonAge = text;
 			return new CheckCorrectionAdjacencyPair(getContext());
 		}
@@ -149,6 +151,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			address = text;
 			return new EditZipCodeAdjacencyPair(getContext());
 		}
@@ -169,6 +172,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 		@Override
 		public AdjacencyPair success(String text) {
 			final AdjacencyPair result;
+			getContext().hideKeyboard();
 			if(ZipCode.isZipCodeValid(text)){
 				zipcode = text;
 				result = new CheckCorrectionAdjacencyPair(getContext());
@@ -196,6 +200,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 		@Override
 		public AdjacencyPair success(String text) {
 			final AdjacencyPair result;
+			getContext().hideKeyboard();
 			if(ZipCode.isZipCodeValid(text)){
 				zipcode = text;
 				result = new CheckCorrectionAdjacencyPair(getContext());
@@ -216,7 +221,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 	AdjacencyPairBase<EnrollStateContext> {
 
 		public EditRelationAdjacencyPair(final EnrollStateContext context) {
-			super("What is your relationship with this person?", context);
+			super("What is your relationship with this person?", context, true);
 			choice("Friend", new DialogStateTransition() {
 				@Override
 				public AdjacencyPair run() {
@@ -334,6 +339,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			Spouse = text;
 			return new CheckCorrectionAdjacencyPair(getContext());
 		}
@@ -353,6 +359,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			PhoneNumber = text;
 			return new CheckCorrectionAdjacencyPair(getContext());
 		}
@@ -372,6 +379,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
 			SkypeNumber = text;
 			return new CheckCorrectionAdjacencyPair(getContext());
 		}

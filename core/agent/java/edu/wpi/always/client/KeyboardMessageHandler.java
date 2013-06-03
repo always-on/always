@@ -30,7 +30,12 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler {
             InstanceReuseMode.Remove, data);
       latest = null;
    }
-
+   
+   @Override
+   public void hideKeyboard () {
+	   ClientPluginUtils.closePlugin(dispatcher);
+   }
+   
    @Override
    public void handleMessage (JsonObject body) {
       latest = body.get("text").getAsString();
