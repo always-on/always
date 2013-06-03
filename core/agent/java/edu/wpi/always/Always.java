@@ -23,7 +23,9 @@ public class Always {
       new Always(true).start();
    }
 
-    /**
+  
+   
+   /**
     * Most recent instance of Always.  Useful for scripts.
     */
    public static Always THIS;
@@ -70,7 +72,7 @@ public class Always {
    }
  
    private void init (boolean logToConsole, boolean allPlugins) {
-       if ( logToConsole )
+      if ( logToConsole )
          BasicConfigurator.configure();
       else
          BasicConfigurator.configure(new NullAppender());

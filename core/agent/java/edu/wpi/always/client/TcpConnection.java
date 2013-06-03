@@ -46,7 +46,11 @@ public class TcpConnection implements RemoteConnection {
                } catch (Exception e) { e.printStackTrace(); }
             }
          });
-      } catch (ConnectException e) { System.err.println("Unable to connect to "+hostname+" "+port); }
+      } catch (ConnectException e) { 
+         System.err.println(e.getMessage()+" to "+hostname+" "+port+" (retrying)"); 
+         try { Thread.sleep(3000);  } catch (InterruptedException i) {}
+         connect();
+      }
         catch (Exception e) { throw new RuntimeException(e); }
    }
 

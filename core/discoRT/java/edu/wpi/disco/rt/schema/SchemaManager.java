@@ -42,9 +42,6 @@ public class SchemaManager {
          instance = container.getComponent(type);
          scheduler.schedule(instance, Schema.DEFAULT_INTERVAL);
       }
-      // initialize with empty behavior to avoid focus warning in Arbitrator
-      container.getComponent(BehaviorProposalReceiver.class)
-         .add(instance, Behavior.NULL, new BehaviorMetadataBuilder().specificity(0).build());
       return instance;
    }
 

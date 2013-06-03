@@ -54,15 +54,8 @@ public class Arbitrator implements Runnable {
                }
             }
          }
-         warning:
-         if ( focusProposal == null ) {
-            focusSchema = null;
-            if ( focusPlan == null || focusPlan.isStarted() ) {
-               for (CandidateBehavior p : candidateBehaviors.all()) // including empty behaviors
-                  if ( p.getProposer().getClass() == schema ) break warning;
-               System.err.println("WARNING: Focus schema is not running: "+schema);
-            }
-         } else focusProposal = null; // for decide
+         if ( focusProposal == null ) focusSchema = null;
+         else focusProposal = null; // for decide
       } else { // Disco doesn't care
          for (CandidateBehavior proposal : proposals)
             if ( proposal.getProposer() == focusSchema && !proposal.getBehavior().isEmpty() ) { 
