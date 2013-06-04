@@ -24,7 +24,7 @@ public class WundergroundAlert implements Alert {
       String alert = helper.getData(pathString);
       System.err.println(alert);
       if ( alert.isEmpty() )
-         alertMessage = null;
+         alertMessage = "There is no severe alert in your area.";
       else
          alertMessage = "There is an active severe alert in your area.";
    }

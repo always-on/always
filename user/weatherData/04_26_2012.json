@@ -56,6 +56,18 @@
 			"temperature" : "43",
 			"weatherCondition" : "Overcast",
 			"humidity" : "85%"
+		},
+		"Chicago" : {
+			"locationName" : "Chicago, MA",
+			"temperature" : "67",
+			"weatherCondition" : "partly sunny",
+			"humidity" : "25%"
+		},
+		"NewYork" : {
+			"locationName" : "New York City",
+			"temperature" : "75",
+			"weatherCondition" : "sunny",
+			"humidity" : "35%"
 		}
 	},
 	"friendsCities" : {
@@ -65,11 +77,18 @@
 			"weatherCondition" : "Mostly Cloudy",
 			"humidity" : "22%"
 		},
+		"Bob" : {
+			"locationName" : "Boston, MA",
+			"temperature" : "??",
+			"weatherCondition" : "just like here",
+			"humidity" : "same as here"
+		},
 		"Lucy" : {
 			"locationName" : "Prospect Creek Camp, AK",
 			"temperature" : "16",
 			"weatherCondition" : "Mostly Cloudy",
 			"humidity" : "84%"
 		}
+
 	}
 }

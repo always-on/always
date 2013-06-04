@@ -1,7 +1,5 @@
-  > eval period = "morning"
   > eval date = "04_26_2012"
-  > load models/Wea.xml
-  > task Weather
+  > load java/edu/wpi/always/weather/resources/Weather.xml
   > say
   >> 1
   > say
@@ -10,56 +8,53 @@
   >> 1
   > say
   >> 2
-  > say 
+  > say
   >> 3
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 2
+  > say
+  >> 6
+  > say
+  >> 9
+  > say
+  >> 10
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 1
+  > say
+  >> 2
+  > say
+  >> 1
+  > say
+  >> 3
+  > say
+  >> 1
   > say
   >> 4
   > say
-  >> 1
-  > say
-  >> 1
-  > say
-  >> 1
-  > say
   >> 2
   > say
-  >> 3
-  > say
-  >> 4
-  > say
-  >> 3
-  > say
-  >> 1
-  > say
-  >> 1
-  > say
-  >> 2
-  > say
-  >> 1
-  > say
-  >> 1
-  > say
-  >> 1
-  > say
-  >> 1
-  > say
-  >> 1
-  > say
-  >> 3
-  > say
-  >> 1
-  > say
-  >> 2
-  > say
-  >> 2
-  > say
-  >> 1
-  > say
-  >> 4
-  > say
-  >> 1
-  > say
-  >> 1
-  > say
-  >> 1
-  > quit
+  >> quit
