@@ -1,9 +1,6 @@
-  > eval date = "04_26_2012"
+  > eval date="testing"
   > load java/edu/wpi/always/weather/resources/Weather.xml
-  > say
-  >> 1
-  > say
-  >> 1
+  > task _WeatherCompanion
   > say
   >> 1
   > say
@@ -15,21 +12,17 @@
   > say
   >> 1
   > say
-  >> 2
+  >> 1
+  > say
+  >> 3
+  > say
+  >> 1
   > say
   >> 6
   > say
-  >> 9
+  >> 2
   > say
-  >> 10
-  > say
-  >> 1
-  > say
-  >> 1
-  > say
-  >> 1
-  > say
-  >> 1
+  >> 2
   > say
   >> 1
   > say
@@ -46,15 +39,4 @@
   >> 1
   > say
   >> 2
-  > say
-  >> 1
-  > say
-  >> 3
-  > say
-  >> 1
-  > say
-  >> 4
-  > say
-  >> 2
-  > say
-  >> quit
+  > quit
