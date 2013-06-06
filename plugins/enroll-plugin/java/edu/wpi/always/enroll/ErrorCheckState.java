@@ -76,6 +76,12 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				}
 			});
 		}
+		@Override
+		public void enter() {
+			person = getContext().getPeopleManager().addPerson(PersonName, relationship, gender, 
+					PersonAge, PhoneNumber, SkypeNumber, address, zipcode, Spouse);
+			getContext().getEnrollUI().showCurrentEntry(person);
+		}
 	}
 
 	public static class EditNameAdjacencyPair extends

@@ -5,6 +5,7 @@ import edu.wpi.disco.rt.menu.*;
 import edu.wpi.always.enroll.schema.EnrollStateContext;
 import edu.wpi.always.enroll.schema.InitialEnroll;
 import edu.wpi.always.user.places.ZipCode;
+import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.people.Person.*;
 import edu.wpi.always.enroll.ErrorCheckState.*;
 
@@ -15,6 +16,7 @@ public abstract class EnrollAdjacencyPairs{
 	protected static Gender gender;
 	protected static String address;
 	protected static String zipcode;
+	protected static Person person;
 
 	public static class PersonNameAdjacencyPair extends 
 	KeyboardAdjacencyPair<EnrollStateContext> {

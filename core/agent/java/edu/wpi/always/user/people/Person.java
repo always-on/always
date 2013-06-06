@@ -19,6 +19,8 @@ public interface Person {
    }
 
    String getName ();
+   
+   void setName (String name);
 
    Gender getGender ();
    

@@ -20,6 +20,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.Startup", "Plugins.Startup\Plugins.Startup.csproj", "{2AF75B52-B93A-4108-9415-2F1840ED9E21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enroll.UI", "Enroll.UI\Enroll.UI.csproj", "{1E33773D-EA6F-4AF0-B852-FBA2DB98E7E6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47A8AF0B-EBB2-4825-8B0D-E0C06B5E2421} = {47A8AF0B-EBB2-4825-8B0D-E0C06B5E2421}
+		{FD346CEB-A57F-4A76-8FA0-6418F9AD529E} = {FD346CEB-A57F-4A76-8FA0-6418F9AD529E}
+		{721F79EC-9534-4D00-881E-842A6DFC1D1D} = {721F79EC-9534-4D00-881E-842A6DFC1D1D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

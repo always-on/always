@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Agent.Tcp;
+using Enroll.UI;
+using System.Windows.Threading;
+using Agent.Core;
+using Newtonsoft.Json.Linq;
+
+namespace Enroll.UI
+{
+    class EnrollPlugin : IPlugin
+    {
+        EnrollEntryPanel enrollEntryPanel;
+        IMessageDispatcher _remote;
+        IUIThreadDispatcher _uiThreadDispatcher;
+
+        public EnrollPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
+        {
+            this._remote = remote;
+            this._uiThreadDispatcher = uiThreadDispatcher;
+            uiThreadDispatcher.BlockingInvoke(() =>
+            {
+				enrollEntryPanel  = new EnrollEntryPanel();
+            });
+
+            _remote.RegisterReceiveHandler("enroll.display",
+				  new MessageHandlerDelegateWrapper(m => display(m)));
+        }
+
+        public void Dispose()
+		{
+			_remote.RemoveReceiveHandler("enroll.display");
+		}
+
+        private readonly Object displayLock = new Object();
+        private void display(JObject m)
+        {
+            lock (displayLock)
+            {
+                _uiThreadDispatcher.BlockingInvoke(() =>
+                {
+                    enrollEntryPanel.label10.Content = m["name"];
+                    enrollEntryPanel.label11.Content = m["age"];
+                    enrollEntryPanel.label12.Content = m["gender"];
+                    enrollEntryPanel.label13.Content = m["relationship"];
+                    enrollEntryPanel.label14.Content = m["address"];
+                    enrollEntryPanel.label15.Content = m["zipcode"];
+                    enrollEntryPanel.label16.Content = m["spouse"];
+                    enrollEntryPanel.label17.Content = m["phoneNumber"];
+                    enrollEntryPanel.label18.Content = m["skypeAccount"];
+                });
+            }
+        }
+
+        public System.Windows.UIElement GetUIElement()
+        {
+            return enrollEntryPanel;
+        }
+    }
+}

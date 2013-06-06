@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Enroll.UI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EnrollEntryPanel : UserControl
     {
-        public MainWindow()
+        public EnrollEntryPanel()
         {
             InitializeComponent();
         }

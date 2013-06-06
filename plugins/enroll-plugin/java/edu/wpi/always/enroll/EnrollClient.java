@@ -1,0 +1,80 @@
+package edu.wpi.always.enroll;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import edu.wpi.always.client.ClientPluginUtils;
+import edu.wpi.always.client.Message;
+import edu.wpi.always.client.UIMessageDispatcher;
+import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
+import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.always.user.people.Person;
+
+public class EnrollClient implements EnrollUI{
+
+	private static final String PLUGIN_NAME = "enroll";
+	private static final String MSG_ENROLL_DISPLAY = "enroll.display";
+	private final PeopleManager enroll;
+	private final UIMessageDispatcher dispatcher;
+
+	public EnrollClient (final PeopleManager enroll,
+			UIMessageDispatcher dispatcher) {
+		this.enroll = enroll;
+		this.dispatcher = dispatcher;
+	}
+	private void show () {
+		ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
+				InstanceReuseMode.Reuse, null);
+	}
+
+	@Override
+	public void showAllEntries() {
+		show();
+		Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "people")
+				.add("peopleData", getPeopleData()).build();
+		dispatcher.send(m);
+	}
+
+	@Override
+	public void showCurrentEntry(Person person) {
+		show();
+		Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
+				.add("name", person.getName())
+				.add("age", person.getAge())
+				.add("gender", person.getGender().toString())
+				.add("address", person.getAddress())
+				.add("zipcode", person.getZipCode())
+				.add("relationship", person.getRelationship())
+				.add("spouse", person.getSpouse())
+				.add("phoneNumber", person.getPhoneNumber())
+				.add("skypeAccount", person.getSkypeNumber())
+				.build();
+		dispatcher.send(m);
+	}
+
+	public JsonElement getPeopleData () {
+		JsonArray People = new JsonArray();
+		Person[] entries = enroll.getPeople();
+		for (Person entry : entries)
+			People.add(asPersonJson(entry));
+		JsonObject peopleData = new JsonObject();
+		peopleData.add("entries", People);
+		return peopleData;
+	}
+
+	private JsonElement asPersonJson (Person src) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("name", src.getName());
+		jsonObject.addProperty("age", src.getAge());
+		jsonObject.addProperty("gender", src.getGender().toString());
+		jsonObject.addProperty("address", src.getAddress());
+		jsonObject.addProperty("relationship", src.getRelationship());
+		jsonObject.addProperty("zipcode", src.getZipCode());
+		jsonObject.addProperty("Spouse", src.getSpouse());
+		jsonObject.addProperty("phoneNumber", src.getPhoneNumber());
+		jsonObject.addProperty("skypeAccount", src.getSkypeNumber());
+		return jsonObject;
+	}
+
+}
