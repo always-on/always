@@ -29,7 +29,7 @@
 				"date" : "02/14/2012",
 				"daysApartFromToday" : 0
 			},
-			"summary" : "Cloudy. Near steady temperature in the lower 40s. Southwest winds 5 to 10 mph. "
+			"summary" : "Cloudy. Near steady temperature in the lower 40s. Southwest winds 5 to 10 mph."
 		}, {
 			"date" : {
 				"date" : "02/15/2012",
@@ -39,20 +39,45 @@
 		}
 	],
 	"interestCities" : {
+		"Boston" : {
+			"locationName" : "Boston, MA",
+			"comment" : "Well, you could just look out the window!",
+			"temperature" : "32.5",	  
+			"weatherCondition" : "Overcast",
+			"humidity" : "24%"
+			},
+		"New York" : {
+			"locationName" : "New York, NY",
+			"comment" : "The big apple.",
+			"temperature" : "75",
+			"weatherCondition" : "sunny",
+			"humidity" : "35%"
+		},
 		"Miami" : {
 			"locationName" : "Miami, FL",
+  			"comment" : "City of beaches.",
 			"temperature" : "76.7",
 			"weatherCondition" : "Mostly Cloudy",
 			"humidity" : "66%"
 		},
+		"New Orleans" : {
+			"locationName" : "New Orleans, LA",
+			"comment" : "The big easy.",
+			"temperature" : "75",
+			"weatherCondition" : "sunny",
+			"humidity" : "35%"
+		
+		},
 		"San Francisco" : {
 			"locationName" : "San Francisco, CA",
+			"comment" : "The Golden Gate city.",
 			"temperature" : "51.1",
 			"weatherCondition" : "Partly Cloudy",
 			"humidity" : "60%"
 		},
 		"Seattle" : {
 			"locationName" : "Seattle, WA",
+			"comment" : "The emerald city, home of Mount Rainier.",
 			"temperature" : "43",
 			"weatherCondition" : "Overcast",
 			"humidity" : "85%"
@@ -64,6 +89,12 @@
 			"temperature" : "61.9",
 			"weatherCondition" : "Mostly Cloudy",
 			"humidity" : "22%"
+		},
+		"Bob" : {
+			"locationName" : "Boston, MA",
+			"temperature" : "66",
+			"weatherCondition" : "just like here",
+			"humidity" : "same as here"
 		},
 		"Lucy" : {
 			"locationName" : "Prospect Creek Camp, AK",

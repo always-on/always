@@ -16,25 +16,29 @@ public class RelationshipManager {
       interaction = cm.getContainer().getComponent(Interaction.class);
    }
    
-   public enum Closeness { Stranger, Acquaintance, Companion }
-
    private Closeness closeness = Closeness.Stranger;
    
+   public Closeness getCloseness () { return closeness; }
+   
    /**
-    * To call from Disco console, e.g.,
+    * To call from Disco console:
     * 
-    * <code>eval ALWAYS.getRM().setCloseness(edu.wpi.always.rm.Closeness.Acquaintance)</code>
+    * <code>eval $always.getRM().setCloseness(edu.wpi.always.Closeness.Acquaintance)</code>
     */
    public void setCloseness (Closeness closeness) {
       this.closeness = closeness;
    }
    
    public DiscoDocument getSession () { 
-      return new DiscoDocument(interaction.getDisco(),
-            closeness == Closeness.Stranger ? "Stranger.xml" :
-               closeness == Closeness.Acquaintance ? "Acquaintance.xml" :
-                  closeness == Closeness.Companion ? "Companion.xml" : 
-                     null);
+      switch (closeness) {
+         case Stranger:
+            return new DiscoDocument(interaction.getDisco(), "Stranger.xml"); 
+         case Acquaintance:
+            return new DiscoDocument(interaction.getDisco(), "Acquaintance.xml"); 
+         case Companion:
+            return new DiscoDocument(interaction.getDisco(), "Acquaintance.xml");
+         default: throw new IllegalStateException("Unknown closeness value: "+closeness);
+      }
    }
 
    public void afterInteraction (Interaction interaction, int closeness, int time) { }

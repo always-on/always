@@ -5,7 +5,7 @@ import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.*;
-import edu.wpi.disco.Disco;
+import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.apache.log4j.BasicConfigurator;
@@ -17,31 +17,57 @@ import java.util.*;
 public class Always {
 
    /**
-    * Main method for starting complete Always-On system
+    * Main method for starting complete Always-On system. First argument
+    * [optional] is closeness value (as string): "stranger", "acquaintance", 
+    * or "companion".
     */
    public static void main (String[] args) {
-      new Always(true).start();
+      Always always = new Always(true);
+      always.setCloseness(args);
+      always.start();
    }
-
-  
+   
+   /**
+    * Nested class with main method for testing Disco task models (and accessing
+    * user model) without starting Always GUI.
+    */
+   public static class Disco {
+      public static void main (String[] args) { 
+         Interaction interaction = new Interaction(
+            new Agent("agent"), 
+            new User("user"),
+            args.length > 0 && args[0].length() > 0 ? args[0] : null);
+         Always always = new Always(false);        
+         // initialize duplication instance created above
+         Always.init(interaction);
+         interaction.start(true);
+      }
+   }
+   
+   public void setCloseness (String[] args) {
+      if ( args != null && args.length > 0 ) {
+         Closeness closeness = Closeness.valueOf(args[0]);
+         System.out.println("Using closeness = "+closeness);
+         getRM().setCloseness(closeness);
+      }
+         
+   }
    
    /**
     * Most recent instance of Always.  Useful for scripts.
     */
    public static Always THIS;
-
-   /**
-    * For convenience in Disco task models.
-    */
-   public static UserModel getUserModel () {
-      return THIS.container.getComponent(UserModel.class);
+   
+   public CollaborationManager getCM () {
+      return container.getComponent(CollaborationManager.class);
    }
    
-    /**
-    * For convenience in Disco console.
-    */
-   public static RelationshipManager getRM () {
-      return THIS.container.getComponent(RelationshipManager.class);
+   public RelationshipManager getRM () {
+      return container.getComponent(RelationshipManager.class);
+   }
+   
+   public UserModel getUserModel () {
+      return container.getComponent(UserModel.class);
    }
    
    /**
@@ -85,7 +111,16 @@ public class Always {
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas(allPlugins));
       THIS = this;
+      init(container.getComponent(CollaborationManager.class).getInteraction());
    }
+
+   public static void init (Interaction interaction) {
+      edu.wpi.disco.Disco disco = interaction.getDisco();
+      // for convenient use in Disco scripts
+      disco.setGlobal("$always", THIS);
+      disco.eval("edu.wpi.always = Packages.edu.wpi.always;", "Always.init");
+   }
+
    // for constructor below--see start
    private Class<? extends Plugin> plugin; 
    private String activity;

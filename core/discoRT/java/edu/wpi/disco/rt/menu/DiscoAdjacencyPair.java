@@ -35,6 +35,9 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
 
    @Override
    public void enter () {}
+   
+   @Override
+   public boolean isCircular () { return true; }
 
    @Override
    public AdjacencyPair nextState (String text) {
@@ -44,6 +47,7 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
                current.items.get(i).contributes, text);
          update(); 
       }
+      // transition is always circular, so this is not really a "state"!
       return this;
    }
 
@@ -72,11 +76,12 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
       private final List<String> choices;
 
       public Cache (Utterance utterance, List<Plugin.Item> items) {
-         this.message = utterance == null ? null : interaction.formatUtterance(utterance, true);
+         this.message = utterance == null ? null : interaction.format(utterance, true);
          this.items = items;
          choices = new ArrayList<String>(items.size());
-         for (Plugin.Item item : items) 
-            choices.add(interaction.formatUtterance((Utterance) item.task, false));
+         for (Plugin.Item item : items) {
+            choices.add(item.formatted != null ? item.formatted : interaction.format(item, false));
+         }
       }
    }
 

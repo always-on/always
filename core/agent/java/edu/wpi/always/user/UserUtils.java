@@ -57,21 +57,6 @@ public abstract class UserUtils {
       stream.println("CALENDAR");
       CalendarUtils.print(model.getCalendar(), stream);
    }
-   
-   /**
-    * Nested class with main method for testing Disco task models (and accessing
-    * user model) without running Always client
-    */
-   public static class Disco {
-      public static void main (String[] args) { 
-         Interaction interaction = new Interaction(
-            new Agent("agent"), 
-            new User("user"),
-            args.length > 0 && args[0].length() > 0 ? args[0] : null);
-         interaction.getDisco().setGlobal("ALWAYS", new Always(false));
-         interaction.start(true);
-      }
-   }
 
    private UserUtils () {}
 }

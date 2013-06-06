@@ -19,6 +19,8 @@ public class Arbitrator implements Runnable {
    private List<Resource> freeResources;
    private List<CandidateBehavior> proposals, selected;
 
+   public Schema getFocus () { return focusSchema; }
+   
    public Arbitrator (ArbitrationStrategy strategy, IRealizer realizer,
          ICandidateBehaviorsContainer behaviors, DiscoRT discoRT) {
       this.strategy = strategy;

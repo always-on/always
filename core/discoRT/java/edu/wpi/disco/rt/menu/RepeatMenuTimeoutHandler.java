@@ -61,5 +61,10 @@ public class RepeatMenuTimeoutHandler implements MenuTimeoutHandler {
       public boolean isTwoColumnMenu () {
          return inner.isTwoColumnMenu();
       }
+      
+       @Override
+      public boolean isCircular () {
+         return inner.isCircular();
+      }
    }
 }

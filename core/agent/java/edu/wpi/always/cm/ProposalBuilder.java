@@ -55,8 +55,13 @@ public class ProposalBuilder implements BehaviorBuilder {
       return this;
    }
 
+   /**
+    * Add specified menu behavior to built behavior.  If choices is null, the
+    * {@link MenuBehavior#EMPTY} is added (see documentation).
+    */
    public ProposalBuilder showMenu (List<String> choices, boolean twoColumn) {
-      internalAdd(new MenuBehavior(choices, twoColumn, false));
+      internalAdd(choices == null ? MenuBehavior.EMPTY : 
+         new MenuBehavior(choices, twoColumn, false));
       return this;
    }
    

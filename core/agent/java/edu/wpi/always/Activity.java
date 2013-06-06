@@ -13,7 +13,7 @@ public class Activity {
     * <p>
     * The following are the four metadata parameters of an activity as described in
     * "Activity Planning for Long-Term Relationships", W. Coon, C. Rich and C. Sidner
-    * (to be submitted).  They are all non-negative integers.
+    * They are all non-negative integers.  Note these values are currently not used.
     * 
     * FIXME review closeness values in RM
     * 

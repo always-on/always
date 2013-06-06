@@ -42,15 +42,21 @@ public abstract class SchemaBase implements Schema {
       return future == null || future.isDone();
    }
    
-   private long focus;
+   private long focusMillis;
    
    @Override
-   public void focus () { focus = System.currentTimeMillis(); }
-   
+   public void focus () {
+      focusMillis = System.currentTimeMillis();
+   }
+
    /**
-    * Return the number of milliseconds since this schema last had focus.
+    * Return number of milliseconds since this schema's proposal including
+    * focus was most recently chosen by arbitrator (or -1 if never).
+    * NB: Do not assume this schema currently has the focus.
     */
-   protected long getFocusMillis () { return System.currentTimeMillis() - focus; }
+   protected long getFocusMillis () {
+      return focusMillis == 0 ? -1 : (System.currentTimeMillis() - focusMillis); 
+   }
    
    protected void proposeNothing () {
       propose(Behavior.NULL, 0);
