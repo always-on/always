@@ -13,8 +13,8 @@ import java.util.*;
 
 public class DiscoRT {
    
-   private static final long ARBITRATOR_INTERVAL = 50;
-   private static final long PERCEPTORS_INTERVAL = 200;
+   public static final long ARBITRATOR_INTERVAL = 50;
+   public static final long PERCEPTORS_INTERVAL = 200;
       
    /**
     * To enabled tracing of DiscoRT implementation.  Note this variable can be conveniently

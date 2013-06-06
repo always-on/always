@@ -20,22 +20,22 @@
          <binding slot="$_WeatherAlert_step.external" value="false"/>
       </subtasks>
    </task>
-   <task id="WeatherStats">
-      <subtasks id="_WeatherStats_subtasks">
-         <step name="_WeatherStats_step" task="disco:Say"/>
-         <step name="_WeatherStats_ref" task="_WeatherStats_tree"/>
-         <binding slot="$_WeatherStats_step.text"
+   <task id="WeatherAlmanac">
+      <subtasks id="_WeatherAlmanac_subtasks">
+         <step name="_WeatherAlmanac_step" task="disco:Say"/>
+         <step name="_WeatherAlmanac_ref" task="_WeatherAlmanac_tree"/>
+         <binding slot="$_WeatherAlmanac_step.text"
                   value="&#34;Are you interested in knowing the record weather for today in the history?&#34;"/>
-         <binding slot="$_WeatherStats_step.external" value="false"/>
+         <binding slot="$_WeatherAlmanac_step.external" value="false"/>
       </subtasks>
    </task>
-   <task id="DoStats">
-      <subtasks id="_DoStats_subtasks">
-         <step name="_DoStats_step" task="disco:Say$Expression"/>
-         <step name="_DoStats_ref" task="_DoStats_tree"/>
-         <binding slot="$_DoStats_step.text"
+   <task id="DoAlmanac">
+      <subtasks id="_DoAlmanac_subtasks">
+         <step name="_DoAlmanac_step" task="disco:Say$Expression"/>
+         <step name="_DoAlmanac_ref" task="_DoAlmanac_tree"/>
+         <binding slot="$_DoAlmanac_step.text"
                   value="&#34;\&#34;The record high is \&#34;+($W.almanac.recordHigh.extremeTemp)+\&#34; F. It happened in \&#34;+($W.almanac.recordHigh.year)+\&#34;.\&#34;&#34;"/>
-         <binding slot="$_DoStats_step.external" value="false"/>
+         <binding slot="$_DoAlmanac_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_Ending">
@@ -92,7 +92,7 @@
          <binding slot="$_d4e44_step.external" value="true"/>
       </subtasks>
    </task>
-   <task id="_WeatherStats_tree">
+   <task id="_WeatherAlmanac_tree">
       <subtasks id="_talk_stats_bad_option_subtasks">
          <step name="_talk_stats_bad_option_step" task="disco:Say"/>
          <step name="_d4e47_step" task="disco:Say"/>
@@ -105,13 +105,13 @@
       </subtasks>
       <subtasks id="_d4e52_subtasks">
          <step name="_d4e52_step" task="disco:Say"/>
-         <step name="_d4e53_step" task="DoStats"/>
+         <step name="_d4e53_step" task="DoAlmanac"/>
          <binding slot="$_d4e52_step.text" value="&#34;okay I guess&#34;"/>
          <binding slot="$_d4e52_step.external" value="true"/>
       </subtasks>
       <subtasks id="_d4e54_subtasks">
          <step name="_d4e54_step" task="disco:Say"/>
-         <step name="_d4e55_step" task="DoStats"/>
+         <step name="_d4e55_step" task="DoAlmanac"/>
          <binding slot="$_d4e54_step.text" value="&#34;yes, tell me.&#34;"/>
          <binding slot="$_d4e54_step.external" value="true"/>
       </subtasks>
@@ -119,7 +119,7 @@
    <task id="_d4e47_tree">
       <subtasks id="_d4e48_subtasks">
          <step name="_d4e48_step" task="disco:Say"/>
-         <step name="_d4e49_step" task="DoStats"/>
+         <step name="_d4e49_step" task="DoAlmanac"/>
          <binding slot="$_d4e48_step.text" value="&#34;Alright. What's the record weather?&#34;"/>
          <binding slot="$_d4e48_step.external" value="true"/>
       </subtasks>
@@ -132,7 +132,7 @@
          <binding slot="$_d4e51_step.external" value="false"/>
       </subtasks>
    </task>
-   <task id="_DoStats_tree">
+   <task id="_DoAlmanac_tree">
       <subtasks id="_d4e57_subtasks">
          <step name="_d4e57_step" task="disco:Say"/>
          <step name="_d4e58_step" task="disco:Say$Expression"/>
@@ -219,7 +219,7 @@
          <step name="local" task="WeatherLocal"/>
          <step name="alerts" task="WeatherAlert"/>
          <step name="city" task="WeatherCity" minOccurs="0" maxOccurs="10"/>
-         <step name="stats" task="WeatherStats"/>
+         <step name="stats" task="WeatherAlmanac"/>
          <step name="ending" task="_Ending"/>
       </subtasks>
    </task>
@@ -228,7 +228,7 @@
          <step name="local" task="WeatherLocal"/>
          <step name="alerts" task="WeatherAlert"/>
          <step name="city" task="WeatherCity" minOccurs="0" maxOccurs="10"/>
-         <step name="stats" task="WeatherStats"/>
+         <step name="stats" task="WeatherAlmanac"/>
          <step name="friend" task="WeatherFriend" minOccurs="0" maxOccurs="10"/>
          <step name="ending" task="_Ending"/>
       </subtasks>
@@ -260,12 +260,21 @@
       
       // load date from always/user (must be on classpath!)
 
-      var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(
-		    java.lang.ClassLoader.getSystemResource("weatherData/"+
-		    (date == undefined ? todayDate() : date)+
-		    ".json").openStream()));
+      var resource = getResource(); 
+		if ( resource == null ) {
+		   println("Cannot find weather data for "+todayDate());
+		   println("Using testing data...");
+		   date = "testing";
+		   resource = getResource();
+		} 
+		
+      var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(resource.openStream()));
 
-
+      function getResource () {
+         return java.lang.ClassLoader.getSystemResource("weatherData/"+
+		                       (date == undefined ? todayDate() : date)+".json");
+      }
+      
       function todayDate () { // return today's date, e.g., 02_14_2012
 	      var currentTime = new Date();
 	      var month = currentTime.getMonth() + 1;

@@ -12,12 +12,21 @@
       
       // load date from always/user (must be on classpath!)
 
-      var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(
-		    java.lang.ClassLoader.getSystemResource("weatherData/"+
-		    (date == undefined ? todayDate() : date)+
-		    ".json").openStream()));
+      var resource = getResource(); 
+		if ( resource == null ) {
+		   println("Cannot find weather data for "+todayDate());
+		   println("Using testing data...");
+		   date = "testing";
+		   resource = getResource();
+		} 
+		
+      var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(resource.openStream()));
 
-
+      function getResource () {
+         return java.lang.ClassLoader.getSystemResource("weatherData/"+
+		                       (date == undefined ? todayDate() : date)+".json");
+      }
+      
       function todayDate () { // return today's date, e.g., 02_14_2012
 	      var currentTime = new Date();
 	      var month = currentTime.getMonth() + 1;

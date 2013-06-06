@@ -35,6 +35,9 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
 
    @Override
    public void enter () {}
+   
+   @Override
+   public boolean isCircular () { return true; }
 
    @Override
    public AdjacencyPair nextState (String text) {
@@ -44,6 +47,7 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
                current.items.get(i).contributes, text);
          update(); 
       }
+      // transition is always circular, so this is not really a "state"!
       return this;
    }
 

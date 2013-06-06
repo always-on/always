@@ -15,7 +15,7 @@ import java.awt.Point;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class RummyClient implements ClientPlugin {
+public class CopyOfRummyClient implements ClientPlugin {
 
    private static final String MSG_AVAILABLE_ACTION = "rummy.available_action";
    private static final String MSG_MOVE_HAPPENED = "rummy.move_happened";
@@ -37,9 +37,9 @@ public class RummyClient implements ClientPlugin {
    public static int TIMEOUT_DELAY = MenuTurnStateMachine.TIMEOUT_DELAY/2; // *3 
    
    private long waitingForUserSince; // millis or zero if not waiting
-   private boolean yourTurn;  // last proposal (not done)
+   private boolean yourTurn, menuUpdate;  // last proposal
 
-   public RummyClient (UIMessageDispatcher dispatcher) {
+   public CopyOfRummyClient (UIMessageDispatcher dispatcher) {
       this.dispatcher = dispatcher;
       registerHandlerFor(MSG_AVAILABLE_ACTION);
       registerHandlerFor(MSG_MOVE_HAPPENED);
@@ -76,9 +76,14 @@ public class RummyClient implements ClientPlugin {
 
    @Override
    public BehaviorBuilder updateInteraction (boolean lastProposalIsDone, double focusMillis) {
-      if ( lastProposalIsDone && yourTurn ) {
-         yourTurn = false;
-         waitingForUserSince = System.currentTimeMillis();
+      if ( lastProposalIsDone ) {
+         if ( menuUpdate ) {
+            menuUpdate = false;
+            yourTurn = true; // force reminder after return focus
+         } else if ( yourTurn ) {
+            yourTurn = false;
+            waitingForUserSince = System.currentTimeMillis();
+         }
       }
       // everything between here and **** below can be replaced by Morteza's
       // new architecture - CR
@@ -143,17 +148,18 @@ public class RummyClient implements ClientPlugin {
       }
       // ******** see note above
       //
-     if ( yourTurn  
-           || (waitingForUserSince > 0 
-               && ( (System.currentTimeMillis() - waitingForUserSince) > TIMEOUT_DELAY))
-           || (focusMillis > DiscoRT.ARBITRATOR_INTERVAL*5) ) {
+      // if (will be) returning from not having focus, 
+      // then force redisplay of extension menu
+      if ( menuUpdate || (waitingForUserSince > 0 
+            && focusMillis > DiscoRT.ARBITRATOR_INTERVAL*5) ) {
+         builder.showMenu(Collections.<String>emptyList(), false);
+         menuUpdate = true;
+      } else if ( yourTurn || (waitingForUserSince > 0 
+            && (System.currentTimeMillis() - waitingForUserSince) > TIMEOUT_DELAY) ) {
          builder.say("It's your turn");      
          yourTurn = true;
-      } else {
-         if ( waitingForUserSince == 0 ) waitingForUserSince = System.currentTimeMillis();
-         builder.showMenu(Collections.<String>emptyList(), false);
-      }
-      //**** never returns just null anymore--always empty menu
+      } else if ( waitingForUserSince == 0 ) 
+         waitingForUserSince = System.currentTimeMillis();
       // see RummySchema for idle behavior (if builder returns Behavior.NULL)
       return builder;
    }

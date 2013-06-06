@@ -21,7 +21,8 @@ public class RummySchema extends ActivitySchema {
          firstRun = false;
          plugin.initInteraction();
       }
-      BehaviorBuilder r = plugin.updateInteraction(lastProposalIsDone(), getFocusMillis());
+      BehaviorBuilder r = plugin.updateInteraction(lastProposalIsDone(), 
+            getFocusMillis());
       BehaviorMetadata m = r.getMetadata();
       Behavior b = r.build();
       if ( b.equals(Behavior.NULL) && !plugin.gameOver() ) {

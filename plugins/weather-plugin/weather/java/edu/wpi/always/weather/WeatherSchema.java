@@ -20,9 +20,9 @@ public class WeatherSchema extends DiscoActivitySchema {
       interaction.eval("date = \"testing\";", "Cached weather data");
       interaction.load("edu/wpi/always/weather/resources/Weather.xml"); 
       switch (Always.THIS.getRM().getCloseness()) {
-         case Stranger: start("_WeatherStranger");
-         case Acquaintance: start("_WeatherAcquaintance");
-         case Companion: start("_WeatherCompanion");
+         case Stranger: start("_WeatherStranger"); break;
+         case Acquaintance: start("_WeatherAcquaintance"); break;
+         case Companion: start("_WeatherCompanion"); break;
       }
    }
 }

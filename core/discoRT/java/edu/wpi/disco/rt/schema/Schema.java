@@ -24,7 +24,7 @@ public interface Schema extends Runnable {
    boolean isDone ();
     
    /**
-    * Called by executor each time this schema is given focus resource.
+    * Called by arbitrator each time this schema's proposal including focus is chosen.
     * 
     * @see Schema.Base#getFocusMillis()
     */

@@ -7,6 +7,9 @@
        See Activities.properties for plugin information
   -->
 
+  <!-- **TODO** add applicability conditions to these toplevel activities if
+                they are restricted to acquaintance or companion  -->
+                
   <task id="UseCalendar"/>
 
   <task id="PlayRummy"/>

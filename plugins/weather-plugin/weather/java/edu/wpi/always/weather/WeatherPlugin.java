@@ -11,7 +11,7 @@ public class WeatherPlugin extends Plugin {
    
    public WeatherPlugin (UserModel userModel, CollaborationManager cm) {
       super("Weather", userModel, cm);
-      addActivity("DiscussWeather", 0, 0, 0, 0, WeatherSchema.class, WundergroundWeatherProvider.class); 
+      addActivity("DiscussWeather", 0, 0, 0, 0, WeatherSchema.class); 
    }
    
    // Property names must be constants and start with plugin name
