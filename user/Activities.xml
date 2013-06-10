@@ -1,4 +1,4 @@
-<taskModel about="urn:always.wpi.edu:Actitivies"
+<taskModel about="urn:always.wpi.edu:Activities"
            xmlns="http://ce.org/cea-2018">
 
   <!-- This model is loaded at startup to register all of the activities and
@@ -7,6 +7,9 @@
        See Activities.properties for plugin information
   -->
 
+  <!-- **TODO** add applicability conditions to these toplevel activities if
+                they are restricted to acquaintance or companion  -->
+                
   <task id="UseCalendar"/>
 
   <task id="PlayRummy"/>
@@ -26,13 +29,9 @@
      similarly.
     */
   
-    edu.wpi.always = Packages.edu.wpi.always;
-    edu.wpi.disco = Packages.edu.wpi.disco;
-    edu.wpi.cetask = Packages.edu.wpi.cetask;
-    
-    ALWAYS = edu.wpi.always.Always.THIS;
-    
-    /* These variables can be changed either here or using eval command in console */
+    /* These variables can be changed either here or using eval command in console.  Note
+       the values here only apply to the session instance of Disco.  Tracing in Disco-based
+       plugins can be set in the plugin model or plugin console. */
     
     edu.wpi.always.Always.TRACE = true;
     edu.wpi.disco.rt.DiscoRT.TRACE = false;
