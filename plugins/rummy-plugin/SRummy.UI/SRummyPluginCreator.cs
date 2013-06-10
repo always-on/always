@@ -8,11 +8,11 @@ using System.Windows.Threading;
 
 namespace AgentApp
 {
-	public class sRummyPluginCreator : IPluginCreator
+	public class SRummyPluginCreator : IPluginCreator
 	{
 		IUIThreadDispatcher _uiThreadDispatcher;
         IMessageDispatcher _remoteDispatcher;
-		public sRummyPluginCreator(IUIThreadDispatcher uiThreadDispatcher, IMessageDispatcher remoteDispatcher)
+		public SRummyPluginCreator(IUIThreadDispatcher uiThreadDispatcher, IMessageDispatcher remoteDispatcher)
 		{
 			_uiThreadDispatcher = uiThreadDispatcher;
             _remoteDispatcher = remoteDispatcher;
@@ -22,7 +22,7 @@ namespace AgentApp
 		{
 			bool agentStarts = ShouldAgentStart(parameters);
 
-			return new sRummyPlugin(agentStarts, _remoteDispatcher, _uiThreadDispatcher);
+			return new SRummyPlugin(agentStarts, _remoteDispatcher, _uiThreadDispatcher);
 		}
 
 		private static bool ShouldAgentStart(JObject parameters)

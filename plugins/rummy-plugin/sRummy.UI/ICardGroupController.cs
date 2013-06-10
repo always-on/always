@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace sRummy.UI
+namespace SRummy.UI
 {
     public interface ICardGroupController
     {

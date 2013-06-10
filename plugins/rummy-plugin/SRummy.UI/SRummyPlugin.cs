@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Agent.Tcp;
+using Rummy.UI;
 using Rummy;
-using sRummy.UI;
 using System.Windows.Threading;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
 
 namespace AgentApp
 {
-    class sRummyPlugin : IPlugin
+    class SRummyPlugin : IPlugin
     {
         GameShape game;
-        GameStateManager stateManager;
         IMessageDispatcher _remote;
 
-        public sRummyPlugin(bool agentStarts, IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
+        public SRummyPlugin(bool agentStarts, IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
             this._remote = remote;
             uiThreadDispatcher.BlockingInvoke(() =>
@@ -30,7 +29,7 @@ namespace AgentApp
                     var body = new JObject();
                     Move m = game.AgentCardsController.GetBestMove();
                     body["action"] = MoveNameToSend(m);
-                    _remote.Send("srummy.available_action", body);
+                    _remote.Send("rummy.available_action", body);
                 };
 
                 game.GameState.StateChanged += (oldState, newState) =>
@@ -40,7 +39,7 @@ namespace AgentApp
 					body["old_tate"] = StateToSend(oldState);
 					body["user_cards"] = game.GameState.GetCards(GameShape.HumanPlayer).Count;
 					body["agent_cards"] = game.GameState.GetCards(GameShape.AgentPlayer).Count;
-					_remote.Send("srummy.state_changed", body);
+					_remote.Send("rummy.state_changed", body);
                 };
 
                 game.GameState.MoveHappened += m =>
@@ -48,16 +47,16 @@ namespace AgentApp
                     var body = new JObject();
                     body["move"] = MoveNameToSend(m);
                     body["player"] = PlayerNameToSend(m.Player);
-					_remote.Send("srummy.move_happened", body);
+					_remote.Send("rummy.move_happened", body);
                 };
             });
 
-            _remote.RegisterReceiveHandler("srummy.agent_move",
-				  new MessageHandlerDelegateWrapper(x => VisualizeMove(x)));
+            _remote.RegisterReceiveHandler("rummy.best_move",
+				  new MessageHandlerDelegateWrapper(x => DoBestMove()));
         }
 		public void Dispose()
 		{
-            _remote.RemoveReceiveHandler("srummy.agent_move");
+			_remote.RemoveReceiveHandler("rummy.best_move");
 		}
 
         private string StateToSend(State newState)
@@ -101,39 +100,23 @@ namespace AgentApp
             return m.GetType().Name.Replace("Move", "").ToLower();
         }
 
-        private void VisualizeMove(JObject move)
+		private void DoBestMove()
 		{
-            Player _player;
-            if (move["type"].ToString().Equals("meld"))
-            {
-                if(move["pile_name"].ToString().Equals("stock"))
-                    new MeldMove(_player, PileName.Stock);
-                else
-                    new MeldMove(_player, PileName.Discard);
-            }
-
-            if (move["type"].ToString().Equals("draw"))
-            {
-                if (move["pile_name"].ToString().Equals("stock"))
-                    new DrawMove(_player, PileName.Stock);
-                else
-                    new DrawMove(_player, PileName.Discard);
-            }
-
-            if (move["type"].ToString().Equals(""))
-            {
-
-            }
-                
-                
-                
-                
-                
-                
-                game.AgentCardsController.GetBestMove().Realize(game.GameState);
-                    
-					
-
+			LogUtils.LogWithTime("Doing rummy best move");
+			bool done = false;
+			int tries = 0;
+			while (!done && tries < 5)
+			{
+				try
+				{
+					tries++;
+					game.AgentCardsController.GetBestMove().Realize(game.GameState);
+					done = true;
+				}
+				catch (Exception)
+				{
+				}
+			}
 		}
 
         public System.Windows.UIElement GetUIElement()

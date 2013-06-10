@@ -16,7 +16,7 @@ namespace Plugins.Startup
             AgentApp.MainWindow.RegisterPlugin("keyboard", "SoftKeyboard.UI.SoftKeyboardPluginCreator,SoftKeyboard.UI");
             AgentApp.MainWindow.RegisterPlugin("calendar", "Calendar.UI.CalendarPluginCreator,Calendar.UI");
             AgentApp.MainWindow.RegisterPlugin("rummy", "AgentApp.RummyPluginCreator,Rummy.UI");
-            AgentApp.MainWindow.RegisterPlugin("srummy", "AgentApp.RummyPluginCreator,Rummy.UI");
+            AgentApp.MainWindow.RegisterPlugin("srummy", "AgentApp.SRummyPluginCreator,SRummy.UI");
             AgentApp.MainWindow.RegisterPlugin("story", "Story.UI.StoryPluginCreator,Story.UI");
         }
     }

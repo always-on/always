@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows;
 
-namespace sRummy.UI
+namespace SRummy.UI
 {
     public class CardPlaceHolder : ContentControl
     {

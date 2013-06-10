@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace sRummy.UI.Properties
+namespace SRummy.UI.Properties
 {
 
 

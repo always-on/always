@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{55040CC2-82AF-44F2-B941-38329DE9EC0E}</ProjectGuid>
+    <ProjectGuid>{9FB35514-B476-4C98-A312-1AE219B7AE78}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>sRummy.UI</RootNamespace>
-    <AssemblyName>sRummy.UI</AssemblyName>
+    <RootNamespace>SRummy.UI</RootNamespace>
+    <AssemblyName>SRummy.UI</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -54,16 +54,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameStateManager.cs" />
-    <Compile Include="ICardGroupController.cs" />
-    <Compile Include="RandomAICardsController.cs" />
-    <Compile Include="RummyPlugin.cs" />
-    <Compile Include="RummyPluginCreator.cs" />
-    <Compile Include="StockPileController.cs" />
-    <Page Include="GameShape.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="CardDropEventArgs.cs" />
     <Compile Include="CardGroupControllerBase.cs" />
     <Compile Include="CardPlaceHolder.cs" />
@@ -73,10 +63,8 @@
     <Compile Include="FanCanvas.cs" />
     <Compile Include="GameShape.xaml.cs">
       <DependentUpon>GameShape.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="ICardGroupController.cs" />
     <Compile Include="IGameUIServices.cs" />
     <Compile Include="IHumanReadableError.cs" />
     <Compile Include="MeldController.cs" />
@@ -95,6 +83,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RandomAICardsController.cs" />
+    <Compile Include="SRummyPlugin.cs" />
+    <Compile Include="SRummyPluginCreator.cs" />
+    <Compile Include="StockPileController.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -104,6 +96,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="GameShape.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="CardBack.png" />
@@ -117,9 +115,9 @@
       <Project>{721F79EC-9534-4D00-881E-842A6DFC1D1D}</Project>
       <Name>Client.Tcp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\calendar-plugin\Calendar.UI\Calendar.UI.csproj">
-      <Project>{A14CC577-645D-475E-BED0-09F56E049E7A}</Project>
-      <Name>Calendar.UI</Name>
+    <ProjectReference Include="..\..\..\core\Client\Client.UI\Client.UI.csproj">
+      <Project>{47A8AF0B-EBB2-4825-8B0D-E0C06B5E2421}</Project>
+      <Name>Client.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Rummy.Game\Rummy.Game.csproj">
       <Project>{806B9BC5-F8C3-4E12-9353-CE13FFB47946}</Project>

@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 
-namespace sRummy.UI
+namespace SRummy.UI
 {
     /// <summary>
     /// Interaction logic for GameShape.xaml
@@ -66,9 +66,9 @@ namespace sRummy.UI
 
             SubscribeToFanCanvasDropEvents();
 
-            this.Loaded += (s, e) =>
+            this.Loaded += (s, e) => 
             {
-                AgentCardsController.CheckForActionOpportunity();
+                 AgentCardsController.CheckForActionOpportunity();
             };
         }
 
@@ -95,7 +95,7 @@ namespace sRummy.UI
                 var controller = new MeldController(this, fc, GameState, player);
                 FanCanvasControllers.Add(fc, controller);
 
-                top += topIncrement;
+                top += topIncrement; 
             }
 
             MeldShapes[player] = shapes;

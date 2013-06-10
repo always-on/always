@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Windows;
 
-namespace sRummy.UI
+namespace SRummy.UI
 {
     public class CardDropEventArgs : RoutedEventArgs
     {

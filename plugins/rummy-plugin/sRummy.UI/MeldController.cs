@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace sRummy.UI
+namespace SRummy.UI
 {
     public class MeldController : CardGroupControllerBase
     {

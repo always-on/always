@@ -9,7 +9,7 @@ using System.Windows.Markup;
 using System.Xml;
 using System.IO;
 
-namespace sRummy.UI 
+namespace SRummy.UI 
 {
     class DragAdorner : Adorner
     {

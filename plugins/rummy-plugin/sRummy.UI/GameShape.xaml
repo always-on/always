@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="sRummy.UI.GameShape"
+﻿<UserControl x:Class="Rummy.UI.GameShape"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="821" d:DesignWidth="1038" xmlns:my="clr-namespace:sRummy.UI"  MinHeight="850" MinWidth="1200">
+             d:DesignHeight="821" d:DesignWidth="1038" xmlns:my="clr-namespace:Rummy.UI"  MinHeight="850" MinWidth="1200">
     <UserControl.Background>
         <RadialGradientBrush>
             <GradientStop Color="orange" Offset="0" />

@@ -6,7 +6,7 @@ using System;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
-namespace sRummy.UI
+namespace SRummy.UI
 {
     //From Adam Nathan's WPF 4 Unleashed
     public class CardShape : ToggleButton

@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Collections.Specialized;
 
-namespace sRummy.UI
+namespace SRummy.UI
 {
     public class PlayerCardsController : CardGroupControllerBase
     {

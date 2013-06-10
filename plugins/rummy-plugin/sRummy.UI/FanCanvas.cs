@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Documents;
 using System.Collections.Generic;
 
-namespace sRummy.UI
+namespace SRummy.UI
 {
     public class FanCanvas : Panel
     {
