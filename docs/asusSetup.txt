@@ -1,0 +1,22 @@
+>>>NEW ASUS MACHINE SETUP INSTRUCTIONS<<<
+
+In setting up Windows for first time, the user name has to be set to 'mel'
+and Password is the same as other machines. 
+Useful software: Google chrome, skype, 7rar, winrar, dropbox, notepad++
+
+>>Uninstall native trial antivirus software, install MacAfee (also patch 1 if 8.8) from shares.wpi.edu/applications.
+
+> install Java 1.7
+> install .Net 2010
+> install Eclipse Juno SR1 (extracted folder is in C:)
+> Git 1.8 (or newer stable ver.)
+> Github
+> Tortoisegit
+> Settings for Git in Eclipse and .Net. Instructions available in "Development environment setup" document.
+> Tortoise SVN for fusion trunk access if required (or Eclipse SVN or both)
+
+>> GitHub folder is in documents folder.
+>> SHORE tested, works, (YOUCAM Process issue?)
+>> PIRmovementPerceptor class must test the PIR successfully.
+
+
