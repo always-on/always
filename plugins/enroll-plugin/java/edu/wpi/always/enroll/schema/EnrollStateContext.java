@@ -39,7 +39,6 @@ public class EnrollStateContext {
 		keyboard.hideKeyboard();
 	}
 	
-
 	public UIMessageDispatcher getDispatcher() {
 		return dispatcher;
 	}

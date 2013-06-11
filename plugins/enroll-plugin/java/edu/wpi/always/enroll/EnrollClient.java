@@ -76,5 +76,4 @@ public class EnrollClient implements EnrollUI{
 		jsonObject.addProperty("skypeAccount", src.getSkypeNumber());
 		return jsonObject;
 	}
-
 }
