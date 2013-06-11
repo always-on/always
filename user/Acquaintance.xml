@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
            xmlns:disco="urn:disco.wpi.edu:Disco"
-           xmlns:a="urn:always.wpi.edu:Actitivies"
+           xmlns:a="urn:always.wpi.edu:Activities"
            about="urn:always.wpi.edu:Acquaintance">
    <task id="_Greetings">
       <subtasks id="__Greetings_subtasks">
