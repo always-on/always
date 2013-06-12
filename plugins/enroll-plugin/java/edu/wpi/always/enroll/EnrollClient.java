@@ -39,10 +39,11 @@ public class EnrollClient implements EnrollUI{
 	@Override
 	public void showCurrentEntry(Person person) {
 		show();
+		String gender = (person.getGender() != null)? person.getGender().toString() : null;
 		Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
 				.add("name", person.getName())
 				.add("age", person.getAge())
-				.add("gender", person.getGender().toString())
+				.add("gender", gender)
 				.add("address", person.getAddress())
 				.add("zipcode", person.getZipCode())
 				.add("relationship", person.getRelationship())

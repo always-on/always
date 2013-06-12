@@ -71,14 +71,14 @@ public class OntologyPerson implements Person {
 	public void addRelated (Person otherPerson, Relationship relationship) {
 		owlPerson.addObjectProperty(relationship.name(),
 				helper.getNamedIndividual(otherPerson.getName()));// TODO remove
-				// dependancy on
-				// helper
+		// dependancy on
+		// helper
 	}
 
 	@Override
 	public void setPhoneNumber (String number) {
 		owlPerson.setDataProperty(PHONE_NUMBER_PROPERTY,
-				helper.getLiteral(number));
+				(number != null) ? helper.getLiteral(number) : null);
 	}
 
 	@Override
@@ -88,7 +88,8 @@ public class OntologyPerson implements Person {
 
 	@Override
 	public void setSpouse (String spouse) {
-		owlPerson.setDataProperty(SPOUSE_PROPERTY, helper.getLiteral(spouse));
+		owlPerson.setDataProperty(SPOUSE_PROPERTY, 
+				(spouse != null) ? helper.getLiteral(spouse) : null);
 	}
 
 	@Override
@@ -98,7 +99,8 @@ public class OntologyPerson implements Person {
 
 	@Override
 	public void setSkypeNumber (String number) {
-		owlPerson.setDataProperty(SKYPE_NUMBER_PROPERTY, helper.getLiteral(number));
+		owlPerson.setDataProperty(SKYPE_NUMBER_PROPERTY, 
+				(number != null) ? helper.getLiteral(number) : null);
 	}
 
 	@Override 
@@ -108,7 +110,8 @@ public class OntologyPerson implements Person {
 
 	@Override
 	public void setAge (String age){
-		owlPerson.setDataProperty(AGE_PROPERTY, helper.getLiteral(age));
+		owlPerson.setDataProperty(AGE_PROPERTY, 
+				(age != null) ? helper.getLiteral(age) : null);
 	}
 
 	@Override
@@ -118,7 +121,8 @@ public class OntologyPerson implements Person {
 
 	@Override
 	public void setRelationship(Relationship relationship){
-		owlPerson.setDataProperty(RELATION_PROPERTY, helper.getLiteral(relationship.name()));
+		owlPerson.setDataProperty(RELATION_PROPERTY, 
+				(relationship != null)? helper.getLiteral(relationship.name()) : null);
 	}
 
 	@Override
@@ -156,7 +160,8 @@ public class OntologyPerson implements Person {
 
 	@Override
 	public void setAddress(String Address){
-		owlPerson.setDataProperty(ADDRESS_PROPERTY, helper.getLiteral(Address));
+		owlPerson.setDataProperty(ADDRESS_PROPERTY, 
+				(Address != null)? helper.getLiteral(Address) : null);
 	}
 
 	@Override
@@ -171,7 +176,8 @@ public class OntologyPerson implements Person {
 
 	@Override
 	public void setZipCode (String ZipCode) {
-		owlPerson.setDataProperty(ZIPCODE_PROPERTY, helper.getLiteral(ZipCode));
+		owlPerson.setDataProperty(ZIPCODE_PROPERTY, 
+				(ZipCode != null) ? helper.getLiteral(ZipCode) : null);
 	}
 
 	@Override

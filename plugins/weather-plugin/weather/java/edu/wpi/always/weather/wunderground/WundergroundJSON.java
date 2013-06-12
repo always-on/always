@@ -45,7 +45,7 @@ public class WundergroundJSON {
 		}
 	}
 
-	/* TODO READ FROM ONTOLOGY */
+	/*HARD CODE SIMILAR TO testing.json */
 	private static Map<String, String> createCityMap() {
 	    Map<String, String> result = new HashMap<String, String>();
 	    result.put("Seattle", "98106");
