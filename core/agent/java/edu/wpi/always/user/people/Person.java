@@ -30,10 +30,6 @@ public interface Person {
    
    void setBirthday (MonthDay day);
 
-   String getZipCode ();
-
-   void setZipCode (String ZipCode);
-
    String getPhoneNumber ();
    
    void setPhoneNumber (String number);

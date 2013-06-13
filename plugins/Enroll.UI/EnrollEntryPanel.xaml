@@ -4,25 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="1479" d:DesignWidth="965">
-    <Grid Height="1452" Width="1014">
-        <Label Content="Name" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="38,38,0,0" Name="label1" VerticalAlignment="Top" Width="206" />
-        <Label Content="Age" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="38,114,0,0" Name="label2" VerticalAlignment="Top" Width="206" />
-        <Label Content="Gender" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="38,190,0,0" Name="label3" VerticalAlignment="Top" Width="206" />
-        <Label Content="Relationship" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="38,266,0,0" Name="label4" VerticalAlignment="Top" Width="206" />
-        <Label Content="Address" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="38,342,0,0" Name="label5" VerticalAlignment="Top" Width="206" />
-        <Label Content="ZipCode" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="38,418,0,0" Name="label6" VerticalAlignment="Top" Width="206" />
-        <Label Content="Spouse" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="38,494,0,0" Name="label7" VerticalAlignment="Top" Width="206" />
-        <Label Content="Phone" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="38,570,0,0" Name="label8" VerticalAlignment="Top" Width="206" />
-        <Label Content="Skype" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="38,646,0,0" Name="label9" VerticalAlignment="Top" Width="206" />
-        <Label Content="" FontSize="35" Height="70" HorizontalAlignment="Right" Margin="0,38,74,0" Name="label10" VerticalAlignment="Top" Width="690" />
-        <Label Content="" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="250,114,0,0" Name="label11" VerticalAlignment="Top" Width="690" />
-        <Label Content="" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="250,190,0,0" Name="label12" VerticalAlignment="Top" Width="690" />
-        <Label Content="" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="250,266,0,0" Name="label13" VerticalAlignment="Top" Width="690" />
-        <Label Content="" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="250,342,0,0" Name="label14" VerticalAlignment="Top" Width="690" />
-        <Label Content="" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="250,418,0,0" Name="label15" VerticalAlignment="Top" Width="690" />
-        <Label Content="" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="250,494,0,0" Name="label16" VerticalAlignment="Top" Width="690" />
-        <Label Content="" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="250,570,0,0" Name="label17" VerticalAlignment="Top" Width="690" />
-        <Label Content="" FontSize="35" Height="70" HorizontalAlignment="Left" Margin="250,646,0,0" Name="label18" VerticalAlignment="Top" Width="690" />
+             d:DesignHeight="3100" d:DesignWidth="5220">
+    <Grid Height="2910" Width="4785">
+        <Label Content="Name:" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="363,125,0,0" Name="label1" VerticalAlignment="Top" Width="560" />
+        <Label Content="Age:" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="363,431,0,0" Name="label2" VerticalAlignment="Top" Width="508" />
+        <Label Content="Gender:" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="363,737,0,0" Name="label3" VerticalAlignment="Top" Width="560" />
+        <Label Content="Relationship:" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="363,1043,0,0" Name="label4" VerticalAlignment="Top" Width="825" />
+        <Label Content="Address:" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="363,1655,0,0" Name="label5" VerticalAlignment="Top" Width="560" />
+        <Label Content="ZipCode:" FontSize="120" HorizontalAlignment="Left" Margin="363,1349,0,0" Name="label6" Width="560" Height="300" VerticalAlignment="Top" />
+        <Label Content="Spouse:" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="363,1961,0,0" Name="label7" VerticalAlignment="Top" Width="560" />
+        <Label Content="Phone:" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="363,2267,0,0" Name="label8" VerticalAlignment="Top" Width="560" />
+        <Label Content="Skype:" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="363,2573,0,0" Name="label9" VerticalAlignment="Top" Width="560" />
+        <Label Content="" FontSize="120" Height="300" HorizontalAlignment="Right" Margin="0,125,164,0" Name="label10" VerticalAlignment="Top" Width="2993" />
+        <Label Content="" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="1628,431,0,0" Name="label11" VerticalAlignment="Top" Width="2993" />
+        <Label Content="" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="1628,737,0,0" Name="label12" VerticalAlignment="Top" Width="2993" />
+        <Label Content="" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="1628,1043,0,0" Name="label13" VerticalAlignment="Top" Width="2993" />
+        <Label Content="" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="1628,1349,0,0" Name="label14" VerticalAlignment="Top" Width="2993" />
+        <Label Content="" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="1628,1655,0,0" Name="label15" VerticalAlignment="Top" Width="2993" />
+        <Label Content="" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="1628,1961,0,0" Name="label16" VerticalAlignment="Top" Width="2993" />
+        <Label Content="" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="1628,2267,0,0" Name="label17" VerticalAlignment="Top" Width="2993" />
+        <Label Content="" FontSize="120" Height="300" HorizontalAlignment="Left" Margin="1628,2573,0,0" Name="label18" VerticalAlignment="Top" Width="2993" />
     </Grid>
 </UserControl>

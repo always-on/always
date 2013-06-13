@@ -4,9 +4,11 @@ import edu.wpi.always.client.KeyboardAdjacencyPair;
 import edu.wpi.always.enroll.schema.EnrollStateContext;
 import edu.wpi.always.enroll.schema.InitialEnroll;
 import edu.wpi.always.user.people.Person;
+import edu.wpi.always.user.people.ValidPhoneOrAge;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
-import edu.wpi.always.user.places.ZipCode;
+import edu.wpi.always.user.places.ZipCodes;
+import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 import edu.wpi.disco.rt.menu.AdjacencyPair;
 import edu.wpi.disco.rt.menu.AdjacencyPairBase;
 import edu.wpi.disco.rt.menu.DialogStateTransition;
@@ -150,16 +152,22 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 		private Person person;
 
 		public ChangeAgeAdjacencyPair(final EnrollStateContext context, final Person person) {
-			super("What is the person's age?", "Enter " + person.getName() + "'s age", 
+			super("What is the person's age?", "Enter " + person.getName() + "'s age (Integer Only)", 
 					context, context.getKeyboard());
 			this.person = person;
 		}
 
 		@Override
 		public AdjacencyPair success(String text) {
-			getContext().hideKeyboard();
-			person.setAge(text);
-			return new EditPersonAdjacencyPair(getContext(), person);
+			if(ValidPhoneOrAge.isInteger(text)){
+				getContext().hideKeyboard();
+				person.setAge(text);
+				return new EditPersonAdjacencyPair(getContext(), person);
+			}
+			else{
+				getContext().hideKeyboard();
+				return new ChangeAgeAdjacencyPair(getContext(), person);
+			}
 		}
 
 		@Override
@@ -209,21 +217,22 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			final AdjacencyPair result;
-			getContext().hideKeyboard();
-			if(ZipCode.isZipCodeValid(text)){
-				person.setZipCode(text);
-				result = new EditPersonAdjacencyPair(getContext(), person);
+			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
+			ZipCodeEntry zip = zipcodes.getPlaceData(text);
+			if(zip != null){
+				person.setLocation(getContext().getPlaceManager().getPlace(zip.getZip()));
+				getContext().hideKeyboard();
+				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				result = new ChangeZipCodeAgainInvalidAdjacencyPair(getContext());
+				getContext().hideKeyboard();
+				return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext());
 			}
-			return result;
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			person.setZipCode(null);
+			person.setLocation(null);
 			getContext().hideKeyboard();
 			return new EditPersonAdjacencyPair(getContext(), person);
 		}
@@ -240,21 +249,22 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			final AdjacencyPair result;
-			getContext().hideKeyboard();
-			if(ZipCode.isZipCodeValid(text)){
-				person.setZipCode(text);
-				result = new EditPersonAdjacencyPair(getContext(), person);
+			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
+			ZipCodeEntry zip = zipcodes.getPlaceData(text);
+			if(zip != null){
+				person.setLocation(getContext().getPlaceManager().getPlace(zip.getZip()));
+				getContext().hideKeyboard();
+				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				result = new ChangeZipCodeAgainInvalidAdjacencyPair(getContext());
+				getContext().hideKeyboard();
+				return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext());
 			}
-			return result;
 		}  	     
 
 		@Override
 		public AdjacencyPair cancel() {
-			person.setZipCode(null);
+			person.setLocation(null);
 			getContext().hideKeyboard();
 			return new EditPersonAdjacencyPair(getContext(), person);
 		}
@@ -426,9 +436,15 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			getContext().hideKeyboard();
-			person.setPhoneNumber(text);
-			return new EditPersonAdjacencyPair(getContext(), person);
+			if(ValidPhoneOrAge.isPhoneNumberValid(text)){
+				getContext().hideKeyboard();
+				person.setPhoneNumber(text);
+				return new EditPersonAdjacencyPair(getContext(), person);
+			}
+			else{
+				getContext().hideKeyboard();
+				return new ChangePhoneAdjacencyPair(getContext(), person);
+			}
 		}
 
 		@Override

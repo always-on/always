@@ -170,17 +170,6 @@ public class OntologyPerson implements Person {
 	}
 
 	@Override
-	public String getZipCode () {
-		return owlPerson.getDataPropertyValue(ZIPCODE_PROPERTY).asString();
-	}
-
-	@Override
-	public void setZipCode (String ZipCode) {
-		owlPerson.setDataProperty(ZIPCODE_PROPERTY, 
-				(ZipCode != null) ? helper.getLiteral(ZipCode) : null);
-	}
-
-	@Override
 	public void setBirthday (MonthDay day) {
 		CalendarEntry birthdayEntry = null;
 		for (CalendarEntry entry : model.getCalendar().retrieve(null)) {
@@ -212,8 +201,8 @@ public class OntologyPerson implements Person {
 
 	@Override
 	public void setLocation (Place place) {
-		owlPerson.setObjectProperty(LIVES_IN_PROPERTY, model.getPlaceManager()
-				.getPlace(place.getZip()).getIndividual());
+		owlPerson.setObjectProperty(LIVES_IN_PROPERTY, (place != null) ? 
+				model.getPlaceManager().getPlace(place.getZip()).getIndividual() : null);
 	}
 
 	@Override

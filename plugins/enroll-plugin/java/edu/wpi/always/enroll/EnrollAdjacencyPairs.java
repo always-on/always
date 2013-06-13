@@ -4,8 +4,11 @@ import edu.wpi.always.client.KeyboardAdjacencyPair;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.always.enroll.schema.EnrollStateContext;
 import edu.wpi.always.enroll.schema.InitialEnroll;
-import edu.wpi.always.user.places.ZipCode;
+import edu.wpi.always.user.places.Place;
+import edu.wpi.always.user.places.ZipCodes;
+import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 import edu.wpi.always.user.people.Person;
+import edu.wpi.always.user.people.ValidPhoneOrAge;
 import edu.wpi.always.user.people.Person.*;
 import edu.wpi.always.enroll.ErrorCheckState.*;
 
@@ -15,7 +18,7 @@ public abstract class EnrollAdjacencyPairs{
 	protected static Relationship relationship;
 	protected static Gender gender;
 	protected static String address;
-	protected static String zipcode;
+	protected static Place zipcode;
 	protected static Person person;
 
 	public static class PersonNameAdjacencyPair extends 
@@ -43,7 +46,7 @@ public abstract class EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public PersonAgeAdjacencyPair(final EnrollStateContext context) {
-			super("What is the person's age", "Enter "+ PersonName+ "'s age", 
+			super("What is the person's age", "Enter "+ PersonName+ "'s age (Integer Only)", 
 					context, context.getKeyboard());
 			choice("Skip "+PersonName, new DialogStateTransition() {
 				
@@ -57,9 +60,15 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			getContext().hideKeyboard();
-			PersonAge = text;
-			return new PersonGenderAdjacencyPair(getContext());
+			if(ValidPhoneOrAge.isInteger(text)){
+				getContext().hideKeyboard();
+				PersonAge = text;
+				return new PersonGenderAdjacencyPair(getContext());
+			}
+			else{
+				getContext().hideKeyboard();
+				return new PersonAgeAdjacencyPair(getContext());
+			}
 		}
 
 		@Override
@@ -163,16 +172,17 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			final AdjacencyPair result;
-			getContext().hideKeyboard();
-			if(ZipCode.isZipCodeValid(text)){
-				zipcode = text; 
-				result = new PersonRelationshipAdjacencyPair(getContext());
+			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
+			ZipCodeEntry zip = zipcodes.getPlaceData(text);
+			if(zip != null){
+				zipcode = getContext().getPlaceManager().getPlace(zip.getZip());
+				getContext().hideKeyboard();
+				return new PersonRelationshipAdjacencyPair(getContext());
 			}
 			else{
-				result = new ZipCodeInvalidAdjacencyPair(getContext());
+				getContext().hideKeyboard();
+				return new ZipCodeInvalidAdjacencyPair(getContext());
 			}
-			return result;
 		}
 
 		@Override
@@ -200,16 +210,17 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			final AdjacencyPair result;
-			getContext().hideKeyboard();
-			if(ZipCode.isZipCodeValid(text)){
-				zipcode = text;
-				result = new PersonRelationshipAdjacencyPair(getContext());
+			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
+			ZipCodeEntry zip = zipcodes.getPlaceData(text);
+			if(zip != null){
+				zipcode = getContext().getPlaceManager().getPlace(zip.getZip());
+				getContext().hideKeyboard();
+				return new PersonRelationshipAdjacencyPair(getContext());
 			}
 			else{
-				result = new ZipCodeInvalidAdjacencyPair(getContext());
+				getContext().hideKeyboard();
+				return new ZipCodeInvalidAdjacencyPair(getContext());
 			}
-			return result;
 		}
 
 		@Override
@@ -444,7 +455,7 @@ public abstract class EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public PhoneNumberAdjacencyPair(final EnrollStateContext context) {
-			super("What is his or her phone number?", "Enter " + PersonName +"'s phone number:", 
+			super("What is his or her phone number?", "Enter " + PersonName +"'s phone number: (XXX-XXXXXXX)", 
 					context, context.getKeyboard());
 			choice("Skip "+PersonName, new DialogStateTransition() {
 				
@@ -458,9 +469,15 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			getContext().hideKeyboard();
-			PhoneNumber = text;
-			return new SkypeNumberAdjacencyPair(getContext());
+			if(ValidPhoneOrAge.isPhoneNumberValid(text)){
+				getContext().hideKeyboard();
+				PhoneNumber = text;
+				return new SkypeNumberAdjacencyPair(getContext());
+			}
+			else{
+				getContext().hideKeyboard();
+				return new PhoneNumberAdjacencyPair(getContext());
+			}
 		}
 
 		@Override
@@ -469,7 +486,7 @@ public abstract class EnrollAdjacencyPairs{
 			return new SkypeNumberAdjacencyPair(getContext());
 		}
 	}
-
+	
 	public static class SkypeNumberAdjacencyPair extends
 	KeyboardAdjacencyPair<EnrollStateContext> {
 

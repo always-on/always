@@ -5,9 +5,11 @@ import edu.wpi.disco.rt.menu.*;
 import edu.wpi.always.enroll.schema.EnrollStateContext;
 import edu.wpi.always.enroll.schema.InitialEnroll;
 import edu.wpi.always.user.people.Person;
+import edu.wpi.always.user.people.ValidPhoneOrAge;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
-import edu.wpi.always.user.places.ZipCode;
+import edu.wpi.always.user.places.ZipCodes;
+import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 
 public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
@@ -143,15 +145,21 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public EditAgeAdjacencyPair(final EnrollStateContext context) {
-			super("What is the person's age?", "Enter " + PersonName +"'s age:", 
+			super("What is the person's age?", "Enter " + PersonName +"'s age (Integer Only)", 
 					context, context.getKeyboard());
 		}
 
 		@Override
 		public AdjacencyPair success(String text) {
-			getContext().hideKeyboard();
-			person.setAge(text);
-			return new CheckCorrectionAdjacencyPair(getContext(), person);
+			if(ValidPhoneOrAge.isInteger(text)){
+				getContext().hideKeyboard();
+				person.setAge(text);
+				return new CheckCorrectionAdjacencyPair(getContext(), person);
+			}
+			else{
+				getContext().hideKeyboard();
+				return new EditAgeAdjacencyPair(getContext());
+			}
 		}
 
 		@Override
@@ -195,21 +203,22 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			final AdjacencyPair result;
-			getContext().hideKeyboard();
-			if(ZipCode.isZipCodeValid(text)){
-				person.setZipCode(text);
-				result = new CheckCorrectionAdjacencyPair(getContext(), person);
+			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
+			ZipCodeEntry zip = zipcodes.getPlaceData(text);
+			if(zip != null){
+				person.setLocation(getContext().getPlaceManager().getPlace(zip.getZip()));
+				getContext().hideKeyboard();
+				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				result = new ZipCodeAgainInvalidAdjacencyPair(getContext());
+				getContext().hideKeyboard();
+				return  new ZipCodeAgainInvalidAdjacencyPair(getContext());
 			}
-			return result;
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			person.setZipCode(null);
+			person.setLocation(null);
 			getContext().hideKeyboard();
 			return new CheckCorrectionAdjacencyPair(getContext(), person);
 		}
@@ -225,21 +234,22 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			final AdjacencyPair result;
-			getContext().hideKeyboard();
-			if(ZipCode.isZipCodeValid(text)){
-				person.setZipCode(text);
-				result = new CheckCorrectionAdjacencyPair(getContext(), person);
+			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
+			ZipCodeEntry zip = zipcodes.getPlaceData(text);
+			if(zip != null){
+				person.setLocation(getContext().getPlaceManager().getPlace(zip.getZip()));
+				getContext().hideKeyboard();
+				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				result = new ZipCodeAgainInvalidAdjacencyPair(getContext());
+				getContext().hideKeyboard();
+				return new ZipCodeAgainInvalidAdjacencyPair(getContext());
 			}
-			return result;
 		}  	     
 
 		@Override
 		public AdjacencyPair cancel() {
-			person.setZipCode(null);
+			person.setLocation(null);
 			getContext().hideKeyboard();
 			return new CheckCorrectionAdjacencyPair(getContext(), person);
 		}
@@ -399,15 +409,21 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public EditPhoneAdjacencyPair(final EnrollStateContext context) {
-			super("What is his or her phone number?", "Enter " + PersonName + "'s phone number:", 
+			super("What is his or her phone number?", "Enter " + PersonName + "'s phone number: (XXX-XXXXXXX)", 
 					context, context.getKeyboard());
 		}
 
 		@Override
 		public AdjacencyPair success(String text) {
-			getContext().hideKeyboard();
-			person.setPhoneNumber(text);
-			return new CheckCorrectionAdjacencyPair(getContext(), person);
+			if(ValidPhoneOrAge.isPhoneNumberValid(text)){
+				getContext().hideKeyboard();
+				person.setPhoneNumber(text);
+				return new CheckCorrectionAdjacencyPair(getContext(), person);
+			}
+			else{
+				getContext().hideKeyboard();
+				return new EditPhoneAdjacencyPair(getContext());
+			}
 		}
 
 		@Override
