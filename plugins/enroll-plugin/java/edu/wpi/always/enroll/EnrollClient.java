@@ -42,18 +42,18 @@ public class EnrollClient implements EnrollUI{
 		String gender = (person.getGender() != null)? person.getGender().toString() : null;
 		String zipcode = (person.getLocation() != null)? 
 				person.getLocation().toString() + ", " + person.getLocation().getZip() : null;
-		Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
-				.add("name", person.getName())
-				.add("age", person.getAge())
-				.add("gender", gender)
-				.add("address", person.getAddress())
-				.add("zipcode", zipcode)
-				.add("relationship", person.getRelationship())
-				.add("spouse", person.getSpouse())
-				.add("phoneNumber", person.getPhoneNumber())
-				.add("skypeAccount", person.getSkypeNumber())
-				.build();
-		dispatcher.send(m);
+				Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
+						.add("name", person.getName())
+						.add("age", person.getAge())
+						.add("gender", gender)
+						.add("address", person.getAddress())
+						.add("zipcode", zipcode)
+						.add("relationship", person.getRelationship())
+						.add("spouse", person.getSpouse())
+						.add("phoneNumber", person.getPhoneNumber())
+						.add("skypeAccount", person.getSkypeNumber())
+						.build();
+				dispatcher.send(m);
 	}
 
 	public JsonElement getPeopleData () {
@@ -70,16 +70,20 @@ public class EnrollClient implements EnrollUI{
 		String gender = (src.getGender() != null)? src.getGender().toString() : null;
 		String zipcode = (src.getLocation() != null)? 
 				src.getLocation().toString() + ", " + src.getLocation().getZip() : null;
-		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("name", src.getName());
-		jsonObject.addProperty("age", src.getAge());
-		jsonObject.addProperty("gender", gender);
-		jsonObject.addProperty("address", src.getAddress());
-		jsonObject.addProperty("relationship", src.getRelationship());
-		jsonObject.addProperty("zipcode", zipcode);
-		jsonObject.addProperty("Spouse", src.getSpouse());
-		jsonObject.addProperty("phoneNumber", src.getPhoneNumber());
-		jsonObject.addProperty("skypeAccount", src.getSkypeNumber());
-		return jsonObject;
+				JsonObject jsonObject = new JsonObject();
+				jsonObject.addProperty("name", src.getName());
+				jsonObject.addProperty("age", src.getAge());
+				jsonObject.addProperty("gender", gender);
+				jsonObject.addProperty("address", src.getAddress());
+				jsonObject.addProperty("relationship", src.getRelationship());
+				jsonObject.addProperty("zipcode", zipcode);
+				jsonObject.addProperty("Spouse", src.getSpouse());
+				jsonObject.addProperty("phoneNumber", src.getPhoneNumber());
+				jsonObject.addProperty("skypeAccount", src.getSkypeNumber());
+				return jsonObject;
+	}
+	@Override
+	public void hideEnrollUI() {
+		ClientPluginUtils.closePlugin(dispatcher);
 	}
 }

@@ -78,6 +78,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 			choice("All Correct", new DialogStateTransition() {
 				@Override
 				public AdjacencyPair run() {
+					getContext().hideEnrollUI();
 					return new NextPersonAdjacencyPair(getContext());
 				}
 			});

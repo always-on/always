@@ -80,6 +80,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 			choice("Done Edit", new DialogStateTransition() {
 				@Override
 				public AdjacencyPair run() {
+					getContext().hideEnrollUI();
 					return new InitialEnroll(getContext());
 				}
 			});

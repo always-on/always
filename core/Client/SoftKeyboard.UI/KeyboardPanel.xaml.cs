@@ -37,8 +37,17 @@ namespace SoftKeyboard.UI
 			KeyboardPanel panel = (KeyboardPanel)sender;
 			CharacterKey key = (CharacterKey)e.OriginalSource;
 			string text = key.getShiftAdjustedValue();
-			panel.type(text);
-			e.Handled = true;
+            if (panel.textBox.Text.Length > 30)
+            {
+                panel.textBox.Background = new SolidColorBrush(Colors.Red);
+                panel.textBox.IsReadOnly = true;
+                System.Media.SystemSounds.Beep.Play();
+            }
+            else
+            {
+                panel.type(text);
+            }
+            e.Handled = true;
 		}
 		private static void rubOutHandler(object sender, RoutedEventArgs e)
 		{
@@ -49,19 +58,15 @@ namespace SoftKeyboard.UI
 
 		private void type(string text)
 		{
-			if (textBox.Text.Length < 33)
-			{
-				textBox.AppendText(text);
-				keyboard.Shift = false;
-				textBox.Focus();
-				textBox.CaretIndex = textBox.Text.Length;
-				sendUpdateMessage();
-			}
-			else
-				System.Media.SystemSounds.Beep.Play();
+            textBox.AppendText(text);
+            keyboard.Shift = false;
+            textBox.Focus();
+            textBox.CaretIndex = textBox.Text.Length;
+            sendUpdateMessage();
 		}
 		private void rubOut()
 		{
+            textBox.Background = new SolidColorBrush(Colors.White);
 			int newLength = textBox.Text.Length-1;
 			if(newLength<0)
 				newLength = 0;

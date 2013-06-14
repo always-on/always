@@ -18,7 +18,6 @@ public class EnrollStateContext {
 	public EnrollStateContext(Keyboard keyboard, EnrollUI enrollUI,
 			UIMessageDispatcher dispatcher, PlaceManager placeManager,
 			PeopleManager peopleManager) {
-		super();
 		this.keyboard = keyboard;
 		this.enrollUI = enrollUI;
 		this.dispatcher = dispatcher;
@@ -37,6 +36,10 @@ public class EnrollStateContext {
 	
 	public void hideKeyboard() {
 		keyboard.hideKeyboard();
+	}
+	
+	public void hideEnrollUI() {
+		enrollUI.hideEnrollUI();
 	}
 	
 	public UIMessageDispatcher getDispatcher() {

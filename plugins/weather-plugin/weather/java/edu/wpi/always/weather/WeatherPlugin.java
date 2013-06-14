@@ -29,7 +29,7 @@ public class WeatherPlugin extends Plugin {
       // testing new user property extension (see Weather.owl)
       // see WeatherSchema console window
       plugin.setProperty(FAVORITE, "hot and humid");
-      System.out.println("My favorite weather is "+plugin.getProperty(FAVORITE));
+      System.out.println("My favorite weather is " + plugin.getProperty(FAVORITE));
    }
   
 

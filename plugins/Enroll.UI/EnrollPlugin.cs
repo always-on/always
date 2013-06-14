@@ -25,13 +25,13 @@ namespace Enroll.UI
 				enrollEntryPanel  = new EnrollEntryPanel();
             });
 
-            _remote.RegisterReceiveHandler("enroll.display",
+             _remote.RegisterReceiveHandler("enroll.display",
 				  new MessageHandlerDelegateWrapper(m => display(m)));
         }
 
         public void Dispose()
 		{
-			_remote.RemoveReceiveHandler("enroll.display");
+			_remote.RemoveReceiveHandler("");
 		}
 
         private readonly Object displayLock = new Object();
