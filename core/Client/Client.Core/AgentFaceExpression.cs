@@ -12,9 +12,11 @@ namespace Agent.Core
         public static readonly AgentFaceExpression Concern = new AgentFaceExpression("<FACE EXPR = \"CONCERN\"/>");
         public static readonly AgentFaceExpression Smile = new AgentFaceExpression("<FACE EXPR = \"SMILE\"/>");
         public static readonly AgentFaceExpression Warm = new AgentFaceExpression("<FACE EXPR = \"WARM\"/>");
-       //public static readonly AgentFaceExpression Blink = new AgentFaceExpression(new RagClient.Agent.Actions.Blink());
-        public static readonly AgentFaceExpression Eyebrows_Up = new AgentFaceExpression("<EYEBROWS DIR = \"UP\"/>");
-        public static readonly AgentFaceExpression Eyebrows_Down = new AgentFaceExpression("<EYEBROWS DIR = \"DOWN\"/>");
+        //Eyebrows should be inside of speech blocks
+        //public static readonly AgentFaceExpression Eyebrows_Up = new AgentFaceExpression("<EYEBROWS DIR = \"UP\"/>");
+        //public static readonly AgentFaceExpression Eyebrows_Down = new AgentFaceExpression("<EYEBROWS DIR = \"DOWN\"/>");
+        //Blink is automatic
+        //public static readonly AgentFaceExpression Blink = new AgentFaceExpression(new RagClient.Agent.Actions.Blink());
 
 
 

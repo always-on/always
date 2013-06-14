@@ -47,19 +47,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Lib\Newtonsoft.Json.4.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RagClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\RagClient\RagClient.dll</HintPath>
-    </Reference>
-    <Reference Include="RagClient.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\RagClient\RagClient.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="RagClient.Debugger, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <ExecutableExtension>.exe</ExecutableExtension>
-      <HintPath>..\Lib\RagClient\RagClient.Debugger.exe</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Speech" />
@@ -126,8 +113,15 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="WebPlayer.unity3d">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\UnityAgent\Client\UnityUserControl\UnityUserControl.csproj">
+      <Project>{5118FAAE-C3FF-443C-BD32-F5C5E163D777}</Project>
+      <Name>UnityUserControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Client.Core\Client.Core.csproj">
       <Project>{FD346CEB-A57F-4A76-8FA0-6418F9AD529E}</Project>
       <Name>Client.Core</Name>
@@ -140,6 +134,16 @@
       <Project>{F92ABCD7-571F-4438-8A37-668C7D7594EB}</Project>
       <Name>SoftKeyboard.UI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Unity.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UnityObject.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

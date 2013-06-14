@@ -51,7 +51,7 @@ public class Always {
     * @see DiscoRT#TRACE
     * @see Disco#TRACE
     */
-   public static boolean TRACE;
+   public static boolean TRACE = true;
    
    /**
     * The container for holding all the components of the system
