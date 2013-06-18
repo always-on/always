@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Agent.Core
 {
+    /*
     public enum AgentGaze
     {
         Mid,
@@ -12,5 +13,5 @@ namespace Agent.Core
         MidRight,
         Left,
         Right
-    }
+    }*/
 }

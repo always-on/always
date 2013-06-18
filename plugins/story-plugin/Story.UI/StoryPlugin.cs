@@ -6,6 +6,7 @@ using Agent.Tcp;
 using System.Windows.Threading;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
+using System.Windows.Controls;
 
 namespace Story.UI
 {
@@ -33,11 +34,11 @@ namespace Story.UI
 			//_remote.RemoveReceiveHandler("calendar.display");
 		}
 
-
-
-        public System.Windows.UIElement GetUIElement()
+        public Viewbox GetPluginContainer()
         {
-            return null;// story;
+            //null
+            //TODO
+            return null;
         }
     }
 }
