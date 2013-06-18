@@ -54,7 +54,7 @@ namespace Agent.Tcp
 				instances[creator] = plugin;
 			}
 
-			layout.ShowPlugin(plugin.GetUIElement());
-		}
+            layout.ShowPlugin(plugin.GetPluginContainer());
+        }
 	}
 }

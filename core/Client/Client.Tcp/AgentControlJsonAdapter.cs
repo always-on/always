@@ -58,14 +58,24 @@ namespace Agent.Tcp
 
 		private void Gaze(JObject args)
 		{
-			AgentGaze dir;
+			//AgentGaze dir;
+            string dir = "CUSTOM";
+            float horizontal = 0.0f;
+            float vertical = 0.0f;
 
 			if (args["dir"] != null)
-				dir = (AgentGaze)Enum.Parse(typeof(AgentGaze), args["dir"].Value<string>(), true);
-			else
-				dir = AgentGaze.Mid;
+				dir = args["dir"].Value<string>();
+            else if ((args["horizontal"] != null) || (args["vertical"] != null))
+            {
+                float.TryParse(args["horizontal"].Value<string>(),out horizontal);
+                float.TryParse(args["vertical"].Value<string>(), out vertical);
+            }
+            else
+                dir = "TOWARDS";
 
-			_agent.Turn(dir);
+            System.Diagnostics.Debug.WriteLine("horizontal = " + horizontal + "| vertical =" + vertical);
+
+			_agent.Turn(dir,horizontal,vertical);
 
 		}
 
