@@ -8,6 +8,7 @@ using Rummy;
 using System.Windows.Threading;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
+using System.Windows.Controls;
 
 namespace AgentApp
 {
@@ -15,6 +16,7 @@ namespace AgentApp
     {
         GameShape game;
         IMessageDispatcher _remote;
+        Viewbox pluginContainer;
 
         public RummyPlugin(bool agentStarts, IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
@@ -49,6 +51,10 @@ namespace AgentApp
                     body["player"] = PlayerNameToSend(m.Player);
 					_remote.Send("rummy.move_happened", body);
                 };
+                //Example Plugin Container code
+                pluginContainer = new Viewbox();
+                pluginContainer.Child = game;
+                //End of example
             });
 
             _remote.RegisterReceiveHandler("rummy.best_move",
@@ -102,7 +108,7 @@ namespace AgentApp
 
 		private void DoBestMove()
 		{
-			LogUtils.LogWithTime("Doing rummy best move");
+			//LogUtils.LogWithTime("Doing rummy best move");
 			bool done = false;
 			int tries = 0;
 			while (!done && tries < 5)
@@ -122,6 +128,11 @@ namespace AgentApp
         public System.Windows.UIElement GetUIElement()
         {
             return game;
+        }
+        
+        public Viewbox GetPluginContainer()
+        {
+            return pluginContainer;
         }
     }
 }

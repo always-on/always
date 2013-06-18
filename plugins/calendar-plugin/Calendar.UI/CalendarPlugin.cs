@@ -7,6 +7,7 @@ using Calendar.UI;
 using System.Windows.Threading;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
+using System.Windows.Controls;
 
 namespace Calendar.UI
 {
@@ -127,6 +128,12 @@ namespace Calendar.UI
         public System.Windows.UIElement GetUIElement()
         {
             return calendar;
+        }
+
+        public Viewbox GetPluginContainer()
+        {
+            //TODO
+            return null;
         }
     }
 }
