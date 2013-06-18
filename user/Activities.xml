@@ -36,6 +36,12 @@
     edu.wpi.always.Always.TRACE = true;
     edu.wpi.disco.rt.DiscoRT.TRACE = false;
     
+    /* Initialize user folder location for Eclipse development.  Will later add
+       C:\Dropbox subfolder */
+
+    edu.wpi.always.user.UserUtils.USER_FOLDER = 
+        new java.io.File("../../user").exists() ? "../../user" : "../../../user";    
+    
   </script>
 
 </taskModel>
