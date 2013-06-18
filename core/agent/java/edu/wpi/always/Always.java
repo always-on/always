@@ -3,7 +3,7 @@ package edu.wpi.always;
 import edu.wpi.always.client.ClientRegistry;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.StartupSchemas;
-import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.*;
 import edu.wpi.always.user.owl.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
@@ -23,7 +23,7 @@ public class Always {
     */
    public static void main (String[] args) {
       Always always = new Always(true);
-      always.setCloseness(args);
+      always.processArgs(args);
       always.start();
    }
    
@@ -44,13 +44,19 @@ public class Always {
       }
    }
    
-   public void setCloseness (String[] args) {
+   /**
+    * Process optional arguments to main method.   First argument is
+    * closeness value string (Stranger, Acquaintance, or Companion).
+    * Second argument is user model filename (default User.owl).  See
+    * TestUser.owl in always/user.
+    */
+   public void processArgs (String[] args) {
       if ( args != null && args.length > 0 ) {
          Closeness closeness = Closeness.valueOf(args[0]);
          System.out.println("Using closeness = "+closeness);
          getRM().setCloseness(closeness);
+         if ( args.length > 1 ) UserUtils.USER_FILE = args[1];
       }
-         
    }
    
    /**
@@ -106,8 +112,7 @@ public class Always {
       container.addComponent(this);
       container.as(Characteristics.CACHE).addComponent(CollaborationManager.class);
       container.as(Characteristics.CACHE).addComponent(RelationshipManager.class);
-      // FIXME get real user info here
-      addRegistry(new OntologyUserRegistry("Diane Ferguson")); 
+      addRegistry(new OntologyUserRegistry()); 
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas(allPlugins));
       THIS = this;
@@ -156,8 +161,6 @@ public class Always {
       OntologyRuleHelper helper = container.getComponent(OntologyRuleHelper.class);
       for (OntologyRegistry registry : ontologyRegistries)
          registry.register(helper);
-      UserModel userModel = container.getComponent(UserModel.class);
-      if ( userModel != null ) userModel.load();
       CollaborationManager cm = container.getComponent(CollaborationManager.class);
       for (Registry registry : cmRegistries) cm.addRegistry(registry);
       System.out.println("Starting Collaboration Manager");
