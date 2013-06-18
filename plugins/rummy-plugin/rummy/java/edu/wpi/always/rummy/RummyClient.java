@@ -103,7 +103,7 @@ public class RummyClient implements ClientPlugin {
          if ( isMeld(availableMove.getValue()) ) {
             toSay = "Now, I am going to do this meld, $ and done!";         
          } else if ( isDraw(availableMove.getValue()) ) {
-             toSay = "Okay, I have to draw a card. <GAZE horizontal=\"2\" vertical=\"2\"/> $ The Card is drawn, and let me see what I can do with it! <GAZE horizontal=\"0\" vertical=\"0\"/>";
+             toSay = "Okay, I have to draw a card. <GAZE horizontal=\"-2\" vertical=\"-1\"/> $ The Card is drawn, and let me see what I can do with it! <GAZE horizontal=\"0\" vertical=\"0\"/>";
 //             toSay = "Okay, I have to draw a card. <GAZE dir=\"AWAY\"/> $ The Card is drawn, and let me see what I can do with it! <GAZE dir=\"TOWARD\"/>";
             //toSay = "Okay, I have to draw a card. $ The Card is drawn, and let me see what I can do with it!";
          } else if ( isDiscard(availableMove.getValue()) ) {
