@@ -50,10 +50,6 @@ public interface Person {
    
    void setAge(String age);
    
-   String getAddress();
-
-   void setAddress(String address);
-   
    Place getLocation ();
 
    void setLocation (Place place);

@@ -22,7 +22,7 @@
             <local:ShiftViewKey NormalContent="0" ShiftContent=")" Shift="{Binding Shift, ElementName=keyboard}" />
             <local:ShiftViewKey NormalContent="-" ShiftContent="_" Shift="{Binding Shift, ElementName=keyboard}" />
             <local:ShiftViewKey NormalContent="=" ShiftContent="+" Shift="{Binding Shift, ElementName=keyboard}" />
-        </StackPanel>
+    </StackPanel>
         <StackPanel Name="row1" Orientation="Horizontal" HorizontalAlignment="Center">
             <local:CharacterKey NormalContent="q" ShiftContent="Q" Shift="{Binding Shift, ElementName=keyboard}" />
             <local:CharacterKey NormalContent="w" ShiftContent="W" Shift="{Binding Shift, ElementName=keyboard}" />

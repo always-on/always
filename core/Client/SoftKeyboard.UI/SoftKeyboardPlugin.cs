@@ -31,7 +31,6 @@ namespace SoftKeyboard.UI
 			//_remote.RemoveReceiveHandler("");
 		}
 
-
         public System.Windows.UIElement GetUIElement()
         {
             return keyboard;

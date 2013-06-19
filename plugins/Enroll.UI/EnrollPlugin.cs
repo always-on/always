@@ -45,7 +45,6 @@ namespace Enroll.UI
                     enrollEntryPanel.label11.Content = m["age"];
                     enrollEntryPanel.label12.Content = m["gender"];
                     enrollEntryPanel.label13.Content = m["relationship"];
-                    enrollEntryPanel.label14.Content = m["address"];
                     enrollEntryPanel.label15.Content = m["zipcode"];
                     enrollEntryPanel.label16.Content = m["spouse"];
                     enrollEntryPanel.label17.Content = m["phoneNumber"];

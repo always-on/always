@@ -22,12 +22,15 @@ namespace SoftKeyboard.UI
 	/// </summary>
 	public partial class KeyboardPanel : UserControl
 	{
+
 		private IMessageDispatcher remote;
+        private string context;
 		public KeyboardPanel(string contextString, IMessageDispatcher remote)
 		{
 			this.remote = remote;
 			InitializeComponent();
 			contextLabel.Content = contextString;
+            context = contextString;
 			AddHandler(CharacterKey.KeyTypedEvent, new RoutedEventHandler(keyTypedHandler));
 			AddHandler(RubOutKey.RubOutEvent, new RoutedEventHandler(rubOutHandler));
 		}
@@ -37,11 +40,16 @@ namespace SoftKeyboard.UI
 			KeyboardPanel panel = (KeyboardPanel)sender;
 			CharacterKey key = (CharacterKey)e.OriginalSource;
 			string text = key.getShiftAdjustedValue();
-            if (panel.textBox.Text.Length > 30)
+            if (panel.textBox.Text.Length > 28)
             {
                 panel.textBox.Background = new SolidColorBrush(Colors.Red);
                 panel.textBox.IsReadOnly = true;
-                System.Media.SystemSounds.Beep.Play();
+                JObject data = new JObject();
+                data.Add("event", "exceed");
+                data.Add("prompt", "The input is too long, please use the red arrow key to shorten it.");
+                data.Add("text", panel.textBox.Text);
+                panel.remote.Send("keyboard.exceed", data);
+                panel.contextLabel.Content = "Limit exceeded, please press the red arrow key.";
             }
             else
             {
@@ -49,6 +57,7 @@ namespace SoftKeyboard.UI
             }
             e.Handled = true;
 		}
+
 		private static void rubOutHandler(object sender, RoutedEventArgs e)
 		{
 			KeyboardPanel panel = (KeyboardPanel)sender;
@@ -67,6 +76,7 @@ namespace SoftKeyboard.UI
 		private void rubOut()
 		{
             textBox.Background = new SolidColorBrush(Colors.White);
+            contextLabel.Content = context;
 			int newLength = textBox.Text.Length-1;
 			if(newLength<0)
 				newLength = 0;

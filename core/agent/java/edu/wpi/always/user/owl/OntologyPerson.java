@@ -17,7 +17,6 @@ public class OntologyPerson implements Person {
 	public static final String MALE_PERSON_CLASS = "MalePerson";
 	public static final String NAME_PROPERTY = "PersonName";
 	public static final String BIRTHDAY_PROPERTY = "PersonBirthday";
-	public static final String ADDRESS_PROPERTY = "PersonAddress";
 	public static final String ZIPCODE_PROPERTY = "PersonZipCode";
 	public static final String PHONE_NUMBER_PROPERTY = "PersonPhoneNumber";
 	public static final String SKYPE_NUMBER_PROPERTY = "PersonSkypeNumber";
@@ -156,17 +155,6 @@ public class OntologyPerson implements Person {
 	@Override
 	public MonthDay getBirthday () {
 		return owlPerson.getDataPropertyValue(BIRTHDAY_PROPERTY).asMonthDay();
-	}
-
-	@Override
-	public void setAddress(String Address){
-		owlPerson.setDataProperty(ADDRESS_PROPERTY, 
-				(Address != null)? helper.getLiteral(Address) : null);
-	}
-
-	@Override
-	public String getAddress () {
-		return owlPerson.getDataPropertyValue(ADDRESS_PROPERTY).asString();
 	}
 
 	@Override

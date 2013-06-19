@@ -9,4 +9,6 @@ public interface Keyboard {
    void hideKeyboard ();
    
    String getInputSoFar ();
+
+   void ShowNumKeyboard(String prompt);
 }
