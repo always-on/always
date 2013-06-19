@@ -18,6 +18,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class RummyClient implements ClientPlugin {
 
    private static final String MSG_AVAILABLE_ACTION = "rummy.available_action";
+   private static final String MSG_ALL_AVAILABLE_MOVES = "rummy.available_moves";
+   private static final String MSG_HUMAN_MOVE = "rummy.human_move";
    private static final String MSG_MOVE_HAPPENED = "rummy.move_happened";
    private static final String MSG_STATE_CHANGED = "rummy.state_changed";
    private final UIMessageDispatcher dispatcher;
@@ -207,6 +209,23 @@ public class RummyClient implements ClientPlugin {
             userCardsNum = m.getBody().get("user_cards").getAsInt();
          }
       }
+   }
+   
+   private void processInbox2(){
+	   while (!inbox.isEmpty()) {
+		   Message m = inbox.poll();
+		   if(m.getType().equals(MSG_ALL_AVAILABLE_MOVES)){
+			   
+			   
+			   
+			   
+		   }else if(m.getType().equals(MSG_HUMAN_MOVE)){
+			   
+		   }
+		   
+		   
+		   
+	   }
    }
 
    @Override
