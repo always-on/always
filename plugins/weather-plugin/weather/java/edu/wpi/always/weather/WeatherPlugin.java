@@ -23,7 +23,7 @@ public class WeatherPlugin extends Plugin {
     */
    public static void main (String[] args) {
       Always always = new Always(true, WeatherPlugin.class, "DiscussWeather");
-      always.setCloseness(args);
+      always.processArgs(args);
       always.start();
       Plugin plugin = always.getContainer().getComponent(WeatherPlugin.class);
       // testing new user property extension (see Weather.owl)

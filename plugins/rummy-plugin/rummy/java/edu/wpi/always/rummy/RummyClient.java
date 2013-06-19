@@ -34,7 +34,7 @@ public class RummyClient implements ClientPlugin {
    /**
     * For user turn reminder (in millis).
     */
-   public static int TIMEOUT_DELAY = MenuTurnStateMachine.TIMEOUT_DELAY/2; // *3 
+   public static int TIMEOUT_DELAY = MenuTurnStateMachine.TIMEOUT_DELAY*3; 
    
    private long waitingForUserSince; // millis or zero if not waiting
    private boolean yourTurn;  // last proposal (not done)
@@ -119,8 +119,7 @@ public class RummyClient implements ClientPlugin {
          if ( isMeld(availableMove.getValue()) ) {
             toSay = "Now, I am going to do this meld, $ and done!";         
          } else if ( isDraw(availableMove.getValue()) ) {
-            // toSay = "Okay, I have to draw a card. <GAZE DIR=AWAY/> $ The Card is drawn, and let me see what I can do with it! <GAZE DIR=TOWARD/>";
-            toSay = "Okay, I have to draw a card. $ The Card is drawn, and let me see what I can do with it!";
+             toSay = "Okay, I have to draw a card. <GAZE horizontal=\"-2\" vertical=\"-1\"/> $ The Card is drawn, and let me see what I can do with it! <GAZE horizontal=\"0\" vertical=\"0\"/>";
          } else if ( isDiscard(availableMove.getValue()) ) {
             toSay = "I am done, so I'll discard this one, $ and now it's your turn.";
          }

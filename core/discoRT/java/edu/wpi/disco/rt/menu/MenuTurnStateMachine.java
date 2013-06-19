@@ -95,8 +95,8 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          b = Behavior.newInstance(menuBehavior);
          waitingForResponseSince = DateTime.now(); // reset now since nothing said
       }
-      if ( stateOfLastProposal != currentAdjacencyPair || 
-            (state == State.Hear && currentAdjacencyPair.isCircular()) ) {
+      if ( stateOfLastProposal != currentAdjacencyPair /* || 
+            (state == State.Hear && currentAdjacencyPair.isCircular()) */ ) {
          if ( lastProposal.getValue().equals(b) ) 
             addSomethingToDifferentiateFromLastProposal = true;
          setLastProposal(Behavior.NULL);

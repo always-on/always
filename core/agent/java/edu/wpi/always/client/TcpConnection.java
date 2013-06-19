@@ -85,8 +85,8 @@ public class TcpConnection implements RemoteConnection {
       if ( !isConnected() )
          connect();
       if ( isConnected() ) {
-         if ( Always.TRACE ) System.out.println("Sending... " + message);
-         out.print(message);
+         if ( true ) System.out.println("Sending... " + message);
+         out.print(message + "\n");
          out.flush();
       }
    }

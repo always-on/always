@@ -8,12 +8,11 @@ import java.lang.annotation.*;
 
 public interface UserModel {
 
-   @Retention(RetentionPolicy.RUNTIME)
-   @Target({ ElementType.FIELD, ElementType.PARAMETER })
-   @Bind
-   public @interface UserName {
-   }
-
+   /**
+    * Will throw an error if user model already has a name.
+    */
+   public void setUserName (String name);
+   
    public String getUserName ();
 
    public void save ();

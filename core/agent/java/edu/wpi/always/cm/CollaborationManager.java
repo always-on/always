@@ -4,9 +4,13 @@ import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.SessionSchema;
+import edu.wpi.always.user.*;
+import edu.wpi.always.user.owl.*;
+import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.rt.*;
 import org.picocontainer.*;
+import java.io.File;
 
 public class CollaborationManager extends DiscoRT {
 
@@ -26,6 +30,13 @@ public class CollaborationManager extends DiscoRT {
       container.as(Characteristics.CACHE).addComponent(DummyFacePerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
       TaskModel model = interaction.load("Activities.xml");
+      // load user model after Activities.xml for initialization of USER_FOLDER
+      parent.as(Characteristics.CACHE).addComponent(
+            BindKey.bindKey(File.class,
+                  OntologyUserModel.UserOntologyLocation.class),
+                  new File(UserUtils.USER_FOLDER, UserUtils.USER_FILE));
+      UserModel userModel = parent.getComponent(UserModel.class);
+      if ( userModel != null ) userModel.load();
       if ( plugin != null ) {
          parent.addComponent(plugin);
          Plugin instance = parent.getComponent(plugin);

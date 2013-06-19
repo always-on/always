@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0016)http://localhost -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <script type="text/javascript" src="UnityObject.js"></script>
+		<script type="text/javascript">
+		<!--
+		    var viewportwidth;
+		    var viewportheight;
+		    var unity; 
+		    viewportwidth = window.innerWidth;
+		    viewportheight = window.innerHeight;
+		    function GetUnity() {
+			    if (typeof unityObject != "undefined") {
+				    return unityObject.getObjectById("unityPlayer");
+			    }
+			    return null;
+		    }
+		    if (typeof unityObject != "undefined") {
+		        var params = {
+		            disableContextMenu: true
+		        };
+			    unityObject.embedUnity("unityPlayer", "WebPlayer.unity3d", "100%", "100%");
+			}
+
+			function speak(arg) {
+			    unity.sendMessage("Script", "speak", arg);
+			}
+
+			function perform(arg) {
+			    unity.sendMessage("Script", "perform", arg);
+			}
+
+			function endspeak(arg) {
+			    unity.sendMessage("Script", "endspeak","");
+			}
+
+			function callUnity() {
+			    unity.SendMessage("Script", "setFieldText", "Hello from a web page!");
+//			    unity.SendMessage("Script", "adjustWeight", 1.0);
+			}
+			
+            function fromUnity(arg) {
+                // show the message
+                window.external.fromUnity(arg);
+            }
+
+            function onUnityLoaded() {
+                if (unity == null)
+                    unity = GetUnity();
+                //TODO: ADD ANY OTHER LOGIC
+                window.external.onLoad();
+            }
+
+		-->
+		</script>
+        <style type="text/css" media=screen>
+            body
+            {
+                margin: 0px;
+                padding: 0px;
+            }
+        </style>
+
+	</head>
+	<body>
+  		<div class="content">
+    		<div id="unityPlayer">
+            </div>
+        </div>
+	</body>
+</html>
