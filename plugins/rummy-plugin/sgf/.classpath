@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/agent"/>
+	<classpathentry kind="lib" path="lib"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/cmu_time_awb.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/cmu_us_kal.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/cmudict04.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/cmulex.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/cmutimelex.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/en_us.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/freetts-jsapi10.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/freetts.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/jsapi.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/freetts/mbrola.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/jdom-2/jdom-2.0.4.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/gtts.jar"/>
+	<classpathentry kind="lib" path="/Users/morti/Documents/workspace/sgf/lib/jl1.0.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
