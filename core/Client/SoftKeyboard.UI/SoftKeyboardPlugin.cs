@@ -37,7 +37,7 @@ namespace SoftKeyboard.UI
 			//_remote.RemoveReceiveHandler("");
 		}
 
-        public System.Windows.UIElement GetUIElement()
+        public Viewbox GetUIElement()
         {
             //keyboard
             //TODO
