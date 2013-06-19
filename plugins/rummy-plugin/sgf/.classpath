@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="C:/Users/mel/Documents/GitHub/always/plugins/rummy-plugin/sgf/lib/freetts/mbrola.jar"/>
 	<classpathentry kind="lib" path="C:/Users/mel/Documents/GitHub/always/plugins/rummy-plugin/sgf/lib/jdom-2/jdom-2.0.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/mel/Documents/GitHub/always/plugins/rummy-plugin/sgf/lib/google-gson-2.2.4/gson-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/mel/Documents/GitHub/always/plugins/rummy-plugin/sgf/lib/junit-4.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
