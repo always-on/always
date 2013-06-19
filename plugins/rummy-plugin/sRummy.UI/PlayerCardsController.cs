@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Collections.Specialized;
+using Rummy;
 
 namespace SRummy.UI
 {

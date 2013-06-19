@@ -26,10 +26,20 @@ namespace AgentApp
 
                 game.AgentCardsController.CanPlay += (s, e) =>
                 {
+                    var allAvailableMovesBody = getPossibleMovesAsJson();
+                    
+                    //logging
+                    Console.WriteLine("------****-------");
+                    Console.WriteLine(allAvailableMovesBody.ToString());
+                    Console.WriteLine("------****-------");
+                   
                     var body = new JObject();
                     Move m = game.AgentCardsController.GetBestMove();
                     body["action"] = MoveNameToSend(m);
                     _remote.Send("rummy.available_action", body);
+                   
+                    //here, sending all the possible moves to Java
+                    _remote.Send("rummy.available_moves", allAvailableMovesBody);
                 };
 
                 game.GameState.StateChanged += (oldState, newState) =>
@@ -119,6 +129,46 @@ namespace AgentApp
 			}
 		}
 
+        public JObject getPossibleMovesAsJson()
+        {
+            List<Move> currentPossibleMoves = new List<Move>();
+            currentPossibleMoves.AddRange(
+                game.AgentCardsController.possibleMoves.Moves());
+            
+            var body = new JObject();
+            int discards = 0, layoffs = 0, melds = 0;
+
+            foreach (Move eachMove in currentPossibleMoves)
+            {
+                try
+                {
+                    if (eachMove is DiscardMove)
+                    {
+                        discards++;
+                        body.Add(new JProperty("discard" + discards, new JObject(
+                           new JProperty("card", ((DiscardMove)eachMove).GetCard().ToString()))));
+                    }
+                    else if (eachMove is LayOffMove)
+                    {
+                        layoffs++;
+                        body.Add(new JProperty("layoff" + layoffs, new JObject(
+                           new JProperty("card", ((LayOffMove)eachMove).GetCard().ToString()),
+                           new JProperty("meldhash", ((LayOffMove)eachMove).Meld.GetHashCode()))));
+                    }
+                    else if (eachMove is MeldMove)
+                    {
+                        melds++;
+                        body.Add(new JProperty("meld" + melds, new JObject(
+                            new JProperty("meldcards", ((MeldMove)eachMove).Meld.CardsToString()))));
+                    }
+                }
+                catch(Exception)
+                {
+                }
+            }
+            
+            return body;
+        }
         public System.Windows.UIElement GetUIElement()
         {
             return game;

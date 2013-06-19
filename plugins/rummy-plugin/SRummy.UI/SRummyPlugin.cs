@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Agent.Tcp;
-using Rummy.UI;
+using SRummy.UI;
 using Rummy;
 using System.Windows.Threading;
 using Agent.Core;
