@@ -10,7 +10,7 @@ import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.PlaceManager;
 
-public class DianeGenerator {
+public class TestUserGenerator {
 
    public static void main (String[] args) {
       Always always = new Always(true);
@@ -19,9 +19,11 @@ public class DianeGenerator {
       generate(model);
       UserUtils.print(model, System.out);
       model.save();
+      System.exit(0);
    }
       
    public static void generate (UserModel userModel) {
+      userModel.setUserName("Diane Ferguson");
       PeopleManager peopleMgr = userModel.getPeopleManager();
       PlaceManager placeMgr = userModel.getPlaceManager();
       Calendar calendar = userModel.getCalendar();

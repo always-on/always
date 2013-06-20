@@ -81,7 +81,7 @@ public abstract class Plugin {
     * Returns the activities that this plugin currently makes available.  This method
     * is called by {@link edu.wpi.always.RelationshipManager}.
     * 
-    * @param baseline The closeness at the start of this session
+    * @param baseline The closeness at the start of this session (ignored)
     */
    public List<Activity> getActivities (int baseline) { return activities; }
      
@@ -126,7 +126,7 @@ public abstract class Plugin {
       schemas.add(activity);
       // store information for arbitrator focus assignment
       String task = name;
-      Properties properties = interaction.getDisco().getModel("urn:always.wpi.edu:Actitivies")
+      Properties properties = interaction.getDisco().getModel("urn:always.wpi.edu:Activities")
                                  .getProperties(); 
       for ( String key : properties.stringPropertyNames() ) 
          if ( key.endsWith("@activity") && name.equals(properties.get(key)) )

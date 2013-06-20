@@ -1,0 +1,137 @@
+    # Jun 5, 2013 8:22:40 PM - TaskEngine 1.4.8 / Disco 1.6.10
+    Welcome to Disco! (Type 'help' for command list)
+  > eval date="testing"
+    # Returned 'testing'
+  > load java/edu/wpi/always/weather/resources/Weather.xml
+  > task _WeatherCompanion
+    User says "Let's achieve _WeatherCompanion."
+    Agent says "Today in Woooorcester, MA it is going to be 32.5 fahrenheit and it is Overcast."
+  > say
+[1] How does it feel outside?
+[2] What's the forecast for tomorrow?
+[3] Ok, now I know the local weather!
+  >> 1
+    User says "How does it feel outside?"
+    Agent says "With 24% humidity, it feels like 32.5 fahrenheit."
+  > say
+[1] How does it feel outside?
+[2] What's the forecast for tomorrow?
+[3] Ok, now I know the local weather!
+  >> 2
+    User says "What's the forecast for tomorrow?"
+    Agent says " Cloudy. Lows around 30. West winds around 5 mph.  ."
+  > say
+[1] How does it feel outside?
+[2] What's the forecast for tomorrow?
+[3] Ok, now I know the local weather!
+  >> 3
+    User says "Ok, now I know the local weather!"
+    Agent says "Let me check if there's a severe weather alert in your area."
+  > say
+[1] That would be helpful.
+[2] No, I don't want to know.
+  >> 1
+    User says "That would be helpful."
+    Agent says "No severe alert in your area."
+  > say
+[1] Good to know.
+  >> 1
+    User says "Good to know."
+    Agent says "Would you like to know about the weather in cities around the country?"
+  > say
+[1] Sure.
+[2] No, not today.
+  >> 1
+    User says "Sure."
+    Agent says "Here's a list of cities I can tell you the weather for."
+  > say
+[1] Boston.
+[2] New York.
+[3] Miami.
+[4] New Orleans.
+[5] San Francisco.
+[6] Seattle.
+[7] No more cities.
+  >> 3
+    User says "Miami."
+    Agent says "City of beaches. The temperature is 76.7 fahrenheit.  It is Mostly Cloudy now."
+  > say
+[1] Show me the cities again.
+[2] No more cities.
+  >> 1
+    User says "Show me the cities again."
+    Agent says "Here's a list of cities I can tell you the weather for."
+  > say
+[1] Boston.
+[2] New York.
+[3] Miami.
+[4] New Orleans.
+[5] San Francisco.
+[6] Seattle.
+[7] No more cities.
+  >> 6
+    User says "Seattle."
+    Agent says "The emerald city, home of Mount Rainier. The temperature is 43 fahrenheit.  It is Overcast now."
+  > say
+[1] Show me the cities again.
+[2] No more cities.
+  >> 2
+    User says "No more cities."
+    Agent says "Are you interested in knowing the record weather for today in the history?"
+  > say
+[1] No, I don't want to.
+[2] Okay I guess.
+[3] Yes, tell me.
+  >> 2
+    User says "Okay I guess."
+    Agent says "The record high is 56 F. It happened in 1908."
+  > say
+[1] Wow, go on.
+[2] Uh-huh.  That's enough.
+  >> 1
+    User says "Wow, go on."
+    Agent says "The record low is -11 F. It happened in  1979."
+  > say
+[1] That's pretty cold.
+[2] That sounds about right.
+  >> 1
+    User says "That's pretty cold."
+    Agent says "Yeah.  Compared to the average temperatures of 17 (low) and 34 (high), you can judge the difference."
+  > say
+[1] Yeh, thanks for telling me.
+[2] Sure glad I'm here.
+  >> 1
+    User says "Yeh, thanks for telling me."
+    Agent says "Do you want to know what the weather's like where your friends or family members live?"
+  > say
+[1] Sure.
+[2] No, not today.
+  >> 1
+    User says "Sure."
+    Agent says "Pick a person and I'll tell you the weather where they live."
+  > say
+[1] Mary.
+[2] Bob.
+[3] Lucy.
+  >> 1
+    User says "Mary."
+    Agent says "Mary is in Glendale, AZ. Right now it is 61.9 fahrenheit."
+  > say
+[1] Go on.
+  >> 1
+    User says "Go on."
+    Agent says "And the weather condition is Mostly Cloudy."
+  > say
+[1] Show me the people again.
+  >> 1
+    User says "Show me the people again."
+    Agent says "Pick a person and I'll tell you the weather where they live."
+  > say
+[1] Mary.
+[2] Bob.
+[3] Lucy.
+  >> 2
+    User says "Bob."
+    Agent says "Bob is in Boston, MA. Right now it is 66 fahrenheit."
+  > quit
+    

@@ -12,15 +12,18 @@ import java.io.*;
 
 public abstract class UserUtils {
 
-   public static final File userHomeDir = new File(System.getProperty("user.home"));
+   /**
+    * Folder where user model is stored.  Default is user home directory.
+    * See initialization in always/user/Activities.xml
+    */
+   public static String USER_FOLDER = System.getProperty("user.home"); 
    
-   public static final File userProgramDataRoot = new File(userHomeDir, "AlwaysOn");
-   
-   // TODO Use DropBox folder or give warning and use temp folder
-
-   public static File getUserFile (String path) {
-      return new File(userProgramDataRoot, path);
-   }
+   /**
+    * Filename in USER_FOLDER for user model.
+    * 
+    * @see Always#processArgs(String[])
+    */
+   public static String USER_FILE = "User.owl";
    
    /**
     * Print out core information about all people
@@ -56,21 +59,6 @@ public abstract class UserUtils {
       }
       stream.println("CALENDAR");
       CalendarUtils.print(model.getCalendar(), stream);
-   }
-   
-   /**
-    * Nested class with main method for testing Disco task models (and accessing
-    * user model) without running Always client
-    */
-   public static class Disco {
-      public static void main (String[] args) { 
-         Interaction interaction = new Interaction(
-            new Agent("agent"), 
-            new User("user"),
-            args.length > 0 && args[0].length() > 0 ? args[0] : null);
-         interaction.getDisco().setGlobal("ALWAYS", new Always(false));
-         interaction.start(true);
-      }
    }
 
    private UserUtils () {}

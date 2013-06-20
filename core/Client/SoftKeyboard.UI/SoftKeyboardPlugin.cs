@@ -6,6 +6,7 @@ using Agent.Tcp;
 using System.Windows.Threading;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
+using System.Windows.Controls;
 
 namespace SoftKeyboard.UI
 {
@@ -14,6 +15,7 @@ namespace SoftKeyboard.UI
 		KeyboardPanel keyboard;
         IMessageDispatcher _remote;
         IUIThreadDispatcher _uiThreadDispatcher;
+        Viewbox pluginContainer;
 
 		public SoftKeyboardPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher, string contextString)
         {
@@ -22,6 +24,10 @@ namespace SoftKeyboard.UI
             uiThreadDispatcher.BlockingInvoke(() =>
             {
 				keyboard = new KeyboardPanel(contextString, remote);
+                //Example pluginContainer code
+                pluginContainer = new Viewbox();
+                pluginContainer.Child = keyboard;
+                //End of example
             });
 
 			//_remote.RegisterReceiveHandler("calendar.display", new MessageHandlerDelegateWrapper(m => display(m)));
@@ -31,10 +37,11 @@ namespace SoftKeyboard.UI
 			//_remote.RemoveReceiveHandler("");
 		}
 
-
-        public System.Windows.UIElement GetUIElement()
+        public Viewbox GetPluginContainer()
         {
-            return keyboard;
+            //keyboard
+            //TODO
+            return null;
         }
     }
 }

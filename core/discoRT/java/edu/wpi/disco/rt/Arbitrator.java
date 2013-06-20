@@ -19,6 +19,8 @@ public class Arbitrator implements Runnable {
    private List<Resource> freeResources;
    private List<CandidateBehavior> proposals, selected;
 
+   public Schema getFocus () { return focusSchema; }
+   
    public Arbitrator (ArbitrationStrategy strategy, IRealizer realizer,
          ICandidateBehaviorsContainer behaviors, DiscoRT discoRT) {
       this.strategy = strategy;
@@ -54,15 +56,8 @@ public class Arbitrator implements Runnable {
                }
             }
          }
-         warning:
-         if ( focusProposal == null ) {
-            focusSchema = null;
-            if ( focusPlan == null || focusPlan.isStarted() ) {
-               for (CandidateBehavior p : candidateBehaviors.all()) // including empty behaviors
-                  if ( p.getProposer().getClass() == schema ) break warning;
-               System.err.println("WARNING: Focus schema is not running: "+schema);
-            }
-         } else focusProposal = null; // for decide
+         if ( focusProposal == null ) focusSchema = null;
+         else focusProposal = null; // for decide
       } else { // Disco doesn't care
          for (CandidateBehavior proposal : proposals)
             if ( proposal.getProposer() == focusSchema && !proposal.getBehavior().isEmpty() ) { 

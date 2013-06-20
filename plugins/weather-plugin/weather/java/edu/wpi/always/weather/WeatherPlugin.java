@@ -5,17 +5,17 @@ import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.weather.wunderground.WundergroundWeatherProvider;
 
-// TODO Make this work with live data
-//      using generateNewReport(), loadRecentDataFromFile();
+// TODO Make this work with live daily data
 
 public class WeatherPlugin extends Plugin {
    
    public WeatherPlugin (UserModel userModel, CollaborationManager cm) {
       super("Weather", userModel, cm);
-      addActivity("DiscussWeather", 0, 0, 0, 0, WeatherSchema.class, WundergroundWeatherProvider.class); 
+      addActivity("DiscussWeather", 0, 0, 0, 0, WeatherSchema.class); 
    }
    
    // Property names must be constants and start with plugin name
+   // This is just an example for testing
    public static final String FAVORITE = "WeatherFavorite"; 
          
    /**
@@ -23,6 +23,7 @@ public class WeatherPlugin extends Plugin {
     */
    public static void main (String[] args) {
       Always always = new Always(true, WeatherPlugin.class, "DiscussWeather");
+      always.processArgs(args);
       always.start();
       Plugin plugin = always.getContainer().getComponent(WeatherPlugin.class);
       // testing new user property extension (see Weather.owl)

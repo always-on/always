@@ -11,8 +11,8 @@ import java.util.List;
 
 public class MenuTurnStateMachine implements BehaviorBuilder {
 
-   private static final int TIMEOUT_DELAY = 10000; 
-   private static final int MENU_DELAY = 10;
+   public static final int TIMEOUT_DELAY = 10000; 
+   public static final int MENU_DELAY = 10;
    
    private final BehaviorHistory behaviorHistory;
    private final MenuPerceptor menuPerceptor;
@@ -23,8 +23,8 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private State state;
    private DateTime waitingForResponseSince;
    private TimeStampedValue<Behavior> lastProposal = new TimeStampedValue<Behavior>(Behavior.NULL);
-   private AdjacencyPair stateOfLastProposal;
    private boolean addSomethingToDifferentiateFromLastProposal;
+   private AdjacencyPair stateOfLastProposal;
    private boolean extension;
    
    public void setExtension (boolean extension) { this.extension = extension; }
@@ -95,7 +95,8 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          b = Behavior.newInstance(menuBehavior);
          waitingForResponseSince = DateTime.now(); // reset now since nothing said
       }
-      if ( stateOfLastProposal != currentAdjacencyPair ) {
+      if ( stateOfLastProposal != currentAdjacencyPair /* || 
+            (state == State.Hear && currentAdjacencyPair.isCircular()) */ ) {
          if ( lastProposal.getValue().equals(b) ) 
             addSomethingToDifferentiateFromLastProposal = true;
          setLastProposal(Behavior.NULL);

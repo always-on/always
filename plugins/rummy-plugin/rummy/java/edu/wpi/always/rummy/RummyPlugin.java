@@ -15,7 +15,9 @@ public class RummyPlugin extends Plugin {
     * For testing Rummy by itself
     */
    public static void main (String[] args) {
-      new Always(true, RummyPlugin.class, "PlayRummy").start();
+     Always always = new Always(true, RummyPlugin.class, "PlayRummy");
+     always.processArgs(args);
+     always.start();
    }
   
 

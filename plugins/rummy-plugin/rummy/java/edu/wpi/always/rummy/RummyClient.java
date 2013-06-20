@@ -5,8 +5,10 @@ import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.ActivitySchema;
+import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.menu.MenuBehavior;
+import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;
 import java.awt.Point;
@@ -28,6 +30,14 @@ public class RummyClient implements ClientPlugin {
    private boolean reactedToFinishedGameAlready = false;
    private int agentCardsNum = 10;
    private int userCardsNum = 10;
+   
+   /**
+    * For user turn reminder (in millis).
+    */
+   public static int TIMEOUT_DELAY = MenuTurnStateMachine.TIMEOUT_DELAY*3; 
+   
+   private long waitingForUserSince; // millis or zero if not waiting
+   private boolean yourTurn;  // last proposal (not done)
 
    public RummyClient (UIMessageDispatcher dispatcher) {
       this.dispatcher = dispatcher;
@@ -66,6 +76,12 @@ public class RummyClient implements ClientPlugin {
 
    @Override
    public BehaviorBuilder updateInteraction (boolean lastProposalIsDone, double focusMillis) {
+      if ( lastProposalIsDone && yourTurn ) {
+         yourTurn = false;
+         waitingForUserSince = System.currentTimeMillis();
+      }
+      // everything between here and **** below can be replaced by Morteza's
+      // new architecture - CR
       processInbox();
       // always propose at least an empty menu for extension
       ProposalBuilder builder = newProposal();
@@ -73,7 +89,7 @@ public class RummyClient implements ClientPlugin {
       metadata.timeRemaining(agentCardsNum + userCardsNum);
       metadata.specificity(ActivitySchema.SPECIFICITY);
       builder.setMetadata(metadata);
-      // don't want to mistake lastProposalIsDone with one about a *move*,
+      // don't want to mistake lastProposalIsDone with one about a _move_,
       // hence the check for lastMoveProposal not being null
       if ( gameOver() && lastMoveProposal == null ) {
          if ( !lastProposalIsDone && !reactedToFinishedGameAlready ) {
@@ -86,11 +102,13 @@ public class RummyClient implements ClientPlugin {
          } else {
             reactedToFinishedGameAlready = true;
          }
+         agentMove();
          return builder;
       }
       if ( lastMoveProposal != null && lastProposalIsDone )
          myLastMoveTime = DateTime.now();
       if ( lastMoveProposal != null && !lastProposalIsDone ) {
+         agentMove();
          return lastMoveProposal;
       } else if ( availableMove != null && availableMove.getValue().length() > 0 ) {
          PluginSpecificBehavior move = new PluginSpecificBehavior(this,
@@ -101,8 +119,7 @@ public class RummyClient implements ClientPlugin {
          if ( isMeld(availableMove.getValue()) ) {
             toSay = "Now, I am going to do this meld, $ and done!";         
          } else if ( isDraw(availableMove.getValue()) ) {
-            // toSay = "Okay, I have to draw a card. <GAZE DIR=AWAY/> $ The Card is drawn, and let me see what I can do with it! <GAZE DIR=TOWARD/>";
-            toSay = "Okay, I have to draw a card. $ The Card is drawn, and let me see what I can do with it!";
+             toSay = "Okay, I have to draw a card. <GAZE horizontal=\"-2\" vertical=\"-1\"/> $ The Card is drawn, and let me see what I can do with it! <GAZE horizontal=\"0\" vertical=\"0\"/>";
          } else if ( isDiscard(availableMove.getValue()) ) {
             toSay = "I am done, so I'll discard this one, $ and now it's your turn.";
          }
@@ -113,19 +130,38 @@ public class RummyClient implements ClientPlugin {
          b.setMetaData(metadata);
          lastMoveProposal = b;
          availableMove = null;
+         agentMove();
          return b;
       } else {
          lastMoveProposal = null;
          if ( userMadeAMeldAfterMyLastMove() ) {
             builder.say("Good one!");
+            agentMove();
+            return builder;
          }
       }
-      // check if waiting for user to make move since last focus
-      if ( focusMillis > 2000 ) 
-         builder.say("It's your turn").showMenu(Collections.<String>emptyList(), false);
+      // ******** see note above
+      //
+     if ( yourTurn  
+           || (waitingForUserSince > 0 
+               && ( (System.currentTimeMillis() - waitingForUserSince) > TIMEOUT_DELAY))
+           || (focusMillis > DiscoRT.ARBITRATOR_INTERVAL*5) ) {
+         builder.say("It's your turn");      
+         yourTurn = true;
+      } else {
+         if ( waitingForUserSince == 0 ) waitingForUserSince = System.currentTimeMillis();
+         builder.showMenu(Collections.<String>emptyList(), false);
+      }
+      //**** never returns just null anymore--always empty menu
+      // see RummySchema for idle behavior (if builder returns Behavior.NULL)
       return builder;
    }
 
+   private void agentMove () {
+      yourTurn = false;
+      waitingForUserSince = 0;
+   }
+   
    private boolean userMadeAMeldAfterMyLastMove () {
       return userMove != null
          && userMove.getTimeStamp().isAfter(myLastMoveTime)
