@@ -37,11 +37,11 @@ namespace SoftKeyboard.UI
 			//_remote.RemoveReceiveHandler("");
 		}
 
-        public Viewbox GetUIElement()
+        public Viewbox GetPluginContainer()
         {
             //keyboard
             //TODO
-            return null;
+            return pluginContainer;
         }
     }
 }

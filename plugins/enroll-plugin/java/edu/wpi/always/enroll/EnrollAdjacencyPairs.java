@@ -17,16 +17,73 @@ import edu.wpi.always.enroll.ErrorCheckState.*;
 
 public abstract class EnrollAdjacencyPairs{
 
-	protected static String PersonName, PersonAge, PhoneNumber, SkypeNumber, Spouse;
+	protected static String UserName, PersonName, PersonAge, PhoneNumber, SkypeNumber, Spouse;
 	protected static Relationship relationship;
 	protected static Gender gender;
 	protected static Place zipcode;
 	protected static Person person;
 	protected static String personState;
+	
+	public static class UserNameAdjacencyPair extends 
+	KeyboardAdjacencyPair<EnrollStateContext> {
+		
+		public UserNameAdjacencyPair(final EnrollStateContext context) {
+			super("What is the name you want me to use to talk with you", 
+					"Enter your first name:", context, context.getKeyboard());
+		}
+
+		@Override
+		public AdjacencyPair success(String text) {
+			getContext().hideKeyboard();
+			UserName = text;
+			return new TellUserBirthdayAdjacencyPair(getContext());
+		}
+
+		@Override
+		public AdjacencyPair cancel() {
+			getContext().hideKeyboard();
+			return new InitialEnroll(getContext());
+		}
+	}
+	
+	public static class TellUserBirthdayAdjacencyPair extends
+	AdjacencyPairBase<EnrollStateContext> {
+
+		public TellUserBirthdayAdjacencyPair(final EnrollStateContext context) {
+			super("Do you want to tell me your birthday", context);
+			choice("Yes", new DialogStateTransition() {
+
+				@Override
+				public AdjacencyPair run() {
+					return new UserBirthdayAdjacencyPair(getContext());
+				}
+			});
+			choice("No", new DialogStateTransition() {
+
+				@Override
+				public AdjacencyPair run () {
+					return new PersonNameAdjacencyPair(getContext());
+				}
+			});
+			choice("Never Mind", new DialogStateTransition() {
+				
+				@Override
+				public AdjacencyPair run() {
+					return new PersonNameAdjacencyPair(getContext());
+				}
+			});
+			choice("Please repeat this question.", new DialogStateTransition() {
+
+				@Override
+				public AdjacencyPair run () {
+					return new TellUserBirthdayAdjacencyPair(getContext());
+				}
+			});
+	}
 
 	public static class PersonNameAdjacencyPair extends 
 	KeyboardAdjacencyPair<EnrollStateContext> {
-
+		
 		public PersonNameAdjacencyPair(final EnrollStateContext context) {
 			super("What is the person's name", "Enter name:", context, context.getKeyboard());
 		}

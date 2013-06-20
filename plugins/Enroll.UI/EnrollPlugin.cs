@@ -7,6 +7,7 @@ using Enroll.UI;
 using System.Windows.Threading;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
+using System.Windows.Controls;
 
 namespace Enroll.UI
 {
@@ -15,6 +16,7 @@ namespace Enroll.UI
         EnrollEntryPanel enrollEntryPanel;
         IMessageDispatcher _remote;
         IUIThreadDispatcher _uiThreadDispatcher;
+        Viewbox pluginContainer;
 
         public EnrollPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
@@ -23,6 +25,10 @@ namespace Enroll.UI
             uiThreadDispatcher.BlockingInvoke(() =>
             {
 				enrollEntryPanel  = new EnrollEntryPanel();
+                //Example pluginContainer code
+                pluginContainer = new Viewbox();
+                pluginContainer.Child = enrollEntryPanel;
+                //End of example
             });
 
              _remote.RegisterReceiveHandler("enroll.display",
@@ -31,7 +37,7 @@ namespace Enroll.UI
 
         public void Dispose()
 		{
-			_remote.RemoveReceiveHandler("");
+			//_remote.RemoveReceiveHandler("");
 		}
 
         private readonly Object displayLock = new Object();
@@ -56,6 +62,12 @@ namespace Enroll.UI
         public System.Windows.UIElement GetUIElement()
         {
             return enrollEntryPanel;
+        }
+
+        public Viewbox GetPluginContainer()
+        {
+            //TODO
+            return pluginContainer;
         }
     }
 }

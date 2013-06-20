@@ -33,15 +33,15 @@ namespace SoftKeyboard.UI
 			//_remote.RegisterReceiveHandler("calendar.display", new MessageHandlerDelegateWrapper(m => display(m)));
         }
 		public void Dispose()
-		{
+		{   
 			//_remote.RemoveReceiveHandler("");
 		}
 
-        public Viewbox GetUIElement()
+        public Viewbox GetPluginContainer()
         {
             //keyboard
             //TODO
-            return null;
+            return pluginContainer;
         }
     }
 }
