@@ -18,9 +18,9 @@ public interface Person {
       Friend, Parent, Father, Mother, Spouse, Husband, Wife, Offspring, Son, Daughter, Sibling, Brother, Sister, Grandchild, Grandson, Granddaughter, Grandparent, Grandfather, Grandmother, Aunt, Uncle, Cousin;
    }
    
-   enum Month {
-	   January, February, March, April, May, June, July, August, September, October, November, December
-   }
+   public static String[] Month = {
+	   "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+   };
 
    String getName ();
    

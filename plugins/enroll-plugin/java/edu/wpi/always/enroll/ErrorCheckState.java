@@ -2,12 +2,14 @@ package edu.wpi.always.enroll;
 
 import java.util.List;
 
+import org.joda.time.MonthDay;
+
 import edu.wpi.always.client.KeyboardAdjacencyPair;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.always.enroll.schema.EnrollStateContext;
 import edu.wpi.always.enroll.schema.InitialEnroll;
 import edu.wpi.always.user.people.Person;
-import edu.wpi.always.user.people.ValidPhoneOrAge;
+import edu.wpi.always.user.people.ValidPhoneAgeBirthday;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.ZipCodes;
@@ -28,6 +30,12 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				@Override
 				public AdjacencyPair run() {
 					return new EditNameAdjacencyPair(getContext());
+				}
+			});
+			choice("Edit Birthday", new DialogStateTransition() {
+				@Override
+				public AdjacencyPair run() {
+					return new TellEditBirthdayAdjacencyPair(getContext());
 				}
 			});
 			choice("Edit Zipcode", new DialogStateTransition() {
@@ -106,6 +114,137 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 			return new CheckCorrectionAdjacencyPair(getContext(), person);
 		}
 	}
+	
+	public static class TellEditBirthdayAdjacencyPair extends
+	AdjacencyPairBase<EnrollStateContext> {
+
+		public TellEditBirthdayAdjacencyPair(final EnrollStateContext context) {
+			super("Do you want to tell " + PersonName + "s birthday", context);
+			choice("Yes", new DialogStateTransition() {
+
+				@Override
+				public AdjacencyPair run() {
+					return new EditBirthdayMonthAdjacencyPair(getContext(), person);
+				}
+			});
+			choice("No", new DialogStateTransition() {
+
+				@Override
+				public AdjacencyPair run () {
+					person.setBirthday(null);
+					return new CheckCorrectionAdjacencyPair(getContext(), person);
+				}
+			});
+			choice("Never Mind", new DialogStateTransition() {
+
+				@Override
+				public AdjacencyPair run() {
+					person.setBirthday(null);
+					return new CheckCorrectionAdjacencyPair(getContext(), person);
+				}
+			});
+			choice("Please repeat this question.", new DialogStateTransition() {
+
+				@Override
+				public AdjacencyPair run () {
+					return new TellEditBirthdayAdjacencyPair(getContext());
+				}
+			});
+		}
+	}
+
+	public static class EditBirthdayMonthAdjacencyPair extends
+	AdjacencyPairBase<EnrollStateContext> {
+
+		public EditBirthdayMonthAdjacencyPair(final EnrollStateContext context,
+				 final Person person) {
+			super("What is " + PersonName + "'s birthday month", context, true);
+			Month = 0;
+			for(int i = 0; i < 12; i++) {
+				choice(Person.Month[i], new DialogStateTransition() {
+					@Override
+					public AdjacencyPair run() {
+						Month = Month + 1;
+						return new EditBirthdayDayAdjacencyPair(getContext(), person);
+					}
+				});
+			}
+			choice("Never Mind", new DialogStateTransition() {
+				@Override
+				public AdjacencyPair run() {
+					person.setBirthday(null);
+					return new CheckCorrectionAdjacencyPair(getContext(), person);
+				}
+			});
+		}
+	}
+
+	public static class EditBirthdayDayAdjacencyPair extends
+	KeyboardAdjacencyPair<EnrollStateContext> {
+
+		public EditBirthdayDayAdjacencyPair(final EnrollStateContext context, 
+				final Person person) {
+			super("What is the day of " + PersonName + "'s Birthday", 
+					"Enter "+ PersonName+ "'s Birthday:", 
+					context, context.getKeyboard(), true);
+		}
+
+		@Override
+		public AdjacencyPair success(String text) {
+			int day = Integer.parseInt(text);
+			if(ValidPhoneAgeBirthday.isValidDayOfMonth(Month, day)){
+				getContext().hideKeyboard();
+				Day = day;
+				personBirthday = new MonthDay(Month, Day);
+				person.setBirthday(personBirthday);
+				return new CheckCorrectionAdjacencyPair(getContext(), person);
+			}
+			else{
+				getContext().hideKeyboard();
+				return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
+			}
+		}
+
+		@Override
+		public AdjacencyPair cancel() {
+			getContext().hideKeyboard();
+			person.setBirthday(null);
+			return new CheckCorrectionAdjacencyPair(getContext(), person);
+		}	
+	}
+
+	public static class EditBirthdayDayInvalidAdjacencyPair extends
+	KeyboardAdjacencyPair<EnrollStateContext> {
+
+		public EditBirthdayDayInvalidAdjacencyPair(final EnrollStateContext context, 
+				final Person person) {
+			super("The day you enter is invalid please enter again", 
+					"Enter valid "+ PersonName+ "'s birthday:", context, context.getKeyboard(), true);
+		}
+
+		@Override
+		public AdjacencyPair success(String text) {
+			int day = Integer.parseInt(text);
+			if(ValidPhoneAgeBirthday.isValidDayOfMonth(Month, day)){
+				getContext().hideKeyboard();
+				Day = day;
+				personBirthday = new MonthDay(Month, Day);
+				person.setBirthday(personBirthday);
+				return new CheckCorrectionAdjacencyPair(getContext(), person);
+			}
+			else{
+				getContext().hideKeyboard();
+				return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
+			}
+		}
+
+		@Override
+		public AdjacencyPair cancel() {
+			getContext().hideKeyboard();
+			person.setBirthday(null);
+			return new CheckCorrectionAdjacencyPair(getContext(), person);
+		}	
+	}
 
 	public static class EditGenderAdjacencyPair extends
 	AdjacencyPairBase<EnrollStateContext> {
@@ -149,7 +288,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			if(ValidPhoneOrAge.isInteger(text)){
+			if(ValidPhoneAgeBirthday.isInteger(text)){
 				getContext().hideKeyboard();
 				person.setAge(text);
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
@@ -178,7 +317,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			if(ValidPhoneOrAge.isInteger(text)){
+			if(ValidPhoneAgeBirthday.isInteger(text)){
 				getContext().hideKeyboard();
 				person.setAge(text);
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
@@ -579,7 +718,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			if(ValidPhoneOrAge.isPhoneNumberValid(text)){
+			if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
 				getContext().hideKeyboard();
 				person.setPhoneNumber(text);
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
@@ -609,7 +748,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			if(ValidPhoneOrAge.isPhoneNumberValid(text)){
+			if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
 				getContext().hideKeyboard();
 				person.setPhoneNumber(text);
 				return new CheckCorrectionAdjacencyPair(getContext(), person);

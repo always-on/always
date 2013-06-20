@@ -5,6 +5,7 @@ import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
 
+import org.joda.time.MonthDay;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import java.util.Set;
 
@@ -53,7 +54,8 @@ public class OntologyPeopleManager implements PeopleManager {
    
 	@Override
 	public OntologyPerson addPerson(String name, Relationship relationship, Gender gender, 
-			String age, String phoneNumber, String SkypeNumber, Place ZipCode, String spouse){
+			String age, String phoneNumber, String SkypeNumber, Place ZipCode, String spouse, 
+			MonthDay birthday){
 		OntologyIndividual owlPerson = helper.getNamedIndividual(name);
 		owlPerson.addSuperclass(OntologyPerson.PERSON_CLASS);
 		OntologyPerson person = new OntologyPerson(
@@ -73,6 +75,8 @@ public class OntologyPeopleManager implements PeopleManager {
 			person.setLocation(ZipCode);
 		if ( spouse != null)
 			person.setSpouse(spouse);
+		if (birthday != null)
+			person.setBirthday(birthday);
 		return person;
 	}
 
