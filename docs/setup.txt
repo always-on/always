@@ -152,12 +152,14 @@ development tools.
 
 ---ECLIPSE SETUP---
 
-    * Inform Eclipse of repository location
+    * Inform Eclipse of repository and upstream locations
 
       -menu bar Window > Show View > Other > Git > Git Repositories
       -in Git Repositories window, click on Add an existing local Git repository
       -Browse to always folder, e.g., in C:\Users\...\Documents\GitHub
       -click Finish
+      -expand newly created always repository
+      =expand Remotes
 
     * Create a working set
 
