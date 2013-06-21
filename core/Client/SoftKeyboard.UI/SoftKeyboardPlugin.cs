@@ -24,24 +24,17 @@ namespace SoftKeyboard.UI
             uiThreadDispatcher.BlockingInvoke(() =>
             {
 				keyboard = new KeyboardPanel(contextString, remote);
-                //Example pluginContainer code
                 pluginContainer = new Viewbox();
                 pluginContainer.Child = keyboard;
-                //End of example
             });
-
-			//_remote.RegisterReceiveHandler("calendar.display", new MessageHandlerDelegateWrapper(m => display(m)));
         }
 		public void Dispose()
 		{
-			//_remote.RemoveReceiveHandler("");
 		}
 
         public Viewbox GetPluginContainer()
         {
-            //keyboard
-            //TODO
-            return null;
+            return pluginContainer;
         }
     }
 }
