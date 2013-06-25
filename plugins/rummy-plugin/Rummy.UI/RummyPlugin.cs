@@ -51,10 +51,8 @@ namespace AgentApp
                     body["player"] = PlayerNameToSend(m.Player);
 					_remote.Send("rummy.move_happened", body);
                 };
-                //Example Plugin Container code
                 pluginContainer = new Viewbox();
                 pluginContainer.Child = game;
-                //End of example
             });
 
             _remote.RegisterReceiveHandler("rummy.best_move",
