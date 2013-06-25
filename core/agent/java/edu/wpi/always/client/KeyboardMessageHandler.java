@@ -2,12 +2,14 @@ package edu.wpi.always.client;
 
 import com.google.gson.JsonObject;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
+import edu.wpi.always.cm.ProposalBuilder;
 import edu.wpi.disco.Agent;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.lang.Say;
 import edu.wpi.disco.lang.Utterance;
+import edu.wpi.disco.rt.behavior.BehaviorBuilder;
 
-public class KeyboardMessageHandler implements Keyboard, MessageHandler {
+public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 
 	private static final String PLUGIN_NAME = "keyboard";
 	static final String MSG_TEXT_UPDATE = "keyboard.textUpdate";
@@ -15,6 +17,7 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler {
 	static final String NUM_PLUGIN_NAME = "numkeyboard";
 	private volatile String latest;
 	private final UIMessageDispatcher dispatcher;
+
 
 	public KeyboardMessageHandler (UIMessageDispatcher dispatcher) {
 		this.dispatcher = dispatcher;
@@ -27,7 +30,8 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler {
 	    		String event = body.get("event").getAsString();
 	    		if(event.equals("exceed")){
 	    			String prompt = body.get("prompt").getAsString();
-	    			//TODO: agent say the prompt
+	    			System.out.println(prompt);
+	    			//TODO: Speaking Agent speak out the prompt
 	    		}
 	    	}
 	    });

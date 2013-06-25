@@ -42,6 +42,7 @@ public class EnrollClient implements EnrollUI{
 		String gender = (person.getGender() != null)? person.getGender().toString() : null;
 		String zipcode = (person.getLocation() != null)? 
 				person.getLocation().toString() + ", " + person.getLocation().getZip() : null;
+		String birthday = (person.getBirthday() != null)? person.getBirthday().toString() : null;
 				Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
 						.add("name", person.getName())
 						.add("age", person.getAge())
@@ -51,6 +52,7 @@ public class EnrollClient implements EnrollUI{
 						.add("spouse", person.getSpouse())
 						.add("phoneNumber", person.getPhoneNumber())
 						.add("skypeAccount", person.getSkypeNumber())
+						.add("birthday", birthday)
 						.build();
 				dispatcher.send(m);
 	}
@@ -69,6 +71,7 @@ public class EnrollClient implements EnrollUI{
 		String gender = (src.getGender() != null)? src.getGender().toString() : null;
 		String zipcode = (src.getLocation() != null)? 
 				src.getLocation().toString() + ", " + src.getLocation().getZip() : null;
+		String birthday = (src.getBirthday() != null)? src.getBirthday().toString() : null;
 				JsonObject jsonObject = new JsonObject();
 				jsonObject.addProperty("name", src.getName());
 				jsonObject.addProperty("age", src.getAge());
@@ -78,6 +81,7 @@ public class EnrollClient implements EnrollUI{
 				jsonObject.addProperty("Spouse", src.getSpouse());
 				jsonObject.addProperty("phoneNumber", src.getPhoneNumber());
 				jsonObject.addProperty("skypeAccount", src.getSkypeNumber());
+				jsonObject.addProperty("birthday", birthday);
 				return jsonObject;
 	}
 	@Override
