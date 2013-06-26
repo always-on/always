@@ -3,6 +3,7 @@ package edu.wpi.always.enroll.schema;
 import edu.wpi.always.client.Keyboard;
 import edu.wpi.always.client.UIMessageDispatcher;
 import edu.wpi.always.enroll.EnrollUI;
+import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 
@@ -16,7 +17,7 @@ public class EnrollStateContext {
 	
 	
 	public EnrollStateContext(Keyboard keyboard, EnrollUI enrollUI,
-			UIMessageDispatcher dispatcher, PlaceManager placeManager,
+			UIMessageDispatcher dispatcher, UserModel model, PlaceManager placeManager,
 			PeopleManager peopleManager) {
 		this.keyboard = keyboard;
 		this.enrollUI = enrollUI;

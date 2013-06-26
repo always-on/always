@@ -4,11 +4,9 @@ import java.io.IOException;
 
 public interface Keyboard {
 
-   void showKeyboard (String prompt);
+   void showKeyboard (String prompt, boolean isNumeric);
    
    void hideKeyboard ();
    
    String getInputSoFar ();
-
-   void ShowNumKeyboard(String prompt);
 }

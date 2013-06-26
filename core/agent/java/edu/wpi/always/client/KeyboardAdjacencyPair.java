@@ -79,17 +79,9 @@ public abstract class KeyboardAdjacencyPair<C> extends AdjacencyPairBase<C>{
 
 	@Override
 	public void enter () {
-		useKeyBoard();
+		keyboard.showKeyboard(prompt, isNumeric);
 	}
 
-	private void useKeyBoard() {
-		if(isNumeric){
-			keyboard.ShowNumKeyboard(prompt);
-		}
-		else{
-			keyboard.showKeyboard(prompt);
-		}
-	}
 
 	public abstract AdjacencyPair success (String text);
 

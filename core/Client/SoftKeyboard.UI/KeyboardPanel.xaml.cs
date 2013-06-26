@@ -23,9 +23,10 @@ namespace SoftKeyboard.UI
 	public partial class KeyboardPanel : UserControl
 	{
 
+        private static bool isOverflow = false;
 		private IMessageDispatcher remote;
         private string context;
-		public KeyboardPanel(string contextString, IMessageDispatcher remote)
+		public KeyboardPanel(string contextString, IMessageDispatcher remote, bool isNumeric)
 		{
 			this.remote = remote;
 			InitializeComponent();
@@ -33,6 +34,15 @@ namespace SoftKeyboard.UI
             context = contextString;
 			AddHandler(CharacterKey.KeyTypedEvent, new RoutedEventHandler(keyTypedHandler));
 			AddHandler(RubOutKey.RubOutEvent, new RoutedEventHandler(rubOutHandler));
+            if (isNumeric)
+            {
+                ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("x")).Visibility = Visibility.Collapsed;
+                ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("y")).Visibility = Visibility.Collapsed;
+                ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row1")).Visibility = Visibility.Collapsed;
+                ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row2")).Visibility = Visibility.Collapsed;
+                ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row3")).Visibility = Visibility.Collapsed;
+                ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row4")).Visibility = Visibility.Collapsed;
+            }
 		}
 
 		private static void keyTypedHandler(object sender, RoutedEventArgs e)
@@ -42,6 +52,7 @@ namespace SoftKeyboard.UI
 			string text = key.getShiftAdjustedValue();
             if (panel.textBox.Text.Length > 28)
             {
+                isOverflow = true;
                 panel.textBox.Background = new SolidColorBrush(Colors.Red);
                 panel.textBox.IsReadOnly = true;
                 JObject data = new JObject();
@@ -57,6 +68,7 @@ namespace SoftKeyboard.UI
             }
             e.Handled = true;
 		}
+
 
 		private static void rubOutHandler(object sender, RoutedEventArgs e)
 		{
@@ -76,6 +88,7 @@ namespace SoftKeyboard.UI
 		private void rubOut()
 		{
             textBox.Background = new SolidColorBrush(Colors.White);
+            isOverflow = false;
             contextLabel.Content = context;
 			int newLength = textBox.Text.Length-1;
 			if(newLength<0)
@@ -91,6 +104,7 @@ namespace SoftKeyboard.UI
 		{
 			JObject data = new JObject();
 			data["text"] = textBox.Text;
+            data["isOverflow"] = isOverflow;
 			remote.Send("keyboard.textUpdate", data);
 		}
 	}

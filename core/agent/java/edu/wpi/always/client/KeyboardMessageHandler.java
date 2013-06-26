@@ -14,8 +14,8 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 	private static final String PLUGIN_NAME = "keyboard";
 	static final String MSG_TEXT_UPDATE = "keyboard.textUpdate";
 	private static final String KEYBOARD_EXCEED = "keyboard.exceed";
-	static final String NUM_PLUGIN_NAME = "numkeyboard";
 	private volatile String latest;
+	private volatile boolean isOverflow;
 	private final UIMessageDispatcher dispatcher;
 
 
@@ -45,21 +45,15 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 	}
 
 	@Override
-	public void showKeyboard (String prompt) {
-		JsonObject data = new JsonObject();
-		data.addProperty("contextMessage", prompt);
-		ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
-				InstanceReuseMode.Remove, data);
-		latest = null;
-	}
-
-	@Override
-	public void ShowNumKeyboard(String prompt) {
-		JsonObject data = new JsonObject();
-		data.addProperty("contextMessage", prompt);
-		ClientPluginUtils.startPlugin(dispatcher, NUM_PLUGIN_NAME,
-				InstanceReuseMode.Remove, data);
-		latest = null;
+	public void showKeyboard (String prompt, boolean isNumeric) {
+		if(!isOverflow){
+			JsonObject data = new JsonObject();
+			data.addProperty("contextMessage", prompt);
+			data.addProperty("isNumeric", isNumeric);
+			ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
+					InstanceReuseMode.Remove, data);
+			latest = null;
+		}
 	}
 
 	@Override
@@ -70,5 +64,6 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 	@Override
 	public void handleMessage (JsonObject body) {
 		latest = body.get("text").getAsString();
+		isOverflow = body.get("isOverflow").getAsBoolean();
 	}
 }
