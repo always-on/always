@@ -19,7 +19,10 @@ public class Always {
    /**
     * Main method for starting complete Always-On system. First argument
     * [optional] is closeness value (as string): "stranger", "acquaintance", 
-    * or "companion".
+    * or "companion".  Second argument is user model filename (default User.owl). 
+    * See TestUser.owl in always/user.
+    * 
+    * @see #processArgs(String[])
     */
    public static void main (String[] args) {
       Always always = new Always(true);
