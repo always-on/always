@@ -17,7 +17,6 @@ public class OntologyPerson implements Person {
 	public static final String MALE_PERSON_CLASS = "MalePerson";
 	public static final String NAME_PROPERTY = "PersonName";
 	public static final String BIRTHDAY_PROPERTY = "PersonBirthday";
-	public static final String ZIPCODE_PROPERTY = "PersonZipCode";
 	public static final String PHONE_NUMBER_PROPERTY = "PersonPhoneNumber";
 	public static final String SKYPE_NUMBER_PROPERTY = "PersonSkypeNumber";
 	public static final String AGE_PROPERTY = "PersonAge";

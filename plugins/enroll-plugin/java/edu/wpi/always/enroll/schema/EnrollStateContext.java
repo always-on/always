@@ -12,6 +12,7 @@ public class EnrollStateContext {
 	private final Keyboard keyboard;
 	private final EnrollUI enrollUI;
 	private final UIMessageDispatcher dispatcher;
+	private final UserModel model;
 	private final PlaceManager placeManager;
 	private final PeopleManager peopleManager;
 	
@@ -22,6 +23,7 @@ public class EnrollStateContext {
 		this.keyboard = keyboard;
 		this.enrollUI = enrollUI;
 		this.dispatcher = dispatcher;
+		this.model = model;
 		this.placeManager = placeManager;
 		this.peopleManager = peopleManager;
 	}
@@ -45,6 +47,10 @@ public class EnrollStateContext {
 	
 	public UIMessageDispatcher getDispatcher() {
 		return dispatcher;
+	}
+	
+	public UserModel getUserModel() {
+		return model;
 	}
 
 

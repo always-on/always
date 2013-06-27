@@ -25,9 +25,9 @@ public class EnrollSchema extends ActivitySchema{
 		stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
 				menuPerceptor, new RepeatMenuTimeoutHandler());
 		stateMachine.setSpecificityMetadata(.9);
-		stateMachine.setAdjacencyPair(new InitialEnroll(new EnrollStateContext(
-				keyboard, enrollUI, dispatcher, model, placeManager,
-				peopleManager)));
+		stateMachine.setAdjacencyPair(new UserModelAdjacencyPair(new EnrollStateContext(
+				keyboard, enrollUI, dispatcher, model, model.getPlaceManager(),
+				model.getPeopleManager())));
 	}
 
 	@Override

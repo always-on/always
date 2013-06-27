@@ -50,7 +50,9 @@ namespace SoftKeyboard.UI
 			KeyboardPanel panel = (KeyboardPanel)sender;
 			CharacterKey key = (CharacterKey)e.OriginalSource;
 			string text = key.getShiftAdjustedValue();
-            if (panel.textBox.Text.Length > 28)
+            Typeface typeface = new Typeface(panel.textBox.FontFamily, panel.textBox.FontStyle, panel.textBox.FontWeight, panel.textBox.FontStretch);
+            FormattedText ft = new FormattedText(panel.textBox.Text, System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, typeface, panel.textBox.FontSize, Brushes.Black);
+            if (ft.Width > panel.textBox.ActualWidth)
             {
                 isOverflow = true;
                 panel.textBox.Background = new SolidColorBrush(Colors.Red);

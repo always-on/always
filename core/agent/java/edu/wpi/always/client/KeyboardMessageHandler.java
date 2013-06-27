@@ -15,7 +15,7 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 	static final String MSG_TEXT_UPDATE = "keyboard.textUpdate";
 	private static final String KEYBOARD_EXCEED = "keyboard.exceed";
 	private volatile String latest;
-	private volatile boolean isOverflow;
+	private boolean isOverflow;
 	private final UIMessageDispatcher dispatcher;
 
 
