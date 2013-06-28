@@ -1,6 +1,6 @@
 package edu.wpi.always.weather;
 
-import edu.wpi.always.*;
+import edu.wpi.always.Always;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
