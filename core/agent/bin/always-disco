@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Usage: always-disco[ <filename> ]
+# Usage: always-disco [ <filename> ]
 #
 # Runs the given script file using UserUtils.Disco and compares resulting temporary
 # log with corresponding test log file <filename>.test, if it exists

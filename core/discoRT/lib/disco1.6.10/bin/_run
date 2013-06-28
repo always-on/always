@@ -6,6 +6,9 @@
 # to compare resulting temporary log with corresponding test log file <filename>.test, 
 # if it exists. 
 #
+# Note if <filename> does not exist, but <filename>.test does exist, then <filename> is
+# automatically generated in the tmp directory using grep and prompt "  >".
+#
 # Note this runs headless by default (to avoid grabbing focus for test case). 
 # Applications that use this script and require a window should use
 # System.setProperty("java.awt.headless", "false").
@@ -28,14 +31,19 @@ if [[ $uname == CYGWIN* ]]; then
   tmp="$(cygpath -w "$tmp")"
 fi
 if [ "$filename" ]; then
-  java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main" "$filename"
+  good="$filename.test"
+  base=`basename "$filename"`
+  if [ -f "$filename" ]; then
+    cp -f "$filename" "$tmp/$base"
+  else
+    grep "  >" "$good" > "$tmp/$base"
+  fi;
+  java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main" "$tmp/$base"
 else
   java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main"
 fi
 end=`date +%s`
 if [ "$filename" ]; then
-  good="$filename.test"
-  base=`basename "$filename"`
   # keep all test cases in Unix lines
   if [[ $uname == CYGWIN* ]]; then dos2unix -q "$tmp/$base.test"; fi
   if [ -f "$good" ]; then 
