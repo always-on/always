@@ -6,7 +6,7 @@
 # to compare resulting temporary log with corresponding test log file <filename>.test, 
 # if it exists. 
 #
-# Note if <filename> does not exist, but <filename>.test does exist, then <filename> is
+# Note that if <filename> does not exist, but <filename>.test does exist, then <filename> is
 # automatically generated in the tmp directory using grep and prompt "  >".
 #
 # Note this runs headless by default (to avoid grabbing focus for test case). 
