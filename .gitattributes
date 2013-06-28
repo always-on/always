@@ -1,9 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-# make sure bash scripts don't get changed
-*/bin/* text=binary
-
 # Custom for Visual Studio
 *.cs     diff=csharp
 *.sln    merge=union
