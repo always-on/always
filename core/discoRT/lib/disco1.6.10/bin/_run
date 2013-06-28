@@ -7,7 +7,7 @@
 # if it exists. 
 #
 # Note that if <filename> does not exist, but <filename>.test does exist, then <filename> is
-# automatically generated in the tmp directory using grep and prompt "  >".
+# automatically generated in the tmp directory using grep and prompt "  >" (disco only).
 #
 # Note this runs headless by default (to avoid grabbing focus for test case). 
 # Applications that use this script and require a window should use
