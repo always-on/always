@@ -45,12 +45,15 @@ public class WundergroundJSON {
 		}
 	}
 
-	/* TODO READ FROM ONTOLOGY */
+	/*HARD CODE SIMILAR TO testing.json */
 	private static Map<String, String> createCityMap() {
 	    Map<String, String> result = new HashMap<String, String>();
 	    result.put("Seattle", "98106");
 	    result.put("Miami", "33125");
 	    result.put("San Francisco", "94105");
+	    result.put("Boston", "02201");
+	    result.put("New York", "10001");
+	    result.put("New Orleans", "70112");
 	    return Collections.unmodifiableMap(result);
 	}
 	/* TODO COMBINE WITH PREVIOUS FUNCTION*/

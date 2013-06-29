@@ -54,6 +54,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NumKeyboardPanel.xaml.cs">
+      <DependentUpon>NumKeyboardPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NumKeyboard.xaml.cs">
+      <DependentUpon>NumKeyboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShiftViewKey.cs" />
     <Compile Include="SoftKeyboardPlugin.cs" />
     <Compile Include="SoftKeyboardPluginCreator.cs" />
@@ -71,6 +77,14 @@
     </Compile>
     <Compile Include="SpaceKey.cs" />
     <Page Include="CharacterKey.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NumKeyboardPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NumKeyboard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

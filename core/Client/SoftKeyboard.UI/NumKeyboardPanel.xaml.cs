@@ -1,0 +1,93 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Agent.Tcp;
+using Newtonsoft.Json.Linq;
+using System.Media;
+
+namespace SoftKeyboard.UI
+{
+	/// <summary>
+	/// Interaction logic for NumKeyboardPanel.xaml
+	/// </summary>
+	public partial class NumKeyboardPanel : UserControl
+	{
+		private IMessageDispatcher remote;
+        private string context;
+		public NumKeyboardPanel(string contextString, IMessageDispatcher remote)
+		{
+			this.remote = remote;
+			InitializeComponent();
+			contextLabel.Content = contextString;
+            context = contextString;
+			AddHandler(CharacterKey.KeyTypedEvent, new RoutedEventHandler(keyTypedHandler));
+			AddHandler(RubOutKey.RubOutEvent, new RoutedEventHandler(rubOutHandler));
+		}
+
+		private static void keyTypedHandler(object sender, RoutedEventArgs e)
+		{
+			NumKeyboardPanel panel = (NumKeyboardPanel)sender;
+			CharacterKey key = (CharacterKey)e.OriginalSource;
+			string text = key.getShiftAdjustedValue();
+            if (panel.textBox.Text.Length > 30)
+            {
+                panel.textBox.Background = new SolidColorBrush(Colors.Red);
+                panel.textBox.IsReadOnly = true;
+                JObject data = new JObject();
+                data.Add("event", "exceed");
+                data.Add("prompt", "The input is too long, please use the red arrow key to shorten it.");
+                data.Add("text", panel.textBox.Text);
+                panel.remote.Send("keyboard.exceed", data);
+                panel.contextLabel.Content = "Limit exceeded, please press the red arrow key.";
+            }
+            else
+            {
+                panel.type(text);
+            }
+            e.Handled = true;
+		}
+		private static void rubOutHandler(object sender, RoutedEventArgs e)
+		{
+			NumKeyboardPanel panel = (NumKeyboardPanel)sender;
+			panel.rubOut();
+			e.Handled = true;
+		}
+
+		private void type(string text)
+		{
+            textBox.AppendText(text);
+            textBox.Focus();
+            textBox.CaretIndex = textBox.Text.Length;
+            sendUpdateMessage();
+		}
+		private void rubOut()
+		{
+            textBox.Background = new SolidColorBrush(Colors.White);
+            contextLabel.Content = context;
+			int newLength = textBox.Text.Length-1;
+			if(newLength<0)
+				newLength = 0;
+			textBox.Text = textBox.Text.Substring(0, newLength);
+			textBox.Focus();
+			textBox.CaretIndex = textBox.Text.Length;
+			sendUpdateMessage();
+		}
+
+		private void sendUpdateMessage()
+		{
+			JObject data = new JObject();
+			data["text"] = textBox.Text;
+			remote.Send("keyboard.textUpdate", data);
+		}
+	}
+}
