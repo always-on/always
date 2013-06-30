@@ -37,4 +37,17 @@ public interface UserModel {
     */
    public void setProperty (String property, String value);
    
+   /**
+    * Return boolean value for named user property value extension. Note that
+    * property must be declared in a loaded ontology (.owl) file. If property
+    * does not exist, then return false.
+    */
+   public boolean isProperty (String property);
+   
+   /**
+    * Set boolean value for named user property value extension. Note that
+    * property must be declared in a loaded ontology (.owl) file
+    */
+   public void setProperty (String property, boolean value);
+   
 }

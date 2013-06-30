@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model about="urn:always.wpi.edu:models:Explains" 
+       xmlns="http://www.cs.wpi.edu/~rich/d4g" 
+       xmlns:t="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext">
+
+  <t:script init="true">
+
+    // defining the Javascript type Activity
+
+    function Activity (flag, format) { 
+       this.flag = "Explain"+flag; 
+       this.format = format; 
+    }
+
+    Activity.prototype.toString = function () {
+       return edu.wpi.disco_helper.toString(this.format, Activity, "Activity");
+    }
+
+    Activity.prototype.setFlag = function () {
+       $always.getUserModel().setProperty(this.flag, true);
+    }
+
+    Activity.prototype.checkFlag = function () {
+       return $always.getUserModel().isProperty(this.flag);
+    }
+
+    // all activities that this plugin knows about 
+    // note these correspond to listing in user/Activities.xml
+    // (in a fancier implementation, these could be procedurally linked)
+
+    // NB: All flags must be defined in Explain.owl
+
+    Activity.ALL = {
+         PlanExercise : new Activity("PlanExercise", "developing an exercise plan for me"), 
+         DiscussFamily : new Activity("DiscussFamily", "talking together about my family and friends"),
+         UseCalendar : new Activity("UseCalendar", "keeping my personal calendar"),
+         PlayRummy : new Activity("PlayRummy", "playing a social game of cards"),
+         TellStory : new Activity("TellStory", "telling one of my life stories "),
+         DiscussWeather : new Activity("DiscussWeather", "telling weather where my friends and family live")
+         // TODO: add the other activities
+    }
+
+    // dynamically construct enumeration based on flags (separate function for testing)
+
+    Activity.ENUM = {}
+
+    for (var a in Activity.ALL) 
+      if ( !Activity.ALL[a].checkFlag() ) 
+        Activity.ENUM[a] = Activity.ALL[a];
+
+    // dialogue control variables
+
+    var noThanks = false;
+    var $CHOICE;
+
+    var previousTalk = $always.getUserModel().isProperty("ExplainPreviousTalk");
+
+  </t:script>
+
+  <t:task id="_ExplainSelf">
+    <t:subtasks id="_basic">
+      <t:step name="start" task="MoreExplaining" minOccurs="1" maxOccurs="10"/>
+      <t:step name="end" task="_EndExplaining"/>
+      <t:applicable> !previousTalk </t:applicable>
+    </t:subtasks>
+    <t:subtasks id="_knowssome">
+      <t:step name="start" task="_StartRest" />
+      <t:step name="double" task="_Double" />
+      <t:applicable> previousTalk </t:applicable>
+    </t:subtasks>
+  </t:task>
+
+  <agent id="_StartRest" 
+	 text="I have told you about some of the activities we can do together.  There are a few more.  Want to hear about them?" >
+    <user text="yes, please do." />
+    <user text="no thanks." eval="noThanks=true" >
+    </user>
+    <user text="I would rather hear about all the activities again" 
+	  eval="Activity.ENUM = Activity.ALL"> 
+    </user>
+  </agent>
+
+  <t:task id="_Double" >
+    <t:subtasks id="_d1">
+      <t:step name="double" task="MoreExplaining" minOccurs="1" maxOccurs="9" />
+      <t:step name="sameend" task="_EndExplaining" />
+      <t:applicable> !noThanks </t:applicable>
+    </t:subtasks>
+    <t:subtasks id="_d2">
+      <t:step name="sameend" task="_EndExplaining" />
+      <t:applicable> noThanks </t:applicable>
+    </t:subtasks>
+  </t:task>
+
+  <do id="MoreExplaining" actor="agent" task="_SetChoiceActivity">
+    <do task="_ExplainPlanExercise" 
+        applicable="$CHOICE == Activity.ENUM.PlanExercise"/>
+    <do task="_ExplainDiscussFamily"
+        applicable="$CHOICE == Activity.ENUM.DiscussFamily"/>
+    <do task="_ExplainDiscussWeather"
+        applicable="$CHOICE == Activity.ENUM.DiscussWeather"/>
+    <do task="_ExplainUseCalendar"
+        applicable="$CHOICE == Activity.ENUM.UseCalendar"/>
+    <do task="_ExplainPlayRummy"
+        applicable="$CHOICE == Activity.ENUM.PlayRummy"/>
+    <do task="_ExplainTellStory"
+        applicable="$CHOICE == Activity.ENUM.TellStory"/>
+  </do>
+
+  <t:task id="_SetChoiceActivity">
+    <t:input name="choice" type="Activity"/>
+    <t:script> $CHOICE = $this.choice </t:script>
+  </t:task>
+
+  <agent id="_EndExplaining" text="Well, anytime you want more explanations, just ask!">
+    <user text="Ok, thanks">
+    </user>
+    <user text="Thanks that was really interesting!">
+    </user>
+  </agent>
+
+  <agent id="_ExplainPlayRummy" text="We can play cards together.  In particular we can play rummy.  Other computers can play cards, but they just make the moves, and then give you a turn.  When we play cards, we can talk about our hands and anything else you want while we play the game."
+         eval="Activity.ALL.PlayRummy.setFlag()">
+    <user text="Ok"/>
+    <user text="oh, that sounds fun!"/>
+    <user text="I see"/>
+  </agent>
+
+  <agent id="_ExplainUseCalendar" 
+	 text="I can keep track of your everyday calendar.  That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, go to an apppointment, or remember something important.">
+    <user text="Ok"
+          eval="Activity.ALL.UseCalendar.setFlag()"/>
+    <user text="I don't understand.  How do I tell you what I am doing and when?">
+      <agent text="well, I will ask you about some event you plan to do, like go to the doctor.  After you tell me the day and time, I'll show you the calendar with that event.  You can change it later if you want." 
+             eval="Activity.ALL.UseCalendar.setFlag()">
+	<user text="I see.  That sounds useful."/>
+	<user text="okay" />
+	<user text="I still don't understand" >
+	  <agent text="well, next time just try the calendar activity and you will see how it works" >
+	    <user text="okay" />
+	    <user text="Not sure I will "/>
+	  </agent>
+	</user>
+      </agent>
+    </user>
+  </agent>
+
+  <agent id="_ExplainDiscussWeather" text="We've already talked about the weather.  BUT I can do more!  I can get information from the internet about weather just about anywhere"
+         eval="Activity.ALL.DiscussWeather.setFlag()">
+    <user text="Really? Tell me more">
+      <agent text="You can tell me about your family and friends, and I will remember what you say.  You can also tell me if you want to know the weather for that person everyday or just once in a while">
+	<user text="Ok, I will tell you about my family an dfriends" />
+	<user text="I don't want to know the weather except here" />
+      </agent>
+    </user>
+    <user text="I don't really need to know more about the weather "/>
+  </agent>
+
+  <agent id="_ExplainDiscussFamily" text="I'm interested in knowing about your friends and family.  The more I know about them, the more I can use this information">
+    <user text="uh-huh">
+      <agent text="When I know about your family, I can give you weather information where they live, and I can help you with your calendar."
+             eval="Activity.ALL.DiscussFamily.setFlag()">
+	<user text="Ok">
+	</user>
+	<user text="oh, that is good ">
+	  <agent text="And I can talk to you about your friends and family whenever we chat">
+	    <user text="sounds good. " >
+	      <agent text="I'll remember it for the next time we work together" />
+	    </user>
+	    <user text="okay" />
+	  </agent>
+	</user>
+	<user text="I see.  Maybe I'll tell you some time"/>
+      </agent>
+    </user>
+  </agent>
+
+  <agent id="_ExplainTellStory" text="You can tell me a story about your life.  I will pay attention even though I won't understand most of what you say.  When you are done, you can save the story, and if you want, send it out to friends." 
+         eval="Activity.ALL.TellStory.setFlag()">
+    <user text="ok"/>
+    <user text="I think I will try that.">
+      <agent text="good.  We can do that soon" />
+    </user>
+    <user text="I see.  Maybe I will do that some time " />
+  </agent>
+
+  <agent id="_ExplainPlanExercise" text="Everyone can use more exercise.  Walking is a really good and easy type of exercise" > 
+    <user text="uh-huh">
+      <agent text="I can help you work out an exercise plan, including getting a walking buddy.  I can also follow up with you every day once you start walking."
+         eval="Activity.ALL.PlanExercise.setFlag()">
+	<user text="Ok"/>
+	<user text="oh, that sounds fun!">
+	  <agent text="Good, we can have fun getting you started on exercise">
+	    <user text="Ok"/>
+	  </agent>
+	</user>
+	<user text="no thanks"/>
+	<user text="Maybe another time"/>
+      </agent>
+    </user>
+  </agent>
+
+</model>

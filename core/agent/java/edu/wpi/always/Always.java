@@ -12,6 +12,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
 import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
+import java.io.File;
 import java.util.*;
 
 public class Always {
@@ -41,8 +42,12 @@ public class Always {
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
          Always always = new Always(false);        
-         // initialize duplication instance created above
-         Always.init(interaction);
+         Always.init(interaction); // initialize duplicate interaction created above
+         // for user model
+         always.getContainer().as(Characteristics.CACHE).addComponent(
+            BindKey.bindKey(File.class, OntologyUserModel.UserOntologyLocation.class),
+            new File(UserUtils.USER_FOLDER, UserUtils.USER_FILE));
+         always.register(); 
          interaction.start(true);
       }
    }
@@ -159,11 +164,7 @@ public class Always {
    }
 
    public void start () {
-      for (ComponentRegistry registry : registries)
-         registry.register(container);
-      OntologyRuleHelper helper = container.getComponent(OntologyRuleHelper.class);
-      for (OntologyRegistry registry : ontologyRegistries)
-         registry.register(helper);
+      register();
       CollaborationManager cm = container.getComponent(CollaborationManager.class);
       for (Registry registry : cmRegistries) cm.addRegistry(registry);
       System.out.println("Starting Collaboration Manager");
@@ -172,5 +173,12 @@ public class Always {
       if ( plugin != null ) container.getComponent(plugin).startActivity(activity);
    }
 
+   private void register () {
+      for (ComponentRegistry registry : registries)
+         registry.register(container);
+      OntologyRuleHelper helper = container.getComponent(OntologyRuleHelper.class);
+      for (OntologyRegistry registry : ontologyRegistries)
+         registry.register(helper);
+   }
 }
 

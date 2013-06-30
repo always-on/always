@@ -121,6 +121,10 @@ public class OntologyHelper {
       return new OntologyValue(getFactory().getOWLLiteral(value));
    }
 
+   public OntologyValue getLiteral (boolean value) {
+      return new OntologyValue(getFactory().getOWLLiteral(value));
+   }
+   
    private final OWLDatatype XSD_GMonthDay_TYPE = new OWLDatatypeImpl(
          getFactory(), IRI.create("xsd:gMonthDay"));
 
@@ -190,36 +194,29 @@ public class OntologyHelper {
       manager.applyChanges(axioms);
    }
 
-   public void addAxiomsFromInputStream (InputStream inputStream) {
-      try {
-         OWLOntology tmpOntology = getManager()
-               .loadOntologyFromOntologyDocument(inputStream);
-         Set<OWLAxiom> axioms = tmpOntology.getAxioms();
-         List<OWLOntologyChange> axiomChanges = new ArrayList<OWLOntologyChange>();
-         for (OWLAxiom axiom : axioms)
-            addAxiom(axiomChanges, axiom);
-         applyChanges(axiomChanges);
-         manager.removeOntology(tmpOntology);
-      } catch (OWLOntologyCreationException e) {
+   public void addAxioms (InputStream inputStream) {
+      try { addAxioms(manager.loadOntologyFromOntologyDocument(inputStream)); } 
+      catch (OWLOntologyCreationException e) {
          e.printStackTrace();
       }
    }
 
-   public void addAxiomsFromFile (File file) {
-      try {
-         OWLOntology tmpOntology = getManager()
-               .loadOntologyFromOntologyDocument(file);
-         Set<OWLAxiom> axioms = tmpOntology.getAxioms();
-         List<OWLOntologyChange> axiomChanges = new ArrayList<OWLOntologyChange>();
-         for (OWLAxiom axiom : axioms)
-            addAxiom(axiomChanges, axiom);
-         applyChanges(axiomChanges);
-         manager.removeOntology(tmpOntology);
-      } catch (OWLOntologyCreationException e) {
+   public void addAxioms (File file) {
+      try { addAxioms(manager.loadOntologyFromOntologyDocument(file)); } 
+      catch (OWLOntologyCreationException e) {
          e.printStackTrace();
       }
    }
 
+   private void addAxioms (OWLOntology tmpOntology) {
+     Set<OWLAxiom> axioms = tmpOntology.getAxioms();
+     List<OWLOntologyChange> axiomChanges = new ArrayList<OWLOntologyChange>();
+     for (OWLAxiom axiom : axioms)
+        addAxiom(axiomChanges, axiom);
+     applyChanges(axiomChanges);
+     manager.removeOntology(tmpOntology);
+   }
+   
    /**
     * If B is initialProperty of A and C is throughProperty of B then C is
     * resultProperty of A

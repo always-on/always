@@ -37,8 +37,6 @@ public class OntologyUserModel implements UserModel {
 
    @Override
    public String getUserName () {
-      if ( userName == null ) 
-         throw new IllegalStateException("User model not initialized!"); 
       return userName; 
    }
    
@@ -80,9 +78,19 @@ public class OntologyUserModel implements UserModel {
       user.setDataProperty(property, value == null ? null : ontology.getLiteral(value));
    }
     
-   public void addAxiomsFromInputStream (InputStream stream) {
-      ontology.addAxiomsFromInputStream(stream);
+   @Override
+   public void setProperty (String property, boolean value) {
+      user.setDataProperty(property, ontology.getLiteral(value));
    }
+   
+   @Override
+   public boolean isProperty (String property) {
+      return user.getDataPropertyValue(property).asBoolean();
+   }
+   
+   public void addAxioms (InputStream stream) { ontology.addAxioms(stream); }
+   
+   public void addAxioms (File file) { ontology.addAxioms(file); }
    
    private static final Set<AxiomType<?>> types = new HashSet<AxiomType<?>>();
    static {
@@ -118,7 +126,7 @@ public class OntologyUserModel implements UserModel {
    public void load () {
       if ( userDataFile != null && userDataFile.exists() ) {
          System.out.println("Loading user ontology from: "+userDataFile);
-         ontology.addAxiomsFromFile(userDataFile);
+         ontology.addAxioms(userDataFile);
       } else System.out.println("Initializing empty user model!");
    }
    

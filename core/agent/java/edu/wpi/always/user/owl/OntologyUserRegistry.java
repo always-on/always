@@ -31,11 +31,8 @@ public class OntologyUserRegistry implements ComponentRegistry, OntologyRegistry
 
    @Override
    public void register (OntologyRuleHelper ontology) {
-      ontology.addAxiomsFromInputStream(getClass().getResourceAsStream(
-            "/edu/wpi/always/user/owl/People.owl"));
-      ontology.addAxiomsFromInputStream(getClass().getResourceAsStream(
-            "/edu/wpi/always/user/owl/Calendar.owl"));
-      ontology.addAxiomsFromInputStream(getClass().getResourceAsStream(
-            "/edu/wpi/always/user/owl/Place.owl"));
+      ontology.addAxioms(getClass().getResourceAsStream("/edu/wpi/always/user/owl/People.owl"));
+      ontology.addAxioms(getClass().getResourceAsStream("/edu/wpi/always/user/owl/Calendar.owl"));
+      ontology.addAxioms(getClass().getResourceAsStream("/edu/wpi/always/user/owl/Place.owl"));
    }
 }

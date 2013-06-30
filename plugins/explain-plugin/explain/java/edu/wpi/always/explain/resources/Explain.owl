@@ -1,0 +1,40 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(
+
+  Declaration(DataProperty(<#ExplainPreviousTalk>))
+  DataPropertyDomain(<#ExplainPreviousTalk> <#User>)
+  DataPropertyRange(<#ExplainPreviousTalk> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainPreviousTalk> xsd:boolean))
+
+  Declaration(DataProperty(<#ExplainPlanExercise>))
+  DataPropertyDomain(<#ExplainPlanExercise> <#User>)
+  DataPropertyRange(<#ExplainPlanExercise> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainPlanExercise> xsd:boolean))
+
+  Declaration(DataProperty(<#ExplainDiscussFamily>))
+  DataPropertyDomain(<#ExplainDiscussFamily> <#User>)
+  DataPropertyRange(<#ExplainDiscussFamily> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainDiscussFamily> xsd:boolean))
+
+  Declaration(DataProperty(<#ExplainUseCalendar>))
+  DataPropertyDomain(<#ExplainUseCalendar> <#User>)
+  DataPropertyRange(<#ExplainUseCalendar> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainUseCalendar> xsd:boolean))
+
+  Declaration(DataProperty(<#ExplainPlayRummy>))
+  DataPropertyDomain(<#ExplainPlayRummy> <#User>)
+  DataPropertyRange(<#ExplainPlayRummy> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainPlayRummy> xsd:boolean))
+
+  Declaration(DataProperty(<#ExplainTellStory>))
+  DataPropertyDomain(<#ExplainTellStory> <#User>)
+  DataPropertyRange(<#ExplainTellStory> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainTellStory> xsd:boolean))
+
+  Declaration(DataProperty(<#ExplainDiscussWeather>))
+  DataPropertyDomain(<#ExplainDiscussWeather> <#User>)
+  DataPropertyRange(<#ExplainDiscussWeather> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainDiscussWeather> xsd:boolean))
+
+)

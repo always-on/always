@@ -2,9 +2,9 @@
 #
 # Usage: always-disco [ <filename> ]
 #
-# Runs the given script file using UserUtils.Disco and compares resulting temporary
+# Runs the given script file using Always.Disco and compares resulting temporary
 # log with corresponding test log file <filename>.test, if it exists
 #
 dir="`dirname $0`"
 # for some reason in cygwin, only this order of cp works [CR]
-"$dir/../../discoRT/lib/disco1.6.10/bin/_run" edu.wpi.always.Always\$Disco "$1" ../../../../core/discoRT/lib/picocontainer-2.14.1.jar ../../../../user ../../../../core/agent/class ../../../../core/discoRT/class lib/disco.jar ../../../../core/agent/lib/log4j-1.2.17.jar 
+"$dir/../../discoRT/lib/disco1.6.10/bin/_run" edu.wpi.always.Always\$Disco "$1" ../../../../core/discoRT/lib/picocontainer-2.14.1.jar ../../../../core/discoRT/lib/joda-time-2.0.jar ../../../../user ../../../../core/agent/class ../../../../core/discoRT/class lib/disco.jar ../../../../core/agent/lib/log4j-1.2.17.jar ../../../../core/agent/lib/owlapi/owlapi-bin.jar ../../../../core/agent/lib/owlapi/pellet-rules.jar ../../../../core/agent/lib/owlapi/pellet-datatypes.jar ../../../../core/agent/lib/owlapi/pellet-core.jar ../../../../core/agent/lib/owlapi/aterm-java-1.6.jar ../../../../core/agent/lib/owlapi/pellet-owlapiv3.jar ../../../../core/agent/lib/owlapi/pellet-el.jar
