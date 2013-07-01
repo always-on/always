@@ -18,10 +18,10 @@ public class SimpleGreetingsSchema extends SchemaBase implements
    private OldDialogStateMachine stateMachine;
 
    public SimpleGreetingsSchema (BehaviorProposalReceiver behaviorReceiver,
-         final BehaviorHistory resourceMonitor, FacePerceptor facePerceptor,
+         final BehaviorHistory behaviorHistory, FacePerceptor facePerceptor,
          MenuPerceptor menuPerceptor,
          FaceMovementMenuEngagementPerceptor engagementPerceptor) {
-      super(behaviorReceiver, resourceMonitor);
+      super(behaviorReceiver, behaviorHistory);
       this.facePerceptor = facePerceptor;
       this.engagementPerceptor = engagementPerceptor;
       BehaviorHistory historyWithFocusRequestAugmenter = behaviorHistoryWithAutomaticInclusionOfFocus();
