@@ -5,9 +5,12 @@ import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.cm.ProposalBuilder;
 import edu.wpi.disco.Agent;
 import edu.wpi.disco.Interaction;
+import edu.wpi.disco.User;
 import edu.wpi.disco.lang.Say;
 import edu.wpi.disco.lang.Utterance;
 import edu.wpi.disco.rt.behavior.BehaviorBuilder;
+import edu.wpi.disco.rt.behavior.SpeechBehavior;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
 
 public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 
@@ -17,7 +20,6 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 	private volatile String latest;
 	private boolean isOverflow;
 	private final UIMessageDispatcher dispatcher;
-
 
 	public KeyboardMessageHandler (UIMessageDispatcher dispatcher) {
 		this.dispatcher = dispatcher;

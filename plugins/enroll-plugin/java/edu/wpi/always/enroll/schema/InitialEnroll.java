@@ -32,6 +32,13 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 				return new PeopleSelectEvent(context);
 			}
 		});
+		choice("I want to edit my own profile.", new DialogStateTransition() {
+
+			@Override
+			public AdjacencyPair run () {
+				return new PeopleSelectEvent(context);
+			}
+		});
 	}
 
 	public static class ReadyForStartEvent extends EnrollAdjacencyPairImpl{
@@ -49,7 +56,8 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
 				@Override
 				public AdjacencyPair run() {
-					return new DialogEndEvent(context);
+					return new EditPersonAdjacencyPair(getContext(), 
+							getContext().getUserModel().getPeopleManager().getUser());
 				}
 			});
 		}

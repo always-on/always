@@ -2,6 +2,7 @@ package edu.wpi.always.weather;
 
 import edu.wpi.always.*;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
+import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -12,7 +13,7 @@ public class WeatherSchema extends DiscoActivitySchema {
 
    public WeatherSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor,
+         MenuPerceptor menuPerceptor, //UserModel model,
          // these will be needed later
          PeopleManager peopleManager,
          PlaceManager placeManager) {

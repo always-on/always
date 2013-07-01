@@ -52,7 +52,7 @@ namespace SoftKeyboard.UI
 			string text = key.getShiftAdjustedValue();
             Typeface typeface = new Typeface(panel.textBox.FontFamily, panel.textBox.FontStyle, panel.textBox.FontWeight, panel.textBox.FontStretch);
             FormattedText ft = new FormattedText(panel.textBox.Text, System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, typeface, panel.textBox.FontSize, Brushes.Black);
-            if (ft.Width > panel.textBox.ActualWidth)
+            if (ft.Width > panel.textBox.ActualWidth - 5)
             {
                 isOverflow = true;
                 panel.textBox.Background = new SolidColorBrush(Colors.Red);
