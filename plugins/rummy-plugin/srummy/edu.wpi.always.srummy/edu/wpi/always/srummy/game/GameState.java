@@ -5,14 +5,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.JsonObject;
+
+import edu.wpi.always.client.Message;
 import edu.wpi.sgf.logic.GameLogicState;
 
 
 
 /**
- * A class representing the rummy game state
+ * A class representing the Rummy game state.
+ * 
+ * Note: This Package has all the methods necessary for playing
+ * the Rummy card game, but in the current implementation, it is 
+ * being synched with a .Net part. One can use the methods in 
+ * this class for 'driving' the game, but currently, the 'state' 
+ * is being sent over socket and synchState() method sets the variables.
+ * One potential usage of the methods is in 'planning' the game ahead 
+ * and evaluating different paths or other possible usages with SGF.
+ * 
  * @author Morteza Behrooz
- * @version 1.1
+ * @version 1.3
  */
 
 public class GameState extends GameLogicState {
@@ -28,43 +40,43 @@ public class GameState extends GameLogicState {
 	private ErrMsg errMsg;
 
 	public Card getCardJustDrawn() 
-		{return theCardJustDrawn;}
-	
+	{return theCardJustDrawn;}
+
 	public Deck getStock() 
-		{return stock;}
-	
+	{return stock;}
+
 	public Deck getDiscard() 
-		{return discard;}
-	
+	{return discard;}
+
 	public List<Meld> getMelds(Player player)
-		{return playersMelds.get(player);}
-	
+	{return playersMelds.get(player);}
+
 	public List<Meld> getAgentMelds()
-		{return getMelds(Player.Agent);}
-	
+	{return getMelds(Player.Agent);}
+
 	public List<Meld> getHumanMelds()
-		{return getMelds(Player.Human);}
-	
+	{return getMelds(Player.Human);}
+
 	public void setAgentMelds(List<Meld> meldingCards)
 	{playersMelds.put(Player.Agent, meldingCards);}
-	
+
 	public void setHumanMelds(List<Meld> meldingCards)
 	{playersMelds.put(Player.Human, meldingCards);}
-	
+
 	public List<Card> getCards(Player player) 
-		{return playersCards.get(player);}
-	
+	{return playersCards.get(player);}
+
 	public List<Card> getAgentCards()
-		{return getCards(Player.Agent);}
-	
+	{return getCards(Player.Agent);}
+
 	public List<Card> getHumanCards()
-		{return getCards(Player.Human);}
-	
+	{return getCards(Player.Human);}
+
 	public GamePhase getCurrentPhase()
-		{return currentPhase;}
-	
+	{return currentPhase;}
+
 	public ErrMsg currentError()
-		{return errMsg;}
+	{return errMsg;}
 
 	public boolean gameIsOver(){
 		return currentPhase == GamePhase.AgentWon 
@@ -93,21 +105,21 @@ public class GameState extends GameLogicState {
 	}
 
 	public GameState(List<Card> agentCards, List<Meld> agentMelds){
-		
+
 		List<Card> ignoreCard = new ArrayList<Card>();
-		
+
 		for(Card eachCard : agentCards)
 			ignoreCard.add(eachCard);
-		
+
 		generateInitialPhaseAndShuffleStock(ignoreCard);
 		playersMelds.put(Player.Agent, agentMelds);//true if used only in constructor (adds, does not replace) check
 		dealCardsTo(Player.Human);
-		
+
 		for(Card eachCard : agentCards)
 			addToPlayerCards(Player.Agent, eachCard);
-	
+
 	}
-	
+
 	public GameState(List<Card> agentCards, List<Meld> agentMelds, GamePhase aPhase){
 		this(agentCards, agentMelds);
 		currentPhase = aPhase;
@@ -117,11 +129,11 @@ public class GameState extends GameLogicState {
 		generateInitialPhaseAndShuffleStock();
 		dealCardsToPlayers();
 	}
-	
+
 	private void generateInitialPhaseAndShuffleStock() {
 		generateInitialPhaseAndShuffleStock(new ArrayList<Card>());
 	}
-	
+
 	private void generateInitialPhaseAndShuffleStock(List<Card> agentCards) {
 		stock = new Deck();
 		discard = new Deck();
@@ -134,12 +146,12 @@ public class GameState extends GameLogicState {
 		stock.create();
 		discard.addCard(stock.pop());
 	}
-	
+
 	private void dealCardsToPlayers() {
 		dealCardsTo(Player.Agent);
 		dealCardsTo(Player.Human);
 	}
-	
+
 	private void dealCardsTo(Player aPlayer) {
 		for(int index = 0; index < 10; index++){
 			Card cardsBeingDealt = stock.pop();
@@ -147,7 +159,7 @@ public class GameState extends GameLogicState {
 			addToPlayerCards(aPlayer, cardsBeingDealt);
 		}
 	}
-	
+
 	public void discardCard(Player thePlayer, Card aCard){
 
 		if(!canDiscard(thePlayer)){
@@ -291,7 +303,7 @@ public class GameState extends GameLogicState {
 	public void meld(Player thePlayer, Meld aMeld){
 		meld(thePlayer, aMeld.getCards());
 	}
-	
+
 	private Card popFromPile(Pile aPile){
 
 		if(aPile == Pile.Stock)
@@ -301,7 +313,7 @@ public class GameState extends GameLogicState {
 	}
 
 	private void addToPlayerCards(Player thePlayer, Card aCard){
-		
+
 		getCards(thePlayer).add(aCard);
 
 	}
@@ -358,10 +370,10 @@ public class GameState extends GameLogicState {
 
 		if(thePlayer == Player.Agent)
 			return (currentPhase == GamePhase.AgentDraw
-				|| currentPhase == GamePhase.AgentMeldLayDiscard);
+			|| currentPhase == GamePhase.AgentMeldLayDiscard);
 		else if(thePlayer == Player.Human)
 			return (currentPhase == GamePhase.HumanDraw
-				|| currentPhase == GamePhase.HumanMeldLayDiscard);
+			|| currentPhase == GamePhase.HumanMeldLayDiscard);
 		return false;
 
 	}
@@ -425,13 +437,95 @@ public class GameState extends GameLogicState {
 		if(gameIsOver()) 
 			return;
 		currentPhase = newPhase; 
-		
+
 		//these are needed for the framework
 		this.agentWins = currentPhase
 				.equals(GamePhase.AgentWon);
 		this.userWins = currentPhase
 				.equals(GamePhase.HumanWon);
 
+	}
+
+	/**
+	 * This method 'synchs' the state received from .Net
+	 * @see Javadoc for GameState
+	 * @throws Exception for not having the correct format in json
+	 */
+	public void synchGame(Message gameStateAsMessage) throws Exception{
+
+		JsonObject gameStateJsonObj = 
+				gameStateAsMessage.getBody();
+
+		if(gameStateJsonObj == null ||
+				!gameStateJsonObj.has("agentCards") ||
+				!gameStateJsonObj.has("humanCards") ||
+				!gameStateJsonObj.has("stockCards") ||
+				!gameStateJsonObj.has("discardCards") ||
+				!gameStateJsonObj.has("agentMelds") ||
+				!gameStateJsonObj.has("humanMelds"))
+			throw new Exception(
+					"State sending from .Net is not in the right format or is incomplete.");
+
+		String agentCardsAsString = gameStateJsonObj.get("agentCards").getAsString();
+		String humanCardsAsString = gameStateJsonObj.get("humanCards").getAsString();
+		String stockCardsAsString = gameStateJsonObj.get("stockCards").getAsString();
+		String discardCardsAsString = gameStateJsonObj.get("discardCards").getAsString();
+		String agentMeldsAsString = gameStateJsonObj.get("agentMelds").getAsString();
+		String humanMeldsAsString = gameStateJsonObj.get("humanMelds").getAsString();
+
+		List<Card> agentCardsTemp = new ArrayList<Card>();
+		List<Card> humanCardsTemp = new ArrayList<Card>();
+		List<Card> stockCardsTemp = new ArrayList<Card>();
+		List<Card> discardCardsTemp = new ArrayList<Card>();
+		List<Meld> agentMeldsTemp = new ArrayList<Meld>();
+		List<Meld> humanMeldsTemp = new ArrayList<Meld>();
+		int stockIndex = 0, discardIndex = 0; 
+		
+		List<Card> meldCardsTemp = new ArrayList<Card>();
+
+		for(String eachCardAsString : agentCardsAsString.split("/"))
+			agentCardsTemp.add(new Card(eachCardAsString));
+
+		for(String eachCardAsString : humanCardsAsString.split("/"))
+			humanCardsTemp.add(new Card(eachCardAsString));
+
+		for(String eachCardAsString : stockCardsAsString.split("--")[0].split("/"))
+			stockCardsTemp.add(new Card(eachCardAsString));
+		stockIndex = Integer.valueOf(stockCardsAsString.split("--")[1]);
+		
+		for(String eachCardAsString : discardCardsAsString.split("--")[0].split("/"))
+			discardCardsTemp.add(new Card(eachCardAsString));
+		discardIndex = Integer.valueOf(discardCardsAsString.split("--")[1]);
+		
+		for(String eachMeldAsString : agentMeldsAsString.split("--")){
+			meldCardsTemp.clear();
+			for(String eachCardAsString : eachMeldAsString.split("/")){
+				meldCardsTemp.add(new Card(eachCardAsString));
+				discardCardsTemp.add(new Card(eachMeldAsString));
+			}
+			agentMeldsTemp.add(new Meld(meldCardsTemp));
+		}
+
+		for(String eachMeldAsString : humanMeldsAsString.split("--")){
+			meldCardsTemp.clear();
+			for(String eachCardAsString : eachMeldAsString.split("/")){
+				meldCardsTemp.add(new Card(eachCardAsString));
+				discardCardsTemp.add(new Card(eachMeldAsString));
+			}
+			humanMeldsTemp.add(new Meld(meldCardsTemp));
+		}
+		
+		playersCards.clear();
+		playersCards.put(Player.Agent, agentCardsTemp);
+		playersCards.put(Player.Human, humanCardsTemp);
+		
+		playersMelds.clear();
+		playersMelds.put(Player.Agent, agentMeldsTemp);
+		playersMelds.put(Player.Human, humanMeldsTemp);
+		
+		stock.synch(stockCardsTemp, stockIndex); //get index in JSON (e.g. ... -- index)
+		discard.synch(discardCardsTemp, discardIndex); //get index
+		
 	}
 
 }

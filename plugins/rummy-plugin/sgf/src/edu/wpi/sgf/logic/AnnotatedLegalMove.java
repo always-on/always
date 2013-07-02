@@ -15,8 +15,18 @@ public class AnnotatedLegalMove implements Comparable<AnnotatedLegalMove>{
 		this.moveStrength = moveStrength;
 	}
 	
+	//many annotations
 	public double getAnnotation(){
 		return moveStrength;
+	}
+	
+	//every move should have move strength
+	public double getMoveStrength(){
+		return moveStrength;
+	}
+	
+	public LegalMove getMove(){
+		return move;
 	}
 
 	@Override

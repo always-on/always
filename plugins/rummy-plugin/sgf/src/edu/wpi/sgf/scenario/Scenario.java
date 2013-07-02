@@ -1,6 +1,5 @@
 package edu.wpi.sgf.scenario;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +18,14 @@ import edu.wpi.sgf.logic.AnnotatedLegalMove;
 
 public abstract class Scenario {
 	
+	private static final int scenarioFailingBearLimit = 1;
 	protected int progress;
 	
 	/*this var shows the max number of failures
 	allowed for a scenario to bear before 
 	avoided being followed*/
-	protected int scenarioFailingBear = 1;
+	protected int failingBear = 
+			scenarioFailingBearLimit;
 	
 	private int failures;
 	
@@ -35,9 +36,7 @@ public abstract class Scenario {
 	protected Map<Integer, List<String>>
 		commentingProposals;
 
-	protected final List<String> socialAttributes;
-	
-	public static final Map<List<String>,
+	public static Map<List<String>,
 		Class<? extends Scenario>> allScenarios 
 			= new HashMap<List<String>, Class<? 
 					extends Scenario>>();
@@ -52,8 +51,6 @@ public abstract class Scenario {
 		
 		commentingProposals = 
 				new HashMap<Integer, List<String>>();
-		socialAttributes = 
-				new ArrayList<String>();
 		
 		progress = 0;
 		failures = 0;
@@ -77,18 +74,6 @@ public abstract class Scenario {
 	
 	public void incrementFailures(){
 		failures++;
-	}
-	
-	public List<String> getAttributess(){
-		return socialAttributes;
-	}
-	
-	public void setSocialAttirubtes(
-			List<String> someAttributes){
-		
-		socialAttributes
-			.addAll(someAttributes);
-		
 	}
 	
 	/**
@@ -136,6 +121,6 @@ public abstract class Scenario {
 	 * false otherwise.
 	 * @see AnnotatedLegalMove
 	 */
-	public abstract boolean evaluate(AnnotatedLegalMove move);
+	public abstract boolean evaluate(AnnotatedLegalMove move, boolean passAll);
 
 }

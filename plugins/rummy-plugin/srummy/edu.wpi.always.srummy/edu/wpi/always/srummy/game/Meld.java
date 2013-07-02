@@ -232,6 +232,16 @@ public class Meld implements Iterable<Card>{
 
 	}
 	
+	@Override
+	public String toString(){
+		
+		String representation = "mled with ";
+		for(Card eachCard: meldCards)
+			representation += eachCard.toString() + " / ";
+		return representation;
+	
+	}
+	
 	/**
 	 * Overides hashCode() of Object as equals() is overriden
 	 * (In Java, hashCode() must return the same 

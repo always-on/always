@@ -77,7 +77,8 @@ public class MeldMove extends Move{
 		
 		return 
 				this.player.name()
-				+ " just made a meld move. "
+				+ " melding "
+				+ meld.toString()
 		;
 		
 	}

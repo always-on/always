@@ -209,7 +209,7 @@ namespace Rummy
         {
             string s = "";
             foreach (Card c in _cards)
-                s += c.ToString() + " / ";
+                s += c.ToString() + "/";
             return s;
         }
 

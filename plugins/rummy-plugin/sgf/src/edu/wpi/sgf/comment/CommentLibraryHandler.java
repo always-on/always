@@ -13,12 +13,15 @@ import org.jdom2.input.SAXBuilder;
 
 public class CommentLibraryHandler {
 
+	private final static String CommentLibraryFile =
+			"genericCommentLibrary.xml";
+	
 	private List<Comment> allComments = new ArrayList<Comment>();
 
 	public CommentLibraryHandler(){
 
 		SAXBuilder builder = new SAXBuilder();
-		File genericFile = new File("genericCommentLibrary.xml");
+		File genericFile = new File(CommentLibraryFile);
 		
 		try {
 			

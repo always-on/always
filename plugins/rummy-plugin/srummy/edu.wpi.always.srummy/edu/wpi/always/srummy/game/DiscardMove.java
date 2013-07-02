@@ -53,9 +53,9 @@ public class DiscardMove extends Move{
 	}
 	
 	/**
-	 * Overides hashCode() of Object as equals() is overriden
-	 * (In Java, hashCode() must return the same 
-	 * value for two objects which are equal)
+	 * Overrides hashCode() of Object as equals() is 
+	 * overridden (In Java, hashCode() must return the  
+	 * same value for two objects which are equal)
 	 * @return int hashCode
 	 * @see TestDiscardMove
 	 */
@@ -77,7 +77,7 @@ public class DiscardMove extends Move{
 		
 		return 
 				this.player.name()
-				+ " just discarded "
+				+ " discarding "
 				+ this.playedCard.toString()
 		;
 		

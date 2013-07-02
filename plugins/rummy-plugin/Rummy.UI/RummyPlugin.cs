@@ -15,6 +15,7 @@ namespace AgentApp
     {
         GameShape game;
         IMessageDispatcher _remote;
+        List<Move> currentMoveSuggestions = new List<Move>();
 
         public RummyPlugin(bool agentStarts, IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
@@ -49,7 +50,9 @@ namespace AgentApp
 					body["old_tate"] = StateToSend(oldState);
 					body["user_cards"] = game.GameState.GetCards(GameShape.HumanPlayer).Count;
 					body["agent_cards"] = game.GameState.GetCards(GameShape.AgentPlayer).Count;
-					_remote.Send("rummy.state_changed", body);
+					_remote.Send("rummy.state_changed", body); //delete? java side dependency?/
+
+                    _remote.Send("rummy.game_state", getGameStateAsJson());
                 };
 
                 game.GameState.MoveHappened += m =>
@@ -58,11 +61,21 @@ namespace AgentApp
                     body["move"] = MoveNameToSend(m);
                     body["player"] = PlayerNameToSend(m.Player);
 					_remote.Send("rummy.move_happened", body);
+
+                    //true place?
+                    if (m.Player == Player.One) 
+                    {
+                        _remote.Send("rummy.human_move", getHumanMoveAsJson(m));
+                    }
                 };
             });
 
-            _remote.RegisterReceiveHandler("rummy.best_move",
-				  new MessageHandlerDelegateWrapper(x => DoBestMove()));
+//            _remote.RegisterReceiveHandler("rummy.best_move",
+//				  new MessageHandlerDelegateWrapper(x => DoBestMove()));
+
+            _remote.RegisterReceiveHandler("rummy.sgf_move",
+				  new MessageHandlerDelegateWrapper(x => DoSGFMove(x)));
+
         }
 		public void Dispose()
 		{
@@ -112,6 +125,7 @@ namespace AgentApp
 
 		private void DoBestMove()
 		{
+            //for draw only now, temp
 			LogUtils.LogWithTime("Doing rummy best move");
 			bool done = false;
 			int tries = 0;
@@ -129,14 +143,59 @@ namespace AgentApp
 			}
 		}
 
+        private void DoSGFMove(JObject msg)
+        {
+            Move selectedMvoe = null;
+            LogUtils.LogWithTime("Doing SGF suggested move");
+            int receivedHashCode = int.Parse(msg["hashcode"].ToString());
+
+            foreach (Move m in currentMoveSuggestions)
+                Console.WriteLine(m.GetHashCode());
+
+            foreach (Move m in game.AgentCardsController.possibleMoves.Moves())
+                if (m.GetHashCode() == receivedHashCode)
+                    selectedMvoe = m;
+
+            if (selectedMvoe != null){
+                bool done = false;
+                int tries = 0;
+                while (!done && tries < 5)
+                {
+                    try
+                    {
+                        tries++;
+                        selectedMvoe.Realize(game.GameState);
+                        done = true;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+               
+            //else
+                //throw new System.InvalidOperationException(
+                //    "Received hashcode not found in the initially sent set of moves.");
+           
+            
+            Console.WriteLine("\n\n\n******received move: ");
+            Console.WriteLine(selectedMvoe.ToString());
+            Console.WriteLine("\n\n******received move");
+            }
+             else
+                DoBestMove();
+        }
+
         public JObject getPossibleMovesAsJson()
         {
             List<Move> currentPossibleMoves = new List<Move>();
             currentPossibleMoves.AddRange(
                 game.AgentCardsController.possibleMoves.Moves());
             
+            currentMoveSuggestions.Clear();
+            currentMoveSuggestions.AddRange(currentPossibleMoves);
+            
             var body = new JObject();
-            int discards = 0, layoffs = 0, melds = 0;
+            int numOfDiscards = 0, numOfLayoffs = 0, numOfMelds = 0;
 
             foreach (Move eachMove in currentPossibleMoves)
             {
@@ -144,23 +203,23 @@ namespace AgentApp
                 {
                     if (eachMove is DiscardMove)
                     {
-                        discards++;
-                        body.Add(new JProperty("discard" + discards, new JObject(
+                        body.Add(new JProperty("discard" + ++numOfDiscards, new JObject(
                            new JProperty("card", ((DiscardMove)eachMove).GetCard().ToString()))));
                     }
                     else if (eachMove is LayOffMove)
                     {
-                        layoffs++;
-                        body.Add(new JProperty("layoff" + layoffs, new JObject(
+                        body.Add(new JProperty("layoff" + ++numOfLayoffs, new JObject(
                            new JProperty("card", ((LayOffMove)eachMove).GetCard().ToString()),
-                           new JProperty("meldhash", ((LayOffMove)eachMove).Meld.GetHashCode()))));
+                           new JProperty("meldcards`", ((LayOffMove)eachMove).Meld.CardsToString()))));
                     }
                     else if (eachMove is MeldMove)
                     {
-                        melds++;
-                        body.Add(new JProperty("meld" + melds, new JObject(
+                        body.Add(new JProperty("meld" + ++numOfMelds, new JObject(
                             new JProperty("meldcards", ((MeldMove)eachMove).Meld.CardsToString()))));
                     }
+                    //draw always either from pile or stock
+                    else if (eachMove is DrawMove)
+                        body.Add(new JProperty("draw"));
                 }
                 catch(Exception)
                 {
@@ -169,6 +228,85 @@ namespace AgentApp
             
             return body;
         }
+
+        public JObject getGameStateAsJson()
+        {
+            List<Card> agentCards = new List<Card>();
+            List<Card> humanCards = new List<Card>();
+            var body = new JObject();
+            string agentCardsAsString = "";
+            string humanCardsAsString = "";
+            string stockCardsAsString = "";
+            string discardCardsAsString = "";
+            string agentMeldsAsString = "";
+            string humanMeldsAsString = "";
+            
+            foreach (Card card in game.GameState.GetCards(Player.Two))
+                agentCardsAsString += card.ToString() + "/";
+            foreach (Card card in game.GameState.GetCards(Player.One))
+                humanCardsAsString += card.ToString() + "/";
+
+            int i = 0; Card eachCard = null; 
+            while ((eachCard = game.GameState.Stock.PeekAt(i++)) != null)
+                stockCardsAsString += eachCard.ToString() + "/";
+            stockCardsAsString += "--" + game.GameState.Stock.Count;
+
+            i = 0; eachCard = null;
+            while ((eachCard = game.GameState.Discard.PeekAt(i++)) != null)
+                discardCardsAsString += eachCard.ToString() + "/";
+            discardCardsAsString += "--" + game.GameState.Discard.Count;
+
+            //synatx: each meld's cards by "/", melds seperated by "-"
+            foreach (Meld eachMeld in game.GameState.GetMelds(Player.Two))
+            {
+                foreach (Card eachCardOfIt in eachMeld.getCards())
+                    agentMeldsAsString += eachCardOfIt.ToString() + "/";
+                agentMeldsAsString += "--";
+            }
+
+            //synatx: each meld's cards by "/", melds seperated by "-"
+            foreach (Meld eachMeld in game.GameState.GetMelds(Player.One))
+            {
+                foreach (Card eachCardOfIt in eachMeld.getCards())
+                    humanMeldsAsString += eachCardOfIt.ToString() + "/";
+                humanMeldsAsString += "--";
+            }
+
+            body.Add(new JProperty("agentCards", agentCardsAsString));
+            body.Add(new JProperty("humanCards", humanCardsAsString));
+            body.Add(new JProperty("stockCards", stockCardsAsString));
+            body.Add(new JProperty("discardCards", discardCardsAsString));
+            body.Add(new JProperty("agentMelds", agentMeldsAsString));
+            body.Add(new JProperty("humanMelds", humanMeldsAsString));
+
+            return body;
+        
+        }
+
+        public JObject getHumanMoveAsJson(Move humanMove)
+        {
+            var body = new JObject();
+            if (humanMove is DiscardMove)
+            {
+                body.Add(new JProperty("discard", new JObject(
+                   new JProperty("card", ((DiscardMove)humanMove).GetCard().ToString()))));
+            }
+            else if (humanMove is LayOffMove)
+            {
+                body.Add(new JProperty("layoff", new JObject(
+                   new JProperty("card", ((LayOffMove)humanMove).GetCard().ToString()),
+                   new JProperty("meldcards`", ((LayOffMove)humanMove).Meld.CardsToString()))));
+            }
+            else if (humanMove is MeldMove)
+            {
+                body.Add(new JProperty("meld", new JObject(
+                    new JProperty("meldcards", ((MeldMove)humanMove).Meld.CardsToString()))));
+            }
+
+
+            return body;
+        }
+
         public System.Windows.UIElement GetUIElement()
         {
             return game;

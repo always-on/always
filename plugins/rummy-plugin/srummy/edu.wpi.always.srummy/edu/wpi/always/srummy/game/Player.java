@@ -10,7 +10,7 @@ package edu.wpi.always.srummy.game;
 
 public enum Player {
 
-	Agent,
-	Human
+	Human,
+	Agent
 	
 }

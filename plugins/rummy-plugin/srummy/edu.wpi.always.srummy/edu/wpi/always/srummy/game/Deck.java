@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * A class for card deck.
  * @author Morteza Behrooz
- * @version 1.0
+ * @version 1.1
  */
 
 public class Deck {
@@ -142,6 +142,14 @@ public class Deck {
 		
 		deck.clear();
 		index = 0;
+		
+	}
+	
+	public void synch(List<Card> newCardsList, int newIndex){
+		
+		removeAll();
+		deck.addAll(newCardsList);
+		index = newIndex;
 		
 	}
 

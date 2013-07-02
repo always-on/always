@@ -28,7 +28,7 @@ public class Gtts {
 	 * @author Morteza Behrooz
 	 * @version 2.0
 	 */
-	public static void say(String someText) {
+	public void say(String someText) {
 
 		try{
 
@@ -49,12 +49,12 @@ public class Gtts {
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			final Player player = new Player(bis);
 
-			new Thread() {
-				public void run() {
+			//new Thread() {
+			//	public void run() {
 					try { player.play(); }
 					catch (Exception e) { System.out.println(e); }
-				}
-			}.start();
+			//	}
+		//	}.start();
 
 			new File("ttstemp.mp3").delete();
 

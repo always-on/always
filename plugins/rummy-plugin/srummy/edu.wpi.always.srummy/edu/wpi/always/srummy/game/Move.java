@@ -19,7 +19,7 @@ public abstract class Move implements LegalMove {
 	public Player getPlayer(){
 		return this.player;
 	}
-
+	
 	public abstract void happen(
 			GameState gameState);
 

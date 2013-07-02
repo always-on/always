@@ -87,8 +87,10 @@ public class LayoffMove extends Move{
 		
 		return 
 				this.player.name()
-				+ " just did a layOff with a "
-				+ this.playedCard.toString()
+				+ " doing a layoff with adding "
+				+ playedCard.toString()
+				+ " to the "
+				+ relatedMeld.toString()
 		;
 		
 	}

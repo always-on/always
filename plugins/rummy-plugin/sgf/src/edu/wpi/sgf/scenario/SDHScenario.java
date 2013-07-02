@@ -1,6 +1,8 @@
 package edu.wpi.sgf.scenario;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 
@@ -9,22 +11,44 @@ import edu.wpi.sgf.logic.AnnotatedLegalMove;
  * Social GamePlay Framework;
  * (Self deprecating humor)
  * @author Morteza Behrooz
- * @version 2.0
+ * @version 2.1
  * @see Scenario
  */
 
 public class SDHScenario extends Scenario {
 
 	private static final String 
-	SelfDepractingHumorScenarioName = "sdh";
+		SelfDepractingHumorScenarioName = "sdh";
+	private static final int 
+		WeakPlayStartTime = 2,
+		WeakPlayDeadlineTime = 4;
+	private static final double 
+		StrongPlayStrengthLowerBound = .5, 
+		WeakPlayStrengthUpperBound = .3;
 
-	double n = .5 , m = .3;
-	int r = 2, s = 4;
+	double strengthLowerBound, 
+		strengthUpperBoaund;
+	int t1, t2;
+	
+	protected static List<String> socialAttributes;
 
+	//static block called by the ScenarioManager
+	//to load scenarios into Scenario.allScenarios
+	static{
+
+		socialAttributes = 
+				new ArrayList<String>();
+
+		addSocialAttributes();
+		//here you add the scenario to the system
+		Scenario.allScenarios.put(
+				socialAttributes, SDHScenario.class);
+
+	}
+	
 	/**
-	 * Some arguments can be added to the
-	 * constructor as an argument for easy 
-	 * adjustments and tunings.
+	 * Constructor with constants as arguments.
+	 * (for easy adjustments and tunings.)
 	 */
 	public SDHScenario(int t1, int t2, 
 			double s1, double s2) {
@@ -32,23 +56,60 @@ public class SDHScenario extends Scenario {
 		super(SelfDepractingHumorScenarioName,
 				ScenarioType.generic);
 
-		addSocialAttributes();
+		/*here you add the commenting tags you see 
+		necessary for forcing to commenting system
+		in scenario critical moments (progresses values).*/
+		addCommentingTagProposals();
 
+		strengthLowerBound = s1;
+		strengthUpperBoaund = s2;
+		this.t1 = t1; this.t2 = t2;
+
+	}
+
+	/**
+	 * Constructor with nor arguments, 
+	 * default constants are used.
+	 */
+	public SDHScenario(){
+		
+		super(SelfDepractingHumorScenarioName,
+				ScenarioType.generic);
+		
 		//here you add the scenario to the system
-		allScenarios.put(
+		Scenario.allScenarios.put(
 				socialAttributes, SDHScenario.class);
 
-		progress = 0;
+		addCommentingTagProposals();
 
-		/*here you add the commenting tags you see 
-		necassary for forcing to commenting system
-		in scenario critical moments (progresses values).*/
+		addDefaultValuesIfNotProvidedByConstrucot();
+
+	}
+
+	/**
+	 * Here you can add the comment tag proposals which 
+	 * scenario makes along with their times as map key set.
+	 * @see Scenario
+	 */
+	//TODO read by file? import? add to xml?
+	private void addCommentingTagProposals() {
 		commentingProposals.put(1, 
 				Arrays.asList("competition"));
 		commentingProposals.put(2, 
 				Arrays.asList("competition"));
 		commentingProposals.put(3, 
 				Arrays.asList("brag"));
+	}
+	
+	/**
+	 * Default set of constants if not provided by the constructor.
+	 */
+	private void addDefaultValuesIfNotProvidedByConstrucot(){
+
+		t1 = WeakPlayStartTime;
+		t2 = WeakPlayDeadlineTime;
+		strengthLowerBound = StrongPlayStrengthLowerBound;
+		strengthUpperBoaund = WeakPlayStrengthUpperBound;
 
 	}
 
@@ -59,27 +120,44 @@ public class SDHScenario extends Scenario {
 	 * @see Scenario
 	 */
 	//TODO Can/should be moved to a JSON, or not?
-	private void addSocialAttributes() {
+	private static void addSocialAttributes() {
 		socialAttributes.add("humor");
 		socialAttributes.add("laughter");
 		socialAttributes.add("confidence");
 		socialAttributes.add("amaze");
 		socialAttributes.add("closeness");
 	}
+	
+	public List<String> getAttributess(){
+		return socialAttributes;
+	}
+	
+	public void setSocialAttirubtes(
+			List<String> someAttributes){
+		
+		socialAttributes
+			.addAll(someAttributes);
+		
+	}
+	
 
 	@Override
-	//See Javadoc for the parent class.
-	public boolean evaluate(AnnotatedLegalMove move) {
+	//See Java-doc for the parent class.
+	public boolean evaluate(AnnotatedLegalMove move, boolean passAll) {
 
-		if(progress < r)
-			if(move.getAnnotation() > n)
+		if(passAll)
+			return true;
+
+		if(progress < t1)
+			if(move.getAnnotation() > strengthLowerBound)
 				return true;
 
-		if(progress >= r)
-			if(move.getAnnotation() < n)
+		if(progress >= t1)
+			if(move.getAnnotation() < strengthLowerBound)
 				return true;
 
 		return false;
+		
 	}
 
 	/*
