@@ -1,5 +1,6 @@
 package edu.wpi.always.cm.schemas;
 
+import edu.wpi.always.Always;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;

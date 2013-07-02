@@ -52,6 +52,18 @@ public abstract class Plugin {
    }
    
    /**
+    * For use in main method of plugins for testing.
+    */
+   public static Always main (String[] args, Class<? extends Plugin> plugin, String activity) {
+      Always always = new Always(true, plugin, activity);
+      always.processArgs(args);
+      UserModel model = always.getUserModel();
+      if ( model.getUserName() == null ) model.setUserName("TestPlugin");
+      always.start();
+      return always;
+   }
+   
+   /**
     * Get user property associated with this plugin.  Property is stored
     * in user model.  Note property must be declared in [plugin name].owl resource file
     * in toplevel package of plugin class.

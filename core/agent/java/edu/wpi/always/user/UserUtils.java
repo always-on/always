@@ -21,7 +21,7 @@ public abstract class UserUtils {
    /**
     * Filename in USER_FOLDER for user model.
     * 
-    * @see Always#processArgs(String[])
+    * @see Always#main(String[])
     */
    public static String USER_FILE = "User.owl";
    

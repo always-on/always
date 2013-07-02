@@ -24,9 +24,8 @@ public class SimpleGreetingsSchema extends SchemaBase implements
       super(behaviorReceiver, behaviorHistory);
       this.facePerceptor = facePerceptor;
       this.engagementPerceptor = engagementPerceptor;
-      BehaviorHistory historyWithFocusRequestAugmenter = behaviorHistoryWithAutomaticInclusionOfFocus();
       stateMachine = new OldDialogStateMachine(
-            historyWithFocusRequestAugmenter, this, menuPerceptor);
+            this.behaviorHistory, this, menuPerceptor);
       stateMachine.setSpecificityMetadata(.9);
       setNeedsFocusResource(true);
    }

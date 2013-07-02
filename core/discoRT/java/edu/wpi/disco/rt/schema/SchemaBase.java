@@ -16,7 +16,7 @@ public abstract class SchemaBase implements Schema {
    public static boolean backchanneling = false; // for story, temp?
    
    private final BehaviorProposalReceiver behaviorReceiver;
-   private final BehaviorHistory behaviorHistory;
+   protected final BehaviorHistory behaviorHistory;
    
    private TimeStampedValue<Behavior> lastProposal;
    private boolean needsFocusResource;
@@ -26,9 +26,15 @@ public abstract class SchemaBase implements Schema {
    public void setFuture (ScheduledFuture<?> future) { this.future = future; }
 
    protected SchemaBase (BehaviorProposalReceiver behaviorReceiver,
-         BehaviorHistory behaviorHistory) {
+         final BehaviorHistory behaviorHistory) {
       this.behaviorReceiver = behaviorReceiver;
-      this.behaviorHistory = behaviorHistory;
+      this.behaviorHistory = new BehaviorHistory() {
+         @Override
+         public boolean isDone (CompoundBehavior behavior, DateTime since) {
+            return behaviorHistory.isDone(
+                  appendFocusRequestIfNecessary(behavior), since);
+         }
+      };
       lastProposal = new TimeStampedValue<Behavior>(Behavior.NULL);
    }
  
@@ -123,16 +129,5 @@ public abstract class SchemaBase implements Schema {
 
    protected void setNeedsFocusResource (boolean val) {
       this.needsFocusResource = val;
-   }
-
-   protected BehaviorHistory behaviorHistoryWithAutomaticInclusionOfFocus () {
-      return new BehaviorHistory() {
-
-         @Override
-         public boolean isDone (CompoundBehavior behavior, DateTime since) {
-            return behaviorHistory.isDone(
-                  appendFocusRequestIfNecessary(behavior), since);
-         }
-      };
    }
 }

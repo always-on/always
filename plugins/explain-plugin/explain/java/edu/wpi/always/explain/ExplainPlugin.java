@@ -16,9 +16,7 @@ public class ExplainPlugin extends Plugin {
     * For testing Explain by itself
     */
    public static void main (String[] args) {
-      Always always = new Always(true, ExplainPlugin.class, "ExplainSelf");
-      always.processArgs(args);
-      always.start();
+      Plugin.main(args, ExplainPlugin.class, "ExplainSelf");
    }
   
 

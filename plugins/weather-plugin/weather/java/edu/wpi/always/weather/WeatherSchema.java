@@ -12,11 +12,11 @@ public class WeatherSchema extends DiscoActivitySchema {
 
    public WeatherSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor,
+         MenuPerceptor menuPerceptor, Always always,
          // these will be needed later
          PeopleManager peopleManager,
          PlaceManager placeManager) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
+      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
       interaction.eval("date = \"testing\";", "Cached weather data");
       interaction.load("edu/wpi/always/weather/resources/Weather.xml"); 
       switch (Always.THIS.getRM().getCloseness()) {

@@ -23,11 +23,11 @@ public class Always {
     * or "companion".  Second argument is user model filename (default User.owl). 
     * See TestUser.owl in always/user.
     * 
-    * @see #processArgs(String[])
+    * @see #main(String[])
     */
    public static void main (String[] args) {
       Always always = new Always(true);
-      always.processArgs(args);
+      always.main(args);
       always.start();
    }
    
@@ -42,7 +42,7 @@ public class Always {
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
          Always always = new Always(false);        
-         Always.init(interaction); // initialize duplicate interaction created above
+         always.init(interaction); // initialize duplicate interaction created above
          // for user model
          always.getContainer().as(Characteristics.CACHE).addComponent(
             BindKey.bindKey(File.class, OntologyUserModel.UserOntologyLocation.class),
@@ -112,6 +112,7 @@ public class Always {
    }
  
    private void init (boolean logToConsole, boolean allPlugins) {
+      THIS = this;
       if ( logToConsole )
          BasicConfigurator.configure();
       else
@@ -123,14 +124,14 @@ public class Always {
       addRegistry(new OntologyUserRegistry()); 
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas(allPlugins));
-      THIS = this;
+      register();
       init(container.getComponent(CollaborationManager.class).getInteraction());
    }
 
-   public static void init (Interaction interaction) {
+   public void init (Interaction interaction) {
       edu.wpi.disco.Disco disco = interaction.getDisco();
       // for convenient use in Disco scripts
-      disco.setGlobal("$always", THIS);
+      disco.setGlobal("$always", this);
       disco.eval("edu.wpi.always = Packages.edu.wpi.always;", "Always.init");
    }
 
@@ -164,7 +165,6 @@ public class Always {
    }
 
    public void start () {
-      register();
       CollaborationManager cm = container.getComponent(CollaborationManager.class);
       for (Registry registry : cmRegistries) cm.addRegistry(registry);
       System.out.println("Starting Collaboration Manager");
