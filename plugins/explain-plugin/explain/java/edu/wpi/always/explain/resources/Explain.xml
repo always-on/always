@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
            xmlns:disco="urn:disco.wpi.edu:Disco"
-           about="urn:always.wpi.edu:models:Explains">
+           about="urn:always.wpi.edu:models:Explain">
    <task id="_StartRest">
       <subtasks id="__StartRest_subtasks">
          <step name="__StartRest_step" task="disco:Say"/>
@@ -422,7 +422,7 @@
          // TODO: add the other activities
     }
 
-    // dynamically construct enumeration based on flags (separate function for testing)
+    // dynamically construct enumeration based on flags
 
     Activity.ENUM = {}
 
