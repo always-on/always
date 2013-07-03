@@ -27,7 +27,7 @@ public class Always {
     */
    public static void main (String[] args) {
       Always always = new Always(true);
-      always.main(args);
+      always.processArgs(args);
       always.start();
    }
    
