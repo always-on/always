@@ -106,6 +106,7 @@ public class ZipCodes {
 				if ( !line.isEmpty() ) {
 					ZipCodeEntry entry = new ZipCodeEntry(line);
 					data.put(entry.getZip(), entry);
+					cityData.add(entry);
 				}
 			}
 		}
@@ -118,17 +119,6 @@ public class ZipCodes {
 					StateEntry stateEntry = new StateEntry(line);
 					stateData.put(stateEntry.getState().toLowerCase(), stateEntry);
 					stateAbbrevData.put(stateEntry.getStateAbbrev().get(0).toLowerCase(), stateEntry);
-				}
-			}
-		}
-		try (Scanner s = new Scanner(new BufferedInputStream(getClass()
-				.getResourceAsStream("/edu/wpi/always/user/places/ZipCodes.csv")))) {
-			s.nextLine();// read first line
-			while (s.hasNextLine()) {
-				String line = s.nextLine();
-				if ( !line.isEmpty() ) {
-					ZipCodeEntry cityEntry = new ZipCodeEntry(line);
-					cityData.add(cityEntry);
 				}
 			}
 		}

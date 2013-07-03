@@ -9,8 +9,8 @@
              d:DesignHeight="500" d:DesignWidth="1400">
     <StackPanel Name="verticalPanel">
         <StackPanel Name="row0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <StackPanel Name="x" Orientation="Horizontal" HorizontalAlignment="Center">
-            <local:ShiftViewKey NormalContent="`" ShiftContent="~" Shift="{Binding Shift, ElementName=keyboard}" />
+            <StackPanel Name="NonNumKeyLeft" Orientation="Horizontal" HorizontalAlignment="Center">
+                <local:ShiftViewKey NormalContent="`" ShiftContent="~" Shift="{Binding Shift, ElementName=keyboard}" />
             </StackPanel>
             <local:ShiftViewKey NormalContent="1" ShiftContent="!" Shift="{Binding Shift, ElementName=keyboard}" />
             <local:ShiftViewKey NormalContent="2" ShiftContent="@" Shift="{Binding Shift, ElementName=keyboard}" />
@@ -23,7 +23,7 @@
             <local:ShiftViewKey NormalContent="9" ShiftContent="(" Shift="{Binding Shift, ElementName=keyboard}" />
             <local:ShiftViewKey NormalContent="0" ShiftContent=")" Shift="{Binding Shift, ElementName=keyboard}" />
             <local:ShiftViewKey NormalContent="-" ShiftContent="_" Shift="{Binding Shift, ElementName=keyboard}" />
-            <StackPanel Name="y" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Name="NonNumKeyRight" Orientation="Horizontal" HorizontalAlignment="Center">
             <local:ShiftViewKey NormalContent="=" ShiftContent="+" Shift="{Binding Shift, ElementName=keyboard}" />
             </StackPanel>
         </StackPanel>

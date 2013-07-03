@@ -12,8 +12,6 @@ public interface PeopleManager {
 	
 	UserModel getUserModel();
 	
-	void setUserModel(UserModel model);
-
    Person getUser ();
 
    Person addPerson (String name, Relationship relationship, Gender gender);

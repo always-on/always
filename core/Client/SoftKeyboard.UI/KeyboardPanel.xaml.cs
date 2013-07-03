@@ -22,12 +22,12 @@ namespace SoftKeyboard.UI
 	/// </summary>
 	public partial class KeyboardPanel : UserControl
 	{
-
         private static bool isOverflow = false;
 		private IMessageDispatcher remote;
         private string context;
-		public KeyboardPanel(string contextString, IMessageDispatcher remote, bool isNumeric)
-		{
+        
+        public KeyboardPanel(string contextString, IMessageDispatcher remote, bool isNumeric)
+        {
 			this.remote = remote;
 			InitializeComponent();
 			contextLabel.Content = contextString;
@@ -36,8 +36,8 @@ namespace SoftKeyboard.UI
 			AddHandler(RubOutKey.RubOutEvent, new RoutedEventHandler(rubOutHandler));
             if (isNumeric)
             {
-                ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("x")).Visibility = Visibility.Collapsed;
-                ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("y")).Visibility = Visibility.Collapsed;
+                ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("NonNumKeyLeft")).Visibility = Visibility.Collapsed;
+                ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("NonNumKeyRight")).Visibility = Visibility.Collapsed;
                 ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row1")).Visibility = Visibility.Collapsed;
                 ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row2")).Visibility = Visibility.Collapsed;
                 ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row3")).Visibility = Visibility.Collapsed;
@@ -59,10 +59,10 @@ namespace SoftKeyboard.UI
                 panel.textBox.IsReadOnly = true;
                 JObject data = new JObject();
                 data.Add("event", "exceed");
-                data.Add("prompt", "The input is too long, please use the red arrow key to shorten it.");
+                data.Add("prompt", "Enter text: (Use red arrow key to rub out)");
                 data.Add("text", panel.textBox.Text);
                 panel.remote.Send("keyboard.exceed", data);
-                panel.contextLabel.Content = "Limit exceeded, please press the red arrow key.";
+                panel.contextLabel.Content = "Too many characters: (Use red arrow key to rub out)";
             }
             else
             {

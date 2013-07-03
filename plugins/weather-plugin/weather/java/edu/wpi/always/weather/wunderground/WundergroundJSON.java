@@ -1,6 +1,5 @@
 package edu.wpi.always.weather.wunderground;
 
-import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.weather.provider.*;
 import java.util.*;
@@ -11,7 +10,6 @@ public class WundergroundJSON {
 	Alert alert;
 	Almanac almanac;
 	Forecast[] forecast;
-	//static UserModel model;
 
 	Map<String, CurrentWeather> interestCities;
 	Map<String, CurrentWeather> friendsCities;
