@@ -158,6 +158,8 @@ public class OntologyPerson implements Person {
 
 	@Override
 	public void setBirthday (MonthDay day) {
+		owlPerson.setDataProperty(BIRTHDAY_PROPERTY, (day != null) ? helper.getLiteral(day) : null);
+		/**
 		CalendarEntry birthdayEntry = null;
 		for (CalendarEntry entry : model.getCalendar().retrieve(null)) {
 			if ( entry.getType().equals(CalendarEntryTypeManager.Types.Birthday) ) {
@@ -178,6 +180,7 @@ public class OntologyPerson implements Person {
 			birthdayEntry.setStart(day.toDateTime(new DateMidnight()));
 			model.getCalendar().update(birthdayEntry, true);
 		}
+		*/
 	}
 
 	@Override

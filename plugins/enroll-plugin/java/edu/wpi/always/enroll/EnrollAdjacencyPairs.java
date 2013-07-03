@@ -19,7 +19,7 @@ import edu.wpi.always.enroll.ErrorCheckState.*;
 
 public abstract class EnrollAdjacencyPairs{
 
-	protected static String UserName, PersonName, PersonAge, PhoneNumber, SkypeNumber, Spouse;
+	protected static String PersonName, PersonAge, PhoneNumber, SkypeNumber, Spouse;
 	protected static Relationship relationship;
 	protected static MonthDay personBirthday;
 	protected static int Month;
@@ -163,12 +163,12 @@ public abstract class EnrollAdjacencyPairs{
 
 		public PersonBirthdayMonthAdjacencyPair(final EnrollStateContext context) {
 			super("What is " + PersonName + "'s birthday month", context, true);
-			Month = 0;
 			for(int i = 0; i < 12; i++) {
+				final int MonthNum = i;
 				choice(Person.Month[i], new DialogStateTransition() {
 					@Override
 					public AdjacencyPair run() {
-						Month = Month + 1;
+						Month = MonthNum + 1;
 						return new PersonBirthdayDayAdjacencyPair(getContext());
 					}
 				});
@@ -354,7 +354,7 @@ public abstract class EnrollAdjacencyPairs{
 
 		public PersonZipCodeAdjacencyPair(final EnrollStateContext context) {
 			super("What is the person's zipcode?", "Enter " +PersonName+ "'s zipcode:",
-					context, context.getKeyboard());
+					context, context.getKeyboard(), true);
 			choice("Skip "+PersonName, new DialogStateTransition() {
 
 				@Override
@@ -392,7 +392,7 @@ public abstract class EnrollAdjacencyPairs{
 
 		public ZipCodeInvalidAdjacencyPair(final EnrollStateContext context) {
 			super("The zipcode entered is invalid. Please enter an valid zipcode.", 
-					"Enter" + PersonName +"'s zipcode again:", context, context.getKeyboard());
+					"Enter" + PersonName +"'s zipcode again:", context, context.getKeyboard(), true);
 			choice("Skip "+PersonName, new DialogStateTransition() {
 
 				@Override
@@ -813,7 +813,7 @@ public abstract class EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public PhoneNumberAdjacencyPair(final EnrollStateContext context) {
-			super("What is his or her phone number?", "Enter " + PersonName +"'s phone number: (XXX-XXXXXXX)", 
+			super("What is his or her phone number?", "Enter " + PersonName +"'s phone number: (XXX-XXX-XXXX)", 
 					context, context.getKeyboard(),true);
 			choice("Skip "+PersonName, new DialogStateTransition() {
 

@@ -159,12 +159,12 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 		public EditBirthdayMonthAdjacencyPair(final EnrollStateContext context,
 				 final Person person) {
 			super("What is " + PersonName + "'s birthday month", context, true);
-			Month = 0;
 			for(int i = 0; i < 12; i++) {
+				final int MonthNum = i;
 				choice(Person.Month[i], new DialogStateTransition() {
 					@Override
 					public AdjacencyPair run() {
-						Month = Month + 1;
+						Month = MonthNum + 1;
 						return new EditBirthdayDayAdjacencyPair(getContext(), person);
 					}
 				});
@@ -370,7 +370,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		public EditZipCodeAdjacencyPair(final EnrollStateContext context) {
 			super("What is the person's zipcode?", "Enter " + PersonName +"s zipcode:", 
-					context, context.getKeyboard());
+					context, context.getKeyboard(), true);
 		}
 
 		@Override
@@ -401,7 +401,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		public ZipCodeAgainInvalidAdjacencyPair(final EnrollStateContext context) {
 			super("The zipcode entered is invalid. Please enter an valid zipcode.", 
-					"Enter " + PersonName + "'s zipcode again:", context, context.getKeyboard());
+					"Enter " + PersonName + "'s zipcode again:", context, context.getKeyboard(), true);
 		}
 
 		@Override
@@ -712,7 +712,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public EditPhoneAdjacencyPair(final EnrollStateContext context) {
-			super("What is his or her phone number?", "Enter " + PersonName + "'s phone number: (XXX-XXXXXXX)", 
+			super("What is his or her phone number?", "Enter " + PersonName + "'s phone number: (XXX-XXX-XXXX)", 
 					context, context.getKeyboard(),true);
 		}
 
@@ -807,6 +807,12 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 					return new PersonNameAdjacencyPair(getContext());
 				}
 			});	
+			choice("Repeat the question", new DialogStateTransition() {
+				@Override
+				public AdjacencyPair run() {
+					return new NextPersonAdjacencyPair(getContext());
+				}
+			});	
 		}
 	}
 
@@ -814,11 +820,23 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 	AdjacencyPairBase<EnrollStateContext> {
 
 		public DoneCurrentPersonAdjacencyPair(final EnrollStateContext context) {
-			super("Now I know about " + PersonName, context);
+			super("Now I know about " + PersonName + "Do you want to back to main menu now", context);
 			choice("Go Back.", new DialogStateTransition() {
 				@Override
 				public AdjacencyPair run() {
 					return new InitialEnroll(getContext());
+				}
+			});
+			choice("I changed my mind and want to add another person", new DialogStateTransition() {
+				@Override
+				public AdjacencyPair run() {
+					return new PersonNameAdjacencyPair(getContext());
+				}
+			});
+			choice("Repeat the question", new DialogStateTransition() {
+				@Override
+				public AdjacencyPair run() {
+					return new DoneCurrentPersonAdjacencyPair(getContext());
 				}
 			});
 		}

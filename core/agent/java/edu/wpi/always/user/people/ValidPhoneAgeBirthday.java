@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class ValidPhoneAgeBirthday {
 
-	static final String regex = "\\d{3}-\\d{7}";
+	static final String regex = "\\d{3}-\\d{3}-\\d{4}";
 
 	public static boolean isPhoneNumberValid(String phoneNumber) {
 		return Pattern.matches(regex, phoneNumber);
