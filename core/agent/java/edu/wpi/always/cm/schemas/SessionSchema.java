@@ -33,7 +33,6 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                session.getDocument(), session.getProperties(), session.getTranslate());
          interaction.push(interaction.addTop("_Session"));
       }
-      interaction.setOk(false);
       ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
                       .setInterrupt(false);
    }
