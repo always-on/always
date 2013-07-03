@@ -78,7 +78,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private void yield (Task goal) {
       stop.setGoal(goal);
       stop.update();
-      stateMachine.setAdjacencyPair(stop);
+      stateMachine.setState(stop);
       stateMachine.setExtension(true);
       stateMachine.setSpecificityMetadata(0.5);
       setNeedsFocusResource(false);

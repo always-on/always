@@ -19,15 +19,14 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private final ResourceMonitor resourceMonitor;
    private final MenuTimeoutHandler timeoutHandler;
 
-   private TimeStampedValue<Behavior> lastProposal = new TimeStampedValue<Behavior>(Behavior.NULL);
-   private AdjacencyPair currentAdjacencyPair, lastProposalAdjacencyPair;
-   private State state;
+   private TimeStampedValue<Behavior> previousBehavior = new TimeStampedValue<Behavior>(Behavior.NULL);
+   private AdjacencyPair state, previousState;
+   private Mode mode;
    private DateTime waitingForResponseSince;
-   private boolean addSomethingToDifferentiateFromLastProposal;
-   private boolean extension;
-   private boolean needsFocusResource;
+   private boolean needsToDifferentiate;
+   private boolean extension, needsFocusResource;
    
-   public AdjacencyPair getCurrentAdjacencyPair () { return currentAdjacencyPair; }
+   public AdjacencyPair getState () { return state; }
    
    public void setExtension (boolean extension) { this.extension = extension; }
    
@@ -36,7 +35,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       this.needsFocusResource = focus;
    }
 
-   private enum State { Say, Hear }  // state of system
+   private enum Mode { Speaking, Hearing }  // mode of agent
 
    public MenuTurnStateMachine (BehaviorHistory behaviorHistory,
          ResourceMonitor resourceMonitor, MenuPerceptor menuPerceptor,
@@ -45,102 +44,101 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       this.resourceMonitor = resourceMonitor;
       this.menuPerceptor = menuPerceptor;
       this.timeoutHandler = timeoutHandler;
-      currentAdjacencyPair = null;
-      setState(State.Say);
+      setMode(Mode.Speaking);
    }
-
-   private boolean hasSomethingToSay (AdjacencyPair pair) {
-      String s = pair.getMessage();
-      return s != null && s.length() > 0;
-   }
-
-   private boolean hasChoicesForUser (AdjacencyPair pair) {
-      return pair.getChoices() != null && !pair.getChoices().isEmpty();
-   }
-
+ 
    @Override
    public Behavior build () {
-      if ( currentAdjacencyPair == null ) {
+      // note this method is coded as tail-recursive loops
+      if ( state == null ) {
          if ( DiscoRT.TRACE) System.out.println("Nothing to say/do");
          return Behavior.NULL;
       }
-      if ( !hasSomethingToSay(currentAdjacencyPair)
-            && !hasChoicesForUser(currentAdjacencyPair) ) {
-         setAdjacencyPair(currentAdjacencyPair.nextState(null));
+      if ( !hasSomethingToSay(state) && !hasChoicesForUser(state) ) {
+         setState(state.nextState(null));
          return Behavior.NULL;
       }
-      if ( currentAdjacencyPair.prematureEnd() )
-         return gotoSaying(null);
-      List<String> userChoices = currentAdjacencyPair.getChoices();
-      boolean choicesExist = hasChoicesForUser(currentAdjacencyPair);
-      MenuBehavior menuBehavior = null;
-      SpeechBehavior speechBehavior = null;
-      Behavior proposal = Behavior.NULL;
-      if ( choicesExist )
-         menuBehavior = new MenuBehavior(userChoices,
-               currentAdjacencyPair.isTwoColumnMenu(), extension);
-      if ( hasSomethingToSay(currentAdjacencyPair) )
-         speechBehavior = new SpeechBehavior(currentAdjacencyPair.getMessage());
+      if ( state.prematureEnd() ) return nextState(null); // loop
+      Behavior behavior = Behavior.NULL;
+      MenuBehavior menuBehavior = hasChoicesForUser(state) ? 
+         new MenuBehavior(state.getChoices(), state.isTwoColumnMenu(), extension) :
+         null;
+      SpeechBehavior speechBehavior = hasSomethingToSay(state) ? 
+         new SpeechBehavior(state.getMessage()) : null;
       if ( speechBehavior != null && menuBehavior != null ) {
-         List<PrimitiveBehavior> primitives = Lists.newArrayList(
-               speechBehavior, menuBehavior);
-         List<Constraint> constraints = Lists.newArrayList();
-         constraints.add(new Constraint(new SyncRef(SyncPoint.Start,
-               speechBehavior), new SyncRef(SyncPoint.Start, menuBehavior),
-               Type.After, MENU_DELAY));
-         proposal = new Behavior(new CompoundBehaviorWithConstraints(primitives,
-               constraints));
-      } else if ( state == State.Say ) {
+         behavior = new Behavior(new CompoundBehaviorWithConstraints(
+                Lists.newArrayList(speechBehavior, menuBehavior),
+                Lists.newArrayList(new Constraint(
+                      new SyncRef(SyncPoint.Start, speechBehavior), 
+                      new SyncRef(SyncPoint.Start, menuBehavior),
+                      Type.After, MENU_DELAY))));
+      } else if ( mode == Mode.Speaking ) {
          if ( speechBehavior == null ) {
-            setState(State.Hear);
-            return build();
+            setMode(Mode.Hearing);
+            return build(); // loop
          }
-         proposal = Behavior.newInstance(speechBehavior);
-      } else if ( state == State.Hear ) {
-         if ( menuBehavior == null )
-            return gotoSaying(null);
-         proposal = Behavior.newInstance(menuBehavior);
+         behavior = Behavior.newInstance(speechBehavior);
+      } else if ( mode == Mode.Hearing ) {
+         if ( menuBehavior == null ) return nextState(null); // loop
+         behavior = Behavior.newInstance(menuBehavior);
          waitingForResponseSince = DateTime.now(); // reset now since nothing said
       }
-      if ( needsFocusResource ) proposal = proposal.addFocusResource(); 
-      if ( lastProposalAdjacencyPair != currentAdjacencyPair /* || 
-            (state == State.Hear && currentAdjacencyPair.isCircular()) */ ) {
-         if ( lastProposal.getValue().equals(proposal) ) 
-            addSomethingToDifferentiateFromLastProposal = true;
-         setLastProposal(Behavior.NULL);
+      if ( needsFocusResource ) behavior = behavior.addFocusResource(); 
+      if ( previousState != state ) {
+         if ( previousBehavior.getValue().equals(behavior) ) needsToDifferentiate = true;
+         update(Behavior.NULL);
       }
-      if ( addSomethingToDifferentiateFromLastProposal ) {
-         CompoundBehavior inner = proposal.getInner();
-         proposal = new Behavior(new SequenceOfCompoundBehaviors(inner,
+      if ( needsToDifferentiate ) {
+         // this is a bit of a hack to fix problem that if two successive
+         // states produce the same utterance, it won't be said twice because
+         // the behavior history thinks it is already done
+         CompoundBehavior inner = behavior.getInner();
+         behavior = new Behavior(new SequenceOfCompoundBehaviors(inner,
                // make null behavior that uses same resource as inner
                new SimpleCompoundBehavior(PrimitiveBehavior.nullBehavior(inner.getResources().iterator().next()))));
       }
-      boolean alreadyDone = saveProposalAndCheckIfAlreadyDone(proposal);
-      if ( alreadyDone && state == State.Say )
-         setState(State.Hear);
+      // check if already done and update behavior
+      boolean alreadyDone = false;
+      if ( previousBehavior.getValue().equals(behavior) ) {
+         if ( behaviorHistory.isDone(behavior.getInner(), previousBehavior.getTimeStamp()) ) 
+            alreadyDone = true;
+      } else update(behavior);
+      if ( alreadyDone && mode == Mode.Speaking ) setMode(Mode.Hearing);
       if ( menuBehavior != null
-         && resourceMonitor.isDone(menuBehavior, lastProposal.getTimeStamp()) ) {
-         String selectedMenu = checkMenuSelected(userChoices,
-               lastProposal.getTimeStamp());
-         if ( selectedMenu != null )
-            return gotoSaying(selectedMenu);
-      }
-      if ( state == State.Hear && !extension
-         && waitingForResponseSince.isBefore(DateTime.now().minusMillis(
-               TIMEOUT_DELAY)) ) {
-         AdjacencyPair newPair = timeoutHandler.handle(currentAdjacencyPair);
-         if ( newPair != null && newPair != currentAdjacencyPair ) {
-            setAdjacencyPair(newPair);
-            return build();
+           && resourceMonitor.isDone(menuBehavior, previousBehavior.getTimeStamp()) ) {
+         String selected = checkMenuSelected(state.getChoices(),
+                                             previousBehavior.getTimeStamp());
+         if ( selected != null ) {
+            // prevent infinite loop when same state, same menu and no message
+            if ( state == previousState ) update(Behavior.NULL);
+            return nextState(selected); // loop
          }
       }
-      return proposal;
+      if ( mode == Mode.Hearing && !extension
+           && waitingForResponseSince.isBefore(DateTime.now().minusMillis(TIMEOUT_DELAY)) ) {
+         AdjacencyPair newState = timeoutHandler.handle(state);
+         if ( newState != null && newState != state ) {
+            setState(newState);
+            return build(); // loop
+         }
+      }
+      return behavior;
    }
 
+   private boolean hasSomethingToSay (AdjacencyPair state) {
+      String s = state.getMessage();
+      return s != null && s.length() > 0;
+   }
+
+   private boolean hasChoicesForUser (AdjacencyPair state) {
+      return state.getChoices() != null && !state.getChoices().isEmpty();
+   }
+   
    private String checkMenuSelected (List<String> userChoices,
          DateTime menuShownAt) {
       MenuPerception p = menuPerceptor.getLatest();
-      // ignore selection that is not in choices, since could be from menu extension (or vice versa)
+      // ignore selection that is not in choices, since could be from 
+      // menu extension (or vice versa)
       if ( p != null && userChoices.contains(p.getSelected())
          && p.getTimeStamp().isAfter(menuShownAt) ) {
          return p.getSelected();
@@ -148,35 +146,22 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       return null;
    }
 
-   private boolean saveProposalAndCheckIfAlreadyDone (Behavior b) {
-      if ( lastProposal.getValue().equals(b) ) {
-         if ( behaviorHistory.isDone(b.getInner(), lastProposal.getTimeStamp()) ) {
-            return true;
-         }
-      } else {
-         setLastProposal(b);
-      }
-      return false;
+   private void update (Behavior b) {
+      previousState = state;
+      previousBehavior = new TimeStampedValue<Behavior>(b);
    }
 
-   private void setLastProposal (Behavior b) {
-      lastProposalAdjacencyPair = currentAdjacencyPair;
-      lastProposal = new TimeStampedValue<Behavior>(b);
-   }
-
-   private Behavior gotoSaying (String text) {
-      setAdjacencyPair(currentAdjacencyPair.nextState(text));
-      return build();
+   private Behavior nextState (String text) {
+      setState(state.nextState(text));
+      return build(); // loop
    }
    
-   public AdjacencyPair getAdjacencyPair () { return currentAdjacencyPair; }
-
-   public void setAdjacencyPair (AdjacencyPair pair) {
-      setState(State.Say);
-      addSomethingToDifferentiateFromLastProposal = false;
-      if ( pair == null ) return;
-      currentAdjacencyPair = pair;
-      pair.enter();
+   public void setState (AdjacencyPair newState) {
+      setMode(Mode.Speaking);
+      needsToDifferentiate = false;
+      if ( newState == null ) return;
+      state = newState;
+      newState.enter();
    }
 
    private double specificity;
@@ -184,11 +169,11 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
 
    @Override
    public BehaviorMetadata getMetadata () {
-      if ( currentAdjacencyPair == null )
+      if ( state == null )
          return new BehaviorMetadataBuilder().build();
       BehaviorMetadataBuilder builder = new BehaviorMetadataBuilder()
             .specificity(specificity)
-            .timeRemaining(currentAdjacencyPair.timeRemaining())
+            .timeRemaining(state.timeRemaining())
             .newActivity(newActivity);
       return builder.build();
    }
@@ -201,13 +186,9 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       this.specificity = s;
    }
 
-   public State getState () {
-      return state;
-   }
-
-   private void setState (State newState) {
-      if ( newState == State.Hear && state == State.Say )
+   private void setMode (Mode newMode) {
+      if ( newMode == Mode.Hearing && mode == Mode.Speaking )
          waitingForResponseSince = DateTime.now();
-      this.state = newState;
+      this.mode = newMode;
    }
 }

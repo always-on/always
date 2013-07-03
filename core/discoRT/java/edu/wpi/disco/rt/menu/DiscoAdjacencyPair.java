@@ -35,9 +35,6 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
 
    @Override
    public void enter () {}
-   
-   @Override
-   public boolean isCircular () { return true; }
 
    @Override
    public AdjacencyPair nextState (String text) {

@@ -18,7 +18,7 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
                     resourceMonitor, menuPerceptor, interaction), 
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
       this.interaction = interaction;
-      discoAdjacencyPair = (DiscoAdjacencyPair) stateMachine.getCurrentAdjacencyPair();
+      discoAdjacencyPair = (DiscoAdjacencyPair) stateMachine.getState();
    }
 
    @Override

@@ -20,7 +20,7 @@ public abstract class ActivityStateMachineSchema extends ActivitySchema {
       stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
             menuPerceptor, new RepeatMenuTimeoutHandler());
       stateMachine.setSpecificityMetadata(SPECIFICITY);
-      stateMachine.setAdjacencyPair(initial);
+      stateMachine.setState(initial);
       stateMachine.setNeedsFocusResource(true); // default value
    }
 

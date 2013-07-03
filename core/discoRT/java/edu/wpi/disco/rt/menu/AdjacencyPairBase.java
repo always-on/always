@@ -59,7 +59,4 @@ public abstract class AdjacencyPairBase<C> implements AdjacencyPair {
 
    @Override
    public boolean prematureEnd () { return false; }
-   
-   @Override
-   public boolean isCircular () { return false; }
 }
