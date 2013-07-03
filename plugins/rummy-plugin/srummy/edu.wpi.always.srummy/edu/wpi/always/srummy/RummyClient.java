@@ -507,9 +507,7 @@ public class RummyClient implements ClientPlugin {
 		}
 		//check all above in this method	
 		//currently not sending/receiving draw, necessary? 
-		//ASSUMING MAKING COMMENTS HERE, MADE BY PROPOSAL
-		
-		
+		//ASSUMING MAKING COMMENTS 
 	}
 	
 	@Override

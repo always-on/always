@@ -15,17 +15,25 @@ using System.Windows.Shapes;
 namespace TicTacToe.UI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GameShape.xaml
     /// </summary>
     public partial class GameShape : UserControl
     {
+        public GameShape()
+        {
+            InitializeComponent();
+        }
+
         public event EventHandler Played = delegate { };
 
         public void playAgentMove(int cellNum)
         {
-            string cellTag = "cell" + cellNum;
-            Button button = (Button)this.FindName(cellTag);
-            button.Content = "X";
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                 string cellName = "cell" + cellNum.ToString();
+                 Button button = (Button)tictactoe.FindName(cellName);
+                 button.Content = "X";
+            }));
         }
 
         public void reset()
@@ -37,20 +45,13 @@ namespace TicTacToe.UI
             }
         }
 
-        public GameShape()
-        {
-            InitializeComponent();
-        }
-
         private void Click(object sender, RoutedEventArgs e)
         { 
         Button button = (Button)sender;
-            int count = 0;
-
             if (button.Content == null)
             {
                 button.Content = "O";
-                Played(this, new cellEventArg { cellNum = int.Parse((string)button.Tag) });
+                Played(this, new cellEventArg { cellNum = int.Parse((string)button.Tag.ToString()[1].ToString()) });
             }
         
         }
@@ -59,5 +60,6 @@ namespace TicTacToe.UI
     class cellEventArg : EventArgs
     {
         public int cellNum { get; set; }
+
     }
 }

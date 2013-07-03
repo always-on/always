@@ -13,32 +13,34 @@ namespace AgentApp
     {
         GameShape game;
         IMessageDispatcher _remote;
+
         
         public TicTacToePlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
+
             this._remote = remote;
+                 
             uiThreadDispatcher.BlockingInvoke(() =>
             {
-               
+              game = new GameShape();
               game.Played += (s, e) =>
-              {
+              { 
                   JObject body = new JObject();
                   body["cellNum"] = ((cellEventArg)e).cellNum;
                   _remote.Send("tictactoe.human_played_cell", body);
               };
-
             });
 
-            _remote.RegisterReceiveHandler("tictactoe.agent_playing_cell",
-				  new MessageHandlerDelegateWrapper(x => playAgentMove(x)));
+            _remote.RegisterReceiveHandler("tictactoe.agent_cell",
+                 new MessageHandlerDelegateWrapper(x => playAgentMove(x)));
         }
 
 		public void Dispose()
 		{
-            _remote.RemoveReceiveHandler("tictactoe.agent_playing_cell");
+            _remote.RemoveReceiveHandler("tictactoe.agent_cell");
 		}
 
-       	private void playAgentMove(JObject cellNumAsJObj)
+       	public void playAgentMove(JObject cellNumAsJObj)
 		{
             if (cellNumAsJObj["cellNum"]
                 .ToString().Trim().Equals("reset"))
@@ -47,6 +49,8 @@ namespace AgentApp
                 return;
             }
             int cellNum = int.Parse(cellNumAsJObj["cellNum"].ToString());
+            Console.WriteLine(cellNum);
+            
             game.playAgentMove(cellNum);
 		}
 

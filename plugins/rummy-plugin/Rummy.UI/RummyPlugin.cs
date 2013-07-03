@@ -80,6 +80,7 @@ namespace AgentApp
 		public void Dispose()
 		{
 			_remote.RemoveReceiveHandler("rummy.best_move");
+            //_remote.RemoveReceiveHandler("rummy.sgf_move"); //? add?
 		}
 
         private string StateToSend(State newState)
