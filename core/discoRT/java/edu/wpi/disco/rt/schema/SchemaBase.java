@@ -7,34 +7,23 @@ import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;
 import java.util.concurrent.ScheduledFuture;
 
-//The propose family of methods, append focus resource request based on
-//  needsFocusResource field.
-
 public abstract class SchemaBase implements Schema {
 
    public static int NORMAL_PRIORITY = 0;
-   public static boolean backchanneling = false; // for story, temp?
    
    private final BehaviorProposalReceiver behaviorReceiver;
    protected final BehaviorHistory behaviorHistory;
    
    private TimeStampedValue<Behavior> lastProposal;
-   private boolean needsFocusResource;
    private ScheduledFuture<?> future;
    
    @Override
    public void setFuture (ScheduledFuture<?> future) { this.future = future; }
 
    protected SchemaBase (BehaviorProposalReceiver behaviorReceiver,
-         final BehaviorHistory behaviorHistory) {
+         BehaviorHistory behaviorHistory) {
       this.behaviorReceiver = behaviorReceiver;
-      this.behaviorHistory = new BehaviorHistory() {
-         @Override
-         public boolean isDone (CompoundBehavior behavior, DateTime since) {
-            return behaviorHistory.isDone(
-                  appendFocusRequestIfNecessary(behavior), since);
-         }
-      };
+      this.behaviorHistory = behaviorHistory;
       lastProposal = new TimeStampedValue<Behavior>(Behavior.NULL);
    }
  
@@ -83,22 +72,8 @@ public abstract class SchemaBase implements Schema {
    }
 
    protected void propose (Behavior behavior, BehaviorMetadata metadata) {
-      if ( !behavior.equals(Behavior.NULL) )
-         behavior = appendFocusRequestIfNecessary(behavior);
       updateLastProposal(behavior);
       behaviorReceiver.add(this, behavior, metadata);
-   }
-
-   protected Behavior appendFocusRequestIfNecessary (Behavior behavior) {
-      return new Behavior(appendFocusRequestIfNecessary(behavior.getInner()));
-   }
-
-   protected CompoundBehavior appendFocusRequestIfNecessary (
-         CompoundBehavior behavior) {
-      return needsFocusResource ?
-         new SequenceOfCompoundBehaviors(behavior,
-               new SimpleCompoundBehavior(new FocusRequestBehavior()))
-         : behavior;
    }
 
    private void updateLastProposal (Behavior behavior) {
@@ -123,11 +98,4 @@ public abstract class SchemaBase implements Schema {
       propose(builder.build(), builder.getMetadata());
    }
 
-   protected boolean getNeedsFocusResource () {
-      return needsFocusResource;
-   }
-
-   protected void setNeedsFocusResource (boolean val) {
-      this.needsFocusResource = val;
-   }
 }

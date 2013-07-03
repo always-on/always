@@ -1,4 +1,4 @@
-package edu.wpi.always.cm.schemas;
+package edu.wpi.always.test;
 
 import edu.wpi.disco.rt.Scheduler;
 import edu.wpi.disco.rt.behavior.*;
@@ -17,7 +17,6 @@ public class AquariumTripSchema extends SchemaBase {
          BehaviorHistory resourceMonitor, JTextField fakeTimeTextBox) {
       super(behaviorReceiver, resourceMonitor);
       this.fakeTimeTextBox = fakeTimeTextBox;
-      setNeedsFocusResource(true);
    }
 
    @Override

@@ -19,15 +19,22 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private final ResourceMonitor resourceMonitor;
    private final MenuTimeoutHandler timeoutHandler;
 
-   private AdjacencyPair currentAdjacencyPair;
+   private TimeStampedValue<Behavior> lastProposal = new TimeStampedValue<Behavior>(Behavior.NULL);
+   private AdjacencyPair currentAdjacencyPair, lastProposalAdjacencyPair;
    private State state;
    private DateTime waitingForResponseSince;
-   private TimeStampedValue<Behavior> lastProposal = new TimeStampedValue<Behavior>(Behavior.NULL);
    private boolean addSomethingToDifferentiateFromLastProposal;
-   private AdjacencyPair stateOfLastProposal;
    private boolean extension;
+   private boolean needsFocusResource;
+   
+   public AdjacencyPair getCurrentAdjacencyPair () { return currentAdjacencyPair; }
    
    public void setExtension (boolean extension) { this.extension = extension; }
+   
+   @Override
+   public void setNeedsFocusResource (boolean focus) {
+      this.needsFocusResource = focus;
+   }
 
    private enum State { Say, Hear }  // state of system
 
@@ -68,7 +75,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       boolean choicesExist = hasChoicesForUser(currentAdjacencyPair);
       MenuBehavior menuBehavior = null;
       SpeechBehavior speechBehavior = null;
-      Behavior b = Behavior.NULL;
+      Behavior proposal = Behavior.NULL;
       if ( choicesExist )
          menuBehavior = new MenuBehavior(userChoices,
                currentAdjacencyPair.isTwoColumnMenu(), extension);
@@ -81,33 +88,34 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          constraints.add(new Constraint(new SyncRef(SyncPoint.Start,
                speechBehavior), new SyncRef(SyncPoint.Start, menuBehavior),
                Type.After, MENU_DELAY));
-         b = new Behavior(new CompoundBehaviorWithConstraints(primitives,
+         proposal = new Behavior(new CompoundBehaviorWithConstraints(primitives,
                constraints));
       } else if ( state == State.Say ) {
          if ( speechBehavior == null ) {
             setState(State.Hear);
             return build();
          }
-         b = Behavior.newInstance(speechBehavior);
+         proposal = Behavior.newInstance(speechBehavior);
       } else if ( state == State.Hear ) {
          if ( menuBehavior == null )
             return gotoSaying(null);
-         b = Behavior.newInstance(menuBehavior);
+         proposal = Behavior.newInstance(menuBehavior);
          waitingForResponseSince = DateTime.now(); // reset now since nothing said
       }
-      if ( stateOfLastProposal != currentAdjacencyPair /* || 
+      if ( needsFocusResource ) proposal = proposal.addFocusResource(); 
+      if ( lastProposalAdjacencyPair != currentAdjacencyPair /* || 
             (state == State.Hear && currentAdjacencyPair.isCircular()) */ ) {
-         if ( lastProposal.getValue().equals(b) ) 
+         if ( lastProposal.getValue().equals(proposal) ) 
             addSomethingToDifferentiateFromLastProposal = true;
          setLastProposal(Behavior.NULL);
       }
       if ( addSomethingToDifferentiateFromLastProposal ) {
-         CompoundBehavior inner = b.getInner();
-         b = new Behavior(new SequenceOfCompoundBehaviors(inner,
+         CompoundBehavior inner = proposal.getInner();
+         proposal = new Behavior(new SequenceOfCompoundBehaviors(inner,
                // make null behavior that uses same resource as inner
                new SimpleCompoundBehavior(PrimitiveBehavior.nullBehavior(inner.getResources().iterator().next()))));
       }
-      boolean alreadyDone = saveProposalAndCheckIfAlreadyDone(b);
+      boolean alreadyDone = saveProposalAndCheckIfAlreadyDone(proposal);
       if ( alreadyDone && state == State.Say )
          setState(State.Hear);
       if ( menuBehavior != null
@@ -126,7 +134,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
             return build();
          }
       }
-      return b;
+      return proposal;
    }
 
    private String checkMenuSelected (List<String> userChoices,
@@ -152,7 +160,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    }
 
    private void setLastProposal (Behavior b) {
-      stateOfLastProposal = currentAdjacencyPair;
+      lastProposalAdjacencyPair = currentAdjacencyPair;
       lastProposal = new TimeStampedValue<Behavior>(b);
    }
 

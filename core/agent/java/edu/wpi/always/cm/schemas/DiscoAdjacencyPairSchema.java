@@ -6,23 +6,19 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class DiscoAdjacencyPairSchema extends ActivitySchema {
+public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
 
    protected final Interaction interaction; 
    protected final DiscoAdjacencyPair discoAdjacencyPair;
-   protected final MenuTurnStateMachine stateMachine;
 
    public DiscoAdjacencyPairSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Interaction interaction) {
-      super(behaviorReceiver, behaviorHistory);
+      super(new DiscoAdjacencyPair(behaviorReceiver, behaviorHistory, 
+                    resourceMonitor, menuPerceptor, interaction), 
+            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
       this.interaction = interaction;
-      discoAdjacencyPair = new DiscoAdjacencyPair(behaviorReceiver, behaviorHistory, 
-                                                  resourceMonitor, menuPerceptor, interaction);
-      stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
-            menuPerceptor, new RepeatMenuTimeoutHandler());
-      stateMachine.setSpecificityMetadata(SPECIFICITY);
-      stateMachine.setAdjacencyPair(discoAdjacencyPair);
+      discoAdjacencyPair = (DiscoAdjacencyPair) stateMachine.getCurrentAdjacencyPair();
    }
 
    @Override
@@ -33,4 +29,5 @@ public class DiscoAdjacencyPairSchema extends ActivitySchema {
          proposeNothing();
       }
    }
+
 }

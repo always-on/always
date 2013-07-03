@@ -48,6 +48,12 @@ public class Behavior {
       return getInner().getResources().isEmpty();
    }
 
+   public Behavior addFocusResource () {
+       return this.equals(NULL) ? this :
+          new Behavior(new SequenceOfCompoundBehaviors(getInner(),
+             new SimpleCompoundBehavior(new FocusRequestBehavior())));
+   }
+   
    @Override
    public String toString () {
       return getInner().toString();

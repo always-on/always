@@ -13,6 +13,12 @@ public class ProposalBuilder implements BehaviorBuilder {
    private final ArrayList<PrimitiveBehavior> primitives = Lists.newArrayList();
    private final ClientPlugin plugin;
    private BehaviorMetadataBuilder metadataBuilder = new BehaviorMetadataBuilder();
+   private boolean needsFocusResource;
+   
+   @Override
+   public void setNeedsFocusResource (boolean focus) {
+      this.needsFocusResource = focus;
+   }
 
    public ProposalBuilder (ClientPlugin plugin) {
       this.plugin = plugin;
@@ -24,6 +30,7 @@ public class ProposalBuilder implements BehaviorBuilder {
 
    @Override
    public Behavior build () {
+      if ( needsFocusResource ) internalAdd(new FocusRequestBehavior());
       return Behavior.newInstance(primitives);
    }
 

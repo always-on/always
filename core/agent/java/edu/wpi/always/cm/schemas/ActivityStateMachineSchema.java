@@ -17,15 +17,20 @@ public abstract class ActivityStateMachineSchema extends ActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor) {
       super(behaviorReceiver, behaviorHistory);
-      // NB: use behavior history of superclass (re focus inclusion) 
-      stateMachine = new MenuTurnStateMachine(this.behaviorHistory, resourceMonitor,
+      stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
             menuPerceptor, new RepeatMenuTimeoutHandler());
       stateMachine.setSpecificityMetadata(SPECIFICITY);
       stateMachine.setAdjacencyPair(initial);
+      stateMachine.setNeedsFocusResource(true); // default value
    }
 
    @Override
    public void run () {
       propose(stateMachine);
+   }
+   
+   @Override
+   public void setNeedsFocusResource (boolean focus) {
+      if ( stateMachine != null ) stateMachine.setNeedsFocusResource(focus);
    }
 }
