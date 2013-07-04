@@ -41,7 +41,7 @@
     /* Initialize user folder location for Eclipse development.  Will later add
        C:\Dropbox subfolder */
 
-    Packages.edu.wpi.always.user.UserUtils.USER_FOLDER = 
+    Packages.edu.wpi.always.user.UserUtils.USER_DIR = 
         new java.io.File("../../user").exists() ? "../../user" : "../../../user";    
     
   </script>

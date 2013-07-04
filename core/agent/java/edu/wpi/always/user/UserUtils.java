@@ -16,7 +16,7 @@ public abstract class UserUtils {
     * Folder where user model is stored.  Default is user home directory.
     * See initialization in always/user/Activities.xml
     */
-   public static String USER_FOLDER = System.getProperty("user.home"); 
+   public static String USER_DIR = System.getProperty("user.home"); 
    
    /**
     * Filename in USER_FOLDER for user model.

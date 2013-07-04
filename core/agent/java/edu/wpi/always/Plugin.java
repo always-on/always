@@ -55,8 +55,7 @@ public abstract class Plugin {
     * For use in main method of plugins for testing.
     */
    public static Always main (String[] args, Class<? extends Plugin> plugin, String activity) {
-      Always always = new Always(true, plugin, activity);
-      always.processArgs(args);
+      Always always = Always.make(args, plugin, activity);
       UserModel model = always.getUserModel();
       if ( model.getUserName() == null ) model.setUserName("TestPlugin");
       always.start();

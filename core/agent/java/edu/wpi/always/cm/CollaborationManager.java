@@ -28,7 +28,7 @@ public class CollaborationManager extends DiscoRT {
       parent.as(Characteristics.CACHE).addComponent(
             BindKey.bindKey(File.class,
                   OntologyUserModel.UserOntologyLocation.class),
-                  new File(UserUtils.USER_FOLDER, UserUtils.USER_FILE));
+                  new File(UserUtils.USER_DIR, UserUtils.USER_FILE));
       parent.getComponent(UserModel.class).load();
    }
  
