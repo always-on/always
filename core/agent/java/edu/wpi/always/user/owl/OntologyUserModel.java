@@ -127,6 +127,10 @@ public class OntologyUserModel implements UserModel {
       if ( userDataFile != null && userDataFile.exists() ) {
          System.out.println("Loading user ontology from: "+userDataFile);
          ontology.addAxioms(userDataFile);
+         setUserName(new OntologyIndividual(
+               ontology.getOntologyDataObject(),
+               ontology.getAllOfClass(OntologyPerson.USER_CLASS).iterator().next())
+                    .getDataPropertyValue(OntologyPerson.NAME_PROPERTY).asString());
       } else System.out.println("Initializing empty user model!");
    }
    
