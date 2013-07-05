@@ -26,7 +26,6 @@ public class Always {
    public static void main (String[] args) {
       Always always = make(args, null, null);
       always.start();
-      UserUtils.print(always.getUserModel(), System.out);/////
    }
 
    /**
