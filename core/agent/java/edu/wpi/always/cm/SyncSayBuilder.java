@@ -12,6 +12,12 @@ public class SyncSayBuilder implements BehaviorBuilder {
    private final List<PrimitiveBehavior> behaviors;
    private final String speech;
    private BehaviorMetadataBuilder metadata;
+   private boolean needsFocusResource;
+   
+   @Override
+   public void setNeedsFocusResource (boolean focus) {
+      this.needsFocusResource = focus;
+   }
 
    public SyncSayBuilder (String speech, PrimitiveBehavior... behaviors) {
       this.speech = speech;
@@ -40,6 +46,7 @@ public class SyncSayBuilder implements BehaviorBuilder {
          }
          prevSpeech = sb;
       }
+      if ( needsFocusResource ) allPrimitives.add(new FocusRequestBehavior());
       return new Behavior(new CompoundBehaviorWithConstraints(allPrimitives,
             constraints));
    }

@@ -26,6 +26,4 @@ public interface AdjacencyPair {
    double timeRemaining ();
 
    boolean isTwoColumnMenu ();
-   
-   boolean isCircular ();
 }

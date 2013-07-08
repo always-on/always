@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class OntologyPeopleManager implements PeopleManager {
 
-   private OntologyUserModel model;
+   private OntologyUserModel model; // cyclic dependency
    private final OntologyHelper helper;
    private final Ontology ontology;
 
@@ -17,7 +17,7 @@ public class OntologyPeopleManager implements PeopleManager {
       helper = new OntologyHelper(ontology);
    }
 
-   // MUST be called for getUser to work (called in OntologyUserModel)
+   // MUST be called for getUser to work (called in OntologyUserModel constructor)
    void setUserModel (OntologyUserModel model) {
       this.model = model;
    }

@@ -24,7 +24,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/owlapi/aterm-java-1.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/owlapi/HermiT.jar"/>
-	<classpathentry kind="lib" path="lib/owlapi/jfact_src.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/jfact.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/jgrapht-jdk1.5.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-core.jar"/>

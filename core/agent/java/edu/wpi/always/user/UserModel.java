@@ -8,12 +8,11 @@ import java.lang.annotation.*;
 
 public interface UserModel {
 
-   @Retention(RetentionPolicy.RUNTIME)
-   @Target({ ElementType.FIELD, ElementType.PARAMETER })
-   @Bind
-   public @interface UserName {
-   }
-
+   /**
+    * Will throw an error if user model already has a name.
+    */
+   public void setUserName (String name);
+   
    public String getUserName ();
 
    public void save ();
@@ -37,5 +36,18 @@ public interface UserModel {
     * be declared in a loaded ontology (.owl) file
     */
    public void setProperty (String property, String value);
+   
+   /**
+    * Return boolean value for named user property value extension. Note that
+    * property must be declared in a loaded ontology (.owl) file. If property
+    * does not exist, then return false.
+    */
+   public boolean isProperty (String property);
+   
+   /**
+    * Set boolean value for named user property value extension. Note that
+    * property must be declared in a loaded ontology (.owl) file
+    */
+   public void setProperty (String property, boolean value);
    
 }

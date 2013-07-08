@@ -63,10 +63,13 @@ namespace AgentApp
 		{
 			//Brightness.SetLowestBrightness();
 			LayoutPageWithoutPlugin();
-			Agent.Say("-");
-
-			InitTcpListener();
+            Agent.LoadComplete += onAgentLoad;
 		}
+
+        private void onAgentLoad(object sender, EventArgs e)
+        {
+            InitTcpListener();
+        }
 
 		private void InitTcpListener()
 		{
@@ -149,7 +152,8 @@ namespace AgentApp
 
 		private void LayoutPageWithoutPlugin()
 		{
-			PluginContainer.Child = null;
+            PluginContainer = new Viewbox();
+            MainGrid.Children.Add(PluginContainer);
 			SetGridPos(PluginContainer, 1, 0, 1);
 			SetGridPos(Agent, 0, 0, 1);
 			SetGridPos(Buttons, 0, 2, 2);
@@ -171,13 +175,14 @@ namespace AgentApp
 			Grid.SetRowSpan(element, rowSpan);
 		}
 
-		public void ShowPlugin(UIElement uiElement)
-		{
+		public void ShowPlugin(Viewbox pluginContainer)
+        {
 			Dispatcher.BeginInvoke(new Action(() =>
 			{
-				LayoutPageWithoutPlugin();
-				PluginContainer.Child = uiElement;
-				LayoutPageWithPlugin();
+                MainGrid.Children.Remove(PluginContainer);
+                PluginContainer = pluginContainer;
+                MainGrid.Children.Add(PluginContainer);
+                LayoutPageWithPlugin();
 			}), null);
 		}
 	}

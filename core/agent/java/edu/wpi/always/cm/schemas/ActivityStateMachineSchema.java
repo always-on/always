@@ -20,11 +20,17 @@ public abstract class ActivityStateMachineSchema extends ActivitySchema {
       stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
             menuPerceptor, new RepeatMenuTimeoutHandler());
       stateMachine.setSpecificityMetadata(SPECIFICITY);
-      stateMachine.setAdjacencyPair(initial);
+      stateMachine.setState(initial);
+      stateMachine.setNeedsFocusResource(true); // default value
    }
 
    @Override
    public void run () {
       propose(stateMachine);
+   }
+   
+   @Override
+   public void setNeedsFocusResource (boolean focus) {
+      if ( stateMachine != null ) stateMachine.setNeedsFocusResource(focus);
    }
 }

@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.perceptors.fake;
 
-import edu.wpi.always.cm.schemas.AquariumTripSchema;
+import edu.wpi.always.test.AquariumTripSchema;
 import edu.wpi.disco.rt.Scheduler;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.*;

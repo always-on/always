@@ -5,4 +5,6 @@ public interface BehaviorBuilder {
    Behavior build ();
 
    BehaviorMetadata getMetadata ();
+   
+   void setNeedsFocusResource (boolean focus);
 }

@@ -22,9 +22,7 @@ public class StoryPlugin extends Plugin {
     * For testing Story by itself
     */
    public static void main (String[] args) {
-      new Always(true, StoryPlugin.class, "RecordStory").start();
+      Plugin.main(args, StoryPlugin.class, "RecordStory");
    }
-  
 
-  
 }

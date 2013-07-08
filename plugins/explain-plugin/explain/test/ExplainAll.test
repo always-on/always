@@ -1,0 +1,82 @@
+    # Jun 21, 2013 1:26:32 PM - TaskEngine 1.4.8 / Disco 1.6.10
+    Welcome to Disco! (Type 'help' for command list)
+  > eval edu.wpi.always.Plugin.test("java/edu/wpi/always/explain/resources/Explain.owl");
+    # Returned 'null'
+  > load java/edu/wpi/always/explain/resources/Explain.xml
+  > task _ExplainSelf
+    User says "Let's achieve _ExplainSelf."
+    Agent says "Which one would you like to know about?"
+  > say
+[1] Developing an exercise plan for me.
+[2] Talking together about my family and friends.
+[3] Keeping my personal calendar.
+[4] Playing a social game of cards.
+[5] Telling one of my life stories .
+[6] Telling weather where my friends and family live.
+[7] No more activities.
+  >> 5
+    User says "Telling one of my life stories ."
+    Agent execute _SetChoiceActivity on telling one of my life stories .
+    Agent says "You can tell me a story about your life.  I will pay attention even though I won't understand most of what you say.  When you are done, you can save the story, and if you want, send it out to friends."
+  > say
+[1] Ok.
+[2] I think I will try that.
+[3] I see.  Maybe I will do that some time .
+  >> 2
+    User says "I think I will try that."
+    Agent says "Good.  We can do that soon."
+  > say
+[1] Tell me about another activity.
+[2] No more activities.
+  >> 1
+    User says "Tell me about another activity."
+    Agent says "Which one would you like to know about?"
+  > say
+[1] Developing an exercise plan for me.
+[2] Talking together about my family and friends.
+[3] Keeping my personal calendar.
+[4] Playing a social game of cards.
+[5] Telling one of my life stories .
+[6] Telling weather where my friends and family live.
+[7] No more activities.
+  >> 6
+    User says "Telling weather where my friends and family live."
+    Agent execute _SetChoiceActivity on telling weather where my friends and family live.
+    Agent says "We've already talked about the weather.  BUT I can do more!  I can get information from the internet about weather just about anywhere."
+  > say
+[1] Really? Tell me more.
+[2] I don't really need to know more about the weather .
+  >> 1
+    User says "Really? Tell me more."
+    Agent says "You can tell me about your family and friends, and I will remember what you say.  You can also tell me if you want to know the weather for that person everyday or just once in a while."
+  > say
+[1] Ok, I will tell you about my family an dfriends.
+[2] I don't want to know the weather except here.
+  >> 1
+    User says "Ok, I will tell you about my family an dfriends."
+    Agent says "Want to hear about another activity?"
+  > say
+[1] Yes.
+[2] No.
+  >> 1
+    User says "Yes."
+    Agent says "Which one would you like to know about?"
+  > say
+[1] Developing an exercise plan for me.
+[2] Talking together about my family and friends.
+[3] Keeping my personal calendar.
+[4] Playing a social game of cards.
+[5] Telling one of my life stories .
+[6] Telling weather where my friends and family live.
+[7] No more activities.
+  >> 7
+    User says "No more activities."
+    Agent says "Well, anytime you want more explanations, just ask!"
+  > say
+[1] Ok, thanks.
+[2] Thanks that was really interesting!
+  >> 1
+    User says "Ok, thanks."
+    Agent says "Ok."
+  > quit
+    

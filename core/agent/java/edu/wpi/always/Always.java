@@ -3,7 +3,7 @@ package edu.wpi.always;
 import edu.wpi.always.client.ClientRegistry;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.StartupSchemas;
-import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.*;
 import edu.wpi.always.user.owl.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
@@ -12,6 +12,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
 import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
+import java.io.File;
 import java.util.*;
 
 public class Always {
@@ -19,12 +20,33 @@ public class Always {
    /**
     * Main method for starting complete Always-On system. First argument
     * [optional] is closeness value (as string): "stranger", "acquaintance", 
-    * or "companion".
+    * or "companion".  Second argument is user model filename (default User.owl). 
+    * See TestUser.owl in always/user.
     */
    public static void main (String[] args) {
-      Always always = new Always(true);
-      always.setCloseness(args);
+      Always always = make(args, null, null);
       always.start();
+   }
+
+   /**
+    * Factory method for Always.  
+    * 
+    * @param args See {@link Always#main(String[])} 
+    * @param plugin Start just this plugin 
+    * @param activity Start just this activity (required if plugin is non-null)
+    * @return
+    */
+   public static Always make (String[] args, Class<? extends Plugin> plugin, String activity) {
+      if ( args != null && args.length > 1 ) UserUtils.USER_FILE = args[1];
+      Always always = new Always(true, plugin == null);
+      if ( args != null && args.length > 0 ) {
+         Closeness closeness = Closeness.valueOf(args[0]);
+         System.out.println("Using closeness = "+closeness);
+         always.getRM().setCloseness(closeness);
+      }
+      always.plugin = plugin; 
+      always.activity = activity;
+      return always;
    }
    
    /**
@@ -37,20 +59,15 @@ public class Always {
             new Agent("agent"), 
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
-         Always always = new Always(false);        
-         // initialize duplication instance created above
-         Always.init(interaction);
+         Always always = new Always(true, false);
+         always.init(interaction); // initialize duplicate interaction created above
+         // for user model
+         always.getContainer().as(Characteristics.CACHE).addComponent(
+            BindKey.bindKey(File.class, OntologyUserModel.UserOntologyLocation.class),
+            new File(UserUtils.USER_DIR, UserUtils.USER_FILE));
+         always.register(); 
          interaction.start(true);
       }
-   }
-   
-   public void setCloseness (String[] args) {
-      if ( args != null && args.length > 0 ) {
-         Closeness closeness = Closeness.valueOf(args[0]);
-         System.out.println("Using closeness = "+closeness);
-         getRM().setCloseness(closeness);
-      }
-         
    }
    
    /**
@@ -77,7 +94,7 @@ public class Always {
     * 
     * @see DiscoRT#TRACE
     */
-   public static boolean TRACE;
+   public static boolean TRACE = true;
    
    /**
     * The container for holding all the components of the system
@@ -90,50 +107,30 @@ public class Always {
       return container;
    }
    
-   /**
-    * Create new system instance.
-    */
-   public Always (boolean logToConsole) {
-      init(logToConsole, true);
-   }
- 
-   private void init (boolean logToConsole, boolean allPlugins) {
+   private Always (boolean logToConsole, boolean allPlugins) {
+      THIS = this;
       if ( logToConsole )
          BasicConfigurator.configure();
       else
          BasicConfigurator.configure(new NullAppender());
       container.addComponent(container); 
       container.addComponent(this);
+      container.as(Characteristics.CACHE).addComponent(RelationshipManager.class);  
       container.as(Characteristics.CACHE).addComponent(CollaborationManager.class);
-      container.as(Characteristics.CACHE).addComponent(RelationshipManager.class);
-      // FIXME get real user info here
-      addRegistry(new OntologyUserRegistry("Diane Ferguson")); 
+      addRegistry(new OntologyUserRegistry()); 
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas(allPlugins));
-      THIS = this;
+      register();
       init(container.getComponent(CollaborationManager.class).getInteraction());
    }
 
-   public static void init (Interaction interaction) {
+   public void init (Interaction interaction) {
       edu.wpi.disco.Disco disco = interaction.getDisco();
       // for convenient use in Disco scripts
-      disco.setGlobal("$always", THIS);
+      disco.setGlobal("$always", this);
       disco.eval("edu.wpi.always = Packages.edu.wpi.always;", "Always.init");
    }
 
-   // for constructor below--see start
-   private Class<? extends Plugin> plugin; 
-   private String activity;
-   
-   /**
-    * Constructor for debugging given plugin activity.
-    */
-   public Always (boolean logToConsole, Class<? extends Plugin> plugin, String activity) {
-      init(logToConsole, false);
-      this.plugin = plugin; 
-      this.activity = activity;
-   }
-                                                                         
    private final List<OntologyRegistry> ontologyRegistries = new ArrayList<OntologyRegistry>();
    private final List<ComponentRegistry> registries = new ArrayList<ComponentRegistry>();
    private final List<Registry> cmRegistries = new ArrayList<Registry>();
@@ -150,14 +147,10 @@ public class Always {
       cmRegistries.add(registry);
    }
 
+   private Class<? extends Plugin> plugin; 
+   private String activity;
+   
    public void start () {
-      for (ComponentRegistry registry : registries)
-         registry.register(container);
-      OntologyRuleHelper helper = container.getComponent(OntologyRuleHelper.class);
-      for (OntologyRegistry registry : ontologyRegistries)
-         registry.register(helper);
-      UserModel userModel = container.getComponent(UserModel.class);
-      if ( userModel != null ) userModel.load();
       CollaborationManager cm = container.getComponent(CollaborationManager.class);
       for (Registry registry : cmRegistries) cm.addRegistry(registry);
       System.out.println("Starting Collaboration Manager");
@@ -166,5 +159,12 @@ public class Always {
       if ( plugin != null ) container.getComponent(plugin).startActivity(activity);
    }
 
+   private void register () {
+      for (ComponentRegistry registry : registries)
+         registry.register(container);
+      OntologyRuleHelper helper = container.getComponent(OntologyRuleHelper.class);
+      for (OntologyRegistry registry : ontologyRegistries)
+         registry.register(helper);
+   }
 }
 
