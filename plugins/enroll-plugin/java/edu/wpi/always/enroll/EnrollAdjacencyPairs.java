@@ -138,14 +138,14 @@ public abstract class EnrollAdjacencyPairs{
 
 				@Override
 				public AdjacencyPair run () {
-					return new PersonNameAdjacencyPair(getContext());
+					return new PersonGenderAdjacencyPair(getContext());
 				}
 			});
 			choice("Never Mind", new DialogStateTransition() {
 
 				@Override
 				public AdjacencyPair run() {
-					return new PersonNameAdjacencyPair(getContext());
+					return new PersonGenderAdjacencyPair(getContext());
 				}
 			});
 			choice("Please repeat this question.", new DialogStateTransition() {
@@ -850,7 +850,7 @@ public abstract class EnrollAdjacencyPairs{
 
 		public PhoneNumberInvalidAdjacencyPair(final EnrollStateContext context) {
 			super("That's not a valid phone number, please enter again", 
-					"Enter valid " + PersonName +"'s phone number: (XXX-XXXXXXX)", 
+					"Enter valid " + PersonName +"'s phone number: (XXX-XXX-XXXX)", 
 					context, context.getKeyboard(),true);
 			choice("Skip "+PersonName, new DialogStateTransition() {
 

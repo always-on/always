@@ -199,7 +199,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 		public ChangeBirthdayDayAdjacencyPair(final EnrollStateContext context,
 				final Person person) {
 			super("What is the day of " + person.getName() + "'s Birthday", 
-					"Enter "+ PersonName+ "'s Birthday:", 
+					"Enter "+ person.getName() + "'s Birthday:", 
 					context, context.getKeyboard(), true);
 			this.person = person;
 		}

@@ -15,19 +15,19 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 	public KeyboardMessageHandler (UIMessageDispatcher dispatcher) {
 		this.dispatcher = dispatcher;
 		dispatcher.registerReceiveHandler(MSG_TEXT_UPDATE, this);
-	    dispatcher.registerReceiveHandler(KEYBOARD_EXCEED,
-	              new MessageHandler() {
-	    	
-	    	@Override
-	    	public void handleMessage (JsonObject body) {
-	    		String event = body.get("event").getAsString();
-	    		if(event.equals("exceed")){
-	    			String prompt = body.get("prompt").getAsString();
-	    			System.out.println(prompt);
-	    			//TODO: Speaking Agent speak out the prompt
-	    		}
-	    	}
-	    });
+		dispatcher.registerReceiveHandler(KEYBOARD_EXCEED,
+				new MessageHandler() {
+
+			@Override
+			public void handleMessage (JsonObject body) {
+				String event = body.get("event").getAsString();
+				if(event.equals("exceed")){
+					String prompt = body.get("prompt").getAsString();
+					System.out.println(prompt);
+					//TODO: Let the Agent speak out the prompt
+				}
+			}
+		});
 	}
 
 	@Override
@@ -39,14 +39,12 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 
 	@Override
 	public void showKeyboard (String prompt, boolean isNumeric) {
-		if(!isOverflow){
-			JsonObject data = new JsonObject();
-			data.addProperty("contextMessage", prompt);
-			data.addProperty("isNumeric", isNumeric);
-			ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
-					InstanceReuseMode.Remove, data);
-			latest = null;
-		}
+		JsonObject data = new JsonObject();
+		data.addProperty("contextMessage", prompt);
+		data.addProperty("isNumeric", isNumeric);
+		ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
+				InstanceReuseMode.Remove, data);
+		latest = null;
 	}
 
 	@Override
@@ -59,4 +57,9 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 		latest = body.get("text").getAsString();
 		isOverflow = body.get("isOverflow").getAsBoolean();
 	}
+
+	public boolean isOverflow(){
+		return isOverflow;
+	}
+
 }
