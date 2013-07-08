@@ -15,7 +15,7 @@ public class TicTacToePlugin extends Plugin {
     * For testing TicTacToe by itself
     */
    public static void main (String[] args) {
-      new Always(true, TicTacToePlugin.class, "PlayTicTacToe").start();
+	   Plugin.main(args, TicTacToePlugin.class, "PlayTicTacToe");
    }
   
 }

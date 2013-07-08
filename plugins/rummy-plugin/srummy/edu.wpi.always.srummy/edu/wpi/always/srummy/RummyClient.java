@@ -7,7 +7,6 @@ import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.ActivitySchema;
 import edu.wpi.always.srummy.game.Card;
 import edu.wpi.always.srummy.game.DiscardMove;
-import edu.wpi.always.srummy.game.DrawMove;
 import edu.wpi.always.srummy.game.GameState;
 import edu.wpi.always.srummy.game.LayoffMove;
 import edu.wpi.always.srummy.game.Meld;

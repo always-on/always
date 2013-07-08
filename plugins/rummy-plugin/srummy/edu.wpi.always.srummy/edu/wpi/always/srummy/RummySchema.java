@@ -33,4 +33,9 @@ public class RummySchema extends ActivitySchema {
          propose(b, m);
       }
    }
+   
+   // always adds focus (see RummyClient.updateInteraction)
+   @Override
+   public void setNeedsFocusResource (boolean focus) {} 
+   
 }

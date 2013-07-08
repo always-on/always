@@ -18,7 +18,6 @@ import com.google.common.collect.Ordering;
 
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.logic.GameLogicState;
-import edu.wpi.sgf.scenario.SDHScenario;
 import edu.wpi.sgf.scenario.Scenario;
 import edu.wpi.sgf.scenario.ScenarioManager;
 
