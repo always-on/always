@@ -6,6 +6,7 @@ using Agent.Core;
 using Newtonsoft.Json.Linq;
 using Agent.Tcp;
 using TicTacToe.UI;
+using System.Windows.Controls;
 
 namespace AgentApp
 {
@@ -13,7 +14,7 @@ namespace AgentApp
     {
         GameShape game;
         IMessageDispatcher _remote;
-
+        Viewbox pluginContainer;
         
         public TicTacToePlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
@@ -29,6 +30,8 @@ namespace AgentApp
                   body["cellNum"] = ((cellEventArg)e).cellNum;
                   _remote.Send("tictactoe.human_played_cell", body);
               };
+              pluginContainer = new Viewbox();
+              pluginContainer.Child = game;
             });
 
             _remote.RegisterReceiveHandler("tictactoe.agent_cell",
@@ -57,6 +60,11 @@ namespace AgentApp
         public System.Windows.UIElement GetUIElement()
         {
             return game;
+        }
+
+        public Viewbox GetPluginContainer()
+        {
+            return pluginContainer;
         }
     }
 }

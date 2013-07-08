@@ -8,6 +8,7 @@ using Rummy;
 using System.Windows.Threading;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
+using System.Windows.Controls;
 
 namespace AgentApp
 {
@@ -15,6 +16,7 @@ namespace AgentApp
     {
         GameShape game;
         IMessageDispatcher _remote;
+        Viewbox pluginContainer;
         List<Move> currentMoveSuggestions = new List<Move>();
 
         public RummyPlugin(bool agentStarts, IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
@@ -68,6 +70,8 @@ namespace AgentApp
                         _remote.Send("rummy.human_move", getHumanMoveAsJson(m));
                     }
                 };
+                pluginContainer = new Viewbox();
+                pluginContainer.Child = game;
             });
 
 //            _remote.RegisterReceiveHandler("rummy.best_move",
@@ -311,6 +315,11 @@ namespace AgentApp
         public System.Windows.UIElement GetUIElement()
         {
             return game;
+        }
+
+        public Viewbox GetPluginContainer()
+        {
+            return pluginContainer;
         }
     }
 }
