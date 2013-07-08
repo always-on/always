@@ -83,9 +83,16 @@ public class CommentingManager {
 			for(Comment cm : allComments)
 				if(cm.getTags().contains("userWins"))
 					eligibleComments.add(cm);
+		if(gameState.tie)
+			for(Comment cm : allComments)
+				if(cm.getTags().contains("tie"))
+					eligibleComments.add(cm);
 
-		//no moments here
-		//tag generator method??
+		for(Comment cm : allComments)
+			if(cm.getStrengthLowerBount() < move.getMoveStrength()
+					&&cm.getStrengthUpperBound() > move.getMoveStrength())
+				eligibleComments.add(cm);
+
 
 		return null;
 	}
@@ -127,10 +134,6 @@ public class CommentingManager {
 						eligibleComments.add(cm);
 			}
 
-
-
-
-
 		}
 
 		if(eligibleComments.size() > 0)
@@ -166,22 +169,22 @@ public class CommentingManager {
 			for(Comment cm : allComments)
 				if(cm.getTags().contains("userWins"))
 					eligibleComments.add(cm);
+		if(gameState.tie)
+			for(Comment cm : allComments)
+				if(cm.getTags().contains("tie"))
+					eligibleComments.add(cm);
 
-		//		if(gameState.tie)
-		//			for(Comment cm : allComments)
-		//				if(cm.getTags().contains("tie"))
-		//					eligibleComments.add(cm);
+		//TEMP>> MAKE FLAG FOR NO SCENARIO TO SKIP THIS
+		//moments 
+//		for(Scenario easchScenario : activeScenarios)
+//			if(easchScenario.
+//					reportCommentingTagsForTheCurrentProgress(
+//							easchScenario.tellProgress()) != null)
+//				currentMomentsTags.addAll(easchScenario
+//						.reportCommentingTagsForTheCurrentProgress(
+//								easchScenario.tellProgress()));
 
-		//moments
-		for(Scenario easchScenario : activeScenarios)
-			if(easchScenario.
-					reportCommentingTagsForTheCurrentProgress(
-							easchScenario.tellProgress()) != null)
-				currentMomentsTags.addAll(easchScenario
-						.reportCommentingTagsForTheCurrentProgress(
-								easchScenario.tellProgress()));
-
-		//to do max covering problem, then randomly or prioritizedly chosen...
+		//to do max covering problem, then randomly or chosen with priority ...
 		if(!currentMomentsTags.isEmpty()){
 			int covering;
 			boolean irrelevant;
@@ -238,6 +241,17 @@ public class CommentingManager {
 
 		}
 
+//		for(Comment cm : allComments)
+//			if(cm.getStrengthLowerBount() < move.getMoveStrength()
+//					&&cm.getStrengthUpperBound() > move.getMoveStrength())
+//				eligibleComments.add(cm);
+		
+		for(Comment cm : allComments)
+			if(cm.getTags().contains("competition"))
+				eligibleComments.add(cm);
+		
+		//add defauly package?
+		
 		Collections.shuffle(eligibleComments);
 
 		if(eligibleComments.isEmpty())
@@ -258,10 +272,10 @@ public class CommentingManager {
 		a.add("hey"); a.add("hoy");
 		b.add("bay"); b.add("boy");
 
-		Comment cm1 = new Comment("Hello", a, 1);
-		Comment cm2 = new Comment("Heeho", b, 1);
-		Comment cm3 = new Comment("Hesho", b, 1);
-		Comment cm4 = new Comment("Haeho", b, 1);
+		Comment cm1 = new Comment("Hello", a, 0, 1, 1);
+		Comment cm2 = new Comment("Heeho", b, 0, 1, 1);
+		Comment cm3 = new Comment("Hesho", b, 0, 1, 1);
+		Comment cm4 = new Comment("Haeho", b, 0, 1, 1);
 
 		ch.eachCommentsTagCovering.put(cm1, 5);
 		ch.eachCommentsTagCovering.put(cm3, 6);

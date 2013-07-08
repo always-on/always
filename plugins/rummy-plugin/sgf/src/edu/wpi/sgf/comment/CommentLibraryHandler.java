@@ -45,7 +45,7 @@ public class CommentLibraryHandler {
 							&& att.getValue().trim().contains("T"))
 						who = 2;
 				}
-				allComments.add(new Comment(cm.getText().trim(), tempTagsList, who));
+				allComments.add(new Comment(cm.getText().trim(), tempTagsList, 0, 1, who));
 			}
 			
 		} catch (JDOMException | IOException e) {

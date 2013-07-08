@@ -7,7 +7,6 @@ public class RummyAnnotatedLegalMove extends
 
 	public RummyAnnotatedLegalMove(LegalMove move, double moveStrength) {
 		super(move, moveStrength);
-		// TODO Auto-generated constructor stub
 	}
 	
 

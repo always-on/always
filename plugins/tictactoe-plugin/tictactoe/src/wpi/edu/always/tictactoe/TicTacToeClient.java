@@ -12,19 +12,22 @@ import edu.wpi.disco.rt.util.TimeStampedValue;
 import edu.wpi.sgf.comment.Comment;
 import edu.wpi.sgf.comment.CommentingManager;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
+import edu.wpi.sgf.logic.LegalMove;
 import edu.wpi.sgf.scenario.MoveChooser;
 import edu.wpi.sgf.scenario.ScenarioFilter;
 import edu.wpi.sgf.scenario.ScenarioManager;
 
 import org.joda.time.DateTime;
 
+import wpi.edu.always.tictactoe.sgf.logic.TTTGameState;
+import wpi.edu.always.tictactoe.sgf.logic.TTTLegalMove;
+import wpi.edu.always.tictactoe.sgf.logic.TTTLegalMoveAnnotator;
+import wpi.edu.always.tictactoe.sgf.logic.TTTLegalMoveGenerator;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-//SRUMMY, delete this cm later
 
 public class TicTacToeClient implements ClientPlugin {
 
@@ -34,53 +37,43 @@ public class TicTacToeClient implements ClientPlugin {
 	private final UIMessageDispatcher dispatcher;
 	private final ConcurrentLinkedQueue<Message> inbox = new ConcurrentLinkedQueue<Message>();
 	private TimeStampedValue<String> availableMove = null;
-//	private TimeStampedValue<String> userMove = null;
 	private BehaviorBuilder lastMoveProposal;
 	private DateTime myLastMoveTime;
 	Boolean userWon = null;
 	private boolean reactedToFinishedGameAlready = false;
-//	private int agentCardsNum = 10;
-//	private int userCardsNum = 10;
 
-//	private List<Move> possibleMoves;
 //	List<AnnotatedLegalMove> annotatedMoves;
 //	List<AnnotatedLegalMove> passedMoves;
-//	private LegalMoveFetcher moveFetcher;
-//	private RummyLegalMoveAnnotator moveAnnotator;
-//	private ScenarioManager scenarioManager;
-//	private ScenarioFilter scenarioFilter;
-//	private MoveChooser moveChooser;
-//	private CommentingManager commentingManager;
-//	private GameState gameState;
-//	private List<Move> humanPlayedMoves;
-//	private int numOfPossibleDiscards
-//	, numOfPossibleMelds, numOfPossibleLayoffs;
+	private TTTLegalMoveGenerator moveGenerator;
+	private TTTLegalMoveAnnotator moveAnnotator;
+	private ScenarioManager scenarioManager;
+	private ScenarioFilter scenarioFilter;
+	private MoveChooser moveChooser;
+	private CommentingManager commentingManager;
+	private TTTGameState gameState;
+	private List<LegalMove> humanPlayedMoves;
 
 	/**
 	 * For user turn reminder (in millis).
 	 */
-	public static int TIMEOUT_DELAY = MenuTurnStateMachine.TIMEOUT_DELAY/1; // *3 //*2 
+	public static int TIMEOUT_DELAY = MenuTurnStateMachine.TIMEOUT_DELAY;
 
 	private long waitingForUserSince; // millis or zero if not waiting
 	private boolean yourTurn;  // last proposal (not done)
-	private int board[] = {0,0,0,0,0,0,0,0,0};
 	public TicTacToeClient (UIMessageDispatcher dispatcher) {
 		this.dispatcher = dispatcher;
 		registerHandlerFor(MSG_HUMAN_MOVE);
 		registerHandlerFor(MSG_AGENT_MOVE);
 
-		//>>
-//		possibleMoves = new ArrayList<Move>();
+		moveGenerator = new TTTLegalMoveGenerator();
+		moveAnnotator = new TTTLegalMoveAnnotator();
 //		annotatedMoves = new ArrayList<AnnotatedLegalMove>();
 //		passedMoves = new ArrayList<AnnotatedLegalMove>();
-//		commentingManager = new CommentingManager();
-//		scenarioFilter = new ScenarioFilter();
-//		moveChooser = new MoveChooser();
-//		hashCodeOfTheSelectedMove = 0;
-//		
-//		scenarioManager.chooseOrUpdateScenario();
-		
-		//<<
+		commentingManager = new CommentingManager();
+		scenarioFilter = new ScenarioFilter();
+		moveChooser = new MoveChooser();
+		scenarioManager = new ScenarioManager();
+		gameState = new TTTGameState();
 	}
 
 	private void registerHandlerFor (String messageType) {
@@ -114,17 +107,20 @@ public class TicTacToeClient implements ClientPlugin {
 
 	@Override
 	public BehaviorBuilder updateInteraction (boolean lastProposalIsDone, double focusMillis) {
+		
 		if ( lastProposalIsDone && yourTurn ) {
 			yourTurn = false;
 			waitingForUserSince = System.currentTimeMillis();
 		}
+		
 		String comment = "";
 		comment = processInbox();
-
+		
 		ProposalBuilder builder = newProposal();
 		BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
 		metadata.specificity(ActivitySchema.SPECIFICITY);
 		builder.setMetadata(metadata);
+		
 		if ( gameOver() && lastMoveProposal == null ) {
 			if ( !lastProposalIsDone && !reactedToFinishedGameAlready ) {
 				if ( userWon ) {
@@ -158,17 +154,15 @@ public class TicTacToeClient implements ClientPlugin {
 			lastMoveProposal = b;
 			availableMove = null;
 			agentMove();
-
 			return b;
 		} else {
 			lastMoveProposal = null;
-
 		}
 		if ( yourTurn  
 				|| (waitingForUserSince > 0 
 						&& ( (System.currentTimeMillis() - waitingForUserSince) > TIMEOUT_DELAY))
 						|| (focusMillis > DiscoRT.ARBITRATOR_INTERVAL*5) ) {
-			builder.say("It's your turn");      
+			builder.say("Play now or give up!");      
 			yourTurn = true;
 		} else {
 			if ( waitingForUserSince == 0 ) waitingForUserSince = System.currentTimeMillis();
@@ -192,12 +186,46 @@ public class TicTacToeClient implements ClientPlugin {
 			Message m = inbox.poll();
 			int cellNum;
 			if(m.getType().equals(MSG_HUMAN_MOVE)) {
-				cellNum=Integer.valueOf(m.getBody().get("cellNum").getAsString());
-				board[cellNum - 1] = 2;
+				cellNum = Integer.valueOf(m.getBody().get("cellNum").getAsString());
+				gameState.board[cellNum - 1] = 1;
 				System.out.println(cellNum);
+				
+				AnnotatedLegalMove dmove = 
+//						moveChooser.choose(scenarioFilter.filter(
+//								moveAnnotator.annotate(moveGenerator.generate(
+//										gameState), gameState, 2), scenarioManager.getCurrentScenario()));
+				moveChooser.choose(
+						moveAnnotator.annotate(moveGenerator.generate(
+								gameState), gameState, 2));
+				
+				
+				gameState.board[((TTTLegalMove)dmove.getMove()).getCellNum()] = 2;
+				
+				scenarioManager.tickAll();
+				
+				Comment cm = commentingManager.pickCommentOnOwnMove(
+						gameState, scenarioManager.getCurrentActiveScenarios() , dmove, 2);
+				
+				int winner = gameState.didAnyOneJustWin();
+				if(winner == 2)
+					gameState.agentWins = true;
+				if(winner == 1)
+					gameState.userWins = true;
+				if(winner == 3)
+					gameState.tie = true;
+				
+				comment = cm.getContent();
+
+				Message m2 = Message.builder(MSG_AGENT_MOVE)
+						.add("cellNum", ((TTTLegalMove)dmove.getMove()).getCellNum() + 1)
+						.build();
+				sendToEngine(m2);
+				availableMove = 
+						new TimeStampedValue<String>(String.valueOf(((TTTLegalMove)dmove.getMove()).getCellNum() + 1));
 			}
-			doAction("");
+
 		}
+	
 		return comment;
 	}
 	
@@ -209,10 +237,7 @@ public class TicTacToeClient implements ClientPlugin {
 
 	@Override
 	public void doAction (String actionName) { 
-		Message m = Message.builder(MSG_AGENT_MOVE)
-				.add("cellNum", "9")
-				.build();
-		sendToEngine(m);
+
 	}
 
 	private void sendToEngine (Message m) {

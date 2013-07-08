@@ -9,5 +9,6 @@ public abstract class GameLogicState {
 
 	public boolean agentWins = false;
 	public boolean userWins = false;
+	public boolean tie = false;
 	
 }

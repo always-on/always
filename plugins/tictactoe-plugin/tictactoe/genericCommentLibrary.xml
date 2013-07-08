@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<!--  THE TAGS SHOULD BE AS ABSTRACT AS POSSIBLE, "ESSENSE OF COMMENST" then we have to try to build comment situations on them by right set of values -->
+
+<comments>
+	<comment competition='F' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'F' brag = 'T'>
+		Haha! Prepare to lose!!
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'F'>
+		Bring it on!
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Give up! You will lose
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Let's not go crazy
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'F' usr = 'T'>
+		Give up! You will lose
+	</comment>
+	<comment competition='F' compliment='T' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'F' usr = 'T'>
+		Wow, Nice one!
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'F'>
+		Now get this!
+	</comment>
+	<comment competition='F' compliment='F' regret='T' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Oops!
+	</comment>
+	<comment competition='F' compliment='T' regret='F' offensive = 'F' humanWon='T' agentWon='F' own = 'T' usr = 'T'>
+		Good game! Nice win!
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'T' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Wanna play again?!
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'T' humanWon='F' agentWon='T' own = 'T' usr = 'T'>
+		Haha, Wanna lose again?!
+	</comment>
+	<comment discard = 'T'>
+		Oh well, still no meld!
+	</comment>
+	<comment meld = 'T'>
+		Haha, got one!
+	</comment>
+	<comment layoff = 'T'>
+		This meld just got bigger, and I am closer to winning!
+	</comment>
+	
+	
+</comments>

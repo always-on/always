@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.Startup", "Plugins.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRummy.UI", "rummy-plugin\SRummy.UI\SRummy.UI.csproj", "{9FB35514-B476-4C98-A312-1AE219B7AE78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.UI", "TicTacToe.UI\TicTacToe.UI.csproj", "{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.UI", "tictactoe-plugin\TicTacToe.UI\TicTacToe.UI.csproj", "{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -64,10 +64,12 @@ public class ScenarioManager {
 
 		importedSocialAttributes = 
 				new ArrayList<String>();
+		activeScenarios = 
+				new ArrayList<Scenario>();
 		ScenarioManager.importedSocialAttributes.clear();
 		ScenarioManager.importedSocialAttributes
 			.addAll(importedSocialAttributes);
-
+		
 		loadScenarios();
 		chooseOrUpdateScenario();
 
@@ -88,6 +90,8 @@ public class ScenarioManager {
 				new ArrayList<String>();
 		ScenarioManager.
 			importedSocialAttributes.clear();
+		activeScenarios = 
+				new ArrayList<Scenario>();
 
 		loadScenarios();
 		chooseOrUpdateScenario();
@@ -214,7 +218,8 @@ public class ScenarioManager {
 		try {
 		
 			currentScneario = matchingAlgorithm().newInstance();
-		
+			activeScenarios.add(currentScneario);//temp ,later choose some in matching algorithm?
+			
 		} catch (InstantiationException | IllegalAccessException e) {
 			System.out.println("Scenario instantiation error.");
 			e.printStackTrace();
@@ -237,6 +242,10 @@ public class ScenarioManager {
 
 	public Scenario getCurrentScenario(){
 		return currentScneario;
+	}
+	
+	public List<Scenario> getCurrentActiveScenarios(){
+		return activeScenarios;
 	}
 	
 	private void loadScenarios(){
