@@ -1,4 +1,4 @@
-package wpi.edu.always.tictactoe;
+package wpi.edu.always.ttt;
 
 import com.google.gson.JsonObject;
 import edu.wpi.always.client.*;
@@ -19,10 +19,10 @@ import edu.wpi.sgf.scenario.ScenarioManager;
 
 import org.joda.time.DateTime;
 
-import wpi.edu.always.tictactoe.sgf.logic.TTTGameState;
-import wpi.edu.always.tictactoe.sgf.logic.TTTLegalMove;
-import wpi.edu.always.tictactoe.sgf.logic.TTTLegalMoveAnnotator;
-import wpi.edu.always.tictactoe.sgf.logic.TTTLegalMoveGenerator;
+import wpi.edu.always.ttt.sgf.logic.TTTGameState;
+import wpi.edu.always.ttt.sgf.logic.TTTLegalMove;
+import wpi.edu.always.ttt.sgf.logic.TTTLegalMoveAnnotator;
+import wpi.edu.always.ttt.sgf.logic.TTTLegalMoveGenerator;
 
 import java.util.ArrayList;
 import java.util.Collections;

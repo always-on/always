@@ -1,4 +1,4 @@
-package wpi.edu.always.tictactoe;
+package wpi.edu.always.ttt;
 
 import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;

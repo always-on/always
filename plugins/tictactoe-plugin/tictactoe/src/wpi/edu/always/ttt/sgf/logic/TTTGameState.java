@@ -1,4 +1,4 @@
-package wpi.edu.always.tictactoe.sgf.logic;
+package wpi.edu.always.ttt.sgf.logic;
 
 import edu.wpi.sgf.logic.GameLogicState;
 

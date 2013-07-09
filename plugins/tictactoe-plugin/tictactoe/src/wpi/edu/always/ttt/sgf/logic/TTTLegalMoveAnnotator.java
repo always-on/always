@@ -1,4 +1,4 @@
-package wpi.edu.always.tictactoe.sgf.logic;
+package wpi.edu.always.ttt.sgf.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;

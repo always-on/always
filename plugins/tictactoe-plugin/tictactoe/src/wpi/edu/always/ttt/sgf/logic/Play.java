@@ -1,3 +1,4 @@
+package wpi.edu.always.ttt.sgf.logic;
 //package wpi.edu.always.tictactoe.sgf.logic;
 //
 //import java.io.BufferedReader;
