@@ -29,10 +29,10 @@ public class EnrollSchema extends ActivitySchema{
 				keyboard, enrollUI, dispatcher, model, model.getPlaceManager(),
 				model.getPeopleManager());
 		AdjacencyPair initial;
-		try{
+		try {
 			model.getUserName();
 			initial = new InitialEnroll(enrollContext);
-		}catch (IllegalStateException e){
+		} catch (IllegalStateException e) {
 			initial = new UserModelAdjacencyPair(enrollContext);
 		}
 		stateMachine.setAdjacencyPair(initial);

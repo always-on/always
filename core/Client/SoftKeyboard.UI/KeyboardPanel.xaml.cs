@@ -62,6 +62,7 @@ namespace SoftKeyboard.UI
                 data.Add("prompt", "Enter text: (Use red arrow key to rub out)");
                 data.Add("text", panel.textBox.Text);
                 panel.remote.Send("keyboard.exceed", data);
+                panel.sendUpdateMessage();
                 panel.contextLabel.Content = "Too many characters: (Use red arrow key to rub out)";
             }
             else

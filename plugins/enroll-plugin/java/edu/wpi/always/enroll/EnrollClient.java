@@ -1,5 +1,8 @@
 package edu.wpi.always.enroll;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,6 +20,7 @@ public class EnrollClient implements EnrollUI{
 	private static final String MSG_ENROLL_DISPLAY = "enroll.display";
 	private final PeopleManager enroll;
 	private final UIMessageDispatcher dispatcher;
+	private final DateTimeFormatter formatter = DateTimeFormat.forPattern("MMMM dd");
 
 	public EnrollClient (final PeopleManager enroll,
 			UIMessageDispatcher dispatcher) {
@@ -42,7 +46,7 @@ public class EnrollClient implements EnrollUI{
 		String gender = (person.getGender() != null)? person.getGender().toString() : null;
 		String zipcode = (person.getLocation() != null)? 
 				person.getLocation().toString() + ", " + person.getLocation().getZip() : null;
-		String birthday = (person.getBirthday() != null)? person.getBirthday().toString() : null;
+		String birthday = (person.getBirthday() != null)? person.getBirthday().toString(formatter) : null;
 				Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
 						.add("name", person.getName())
 						.add("age", person.getAge())

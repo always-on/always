@@ -38,7 +38,6 @@ public abstract class EnrollAdjacencyPairs{
 
 		@Override
 		public AdjacencyPair success(String text) {
-			getContext().hideKeyboard();
 			PersonName = text;
 			return new PersonAgeAdjacencyPair(getContext());
 		}
@@ -74,7 +73,6 @@ public abstract class EnrollAdjacencyPairs{
 				return new TellPersonBirthdayAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new PersonAgeInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -110,7 +108,6 @@ public abstract class EnrollAdjacencyPairs{
 				return new TellPersonBirthdayAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new PersonAgeInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -217,7 +214,6 @@ public abstract class EnrollAdjacencyPairs{
 				return new PersonGenderAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new PersonBirthdayDayInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -255,7 +251,6 @@ public abstract class EnrollAdjacencyPairs{
 				return new PersonGenderAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new PersonBirthdayDayInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -271,7 +266,7 @@ public abstract class EnrollAdjacencyPairs{
 	AdjacencyPairBase<EnrollStateContext> {
 
 		public PersonGenderAdjacencyPair(final EnrollStateContext context) {
-			super("What is the person's gender?", context);
+			super("What is the person's gender", context);
 			choice("Male", new DialogStateTransition() {
 
 				@Override
@@ -317,7 +312,7 @@ public abstract class EnrollAdjacencyPairs{
 	AdjacencyPairBase<EnrollStateContext> {
 
 		public KnowZipCodeAdjacencyPair(final EnrollStateContext context) {
-			super("Do you know " + PersonName + "'s ZipCode?", context);
+			super("Do you know " + PersonName + "'s ZipCode", context);
 			choice("Yes", new DialogStateTransition() {
 
 				@Override
@@ -353,7 +348,7 @@ public abstract class EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public PersonZipCodeAdjacencyPair(final EnrollStateContext context) {
-			super("What is the person's zipcode?", "Enter " +PersonName+ "'s zipcode:",
+			super("What is the person's zipcode", "Enter " +PersonName+ "'s zipcode:",
 					context, context.getKeyboard(), true);
 			choice("Skip "+PersonName, new DialogStateTransition() {
 
@@ -375,7 +370,6 @@ public abstract class EnrollAdjacencyPairs{
 				return new PersonRelationshipAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ZipCodeInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -413,7 +407,6 @@ public abstract class EnrollAdjacencyPairs{
 				return new PersonRelationshipAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ZipCodeInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -446,19 +439,16 @@ public abstract class EnrollAdjacencyPairs{
 			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
 			StateEntry state = zipcodes.getState(text);
 			if(state != null){
-				getContext().hideKeyboard();
 				personState = state.getStateAbbrev().get(0);
 				return new PersonCityAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new StateInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new StateInvalidAdjacencyPair(getContext());
 		}
 	}
@@ -485,19 +475,16 @@ public abstract class EnrollAdjacencyPairs{
 			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
 			StateEntry state = zipcodes.getState(text);
 			if(state != null){
-				getContext().hideKeyboard();
 				personState = state.getStateAbbrev().get(0);
 				return new PersonCityAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new StateInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new StateInvalidAdjacencyPair(getContext());
 		}
 	}
@@ -530,7 +517,6 @@ public abstract class EnrollAdjacencyPairs{
 					return new PersonRelationshipAdjacencyPair(getContext());
 				}
 			}
-			getContext().hideKeyboard();
 			return new CityInvalidAdjacencyPair(getContext());
 		}
 
@@ -575,7 +561,7 @@ public abstract class EnrollAdjacencyPairs{
 			getContext().hideKeyboard();
 			StateEntry state = zipcodes.getState(personState);
 			zipcode = getContext().getPlaceManager().getPlace(state.getCapitalZip());
-			return new CityInvalidAdjacencyPair(getContext());
+			return new PersonRelationshipAdjacencyPair(getContext());
 		}
 
 		@Override
@@ -593,7 +579,7 @@ public abstract class EnrollAdjacencyPairs{
 	AdjacencyPairBase<EnrollStateContext> {
 
 		public PersonRelationshipAdjacencyPair(final EnrollStateContext context) {
-			super("What is your relationship with this person?", context, true);
+			super("What is your relationship with this person", context, true);
 			choice("Friend", new DialogStateTransition() {
 				@Override
 				public AdjacencyPair run() {
@@ -699,7 +685,7 @@ public abstract class EnrollAdjacencyPairs{
 	AdjacencyPairBase<EnrollStateContext> {
 
 		public PersonSpouseAdjacencyPair(final EnrollStateContext context){
-			super("Is the person married?", context);
+			super("Is the person married", context);
 			choice("Yes", new DialogStateTransition() {
 				@Override
 				public AdjacencyPair run() {
@@ -739,7 +725,7 @@ public abstract class EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public EnterSpouseAdjacencyPair(final EnrollStateContext context){
-			super("What is his or her spouse's name?", "Enter " +PersonName +"'s spouse name:", 
+			super("What is his or her spouse's name", "Enter " +PersonName +"'s spouse name:", 
 					context, context.getKeyboard());
 			choice("Skip "+PersonName, new DialogStateTransition() {
 
@@ -769,7 +755,7 @@ public abstract class EnrollAdjacencyPairs{
 	AdjacencyPairBase<EnrollStateContext> {
 
 		public PersonContactAdjacencyPair(final EnrollStateContext context) {
-			super("Do you want to plan to talk to this person by video calls?", context);
+			super("Do you want to plan to talk to this person by video calls", context);
 			choice("Yes", new DialogStateTransition() {
 				@Override
 				public AdjacencyPair run() {
@@ -802,7 +788,6 @@ public abstract class EnrollAdjacencyPairs{
 
 				@Override
 				public AdjacencyPair run() {
-					getContext().hideKeyboard();
 					return new InitialEnroll(getContext());
 				}
 			});
@@ -813,7 +798,7 @@ public abstract class EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public PhoneNumberAdjacencyPair(final EnrollStateContext context) {
-			super("What is his or her phone number?", "Enter " + PersonName +"'s phone number: (XXX-XXX-XXXX)", 
+			super("What is his or her phone number", "Enter " + PersonName +"'s phone number: (XXX-XXX-XXXX)", 
 					context, context.getKeyboard(),true);
 			choice("Skip "+PersonName, new DialogStateTransition() {
 
@@ -828,19 +813,16 @@ public abstract class EnrollAdjacencyPairs{
 		@Override
 		public AdjacencyPair success(String text) {
 			if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
-				getContext().hideKeyboard();
 				PhoneNumber = text;
 				return new SkypeNumberAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new PhoneNumberInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new SkypeNumberAdjacencyPair(getContext());
 		}
 	}
@@ -865,19 +847,16 @@ public abstract class EnrollAdjacencyPairs{
 		@Override
 		public AdjacencyPair success(String text) {
 			if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
-				getContext().hideKeyboard();
 				PhoneNumber = text;
 				return new SkypeNumberAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new PhoneNumberInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new SkypeNumberAdjacencyPair(getContext());
 		}
 	}
@@ -886,7 +865,7 @@ public abstract class EnrollAdjacencyPairs{
 	KeyboardAdjacencyPair<EnrollStateContext> {
 
 		public SkypeNumberAdjacencyPair(final EnrollStateContext context) {
-			super("What is his or her skype Account?", "Enter " + PersonName + "'s skype name:", 
+			super("What is his or her skype name", "Enter " + PersonName + "'s skype name:", 
 					context, context.getKeyboard());
 			choice("Skip "+PersonName, new DialogStateTransition() {
 

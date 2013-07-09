@@ -215,7 +215,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangePersonBirthdayDayInvalidAdjacencyPair(getContext(), person);
 			}
 		}
@@ -251,7 +250,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangePersonBirthdayDayInvalidAdjacencyPair(getContext(), person);
 			}
 		}
@@ -318,7 +316,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
 			}
 		}
@@ -351,7 +348,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
 			}
 		}
@@ -418,7 +414,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext(), person);
 			}
 		}
@@ -452,7 +447,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext(), person);
 			}
 		}  	     
@@ -481,19 +475,16 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
 			StateEntry state = zipcodes.getState(text);
 			if(state != null){
-				getContext().hideKeyboard();
 				personState = state.getStateAbbrev().get(0);
 				return new ChangeCityAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangeStateInvalidAdjacencyPair(getContext(), person);
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new ChangeStateInvalidAdjacencyPair(getContext(), person);
 		}
 	}
@@ -515,19 +506,16 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
 			StateEntry state = zipcodes.getState(text);
 			if(state != null){
-				getContext().hideKeyboard();
 				personState = state.getStateAbbrev().get(0);
 				return new ChangeCityAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangeStateInvalidAdjacencyPair(getContext(), person);
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new ChangeStateInvalidAdjacencyPair(getContext(), person);
 		}
 	}
@@ -555,7 +543,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 					return new EditPersonAdjacencyPair(getContext(), person);
 				}
 			}
-			getContext().hideKeyboard();
 			return new ChangeCityInvalidAdjacencyPair(getContext(), person);
 		}
 
@@ -783,7 +770,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangePhoneInvalidAdjacencyPair(getContext(), person);
 			}
 		}
@@ -816,7 +802,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 				return new EditPersonAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ChangePhoneInvalidAdjacencyPair(getContext(), person);
 			}
 		}

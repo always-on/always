@@ -200,7 +200,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
 			}
 		}
@@ -233,7 +232,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
 			}
 		}
@@ -294,7 +292,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new EditAgeInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -323,7 +320,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new EditAgeInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -383,7 +379,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return  new ZipCodeAgainInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -414,7 +409,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new ZipCodeAgainInvalidAdjacencyPair(getContext());
 			}
 		}  	     
@@ -440,19 +434,16 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
 			StateEntry state = zipcodes.getState(text);
 			if(state != null){
-				getContext().hideKeyboard();
 				personState = state.getStateAbbrev().get(0);
 				return new EditCityAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new EditStateInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new EditStateInvalidAdjacencyPair(getContext());
 		}
 	}
@@ -471,19 +462,16 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
 			StateEntry state = zipcodes.getState(text);
 			if(state != null){
-				getContext().hideKeyboard();
 				personState = state.getStateAbbrev().get(0);
 				return new EditCityAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new EditStateInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new EditStateInvalidAdjacencyPair(getContext());
 		}
 	}
@@ -508,7 +496,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 					return new CheckCorrectionAdjacencyPair(getContext(), person);
 				}
 			}
-			getContext().hideKeyboard();
 			return new EditCityInvalidAdjacencyPair(getContext());
 		}
 
@@ -724,7 +711,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new EditPhoneInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -742,7 +728,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
 		public EditPhoneInvalidAdjacencyPair(final EnrollStateContext context) {
 			super("That's not a valid phone number, please enter again", 
-					"Enter valid " + PersonName + "'s phone number: (XXX-XXXXXXX)", 
+					"Enter valid " + PersonName + "'s phone number: (XXX-XXX-XXXX)", 
 					context, context.getKeyboard(),true);
 		}
 
@@ -754,7 +740,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 				return new CheckCorrectionAdjacencyPair(getContext(), person);
 			}
 			else{
-				getContext().hideKeyboard();
 				return new EditPhoneInvalidAdjacencyPair(getContext());
 			}
 		}

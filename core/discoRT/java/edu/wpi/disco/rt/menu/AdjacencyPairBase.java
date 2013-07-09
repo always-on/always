@@ -16,7 +16,7 @@ public abstract class AdjacencyPairBase<C> implements AdjacencyPair {
    }
 
    public AdjacencyPairBase (String message, C context, boolean twoColumn) {
-      this.message = message;
+   	this.message = message;
       this.context = context;
       this.twoColumn = twoColumn;
    }

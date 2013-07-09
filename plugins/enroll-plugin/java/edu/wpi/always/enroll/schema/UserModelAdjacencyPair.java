@@ -32,7 +32,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
 	@Override
 	public AdjacencyPair success(String text) {
-		getContext().hideKeyboard();
 		UserName = text;
 		getContext().getUserModel().setUserName(text);
 		return new UserAgeAdjacencyPair(getContext());
@@ -40,7 +39,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
 	@Override
 	public AdjacencyPair cancel() {
-		getContext().hideKeyboard();
 		UserName = "this person";
 		return new UserAgeAdjacencyPair(getContext());
 	}
@@ -183,7 +181,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 				return new UserGenderAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new UserBirthdayDayInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -214,7 +211,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 				return new UserGenderAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new UserBirthdayDayInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -314,7 +310,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 				return new UserSpouseAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new UserZipCodeInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -345,7 +340,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 				return new UserSpouseAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new UserZipCodeInvalidAdjacencyPair(getContext());
 			}
 		}
@@ -370,19 +364,16 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
 			StateEntry state = zipcodes.getState(text);
 			if(state != null){
-				getContext().hideKeyboard();
 				UserState = state.getStateAbbrev().get(0);
 				return new UserCityAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new UserStateInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new UserStateInvalidAdjacencyPair(getContext());
 		}
 	}
@@ -401,19 +392,16 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 			ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
 			StateEntry state = zipcodes.getState(text);
 			if(state != null){
-				getContext().hideKeyboard();
 				UserState = state.getStateAbbrev().get(0);
 				return new UserCityAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new UserStateInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new UserStateInvalidAdjacencyPair(getContext());
 		}
 	}
@@ -439,7 +427,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 					return new UserSpouseAdjacencyPair(getContext());
 				}
 			}
-			getContext().hideKeyboard();
 			return new UserCityInvalidAdjacencyPair(getContext());
 		}
 
@@ -479,7 +466,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 			StateEntry state = zipcodes.getState(UserState);
 			zipcode = getContext().getPlaceManager().getPlace(state.getCapitalZip());
 			getContext().getPeopleManager().getUser().setLocation(zipcode);
-			return new UserCityInvalidAdjacencyPair(getContext());
+			return new UserSpouseAdjacencyPair(getContext());
 		}
 
 		@Override
@@ -535,7 +522,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
 		@Override
 		public AdjacencyPair success(String text) {
-			getContext().hideKeyboard();
 			Spouse = text;
 			getContext().getPeopleManager().getUser().setSpouse(Spouse);
 			return new UserPhoneNumberAdjacencyPair(getContext());
@@ -543,7 +529,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new UserPhoneNumberAdjacencyPair(getContext());
 		}
 	}
@@ -560,20 +545,17 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 		@Override
 		public AdjacencyPair success(String text) {
 			if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
-				getContext().hideKeyboard();
 				PhoneNumber = text;
 				getContext().getPeopleManager().getUser().setPhoneNumber(PhoneNumber);
 				return new UserSkypeNumberAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new UserPhoneNumberInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new UserSkypeNumberAdjacencyPair(getContext());
 		}
 	}
@@ -590,20 +572,17 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 		@Override
 		public AdjacencyPair success(String text) {
 			if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
-				getContext().hideKeyboard();
 				PhoneNumber = text;
 				getContext().getPeopleManager().getUser().setPhoneNumber(PhoneNumber);
 				return new UserSkypeNumberAdjacencyPair(getContext());
 			}
 			else{
-				getContext().hideKeyboard();
 				return new UserPhoneNumberInvalidAdjacencyPair(getContext());
 			}
 		}
 
 		@Override
 		public AdjacencyPair cancel() {
-			getContext().hideKeyboard();
 			return new UserSkypeNumberAdjacencyPair(getContext());
 		}
 	}
