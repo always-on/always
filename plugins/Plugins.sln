@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Story.UI", "story-plugin\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.Startup", "Plugins.Startup\Plugins.Startup.csproj", "{2AF75B52-B93A-4108-9415-2F1840ED9E21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRummy.UI", "rummy-plugin\SRummy.UI\SRummy.UI.csproj", "{9FB35514-B476-4C98-A312-1AE219B7AE78}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTT.UI", "ttt-plugin\TTT.UI\TTT.UI.csproj", "{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}"
 EndProject
 Global
@@ -127,16 +125,6 @@ Global
 		{2AF75B52-B93A-4108-9415-2F1840ED9E21}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2AF75B52-B93A-4108-9415-2F1840ED9E21}.Release|x86.ActiveCfg = Release|x86
 		{2AF75B52-B93A-4108-9415-2F1840ED9E21}.Release|x86.Build.0 = Release|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Debug|x86.ActiveCfg = Debug|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Debug|x86.Build.0 = Debug|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Release|Any CPU.ActiveCfg = Release|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Release|Mixed Platforms.Build.0 = Release|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Release|x86.ActiveCfg = Release|x86
-		{9FB35514-B476-4C98-A312-1AE219B7AE78}.Release|x86.Build.0 = Release|x86
 		{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}.Debug|Mixed Platforms.Build.0 = Debug|x86

@@ -5,18 +5,18 @@ using System.Text;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
 using Agent.Tcp;
-using TicTacToe.UI;
+using TTT.UI;
 using System.Windows.Controls;
 
 namespace AgentApp
 {
-    class TicTacToePlugin : IPlugin
+    class TTTPlugin : IPlugin
     {
         GameShape game;
         IMessageDispatcher _remote;
         Viewbox pluginContainer;
         
-        public TicTacToePlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
+        public TTTPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
 
             this._remote = remote;

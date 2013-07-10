@@ -115,6 +115,10 @@
       <Project>{8E57E514-62EF-4DAE-A305-246EC4828603}</Project>
       <Name>Story.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ttt-plugin\TTT.UI\TTT.UI.csproj">
+      <Project>{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}</Project>
+      <Name>TTT.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,11 +8,11 @@ using System.Windows.Threading;
 
 namespace AgentApp
 {
-    public class TicTacToePluginCreator : IPluginCreator
+    public class TTTPluginCreator : IPluginCreator
     {
         IUIThreadDispatcher _uiThreadDispatcher;
         IMessageDispatcher _remoteDispatcher;
-        public TicTacToePluginCreator(IUIThreadDispatcher uiThreadDispatcher, IMessageDispatcher remoteDispatcher)
+        public TTTPluginCreator(IUIThreadDispatcher uiThreadDispatcher, IMessageDispatcher remoteDispatcher)
         {
             _uiThreadDispatcher = uiThreadDispatcher;
             _remoteDispatcher = remoteDispatcher;
@@ -20,7 +20,7 @@ namespace AgentApp
 
         public IPlugin Create(JObject parameters)
         {
-            return new TicTacToePlugin(_remoteDispatcher, _uiThreadDispatcher);
+            return new TTTPlugin(_remoteDispatcher, _uiThreadDispatcher);
         }
 
     }

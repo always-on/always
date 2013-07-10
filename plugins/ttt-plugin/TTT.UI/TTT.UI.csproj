@@ -8,8 +8,8 @@
     <ProjectGuid>{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TicTacToe.UI</RootNamespace>
-    <AssemblyName>TicTacToe.UI</AssemblyName>
+    <RootNamespace>TTT.UI</RootNamespace>
+    <AssemblyName>TTT.UI</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -58,12 +58,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TicTacToePlugin.cs" />
+    <Compile Include="TTTPlugin.cs" />
     <Page Include="GameShape.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="TicTacToePluginCreator.cs" />
+    <Compile Include="TTTPluginCreator.cs" />
     <Compile Include="GameShape.xaml.cs">
       <DependentUpon>GameShape.xaml</DependentUpon>
       <SubType>Code</SubType>
