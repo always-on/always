@@ -18,6 +18,11 @@
   
   <task id="ExplainSelf"/>
 
+  <task id="TalkAboutFriendsFamily">
+    <!-- **TODO** inhibit if no friends in database -->
+    <precondition>null</precondition>
+  </task>
+
   <script init="true">
 
     /*
