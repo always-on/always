@@ -10,7 +10,7 @@ import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -34,11 +34,32 @@ public abstract class Plugin {
       MutablePicoContainer container = cm.getContainer();
       schemaManager = container.getComponent(SchemaManager.class);
       interaction = container.getComponent(Interaction.class);
-      InputStream stream = getClass().getResourceAsStream(name+".owl");
+      InputStream stream = getClass().getResourceAsStream("resources/"+name+".owl");
       if ( stream != null ) {
          System.out.println("Loading "+name+".owl");
-         ((OntologyUserModel) userModel).addAxiomsFromInputStream(stream);
+         ((OntologyUserModel) userModel).addAxioms(stream);
       }
+   }
+   
+   /**
+    * For use in Disco test files.
+    */
+   public static void test (String pluginModelFile) {
+      UserModel model = Always.THIS.getUserModel();
+      File file = new File(pluginModelFile);
+      model.setUserName("Test "+file.getName());
+      ((OntologyUserModel) model).addAxioms(file);
+   }
+   
+   /**
+    * For use in main method of plugins for testing.
+    */
+   public static Always main (String[] args, Class<? extends Plugin> plugin, String activity) {
+      Always always = Always.make(args, plugin, activity);
+      UserModel model = always.getUserModel();
+      if ( model.getUserName() == null ) model.setUserName("TestPlugin");
+      always.start();
+      return always;
    }
    
    /**
@@ -54,16 +75,49 @@ public abstract class Plugin {
    }
    
    /**
-    * Set user property associated with this plugin.  Property is stored
-    * in user model.  Note property must be declared in [plugin name].owl resource file
-    * in toplevel package of plugin class.
-    *
-    * @param property name of property (must be a constant and start with plugin name)
+    * Set string-valued user property associated with this plugin. Property is
+    * stored in user model. Note property must be declared in [plugin name].owl
+    * resource file in toplevel package of plugin class.
+    * 
+    * @param property name of property (must be a constant and start with plugin
+    *           name)
     * @param value property value
+    * 
+    * @see #setProperty(String,boolean)
     */
    public void setProperty (String property, String value) { 
       checkProperty(property);
       userModel.setProperty(property, value);
+   }
+   
+   /**
+    * Set boolean-valued user property associated with this plugin. Property is
+    * stored in user model. Note property must be declared in [plugin name].owl
+    * resource file in toplevel package of plugin class.
+    * 
+    * @param property name of property (must be a constant and start with plugin
+    *           name)
+    * @param value property value
+    * 
+    * @see #setProperty(String,String)
+    */
+   public void setProperty (String property, boolean value) {
+      checkProperty(property);
+      userModel.setProperty(property, Boolean.valueOf(value).toString());
+   }
+   
+   /**
+    * Get boolean-valued user property associated with this plugin. Property is
+    * stored in user model. Note property must be declared in [plugin name].owl
+    * resource file in toplevel package of plugin class. Property defaults to
+    * false if it has no value.
+    * 
+    * @param property name of property (must be a constant and start with plugin
+    *           name)
+    */
+   public boolean isProperty (String property) {
+      checkProperty(property);
+      return userModel.isProperty(property);
    }
    
    private void checkProperty (String property) {

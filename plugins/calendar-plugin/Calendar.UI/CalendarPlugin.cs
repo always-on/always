@@ -16,6 +16,7 @@ namespace Calendar.UI
 		CalendarPanel calendar;
         IMessageDispatcher _remote;
         IUIThreadDispatcher _uiThreadDispatcher;
+        Viewbox pluginContainer;
 
         public CalendarPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
@@ -28,6 +29,8 @@ namespace Calendar.UI
 				calendar.DaySelected += daySelected;
 
 				calendar.getMonthPanel().NumRows = 4;
+                pluginContainer = new Viewbox();
+                pluginContainer.Child = calendar;
             });
 
             _remote.RegisterReceiveHandler("calendar.display",
@@ -132,8 +135,7 @@ namespace Calendar.UI
 
         public Viewbox GetPluginContainer()
         {
-            //TODO
-            return null;
+            return pluginContainer;
         }
     }
 }

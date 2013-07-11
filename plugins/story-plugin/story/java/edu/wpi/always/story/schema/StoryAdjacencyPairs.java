@@ -125,7 +125,7 @@ public class StoryAdjacencyPairs {
 
       @Override
       public void enter () {
-         SchemaBase.backchanneling = false;
+         //SchemaBase.backchanneling = false;
          recorder.stopRecording();
       }
    }

@@ -15,6 +15,7 @@ import java.io.File;
 public class CollaborationManager extends DiscoRT {
 
    private final MutablePicoContainer parent;
+   private final TaskModel activities;
    
    public CollaborationManager (MutablePicoContainer parent) {
       super(parent);
@@ -22,6 +23,13 @@ public class CollaborationManager extends DiscoRT {
       container.removeComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
+      activities = interaction.load("Activities.xml");
+      // load user model after Activities.xml for initialization of USER_FOLDER
+      parent.as(Characteristics.CACHE).addComponent(
+            BindKey.bindKey(File.class,
+                  OntologyUserModel.UserOntologyLocation.class),
+                  new File(UserUtils.USER_DIR, UserUtils.USER_FILE));
+      parent.getComponent(UserModel.class).load();
    }
  
    public void start (Class<? extends Plugin> plugin, String activity) {
@@ -29,14 +37,6 @@ public class CollaborationManager extends DiscoRT {
       container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class); 
       container.as(Characteristics.CACHE).addComponent(DummyFacePerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
-      TaskModel model = interaction.load("Activities.xml");
-      // load user model after Activities.xml for initialization of USER_FOLDER
-      parent.as(Characteristics.CACHE).addComponent(
-            BindKey.bindKey(File.class,
-                  OntologyUserModel.UserOntologyLocation.class),
-                  new File(UserUtils.USER_FOLDER, UserUtils.USER_FILE));
-      UserModel userModel = parent.getComponent(UserModel.class);
-      if ( userModel != null ) userModel.load();
       if ( plugin != null ) {
          parent.addComponent(plugin);
          Plugin instance = parent.getComponent(plugin);
@@ -45,7 +45,7 @@ public class CollaborationManager extends DiscoRT {
          System.out.println("Loaded plugin: "+instance);
          
       } else
-         for (TaskClass top : model.getTaskClasses()) {
+         for (TaskClass top : activities.getTaskClasses()) {
             Plugin instance = Plugin.getPlugin(top, container);
             for (Activity a : instance.getActivities(0)) // not using closeness value
                for (Registry r : instance.getRegistries(a)) addRegistry(r);

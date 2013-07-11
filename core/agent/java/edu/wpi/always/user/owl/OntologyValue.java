@@ -21,31 +21,30 @@ public class OntologyValue {
    }
 
    public String asString () {
-      if ( isNull() )
-         return null;
+      if ( isNull() ) return null;
       return literal.getLiteral();
    }
 
-   public double asDouble (OWLDataProperty property,
-         OWLNamedIndividual individual) {
-      if ( isNull() )
-         throw new NullPointerException();
-      return Double.parseDouble(asString());
+   public double asDouble () {
+      if ( isNull() ) throw new NullPointerException();
+      return literal.parseDouble();
    }
 
-   public int getDataPropertyValueAsInt (OWLDataProperty property,
-         OWLNamedIndividual individual) {
-      if ( isNull() )
-         throw new NullPointerException();
-      return Integer.parseInt(asString());
+   public boolean asBoolean () {
+      if ( isNull() ) return false;
+      return literal.parseBoolean();
+   }
+
+   public int asInteger () {
+      if ( isNull() ) throw new NullPointerException();
+      return literal.parseInteger();
    }
 
    static final DateTimeFormatter XML_GMonthDay_FORMAT = DateTimeFormat
          .forPattern("--MM-dd");
 
    public MonthDay asMonthDay () {
-      if ( isNull() )
-         return null;
+      if ( isNull() ) return null;
       LocalDate date = XML_GMonthDay_FORMAT.parseLocalDate(asString());
       return new MonthDay(date.getMonthOfYear(), date.getDayOfMonth());
    }
@@ -54,8 +53,7 @@ public class OntologyValue {
          .dateTimeNoMillis();
 
    public DateTime asDateTime () {
-      if ( isNull() )
-         return null;
+      if ( isNull() ) return null;
       return XML_DATE_TIME_FORMAT.parseDateTime(asString());
    }
 
@@ -63,8 +61,7 @@ public class OntologyValue {
          .forPattern("yyyy-MM-dd");
 
    public LocalDate asDate () {
-      if ( isNull() )
-         return null;
+      if ( isNull() ) return null;
       return XML_DATE_FORMAT.parseLocalDate(asString());
    }
 
@@ -72,8 +69,7 @@ public class OntologyValue {
          .forPattern("HH:mm:ss");
 
    public LocalTime asTime () {
-      if ( isNull() )
-         return null;
+      if ( isNull() ) return null;
       return XML_TIME_FORMAT.parseLocalTime(asString());
    }
 
@@ -81,8 +77,7 @@ public class OntologyValue {
          .standard();
 
    public Period asDuration () {
-      if ( isNull() )
-         return null;
+      if ( isNull() ) return null;
       return XML_DURATION_FORMAT.parsePeriod(asString());
    }
 }

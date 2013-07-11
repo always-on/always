@@ -12,7 +12,7 @@ public class FakeEngagementGUI {
    private static FacePerception facePerception;
 
    public static void main (String[] args) {
-      Always always = new Always(true);
+      Always always = Always.make(null, null, null);
       always.start();
       always.getContainer().getComponent(UserModel.class).load();
       JFrame frame = new JFrame("Face Location");

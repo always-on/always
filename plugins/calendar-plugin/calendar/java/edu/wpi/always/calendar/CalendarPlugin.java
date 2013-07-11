@@ -16,11 +16,7 @@ public class CalendarPlugin extends Plugin {
     * For testing Calendar by itself
     */
    public static void main (String[] args) {
-      Always always = new Always(true, CalendarPlugin.class, "UseCalendar");
-      always.processArgs(args);
-      always.start();
+      Plugin.main(args, CalendarPlugin.class, "UseCalendar");
    }
-  
 
-  
 }

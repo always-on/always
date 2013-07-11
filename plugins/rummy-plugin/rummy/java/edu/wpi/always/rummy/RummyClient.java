@@ -85,6 +85,7 @@ public class RummyClient implements ClientPlugin {
       processInbox();
       // always propose at least an empty menu for extension
       ProposalBuilder builder = newProposal();
+      builder.setNeedsFocusResource(true);
       BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
       metadata.timeRemaining(agentCardsNum + userCardsNum);
       metadata.specificity(ActivitySchema.SPECIFICITY);

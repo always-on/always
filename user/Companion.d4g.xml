@@ -3,7 +3,7 @@
        xmlns:d="http://www.cs.wpi.edu/~rich/d4g"
        xmlns:a="urn:always.wpi.edu:Activities">
 
-  <!-- Session model for companions **TO DO** (same as Stranger for now)
+  <!-- Session model for companions  **TODO** Same as Acquaitance for now
 
        See Activities.xml for definition of toplevel activities.
 

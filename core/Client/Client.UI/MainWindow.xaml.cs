@@ -179,7 +179,7 @@ namespace AgentApp
         {
 			Dispatcher.BeginInvoke(new Action(() =>
 			{
-                LayoutPageWithoutPlugin();
+                MainGrid.Children.Remove(PluginContainer);
                 PluginContainer = pluginContainer;
                 MainGrid.Children.Add(PluginContainer);
                 LayoutPageWithPlugin();

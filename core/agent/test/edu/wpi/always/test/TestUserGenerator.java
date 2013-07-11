@@ -13,8 +13,7 @@ import edu.wpi.always.user.places.PlaceManager;
 public class TestUserGenerator {
 
    public static void main (String[] args) {
-      Always always = new Always(true);
-      always.start();
+      Always always = Always.make(null, null, null);
       UserModel model = always.getContainer().getComponent(UserModel.class);
       generate(model);
       UserUtils.print(model, System.out);

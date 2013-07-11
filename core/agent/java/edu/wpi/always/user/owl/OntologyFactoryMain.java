@@ -15,7 +15,7 @@ import java.io.FileOutputStream;
 public class OntologyFactoryMain {
 
    public static void main (String[] args) {
-      Always always = new Always(true);
+      Always always = Always.make(null, null, null);
       // always.addRegistry(new OntologyUserRegistry("Test User",
       //      "ontology/OntologyTmp.owl"));
       always.start();
