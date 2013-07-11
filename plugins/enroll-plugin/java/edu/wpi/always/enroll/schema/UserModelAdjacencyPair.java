@@ -69,7 +69,12 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 		public AdjacencyPair cancel() {
 			getContext().hideKeyboard();
 			return new TellUserBirthdayAdjacencyPair(getContext());
-		}	
+		}
+
+//		@Override
+//		public void overflow() {
+//
+//		}	
 	}
 
 	public static class UserAgeInvalidAdjacencyPair extends
@@ -609,6 +614,5 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 			return new InitialEnroll(getContext());
 		}
 	}
-	
 }
 
