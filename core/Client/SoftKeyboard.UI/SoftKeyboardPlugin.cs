@@ -34,8 +34,6 @@ namespace SoftKeyboard.UI
 
         public Viewbox GetPluginContainer()
         {
-            //keyboard
-            //TODO
             return pluginContainer;   
         }
     }

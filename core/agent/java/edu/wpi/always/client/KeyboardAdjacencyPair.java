@@ -13,47 +13,15 @@ public abstract class KeyboardAdjacencyPair<C> extends AdjacencyPairBase<C> {
 	}
 
 	public KeyboardAdjacencyPair (String prompt, C context, Keyboard keyboard) {
-		super(prompt + " Let me know when you're done", context);
-		this.prompt = prompt;
-		this.keyboard = keyboard;
-		choice("I'm Done", new DialogStateTransition() {
-
-			@Override
-			public AdjacencyPair run () {
-				return success(KeyboardAdjacencyPair.this.keyboard.getInputSoFar());
-			}
-		});
-		choice("Never Mind", new DialogStateTransition() {
-
-			@Override
-			public AdjacencyPair run () {
-				return cancel();
-			}
-		});
+		this (prompt, prompt, context, keyboard, false);
 	}
 
 	public KeyboardAdjacencyPair (String prompt, String showText, C context, Keyboard keyboard) {
-		super(prompt + " Let me know when you're done", context);
-		this.prompt = showText;
-		this.keyboard = keyboard;
-		choice("I'm Done", new DialogStateTransition() {
-
-			@Override
-			public AdjacencyPair run () {
-				return success(KeyboardAdjacencyPair.this.keyboard.getInputSoFar());
-			}
-		});
-		choice("Never Mind", new DialogStateTransition() {
-
-			@Override
-			public AdjacencyPair run () {
-				return cancel();
-			}
-		});
+		this (prompt, showText, context, keyboard, false);
 	}
 
 	public KeyboardAdjacencyPair (String prompt, String showText, C context, Keyboard keyboard, boolean isNumeric) {
-		super(prompt + " Let me know when you're done", context);
+		super(prompt + ". Let me know when you're done", context);
 		this.prompt = showText;
 		this.keyboard = keyboard;
 		this.isNumeric = isNumeric;

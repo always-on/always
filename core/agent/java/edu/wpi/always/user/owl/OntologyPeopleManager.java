@@ -24,13 +24,8 @@ public class OntologyPeopleManager implements PeopleManager {
 	// MUST be called for getUser to work (called in OntologyUserModel constructor)
 	void setUserModel (OntologyUserModel model) {
 		this.model = model;
-	}
-
-	@Override
-	public UserModel getUserModel () {
-		return model;
-	}
-
+   }
+	
 	@Override
 	public OntologyPerson getUser () {
 		OntologyIndividual owlPerson = helper.getNamedIndividual(model
@@ -105,5 +100,10 @@ public class OntologyPeopleManager implements PeopleManager {
 			people[i++] = getPerson(new OntologyIndividual(ontology, owlPerson));
 		}
 		return people;
+	}
+	
+	@Override
+	public UserModel getUserModel () {
+		return model;
 	}
 }

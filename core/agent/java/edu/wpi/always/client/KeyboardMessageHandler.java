@@ -21,7 +21,7 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 			@Override
 			public void handleMessage (JsonObject body) {
 				String event = body.get("event").getAsString();
-				if(event.equals("exceed")){
+				if ( event.equals("exceed" )) {
 					String prompt = body.get("prompt").getAsString();
 					System.out.println(prompt);
 				}

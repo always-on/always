@@ -23,7 +23,7 @@ namespace SoftKeyboard.UI
 	public partial class KeyboardPanel : UserControl
 	{
         private static bool isOverflow = false;
-		private IMessageDispatcher remote;
+        private IMessageDispatcher remote;
         private string context;
         
         public KeyboardPanel(string contextString, IMessageDispatcher remote, bool isNumeric)
@@ -36,19 +36,14 @@ namespace SoftKeyboard.UI
 			AddHandler(RubOutKey.RubOutEvent, new RoutedEventHandler(rubOutHandler));
             if (isNumeric)
             {
-                ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("NonNumKeyLeft")).Visibility = Visibility.Collapsed;
-                ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("NonNumKeyRight")).Visibility = Visibility.Collapsed;
-                ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row1")).Visibility = Visibility.Collapsed;
-                ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row2")).Visibility = Visibility.Collapsed;
-                ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row3")).Visibility = Visibility.Collapsed;
-                ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row4")).Visibility = Visibility.Collapsed;
+                hideCharacterKeys();
             }
 		}
 
 		private static void keyTypedHandler(object sender, RoutedEventArgs e)
 		{
-			KeyboardPanel panel = (KeyboardPanel)sender;
-			CharacterKey key = (CharacterKey)e.OriginalSource;
+            KeyboardPanel panel = (KeyboardPanel)sender;
+            CharacterKey key = (CharacterKey)e.OriginalSource;
 			string text = key.getShiftAdjustedValue();
             Typeface typeface = new Typeface(panel.textBox.FontFamily, panel.textBox.FontStyle, panel.textBox.FontWeight, panel.textBox.FontStretch);
             FormattedText ft = new FormattedText(panel.textBox.Text, System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, typeface, panel.textBox.FontSize, Brushes.Black);
@@ -110,5 +105,16 @@ namespace SoftKeyboard.UI
             data["isOverflow"] = isOverflow;
 			remote.Send("keyboard.textUpdate", data);
 		}
+
+        private void hideCharacterKeys()
+        {
+            ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("NonNumKeyLeft")).Visibility = Visibility.Collapsed;
+            ((StackPanel)((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row0")).FindName("NonNumKeyRight")).Visibility = Visibility.Collapsed;
+            ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row1")).Visibility = Visibility.Collapsed;
+            ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row2")).Visibility = Visibility.Collapsed;
+            ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row3")).Visibility = Visibility.Collapsed;
+            ((StackPanel)((StackPanel)keyboard.FindName("verticalPanel")).FindName("row4")).Visibility = Visibility.Collapsed;
+        }
+
 	}
 }
