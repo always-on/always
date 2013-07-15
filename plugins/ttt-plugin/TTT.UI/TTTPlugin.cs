@@ -14,13 +14,15 @@ namespace AgentApp
     {
         GameShape game;
         IMessageDispatcher _remote;
+        IUIThreadDispatcher _uiThreadDispatcher;
         Viewbox pluginContainer;
         
         public TTTPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
 
             this._remote = remote;
-                 
+            this._uiThreadDispatcher = uiThreadDispatcher;
+
             uiThreadDispatcher.BlockingInvoke(() =>
             {
               game = new GameShape();

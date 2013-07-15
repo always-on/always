@@ -297,5 +297,16 @@ public class CommentingManager {
 		//		ch.make(new Comment("hello"));
 	}
 
+	//fake for now
+	public List<String> getHumanCommentingOptions() {
+
+		List<String> commentOptions = new ArrayList<String>();
+		commentOptions.add("a");
+		commentOptions.add("b");
+		commentOptions.add("c");
+		return commentOptions;
+	
+	}
+
 
 }

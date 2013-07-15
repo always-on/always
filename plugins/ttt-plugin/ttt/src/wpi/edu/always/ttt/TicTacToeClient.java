@@ -221,7 +221,8 @@ public class TicTacToeClient implements ClientPlugin {
 						.build();
 				sendToEngine(m2);
 				availableMove = 
-						new TimeStampedValue<String>(String.valueOf(((TTTLegalMove)dmove.getMove()).getCellNum() + 1));
+						new TimeStampedValue<String>(String.valueOf(
+								((TTTLegalMove)dmove.getMove()).getCellNum() + 1));
 			}
 
 		}
