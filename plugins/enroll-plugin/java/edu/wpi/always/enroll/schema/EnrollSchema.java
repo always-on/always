@@ -19,46 +19,46 @@ import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
 
 public class EnrollSchema extends ActivitySchema{
 
-	private final MenuTurnStateMachine stateMachine;
+   private final MenuTurnStateMachine stateMachine;
 
-	public EnrollSchema (BehaviorProposalReceiver behaviorReceiver,
-			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-			MenuPerceptor menuPerceptor, Keyboard keyboard, EnrollUI enrollUI, 
-			UIMessageDispatcher dispatcher, UserModel model, PlaceManager placeManager, 
-			PeopleManager peopleManager) {
-		super(behaviorReceiver, behaviorHistory);
-		stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
-				menuPerceptor, new RepeatMenuTimeoutHandler());
-		stateMachine.setSpecificityMetadata(.9);
-		EnrollStateContext enrollContext = new EnrollStateContext(
-				keyboard, enrollUI, dispatcher, model, model.getPlaceManager(),
-				model.getPeopleManager());
-		AdjacencyPair initial;
-		try {
-			model.getUserName();
-			initial = new InitialEnroll(enrollContext);
-		} catch (IllegalStateException e) {
-			initial = new UserModelAdjacencyPair(enrollContext);
-		}
-		stateMachine.setAdjacencyPair(initial);
-	}
+   public EnrollSchema (BehaviorProposalReceiver behaviorReceiver,
+         BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
+         MenuPerceptor menuPerceptor, Keyboard keyboard, EnrollUI enrollUI, 
+         UIMessageDispatcher dispatcher, UserModel model, PlaceManager placeManager, 
+         PeopleManager peopleManager) {
+      super(behaviorReceiver, behaviorHistory);
+      stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
+            menuPerceptor, new RepeatMenuTimeoutHandler());
+      stateMachine.setSpecificityMetadata(.9);
+      EnrollStateContext enrollContext = new EnrollStateContext(
+            keyboard, enrollUI, dispatcher, model, model.getPlaceManager(),
+            model.getPeopleManager());
+      AdjacencyPair initial;
+      try {
+         model.getUserName();
+         initial = new InitialEnroll(enrollContext);
+      } catch (IllegalStateException e) {
+         initial = new UserModelAdjacencyPair(enrollContext);
+      }
+      stateMachine.setAdjacencyPair(initial);
+   }
 
-	@Override
-	public void run () {
-		propose(stateMachine);
-		
-		if(KeyboardMessageHandler.isOverflow){
-			KeyboardMessageHandler.isOverflow = false;
-			BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
-			ProposalBuilder builder = new ProposalBuilder(); 
-			metadata.specificity(0.9);
-			builder.setMetadata(metadata);
-			builder.say("Too many characters");
-			Behavior b = builder.build();
-			BehaviorMetadata m = builder.getMetadata();
-			propose(b, m);
-		}
-		
-	}
+   @Override
+   public void run () {
+      propose(stateMachine);
+
+      if(KeyboardMessageHandler.isOverflow){
+         KeyboardMessageHandler.isOverflow = false;
+         BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
+         ProposalBuilder builder = new ProposalBuilder(); 
+         metadata.specificity(0.9);
+         builder.setMetadata(metadata);
+         builder.say("Too many characters");
+         Behavior b = builder.build();
+         BehaviorMetadata m = builder.getMetadata();
+         propose(b, m);
+      }
+
+   }
 
 }

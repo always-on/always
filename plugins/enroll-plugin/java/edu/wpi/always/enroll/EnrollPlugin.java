@@ -7,18 +7,18 @@ import edu.wpi.always.user.UserModel;
 
 public class EnrollPlugin extends Plugin{
 
-	public EnrollPlugin(UserModel userModel, CollaborationManager cm) {
-		super("Enroll", userModel, cm);
-		addActivity("EnrollUser", 0, 0, 0, 0, EnrollSchema.class, EnrollClient.class); 
-	}
+   public EnrollPlugin(UserModel userModel, CollaborationManager cm) {
+      super("Enroll", userModel, cm);
+      addActivity("EnrollUser", 0, 0, 0, 0, EnrollSchema.class, EnrollClient.class); 
+   }
 
-	/**
-	 * For testing Enroll by itself
-	 */
-	public static void main (String[] args) {
-		Always always = new Always(true, EnrollPlugin.class, "EnrollUser");
-		always.processArgs(args);
-		always.start();
-	}
+   /**
+    * For testing Enroll by itself
+    */
+   public static void main (String[] args) {
+      Always always = new Always(true, EnrollPlugin.class, "EnrollUser");
+      always.processArgs(args);
+      always.start();
+   }
 
 }
