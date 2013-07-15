@@ -9,9 +9,9 @@ import edu.wpi.always.user.places.Place;
 import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 
 public interface PeopleManager {
-	
-	UserModel getUserModel();
-	
+
+   UserModel getUserModel();
+
    Person getUser ();
 
    Person addPerson (String name, Relationship relationship, Gender gender);
@@ -19,7 +19,7 @@ public interface PeopleManager {
    Person getPerson (String name);
 
    Person[] getPeople ();
-   
+
    Person addPerson(String name, Relationship relationship, Gender gender, String age, String phoneNumber,
-		   String SkypeNumber, Place ZipCode, String spouse, MonthDay birthday);
+         String SkypeNumber, Place ZipCode, String spouse, MonthDay birthday);
 }

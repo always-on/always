@@ -17,7 +17,7 @@ public class OntologyUserModel implements UserModel {
 
    private String userName;
    private OntologyIndividual user;
-   
+
    private final OntologyHelper ontology;
    private final File userDataFile;
    private final OntologyCalendar calendar;
@@ -41,7 +41,7 @@ public class OntologyUserModel implements UserModel {
          throw new IllegalStateException("User model not initialized!"); 
       return userName; 
    }
-   
+
    @Override
    public void setUserName (String userName) {
       if ( this.userName == null ) {
@@ -52,9 +52,9 @@ public class OntologyUserModel implements UserModel {
             peopleManager.addPerson(userName, null, null);
          }
       } else throw new UnsupportedOperationException(
-                  "User model already has name: "+this.userName);
+            "User model already has name: "+this.userName);
    }
-   
+
    @Override
    public OntologyCalendar getCalendar () {
       return calendar;
@@ -69,21 +69,21 @@ public class OntologyUserModel implements UserModel {
    public OntologyPlaceManager getPlaceManager () {
       return placeManager;
    }
-   
+
    @Override
    public String getProperty (String property) {
       return user.getDataPropertyValue(property).asString();
    }
-   
+
    @Override
    public void setProperty (String property, String value) {
       user.setDataProperty(property, value == null ? null : ontology.getLiteral(value));
    }
-    
+
    public void addAxiomsFromInputStream (InputStream stream) {
       ontology.addAxiomsFromInputStream(stream);
    }
-   
+
    private static final Set<AxiomType<?>> types = new HashSet<AxiomType<?>>();
    static {
       types.add(AxiomType.CLASS_ASSERTION);
@@ -92,7 +92,7 @@ public class OntologyUserModel implements UserModel {
       types.add(AxiomType.OBJECT_PROPERTY_ASSERTION);
    }
 
-   
+
    @Override
    public void save () {
       try {
@@ -121,10 +121,10 @@ public class OntologyUserModel implements UserModel {
          ontology.addAxiomsFromFile(userDataFile);
       } else System.out.println("Initializing empty user model!");
    }
-   
+
    @Override
    public String toString () {
       return "[UserModel:"+userName+"]";
    }
-  
+
 }
