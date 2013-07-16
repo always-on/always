@@ -16,7 +16,7 @@
 
   <task id="DiscussWeather"/>
   
-  <task id="ExplainSelf"/>
+  <task id="EnrollUser"/>
 
   <script init="true">
 
@@ -35,13 +35,13 @@
        the values here only apply to the session instance of Disco.  Tracing in Disco-based
        plugins can be set in the plugin model or plugin console. */
     
-    Packages.edu.wpi.always.Always.TRACE = true;
-    Packages.edu.wpi.disco.rt.DiscoRT.TRACE = false;
+    edu.wpi.always.Always.TRACE = true;
+    edu.wpi.disco.rt.DiscoRT.TRACE = false;
     
     /* Initialize user folder location for Eclipse development.  Will later add
        C:\Dropbox subfolder */
 
-    Packages.edu.wpi.always.user.UserUtils.USER_DIR = 
+    edu.wpi.always.user.UserUtils.USER_FOLDER = 
         new java.io.File("../../user").exists() ? "../../user" : "../../../user";    
     
   </script>

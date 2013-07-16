@@ -33,12 +33,12 @@ namespace SoftKeyboard.UI
 			contextLabel.Content = contextString;
             context = contextString;
 			AddHandler(CharacterKey.KeyTypedEvent, new RoutedEventHandler(keyTypedHandler));
-			AddHandler(RubOutKey.RubOutEvent, new RoutedEventHandler(rubOutHandler));
+            AddHandler(RubOutKey.RubOutEvent, new RoutedEventHandler(rubOutHandler));
             if (isNumeric)
             {
                 hideCharacterKeys();
             }
-		}
+        }
 
 		private static void keyTypedHandler(object sender, RoutedEventArgs e)
 		{
