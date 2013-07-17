@@ -22,12 +22,11 @@ public class WeatherPlugin extends Plugin {
     * For testing Weather by itself
     */
    public static void main (String[] args) {
-      Always always = new Always(true, WeatherPlugin.class, "DiscussWeather");
-      always.processArgs(args);
-      always.start();
+      Always always = Plugin.main(args, WeatherPlugin.class, "DiscussWeather");
+      // code below is temporary to demonstrate how to define and use a new user 
+      // property extension (see Weather.owl)
+      // see WeatherSchema console window for printout
       Plugin plugin = always.getContainer().getComponent(WeatherPlugin.class);
-      // testing new user property extension (see Weather.owl)
-      // see WeatherSchema console window
       plugin.setProperty(FAVORITE, "hot and humid");
       System.out.println("My favorite weather is "+plugin.getProperty(FAVORITE));
    }
