@@ -2,3 +2,4 @@
 USER
 # override default
 !bin/*
+/tmp
