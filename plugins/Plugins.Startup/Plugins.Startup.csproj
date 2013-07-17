@@ -107,6 +107,10 @@
       <Project>{A14CC577-645D-475E-BED0-09F56E049E7A}</Project>
       <Name>Calendar.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\enroll-plugin\Enroll.UI\Enroll.UI.csproj">
+      <Project>{1E33773D-EA6F-4AF0-B852-FBA2DB98E7E6}</Project>
+      <Name>Enroll.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\rummy-plugin\Rummy.UI\Rummy.UI.csproj">
       <Project>{DBD0F6EC-9979-4120-B379-9221CCB12309}</Project>
       <Name>Rummy.UI</Name>

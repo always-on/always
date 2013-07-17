@@ -128,15 +128,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\core\Client\Client.Core\Client.Core.csproj">
+    <ProjectReference Include="..\..\..\core\Client\Client.Core\Client.Core.csproj">
       <Project>{FD346CEB-A57F-4A76-8FA0-6418F9AD529E}</Project>
       <Name>Client.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\core\Client\Client.Tcp\Client.Tcp.csproj">
+    <ProjectReference Include="..\..\..\core\Client\Client.Tcp\Client.Tcp.csproj">
       <Project>{721F79EC-9534-4D00-881E-842A6DFC1D1D}</Project>
       <Name>Client.Tcp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\core\Client\Client.UI\Client.UI.csproj">
+    <ProjectReference Include="..\..\..\core\Client\Client.UI\Client.UI.csproj">
       <Project>{47A8AF0B-EBB2-4825-8B0D-E0C06B5E2421}</Project>
       <Name>Client.UI</Name>
     </ProjectReference>
