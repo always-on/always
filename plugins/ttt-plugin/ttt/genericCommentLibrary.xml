@@ -9,15 +9,6 @@
 	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'F'>
 		Bring it on!
 	</comment>
-	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
-		Give up! You will lose
-	</comment>
-	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
-		Let's not go crazy
-	</comment>
-	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'F' usr = 'T'>
-		Give up! You will lose
-	</comment>
 	<comment competition='F' compliment='T' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'F' usr = 'T'>
 		Wow, Nice one!
 	</comment>
