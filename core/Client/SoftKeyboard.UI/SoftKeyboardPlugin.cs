@@ -17,13 +17,13 @@ namespace SoftKeyboard.UI
         IUIThreadDispatcher _uiThreadDispatcher;
         Viewbox pluginContainer;
 
-		public SoftKeyboardPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher, string contextString)
+		public SoftKeyboardPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher, string contextString, bool isNumeric)
         {
             this._remote = remote;
             this._uiThreadDispatcher = uiThreadDispatcher;
             uiThreadDispatcher.BlockingInvoke(() =>
             {
-				keyboard = new KeyboardPanel(contextString, remote);
+				keyboard = new KeyboardPanel(contextString, remote, isNumeric);
                 pluginContainer = new Viewbox();
                 pluginContainer.Child = keyboard;
             });
@@ -34,7 +34,7 @@ namespace SoftKeyboard.UI
 
         public Viewbox GetPluginContainer()
         {
-            return pluginContainer;
+            return pluginContainer;   
         }
     }
 }

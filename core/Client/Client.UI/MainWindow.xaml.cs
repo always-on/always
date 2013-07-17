@@ -152,6 +152,7 @@ namespace AgentApp
 
 		private void LayoutPageWithoutPlugin()
 		{
+            MainGrid.Children.Remove(PluginContainer);
             PluginContainer = new Viewbox();
             MainGrid.Children.Add(PluginContainer);
 			SetGridPos(PluginContainer, 1, 0, 1);
