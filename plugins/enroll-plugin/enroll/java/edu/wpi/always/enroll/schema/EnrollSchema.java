@@ -40,7 +40,7 @@ public class EnrollSchema extends ActivitySchema{
       } catch (IllegalStateException e) {
          initial = new UserModelAdjacencyPair(enrollContext);
       }
-      stateMachine.setAdjacencyPair(initial);
+      stateMachine.setState(initial);
    }
 
    @Override
@@ -59,6 +59,11 @@ public class EnrollSchema extends ActivitySchema{
          propose(b, m);
       }
 
+   }
+
+   @Override
+   public void setNeedsFocusResource(boolean focus) {
+      // TODO Auto-generated method stub
    }
 
 }

@@ -16,11 +16,9 @@
 
   <task id="DiscussWeather"/>
   
-<<<<<<< HEAD
   <task id="EnrollUser"/>
-=======
+
   <task id="ExplainSelf"/>
->>>>>>> c64045672c925d24dbb5ccd95da21f213d40bcac
 
   <script init="true">
 

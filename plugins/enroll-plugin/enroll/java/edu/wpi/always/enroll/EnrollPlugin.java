@@ -16,9 +16,9 @@ public class EnrollPlugin extends Plugin{
     * For testing Enroll by itself
     */
    public static void main (String[] args) {
-      Always always = new Always(true, EnrollPlugin.class, "EnrollUser");
-      always.processArgs(args);
-      always.start();
+      Plugin.main(args, EnrollPlugin.class, "EnrollUser");
+      //always.processArgs(args);
+      //always.start();
    }
 
 }
