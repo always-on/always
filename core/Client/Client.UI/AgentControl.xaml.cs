@@ -123,7 +123,6 @@ namespace Agent.UI
         private void Perform(string xmlCommand)
         {
             xmlMessage.LoadXml(xmlCommand);
-            System.IO.File.WriteAllText(@"C:\Users\morti\Desktop", xmlCommand + '\n');
             agent.perform(xmlMessage);
         }
 
