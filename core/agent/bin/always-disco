@@ -1,9 +1,13 @@
 #!/bin/bash
 #
-# Usage: always-disco [ <filename> ]
+# Usage: always-disco [ <filename> ] [ <cp1> <cp2> ...]
 #
 # Runs the given script file using Always.Disco and compares resulting temporary
 # log with corresponding test log file <filename>.test, if it exists
+# 
+# Note that cp's are relative to location of _run below!
 #
 dir="`dirname $0`"
-"$dir/../../discoRT/lib/disco1.6.10/bin/_run" edu.wpi.always.Always\$Disco "$1" ../../../../core/discoRT/lib/picocontainer-2.14.1.jar ../../../../core/discoRT/lib/joda-time-2.0.jar ../../../../user ../../../../core/agent/class ../../../../core/discoRT/class lib/disco.jar ../../../../core/agent/lib/log4j-1.2.17.jar ../../../../core/agent/lib/owlapi/owlapi-bin.jar ../../../../core/agent/lib/owlapi/pellet-rules.jar ../../../../core/agent/lib/owlapi/pellet-datatypes.jar ../../../../core/agent/lib/owlapi/pellet-core.jar ../../../../core/agent/lib/owlapi/aterm-java-1.6.jar ../../../../core/agent/lib/owlapi/pellet-owlapiv3.jar ../../../../core/agent/lib/owlapi/pellet-el.jar
+filename=$1
+shift
+"$dir/../../discoRT/lib/disco1.6.10/bin/_run" edu.wpi.always.Always\$Disco "$filename" "$@" ../../../../core/discoRT/lib/picocontainer-2.14.1.jar ../../../../core/discoRT/lib/joda-time-2.0.jar ../../../../user ../../../../core/agent/class ../../../../core/discoRT/class lib/disco.jar ../../../../core/agent/lib/log4j-1.2.17.jar ../../../../core/agent/lib/owlapi/owlapi-bin.jar ../../../../core/agent/lib/owlapi/pellet-rules.jar ../../../../core/agent/lib/owlapi/pellet-datatypes.jar ../../../../core/agent/lib/owlapi/pellet-core.jar ../../../../core/agent/lib/owlapi/aterm-java-1.6.jar ../../../../core/agent/lib/owlapi/pellet-owlapiv3.jar ../../../../core/agent/lib/owlapi/pellet-el.jar
