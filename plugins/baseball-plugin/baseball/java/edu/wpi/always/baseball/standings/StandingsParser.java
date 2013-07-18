@@ -447,8 +447,6 @@ public class StandingsParser {
 
    /**
     * Create sentences about playoffs result
-    * 
-    * @return
     */
    public void getPlayoffsString () {
       /*
@@ -777,7 +775,7 @@ public class StandingsParser {
     * signs. This removes all the html code found in the string and leaves all
     * the valuable information.
     * 
-    * @param in, an unparsed string
+    * @param in an unparsed string
     * @return a parsed string
     */
    static String parseString (String in) {

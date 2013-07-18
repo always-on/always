@@ -209,7 +209,7 @@ public class GamesFinderParser {
     * signs. This removes all the html code found in the string and leaves all
     * the valuable information.
     * 
-    * @param in, an unparsed string
+    * @param in an unparsed string
     * @return a parsed string
     */
    static String parseString (String in) {

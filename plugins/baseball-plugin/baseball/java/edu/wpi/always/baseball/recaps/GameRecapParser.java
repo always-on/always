@@ -148,8 +148,8 @@ public class GameRecapParser {
     * places the names in the right location depending on the type, as defined
     * by type.
     * 
-    * @param str, the input string.
-    * @param type, defines what type of statistic it is, HR or RBI
+    * @param str the input string.
+    * @param type defines what type of statistic it is, HR or RBI
     */
    private void parseNames (String str, String type) {
       int index = 0;
@@ -353,7 +353,7 @@ public class GameRecapParser {
     * signs. This removes all the html code found in the string and leaves all
     * the valuable information.
     * 
-    * @param in, an unparsed string
+    * @param in an unparsed string
     * @return a parsed string
     */
    public static String parseString (String in) {
@@ -743,8 +743,8 @@ public class GameRecapParser {
     * This function returns a line commenting on the action that happened in a
     * game depending on what type of game it was
     * 
-    * @param bosScore: the number of runs boston scored in the game.
-    * @param otherScore: the number of runs the other team scored in the game.
+    * @param bosScore the number of runs boston scored in the game.
+    * @param otherScore the number of runs the other team scored in the game.
     * @return
     */
    public static String getTypeOfGameString (int bosScore, int otherScore,

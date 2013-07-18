@@ -35,7 +35,7 @@ public class RecentNewsParser {
    /**
     * Getter that returns the headline at that index
     * 
-    * @param index:index of the headline, in terms of relevance.
+    * @param index index of the headline, in terms of relevance.
     * @return
     */
    public NewsHeadline getHeadline (int index) {

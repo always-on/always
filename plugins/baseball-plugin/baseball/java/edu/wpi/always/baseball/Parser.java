@@ -109,7 +109,7 @@ public class Parser {
     * results of the standings results and the responseIndex, which indicates
     * which option the user picked
     * 
-    * @param responseIndex: 0-End of Regular Season 1-Not Far in Playoffs
+    * @param responseIndex 0-End of Regular Season 1-Not Far in Playoffs
     *           2-World Series
     */
    public static String getPlayoffsResponse (StandingsParser aParser,
@@ -168,7 +168,7 @@ public class Parser {
     * Returns a game with what teams played and when, compared to the current
     * date. If no game was found, a game with no opponent or date is returned.
     * 
-    * @param gameIndex: decides which game is returned. a game index of 1
+    * @param gameIndex decides which game is returned. a game index of 1
     *           returns the last game played, 2 the one before that, etc.
     * @return Game, containing the opponents and date of the last game played.
     * @throws IOException

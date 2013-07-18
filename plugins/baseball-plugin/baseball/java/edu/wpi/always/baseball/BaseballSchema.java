@@ -12,6 +12,7 @@ public class BaseballSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
+      interaction.load("edu/wpi/always/baseball/resources/Baseball.xml"); 
       start("_Baseball");
    }
 }
