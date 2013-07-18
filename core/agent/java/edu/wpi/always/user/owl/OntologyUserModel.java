@@ -24,7 +24,7 @@ public class OntologyUserModel implements UserModel {
    private final OntologyPeopleManager peopleManager;
    private final OntologyPlaceManager placeManager;
 
-   public OntologyUserModel (OntologyHelper ontology, 
+   public OntologyUserModel (OntologyHelper ontology,
          @UserOntologyLocation File userDataFile, OntologyCalendar calendar,
          OntologyPeopleManager peopleManager, OntologyPlaceManager placeManager) {
       this.ontology = ontology;
@@ -37,14 +37,14 @@ public class OntologyUserModel implements UserModel {
 
    @Override
    public String getUserName () {
-      return userName; 
+      return userName;
    }
    
    @Override
    public void setUserName (String userName) {
       if ( this.userName == null ) {
          this.userName = userName;
-         this.user =  ontology.getNamedIndividual(userName);
+         this.user = ontology.getNamedIndividual(userName);
          if ( !user.hasSuperclass(OntologyPerson.USER_CLASS) ) {
             user.addSuperclass(OntologyPerson.USER_CLASS);
             peopleManager.addPerson(userName, null, null);

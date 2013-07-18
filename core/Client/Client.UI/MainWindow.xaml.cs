@@ -30,21 +30,22 @@ namespace AgentApp
 		Random rnd = new Random();
 		public int _agentTurns;
 
-        // static registration framework
+		// static registration framework
 
-        private class Plugin
-        {
-            public String Name;
-            public Type Creator;
-            public Plugin(String name, Type creator) { Name = name; Creator = creator; }
-        }
-        private static List<Plugin> plugins = new List<Plugin>();
+		private class Plugin
+		{
+			public String Name;
+			public Type Creator;
+			public Plugin(String name, Type creator) { Name = name; Creator = creator; }
+		}
+		private static List<Plugin> plugins = new List<Plugin>();
 
-        public static void RegisterPlugin (String name, String creator) {
-            Type type = Type.GetType(creator);
-            if (type == null) throw new PluginNotFoundException(creator);
-            plugins.Add(new Plugin(name, type));
-        }
+		public static void RegisterPlugin(String name, String creator)
+		{
+			Type type = Type.GetType(creator);
+			if (type == null) throw new PluginNotFoundException(creator);
+			plugins.Add(new Plugin(name, type));
+		}
 
 		public MainWindow()
 		{
@@ -63,13 +64,13 @@ namespace AgentApp
 		{
 			//Brightness.SetLowestBrightness();
 			LayoutPageWithoutPlugin();
-            Agent.LoadComplete += onAgentLoad;
+			Agent.LoadComplete += onAgentLoad;
 		}
 
-        private void onAgentLoad(object sender, EventArgs e)
-        {
-            InitTcpListener();
-        }
+		private void onAgentLoad(object sender, EventArgs e)
+		{
+			InitTcpListener();
+		}
 
 		private void InitTcpListener()
 		{
@@ -86,14 +87,15 @@ namespace AgentApp
 
 		private void InitPluginManager(MessageDispatcherImpl dispatcher)
 		{
-            var pluginManager = new PluginManager(this);
+			var pluginManager = new PluginManager(this);
 
-            foreach (Plugin plugin in plugins) {
-                pluginManager.RegisterPlugin(plugin.Name, (IPluginCreator)
-                    Activator.CreateInstance(plugin.Creator, new UIThreadDispatcher(this.Dispatcher), dispatcher));
-                Debug.WriteLine("Plugin "+plugin.Name+" registered");
-            }
-                             
+			foreach (Plugin plugin in plugins)
+			{
+				pluginManager.RegisterPlugin(plugin.Name, (IPluginCreator)
+					Activator.CreateInstance(plugin.Creator, new UIThreadDispatcher(this.Dispatcher), dispatcher));
+				Debug.WriteLine("Plugin " + plugin.Name + " registered");
+			}
+
 			dispatcher.RegisterReceiveHandler("start_plugin", new MessageHandlerDelegateWrapper(x =>
 			{
 				var v = x["instance_reuse_mode"] as JValue;
@@ -152,8 +154,9 @@ namespace AgentApp
 
 		private void LayoutPageWithoutPlugin()
 		{
-            PluginContainer = new Viewbox();
-            MainGrid.Children.Add(PluginContainer);
+			MainGrid.Children.Remove(PluginContainer);
+			PluginContainer = new Viewbox();
+			MainGrid.Children.Add(PluginContainer);
 			SetGridPos(PluginContainer, 1, 0, 1);
 			SetGridPos(Agent, 0, 0, 1);
 			SetGridPos(Buttons, 0, 2, 2);
@@ -176,13 +179,13 @@ namespace AgentApp
 		}
 
 		public void ShowPlugin(Viewbox pluginContainer)
-        {
+		{
 			Dispatcher.BeginInvoke(new Action(() =>
 			{
-                MainGrid.Children.Remove(PluginContainer);
-                PluginContainer = pluginContainer;
-                MainGrid.Children.Add(PluginContainer);
-                LayoutPageWithPlugin();
+				MainGrid.Children.Remove(PluginContainer);
+				PluginContainer = pluginContainer;
+				MainGrid.Children.Add(PluginContainer);
+				LayoutPageWithPlugin();
 			}), null);
 		}
 	}
