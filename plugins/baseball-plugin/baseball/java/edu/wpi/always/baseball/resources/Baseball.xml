@@ -2,12 +2,12 @@
 <taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
            xmlns:disco="urn:disco.wpi.edu:Disco"
            about="urn:disco.wpi.edu:models:Baseball">
-   <task id="Baseball">
-      <subtasks id="_Baseball_subtasks">
-         <step name="_Baseball_step" task="disco:Say"/>
-         <step name="_Baseball_ref" task="_Baseball_tree"/>
-         <binding slot="$_Baseball_step.text" value="&#34;What is your favorite baseball team?&#34;"/>
-         <binding slot="$_Baseball_step.external" value="false"/>
+   <task id="_Baseball">
+      <subtasks id="__Baseball_subtasks">
+         <step name="__Baseball_step" task="disco:Say"/>
+         <step name="__Baseball_ref" task="__Baseball_tree"/>
+         <binding slot="$__Baseball_step.text" value="&#34;What is your favorite baseball team?&#34;"/>
+         <binding slot="$__Baseball_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_Baseball_Saw_Game">
@@ -36,7 +36,7 @@
          <binding slot="$__SmartRemark_step.external" value="false"/>
       </subtasks>
    </task>
-   <task id="_Baseball_tree">
+   <task id="__Baseball_tree">
       <subtasks id="_d4e4_subtasks">
          <step name="_d4e4_step" task="disco:Say$Eval"/>
          <step name="_d4e5_step" task="_DiscussLastGame"/>

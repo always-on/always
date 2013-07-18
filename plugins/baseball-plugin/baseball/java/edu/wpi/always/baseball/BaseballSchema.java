@@ -12,6 +12,6 @@ public class BaseballSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
-      start("_WeatherStranger");
+      start("_Baseball");
    }
 }

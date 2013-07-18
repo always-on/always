@@ -6,8 +6,7 @@
   <!-- CR: I find it helpful to organize files in depth-first order.
 
        Also, note underscores below make tasks internal to change default
-       key values for plugin generation to false.  Baseball is the only non-internal
-       task, which means that it is only one for which Propose.Stop's are generated.
+       key values for plugin generation to false.  
 
        General comment: One way to think about the authoring strategy here is that
        by expressing the overall structure of the dialogue using tasks, we are letting
@@ -15,7 +14,7 @@
        the interaction, with the "content blocks" in D4g dialogue trees.
    -->
 
-  <agent id="Baseball" text="What is your favorite baseball team?">
+  <agent id="_Baseball" text="What is your favorite baseball team?">
     <user text="The Yankees." 
           eval="preferredTeam = 'Yankees' ">
       <do task="_DiscussLastGame"/>

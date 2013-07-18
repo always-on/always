@@ -1,8 +1,8 @@
     # Feb 11, 2012 7:38:05 PM - TaskEngine 1.1.5 / Disco 1.3.10
     Welcome to Disco! (Type 'help' for command list)
   > load java/edu/wpi/always/baseball/resources//Baseball.xml
-  > task Baseball
-    User says "Let's talk about baseball."
+  > task _Baseball
+    User says "Let's achieve _Baseball."
     Agent says "What is your favorite baseball team?"
   > say
 [1] The Yankees.
@@ -13,19 +13,17 @@
   > say
 [1] Yes.
 [2] No.
-[3] I don't want to talk about baseball anymore.
   >> 2
     User says "No."
     Agent says "Would you like to know what happened?"
   > say
 [1] Yes.
 [2] No.
-[3] I don't want to talk about baseball anymore.
   >> 2
     User says "No."
     Agent says "Ok."
-  > task Baseball
-    User says "Let's talk about baseball."
+  > task _Baseball
+    User says "Let's achieve _Baseball."
     Agent says "What is your favorite baseball team?"
   > say
 [1] The Yankees.
@@ -36,14 +34,12 @@
   > say
 [1] Yes.
 [2] No.
-[3] I don't want to talk about baseball anymore.
   >> 2
     User says "No."
     Agent says "Would you like to know what happened?"
   > say
 [1] Yes.
 [2] No.
-[3] I don't want to talk about baseball anymore.
   >> 1
     User says "Yes."
     Agent says "
@@ -56,13 +52,10 @@ The New York Yankees lost to the Tigers 2 to 3.   The Yankees offense was underw
   >> 1
     User says "Thanks for telling me that!"
     Agent says "I live to serve you HA HA."
-  > say
-[1] Let's talk about baseball.
-  >> 
   > history
 
-[Baseball] -accepted -done
-   User says "Let's talk about baseball."
+[ ] -accepted -done
+   User says "Let's achieve _Baseball."
    Agent says "What is your favorite baseball team?"
    [ ] -done
       User says "The Yankees."
@@ -71,12 +64,12 @@ The New York Yankees lost to the Tigers 2 to 3.   The Yankees offense was underw
             Agent says "Did you see Thursday's game?"
             User says "No."
          [ ] -optional -rejected
-            [User says let's talk about achieve _GetRecap]
+            [User says let's achieve _GetRecap]
                Agent says "Would you like to know what happened?"
                User says "No."
                Agent says "Ok."
-[Baseball] -accepted -done
-   User says "Let's talk about baseball."
+[ ] -accepted -done
+   User says "Let's achieve _Baseball."
    Agent says "What is your favorite baseball team?"
    [ ] -done
       User says "The Yankees."
@@ -85,7 +78,7 @@ The New York Yankees lost to the Tigers 2 to 3.   The Yankees offense was underw
             Agent says "Did you see Thursday's game?"
             User says "No."
          [ ] -optional -accepted -done
-            [User says let's talk about achieve _GetRecap]
+            [User says let's achieve _GetRecap]
                Agent says "Would you like to know what happened?"
                User says "Yes."
             Agent says "
