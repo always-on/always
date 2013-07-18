@@ -596,10 +596,9 @@ public class StandingsParser {
                   if ( currentMatchwithNYY.nameFirstTeam.indexOf("NYY") == -1 ) {
                      aStr += currentMatchwithNYY.nameFirstTeaminLarge + ". ";
                      break;
-                  } else {
-                     aStr += currentMatchwithNYY.nameSecondTeaminLarge + ". ";
-                     break;
-                  }
+                  } 
+                  aStr += currentMatchwithNYY.nameSecondTeaminLarge + ". ";
+                  break;
                case 1:
                   aStr += "The next opposite team ";
                   if ( nextMatchwithNYY.defeat == true )
@@ -613,11 +612,9 @@ public class StandingsParser {
                   if ( currentMatchwithNYY.nameFirstTeam.indexOf("NYY") == -1 ) {
                      aStr += currentMatchwithNYY.nameFirstTeaminLarge + ". ";
                      break;
-                  } else {
-                     aStr += currentMatchwithNYY.nameSecondTeaminLarge + ". ";
-                     break;
-                  }
-
+                  } 
+                  aStr += currentMatchwithNYY.nameSecondTeaminLarge + ". ";
+                  break;
                case 2:
                   aStr += "The next opposite team ";
                   if ( nextMatchwithNYY.defeat == true )
@@ -630,11 +627,9 @@ public class StandingsParser {
                   if ( currentMatchwithNYY.nameFirstTeam.indexOf("NYY") == -1 ) {
                      aStr += currentMatchwithNYY.nameFirstTeaminLarge + ". ";
                      break;
-                  } else {
-                     aStr += currentMatchwithNYY.nameSecondTeaminLarge + ". ";
-                     break;
-                  }
-
+                  } 
+                  aStr += currentMatchwithNYY.nameSecondTeaminLarge + ". ";
+                  break;
             }
          } else {
             aStr += "If NYY beats ";
@@ -669,12 +664,11 @@ public class StandingsParser {
                   + " defeats " + aMatch.nameSecondTeaminLarge + " "
                   + aMatch.winFirstTeam + "-" + aMatch.winSecondTeam + ". ");
                break;
-            } else {
-               standings = standings.concat(aMatch.nameFirstTeaminLarge
+            } 
+            standings = standings.concat(aMatch.nameFirstTeaminLarge
                   + " leads " + aMatch.nameSecondTeaminLarge + " "
                   + aMatch.winFirstTeam + "-" + aMatch.winSecondTeam + ". ");
                break;
-            }
          case 2:
             if ( aMatch.defeat == true ) {
                standings += aMatch.nameSecondTeaminLarge + " defeats "
@@ -682,13 +676,12 @@ public class StandingsParser {
                   + Integer.toString(aMatch.winSecondTeam) + "-"
                   + Integer.toString(aMatch.winFirstTeam) + ". ";
                break;
-            } else {
-               standings += aMatch.nameSecondTeaminLarge + " leads "
+            } 
+            standings += aMatch.nameSecondTeaminLarge + " leads "
                   + aMatch.nameFirstTeaminLarge + " "
                   + Integer.toString(aMatch.winSecondTeam) + "-"
                   + Integer.toString(aMatch.winFirstTeam) + ". ";
-               break;
-            }
+            break;
       }
       return standings;
    }

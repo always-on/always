@@ -139,37 +139,38 @@ public class RecentNewsParser {
           * careerWords = 0; int BostonCount = 0; int businessWords = 0;
           */
          for (int index = 0; index < wordFiles.length; index++) {
-            BufferedReader input = new BufferedReader(new FileReader(
-                  wordFiles[index]));
-            String letters = "qwertyuiopasdfghjklzzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-            String aStr = input.readLine();
+            try (BufferedReader input = new BufferedReader(new FileReader(
+                  wordFiles[index]))) {
+               String letters = "qwertyuiopasdfghjklzzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+               String aStr = input.readLine();
 
-            while (aStr != null) {
-               String unCapStr = aStr.trim();
+               while (aStr != null) {
+                  String unCapStr = aStr.trim();
 
-               unCapStr = (char) (unCapStr.charAt(0) - 32)
-                  + unCapStr.substring(1);
-               if ( (HLName.indexOf(aStr) != -1 && (HLName.indexOf(aStr) == 0 || letters
-                     .indexOf(HLName.charAt(HLName.indexOf(aStr) - 1)) == -1))
-                  || (HLName.indexOf(unCapStr) != -1 && (HLName
-                        .indexOf(unCapStr) == 0 || letters.indexOf(HLName
-                        .charAt(HLName.indexOf(unCapStr) - 1)) == -1)) ) {
+                  unCapStr = (char) (unCapStr.charAt(0) - 32)
+                     + unCapStr.substring(1);
+                  if ( (HLName.indexOf(aStr) != -1 && (HLName.indexOf(aStr) == 0 || letters
+                        .indexOf(HLName.charAt(HLName.indexOf(aStr) - 1)) == -1))
+                     || (HLName.indexOf(unCapStr) != -1 && (HLName
+                           .indexOf(unCapStr) == 0 || letters.indexOf(HLName
+                           .charAt(HLName.indexOf(unCapStr) - 1)) == -1)) ) {
 
-                  if ( index == 0 || index == 1 )
-                     aHeadline.injuryCount++;
-                  if ( index == 3 || index == 4 )
-                     aHeadline.playerNameCount++;
-                  if ( index == 2 )
-                     aHeadline.careerWords++;
-                  if ( index == 5 || index == 6 )
-                     aHeadline.gameCount++;
-                  if ( index == 7 )
-                     aHeadline.BostonCount++;
-                  if ( index == 8 )
-                     aHeadline.businessWords++;
+                     if ( index == 0 || index == 1 )
+                        aHeadline.injuryCount++;
+                     if ( index == 3 || index == 4 )
+                        aHeadline.playerNameCount++;
+                     if ( index == 2 )
+                        aHeadline.careerWords++;
+                     if ( index == 5 || index == 6 )
+                        aHeadline.gameCount++;
+                     if ( index == 7 )
+                        aHeadline.BostonCount++;
+                     if ( index == 8 )
+                        aHeadline.businessWords++;
 
+                  }
+                  aStr = input.readLine();
                }
-               aStr = input.readLine();
             }
          }
          aHeadline.totalScore = aHeadline.injuryCount * 3 + aHeadline.gameCount
@@ -201,28 +202,30 @@ public class RecentNewsParser {
       for (Element player : players) {
          if ( player.toString().indexOf("/mlb/player/") > 0 ) {
             // Get updated file content in a string readerContents
-            BufferedReader reader = new BufferedReader(new FileReader(
-                  playerNamesFile));
-            String playerReaderText = "";
-            String playerLine = reader.readLine();
-            while (playerLine != null) {
-               playerReaderText += playerLine;
-               playerLine = reader.readLine();
+            try (BufferedReader reader = new BufferedReader(new FileReader(
+                  playerNamesFile))) {
+               String playerReaderText = "";
+               String playerLine = reader.readLine();
+               while (playerLine != null) {
+                  playerReaderText += playerLine;
+                  playerLine = reader.readLine();
+               }
+
+               // Get last name and check if the file contains it.
+               String playerName = GameRecapParser.parseString(player
+                     .toString());
+               playerName = playerName.substring(playerName.indexOf(' ') + 1);
+
+               if ( playerReaderText.indexOf(playerName) == -1 ) {
+
+                  BufferedWriter playerWriter = new BufferedWriter(
+                        new FileWriter(playerNamesFile, true));
+                  playerWriter.write(playerName);
+                  playerWriter.newLine();
+                  playerWriter.close();
+               }
+
             }
-
-            // Get last name and check if the file contains it.
-            String playerName = GameRecapParser.parseString(player.toString());
-            playerName = playerName.substring(playerName.indexOf(' ') + 1);
-
-            if ( playerReaderText.indexOf(playerName) == -1 ) {
-
-               BufferedWriter playerWriter = new BufferedWriter(new FileWriter(
-                     playerNamesFile, true));
-               playerWriter.write(playerName);
-               playerWriter.newLine();
-               playerWriter.close();
-            }
-
          }
       }
 
@@ -249,6 +252,7 @@ public class RecentNewsParser {
       newsHeadlines = temp;
    }
 
+   @Override
    public String toString () {
       String toString = "";
       for (NewsHeadline ahl : newsHeadlines)

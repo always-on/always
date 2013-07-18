@@ -375,6 +375,7 @@ public class GameRecapParser {
     * This method creates the final recap string from the information stored in
     * the class variables.
     */
+   @Override
    public String toString () {
       return "\n" + createRecap();
    }
@@ -733,11 +734,9 @@ public class GameRecapParser {
 
       if ( wasBostonAway )
          return score;
-      else {
-         gameScore[0] = score[1];
-         gameScore[1] = score[0];
-         return gameScore;
-      }
+      gameScore[0] = score[1];
+      gameScore[1] = score[0];
+      return gameScore;
    }
 
    /**

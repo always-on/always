@@ -194,8 +194,8 @@ public class GamesFinderParser {
 
             return "http://espn.go.com/mlb/boxscore"
                + subStr.substring(startIndex, endIndex);
-         } else
-            subStr = subStr.substring(subStr.indexOf('>') + 1);
+         }
+         subStr = subStr.substring(subStr.indexOf('>') + 1);
       }
       return " ";
    }
