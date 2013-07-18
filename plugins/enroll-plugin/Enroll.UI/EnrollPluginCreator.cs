@@ -8,15 +8,15 @@ using System.Windows.Threading;
 
 namespace Enroll.UI
 {
-    public class EnrollPluginCreator : IPluginCreator
-    {
-        IUIThreadDispatcher _uiThreadDispatcher;
-        IMessageDispatcher _remoteDispatcher;
+	public class EnrollPluginCreator : IPluginCreator
+	{
+		IUIThreadDispatcher _uiThreadDispatcher;
+		IMessageDispatcher _remoteDispatcher;
 
-        public EnrollPluginCreator(IUIThreadDispatcher uiThreadDispatcher, IMessageDispatcher remoteDispatcher)
+		public EnrollPluginCreator(IUIThreadDispatcher uiThreadDispatcher, IMessageDispatcher remoteDispatcher)
 		{
 			_uiThreadDispatcher = uiThreadDispatcher;
-            _remoteDispatcher = remoteDispatcher;
+			_remoteDispatcher = remoteDispatcher;
 		}
 
 		public IPlugin Create(JObject parameters)

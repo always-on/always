@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 
 namespace Enroll.UI
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
-    public partial class EnrollEntryPanel : UserControl
-    {
-        public EnrollEntryPanel()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for UserControl1.xaml
+	/// </summary>
+	public partial class EnrollEntryPanel : UserControl
+	{
+		public EnrollEntryPanel()
+		{
+			InitializeComponent();
+		}
+	}
 }

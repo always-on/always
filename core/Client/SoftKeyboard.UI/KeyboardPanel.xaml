@@ -21,8 +21,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label Name="contextLabel" FontSize="56" Content="Context:" Grid.ColumnSpan="2" Grid.Row="1" Foreground="#666666"/>
-        <TextBox Name="textBox" Grid.Row="2" IsReadOnly="True" FontSize="64" Text="" IsReadOnlyCaretVisible="False" MaxWidth="1100" Margin="10" BorderThickness="3" />
+        <TextBox Name="textBox" Grid.Row="2" IsReadOnly="True" FontSize="64" Text="" IsReadOnlyCaretVisible="False" MaxWidth="1100" Margin="10" BorderThickness="3"/>
         <local:RubOutKey Grid.Row="2" Grid.Column="1" />
-        <my:Keyboard x:Name="keyboard" Grid.Row="4" Grid.ColumnSpan="2"/>
+        <my:Keyboard x:Name="keyboard" Grid.Row="4" Grid.ColumnSpan="2" />
     </Grid>
 </UserControl>
