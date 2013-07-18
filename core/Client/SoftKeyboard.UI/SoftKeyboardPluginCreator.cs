@@ -20,7 +20,7 @@ namespace SoftKeyboard.UI
 
 		public IPlugin Create(JObject parameters)
 		{
-			return new SoftKeyboardPlugin(_remoteDispatcher, _uiThreadDispatcher, (string)parameters["contextMessage"]);
+			return new SoftKeyboardPlugin(_remoteDispatcher, _uiThreadDispatcher, (string)parameters["contextMessage"], (bool)parameters["isNumeric"]);
 		}
 	}
 }

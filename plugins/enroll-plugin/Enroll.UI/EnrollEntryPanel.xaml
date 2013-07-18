@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="Enroll.UI.EnrollEntryPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="3820" d:DesignWidth="7040">
+    <Grid Height="3690" Width="6580">
+        <Label Content="Name:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,175,0,0" Name="label1" VerticalAlignment="Top" Width="1295" />
+        <Label Content="Age:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,541,0,0" Name="label2" VerticalAlignment="Top" Width="1295" />
+        <Label Content="Gender:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,907,0,0" Name="label3" VerticalAlignment="Top" Width="1295" />
+        <Label Content="Relationship:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,1273,0,0" Name="label4" VerticalAlignment="Top" Width="1295" />
+        <Label Content="ZipCode:" FontSize="200" FontWeight = "Bold" HorizontalAlignment="Left" Margin="143,1639,0,0" Name="label6" Width="1295" Height="360" VerticalAlignment="Top" />
+        <Label Content="Spouse:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,2005,0,0" Name="label7" VerticalAlignment="Top" Width="1295" />
+        <Label Content="Phone:" FontSize="200" FontWeight = "Bold" Height ="360" HorizontalAlignment="Left" Margin="143,2371,0,959" Name="label8" Width="1295" />
+        <Label Content="Skype:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,2737,0,0" Name="label9" VerticalAlignment="Top" Width="1295" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Right" Margin="0,175,543,0" Name="label10" VerticalAlignment="Top" Width="4593" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,541,0,0" Name="label11" VerticalAlignment="Top" Width="4593" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,907,0,0" Name="label12" VerticalAlignment="Top" Width="4593" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,1273,0,0" Name="label13" VerticalAlignment="Top" Width="4593" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,1639,0,0" Name="label15" VerticalAlignment="Top" Width="4593" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2005,0,0" Name="label16" VerticalAlignment="Top" Width="4593" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2371,0,0" Name="label17" VerticalAlignment="Top" Width="4593" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2737,0,0" Name="label18" VerticalAlignment="Top" Width="4593" />
+        <Label Content="Birthday:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,3103,0,0" Name="label5" VerticalAlignment="Top" Width="1295" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,3103,0,0" Name="label14" VerticalAlignment="Top" Width="4593" />
+    </Grid>
+</UserControl>

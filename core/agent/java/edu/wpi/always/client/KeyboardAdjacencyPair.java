@@ -6,15 +6,25 @@ public abstract class KeyboardAdjacencyPair<C> extends AdjacencyPairBase<C> {
 
    private String prompt;
    private final Keyboard keyboard;
+   private boolean isNumeric = false;
 
    public KeyboardAdjacencyPair (String prompt, Keyboard keyboard) {
       this(prompt, null, keyboard);
    }
 
    public KeyboardAdjacencyPair (String prompt, C context, Keyboard keyboard) {
-      super("Let me know when you're done", context);
-      this.prompt = prompt;
+      this (prompt, prompt, context, keyboard, false);
+   }
+
+   public KeyboardAdjacencyPair (String prompt, String showText, C context, Keyboard keyboard) {
+      this (prompt, showText, context, keyboard, false);
+   }
+
+   public KeyboardAdjacencyPair (String prompt, String showText, C context, Keyboard keyboard, boolean isNumeric) {
+      super(prompt + ". Let me know when you're done", context);
+      this.prompt = showText;
       this.keyboard = keyboard;
+      this.isNumeric = isNumeric;
       choice("I'm Done", new DialogStateTransition() {
 
          @Override
@@ -33,10 +43,11 @@ public abstract class KeyboardAdjacencyPair<C> extends AdjacencyPairBase<C> {
 
    @Override
    public void enter () {
-      keyboard.showKeyboard(prompt);
+      keyboard.showKeyboard(prompt, isNumeric);
    }
 
    public abstract AdjacencyPair success (String text);
 
    public abstract AdjacencyPair cancel ();
+
 }

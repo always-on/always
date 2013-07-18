@@ -10,31 +10,31 @@ using System.Windows.Controls;
 
 namespace SoftKeyboard.UI
 {
-    class SoftKeyboardPlugin : IPlugin
-    {
+	class SoftKeyboardPlugin : IPlugin
+	{
 		KeyboardPanel keyboard;
-        IMessageDispatcher _remote;
-        IUIThreadDispatcher _uiThreadDispatcher;
-        Viewbox pluginContainer;
+		IMessageDispatcher _remote;
+		IUIThreadDispatcher _uiThreadDispatcher;
+		Viewbox pluginContainer;
 
-		public SoftKeyboardPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher, string contextString)
-        {
-            this._remote = remote;
-            this._uiThreadDispatcher = uiThreadDispatcher;
-            uiThreadDispatcher.BlockingInvoke(() =>
-            {
-				keyboard = new KeyboardPanel(contextString, remote);
-                pluginContainer = new Viewbox();
-                pluginContainer.Child = keyboard;
-            });
-        }
+		public SoftKeyboardPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher, string contextString, bool isNumeric)
+		{
+			this._remote = remote;
+			this._uiThreadDispatcher = uiThreadDispatcher;
+			uiThreadDispatcher.BlockingInvoke(() =>
+			{
+				keyboard = new KeyboardPanel(contextString, remote, isNumeric);
+				pluginContainer = new Viewbox();
+				pluginContainer.Child = keyboard;
+			});
+		}
 		public void Dispose()
 		{
 		}
 
-        public Viewbox GetPluginContainer()
-        {
-            return pluginContainer;
-        }
-    }
+		public Viewbox GetPluginContainer()
+		{
+			return pluginContainer;
+		}
+	}
 }
