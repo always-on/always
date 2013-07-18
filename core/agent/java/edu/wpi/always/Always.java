@@ -59,13 +59,8 @@ public class Always {
             new Agent("agent"), 
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
-         Always always = new Always(true, false);
-         always.init(interaction); // initialize duplicate interaction created above
-         // for user model
-         always.getContainer().as(Characteristics.CACHE).addComponent(
-            BindKey.bindKey(File.class, OntologyUserModel.UserOntologyLocation.class),
-            new File(UserUtils.USER_DIR, UserUtils.USER_FILE));
-         always.register(); 
+         // initialize duplicate interaction created above
+         new Always(true, false).init(interaction); 
          interaction.start(true);
       }
    }
