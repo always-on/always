@@ -86,8 +86,7 @@ public class RummyClient implements ClientPlugin {
          yourTurn = false;
          waitingForUserSince = System.currentTimeMillis();
       }
-      // everything between here and **** below can be replaced by Morteza's
-      // new architecture - CR > Tnx :) Done, -Morteza
+
       processInbox();
       
       // always propose at least an empty menu for extension
@@ -148,9 +147,8 @@ public class RummyClient implements ClientPlugin {
             return builder;
          }
       }
-      // ******** see note above 
-      //
-     if ( yourTurn  
+
+      if ( yourTurn  
            || (waitingForUserSince > 0 
                && ( (System.currentTimeMillis() - waitingForUserSince) > TIMEOUT_DELAY))
            || (focusMillis > DiscoRT.ARBITRATOR_INTERVAL*5) ) {
