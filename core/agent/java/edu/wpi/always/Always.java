@@ -18,26 +18,38 @@ import java.util.*;
 public class Always {
 
    /**
-    * Main method for starting complete Always-On system. First argument
-    * [optional] is closeness value (as string): "stranger", "acquaintance", 
-    * or "companion".  Second argument is user model filename (default User.owl). 
-    * See TestUser.owl in always/user.
+    * Main method for starting complete Always-On system. 
+    * 
+    * @param args [closeness model clientType] NB: Case-sensitive!
+    *  <p>
+    *  closeness: Stranger (default), Acquaintance or Companion<br>
+    *  model: file in always/user (default User.owl)<br>
+    *  clientType: Unity (default), Reeti or Both 
     */
    public static void main (String[] args) {
       Always always = make(args, null, null);
       always.start();
    }
 
+   public enum ClientType { Unity, Reeti, Both }
+   
+   private static ClientType clientType = ClientType.Unity;
+   
+   public ClientType getClientType () { return clientType; }
+   
    /**
     * Factory method for Always.  
     * 
-    * @param args See {@link Always#main(String[])} 
+    * @param args see {@link Always#main(String[])} 
     * @param plugin Start just this plugin 
     * @param activity Start just this activity (required if plugin is non-null)
     * @return
     */
    public static Always make (String[] args, Class<? extends Plugin> plugin, String activity) {
-      if ( args != null && args.length > 1 ) UserUtils.USER_FILE = args[1];
+      if ( args != null ) {
+         if ( args.length > 1 ) UserUtils.USER_FILE = args[1];
+         if ( args.length > 2 ) clientType = ClientType.valueOf(args[2]);
+      }
       Always always = new Always(true, plugin == null);
       if ( args != null && args.length > 0 ) {
          Closeness closeness = Closeness.valueOf(args[0]);
