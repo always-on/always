@@ -57,6 +57,7 @@ public class TTTClient implements TTTUI {
             if ( listener != null ) {
                int cellNum = Integer.valueOf(body.get("cellNum").getAsString());
                gameState.board[cellNum - 1] = USER_IDENTIFIER;
+               gameState.didAnyOneJustWin();
                listener.humanPlayed();
             }
          }
@@ -71,7 +72,6 @@ public class TTTClient implements TTTUI {
 
    @Override
    public void playAgentMove(TTTUIListener listener) {
-
       show(listener);
       scenarioManager.tickAll();
       gameState.board[((TTTLegalMove)currentMove.getMove()).getCellNum()] = AGENT_IDENTIFIER;
@@ -80,6 +80,7 @@ public class TTTClient implements TTTUI {
                   ((TTTLegalMove)currentMove.getMove()).getCellNum() + 1)
                   .build();
       dispatcher.send(msg);
+      gameState.didAnyOneJustWin();
    }
 
    @Override
@@ -89,7 +90,7 @@ public class TTTClient implements TTTUI {
 
    @Override
    public List<String> getCurrentHumanCommentOptions() {
-      return commentingManager.getHumanCommentingOptions();
+      return commentingManager.getHumanCommentingOptions(gameState);
    }
 
    @Override

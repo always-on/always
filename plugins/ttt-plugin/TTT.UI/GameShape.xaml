@@ -6,11 +6,11 @@
              xmlns:my="clr-namespace:TTT.UI" 
              mc:Ignorable="d"
              x:Name="tictactoe"
-             d:DesignHeight="749" d:DesignWidth="749" MaxWidth="1200" MinWidth="1200"
+             d:DesignHeight="745" d:DesignWidth="745" MaxWidth="1200" MinWidth="1200"
              VerticalAlignment="Stretch">
 
         <StackPanel >
-        <Grid Width="745" Height="745" Background="Gray" Name="board">
+        <Grid Width="745" Height="745" Background="Gray" Name="board" ShowGridLines="False">
 
             <Button Name="cell1" Background="White" FontSize="70" Click="Click" Tag="c1" Height="245" Width="245" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />
             <Button Name="cell2" Background="White" FontSize="70" Click="Click" Tag="c2" Height="245" Width="245" Margin="250,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />

@@ -5,7 +5,7 @@ import edu.wpi.sgf.logic.GameLogicState;
 /** 
  * Class of the state of the TicTacToe game
  * @author Morteza Behrooz
- * @version 1.5111
+ * @version 1.5
  */
 
 public class TTTGameState extends GameLogicState{
@@ -15,7 +15,7 @@ public class TTTGameState extends GameLogicState{
    public boolean tie;
 
    /*
-    * if a winner, returns the winner number (1 user, 2 agent), else 0;
+    * if a winner, returns the winner number (1 user, 2 agent), tie 3, else 0;
     */
    public int didAnyOneJustWin(){
 
@@ -48,6 +48,11 @@ public class TTTGameState extends GameLogicState{
             return i;
          }
       }
+      
+      //checks for a tie
+      for (int i = 0; i < 9; i ++)
+         if(board[i] != 0)
+            return 3;
 
       //else
       return 0;

@@ -32,6 +32,7 @@ public class CommentLibraryHandler {
 			int who = 0;
 			
 			for(Element cm : retrievedCommentsFromFile){
+			   who = 0;
 				tempTagsList.clear();
 				for(Attribute att : cm.getAttributes()){
 					if(att.getValue().trim().contains("T") 
@@ -40,10 +41,11 @@ public class CommentLibraryHandler {
 						tempTagsList.add(att.getName().trim());
 					if(att.getName().trim().contains("usr") 
 							&& att.getValue().trim().contains("T"))
-						who = 1;
+						who = 1 + who;
 					if(att.getName().trim().contains("own") 
 							&& att.getValue().trim().contains("T"))
-						who = 2;
+						who = 2 + who;
+					//who = 3 if for both usr and agent
 				}
 				allComments.add(new Comment(cm.getText().trim(), tempTagsList, 0, 1, who));
 			}

@@ -9,7 +9,6 @@ import java.util.TreeMap;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.logic.GameLogicState;
 
-
 public class CommentingHandler2 {
 
 	private Tts tts;
