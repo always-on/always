@@ -8,7 +8,7 @@ namespace Rummy.UI
     public class RandomAICardsController : PlayerCardsController
     {
         Random rnd = new Random();
-        PossibleMoves possibleMoves;
+        public PossibleMoves possibleMoves;
         List<Func<IEnumerable<Move>, IEnumerable<Move>>> _moveSelectorsPriorityList;
         public bool AutoPlay { get; set; }
 

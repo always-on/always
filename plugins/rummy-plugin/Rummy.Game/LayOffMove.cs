@@ -19,8 +19,12 @@ namespace Rummy
         public Meld Meld
         {
             get { return _meld; }
-        } 
+        }
 
+        public Card GetCard()
+        {
+            return _card;
+        }
 
         public LayOffMove(Player player, Card card, Meld meld)
             : base(player)

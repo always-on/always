@@ -200,6 +200,19 @@ namespace Rummy
             }
         }
 
+        public List<Card> getCards()
+        {
+            return _cards;
+        }
+
+        public string CardsToString()
+        {
+            string s = "";
+            foreach (Card c in _cards)
+                s += c.ToString() + "/";
+            return s;
+        }
+
         public IEnumerator<Card> GetEnumerator()
         {
             return Cards.GetEnumerator();

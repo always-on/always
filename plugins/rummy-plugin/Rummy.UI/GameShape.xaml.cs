@@ -95,7 +95,7 @@ namespace Rummy.UI
                 var controller = new MeldController(this, fc, GameState, player);
                 FanCanvasControllers.Add(fc, controller);
 
-                top += topIncrement;
+                top += topIncrement; 
             }
 
             MeldShapes[player] = shapes;

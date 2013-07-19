@@ -1,5 +1,6 @@
 package edu.wpi.always.rummy;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
@@ -12,12 +13,16 @@ import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RummyClient implements ClientPlugin {
 
    private static final String MSG_AVAILABLE_ACTION = "rummy.available_action";
+   private static final String MSG_ALL_AVAILABLE_MOVES = "rummy.available_moves";
+   private static final String MSG_HUMAN_MOVE = "rummy.human_move";
    private static final String MSG_MOVE_HAPPENED = "rummy.move_happened";
    private static final String MSG_STATE_CHANGED = "rummy.state_changed";
    private final UIMessageDispatcher dispatcher;
@@ -44,6 +49,7 @@ public class RummyClient implements ClientPlugin {
       registerHandlerFor(MSG_AVAILABLE_ACTION);
       registerHandlerFor(MSG_MOVE_HAPPENED);
       registerHandlerFor(MSG_STATE_CHANGED);
+      registerHandlerFor(MSG_ALL_AVAILABLE_MOVES);
    }
 
    private void registerHandlerFor (String messageType) {
@@ -80,9 +86,9 @@ public class RummyClient implements ClientPlugin {
          yourTurn = false;
          waitingForUserSince = System.currentTimeMillis();
       }
-      // everything between here and **** below can be replaced by Morteza's
-      // new architecture - CR
+
       processInbox();
+      
       // always propose at least an empty menu for extension
       ProposalBuilder builder = newProposal();
       builder.setNeedsFocusResource(true);
@@ -141,9 +147,8 @@ public class RummyClient implements ClientPlugin {
             return builder;
          }
       }
-      // ******** see note above
-      //
-     if ( yourTurn  
+
+      if ( yourTurn  
            || (waitingForUserSince > 0 
                && ( (System.currentTimeMillis() - waitingForUserSince) > TIMEOUT_DELAY))
            || (focusMillis > DiscoRT.ARBITRATOR_INTERVAL*5) ) {
@@ -188,15 +193,18 @@ public class RummyClient implements ClientPlugin {
    private void processInbox () {
       while (!inbox.isEmpty()) {
          Message m = inbox.poll();
+         processInbox2(m);
          if ( m.getType().equals(MSG_AVAILABLE_ACTION) ) {
             String action = m.getBody().get("action").getAsString();
             availableMove = new TimeStampedValue<String>(action);
-         } else if ( m.getType().equals(MSG_MOVE_HAPPENED) ) {
+         } 
+         if ( m.getType().equals(MSG_MOVE_HAPPENED) ) {
             if ( m.getBody().get("player").getAsString().equals("user") ) {
                String move = m.getBody().get("move").getAsString();
                userMove = new TimeStampedValue<String>(move);
             }
-         } else if ( m.getType().equals(MSG_STATE_CHANGED) ) {
+         }
+         if ( m.getType().equals(MSG_STATE_CHANGED) ) {
             String newState = m.getBody().get("state").getAsString();
             if ( newState.equals("user_won") ) {
                userWon = true;
@@ -207,6 +215,35 @@ public class RummyClient implements ClientPlugin {
             userCardsNum = m.getBody().get("user_cards").getAsInt();
          }
       }
+   }
+   
+   private void processInbox2(Message m2){
+	   //while (!inbox.isEmpty()) {
+		 //  Message m = inbox.poll();
+		   if(m2.getType().equals(MSG_ALL_AVAILABLE_MOVES)){
+			   
+			   int discards = 0;
+			   
+			   
+			   
+			   JsonElement allMovesJson = m2.getBody().get("discard0");
+			   //change to discardMove when moves code to srummy project
+//			   List<Object> possibleDiscardMoves = new ArrayList<Object>(); 
+			   
+			   if(allMovesJson != null)
+				   System.out.println(allMovesJson.getAsString());
+			   
+//			   while(allMovesJson.getAsJsonObject().has("discard"+(++discards))){
+				   
+//			   }
+			   
+		   }else if(m2.getType().equals(MSG_HUMAN_MOVE)){
+			   
+		   }
+		   
+		   
+		   
+	  // }
    }
 
    @Override
