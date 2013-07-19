@@ -9,7 +9,7 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
 
    private static final int HUMAN_IDENTIFIER = 1;
    private static final int AGENT_IDENTIFIER = 2;
-   private static String currentComment;
+   private static String currentComment = "";
    private static List<String> humanCommentOptions;
 
    public WannaPlay(final TTTStateContext context) {
@@ -54,9 +54,9 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
    //Limbo as waiting for user move
    public static class Limbo extends TTTAdjacencyPairImpl { 
       public Limbo(final TTTStateContext context){
-         super("", context);
-         getContext().getTTTUI().x(this);
-         
+         super(currentComment, context);
+         getContext().getTTTUI().updatePlugin(this);
+         getContext().getTTTUI().makeBoardPlayable();
       }
       @Override
       public void afterLimbo() {
@@ -66,18 +66,19 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
       public void enter() {
       }
    }
-   
+
    public static class CreateCommentsAfterLimbo extends TTTAdjacencyPairImpl { 
       public CreateCommentsAfterLimbo(final TTTStateContext context){
          super("", context);
       }
       @Override
       public void enter(){
+         getContext().getTTTUI().makeBoardUnplayable();
          currentComment = getContext().getTTTUI().getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI().getCurrentHumanCommentOptions();
-          if(new Random().nextBoolean())
+         if(new Random().nextBoolean())
             skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
-          else
+         else
             skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
       }
    }
@@ -99,21 +100,18 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
       }
    }
 
-   //this guy
    public static class AgentComments extends TTTAdjacencyPairImpl {
-      //int playerIdentifier;
+      int playerIdentifier;
       public AgentComments(final TTTStateContext context, final int playerIdentifier){
-         super(currentComment, context);
-         //this.playerIdentifier = playerIdentifier;
-         choice("Cont.", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               if (playerIdentifier == AGENT_IDENTIFIER)
-                  return (new Limbo(getContext()));
-               else
-                  return (new AgentPlays(getContext()));
-            }
-         });
+         super("", context);
+         this.playerIdentifier = playerIdentifier;
+      }
+      @Override 
+      public void enter(){
+         if (playerIdentifier == AGENT_IDENTIFIER)
+            skipTo(new Limbo(getContext()));
+         else
+            skipTo(new AgentPlays(getContext()));
       }
    }
 

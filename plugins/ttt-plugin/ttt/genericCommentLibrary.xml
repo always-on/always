@@ -24,9 +24,6 @@
 	<comment competition='T' compliment='F' regret='F' offensive = 'T' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
 		Wanna play again?!
 	</comment>
-	<comment competition='T' compliment='F' regret='F' offensive = 'T' humanWon='F' agentWon='T' own = 'T' usr = 'T'>
-		Haha, Wanna lose again?!
-	</comment>
 	<comment discard = 'T'>
 		Oh well, still no meld!
 	</comment>

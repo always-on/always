@@ -22,11 +22,12 @@ namespace TTT.UI
         public GameShape()
         {
             InitializeComponent();
+			MakeTheBoardUnplayable();
         }
 
         public event EventHandler Played = delegate { };
 
-        public void playAgentMove(int cellNum)
+        public void PlayAgentMove(int cellNum)
         {
             this.Dispatcher.Invoke((Action)(() =>
             {
@@ -36,7 +37,7 @@ namespace TTT.UI
             }));
         }
 
-        public void reset()
+        public void Reset()
         {
             for(int i = 1; i < 10; i++)
             {
@@ -45,9 +46,25 @@ namespace TTT.UI
             }
         }
 
+		public void MakeTheBoardPlayable() 
+		{
+			this.Dispatcher.Invoke((Action)(() =>
+            {
+				board.IsEnabled = true;
+			}));
+		}
+
+		public void MakeTheBoardUnplayable() 
+		{
+			this.Dispatcher.Invoke((Action)(() =>
+            {
+				board.IsEnabled = false;
+			}));
+		}
+
         private void Click(object sender, RoutedEventArgs e)
         { 
-        Button button = (Button)sender;
+			Button button = (Button)sender;
             if (button.Content == null)
             {
                 button.Content = "O";

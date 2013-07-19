@@ -37,7 +37,10 @@ namespace AgentApp
             });
 
             _remote.RegisterReceiveHandler("tictactoe.agent_cell",
-                 new MessageHandlerDelegateWrapper(x => playAgentMove(x)));
+                 new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
+
+			_remote.RegisterReceiveHandler("tictactoe.playability",
+				  new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
         }
 
 		public void Dispose()
@@ -45,18 +48,27 @@ namespace AgentApp
             _remote.RemoveReceiveHandler("tictactoe.agent_cell");
 		}
 
-       	public void playAgentMove(JObject cellNumAsJObj)
+       	private void PlayAgentMove(JObject cellNumAsJObj)
 		{
             if (cellNumAsJObj["cellNum"]
                 .ToString().Trim().Equals("reset"))
             {
-                game.reset();
+                game.Reset();
                 return;
             }
             int cellNum = int.Parse(cellNumAsJObj["cellNum"].ToString());
             Console.WriteLine(cellNum);
             
-            game.playAgentMove(cellNum);
+            game.PlayAgentMove(cellNum);
+		}
+
+		private void SetPlayability(JObject playabilityAsJObj)
+		{
+			if (playabilityAsJObj["value"].ToString().Trim().Contains("true"))
+				game.MakeTheBoardPlayable();
+			else if (playabilityAsJObj["value"].ToString().Trim().Contains("false"))
+				game.MakeTheBoardUnplayable();
+		
 		}
 
         public System.Windows.UIElement GetUIElement()

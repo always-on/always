@@ -19,6 +19,7 @@ public class TTTClient implements TTTUI {
    private static final String PLUGIN_NAME = "tictactoe";
    private static final String MSG_HUMAN_MOVE = "tictactoe.human_played_cell";
    private static final String MSG_AGENT_MOVE = "tictactoe.agent_cell";
+   private static final String MSG_BOARD_PLAYABILITY = "tictactoe.playability";
 
    private static final int USER_IDENTIFIER = 1;
    private static final int AGENT_IDENTIFIER = 2;
@@ -32,11 +33,10 @@ public class TTTClient implements TTTUI {
    private TTTLegalMoveGenerator moveGenerator;
    private TTTLegalMoveAnnotator moveAnnotator;
    private ScenarioManager scenarioManager;
-   private ScenarioFilter scenarioFilter;
+   //private ScenarioFilter scenarioFilter;
    private MoveChooser moveChooser;
    private CommentingManager commentingManager;
    private TTTGameState gameState;
-   private List<LegalMove> humanPlayedMoves;
 
    public TTTClient (UIMessageDispatcher dispatcher){
 
@@ -45,7 +45,7 @@ public class TTTClient implements TTTUI {
       moveGenerator = new TTTLegalMoveGenerator();
       moveAnnotator = new TTTLegalMoveAnnotator();
       commentingManager = new CommentingManager();
-      scenarioFilter = new ScenarioFilter();
+      //scenarioFilter = new ScenarioFilter();
       moveChooser = new MoveChooser();
       scenarioManager = new ScenarioManager();
       gameState = new TTTGameState();
@@ -122,7 +122,7 @@ public class TTTClient implements TTTUI {
 
    }
 
-   private void show (TTTUIListener listener) {
+   private void show(TTTUIListener listener) {
       this.listener = listener;
       ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
             InstanceReuseMode.Reuse, null);
@@ -135,8 +135,20 @@ public class TTTClient implements TTTUI {
    }
    
    @Override
-   public void x(TTTUIListener listener) {
+   public void updatePlugin(TTTUIListener listener) {
       show(listener);
+   }
+
+   @Override
+   public void makeBoardPlayable() {
+      Message m = Message.builder(MSG_BOARD_PLAYABILITY).add("value", "true").build();
+      dispatcher.send(m);
+   }
+
+   @Override
+   public void makeBoardUnplayable() {
+      Message m = Message.builder(MSG_BOARD_PLAYABILITY).add("value", "false").build();
+      dispatcher.send(m);      
    }
 
 }
