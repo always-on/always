@@ -20,22 +20,22 @@ public class Always {
    /**
     * Main method for starting complete Always-On system. 
     * 
-    * @param args [closeness model clientType] NB: Case-sensitive!
+    * @param args [closeness model agentType] NB: Case-sensitive!
     *  <p>
     *  closeness: Stranger (default), Acquaintance or Companion<br>
     *  model: file in always/user (default User.owl)<br>
-    *  clientType: Unity (default), Reeti or Both 
+    *  agentType: Unity (default), Reeti or Both 
     */
    public static void main (String[] args) {
       Always always = make(args, null, null);
       always.start();
    }
 
-   public enum ClientType { Unity, Reeti, Both }
+   public enum AgentType { Unity, Reeti, Both }
    
-   private static ClientType clientType = ClientType.Unity;
+   private static AgentType agentType = AgentType.Unity;
    
-   public ClientType getClientType () { return clientType; }
+   public static AgentType getAgentType () { return agentType; }
    
    /**
     * Factory method for Always.  
@@ -48,7 +48,7 @@ public class Always {
    public static Always make (String[] args, Class<? extends Plugin> plugin, String activity) {
       if ( args != null ) {
          if ( args.length > 1 ) UserUtils.USER_FILE = args[1];
-         if ( args.length > 2 ) clientType = ClientType.valueOf(args[2]);
+         if ( args.length > 2 ) agentType = AgentType.valueOf(args[2]);
       }
       Always always = new Always(true, plugin == null);
       if ( args != null && args.length > 0 ) {
