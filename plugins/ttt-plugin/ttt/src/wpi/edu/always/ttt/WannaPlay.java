@@ -118,6 +118,7 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
    public static class HumanComments extends TTTAdjacencyPairImpl {
       public HumanComments(final TTTStateContext context, final int playerIdentifier){
          super("", context);
+         currentComment = "";
          for(String eachCommentOption : humanCommentOptions)
             choice(eachCommentOption, new DialogStateTransition() {
                @Override

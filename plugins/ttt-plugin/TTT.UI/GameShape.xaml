@@ -10,7 +10,7 @@
              VerticalAlignment="Stretch">
 
         <StackPanel >
-        <Grid Width="745" Height="745" Background="Gray" Name="board" ShowGridLines="False">
+        <Grid Width="745" Height="745" Background="Black" Name="board" ShowGridLines="False">
 
             <Button Name="cell1" Background="White" FontSize="70" Click="Click" Tag="c1" Height="245" Width="245" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />
             <Button Name="cell2" Background="White" FontSize="70" Click="Click" Tag="c2" Height="245" Width="245" Margin="250,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />

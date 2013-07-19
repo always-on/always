@@ -35,7 +35,7 @@ public class TTTGameState extends GameLogicState{
          }
       }
 
-      //checks for a winner diagonally,left to right.
+      //checks for a winner diagonally, left to right.
       for (int i = 1; i < 3; i++){
          if(board[0] == i && board[4] == i && board[8] == i){
             return i;
@@ -48,11 +48,14 @@ public class TTTGameState extends GameLogicState{
             return i;
          }
       }
-      
+
       //checks for a tie
+      boolean full = true;
       for (int i = 0; i < 9; i ++)
-         if(board[i] != 0)
-            return 3;
+         if(board[i] == 0)
+            full = false;
+      if(full)      
+         return 3;
 
       //else
       return 0;

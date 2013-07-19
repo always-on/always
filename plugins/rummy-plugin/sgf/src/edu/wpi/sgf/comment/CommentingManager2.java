@@ -9,16 +9,18 @@ import java.util.TreeMap;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.logic.GameLogicState;
 
-public class CommentingHandler2 {
+//this class is a temp one for revising 
+public class CommentingManager2 {
 
 	private Tts tts;
-	private Gtts gtts;
+	@SuppressWarnings("unused")
+   private Gtts gtts;
 	private CommentLibraryHandler libHandler;
 	private List<Comment> eligibleComments;
 	private List<Comment> allComments;
 	TreeMap<List<Integer>, Comment> commentsTagCoverings;
 	
-	public CommentingHandler2(){
+	public CommentingManager2(){
 		
 		libHandler = new CommentLibraryHandler();
 		allComments = new ArrayList<Comment>();
@@ -66,9 +68,6 @@ public class CommentingHandler2 {
 			AnnotatedLegalMove agentMove){
 				
 		eligibleComments.clear();
-		
-		
-		
 		
 		return null;
 		

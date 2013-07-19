@@ -23,6 +23,7 @@ public class TTTClient implements TTTUI {
 
    private static final int USER_IDENTIFIER = 1;
    private static final int AGENT_IDENTIFIER = 2;
+   int winOrTie = 0; //1: userWins, 2: agentWins, 3: tie
 
    private String currentComment;
    private AnnotatedLegalMove currentMove;
@@ -57,7 +58,9 @@ public class TTTClient implements TTTUI {
             if ( listener != null ) {
                int cellNum = Integer.valueOf(body.get("cellNum").getAsString());
                gameState.board[cellNum - 1] = USER_IDENTIFIER;
-               gameState.didAnyOneJustWin();
+               winOrTie = gameState.didAnyOneJustWin();
+               if(winOrTie > 0)
+                  makeBoardUnplayable();
                listener.humanPlayed();
             }
          }
@@ -80,7 +83,7 @@ public class TTTClient implements TTTUI {
                   ((TTTLegalMove)currentMove.getMove()).getCellNum() + 1)
                   .build();
       dispatcher.send(msg);
-      gameState.didAnyOneJustWin();
+      winOrTie = gameState.didAnyOneJustWin();
    }
 
    @Override
@@ -123,6 +126,11 @@ public class TTTClient implements TTTUI {
 
    }
 
+   @Override
+   public void gazeLeft() {
+
+   }
+
    private void show(TTTUIListener listener) {
       this.listener = listener;
       ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
@@ -134,7 +142,7 @@ public class TTTClient implements TTTUI {
       this.listener = listener;
       startPlugin(dispatcher);
    }
-   
+
    @Override
    public void updatePlugin(TTTUIListener listener) {
       show(listener);
@@ -142,8 +150,10 @@ public class TTTClient implements TTTUI {
 
    @Override
    public void makeBoardPlayable() {
-      Message m = Message.builder(MSG_BOARD_PLAYABILITY).add("value", "true").build();
-      dispatcher.send(m);
+      if(gameState.didAnyOneJustWin() == 0){
+         Message m = Message.builder(MSG_BOARD_PLAYABILITY).add("value", "true").build();
+         dispatcher.send(m);
+      }
    }
 
    @Override

@@ -80,7 +80,7 @@ public class CommentingManager {
                eligibleComments.add(cm);
       if(gameState.userWins)
          for(Comment cm : allComments)
-            if(cm.getTags().contains("userWins"))
+            if(cm.getTags().contains("humanWon"))
                eligibleComments.add(cm);
       if(gameState.tie)
          for(Comment cm : allComments)
@@ -161,15 +161,15 @@ public class CommentingManager {
       //win, lose, tie if applicable
       if(gameState.agentWins)
          for(Comment cm : allComments)
-            if(cm.getTags().contains("agentWon"))
+            if(cm.getTags().contains("agentWon") && cm.who != 1)
                eligibleComments.add(cm);
       if(gameState.userWins)
          for(Comment cm : allComments)
-            if(cm.getTags().contains("userWins"))
+            if(cm.getTags().contains("humanWon") && cm.who != 1)
                eligibleComments.add(cm);
       if(gameState.tie)
          for(Comment cm : allComments)
-            if(cm.getTags().contains("tie"))
+            if(cm.getTags().contains("tie") && cm.who != 1)
                eligibleComments.add(cm);
 
       //TEMP>> MAKE FLAG FOR NO SCENARIO TO SKIP THIS
@@ -185,24 +185,27 @@ public class CommentingManager {
 
       //to do max covering problem, then randomly or chosen with priority ...
       if(!currentMomentsTags.isEmpty()){
-         int covering;
-         boolean irrelevant;
-         for(Comment cm : allComments){
-            covering = 0;
-            irrelevant = false;
-            for(String eachTag : cm.getTags())
-               if(currentMomentsTags.contains(eachTag))
-                  covering++;
-            for(String eachTag : cm.getTags()) //TEMP? Comment tag defined consistent or what?
-               if(!currentMomentsTags.contains(eachTag)
-                     && !eachTag.contains("usr")
-                     && !eachTag.contains("own"))
-                  irrelevant = true;
-            if(cm.who == who && !irrelevant){
-               eachCommentsTagCovering.put(cm, covering);
-               eligibleComments.add(cm); //TEMP
-            }
-         }
+         
+         //LATEST VERSION COMMENTED <<<<<<<<<<
+         
+//         int covering;
+//         boolean irrelevant;
+//         for(Comment cm : allComments){
+//            covering = 0;
+//            irrelevant = false;
+//            for(String eachTag : cm.getTags())
+//               if(currentMomentsTags.contains(eachTag))
+//                  covering++;
+//            for(String eachTag : cm.getTags()) //TEMP? Comment tag defined consistent or what?
+//               if(!currentMomentsTags.contains(eachTag)
+//                     && !eachTag.contains("usr")
+//                     && !eachTag.contains("own"))
+//                  irrelevant = true;
+//            if(cm.who == who && !irrelevant){
+//               eachCommentsTagCovering.put(cm, covering);
+//               eligibleComments.add(cm); //TEMP
+//            }
+//         }
 
          //			//sorting map by Google guava >> RETURNS ERROR, INVESTIGATE
          //			Ordering<Comment> valueComparator = Ordering.natural()
@@ -240,22 +243,34 @@ public class CommentingManager {
 
       }
 
+      ///ttt
+      for(Comment cm : allComments){
+
+         if(cm.who == 1)
+            continue;
+
+         if(!cm.getTags().contains("humanWon")
+               && !cm.getTags().contains("agentWon")  
+               && !cm.getTags().contains("tie")
+               && cm.getTags().contains("competition"))
+            eligibleComments.add(cm);
+      }
+      
+      ///rummy
       //		for(Comment cm : allComments)
       //			if(cm.getStrengthLowerBount() < move.getMoveStrength()
       //					&&cm.getStrengthUpperBound() > move.getMoveStrength())
       //				eligibleComments.add(cm);
 
-      for(Comment cm : allComments)
-         if(cm.getTags().contains("competition"))
-            eligibleComments.add(cm);
-
-      //add defauly package?
+//      for(Comment cm : allComments)
+//         if(cm.getTags().contains("competition"))
+//            eligibleComments.add(cm);
 
       Collections.shuffle(eligibleComments);
 
       if(eligibleComments.isEmpty())
          return null;
-      return eligibleComments.get(0);
+      return eligibleComments.get(eligibleComments.size() - 1);
 
    }
 
@@ -303,16 +318,16 @@ public class CommentingManager {
       List<String> finalCommentOptions = new ArrayList<String>();
       List<Comment> allLibComments = new ArrayList<Comment>();
       allLibComments.addAll(libHandler.retrieveAllCommentsFromLibrary());
-      
+
       if(gameState.agentWins){
          for(Comment eachComment: allLibComments)
-            if(eachComment.getTags().contains("agentWins")
+            if(eachComment.getTags().contains("agentWon")
                   && eachComment.getTags().contains("usr"))
                allCommentOptions.add(eachComment.getContent());
       }
       else if(gameState.userWins){
          for(Comment eachComment: allLibComments)
-            if(eachComment.getTags().contains("userWins")
+            if(eachComment.getTags().contains("humanWon")
                   && eachComment.getTags().contains("usr"))
                allCommentOptions.add(eachComment.getContent());
       }
@@ -324,8 +339,8 @@ public class CommentingManager {
       }
       else{
          for(Comment eachComment: allLibComments)
-            if(!eachComment.getTags().contains("userWins")
-                  && !eachComment.getTags().contains("agentWins")
+            if(!eachComment.getTags().contains("humanWon")
+                  && !eachComment.getTags().contains("agentWon")
                   && !eachComment.getTags().contains("tie")
                   && (eachComment.who == 3 || eachComment.who == 1))
                allCommentOptions.add(eachComment.getContent());
@@ -339,7 +354,7 @@ public class CommentingManager {
       else
          finalCommentOptions.addAll(allCommentOptions);
 
-      return allCommentOptions;
+      return finalCommentOptions;
 
    }
 

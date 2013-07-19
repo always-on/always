@@ -5,35 +5,35 @@ import org.joda.time.DateTime;
 
 public class PIRMovementPerceptor implements MovementPerceptor {
 
-	private volatile MovementPerception latest;
-	private final PIRSensor sensor = new PIRSensor();
+   private volatile MovementPerception latest;
+   private final PIRSensor sensor = new PIRSensor();
 
-	@Override
-	public MovementPerception getLatest () {
-		return latest;
-	}
+   @Override
+   public MovementPerception getLatest () {
+      return latest;
+   }
 
-	@Override
-	public void run () {
-		// note location is unknown
-		latest = new MovementPerception(DateTime.now(), sensor.getState(), null);
-	}
+   @Override
+   public void run () {
+      // note location is unknown
+      latest = new MovementPerception(DateTime.now(), sensor.getState(), null);
+   }
 
-	// This main method tests the PIR sensor functionality
-	public static void main(String[] args) {
-		
-		PIRMovementPerceptor movementPerceptor = new PIRMovementPerceptor();
-		
-		while(true){
-			System.out.println(movementPerceptor.sensor.getState());
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
+   // This main method tests the PIR sensor functionality
+   public static void main(String[] args) {
+
+      PIRMovementPerceptor movementPerceptor = new PIRMovementPerceptor();
+
+      while(true){
+         System.out.println(movementPerceptor.sensor.getState());
+         try {
+            Thread.sleep(200);
+         } catch (InterruptedException e) {
+            e.printStackTrace();
+         }
+      }
+
+   }
+
 }
 
