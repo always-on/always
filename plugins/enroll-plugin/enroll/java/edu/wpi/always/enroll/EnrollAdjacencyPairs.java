@@ -69,9 +69,7 @@ public abstract class EnrollAdjacencyPairs{
             PersonAge = text;
             return new TellPersonBirthdayAdjacencyPair(getContext());
          }
-         else{
-            return new PersonAgeInvalidAdjacencyPair(getContext());
-         }
+         return new PersonAgeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -104,9 +102,7 @@ public abstract class EnrollAdjacencyPairs{
             PersonAge = text;
             return new TellPersonBirthdayAdjacencyPair(getContext());
          }
-         else{
-            return new PersonAgeInvalidAdjacencyPair(getContext());
-         }
+         return new PersonAgeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -210,9 +206,7 @@ public abstract class EnrollAdjacencyPairs{
             personBirthday = new MonthDay(Month, Day);
             return new PersonGenderAdjacencyPair(getContext());
          }
-         else{
-            return new PersonBirthdayDayInvalidAdjacencyPair(getContext());
-         }
+         return new PersonBirthdayDayInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -247,9 +241,7 @@ public abstract class EnrollAdjacencyPairs{
             personBirthday = new MonthDay(Month, Day);
             return new PersonGenderAdjacencyPair(getContext());
          }
-         else{
-            return new PersonBirthdayDayInvalidAdjacencyPair(getContext());
-         }
+         return new PersonBirthdayDayInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -366,9 +358,7 @@ public abstract class EnrollAdjacencyPairs{
             getContext().hideKeyboard();
             return new PersonRelationshipAdjacencyPair(getContext());
          }
-         else{
-            return new ZipCodeInvalidAdjacencyPair(getContext());
-         }
+         return new ZipCodeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -403,9 +393,7 @@ public abstract class EnrollAdjacencyPairs{
             getContext().hideKeyboard();
             return new PersonRelationshipAdjacencyPair(getContext());
          }
-         else{
-            return new ZipCodeInvalidAdjacencyPair(getContext());
-         }
+         return new ZipCodeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -439,9 +427,7 @@ public abstract class EnrollAdjacencyPairs{
             personState = state.getStateAbbrev().get(0);
             return new PersonCityAdjacencyPair(getContext());
          }
-         else{
-            return new StateInvalidAdjacencyPair(getContext());
-         }
+         return new StateInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -475,9 +461,7 @@ public abstract class EnrollAdjacencyPairs{
             personState = state.getStateAbbrev().get(0);
             return new PersonCityAdjacencyPair(getContext());
          }
-         else{
-            return new StateInvalidAdjacencyPair(getContext());
-         }
+         return new StateInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -813,9 +797,7 @@ public abstract class EnrollAdjacencyPairs{
             PhoneNumber = text;
             return new SkypeNumberAdjacencyPair(getContext());
          }
-         else{
-            return new PhoneNumberInvalidAdjacencyPair(getContext());
-         }
+         return new PhoneNumberInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -847,9 +829,7 @@ public abstract class EnrollAdjacencyPairs{
             PhoneNumber = text;
             return new SkypeNumberAdjacencyPair(getContext());
          }
-         else{
-            return new PhoneNumberInvalidAdjacencyPair(getContext());
-         }
+         return new PhoneNumberInvalidAdjacencyPair(getContext());
       }
 
       @Override

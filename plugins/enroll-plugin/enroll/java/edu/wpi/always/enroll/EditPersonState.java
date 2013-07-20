@@ -18,11 +18,8 @@ public class EditPersonState extends EnrollAdjacencyPairs{
    public static class EditPersonAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> {
 
-      private Person person;
-
       public EditPersonAdjacencyPair(final EnrollStateContext context, final Person person){
          super("Here is the previous information about the person?", context, true);
-         this.person = person;
          choice("Edit name", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -200,9 +197,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             person.setBirthday(personBirthday);
             return new EditPersonAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangePersonBirthdayDayInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangePersonBirthdayDayInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -235,9 +230,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             person.setBirthday(personBirthday);
             return new EditPersonAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangePersonBirthdayDayInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangePersonBirthdayDayInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -298,9 +291,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             person.setAge(text);
             return new EditPersonAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -330,9 +321,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             person.setAge(text);
             return new EditPersonAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -393,9 +382,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             getContext().hideKeyboard();
             return new EditPersonAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -426,9 +413,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             getContext().hideKeyboard();
             return new EditPersonAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext(), person);
       }  	     
 
       @Override
@@ -458,9 +443,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             personState = state.getStateAbbrev().get(0);
             return new ChangeCityAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangeStateInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangeStateInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -489,9 +472,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             personState = state.getStateAbbrev().get(0);
             return new ChangeCityAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangeStateInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangeStateInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -746,9 +727,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             person.setPhoneNumber(text);
             return new EditPersonAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangePhoneInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangePhoneInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -778,9 +757,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             person.setPhoneNumber(text);
             return new EditPersonAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ChangePhoneInvalidAdjacencyPair(getContext(), person);
-         }
+         return new ChangePhoneInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override

@@ -196,9 +196,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             person.setBirthday(personBirthday);
             return new CheckCorrectionAdjacencyPair(getContext(), person);
          }
-         else{
-            return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
-         }
+         return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -228,9 +226,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             person.setBirthday(personBirthday);
             return new CheckCorrectionAdjacencyPair(getContext(), person);
          }
-         else{
-            return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
-         }
+         return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -288,9 +284,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             person.setAge(text);
             return new CheckCorrectionAdjacencyPair(getContext(), person);
          }
-         else{
-            return new EditAgeInvalidAdjacencyPair(getContext());
-         }
+         return new EditAgeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -316,9 +310,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             person.setAge(text);
             return new CheckCorrectionAdjacencyPair(getContext(), person);
          }
-         else{
-            return new EditAgeInvalidAdjacencyPair(getContext());
-         }
+         return new EditAgeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -375,9 +367,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             getContext().hideKeyboard();
             return new CheckCorrectionAdjacencyPair(getContext(), person);
          }
-         else{
-            return  new ZipCodeAgainInvalidAdjacencyPair(getContext());
-         }
+         return  new ZipCodeAgainInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -405,9 +395,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             getContext().hideKeyboard();
             return new CheckCorrectionAdjacencyPair(getContext(), person);
          }
-         else{
-            return new ZipCodeAgainInvalidAdjacencyPair(getContext());
-         }
+         return new ZipCodeAgainInvalidAdjacencyPair(getContext());
       }  	     
 
       @Override
@@ -434,9 +422,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             personState = state.getStateAbbrev().get(0);
             return new EditCityAdjacencyPair(getContext());
          }
-         else{
-            return new EditStateInvalidAdjacencyPair(getContext());
-         }
+         return new EditStateInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -462,9 +448,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             personState = state.getStateAbbrev().get(0);
             return new EditCityAdjacencyPair(getContext());
          }
-         else{
-            return new EditStateInvalidAdjacencyPair(getContext());
-         }
+         return new EditStateInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -707,9 +691,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             person.setPhoneNumber(text);
             return new CheckCorrectionAdjacencyPair(getContext(), person);
          }
-         else{
-            return new EditPhoneInvalidAdjacencyPair(getContext());
-         }
+         return new EditPhoneInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -736,9 +718,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             person.setPhoneNumber(text);
             return new CheckCorrectionAdjacencyPair(getContext(), person);
          }
-         else{
-            return new EditPhoneInvalidAdjacencyPair(getContext());
-         }
+         return new EditPhoneInvalidAdjacencyPair(getContext());
       }
 
       @Override

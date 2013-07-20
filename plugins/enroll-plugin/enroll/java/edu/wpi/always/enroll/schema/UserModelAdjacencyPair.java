@@ -55,10 +55,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getContext().getPeopleManager().getUser().setAge(UserAge);
             return new TellUserBirthdayAdjacencyPair(getContext());
          }
-         else{
-            getContext().hideKeyboard();
-            return new UserAgeInvalidAdjacencyPair(getContext());
-         }
+         getContext().hideKeyboard();
+         return new UserAgeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -89,10 +87,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getContext().getPeopleManager().getUser().setAge(UserAge);
             return new TellUserBirthdayAdjacencyPair(getContext());
          }
-         else{
-            getContext().hideKeyboard();
-            return new UserAgeInvalidAdjacencyPair(getContext());
-         }
+         getContext().hideKeyboard();
+         return new UserAgeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -181,9 +177,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getPerson(UserName).setBirthday(userBirthday);
             return new UserGenderAdjacencyPair(getContext());
          }
-         else{
-            return new UserBirthdayDayInvalidAdjacencyPair(getContext());
-         }
+         return new UserBirthdayDayInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -211,9 +205,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getPerson(UserName).setBirthday(userBirthday);
             return new UserGenderAdjacencyPair(getContext());
          }
-         else{
-            return new UserBirthdayDayInvalidAdjacencyPair(getContext());
-         }
+         return new UserBirthdayDayInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -310,9 +302,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getContext().hideKeyboard();
             return new UserSpouseAdjacencyPair(getContext());
          }
-         else{
-            return new UserZipCodeInvalidAdjacencyPair(getContext());
-         }
+         return new UserZipCodeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -340,9 +330,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getContext().hideKeyboard();
             return new UserSpouseAdjacencyPair(getContext());
          }
-         else{
-            return new UserZipCodeInvalidAdjacencyPair(getContext());
-         }
+         return new UserZipCodeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -368,9 +356,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             UserState = state.getStateAbbrev().get(0);
             return new UserCityAdjacencyPair(getContext());
          }
-         else{
-            return new UserStateInvalidAdjacencyPair(getContext());
-         }
+         return new UserStateInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -396,9 +382,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             UserState = state.getStateAbbrev().get(0);
             return new UserCityAdjacencyPair(getContext());
          }
-         else{
-            return new UserStateInvalidAdjacencyPair(getContext());
-         }
+         return new UserStateInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -550,9 +534,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getContext().getPeopleManager().getUser().setPhoneNumber(PhoneNumber);
             return new UserSkypeNumberAdjacencyPair(getContext());
          }
-         else{
-            return new UserPhoneNumberInvalidAdjacencyPair(getContext());
-         }
+         return new UserPhoneNumberInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -577,9 +559,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getContext().getPeopleManager().getUser().setPhoneNumber(PhoneNumber);
             return new UserSkypeNumberAdjacencyPair(getContext());
          }
-         else{
-            return new UserPhoneNumberInvalidAdjacencyPair(getContext());
-         }
+         return new UserPhoneNumberInvalidAdjacencyPair(getContext());
       }
 
       @Override
