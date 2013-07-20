@@ -68,9 +68,7 @@ public class OntologyPerson implements Person {
    @Override
    public void addRelated (Person otherPerson, Relationship relationship) {
       owlPerson.addObjectProperty(relationship.name(),
-            helper.getNamedIndividual(otherPerson.getName()));// TODO remove
-      // dependancy on
-      // helper
+            helper.getNamedIndividual(otherPerson.getName()));
    }
 
    @Override

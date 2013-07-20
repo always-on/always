@@ -1,20 +1,17 @@
 package edu.wpi.always.enroll;
 
-import java.util.List;
-
-import org.joda.time.MonthDay;
-
 import edu.wpi.always.client.KeyboardAdjacencyPair;
-import edu.wpi.disco.rt.menu.*;
-import edu.wpi.always.enroll.schema.EnrollStateContext;
-import edu.wpi.always.enroll.schema.InitialEnroll;
-import edu.wpi.always.user.people.Person;
-import edu.wpi.always.user.people.ValidPhoneAgeBirthday;
+import edu.wpi.always.enroll.schema.*;
+import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
-import edu.wpi.always.user.places.ZipCodes;
+import edu.wpi.always.user.places.*;
 import edu.wpi.always.user.places.ZipCodes.StateEntry;
 import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
+import edu.wpi.disco.rt.menu.*;
+import org.joda.time.MonthDay;
+import java.util.List;
 
 public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
@@ -192,7 +189,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
       @Override
       public AdjacencyPair success(String text) {
          int day = Integer.parseInt(text);
-         if(ValidPhoneAgeBirthday.isValidDayOfMonth(Month, day)){
+         if(UserUtils.isValidDayOfMonth(Month, day)){
             getContext().hideKeyboard();
             Day = day;
             personBirthday = new MonthDay(Month, Day);
@@ -224,7 +221,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
       @Override
       public AdjacencyPair success(String text) {
          int day = Integer.parseInt(text);
-         if(ValidPhoneAgeBirthday.isValidDayOfMonth(Month, day)){
+         if(UserUtils.isValidDayOfMonth(Month, day)){
             getContext().hideKeyboard();
             Day = day;
             personBirthday = new MonthDay(Month, Day);
@@ -286,7 +283,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isInteger(text)){
+         if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
             person.setAge(text);
             return new CheckCorrectionAdjacencyPair(getContext(), person);
@@ -314,7 +311,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isInteger(text)){
+         if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
             person.setAge(text);
             return new CheckCorrectionAdjacencyPair(getContext(), person);
@@ -705,7 +702,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
+         if(UserUtils.isPhoneNumberValid(text)){
             getContext().hideKeyboard();
             person.setPhoneNumber(text);
             return new CheckCorrectionAdjacencyPair(getContext(), person);
@@ -734,7 +731,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
+         if(UserUtils.isPhoneNumberValid(text)){
             getContext().hideKeyboard();
             person.setPhoneNumber(text);
             return new CheckCorrectionAdjacencyPair(getContext(), person);

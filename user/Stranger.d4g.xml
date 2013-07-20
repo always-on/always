@@ -13,6 +13,7 @@
   <task id="_Session">
     <subtasks id="_s1">
       <step name="greet" task="_Greetings"/>
+      <step name="enroll" task="a:EnrollUser" minOccurs="0"/>	
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
       <step name="explain" task="a:ExplainSelf" minOccurs="0"/>	
       <step name="rummy" task="a:PlayRummy" minOccurs="0"/>

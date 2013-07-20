@@ -28,29 +28,28 @@ public class TestUserGenerator {
       Calendar calendar = userModel.getCalendar();
       peopleMgr.getUser().setLocation(placeMgr.getPlace("02118"));
       peopleMgr.getUser().setGender(Gender.Female);
-      Person daughter = peopleMgr.addPerson("Ellen Lewis",
-            Relationship.Daughter, null);
+      Person daughter = addPerson(peopleMgr, "Ellen Lewis", Relationship.Daughter, null);
       daughter.setPhoneNumber("650-339-0221");
       daughter.setLocation(placeMgr.getPlace("92041"));
-      Person daughterHusband = peopleMgr.addPerson("Mike", null, null);
+      Person daughterHusband = addPerson(peopleMgr, "Mike", null, null);
       daughterHusband.addRelated(daughter, Relationship.Wife);
-      Person linda = peopleMgr.addPerson("Linda", null, Gender.Female);
+      Person linda = addPerson(peopleMgr, "Linda", null, Gender.Female);
       linda.addRelated(daughterHusband, Relationship.Father);
-      Person ed = peopleMgr.addPerson("Ed", null, Gender.Male);
+      Person ed = addPerson(peopleMgr, "Ed", null, Gender.Male);
       ed.addRelated(daughterHusband, Relationship.Father);
-      Person sister = peopleMgr.addPerson("Linda Jefferson",
+      Person sister = addPerson(peopleMgr, "Linda Jefferson",
             Relationship.Sister, null);
       sister.setLocation(placeMgr.getPlace("38120"));
       sister.setPhoneNumber("615-334-7889");
-      Person friend1 = peopleMgr.addPerson("Harriet Jones",
+      Person friend1 = addPerson(peopleMgr, "Harriet Jones",
             Relationship.Friend, Gender.Female);
       friend1.setLocation(placeMgr.getPlace("02118"));
       friend1.setPhoneNumber("617-324-0997");
-      Person friend2 = peopleMgr.addPerson("Marion Smith",
+      Person friend2 = addPerson(peopleMgr, "Marion Smith",
             Relationship.Friend, Gender.Female);
       friend2.setLocation(placeMgr.getPlace("02124"));
       friend2.setPhoneNumber("617-238-3779");
-      Person friend3 = peopleMgr.addPerson("Philip Morley",
+      Person friend3 = addPerson(peopleMgr, "Philip Morley",
             Relationship.Friend, Gender.Male);
       friend3.setLocation(placeMgr.getPlace("33604"));
       friend3.setPhoneNumber("727-671-4536");      
@@ -58,6 +57,11 @@ public class TestUserGenerator {
                CalendarEntryTypeManager.Types.MedicalAppointment,
                null, null,
                new DateTime(2014,1, 1, 10, 0), Hours.hours(1)));
+   }
+   
+   private static Person addPerson (PeopleManager peopleMgr, String name, 
+         Relationship relationship, Gender gender) {
+      return peopleMgr.addPerson(name, relationship, gender, null, null, null, null, null, null);
    }
 }
 

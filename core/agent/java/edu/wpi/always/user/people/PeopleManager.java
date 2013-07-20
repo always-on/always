@@ -14,7 +14,7 @@ public interface PeopleManager {
 
    Person getUser ();
 
-   Person addPerson (String name, Relationship relationship, Gender gender);
+   Person addPerson (String name);
 
    Person getPerson (String name);
 

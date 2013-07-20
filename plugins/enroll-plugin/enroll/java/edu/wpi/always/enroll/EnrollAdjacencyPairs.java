@@ -1,21 +1,18 @@
 package edu.wpi.always.enroll;
 
-import java.util.List;
-
-import org.joda.time.MonthDay;
-
 import edu.wpi.always.client.KeyboardAdjacencyPair;
-import edu.wpi.disco.rt.menu.*;
-import edu.wpi.always.enroll.schema.EnrollStateContext;
-import edu.wpi.always.enroll.schema.InitialEnroll;
-import edu.wpi.always.user.places.Place;
-import edu.wpi.always.user.places.ZipCodes;
+import edu.wpi.always.enroll.ErrorCheckState.CheckCorrectionAdjacencyPair;
+import edu.wpi.always.enroll.schema.*;
+import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.people.*;
+import edu.wpi.always.user.people.Person.Gender;
+import edu.wpi.always.user.people.Person.Relationship;
+import edu.wpi.always.user.places.*;
 import edu.wpi.always.user.places.ZipCodes.StateEntry;
 import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
-import edu.wpi.always.user.people.Person;
-import edu.wpi.always.user.people.ValidPhoneAgeBirthday;
-import edu.wpi.always.user.people.Person.*;
-import edu.wpi.always.enroll.ErrorCheckState.*;
+import edu.wpi.disco.rt.menu.*;
+import org.joda.time.MonthDay;
+import java.util.List;
 
 public abstract class EnrollAdjacencyPairs{
 
@@ -67,7 +64,7 @@ public abstract class EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isInteger(text)){
+         if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
             PersonAge = text;
             return new TellPersonBirthdayAdjacencyPair(getContext());
@@ -102,7 +99,7 @@ public abstract class EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isInteger(text)){
+         if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
             PersonAge = text;
             return new TellPersonBirthdayAdjacencyPair(getContext());
@@ -207,7 +204,7 @@ public abstract class EnrollAdjacencyPairs{
       @Override
       public AdjacencyPair success(String text) {
          int day = Integer.parseInt(text);
-         if(ValidPhoneAgeBirthday.isValidDayOfMonth(Month, day)){
+         if(UserUtils.isValidDayOfMonth(Month, day)){
             getContext().hideKeyboard();
             Day = day;
             personBirthday = new MonthDay(Month, Day);
@@ -244,7 +241,7 @@ public abstract class EnrollAdjacencyPairs{
       @Override
       public AdjacencyPair success(String text) {
          int day = Integer.parseInt(text);
-         if(ValidPhoneAgeBirthday.isValidDayOfMonth(Month, day)){
+         if(UserUtils.isValidDayOfMonth(Month, day)){
             getContext().hideKeyboard();
             Day = day;
             personBirthday = new MonthDay(Month, Day);
@@ -812,7 +809,7 @@ public abstract class EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
+         if(UserUtils.isPhoneNumberValid(text)){
             PhoneNumber = text;
             return new SkypeNumberAdjacencyPair(getContext());
          }
@@ -846,7 +843,7 @@ public abstract class EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
+         if(UserUtils.isPhoneNumberValid(text)){
             PhoneNumber = text;
             return new SkypeNumberAdjacencyPair(getContext());
          }

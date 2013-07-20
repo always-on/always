@@ -57,7 +57,10 @@ public abstract class Plugin {
    public static Always main (String[] args, Class<? extends Plugin> plugin, String activity) {
       Always always = Always.make(args, plugin, activity);
       UserModel model = always.getUserModel();
-      if ( model.getUserName() == null ) model.setUserName("TestPlugin");
+      if ( model.getUserName() == null ) {
+         model.setUserName("TestPluginUser");
+         System.out.println("User name: "+model.getUserName());
+      }
       always.start();
       return always;
    }

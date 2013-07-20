@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class OntologyPeopleManager implements PeopleManager {
 
-   private UserModel model; // cyclic dependency
+   private OntologyUserModel model; // cyclic dependency
    private final OntologyHelper helper;
    private final Ontology ontology;
 
@@ -32,16 +32,15 @@ public class OntologyPeopleManager implements PeopleManager {
             .getUserName());
       if ( !owlPerson.hasSuperclass(OntologyPerson.USER_CLASS) ) {
          owlPerson.addSuperclass(OntologyPerson.USER_CLASS);
-         OntologyPerson person = addPerson(model.getUserName(), null, null);
+         OntologyPerson person = addPerson(model.getUserName());
          return person;
       }
       return getPerson(owlPerson);
    }
 
    @Override
-   public OntologyPerson addPerson (String name, Relationship relationship,
-         Gender gender) {
-      return addPerson(name, relationship, gender, null, null, null, null, null, null);
+   public OntologyPerson addPerson (String name) {
+      return addPerson(name, null, null, null, null, null, null, null, null);
    }
 
    @Override
@@ -51,7 +50,7 @@ public class OntologyPeopleManager implements PeopleManager {
       OntologyIndividual owlPerson = helper.getNamedIndividual(name);
       owlPerson.addSuperclass(OntologyPerson.PERSON_CLASS);
       OntologyPerson person = new OntologyPerson(
-            helper.getOntologyDataObject(), (OntologyUserModel) model, owlPerson);
+            helper.getOntologyDataObject(), model, owlPerson);
       person.setName(name);
       if ( relationship != null )
          person.setRelationship(relationship);
@@ -77,16 +76,14 @@ public class OntologyPeopleManager implements PeopleManager {
          return null;
       if ( !owlPerson.hasSuperclass(OntologyPerson.PERSON_CLASS) )
          return null;
-      return new OntologyPerson(helper.getOntologyDataObject(), (OntologyUserModel) model,
-            owlPerson);
+      return new OntologyPerson(helper.getOntologyDataObject(), model, owlPerson);
    }
 
    @Override
    public OntologyPerson getPerson (String name) {
       // TODO get individual by name property
       OntologyPerson person = getPerson(helper.getNamedIndividual(name));
-      if ( person == null )
-         return addPerson(name, null, null);
+      if ( person == null ) return addPerson(name);
       return person;
    }
 

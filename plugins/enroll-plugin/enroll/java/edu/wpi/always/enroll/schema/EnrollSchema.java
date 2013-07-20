@@ -5,7 +5,7 @@ import edu.wpi.always.client.KeyboardMessageHandler;
 import edu.wpi.always.client.UIMessageDispatcher;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.always.cm.ProposalBuilder;
-import edu.wpi.always.cm.schemas.ActivitySchema;
+import edu.wpi.always.cm.schemas.*;
 import edu.wpi.always.enroll.EnrollUI;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.people.PeopleManager;
@@ -17,38 +17,29 @@ import edu.wpi.disco.rt.behavior.BehaviorMetadata;
 import edu.wpi.disco.rt.behavior.BehaviorMetadataBuilder;
 import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
 
-public class EnrollSchema extends ActivitySchema{
+public class EnrollSchema extends ActivityStateMachineSchema {
 
-   private final MenuTurnStateMachine stateMachine;
+   private final Keyboard keyboard;
 
    public EnrollSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, EnrollUI enrollUI, 
          UIMessageDispatcher dispatcher, UserModel model, PlaceManager placeManager, 
          PeopleManager peopleManager) {
-      super(behaviorReceiver, behaviorHistory);
-      stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
-            menuPerceptor, new RepeatMenuTimeoutHandler());
-      stateMachine.setSpecificityMetadata(.9);
-      EnrollStateContext enrollContext = new EnrollStateContext(
-            keyboard, enrollUI, dispatcher, model, model.getPlaceManager(),
-            model.getPeopleManager());
-      AdjacencyPair initial;
-      try {
-         model.getUserName();
-         initial = new InitialEnroll(enrollContext);
-      } catch (IllegalStateException e) {
-         initial = new UserModelAdjacencyPair(enrollContext);
-      }
-      stateMachine.setState(initial);
+      super(model.getUserName() == null ? 
+         new UserModelAdjacencyPair(new EnrollStateContext(
+            keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)) :
+         new InitialEnroll(new EnrollStateContext(
+            keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)),
+            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
+      this.keyboard = keyboard;
    }
 
    @Override
    public void run () {
       propose(stateMachine);
-
-      if(KeyboardMessageHandler.isOverflow){
-         KeyboardMessageHandler.isOverflow = false;
+      if ( keyboard.isOverflow() ) {
+         keyboard.setOverflow(false);
          BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
          ProposalBuilder builder = new ProposalBuilder(); 
          metadata.specificity(0.9);
@@ -58,7 +49,6 @@ public class EnrollSchema extends ActivitySchema{
          BehaviorMetadata m = builder.getMetadata();
          propose(b, m);
       }
-
    }
 
    @Override

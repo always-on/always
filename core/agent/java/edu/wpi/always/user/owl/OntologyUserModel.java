@@ -47,7 +47,7 @@ public class OntologyUserModel implements UserModel {
          this.user = ontology.getNamedIndividual(userName);
          if ( !user.hasSuperclass(OntologyPerson.USER_CLASS) ) {
             user.addSuperclass(OntologyPerson.USER_CLASS);
-            peopleManager.addPerson(userName, null, null);
+            peopleManager.addPerson(userName);
          }
       } else throw new UnsupportedOperationException(
                   "User model already has name: "+this.userName);
@@ -125,12 +125,13 @@ public class OntologyUserModel implements UserModel {
    @Override
    public void load () {
       if ( userDataFile != null && userDataFile.exists() ) {
-         System.out.println("Loading user ontology from: "+userDataFile);
+         System.out.println("Loading user model from: "+userDataFile);
          ontology.addAxioms(userDataFile);
          setUserName(new OntologyIndividual(
                ontology.getOntologyDataObject(),
                ontology.getAllOfClass(OntologyPerson.USER_CLASS).iterator().next())
                     .getDataPropertyValue(OntologyPerson.NAME_PROPERTY).asString());
+         System.out.println("User name: "+getUserName());
       } else System.out.println("Initializing empty user model!");
    }
    
