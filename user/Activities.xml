@@ -16,6 +16,8 @@
 
   <task id="DiscussWeather"/>
   
+  <task id="EnrollUser"/>
+
   <task id="ExplainSelf"/>
   
   <task id="DiscussBaseball">

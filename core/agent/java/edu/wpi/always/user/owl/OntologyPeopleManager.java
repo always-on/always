@@ -1,8 +1,12 @@
 package edu.wpi.always.user.owl;
 
+import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
+import edu.wpi.always.user.places.Place;
+
+import org.joda.time.MonthDay;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import java.util.Set;
 
@@ -28,24 +32,42 @@ public class OntologyPeopleManager implements PeopleManager {
             .getUserName());
       if ( !owlPerson.hasSuperclass(OntologyPerson.USER_CLASS) ) {
          owlPerson.addSuperclass(OntologyPerson.USER_CLASS);
-         OntologyPerson person = addPerson(model.getUserName(), null, null);
+         OntologyPerson person = addPerson(model.getUserName());
          return person;
       }
       return getPerson(owlPerson);
    }
 
    @Override
-   public OntologyPerson addPerson (String name, Relationship relationship,
-         Gender gender) {
+   public OntologyPerson addPerson (String name) {
+      return addPerson(name, null, null, null, null, null, null, null, null);
+   }
+
+   @Override
+   public OntologyPerson addPerson(String name, Relationship relationship, Gender gender, 
+         String age, String phoneNumber, String SkypeNumber, Place ZipCode, String spouse, 
+         MonthDay birthday){
       OntologyIndividual owlPerson = helper.getNamedIndividual(name);
       owlPerson.addSuperclass(OntologyPerson.PERSON_CLASS);
       OntologyPerson person = new OntologyPerson(
             helper.getOntologyDataObject(), model, owlPerson);
       person.setName(name);
       if ( relationship != null )
-         getUser().addRelated(person, relationship);
+         person.setRelationship(relationship);
       if ( gender != null )
          person.setGender(gender);
+      if ( age != null)
+         person.setAge(age);
+      if ( phoneNumber != null)
+         person.setPhoneNumber(phoneNumber);
+      if ( SkypeNumber != null) 
+         person.setSkypeNumber(SkypeNumber);
+      if ( ZipCode != null)
+         person.setLocation(ZipCode);
+      if ( spouse != null)
+         person.setSpouse(spouse);
+      if (birthday != null)
+         person.setBirthday(birthday);
       return person;
    }
 
@@ -54,16 +76,14 @@ public class OntologyPeopleManager implements PeopleManager {
          return null;
       if ( !owlPerson.hasSuperclass(OntologyPerson.PERSON_CLASS) )
          return null;
-      return new OntologyPerson(helper.getOntologyDataObject(), model,
-            owlPerson);
+      return new OntologyPerson(helper.getOntologyDataObject(), model, owlPerson);
    }
 
    @Override
    public OntologyPerson getPerson (String name) {
       // TODO get individual by name property
       OntologyPerson person = getPerson(helper.getNamedIndividual(name));
-      if ( person == null )
-         return addPerson(name, null, null);
+      if ( person == null ) return addPerson(name);
       return person;
    }
 
@@ -77,5 +97,10 @@ public class OntologyPeopleManager implements PeopleManager {
          people[i++] = getPerson(new OntologyIndividual(ontology, owlPerson));
       }
       return people;
+   }
+
+   @Override
+   public UserModel getUserModel () {
+      return model;
    }
 }
