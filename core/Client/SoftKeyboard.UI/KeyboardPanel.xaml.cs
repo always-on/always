@@ -47,16 +47,11 @@ namespace SoftKeyboard.UI
 			string text = key.getShiftAdjustedValue();
 			Typeface typeface = new Typeface(panel.textBox.FontFamily, panel.textBox.FontStyle, panel.textBox.FontWeight, panel.textBox.FontStretch);
 			FormattedText ft = new FormattedText(panel.textBox.Text, System.Globalization.CultureInfo.CurrentCulture, System.Windows.FlowDirection.LeftToRight, typeface, panel.textBox.FontSize, Brushes.Black);
-			if (ft.Width > panel.textBox.ActualWidth - 5)
+			if (ft.Width > panel.textBox.ActualWidth - 10)
 			{
 				isOverflow = true;
 				panel.textBox.Background = new SolidColorBrush(Colors.Red);
 				panel.textBox.IsReadOnly = true;
-				JObject data = new JObject();
-				data.Add("event", "exceed");
-				data.Add("prompt", "Enter text: (Use red arrow key to rub out)");
-				data.Add("text", panel.textBox.Text);
-				panel.remote.Send("keyboard.exceed", data);
 				panel.sendUpdateMessage();
 				panel.contextLabel.Content = "Too many characters: (Use red arrow key to rub out)";
 			}
