@@ -1,9 +1,8 @@
-package edu.wpi.always.enroll;
+package edu.wpi.always.enroll.schema;
 
 import org.joda.time.LocalDate;
 
 import edu.wpi.disco.rt.menu.*;
-import edu.wpi.always.enroll.schema.EnrollStateContext;
 import edu.wpi.always.user.calendar.CalendarEntry;
 
 public class EnrollAdjacencyPairImpl 

@@ -2,10 +2,9 @@ package edu.wpi.always.enroll.schema;
 
 
 import edu.wpi.disco.rt.menu.*;
-import edu.wpi.always.enroll.EnrollAdjacencyPairImpl;
-import edu.wpi.always.enroll.EnrollAdjacencyPairs.*;
 import edu.wpi.always.user.people.Person;
-import edu.wpi.always.enroll.EditPersonState.*;
+import edu.wpi.always.enroll.schema.EditPersonState.*;
+import edu.wpi.always.enroll.schema.EnrollAdjacencyPairs.*;
 
 public class InitialEnroll extends EnrollAdjacencyPairImpl {
 

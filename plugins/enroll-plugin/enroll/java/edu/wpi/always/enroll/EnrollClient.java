@@ -1,18 +1,10 @@
 package edu.wpi.always.enroll;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import edu.wpi.always.client.ClientPluginUtils;
-import edu.wpi.always.client.Message;
-import edu.wpi.always.client.UIMessageDispatcher;
+import com.google.gson.*;
+import edu.wpi.always.client.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
-import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.always.user.people.Person;
+import edu.wpi.always.user.people.*;
+import org.joda.time.format.*;
 
 public class EnrollClient implements EnrollUI{
 

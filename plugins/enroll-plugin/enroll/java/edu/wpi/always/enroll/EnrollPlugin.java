@@ -1,6 +1,6 @@
 package edu.wpi.always.enroll;
 
-import edu.wpi.always.*;
+import edu.wpi.always.Plugin;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.enroll.schema.EnrollSchema;
 import edu.wpi.always.user.UserModel;

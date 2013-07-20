@@ -1,8 +1,7 @@
-package edu.wpi.always.enroll;
+package edu.wpi.always.enroll.schema;
 
 import edu.wpi.always.client.KeyboardAdjacencyPair;
-import edu.wpi.always.enroll.ErrorCheckState.CheckCorrectionAdjacencyPair;
-import edu.wpi.always.enroll.schema.*;
+import edu.wpi.always.enroll.schema.ErrorCheckState.CheckCorrectionAdjacencyPair;
 import edu.wpi.always.user.UserUtils;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;

@@ -1,7 +1,6 @@
-package edu.wpi.always.enroll;
+package edu.wpi.always.enroll.schema;
 
 import edu.wpi.always.client.KeyboardAdjacencyPair;
-import edu.wpi.always.enroll.schema.*;
 import edu.wpi.always.user.UserUtils;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
@@ -13,75 +12,72 @@ import edu.wpi.disco.rt.menu.*;
 import org.joda.time.MonthDay;
 import java.util.List;
 
-public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
+public class EditPersonState extends EnrollAdjacencyPairs{
 
-   public static class CheckCorrectionAdjacencyPair extends
+   public static class EditPersonAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> {
 
-      private Person person;
-
-      public CheckCorrectionAdjacencyPair(final EnrollStateContext context, final Person person){
-         super("Okay, here's what I have.  Are there any mistakes?", context, true);
-         this.person = person;
-         choice("Edit Name", new DialogStateTransition() {
+      public EditPersonAdjacencyPair(final EnrollStateContext context, final Person person){
+         super("Here is the previous information about the person?", context, true);
+         choice("Edit name", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new EditNameAdjacencyPair(getContext());
+               return new ChangeNameAdjacencyPair(getContext(), person);
             }
          });
-         choice("Edit Birthday", new DialogStateTransition() {
+         choice("Edit birthday", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new TellEditBirthdayAdjacencyPair(getContext());
+               return new TellChangeBirthdayAdjacencyPair(getContext(), person);
             }
          });
          choice("Edit Zipcode", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new DoKnowZipCodeAdjacencyPair(getContext());
+               return new IfKnowZipCodeAdjacencyPair(getContext(), person);
             }
          });
          choice("Edit Relation", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new EditRelationAdjacencyPair(getContext());
+               return new ChangeRelationAdjacencyPair(getContext(), person);
             }
          });
          choice("Edit Age", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new EditAgeAdjacencyPair(getContext());
+               return new ChangeAgeAdjacencyPair(getContext(), person);
             }
          });
          choice("Edit Gender", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new EditGenderAdjacencyPair(getContext());
+               return new ChangeGenderAdjacencyPair(getContext(), person);
             }
          });
-         choice("Edit Spouse", new DialogStateTransition() {
+         choice("Edit Spouse.", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new EditSpouseAdjacencyPair(getContext());
+               return new ChangeSpouseAdjacencyPair(getContext(), person);
             }
          });
          choice("Edit Skype", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new EditSkypeAdjacencyPair(getContext());
+               return new ChangeSkypeAdjacencyPair(getContext(), person);
             }
          });
          choice("Edit Phone", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new EditPhoneAdjacencyPair(getContext());
+               return new ChangePhoneAdjacencyPair(getContext(), person);
             }
          });
-         choice("All Correct", new DialogStateTransition() {
+         choice("Done Edit", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                getContext().hideEnrollUI();
-               return new NextPersonAdjacencyPair(getContext());
+               return new InitialEnroll(getContext());
             }
          });
       }
@@ -91,37 +87,41 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
       }
    }
 
-   public static class EditNameAdjacencyPair extends
+   public static class ChangeNameAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditNameAdjacencyPair(final EnrollStateContext context) {
+      private Person person;
+
+      public ChangeNameAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("Please enter the Person's name.", "Enter name:", context, context.getKeyboard());
+         this.person = person;
       }
 
       @Override
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
          person.setName(text);
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class TellEditBirthdayAdjacencyPair extends
+   public static class TellChangeBirthdayAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> {
 
-      public TellEditBirthdayAdjacencyPair(final EnrollStateContext context) {
-         super("Do you want to tell " + PersonName + "s birthday", context);
+      public TellChangeBirthdayAdjacencyPair(final EnrollStateContext context, 
+            final Person person) {
+         super("Do you want to tell " + person.getName() + "s birthday", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
-               return new EditBirthdayMonthAdjacencyPair(getContext(), person);
+               return new ChangeBirthdayMonthAdjacencyPair(getContext(), person);
             }
          });
          choice("No", new DialogStateTransition() {
@@ -129,7 +129,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             @Override
             public AdjacencyPair run () {
                person.setBirthday(null);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Never Mind", new DialogStateTransition() {
@@ -137,32 +137,32 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             @Override
             public AdjacencyPair run() {
                person.setBirthday(null);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Please repeat this question.", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {
-               return new TellEditBirthdayAdjacencyPair(getContext());
+               return new TellChangeBirthdayAdjacencyPair(getContext(), person);
             }
          });
       }
    }
 
-   public static class EditBirthdayMonthAdjacencyPair extends
+   public static class ChangeBirthdayMonthAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> {
 
-      public EditBirthdayMonthAdjacencyPair(final EnrollStateContext context,
+      public ChangeBirthdayMonthAdjacencyPair(final EnrollStateContext context,
             final Person person) {
-         super("What is " + PersonName + "'s birthday month", context, true);
+         super("What is " + person.getName() + "'s birthday month", context, true);
          for(int i = 0; i < 12; i++) {
             final int MonthNum = i;
             choice(Person.Month[i], new DialogStateTransition() {
                @Override
                public AdjacencyPair run() {
                   Month = MonthNum + 1;
-                  return new EditBirthdayDayAdjacencyPair(getContext(), person);
+                  return new ChangeBirthdayDayAdjacencyPair(getContext(), person);
                }
             });
          }
@@ -170,19 +170,19 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             @Override
             public AdjacencyPair run() {
                person.setBirthday(null);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
       }
    }
 
-   public static class EditBirthdayDayAdjacencyPair extends
+   public static class ChangeBirthdayDayAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditBirthdayDayAdjacencyPair(final EnrollStateContext context, 
+      public ChangeBirthdayDayAdjacencyPair(final EnrollStateContext context,
             final Person person) {
-         super("What is the day of " + PersonName + "'s Birthday", 
-               "Enter "+ PersonName+ "'s Birthday:", 
+         super("What is the day of " + person.getName() + "'s Birthday", 
+               "Enter "+ person.getName() + "'s Birthday:", 
                context, context.getKeyboard(), true);
       }
 
@@ -194,26 +194,29 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             Day = day;
             personBirthday = new MonthDay(Month, Day);
             person.setBirthday(personBirthday);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
+            return new EditPersonAdjacencyPair(getContext(), person);
          }
-         return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
+         return new ChangePersonBirthdayDayInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          getContext().hideKeyboard();
          person.setBirthday(null);
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }	
    }
 
-   public static class EditBirthdayDayInvalidAdjacencyPair extends
+   public static class ChangePersonBirthdayDayInvalidAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditBirthdayDayInvalidAdjacencyPair(final EnrollStateContext context, 
+      private Person person;
+
+      public ChangePersonBirthdayDayInvalidAdjacencyPair(final EnrollStateContext context,
             final Person person) {
          super("The day you enter is invalid please enter again", 
-               "Enter valid "+ PersonName+ "'s birthday:", context, context.getKeyboard(), true);
+               "Enter valid "+ person.getName() + "'s birthday:", context, context.getKeyboard(), true);
+         this.person = person;
       }
 
       @Override
@@ -224,30 +227,30 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             Day = day;
             personBirthday = new MonthDay(Month, Day);
             person.setBirthday(personBirthday);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
+            return new EditPersonAdjacencyPair(getContext(), person);
          }
-         return new EditBirthdayDayInvalidAdjacencyPair(getContext(), person);
+         return new ChangePersonBirthdayDayInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          getContext().hideKeyboard();
          person.setBirthday(null);
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }	
    }
 
-   public static class EditGenderAdjacencyPair extends
+   public static class ChangeGenderAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> {
 
-      public EditGenderAdjacencyPair(final EnrollStateContext context) {
+      public ChangeGenderAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("What is the person's gender?", context);
          choice("Male", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
                person.setGender(Gender.Male);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Female", new DialogStateTransition() {
@@ -255,26 +258,29 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             @Override
             public AdjacencyPair run () {
                person.setGender(Gender.Female);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Never Mind", new DialogStateTransition() {
 
             @Override
-            public AdjacencyPair run () {
+            public AdjacencyPair run() {
                person.setGender(null);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
       }
    }
 
-   public static class EditAgeAdjacencyPair extends
+   public static class ChangeAgeAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditAgeAdjacencyPair(final EnrollStateContext context) {
-         super("What is the person's age?", "Enter " + PersonName +"'s age:", 
+      private Person person;
+
+      public ChangeAgeAdjacencyPair(final EnrollStateContext context, final Person person) {
+         super("What is the person's age?", "Enter " + person.getName() + "'s age:", 
                context, context.getKeyboard(),true);
+         this.person = person;
       }
 
       @Override
@@ -282,25 +288,29 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
             person.setAge(text);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
+            return new EditPersonAdjacencyPair(getContext(), person);
          }
-         return new EditAgeInvalidAdjacencyPair(getContext());
+         return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          person.setAge(null);
          getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }	
    }
 
-   public static class EditAgeInvalidAdjacencyPair extends
+   public static class ChangeAgeInvalidAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditAgeInvalidAdjacencyPair(final EnrollStateContext context) {
+      private Person person;
+
+      public ChangeAgeInvalidAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("The age you enter is invalid please enter again", 
-               "Enter valid " + PersonName +"'s age :", context, context.getKeyboard(),true);
+               "Enter valid " + person.getName() + "'s age:", 
+               context, context.getKeyboard(),true);
+         this.person = person;
       }
 
       @Override
@@ -308,54 +318,58 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
             person.setAge(text);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
+            return new EditPersonAdjacencyPair(getContext(), person);
          }
-         return new EditAgeInvalidAdjacencyPair(getContext());
+         return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          person.setAge(null);
          getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }	
    }
 
-   public static class DoKnowZipCodeAdjacencyPair extends
+   public static class IfKnowZipCodeAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> {
 
-      public DoKnowZipCodeAdjacencyPair(final EnrollStateContext context) {
-         super("Do you know " + PersonName + "'s ZipCode?", context);
+      public IfKnowZipCodeAdjacencyPair(final EnrollStateContext context, final Person person) {
+         super("Do you know " + person.getName() + "'s ZipCode?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
-               return new EditZipCodeAdjacencyPair(getContext());
+               return new ChangeZipCodeAdjacencyPair(getContext(), person);
             }
          });
          choice("No", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
-               return new EditStateAdjacencyPair(getContext());
+               return new ChangeStateAdjacencyPair(getContext(), person);
             }
          });
          choice("Please repeat this question.", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {
-               return new DoKnowZipCodeAdjacencyPair(getContext());
+               return new IfKnowZipCodeAdjacencyPair(getContext(), person);
             }
          });
       }
    }
 
-   public static class EditZipCodeAdjacencyPair extends
+
+   public static class ChangeZipCodeAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditZipCodeAdjacencyPair(final EnrollStateContext context) {
-         super("What is the person's zipcode?", "Enter " + PersonName +"s zipcode:", 
+      private Person person;
+
+      public ChangeZipCodeAdjacencyPair(final EnrollStateContext context, final Person person) {
+         super("What is the address's zipcode?", "Enter " + person.getName() + "'s zipcode:",
                context, context.getKeyboard(), true);
+         this.person = person;
       }
 
       @Override
@@ -365,25 +379,28 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          if(zip != null){
             person.setLocation(getContext().getPlaceManager().getPlace(zip.getZip()));
             getContext().hideKeyboard();
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
+            return new EditPersonAdjacencyPair(getContext(), person);
          }
-         return  new ZipCodeAgainInvalidAdjacencyPair(getContext());
+         return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          person.setLocation(null);
          getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class ZipCodeAgainInvalidAdjacencyPair extends
+   public static class ChangeZipCodeAgainInvalidAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public ZipCodeAgainInvalidAdjacencyPair(final EnrollStateContext context) {
+      private Person person;
+
+      public ChangeZipCodeAgainInvalidAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("The zipcode entered is invalid. Please enter an valid zipcode.", 
-               "Enter " + PersonName + "'s zipcode again:", context, context.getKeyboard(), true);
+               "Enter " + person.getName() + "'s zipcode again:", context, context.getKeyboard(), true);
+         this.person = person;
       }
 
       @Override
@@ -393,25 +410,28 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          if(zip != null){
             person.setLocation(getContext().getPlaceManager().getPlace(zip.getZip()));
             getContext().hideKeyboard();
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
+            return new EditPersonAdjacencyPair(getContext(), person);
          }
-         return new ZipCodeAgainInvalidAdjacencyPair(getContext());
+         return new ChangeZipCodeAgainInvalidAdjacencyPair(getContext(), person);
       }  	     
 
       @Override
       public AdjacencyPair cancel() {
          person.setLocation(null);
          getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class EditStateAdjacencyPair extends
+   public static class ChangeStateAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditStateAdjacencyPair(final EnrollStateContext context) {
-         super("Which state does the person live", "Enter " +PersonName+ "'s state:",
+      private Person person;
+
+      public ChangeStateAdjacencyPair(final EnrollStateContext context, final Person person) {
+         super("Which state does the person live", "Enter " + person.getName() + "'s state:",
                context, context.getKeyboard());
+         this.person = person;
       }
 
       @Override
@@ -420,24 +440,27 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          StateEntry state = zipcodes.getState(text);
          if(state != null){
             personState = state.getStateAbbrev().get(0);
-            return new EditCityAdjacencyPair(getContext());
+            return new ChangeCityAdjacencyPair(getContext(), person);
          }
-         return new EditStateInvalidAdjacencyPair(getContext());
+         return new ChangeStateInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
-         return new EditStateInvalidAdjacencyPair(getContext());
+         return new ChangeStateInvalidAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class EditStateInvalidAdjacencyPair extends
+   public static class ChangeStateInvalidAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditStateInvalidAdjacencyPair(final EnrollStateContext context) {
+      private Person person;
+
+      public ChangeStateInvalidAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("Sorry, but you must enter a valid state name here", 
                "Please Enter valid state name:",
                context, context.getKeyboard());
+         this.person = person;
       }
 
       @Override
@@ -446,24 +469,27 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          StateEntry state = zipcodes.getState(text);
          if(state != null){
             personState = state.getStateAbbrev().get(0);
-            return new EditCityAdjacencyPair(getContext());
+            return new ChangeCityAdjacencyPair(getContext(), person);
          }
-         return new EditStateInvalidAdjacencyPair(getContext());
+         return new ChangeStateInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
-         return new EditStateInvalidAdjacencyPair(getContext());
+         return new ChangeStateInvalidAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class EditCityAdjacencyPair extends
+   public static class ChangeCityAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditCityAdjacencyPair(final EnrollStateContext context) {
+      private Person person;
+
+      public ChangeCityAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("Which city does the person live in", 
-               "Enter " + PersonName + "'s city:",
+               "Enter " + person.getName() + "'s city:",
                context, context.getKeyboard());
+         this.person = person;
       }
 
       @Override
@@ -474,10 +500,10 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             if(city.getState().equals(personState)){
                getContext().hideKeyboard();
                person.setLocation(getContext().getPlaceManager().getPlace(city.getZip()));
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          }
-         return new EditCityInvalidAdjacencyPair(getContext());
+         return new ChangeCityInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -486,17 +512,20 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
          StateEntry state = zipcodes.getState(personState);
          person.setLocation(getContext().getPlaceManager().getPlace(state.getCapitalZip()));
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class EditCityInvalidAdjacencyPair extends
+   public static class ChangeCityInvalidAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditCityInvalidAdjacencyPair(final EnrollStateContext context) {
+      private Person person;
+
+      public ChangeCityInvalidAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("City name is not valid please enter it again", 
-               "Invalid city name. Plase re-enter " + PersonName + "'s city:",
+               "Invalid city name. Plase re-enter " + person.getName() + "'s city:",
                context, context.getKeyboard());
+         this.person = person;
       }
 
       @Override
@@ -507,13 +536,13 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
             if(city.getState().equals(personState)){
                getContext().hideKeyboard();
                person.setLocation(getContext().getPlaceManager().getPlace(city.getZip()));
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          }
          getContext().hideKeyboard();
          StateEntry state = zipcodes.getState(personState);
          person.setLocation(getContext().getPlaceManager().getPlace(state.getCapitalZip()));
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -522,166 +551,172 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
          StateEntry state = zipcodes.getState(personState);
          person.setLocation(getContext().getPlaceManager().getPlace(state.getCapitalZip()));
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class EditRelationAdjacencyPair extends
+   public static class ChangeRelationAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> {
 
-      public EditRelationAdjacencyPair(final EnrollStateContext context) {
+      public ChangeRelationAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("What is your relationship with this person?", context, true);
          choice("Friend", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Friend);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Sister", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Sister);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Brother", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Brother);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Mother", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Mother);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Father", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Father);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Daughter", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Daughter);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Son", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Son);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Granddaughter", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Granddaughter);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Grandson", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Grandson);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Aunt", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Aunt);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Uncle", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Uncle);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Cousin", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(Relationship.Cousin);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition () {
+         choice("Never Mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setRelationship(null);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
       }
    }
 
-   public static class EditSpouseAdjacencyPair extends
+   public static class ChangeSpouseAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> {
 
-      public EditSpouseAdjacencyPair(final EnrollStateContext context){
+      public ChangeSpouseAdjacencyPair(final EnrollStateContext context, final Person person){
          super("Is the person married?", context);
          choice("Yes", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new ReenterSpouseAdjacencyPair(getContext());
+               return new ChangeReenterSpouseAdjacencyPair(getContext(), person);
             }
          });
          choice("No", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setSpouse(null);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Never Mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person.setSpouse(null);
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
+               return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
       }
    }
 
-   public static class ReenterSpouseAdjacencyPair extends
+   public static class ChangeReenterSpouseAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public ReenterSpouseAdjacencyPair(final EnrollStateContext context){
-         super("What is his or her spouse's name?", "Enter " + PersonName + "'s spouse name:", 
+      private Person person;
+
+      public ChangeReenterSpouseAdjacencyPair(final EnrollStateContext context, final Person person){
+         super("What is his or her spouse's name?", "Enter " + person.getName() +"'s spouse name:", 
                context, context.getKeyboard());
+         this.person = person;
       }
 
       @Override
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
          person.setSpouse(text);
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          person.setSpouse(null);
          getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class EditPhoneAdjacencyPair extends
+   public static class ChangePhoneAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditPhoneAdjacencyPair(final EnrollStateContext context) {
-         super("What is his or her phone number?", "Enter " + PersonName + "'s phone number: (XXX-XXX-XXXX)", 
+      private Person person;
+
+      public ChangePhoneAdjacencyPair(final EnrollStateContext context, final Person person) {
+         super("What is his or her phone number?", "Enter " + person.getName() + "'s phone number: (XXX-XXX-XXXX)", 
                context, context.getKeyboard(),true);
+         this.person = person;
       }
 
       @Override
@@ -689,26 +724,29 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          if(UserUtils.isPhoneNumberValid(text)){
             getContext().hideKeyboard();
             person.setPhoneNumber(text);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
+            return new EditPersonAdjacencyPair(getContext(), person);
          }
-         return new EditPhoneInvalidAdjacencyPair(getContext());
+         return new ChangePhoneInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          person.setPhoneNumber(null);
          getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class EditPhoneInvalidAdjacencyPair extends
+   public static class ChangePhoneInvalidAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditPhoneInvalidAdjacencyPair(final EnrollStateContext context) {
+      private Person person;
+
+      public ChangePhoneInvalidAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("That's not a valid phone number, please enter again", 
-               "Enter valid " + PersonName + "'s phone number: (XXX-XXX-XXXX)", 
+               "Enter valid " + person.getName() + "'s phone number:(XXX-XXX-XXXX)", 
                context, context.getKeyboard(),true);
+         this.person = person;
       }
 
       @Override
@@ -716,92 +754,42 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs{
          if(UserUtils.isPhoneNumberValid(text)){
             getContext().hideKeyboard();
             person.setPhoneNumber(text);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
+            return new EditPersonAdjacencyPair(getContext(), person);
          }
-         return new EditPhoneInvalidAdjacencyPair(getContext());
+         return new ChangePhoneInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          person.setPhoneNumber(null);
          getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
-   public static class EditSkypeAdjacencyPair extends
+   public static class ChangeSkypeAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public EditSkypeAdjacencyPair(final EnrollStateContext context) {
-         super("What is his or her skype number?", "Enter " + PersonName + "s skype name:", 
+      private Person person;
+
+      public ChangeSkypeAdjacencyPair(final EnrollStateContext context, final Person person) {
+         super("What is his or her skype number?", "Enter " + person.getName() +"'s skype name:", 
                context, context.getKeyboard());
+         this.person = person;
       }
 
       @Override
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
          person.setSkypeNumber(text);
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          person.setSkypeNumber(null);
          getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
-      }
-   }
-
-   public static class NextPersonAdjacencyPair extends
-   AdjacencyPairBase<EnrollStateContext> {
-
-      public NextPersonAdjacencyPair(final EnrollStateContext context) {
-         super("Do you want to tell me about someone else?", context);
-         choice("No.", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run() {
-               return new DoneCurrentPersonAdjacencyPair(getContext());
-            }
-         });
-         choice("Yes", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run() {
-               return new PersonNameAdjacencyPair(getContext());
-            }
-         });	
-         choice("Repeat the question", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run() {
-               return new NextPersonAdjacencyPair(getContext());
-            }
-         });	
-      }
-   }
-
-   public static class DoneCurrentPersonAdjacencyPair extends
-   AdjacencyPairBase<EnrollStateContext> {
-
-      public DoneCurrentPersonAdjacencyPair(final EnrollStateContext context) {
-         super("Now I know about " + PersonName + "Do you want to back to main menu now", context);
-         choice("Go Back.", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run() {
-               return new InitialEnroll(getContext());
-            }
-         });
-         choice("I changed my mind and want to add another person", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run() {
-               return new PersonNameAdjacencyPair(getContext());
-            }
-         });
-         choice("Repeat the question", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run() {
-               return new DoneCurrentPersonAdjacencyPair(getContext());
-            }
-         });
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 }
-
