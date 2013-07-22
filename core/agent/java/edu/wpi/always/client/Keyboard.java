@@ -7,4 +7,8 @@ public interface Keyboard {
    void hideKeyboard ();
    
    String getInputSoFar ();
+   
+   boolean isOverflow ();
+   
+   void setOverflow (boolean overflow);
 }

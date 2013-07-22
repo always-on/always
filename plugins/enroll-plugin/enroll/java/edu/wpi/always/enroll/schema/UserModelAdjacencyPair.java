@@ -1,19 +1,15 @@
 package edu.wpi.always.enroll.schema;
 
-import java.util.List;
-
-import org.joda.time.MonthDay;
 import edu.wpi.always.client.KeyboardAdjacencyPair;
-import edu.wpi.always.user.people.Person;
-import edu.wpi.always.user.people.ValidPhoneAgeBirthday;
+import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
-import edu.wpi.always.user.places.Place;
-import edu.wpi.always.user.places.ZipCodes;
+import edu.wpi.always.user.places.*;
 import edu.wpi.always.user.places.ZipCodes.StateEntry;
 import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
-import edu.wpi.disco.rt.menu.AdjacencyPair;
-import edu.wpi.disco.rt.menu.AdjacencyPairBase;
-import edu.wpi.disco.rt.menu.DialogStateTransition;
+import edu.wpi.disco.rt.menu.*;
+import org.joda.time.MonthDay;
+import java.util.List;
 
 public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateContext>{
 
@@ -53,16 +49,14 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isInteger(text)){
+         if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
             UserAge = text;
             getContext().getPeopleManager().getUser().setAge(UserAge);
             return new TellUserBirthdayAdjacencyPair(getContext());
          }
-         else{
-            getContext().hideKeyboard();
-            return new UserAgeInvalidAdjacencyPair(getContext());
-         }
+         getContext().hideKeyboard();
+         return new UserAgeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -87,16 +81,14 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isInteger(text)){
+         if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
             UserAge = text;
             getContext().getPeopleManager().getUser().setAge(UserAge);
             return new TellUserBirthdayAdjacencyPair(getContext());
          }
-         else{
-            getContext().hideKeyboard();
-            return new UserAgeInvalidAdjacencyPair(getContext());
-         }
+         getContext().hideKeyboard();
+         return new UserAgeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -177,7 +169,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
       @Override
       public AdjacencyPair success(String text) {
          int day = Integer.parseInt(text);
-         if(ValidPhoneAgeBirthday.isValidDayOfMonth(Month, day)){
+         if(UserUtils.isValidDayOfMonth(Month, day)){
             getContext().hideKeyboard();
             Day = day;
             userBirthday = new MonthDay(Month, Day);
@@ -185,9 +177,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getPerson(UserName).setBirthday(userBirthday);
             return new UserGenderAdjacencyPair(getContext());
          }
-         else{
-            return new UserBirthdayDayInvalidAdjacencyPair(getContext());
-         }
+         return new UserBirthdayDayInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -207,7 +197,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
       @Override
       public AdjacencyPair success(String text) {
          int day = Integer.parseInt(text);
-         if(ValidPhoneAgeBirthday.isValidDayOfMonth(Month, day)){
+         if(UserUtils.isValidDayOfMonth(Month, day)){
             getContext().hideKeyboard();
             Day = day;
             userBirthday = new MonthDay(Month, Day);
@@ -215,9 +205,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getPerson(UserName).setBirthday(userBirthday);
             return new UserGenderAdjacencyPair(getContext());
          }
-         else{
-            return new UserBirthdayDayInvalidAdjacencyPair(getContext());
-         }
+         return new UserBirthdayDayInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -314,9 +302,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getContext().hideKeyboard();
             return new UserSpouseAdjacencyPair(getContext());
          }
-         else{
-            return new UserZipCodeInvalidAdjacencyPair(getContext());
-         }
+         return new UserZipCodeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -344,9 +330,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             getContext().hideKeyboard();
             return new UserSpouseAdjacencyPair(getContext());
          }
-         else{
-            return new UserZipCodeInvalidAdjacencyPair(getContext());
-         }
+         return new UserZipCodeInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -372,9 +356,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             UserState = state.getStateAbbrev().get(0);
             return new UserCityAdjacencyPair(getContext());
          }
-         else{
-            return new UserStateInvalidAdjacencyPair(getContext());
-         }
+         return new UserStateInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -400,9 +382,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             UserState = state.getStateAbbrev().get(0);
             return new UserCityAdjacencyPair(getContext());
          }
-         else{
-            return new UserStateInvalidAdjacencyPair(getContext());
-         }
+         return new UserStateInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -549,14 +529,12 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
+         if(UserUtils.isPhoneNumberValid(text)){
             PhoneNumber = text;
             getContext().getPeopleManager().getUser().setPhoneNumber(PhoneNumber);
             return new UserSkypeNumberAdjacencyPair(getContext());
          }
-         else{
-            return new UserPhoneNumberInvalidAdjacencyPair(getContext());
-         }
+         return new UserPhoneNumberInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -576,14 +554,12 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
       @Override
       public AdjacencyPair success(String text) {
-         if(ValidPhoneAgeBirthday.isPhoneNumberValid(text)){
+         if(UserUtils.isPhoneNumberValid(text)){
             PhoneNumber = text;
             getContext().getPeopleManager().getUser().setPhoneNumber(PhoneNumber);
             return new UserSkypeNumberAdjacencyPair(getContext());
          }
-         else{
-            return new UserPhoneNumberInvalidAdjacencyPair(getContext());
-         }
+         return new UserPhoneNumberInvalidAdjacencyPair(getContext());
       }
 
       @Override

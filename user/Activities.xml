@@ -19,6 +19,10 @@
   <task id="EnrollUser"/>
 
   <task id="ExplainSelf"/>
+  
+  <task id="DiscussBaseball">
+  	<precondition> false </precondition>
+  </task>
 
   <script init="true">
 

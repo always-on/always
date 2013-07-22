@@ -12,15 +12,16 @@
       </subtasks>
    </task>
    <task id="__Greetings_tree">
-      <subtasks id="_d4e11_subtasks">
-         <step name="_d4e11_step" task="disco:Say"/>
-         <binding slot="$_d4e11_step.text" value="&#34;Hi&#34;"/>
-         <binding slot="$_d4e11_step.external" value="true"/>
+      <subtasks id="_d4e12_subtasks">
+         <step name="_d4e12_step" task="disco:Say"/>
+         <binding slot="$_d4e12_step.text" value="&#34;Hi&#34;"/>
+         <binding slot="$_d4e12_step.external" value="true"/>
       </subtasks>
    </task>
    <task id="_Session">
       <subtasks id="_s1">
          <step name="greet" task="_Greetings"/>
+         <step name="enroll" task="a:EnrollUser" minOccurs="0"/>
          <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
          <step name="explain" task="a:ExplainSelf" minOccurs="0"/>
          <step name="rummy" task="a:PlayRummy" minOccurs="0"/>

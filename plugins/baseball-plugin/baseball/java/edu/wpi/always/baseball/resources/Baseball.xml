@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
+           xmlns:disco="urn:disco.wpi.edu:Disco"
+           about="urn:disco.wpi.edu:models:Baseball">
+   <task id="_Baseball">
+      <subtasks id="__Baseball_subtasks">
+         <step name="__Baseball_step" task="disco:Say"/>
+         <step name="__Baseball_ref" task="__Baseball_tree"/>
+         <binding slot="$__Baseball_step.text" value="&#34;What is your favorite baseball team?&#34;"/>
+         <binding slot="$__Baseball_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_Baseball_Saw_Game">
+      <subtasks id="__Baseball_Saw_Game_subtasks">
+         <step name="__Baseball_Saw_Game_step" task="disco:Say$Eval"/>
+         <step name="__Baseball_Saw_Game_ref" task="__Baseball_Saw_Game_tree"/>
+         <binding slot="$__Baseball_Saw_Game_step.text" value="&#34;What did you think of it?&#34;"/>
+         <binding slot="$__Baseball_Saw_Game_step.eval" value="&#34;talkedAboutLG=true;&#34;"/>
+         <binding slot="$__Baseball_Saw_Game_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_GetRecap">
+      <subtasks id="__GetRecap_subtasks">
+         <step name="__GetRecap_step" task="disco:Say$Expression"/>
+         <step name="__GetRecap_ref" task="__GetRecap_tree"/>
+         <binding slot="$__GetRecap_step.text" value="&#34;(parser.getRecap(game1))&#34;"/>
+         <binding slot="$__GetRecap_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_SmartRemark">
+      <subtasks id="__SmartRemark_subtasks">
+         <step name="__SmartRemark_step" task="disco:Say"/>
+         <step name="__SmartRemark_ref" task="__SmartRemark_tree"/>
+         <binding slot="$__SmartRemark_step.text"
+                  value="&#34;Really?  But they aren't so great at winning the World Series!&#34;"/>
+         <binding slot="$__SmartRemark_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="__Baseball_tree">
+      <subtasks id="_d4e4_subtasks">
+         <step name="_d4e4_step" task="disco:Say$Eval"/>
+         <step name="_d4e5_step" task="_DiscussLastGame"/>
+         <binding slot="$_d4e4_step.text" value="&#34;The Yankees.&#34;"/>
+         <binding slot="$_d4e4_step.eval" value="&#34;preferredTeam = 'Yankees' &#34;"/>
+         <binding slot="$_d4e4_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e6_subtasks">
+         <step name="_d4e6_step" task="disco:Say$Eval"/>
+         <step name="_d4e8_step" task="_SmartRemark"/>
+         <binding slot="$_d4e6_step.text" value="&#34;The Red Sox.&#34;"/>
+         <binding slot="$_d4e6_step.eval" value="&#34;preferredTeam = 'Yankees' &#34;"/>
+         <binding slot="$_d4e6_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="__Baseball_Saw_Game_tree">
+      <subtasks id="_d4e16_subtasks">
+         <step name="_d4e16_step" task="disco:Say"/>
+         <step name="_d4e17_step" task="disco:Say$Expression"/>
+         <binding slot="$_d4e16_step.text" value="&#34;It was a good game.&#34;"/>
+         <binding slot="$_d4e16_step.external" value="true"/>
+         <binding slot="$_d4e17_step.text"
+                  value="&#34;\&#34;I thought it was very good too. \&#34;+(typeOfGameString)+\&#34;\&#34;&#34;"/>
+         <binding slot="$_d4e17_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e18_subtasks">
+         <step name="_d4e18_step" task="disco:Say"/>
+         <step name="_d4e19_step" task="disco:Say$Expression"/>
+         <step name="_d4e20_step" task="disco:Say"/>
+         <binding slot="$_d4e18_step.text" value="&#34;Awesome game!&#34;"/>
+         <binding slot="$_d4e18_step.external" value="true"/>
+         <binding slot="$_d4e19_step.text"
+                  value="&#34;\&#34;Yeh, it was very intense.  Great game. \&#34;+(typeOfGameString)+\&#34;\&#34;&#34;"/>
+         <binding slot="$_d4e19_step.external" value="false"/>
+         <binding slot="$_d4e20_step.text" value="&#34;yeh.&#34;"/>
+         <binding slot="$_d4e20_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e21_subtasks">
+         <step name="_d4e21_step" task="disco:Say"/>
+         <binding slot="$_d4e21_step.text" value="&#34;It was boring.&#34;"/>
+         <binding slot="$_d4e21_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e22_subtasks">
+         <step name="_d4e22_step" task="disco:Say"/>
+         <step name="_d4e23_step" task="disco:Say$Expression"/>
+         <step name="_d4e23_ref" task="_d4e23_tree"/>
+         <binding slot="$_d4e22_step.text" value="&#34;We needed that win.&#34;"/>
+         <binding slot="$_d4e22_step.external" value="true"/>
+         <binding slot="$_d4e23_step.text" value="&#34;\&#34; \&#34;+(weNeededThatWinResponse)+\&#34; \&#34;&#34;"/>
+         <binding slot="$_d4e23_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e23_tree">
+      <subtasks id="_d4e24_subtasks">
+         <step name="_d4e24_step" task="disco:Say"/>
+         <applicable>seasonType == 2</applicable>
+         <binding slot="$_d4e24_step.text" value="&#34;Yeh, I agree.&#34;"/>
+         <binding slot="$_d4e24_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e25_subtasks">
+         <step name="_d4e25_step" task="disco:Say"/>
+         <applicable>seasonType == 2</applicable>
+         <binding slot="$_d4e25_step.text" value="&#34;I think we can win even without that.&#34;"/>
+         <binding slot="$_d4e25_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e26_subtasks">
+         <step name="_d4e26_step" task="disco:Say"/>
+         <applicable>seasonType != 2</applicable>
+         <binding slot="$_d4e26_step.text" value="&#34;Yeh, I agree.&#34;"/>
+         <binding slot="$_d4e26_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="__GetRecap_tree">
+      <subtasks id="_d4e28_subtasks">
+         <step name="_d4e28_step" task="disco:Say"/>
+         <step name="_d4e29_step" task="disco:Say"/>
+         <binding slot="$_d4e28_step.text" value="&#34;Thanks for telling me that!&#34;"/>
+         <binding slot="$_d4e28_step.external" value="true"/>
+         <binding slot="$_d4e29_step.text" value="&#34;I live to serve you HA HA&#34;"/>
+         <binding slot="$_d4e29_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e30_subtasks">
+         <step name="_d4e30_step" task="disco:Say"/>
+         <step name="_d4e31_step" task="disco:Say"/>
+         <binding slot="$_d4e30_step.text" value="&#34;Well, that's pretty good news!&#34;"/>
+         <binding slot="$_d4e30_step.external" value="true"/>
+         <binding slot="$_d4e31_step.text" value="&#34;Yeh, it sure is!&#34;"/>
+         <binding slot="$_d4e31_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e32_subtasks">
+         <step name="_d4e32_step" task="disco:Say"/>
+         <step name="_d4e33_step" task="disco:Say"/>
+         <binding slot="$_d4e32_step.text" value="&#34;well, maybe they'll do better next time.&#34;"/>
+         <binding slot="$_d4e32_step.external" value="true"/>
+         <binding slot="$_d4e33_step.text" value="&#34;I sure hope so.&#34;"/>
+         <binding slot="$_d4e33_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="__SmartRemark_tree">
+      <subtasks id="_d4e35_subtasks">
+         <step name="_d4e35_step" task="disco:Say"/>
+         <binding slot="$_d4e35_step.text" value="&#34;I bet you are a Yankees Fan.&#34;"/>
+         <binding slot="$_d4e35_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e36_subtasks">
+         <step name="_d4e36_step" task="disco:Say"/>
+         <binding slot="$_d4e36_step.text" value="&#34;Ah, but who cares?  They play great ball!&#34;"/>
+         <binding slot="$_d4e36_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="_DiscussLastGame">
+      <subtasks id="sawGame">
+         <step name="saw" task="_Baseball_Saw_Game"/>
+      </subtasks>
+      <subtasks id="didnt">
+         <step name="recap" task="_GetRecap" minOccurs="0"/>
+      </subtasks>
+   </task>
+   <script init="true"> 
+
+    // If mode is 1, it is OFFLINE. If mode is 0, it is ONLINE --&gt;
+    var mode = 1;
+    
+    var parser = new Packages.edu.wpi.always.baseball.Parser(mode);
+    var aStandingsParser = new Packages.edu.wpi.always.baseball.standings.StandingsParser(mode);
+    
+    var lastGame = parser.getOneOfTheLastGames(1);
+    var System = java.lang.System;
+    var timeSinceLastGame = lastGame.timeSinceLastGame;
+    var lastGameDate = lastGame.gameDate;
+    
+    // seasontype = 0:spring, 1:regular season, 2:playoff
+    var seasonType = parser.getSeasonType();
+    var yankeesSeasonIsOver = aStandingsParser.getyankeesSeason();
+    
+    // If time is bigger than lastGame.timeSinceLastGame, we talk about
+    // last game at the start
+    var time = 5;
+    
+    // Watching Variables
+    var typeOfGameString = Packages.edu.wpi.always.baseball.recaps.GameRecapParser.getTypeOfGameString(lastGame.bosScore,lastGame.otherScore,lastGame.opposingTeam);
+    var weNeededThatWinResponse = parser.getWeNeededThatWinResponseString(aStandingsParser,lastGame.bosScore,lastGame.otherScore);
+    
+    // Playoff Variables
+    var playoffsOption0Resp =  parser.getPlayoffsResponse(aStandingsParser,0);
+    var playoffsOption1Resp =  parser.getPlayoffsResponse(aStandingsParser,1);
+    var playoffsOption2Resp =  parser.getPlayoffsResponse(aStandingsParser,2);
+    
+    // Standings Variables
+    var redSoxStandingsString = aStandingsParser.getNYYStandingsString();
+    
+    // Recaps variables 
+    var game1 = lastGame;
+    var game2 = parser.getOneOfTheLastGames(2);
+    var game3 = parser.getOneOfTheLastGames(3);
+    var game4 = parser.getOneOfTheLastGames(4);
+    var game1_end = false;
+    var game2_end = false;
+    var game3_end = false;
+    var game4_end = false;
+    
+    // News Variables
+    var newsArticleIndex = -1;
+    var newsParser = new Packages.edu.wpi.always.baseball.news.RecentNewsParser(mode);
+    
+    // Playoff Standings Variables
+    var showSeasonType = aStandingsParser.getShowSeasonType_xml();
+    var DSwithGeneral = aStandingsParser.getDSwithGeneral_xml();
+    var LCwithGeneral = aStandingsParser.getLCwithGeneral_xml();
+    var WSwithGeneral = aStandingsParser.getWSwithGeneral_xml();
+    var playoffswithYankees = aStandingsParser.getPlayoffswithYankees_xml();
+    
+    var DS_flag = false;
+    var LC_flag = false;
+    var WS_flag = false;
+    var preferredTeam;
+    
+    var talkedAboutLG = false;
+  </script>
+</taskModel>
