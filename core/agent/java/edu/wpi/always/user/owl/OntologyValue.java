@@ -26,7 +26,7 @@ public class OntologyValue {
    }
 
    public double asDouble () {
-      if ( isNull() ) throw new NullPointerException();
+      if ( isNull() ) return 0;
       return literal.parseDouble();
    }
 
@@ -36,10 +36,15 @@ public class OntologyValue {
    }
 
    public int asInteger () {
-      if ( isNull() ) throw new NullPointerException();
+      if ( isNull() ) return 0;
       return literal.parseInteger();
    }
 
+   public long asLong () {
+      if ( isNull() ) return 0;
+      return Long.parseLong(literal.getLiteral());
+   }
+   
    static final DateTimeFormatter XML_GMonthDay_FORMAT = DateTimeFormat
          .forPattern("--MM-dd");
 

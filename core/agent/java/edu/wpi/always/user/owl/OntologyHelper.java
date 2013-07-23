@@ -121,6 +121,10 @@ public class OntologyHelper {
       return new OntologyValue(getFactory().getOWLLiteral(value));
    }
 
+   public OntologyValue getLiteral (long value) {
+      return getLiteral(Long.toString(value), OWL2Datatype.XSD_LONG);
+   }
+   
    public OntologyValue getLiteral (boolean value) {
       return new OntologyValue(getFactory().getOWLLiteral(value));
    }

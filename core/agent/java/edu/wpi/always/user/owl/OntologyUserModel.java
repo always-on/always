@@ -77,7 +77,37 @@ public class OntologyUserModel implements UserModel {
    public void setProperty (String property, String value) {
       user.setDataProperty(property, value == null ? null : ontology.getLiteral(value));
    }
-    
+   
+   @Override
+   public int getIntProperty (String property) {
+      return user.getDataPropertyValue(property).asInteger();
+   }
+
+   @Override
+   public void setProperty (String property, int value) {
+       user.setDataProperty(property, ontology.getLiteral(value));
+   }
+     
+   @Override
+   public long getLongProperty (String property) {
+      return user.getDataPropertyValue(property).asLong();
+   }
+
+   @Override
+   public void setProperty (String property, long value) {
+       user.setDataProperty(property, ontology.getLiteral(value));
+   }
+   
+   @Override
+   public double getDoubleProperty (String property) {
+      return user.getDataPropertyValue(property).asDouble();
+   }
+
+   @Override
+   public void setProperty (String property, double value) {
+      user.setDataProperty(property, ontology.getLiteral(value));
+   }
+
    @Override
    public void setProperty (String property, boolean value) {
       user.setDataProperty(property, ontology.getLiteral(value));
@@ -139,5 +169,5 @@ public class OntologyUserModel implements UserModel {
    public String toString () {
       return "[UserModel:"+userName+"]";
    }
-  
+ 
 }

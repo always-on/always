@@ -21,7 +21,6 @@ public abstract class Plugin {
    protected final String name;
    protected final UserModel userModel;
    protected final CollaborationManager cm;
-   private final SchemaManager schemaManager;
    private final Interaction interaction;
    
    /**
@@ -31,8 +30,7 @@ public abstract class Plugin {
       this.name = name;
       this.userModel = userModel;
       this.cm = cm;
-      MutablePicoContainer container = cm.getContainer();
-      schemaManager = container.getComponent(SchemaManager.class);
+      MutablePicoContainer container = cm.getContainer();      
       interaction = container.getComponent(Interaction.class);
       InputStream stream = getClass().getResourceAsStream("resources/"+name+".owl");
       if ( stream != null ) {
@@ -94,6 +92,97 @@ public abstract class Plugin {
    }
    
    /**
+    * Set integer-valued user property associated with this plugin. Property is
+    * stored in user model. Note property must be declared in [plugin name].owl
+    * resource file in toplevel package of plugin class.
+    * 
+    * @param property name of property (must be a constant and start with plugin
+    *           name)
+    * @param value property value
+    * 
+    * @see #setProperty(String,int)
+    */
+   public void setProperty (String property, int value) {
+      checkProperty(property);
+      userModel.setProperty(property, value);
+   }
+   
+   /**
+    * Get integer-valued user property associated with this plugin. Property is
+    * stored in user model. Note property must be declared in [plugin name].owl
+    * resource file in toplevel package of plugin class. Property defaults to
+    * 0 if it has no value.
+    * 
+    * @param property name of property (must be a constant and start with plugin
+    *           name)
+    */
+   public int getIntProperty (String property) {
+      checkProperty(property);
+      return userModel.getIntProperty(property);
+   }
+   
+     
+   /**
+    * Set long-valued user property associated with this plugin. Property is
+    * stored in user model. Note property must be declared in [plugin name].owl
+    * resource file in toplevel package of plugin class.
+    * 
+    * @param property name of property (must be a constant and start with plugin
+    *           name)
+    * @param value property value
+    * 
+    * @see #setProperty(String,String)
+    */
+   public void setProperty (String property, long value) {
+      checkProperty(property);
+      userModel.setProperty(property, value);
+   }
+   
+   /**
+    * Get boolean-valued user property associated with this plugin. Property is
+    * stored in user model. Note property must be declared in [plugin name].owl
+    * resource file in toplevel package of plugin class. Property defaults to
+    * 0 if it has no value.
+    * 
+    * @param property name of property (must be a constant and start with plugin
+    *           name)
+    */
+   public long getLongProperty (String property) {
+      checkProperty(property);
+      return userModel.getLongProperty(property);
+   }
+   
+    /**
+    * Set double-valued user property associated with this plugin. Property is
+    * stored in user model. Note property must be declared in [plugin name].owl
+    * resource file in toplevel package of plugin class.
+    * 
+    * @param property name of property (must be a constant and start with plugin
+    *           name)
+    * @param value property value
+    * 
+    * @see #setProperty(String,int)
+    */
+   public void setProperty (String property, double value) {
+      checkProperty(property);
+      userModel.setProperty(property, value);
+   }
+   
+   /**
+    * Get double-valued user property associated with this plugin. Property is
+    * stored in user model. Note property must be declared in [plugin name].owl
+    * resource file in toplevel package of plugin class. Property defaults to
+    * 0 if it has no value.
+    * 
+    * @param property name of property (must be a constant and start with plugin
+    *           name)
+    */
+   public double getDoubleProperty (String property) {
+      checkProperty(property);
+      return userModel.getDoubleProperty(property);
+   }
+   
+   /**
     * Set boolean-valued user property associated with this plugin. Property is
     * stored in user model. Note property must be declared in [plugin name].owl
     * resource file in toplevel package of plugin class.
@@ -106,7 +195,7 @@ public abstract class Plugin {
     */
    public void setProperty (String property, boolean value) {
       checkProperty(property);
-      userModel.setProperty(property, Boolean.valueOf(value).toString());
+      userModel.setProperty(property, value);
    }
    
    /**
@@ -158,7 +247,7 @@ public abstract class Plugin {
    public ActivitySchema startActivity (String name) {
       ActivitySchema activity = null;
       for (Class<? extends Schema> schema : schemas.get(name)) {
-        Schema instance = schemaManager.start(schema);
+        Schema instance = cm.getContainer().getComponent(SchemaManager.class).start(schema);
         if ( instance instanceof ActivitySchema ) activity = (ActivitySchema) instance;
       }
       if ( activity == null ) throw new IllegalStateException("No activity schema for: "+name);
