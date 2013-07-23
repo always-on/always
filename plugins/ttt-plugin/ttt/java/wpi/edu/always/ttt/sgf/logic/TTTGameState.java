@@ -12,7 +12,6 @@ public class TTTGameState extends GameLogicState{
 
    //public int[] board = {1, 1, 2, 0, 0, 2, 1, 0, 0};
    public int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-   public boolean tie;
 
    /*
     * if a winner, returns the winner number (1 user, 2 agent), tie 3, else 0;

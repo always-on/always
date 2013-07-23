@@ -24,9 +24,12 @@ implements TTTUIListener {
    public void humanPlayed() {
       afterLimbo();
    }
+   public void afterLimbo(){}
    
-   public void afterLimbo(){
-      
+   @Override
+   public void userCommentTimeOut(){
+      afterTimeOut();
    }
-
+   public void afterTimeOut(){}
+   
 }

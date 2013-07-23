@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import javax.speech.AudioException;
@@ -138,6 +139,7 @@ public class CommentingManager {
          return eligibleComments.get(0);
       else return null;
    }
+   
    /*This function chooses the edu.wpi.sgf.comment to be made by agent for an agent move
     * who: game turn. 1: user, 2:agent*/ 
    public Comment pickCommentOnOwnMove(GameLogicState gameState, 
@@ -244,16 +246,16 @@ public class CommentingManager {
       }
 
       ///ttt
-      for(Comment cm : allComments){
-
-         if(cm.who == 1)
-            continue;
-
-         if(!cm.getTags().contains("humanWon")
-               && !cm.getTags().contains("agentWon")  
-               && !cm.getTags().contains("tie")
-               && cm.getTags().contains("competition"))
-            eligibleComments.add(cm);
+      if(!gameState.agentWins && !gameState.userWins && !gameState.tie){
+         for(Comment cm : allComments){
+            if(cm.who == 1)
+               continue;
+            if(!cm.getTags().contains("humanWon")
+                  && !cm.getTags().contains("agentWon")  
+                  && !cm.getTags().contains("tie")
+                  && cm.getTags().contains("competition"))
+               eligibleComments.add(cm);
+         }
       }
       
       ///rummy
@@ -270,7 +272,8 @@ public class CommentingManager {
 
       if(eligibleComments.isEmpty())
          return null;
-      return eligibleComments.get(eligibleComments.size() - 1);
+      return eligibleComments.get(
+            new Random().nextInt(eligibleComments.size()));
 
    }
 
@@ -322,19 +325,19 @@ public class CommentingManager {
       if(gameState.agentWins){
          for(Comment eachComment: allLibComments)
             if(eachComment.getTags().contains("agentWon")
-                  && eachComment.getTags().contains("usr"))
+                  && (eachComment.who == 3 || eachComment.who == 1))
                allCommentOptions.add(eachComment.getContent());
       }
       else if(gameState.userWins){
          for(Comment eachComment: allLibComments)
             if(eachComment.getTags().contains("humanWon")
-                  && eachComment.getTags().contains("usr"))
+                  && (eachComment.who == 3 || eachComment.who == 1))
                allCommentOptions.add(eachComment.getContent());
       }
       else if(gameState.tie){
          for(Comment eachComment: allLibComments)
             if(eachComment.getTags().contains("tie")
-                  && eachComment.getTags().contains("usr"))
+                  && (eachComment.who == 3 || eachComment.who == 1))
                allCommentOptions.add(eachComment.getContent());
       }
       else{
@@ -353,7 +356,7 @@ public class CommentingManager {
       }
       else
          finalCommentOptions.addAll(allCommentOptions);
-
+      Collections.shuffle(finalCommentOptions);
       return finalCommentOptions;
 
    }

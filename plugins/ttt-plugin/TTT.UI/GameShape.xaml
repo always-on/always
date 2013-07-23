@@ -8,21 +8,52 @@
              x:Name="tictactoe"
              d:DesignHeight="745" d:DesignWidth="745" MaxWidth="1200" MinWidth="1200"
              VerticalAlignment="Stretch">
-
-        <StackPanel >
+  
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#bdbdbd" />
+        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#bdbdbd" />
+        <Style x:Key="MyButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                            BorderThickness="0"
+                            Padding="4,2" 
+                            BorderBrush="White" 
+                            CornerRadius="3" 
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <StackPanel >
         <Grid Width="745" Height="745" Background="Black" Name="board" ShowGridLines="False">
 
-            <Button Name="cell1" Background="White" FontSize="70" Click="Click" Tag="c1" Height="245" Width="245" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />
-            <Button Name="cell2" Background="White" FontSize="70" Click="Click" Tag="c2" Height="245" Width="245" Margin="250,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />
-            <Button Name="cell3" Background="White" FontSize="70" Click="Click" Tag="c3" Height="245" Width="245" Margin="500,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />
+            <Button Name="cell1" Style="{StaticResource MyButtonStyle}" Background="White" FontSize="90" Focusable="False" Click="Click" Tag="c1" Height="245" Width="245" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />
+            <Button Name="cell2" Style="{StaticResource MyButtonStyle}" Background="White" FontSize="90" Focusable="False" Click="Click" Tag="c2" Height="245" Width="245" Margin="250,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />
+            <Button Name="cell3" Style="{StaticResource MyButtonStyle}" Background="White" FontSize="90" Focusable="False" Click="Click" Tag="c3" Height="245" Width="245" Margin="500,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  />
 
-            <Button Name="cell4" Background="White" FontSize="70" Click="Click" Tag="c4" Height="245" Width="245" Margin="0,0,0,250" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-            <Button Name="cell5" Background="White" FontSize="70" Click="Click" Tag="c5" Height="245" Width="245" Margin="250,250,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <Button Name="cell6" Background="White" FontSize="70" Click="Click" Tag="c6" Height="245" Width="245" Margin="0,250,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
+            <Button Name="cell4" Style="{StaticResource MyButtonStyle}" Background="White" FontSize="90" Focusable="False" Click="Click" Tag="c4" Height="245" Width="245" Margin="0,0,0,250" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+            <Button Name="cell5" Style="{StaticResource MyButtonStyle}" Background="White" FontSize="90" Focusable="False" Click="Click" Tag="c5" Height="245" Width="245" Margin="250,250,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Button Name="cell6" Style="{StaticResource MyButtonStyle}" Background="White" FontSize="90" Focusable="False" Click="Click" Tag="c6" Height="245" Width="245" Margin="0,250,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
 
-            <Button Name="cell7" Background="White" FontSize="70" Click="Click" Tag="c7" Height="245" Width="245" Margin="0,500,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <Button Name="cell8" Background="White" FontSize="70" Click="Click" Tag="c8" Height="245" Width="245" Margin="250,500,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            <Button Name="cell9" Background="White" FontSize="70" Click="Click" Tag="c9" Height="245" Width="245" Margin="500,500,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <Button Name="cell7" Style="{StaticResource MyButtonStyle}" Background="White" FontSize="90" Focusable="False" Click="Click" Tag="c7" Height="245" Width="245" Margin="0,500,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Button Name="cell8" Style="{StaticResource MyButtonStyle}" Background="White" FontSize="90" Focusable="False" Click="Click" Tag="c8" Height="245" Width="245" Margin="250,500,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <Button Name="cell9" Style="{StaticResource MyButtonStyle}" Background="White" FontSize="90" Focusable="False" Click="Click" Tag="c9" Height="245" Width="245" Margin="500,500,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
         </Grid>
     </StackPanel>

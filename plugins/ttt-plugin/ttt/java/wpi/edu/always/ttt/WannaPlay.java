@@ -14,7 +14,7 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
 
    public WannaPlay(final TTTStateContext context) {
       super("Do you want to play Tic Tac Toe?", context);
-      choice("Sure!", new DialogStateTransition() {
+      choice("Sure", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {
             return new WhoPlaysFirst(context);
@@ -38,7 +38,7 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
                return new Limbo(context);
             }
          });
-         choice("You go ahead!", new DialogStateTransition() {
+         choice("You go ahead", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new AgentPlays(context);
@@ -55,8 +55,6 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
    public static class Limbo extends TTTAdjacencyPairImpl { 
       public Limbo(final TTTStateContext context){
          super(currentComment, context);
-         getContext().getTTTUI().updatePlugin(this);
-         getContext().getTTTUI().makeBoardPlayable();
       }
       @Override
       public void afterLimbo() {
@@ -64,6 +62,9 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
       }
       @Override
       public void enter() {
+         TTTClient.gazeLeft = true;
+         getContext().getTTTUI().updatePlugin(this);
+         getContext().getTTTUI().makeBoardPlayable();
       }
    }
 
@@ -89,8 +90,10 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
       }
       @Override
       public void enter(){
-         getContext().getTTTUI().prepareMoveAndComment();
+         TTTClient.gazeLeft = true;
+         getContext().getTTTUI().prepareAgentMove();
          getContext().getTTTUI().playAgentMove(this);
+         getContext().getTTTUI().prepareAgentComment();
          currentComment = getContext().getTTTUI().getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI().getCurrentHumanCommentOptions();
          if(new Random().nextBoolean())
@@ -108,21 +111,29 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         if (playerIdentifier == AGENT_IDENTIFIER)
+         TTTClient.gazeBack = true;
+         if (playerIdentifier == AGENT_IDENTIFIER){
+            //getContext().getTTTUI().prepareAgentMove();
+            getContext().getTTTUI().prepareAgentComment();
+            currentComment = getContext().getTTTUI().getCurrentAgentComment();
+            //humanCommentOptions = getContext().getTTTUI().getCurrentHumanCommentOptions();  
             skipTo(new Limbo(getContext()));
+         }
          else
             skipTo(new AgentPlays(getContext()));
       }
    }
 
    public static class HumanComments extends TTTAdjacencyPairImpl {
+      int playerIdentifier;
       public HumanComments(final TTTStateContext context, final int playerIdentifier){
          super("", context);
-         currentComment = "";
+         this.playerIdentifier = playerIdentifier;
          for(String eachCommentOption : humanCommentOptions)
             choice(eachCommentOption, new DialogStateTransition() {
                @Override
                public AdjacencyPair run () {
+                  getContext().getTTTUI().cancelHumanCommentingTimer();
                   if (playerIdentifier == AGENT_IDENTIFIER)
                      return new Limbo(getContext());
                   else
@@ -130,8 +141,21 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
                }
             });
       }
+      @Override
+      public void afterTimeOut() {
+         if (playerIdentifier == AGENT_IDENTIFIER)
+            skipTo(new Limbo(getContext()));
+         else
+            skipTo(new AgentPlays(getContext()));
+      } 
+      @Override
+      public void enter() {
+         currentComment = "";
+         TTTClient.gazeBack = true;
+         getContext().getTTTUI().updatePlugin(this);
+         getContext().getTTTUI().triggerHumanCommentingTimer();
+      }
    }
-
 
 
 }

@@ -1,6 +1,8 @@
 package wpi.edu.always.ttt;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.google.gson.JsonObject;
 
@@ -20,10 +22,16 @@ public class TTTClient implements TTTUI {
    private static final String MSG_HUMAN_MOVE = "tictactoe.human_played_cell";
    private static final String MSG_AGENT_MOVE = "tictactoe.agent_cell";
    private static final String MSG_BOARD_PLAYABILITY = "tictactoe.playability";
+   private static final int USER_COMMENTING_TIMEOUT = 4;
+   
+   public static boolean gazeLeft = false;
+   public static boolean gazeBack = false;
+   public static boolean nod = false;
 
    private static final int USER_IDENTIFIER = 1;
    private static final int AGENT_IDENTIFIER = 2;
-   int winOrTie = 0; //1: userWins, 2: agentWins, 3: tie
+   //1: userWins, 2: agentWins, 3: tie
+   private int winOrTie = 0; 
 
    private String currentComment;
    private AnnotatedLegalMove currentMove;
@@ -38,6 +46,7 @@ public class TTTClient implements TTTUI {
    private MoveChooser moveChooser;
    private CommentingManager commentingManager;
    private TTTGameState gameState;
+   private Timer humanCommentingTimer;
 
    public TTTClient (UIMessageDispatcher dispatcher){
 
@@ -58,7 +67,7 @@ public class TTTClient implements TTTUI {
             if ( listener != null ) {
                int cellNum = Integer.valueOf(body.get("cellNum").getAsString());
                gameState.board[cellNum - 1] = USER_IDENTIFIER;
-               winOrTie = gameState.didAnyOneJustWin();
+               updateWinOrTie();
                if(winOrTie > 0)
                   makeBoardUnplayable();
                listener.humanPlayed();
@@ -75,7 +84,10 @@ public class TTTClient implements TTTUI {
 
    @Override
    public void playAgentMove(TTTUIListener listener) {
+
       show(listener);
+      if(currentMove == null) return;
+
       scenarioManager.tickAll();
       gameState.board[((TTTLegalMove)currentMove.getMove()).getCellNum()] = AGENT_IDENTIFIER;
       Message msg = Message.builder(MSG_AGENT_MOVE)
@@ -83,7 +95,8 @@ public class TTTClient implements TTTUI {
                   ((TTTLegalMove)currentMove.getMove()).getCellNum() + 1)
                   .build();
       dispatcher.send(msg);
-      winOrTie = gameState.didAnyOneJustWin();
+      updateWinOrTie();
+
    }
 
    @Override
@@ -97,11 +110,9 @@ public class TTTClient implements TTTUI {
    }
 
    @Override
-   public void prepareMoveAndComment() {
+   public void prepareAgentMove() {
 
-      currentComment = null;
       currentMove = null;
-
       currentMove = 
             //		moveChooser.choose(scenarioFilter.filter(
             //				moveAnnotator.annotate(moveGenerator.generate(
@@ -110,25 +121,53 @@ public class TTTClient implements TTTUI {
                   moveAnnotator.annotate(moveGenerator.generate(
                         gameState), gameState, USER_IDENTIFIER));
 
-      int winner = 
-            gameState.didAnyOneJustWin();
-      if(winner == 1)
-         gameState.userWins = true;
-      else if(winner == 2)
-         gameState.agentWins = true;
-      else if(winner == 3)
-         gameState.tie = true;
-
-      currentComment = 
-            commentingManager.pickCommentOnOwnMove(
-                  gameState, scenarioManager.getCurrentActiveScenarios(),
-                  currentMove, AGENT_IDENTIFIER).getContent();
+      updateWinOrTie();
 
    }
 
    @Override
-   public void gazeLeft() {
+   public void prepareAgentComment() {
 
+      currentComment = null;
+      updateWinOrTie();
+      Comment commentAsObj = 
+            commentingManager.pickCommentOnOwnMove(
+                  gameState, scenarioManager.getCurrentActiveScenarios(),
+                  currentMove, AGENT_IDENTIFIER);
+      if(commentAsObj != null)
+         currentComment = commentAsObj.getContent();
+      else
+         currentComment = "";
+   }
+
+   @Override
+   public void gazeLeft(){
+      
+   }
+
+   @Override
+   public void triggerHumanCommentingTimer(){
+      humanCommentingTimer = new Timer();
+      humanCommentingTimer.schedule(new resetHumanCommentingTimer(), 
+            1000*USER_COMMENTING_TIMEOUT);
+   }
+   @Override
+   public void cancelHumanCommentingTimer(){
+      humanCommentingTimer.cancel();
+   }
+   private class resetHumanCommentingTimer extends TimerTask{
+      @Override
+      public void run() {listener.userCommentTimeOut();}
+   }
+
+   private void updateWinOrTie(){
+      winOrTie = gameState.didAnyOneJustWin();
+      if(winOrTie == 1)
+         gameState.userWins = true;
+      else if(winOrTie == 2)
+         gameState.agentWins = true;
+      else if(winOrTie == 3)
+         gameState.tie = true;
    }
 
    private void show(TTTUIListener listener) {
