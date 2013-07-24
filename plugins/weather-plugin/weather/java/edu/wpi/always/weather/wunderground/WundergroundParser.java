@@ -1,20 +1,29 @@
 package edu.wpi.always.weather.wunderground;
 
 import com.google.gson.*;
+import edu.wpi.always.Always;
 import java.io.FileWriter;
 import java.text.*;
 import java.util.Date;
 
 public class WundergroundParser {
+   
 	//default
 	private static String zip = "01609";
 	
-	// also see bin/get
+	/**
+	 * @param args [zip model] NB: Case-sensitive!
+    *  <p>
+    *  zip: 5-digits (default 01609)<br>
+    *  model: file in always/user (default TestUser.owl)
+	 */
 	public static void main(String[] args) {
 		checkArgs(args);
-		
+		Always always = Always.make(
+		      new String[]{"Stranger", args.length > 1 ? args[1] : "TestUser.owl"},
+		      null, null);
 		try {
-			WundergroundJSON weather = new WundergroundJSON(zip);
+			WundergroundJSON weather = new WundergroundJSON(zip, always.getUserModel());
 			// make easier to read for debugging
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String json = gson.toJson(weather);
@@ -29,9 +38,9 @@ public class WundergroundParser {
 	 * otherwise, use the default
 	 */
 	private static void checkArgs(String[] args){
-		if(args.length>0){
-			if(validateZip(args[0]))
-				zip = args[0];
+		if ( args.length > 0 ){
+			if( validateZip(args[0]) )
+				 zip = args[0];
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package edu.wpi.always.weather.wunderground;
 
+import edu.wpi.always.user.UserModel;
 import edu.wpi.always.weather.provider.*;
 import java.util.*;
 
@@ -9,6 +10,7 @@ public class WundergroundJSON {
 	Alert alert;
 	Almanac almanac;
 	Forecast[] forecast;
+	transient UserModel model; // transient so not included in JSON
 
 	Map<String, CurrentWeather> interestCities;
 	Map<String, CurrentWeather> friendsCities;
@@ -17,7 +19,9 @@ public class WundergroundJSON {
 	private static final Map<String, String> CITY_ZIP_MAP = createCityMap();
 	private static final Map<String, String> FRIENDS_ZIP_MAP = createFriendMap();
  
-	public WundergroundJSON(String s) throws Exception {
+	public WundergroundJSON(String s, UserModel model) throws Exception {
+	   this.model = model;
+	   System.out.println("Getting weather for "+model.getUserName());
 		fillData(s);
 	}
 	
