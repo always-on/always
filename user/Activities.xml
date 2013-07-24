@@ -16,7 +16,13 @@
 
   <task id="DiscussWeather"/>
   
+  <task id="EnrollUser"/>
+
   <task id="ExplainSelf"/>
+  
+  <task id="DiscussBaseball">
+  	<precondition> false </precondition>
+  </task>
 
   <task id="TalkAboutFriendsFamily">
     <!-- **TODO** inhibit if no friends in database -->

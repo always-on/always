@@ -373,10 +373,10 @@
       </xsl:choose>
     </xsl:variable>
 
-    <!-- SayScript needs extra level of quotation -->
+    <!-- Say$Expression needs extra level of quotation -->
     <xsl:variable name="preprepre-text">
       <xsl:choose>
-	<xsl:when test="matches(@text,'[^\\]\{')">
+	<xsl:when test="matches(@text,'(^\{)|[^\\]\{')">
 	  <xsl:value-of select="concat('&quot;\&quot;', @text, '\&quot;&quot;')"/>
 	</xsl:when>
 	<xsl:otherwise>
@@ -445,20 +445,20 @@
       </xsl:analyze-string>
     </xsl:variable>
     <!-- remove redundancies after javascript expansion, specifically:
-	 - replace '^"\"+(...' with '"(...'
-	 - replace '...)+\""$' with '...)"'
-	 - replace '^()$' with '\"\"'
-      -->
+	 - replace ^"\"\"+(... with "(...
+	 - replace ...)+\"\""$ with ...)"
+	 - replace ^"()"$ with ""
+      -->    
     <xsl:variable name="text">
       <xsl:value-of select="replace(
-			    replace(
-			    replace($pre-text, '^&quot;\\&quot;\+', '&quot;'),
-			    '\+\\&quot;&quot;$',
-			    '&quot;'),
-			    '^\(\)$',
-			    '\\&quot;\\&quot;')"/>
+			       replace(
+			          replace($pre-text, '^&quot;\\&quot;\\&quot;\+', '&quot;'),
+			          '\+\\&quot;\\&quot;&quot;$',
+			          '&quot;'),
+			       '^&quot;\(\)&quot;$',
+			       '&quot;&quot;')"/>
     </xsl:variable>
-    
+
     <xsl:element name="subtasks">
       <xsl:attribute name="id">
         <xsl:value-of select="$id"/>

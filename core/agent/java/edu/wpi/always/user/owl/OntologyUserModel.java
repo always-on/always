@@ -24,7 +24,7 @@ public class OntologyUserModel implements UserModel {
    private final OntologyPeopleManager peopleManager;
    private final OntologyPlaceManager placeManager;
 
-   public OntologyUserModel (OntologyHelper ontology, 
+   public OntologyUserModel (OntologyHelper ontology,
          @UserOntologyLocation File userDataFile, OntologyCalendar calendar,
          OntologyPeopleManager peopleManager, OntologyPlaceManager placeManager) {
       this.ontology = ontology;
@@ -37,17 +37,17 @@ public class OntologyUserModel implements UserModel {
 
    @Override
    public String getUserName () {
-      return userName; 
+      return userName;
    }
    
    @Override
    public void setUserName (String userName) {
       if ( this.userName == null ) {
          this.userName = userName;
-         this.user =  ontology.getNamedIndividual(userName);
+         this.user = ontology.getNamedIndividual(userName);
          if ( !user.hasSuperclass(OntologyPerson.USER_CLASS) ) {
             user.addSuperclass(OntologyPerson.USER_CLASS);
-            peopleManager.addPerson(userName, null, null);
+            peopleManager.addPerson(userName);
          }
       } else throw new UnsupportedOperationException(
                   "User model already has name: "+this.userName);
@@ -77,7 +77,37 @@ public class OntologyUserModel implements UserModel {
    public void setProperty (String property, String value) {
       user.setDataProperty(property, value == null ? null : ontology.getLiteral(value));
    }
-    
+   
+   @Override
+   public int getIntProperty (String property) {
+      return user.getDataPropertyValue(property).asInteger();
+   }
+
+   @Override
+   public void setProperty (String property, int value) {
+       user.setDataProperty(property, ontology.getLiteral(value));
+   }
+     
+   @Override
+   public long getLongProperty (String property) {
+      return user.getDataPropertyValue(property).asLong();
+   }
+
+   @Override
+   public void setProperty (String property, long value) {
+       user.setDataProperty(property, ontology.getLiteral(value));
+   }
+   
+   @Override
+   public double getDoubleProperty (String property) {
+      return user.getDataPropertyValue(property).asDouble();
+   }
+
+   @Override
+   public void setProperty (String property, double value) {
+      user.setDataProperty(property, ontology.getLiteral(value));
+   }
+
    @Override
    public void setProperty (String property, boolean value) {
       user.setDataProperty(property, ontology.getLiteral(value));
@@ -125,12 +155,13 @@ public class OntologyUserModel implements UserModel {
    @Override
    public void load () {
       if ( userDataFile != null && userDataFile.exists() ) {
-         System.out.println("Loading user ontology from: "+userDataFile);
+         System.out.println("Loading user model from: "+userDataFile);
          ontology.addAxioms(userDataFile);
          setUserName(new OntologyIndividual(
                ontology.getOntologyDataObject(),
                ontology.getAllOfClass(OntologyPerson.USER_CLASS).iterator().next())
                     .getDataPropertyValue(OntologyPerson.NAME_PROPERTY).asString());
+         System.out.println("User name: "+getUserName());
       } else System.out.println("Initializing empty user model!");
    }
    
@@ -138,5 +169,5 @@ public class OntologyUserModel implements UserModel {
    public String toString () {
       return "[UserModel:"+userName+"]";
    }
-  
+ 
 }

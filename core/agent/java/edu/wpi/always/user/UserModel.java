@@ -38,6 +38,42 @@ public interface UserModel {
    public void setProperty (String property, String value);
    
    /**
+    * Return named user property value extension.  Note that property must
+    * be declared in a loaded ontology (.owl) file
+    */
+   public int getIntProperty (String property);
+   
+   /**
+    * Set named user property value extension.  Note that property must
+    * be declared in a loaded ontology (.owl) file
+    */
+   public void setProperty (String property, int value);
+   
+   /**
+    * Return named user property value extension.  Note that property must
+    * be declared in a loaded ontology (.owl) file
+    */
+   public long getLongProperty (String property);
+   
+   /**
+    * Set named user property value extension.  Note that property must
+    * be declared in a loaded ontology (.owl) file
+    */
+   public void setProperty (String property, long value);
+   
+   /**
+    * Return named user property value extension.  Note that property must
+    * be declared in a loaded ontology (.owl) file
+    */
+   public double getDoubleProperty (String property);
+   
+   /**
+    * Set named user property value extension.  Note that property must
+    * be declared in a loaded ontology (.owl) file
+    */
+   public void setProperty (String property, double value);
+   
+   /**
     * Return boolean value for named user property value extension. Note that
     * property must be declared in a loaded ontology (.owl) file. If property
     * does not exist, then return false.
