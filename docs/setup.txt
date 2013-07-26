@@ -4,6 +4,8 @@
 
 		      rich@wpi.edu, May 9, 2013
 
+[See also setup-asus.txt]
+
 The goal of this document is help a new project developer get his/her
 software environment conveniently configured.  The project uses GitHub
 (http://github.com) for development and the gitflow branching
