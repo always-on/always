@@ -10,8 +10,7 @@
              VerticalAlignment="Stretch">
   
     <UserControl.Resources>
-        <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#bdbdbd" />
-        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#bdbdbd" />
+        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="White" />
         <Style x:Key="MyButtonStyle" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Margin" Value="5"/>
