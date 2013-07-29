@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using Agent.Tcp;
 using TTT.UI;
 using System.Windows.Controls;
+using System.Media;
 
 namespace AgentApp
 {
@@ -16,7 +17,7 @@ namespace AgentApp
         IMessageDispatcher _remote;
         IUIThreadDispatcher _uiThreadDispatcher;
         Viewbox pluginContainer;
-        
+
         public TTTPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
 
@@ -57,8 +58,7 @@ namespace AgentApp
                 return;
             }
             int cellNum = int.Parse(cellNumAsJObj["cellNum"].ToString());
-            Console.WriteLine(cellNum);
-            
+            //Console.WriteLine(cellNum);
             game.PlayAgentMove(cellNum);
 		}
 

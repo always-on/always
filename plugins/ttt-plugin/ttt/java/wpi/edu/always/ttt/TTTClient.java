@@ -22,7 +22,8 @@ public class TTTClient implements TTTUI {
    private static final String MSG_HUMAN_MOVE = "tictactoe.human_played_cell";
    private static final String MSG_AGENT_MOVE = "tictactoe.agent_cell";
    private static final String MSG_BOARD_PLAYABILITY = "tictactoe.playability";
-   private static final int USER_COMMENTING_TIMEOUT = 4;
+   private static final int HUMAN_COMMENTING_TIMEOUT = 8;
+   private static final int AGENT_PLAY_DELAY_TIMEOUT = 4;
    
    public static boolean gazeLeft = false;
    public static boolean gazeBack = false;
@@ -47,6 +48,7 @@ public class TTTClient implements TTTUI {
    private CommentingManager commentingManager;
    private TTTGameState gameState;
    private Timer humanCommentingTimer;
+   private Timer agentPlayDelayTimer;
 
    public TTTClient (UIMessageDispatcher dispatcher){
 
@@ -145,19 +147,32 @@ public class TTTClient implements TTTUI {
       
    }
 
+   //user commenting timer 
+   //(only used when agent turn)
    @Override
    public void triggerHumanCommentingTimer(){
       humanCommentingTimer = new Timer();
-      humanCommentingTimer.schedule(new resetHumanCommentingTimer(), 
-            1000*USER_COMMENTING_TIMEOUT);
+      humanCommentingTimer.schedule(new HumanCommentingTimerSetter(), 
+            1000*HUMAN_COMMENTING_TIMEOUT);
    }
    @Override
    public void cancelHumanCommentingTimer(){
       humanCommentingTimer.cancel();
    }
-   private class resetHumanCommentingTimer extends TimerTask{
+   private class HumanCommentingTimerSetter extends TimerTask{
       @Override
-      public void run() {listener.userCommentTimeOut();}
+      public void run() {listener.humanCommentTimeOut();}
+   }
+   //agent playing delay timers
+   @Override
+   public void triggerAgentPlayTimer() {
+      agentPlayDelayTimer = new Timer();
+      agentPlayDelayTimer.schedule(new AgentPlayDelayTimerSetter(), 
+            1000*AGENT_PLAY_DELAY_TIMEOUT);
+   }
+   private class AgentPlayDelayTimerSetter extends TimerTask{
+      @Override
+      public void run() {listener.agentPlayDelayOver();}
    }
 
    private void updateWinOrTie(){
@@ -200,5 +215,6 @@ public class TTTClient implements TTTUI {
       Message m = Message.builder(MSG_BOARD_PLAYABILITY).add("value", "false").build();
       dispatcher.send(m);      
    }
+
 
 }

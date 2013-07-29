@@ -36,6 +36,11 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="PreviewMouseDown">
+                    <SoundPlayerAction Source="/TTT.UI;component/click.wav" />
+                </EventTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     

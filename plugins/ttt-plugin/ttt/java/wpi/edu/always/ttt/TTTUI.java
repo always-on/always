@@ -10,6 +10,7 @@ public interface TTTUI {
    public void prepareAgentComment();
    public void makeBoardUnplayable();
    public String getCurrentAgentComment();
+   public void triggerAgentPlayTimer();
    public void cancelHumanCommentingTimer();
    public void triggerHumanCommentingTimer();
    public void updatePlugin(TTTUIListener listener);

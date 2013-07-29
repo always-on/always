@@ -11,6 +11,7 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
    private static final int AGENT_IDENTIFIER = 2;
    private static String currentComment = "";
    private static List<String> humanCommentOptions;
+   private static String WhatAgentSaysIfHumanDoesNotChooseAComment = "";
 
    public WannaPlay(final TTTStateContext context) {
       super("Do you want to play Tic Tac Toe?", context);
@@ -41,14 +42,14 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
          choice("You go ahead", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new AgentPlays(context);
+               return new AgentPlayDelay(context);
             }
          });
       }
-      @Override
-      public void afterLimbo() {
-         skipTo(new CreateCommentsAfterLimbo(getContext()));
-      }
+//      @Override 
+//      public void afterLimbo() {
+//         skipTo(new CreateCommentsAfterLimbo(getContext()));
+//      }
    }
 
    //Limbo as waiting for user move
@@ -67,7 +68,7 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
          getContext().getTTTUI().makeBoardPlayable();
       }
    }
-
+   
    public static class CreateCommentsAfterLimbo extends TTTAdjacencyPairImpl { 
       public CreateCommentsAfterLimbo(final TTTStateContext context){
          super("", context);
@@ -83,6 +84,24 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
             skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
       }
    }
+   
+   public static class AgentPlayDelay extends TTTAdjacencyPairImpl {
+      public AgentPlayDelay(final TTTStateContext context){
+         super(WhatAgentSaysIfHumanDoesNotChooseAComment, context);
+         WhatAgentSaysIfHumanDoesNotChooseAComment = "";
+      }
+      @Override
+      public void enter(){
+         TTTClient.gazeLeft = true;
+         getContext().getTTTUI().updatePlugin(this);
+         getContext().getTTTUI().triggerAgentPlayTimer();
+         getContext().getTTTUI().prepareAgentMove();
+      }
+      @Override
+      public void afterAgentPlayDelay() {
+         skipTo(new AgentPlays(getContext()));
+      }
+   }
 
    public static class AgentPlays extends TTTAdjacencyPairImpl {
       public AgentPlays(final TTTStateContext context){
@@ -90,8 +109,6 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
       }
       @Override
       public void enter(){
-         TTTClient.gazeLeft = true;
-         getContext().getTTTUI().prepareAgentMove();
          getContext().getTTTUI().playAgentMove(this);
          getContext().getTTTUI().prepareAgentComment();
          currentComment = getContext().getTTTUI().getCurrentAgentComment();
@@ -120,7 +137,7 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
             skipTo(new Limbo(getContext()));
          }
          else
-            skipTo(new AgentPlays(getContext()));
+            skipTo(new AgentPlayDelay(getContext()));
       }
    }
 
@@ -137,23 +154,30 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
                   if (playerIdentifier == AGENT_IDENTIFIER)
                      return new Limbo(getContext());
                   else
-                     return new AgentPlays(getContext());
+                     return new AgentPlayDelay(getContext());
                }
             });
       }
       @Override
       public void afterTimeOut() {
-         if (playerIdentifier == AGENT_IDENTIFIER)
-            skipTo(new Limbo(getContext()));
-         else
-            skipTo(new AgentPlays(getContext()));
-      } 
+         if (playerIdentifier == HUMAN_IDENTIFIER){
+            WhatAgentSaysIfHumanDoesNotChooseAComment = "OK";
+            skipTo(new AgentPlayDelay(getContext()));
+            
+         }
+      }
+      @Override 
+      public void afterLimbo() {
+         TTTClient.gazeLeft = true;
+         skipTo(new CreateCommentsAfterLimbo(getContext()));
+      }
       @Override
       public void enter() {
          currentComment = "";
          TTTClient.gazeBack = true;
          getContext().getTTTUI().updatePlugin(this);
          getContext().getTTTUI().triggerHumanCommentingTimer();
+         getContext().getTTTUI().makeBoardPlayable();
       }
    }
 
