@@ -50,7 +50,7 @@ public class WundergroundJSON {
 		}
 	}
 
-	/* TODO READ FROM ONTOLOGY */
+
 	private static Map<String, String> createCityMap() {
 	    Map<String, String> result = new HashMap<String, String>();
 	    result.put("Seattle", "98106");
@@ -61,13 +61,15 @@ public class WundergroundJSON {
 	    result.put("New Orleans", "70112");
 	    return Collections.unmodifiableMap(result);
 	}
-	/* TODO COMBINE WITH PREVIOUS FUNCTION*/
 	private static Map<String, String> createFriendMap() {
 	    Map<String, String> result = new HashMap<String, String>();
-	    result.put("Mary", "85301");
-	    result.put("Lucy", "99726");
-	    for(Person person : model.getPeopleManager().getPeople()) {
-	       result.put(person.getName(), person.getLocation().getZip());
+	    if(model != null) {
+	       Person[] people = model.getPeopleManager().getPeople();
+	       if(people != null) {
+	          for(Person person : people) {
+	             result.put(person.getName(), person.getLocation().getZip());
+	          }
+	       }
 	    }
 	    return Collections.unmodifiableMap(result);
 	}

@@ -23,10 +23,14 @@ public class WeatherPlugin extends Plugin {
          RANK = "WeatherRank",
          TIME = "WeatherTime";
          
+   public static String date;  // for testing
+   
    /**
-    * For testing Weather by itself
+    * For testing Weather by itself.
+    * Optional Fourth arg is filename of weather json file to load, e.g. "testing" (default today's date).
     */
    public static void main (String[] args) {
+      if ( args != null && args.length > 3 ) date = args[3];
       Always always = Plugin.main(args, WeatherPlugin.class, "DiscussWeather");
       // code below is temporary to demonstrate how to define and use a new user 
       // property extensions (see Weather.owl)

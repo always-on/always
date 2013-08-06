@@ -157,28 +157,30 @@ public class OntologyPerson implements Person {
    @Override
    public void setBirthday (MonthDay day) {
       owlPerson.setDataProperty(BIRTHDAY_PROPERTY, (day != null) ? helper.getLiteral(day) : null);
-      /**
-		CalendarEntry birthdayEntry = null;
-		for (CalendarEntry entry : model.getCalendar().retrieve(null)) {
-			if ( entry.getType().equals(CalendarEntryTypeManager.Types.Birthday) ) {
-				if ( entry.getPeople().size() == 1
-						&& entry.getPeople().iterator().next().equals(this) )
-					birthdayEntry = entry;
-			}
-		}
-		// TODO handle repeating event
-		if ( birthdayEntry == null ) {
-			birthdayEntry = new CalendarEntryImpl(null,
-					CalendarEntryTypeManager.Types.Birthday,
-					Collections.singleton((Person) this), null,
-					day.toDateTime(new DateMidnight()), Hours.hours(24));
-			model.getCalendar().create(birthdayEntry);
-		} else {
-			birthdayEntry.setDuration(Hours.hours(24));
-			birthdayEntry.setStart(day.toDateTime(new DateMidnight()));
-			model.getCalendar().update(birthdayEntry, true);
-		}
-       */
+   }
+   
+   @Override
+   public void setBirthdayEvent (MonthDay day) {
+      CalendarEntry birthdayEntry = null;
+      for (CalendarEntry entry : model.getCalendar().retrieve(null)) {
+         if ( entry.getType().equals(CalendarEntryTypeManager.Types.Birthday) ) {
+            if ( entry.getPeople().size() == 1
+                  && entry.getPeople().iterator().next().equals(this) )
+               birthdayEntry = entry;
+         }
+      }
+      // TODO handle repeating event
+      if ( birthdayEntry == null ) {
+         birthdayEntry = new CalendarEntryImpl(null,
+               CalendarEntryTypeManager.Types.Birthday,
+               Collections.singleton((Person) this), null,
+               day.toDateTime(new DateMidnight()), Hours.hours(24));
+         model.getCalendar().create(birthdayEntry);
+      } else {
+         birthdayEntry.setDuration(Hours.hours(24));
+         birthdayEntry.setStart(day.toDateTime(new DateMidnight()));
+         model.getCalendar().update(birthdayEntry, true);
+      }
    }
 
    @Override
