@@ -26,17 +26,17 @@ public class FaceTrackerRealizer extends
       FacePerception perception = perceptor.getLatest();
       if ( perception != null ) {
          AgentTurn dir = GazeRealizer.translateToAgentTurn(perception.getPoint());
-         if ( dir != lastDir ) {
+        /* if ( dir != lastDir ) {
             if ( dir != nextDir ) {
                lastNewNext = System.currentTimeMillis();
                nextDir = dir;
-            }
-            if ( System.currentTimeMillis() - lastNewNext > FACE_TRACK_TIME_DAMPENING ) {
+            }*/
+      //      if ( System.currentTimeMillis() - lastNewNext > FACE_TRACK_TIME_DAMPENING ) {
                // System.out.println(dir+" - "+perception.getLocation().getX());
-               proxy.gaze(dir);
+               proxy.gaze(dir, GazeRealizer.translateToAgentTurnHor(perception.getPoint()), GazeRealizer.translateToAgentTurnVer(perception.getPoint()));
                lastDir = dir;
-            }
-         }
+            //}
+        // }
          fireDoneMessage();
       }
    }

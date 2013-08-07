@@ -1,6 +1,7 @@
 package edu.wpi.always.cm.perceptors.sensor.face;
 
 import com.sun.jna.*;
+
 import edu.wpi.always.cm.perceptors.sensor.NativeUtil;
 
 public interface CPPinterface extends Library {
@@ -22,7 +23,7 @@ public interface CPPinterface extends Library {
    public class LoadHelper {
 
       public static CPPinterface loadLibrary () {
-         NativeUtil
+       /*  NativeUtil
                .copyLibraryFromResource(
                      "/edu/wpi/always/collabman/perceptors/physical/face/opencv_core242",
                      "opencv_core242");
@@ -42,12 +43,13 @@ public interface CPPinterface extends Library {
                "/edu/wpi/always/collabman/perceptors/physical/face/Shore140",
                "Shore140");
          NativeUtil.copyLibraryFromResource(
-               "/edu/wpi/always/collabman/perceptors/physical/face/tbb", "tbb");
+               "/edu/wpi/always/collabman/perceptors/physical/face/tbb", "tbb");*/
          try {
-            return (CPPinterface) NativeUtil
+            return /*(CPPinterface) NativeUtil
                   .loadLibraryFromResource(
                         "/edu/wpi/always/collabman/perceptors/physical/face/FaceDetection",
-                        "FaceDetection", CPPinterface.class);
+                        "FaceDetection", CPPinterface.class);*/
+            		(CPPinterface) Native.loadLibrary("FaceDetection", CPPinterface.class);
          } catch (UnsatisfiedLinkError e) {
             return null;
          }
