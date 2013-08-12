@@ -19,12 +19,20 @@ the same as all again.
 
 * install .Net 2010 (4.0)
 
+* install Unity Web Player for Windows from: http://unity3d.com/webplayer
+
+To improve low speaker volume:
+
+Control Panel > Hardware & Sound > (Sound) Manage Audio Devices 
+  > Playback > Speakers > Properties > Enhancements > 
+
+  Scroll down in menu and check Loudness Equalization, then Apply/Ok.
+
 For development machines only:
 
 * install Eclipse Juno SR1 (put extracted folder in C:)
 
 * Git 1.8 (or newer stable version) -- GitHub folder is normally in documents folder.
-
 * Github (optionally: (Tortoisegit))
 
 * Tortoise SVN for fusion trunk access if required (or Eclipse SVN or both)
