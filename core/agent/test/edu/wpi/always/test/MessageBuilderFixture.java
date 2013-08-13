@@ -1,9 +1,12 @@
 package edu.wpi.always.test;
 
 import static org.junit.Assert.assertEquals;
-import com.google.gson.JsonObject;
-import edu.wpi.always.client.Message;
+
 import org.junit.Test;
+
+import com.google.gson.JsonObject;
+
+import edu.wpi.always.client.Message;
 
 public class MessageBuilderFixture {
 	@Test

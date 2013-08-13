@@ -1,6 +1,8 @@
 package edu.wpi.always.client;
 
-import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
+import edu.wpi.disco.rt.menu.AdjacencyPairBase;
+import edu.wpi.disco.rt.menu.DialogStateTransition;
 
 public abstract class KeyboardAdjacencyPair<C> extends AdjacencyPairBase<C> {
 

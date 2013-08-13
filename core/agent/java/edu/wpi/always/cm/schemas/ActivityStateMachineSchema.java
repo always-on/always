@@ -1,12 +1,12 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.always.client.*;
-import edu.wpi.always.user.calendar.Calendar;
-import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
-import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.behavior.BehaviorHistory;
+import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
+import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.disco.rt.menu.MenuTurnStateMachine;
+import edu.wpi.disco.rt.menu.RepeatMenuTimeoutHandler;
 
 public abstract class ActivityStateMachineSchema extends ActivitySchema {
 

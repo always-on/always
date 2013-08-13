@@ -1,10 +1,11 @@
 package edu.wpi.always.cm.perceptors;
 
+import org.joda.time.DateTime;
+
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.FaceTransition;
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.MovementTransition;
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.TouchTransition;
 import edu.wpi.disco.rt.perceptor.Perception;
-import org.joda.time.DateTime;
 
 public class EngagementPerception extends Perception {
 

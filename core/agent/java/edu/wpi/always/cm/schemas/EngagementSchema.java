@@ -1,13 +1,27 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
-import edu.wpi.always.cm.primitives.*;
-import edu.wpi.disco.rt.ResourceMonitor;
-import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.menu.*;
-import edu.wpi.disco.rt.schema.*;
 import java.util.Arrays;
+
+import edu.wpi.always.cm.perceptors.EngagementPerception;
+import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
+import edu.wpi.always.cm.perceptors.EngagementPerceptor;
+import edu.wpi.always.cm.perceptors.FacePerception;
+import edu.wpi.always.cm.perceptors.FacePerceptor;
+import edu.wpi.always.cm.primitives.FaceTrackBehavior;
+import edu.wpi.always.cm.primitives.IdleBehavior;
+import edu.wpi.disco.rt.ResourceMonitor;
+import edu.wpi.disco.rt.behavior.Behavior;
+import edu.wpi.disco.rt.behavior.BehaviorHistory;
+import edu.wpi.disco.rt.behavior.BehaviorMetadata;
+import edu.wpi.disco.rt.behavior.BehaviorMetadataBuilder;
+import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
+import edu.wpi.disco.rt.behavior.SpeechBehavior;
+import edu.wpi.disco.rt.menu.MenuBehavior;
+import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.disco.rt.menu.MenuTurnStateMachine;
+import edu.wpi.disco.rt.menu.RepeatMenuTimeoutHandler;
+import edu.wpi.disco.rt.schema.SchemaBase;
+import edu.wpi.disco.rt.schema.SchemaManager;
 
 public class EngagementSchema extends SchemaBase {
 

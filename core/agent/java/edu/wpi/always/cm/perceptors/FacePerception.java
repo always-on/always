@@ -1,8 +1,10 @@
 package edu.wpi.always.cm.perceptors;
 
-import edu.wpi.disco.rt.perceptor.Perception;
-import org.joda.time.DateTime;
 import java.awt.Point;
+
+import org.joda.time.DateTime;
+
+import edu.wpi.disco.rt.perceptor.Perception;
 
 public class FacePerception extends Perception {
 
@@ -11,6 +13,8 @@ public class FacePerception extends Perception {
    private final int top;
    private final int left;
    private final int right;
+   private final int center;
+   private final int tiltcenter;
 
    public FacePerception (DateTime stamp, int top, int bottom, int left, int right, int happiness) {
       super(stamp);
@@ -19,6 +23,10 @@ public class FacePerception extends Perception {
       this.left = left;
       this.right = right;
       this.happiness = happiness;
+     
+   	this.center=(this.right-this.left)/2+this.left;
+   	
+   	this.tiltcenter=(this.bottom-this.top)/2+this.top;
    }
  
    public FacePerception (int top, int bottom, int left, int right, int happiness) {
@@ -29,10 +37,10 @@ public class FacePerception extends Perception {
     * @return null if no face
     */
    public Point getPoint () {
-      return isFace() ?  new Point(-(right + left) / 2, -(bottom + top) / 2) : null;
+      return isFace() ?  new Point(center, tiltcenter) : null;								//-(right + left) / 2, -(bottom + top) / 2) : null;
    }
    
-   public boolean isFace () { return happiness != -1; }
+   public boolean isFace () { return left != -1; }
    
    private static final int FACE_NEAR_WIDTH_THRESHOLD = 50;
    private static final int FACE_NEAR_HEIGHT_THRESHOLD = 50;

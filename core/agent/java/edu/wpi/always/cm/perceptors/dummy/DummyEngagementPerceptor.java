@@ -1,7 +1,8 @@
 package edu.wpi.always.cm.perceptors.dummy;
 
-import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
+import edu.wpi.always.cm.perceptors.EngagementPerceptor;
 
 public class DummyEngagementPerceptor implements EngagementPerceptor {
 

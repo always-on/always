@@ -2,7 +2,8 @@ package edu.wpi.always.cm.perceptors;
 
 import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
-import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.menu.MenuPerception;
+import edu.wpi.disco.rt.menu.MenuPerceptor;
 
 // TODO Respond to touches elsewhere on screen than menu
 

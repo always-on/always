@@ -1,8 +1,9 @@
 package edu.wpi.always.client;
 
-import edu.wpi.disco.rt.util.ThreadPools;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
+
+import edu.wpi.disco.rt.util.ThreadPools;
 
 public class UIMessageDispatcherImpl implements UIMessageDispatcher,
       TcpConnectionObserver {

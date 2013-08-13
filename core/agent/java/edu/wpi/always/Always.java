@@ -1,19 +1,29 @@
 package edu.wpi.always;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.varia.NullAppender;
+import org.picocontainer.Characteristics;
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.PicoBuilder;
+import org.picocontainer.behaviors.OptInCaching;
+
 import edu.wpi.always.client.ClientRegistry;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.StartupSchemas;
-import edu.wpi.always.user.*;
-import edu.wpi.always.user.owl.*;
-import edu.wpi.disco.*;
-import edu.wpi.disco.rt.*;
+import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.owl.OntologyRegistry;
+import edu.wpi.always.user.owl.OntologyRuleHelper;
+import edu.wpi.always.user.owl.OntologyUserRegistry;
+import edu.wpi.disco.Agent;
+import edu.wpi.disco.Interaction;
+import edu.wpi.disco.User;
+import edu.wpi.disco.rt.DiscoRT;
+import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.varia.NullAppender;
-import org.picocontainer.*;
-import org.picocontainer.behaviors.OptInCaching;
-import java.io.File;
-import java.util.*;
 
 public class Always {
 

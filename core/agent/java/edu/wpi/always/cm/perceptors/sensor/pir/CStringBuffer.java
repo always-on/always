@@ -1,7 +1,8 @@
 package edu.wpi.always.cm.perceptors.sensor.pir;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.*;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class CStringBuffer {

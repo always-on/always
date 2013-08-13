@@ -1,9 +1,14 @@
 package edu.wpi.always.user.calendar;
 
+import java.util.Set;
+import java.util.UUID;
+
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.ReadablePeriod;
+
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
-import org.joda.time.*;
-import java.util.*;
 
 public interface CalendarEntry extends Cloneable {
 

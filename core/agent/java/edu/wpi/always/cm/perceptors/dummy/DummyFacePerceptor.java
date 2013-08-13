@@ -1,6 +1,7 @@
 package edu.wpi.always.cm.perceptors.dummy;
 
-import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.always.cm.perceptors.FacePerception;
+import edu.wpi.always.cm.perceptors.FacePerceptor;
 
 public class DummyFacePerceptor implements FacePerceptor {
 

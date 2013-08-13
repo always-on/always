@@ -1,6 +1,8 @@
 package edu.wpi.always.user.calendar;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A sample implementation of a simple calendar api for the Always On Project
