@@ -1,0 +1,110 @@
+{
+  "currentWeather": {
+    "helper": {},
+    "weatherCondition": "Light Rain",
+    "temperature": "59.5",
+    "humidity": "90%",
+    "locationName": "Worcester, MA",
+    "zip": "01609"
+  },
+  "radar": {
+    "radarURL": "http://resize.wunderground.com/cgi-bin/resize_convert?ox\u003dgif\u0026url\u003dradblast/cgi-bin/radar/WUNIDS_composite%3Fcenterlat\u003d42.27581787%26centerlon\u003d-71.82014465%26radius\u003d75%26newmaps\u003d1%26smooth\u003d1%26reproj.automerc\u003d1%26api_key\u003dcd3b2dc51dd67e26",
+    "helper": {}
+  },
+  "alert": {
+    "alertMessage": "There is no severe alert in your area.",
+    "helper": {}
+  },
+  "almanac": {
+    "recordLow": {
+      "year": 1953,
+      "averageTemp": 62,
+      "extremeTemp": 48
+    },
+    "recordHigh": {
+      "year": 1941,
+      "averageTemp": 79,
+      "extremeTemp": 93
+    },
+    "helper": {}
+  },
+  "forecast": [
+    {
+      "summary": "Overcast with a chance of rain. High of 73F. Winds from the NE at 10 to 15 mph. Chance of rain 40%.",
+      "helper": {},
+      "date": {
+        "iLocalMillis": 1374710400000,
+        "iChronology": {
+          "iBase": {
+            "iMinDaysInFirstWeek": 4
+          }
+        }
+      },
+      "daysApart": 0
+    },
+    {
+      "summary": "Overcast with a chance of rain. Fog overnight. Low of 57F. Winds from the NNE at 10 to 15 mph. Chance of rain 50% with rainfall amounts near 0.2 in. possible.",
+      "helper": {},
+      "date": {
+        "iLocalMillis": 1374796800000,
+        "iChronology": {
+          "iBase": {
+            "iMinDaysInFirstWeek": 4
+          }
+        }
+      },
+      "daysApart": 1
+    }
+  ],
+  "interestCities": {
+    "Miami": {
+      "helper": {},
+      "weatherCondition": "Mostly Cloudy",
+      "temperature": "95.0",
+      "humidity": "49%",
+      "locationName": "Miami, FL",
+      "zip": "33125"
+    },
+    "San Francisco": {
+      "helper": {},
+      "weatherCondition": "Partly Cloudy",
+      "temperature": "65.8",
+      "humidity": "49%",
+      "locationName": "San Francisco, CA",
+      "zip": "94105"
+    },
+    "New York": {
+      "helper": {},
+      "weatherCondition": "Overcast",
+      "temperature": "66.0",
+      "humidity": "71%",
+      "locationName": "New York, NY",
+      "zip": "10001"
+    },
+    "Seattle": {
+      "helper": {},
+      "weatherCondition": "Clear",
+      "temperature": "76.6",
+      "humidity": "10%",
+      "locationName": "Seattle, WA",
+      "zip": "98106"
+    },
+    "Boston": {
+      "helper": {},
+      "weatherCondition": "Overcast",
+      "temperature": "62.8",
+      "humidity": "79%",
+      "locationName": "Boston, MA",
+      "zip": "2101"
+    },
+    "New Orleans": {
+      "helper": {},
+      "weatherCondition": "Clear",
+      "temperature": "91.0",
+      "humidity": "60%",
+      "locationName": "New Orleans, LA",
+      "zip": "70112"
+    }
+  },
+  "friendsCities": {}
+}

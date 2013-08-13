@@ -65,4 +65,6 @@ public interface Person {
 
    void addRelated (Person otherPerson, Relationship relationship);
 
+   void setBirthdayEvent(MonthDay day);
+
 }
