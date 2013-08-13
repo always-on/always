@@ -2,6 +2,7 @@ package edu.wpi.always.weather.wunderground;
 
 import edu.wpi.always.weather.provider.Forecast;
 import org.joda.time.LocalDate;
+import org.joda.time.format.*;
 import org.xml.sax.SAXException;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -9,16 +10,30 @@ import javax.xml.xpath.XPathExpressionException;
 
 public class WundergroundForecast implements Forecast {
 
-   private String summary;
-   private WundergroundHelper helper;
-   private LocalDate date;
-   private int daysApart;
+   private transient final WundergroundHelper helper;
+   private transient final LocalDate localDate;
+
+   private final String summary;
+   private final Date date;
+
+   private static class Date {
+      @SuppressWarnings("unused")
+      private final String date;
+      private final int daysApartFromToday;
+      private Date (String date, int daysApartFromToday) {
+         this.date = date;
+         this.daysApartFromToday = daysApartFromToday;
+      }
+   }
+   
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat
+         .forPattern("MM/dd/yyyy");
 
    WundergroundForecast (String zip, int howManyDaysLater) throws IOException,
          ParserConfigurationException, SAXException, XPathExpressionException {
       helper = new WundergroundHelper("forecast", zip);
-      date = new LocalDate().plusDays(howManyDaysLater);
-      daysApart = howManyDaysLater;
+      localDate = new LocalDate().plusDays(howManyDaysLater);
+      date = new Date(DATE_FORMAT.print(localDate), howManyDaysLater);
       summary = forecastDescription(howManyDaysLater);
    }
 
@@ -38,11 +53,12 @@ public class WundergroundForecast implements Forecast {
 
    @Override
    public LocalDate getDate () {
-      return date;
+      return localDate;
    }
 
    @Override
    public int getDaysApartFromToday () {
-      return daysApart;
+      return date.daysApartFromToday;
    }
+
 }

@@ -10,5 +10,5 @@ public interface WeatherProvider {
 
    Radar getRadar (String zip);
 
-   Forecast getForcast (String zip, int howManyDaysLater);
+   Forecast getForecast (String zip, int howManyDaysLater);
 }

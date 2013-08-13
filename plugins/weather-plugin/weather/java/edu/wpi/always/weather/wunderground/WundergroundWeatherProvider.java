@@ -42,7 +42,7 @@ public class WundergroundWeatherProvider implements WeatherProvider {
    }
 
    @Override
-   public Forecast getForcast (String zip, int howManyDaysLater) {
+   public Forecast getForecast (String zip, int howManyDaysLater) {
       try {
          return new WundergroundForecast(zip, howManyDaysLater);
       } catch (Exception e) {

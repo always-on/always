@@ -11,4 +11,6 @@ public interface CurrentWeather {
    String getHumidity ();
 
    String getLocationName ();
+   
+   void setComment (String comment);
 }

@@ -35,7 +35,7 @@ public class TestUserGenerator {
       peopleMgr.getUser().setGender(Gender.Female);
       Person daughter = addPerson(peopleMgr, "Ellen Lewis", Relationship.Daughter, null);
       daughter.setPhoneNumber("650-339-0221");
-      daughter.setLocation(placeMgr.getPlace("92041"));
+      daughter.setLocation(placeMgr.getPlace("92049"));
       Person daughterHusband = addPerson(peopleMgr, "Mike", null, null);
       daughterHusband.addRelated(daughter, Relationship.Wife);
       Person linda = addPerson(peopleMgr, "Linda", null, Gender.Female);

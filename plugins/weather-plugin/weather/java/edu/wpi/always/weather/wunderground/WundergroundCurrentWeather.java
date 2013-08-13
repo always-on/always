@@ -8,17 +8,22 @@ import javax.xml.xpath.XPathExpressionException;
 
 public class WundergroundCurrentWeather implements CurrentWeather {
 
-   private WundergroundHelper helper;
-   private String weatherCondition;
-   private String temperature;
-   private String humidity;
-   private String locationName;
+   private final transient WundergroundHelper helper;
+   private final String weatherCondition;
+   private final String temperature;
+   private final String humidity;
+   private final String locationName;
    private final String zip;
+   private String comment;
+   
+   @Override
+   public void setComment (String comment) { this.comment = comment; }
 
    WundergroundCurrentWeather (String zip) throws IOException,
          ParserConfigurationException, SAXException, XPathExpressionException {
       helper = new WundergroundHelper("conditions", zip);
       this.zip = zip;
+      this.comment = comment;
       weatherCondition = currentCondition("weather");
       temperature = currentCondition("temp_f");
       humidity = currentCondition("relative_humidity");
