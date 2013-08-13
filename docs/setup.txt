@@ -205,6 +205,8 @@ development tools.
       -click Import button
       -navigate to always/docs/MyJavaConventions.importorder and Open
       -click Apply and Ok
+      -change "Number of imports needed for .*" and "Number of static imports 
+       needed for .*" to 2
 
 ---VISUAL STUDIO SETUP---
 
