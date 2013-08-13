@@ -1,13 +1,10 @@
 package edu.wpi.always.cm.perceptors.sensor.face;
 
-import com.sun.jna.NativeLibrary;
-
 public class FaceDetection {
 
    private final CPPinterface lib;
 
    public FaceDetection (int intDebug) {
-   	NativeLibrary.addSearchPath("FaceDetection","C:\\Users\\mel\\Documents\\GitHub\\always\\core\\agent\\lib\\native");
       lib = CPPinterface.INSTANCE;
       if ( lib != null )
          lib.initProcess(intDebug);

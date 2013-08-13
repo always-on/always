@@ -86,13 +86,23 @@ public class TcpConnection implements RemoteConnection {
       });
    }
 
+   private String lastMessage = "";
+   private int count;
+   
    private void send (String message) {
       if ( !isConnected() )
          connect();
       if ( isConnected() ) {
-         if ( true ) System.out.println("Sending... " + message);
+         // optimization to help debugging
+         if ( lastMessage.equals(message) ) count++;
+         else {
+            if ( count > 0 ) System.out.println("Sending... "+count+" more"); 
+            System.out.println("Sending... " + message);
+            count = 0;
+         }
          out.print(message + "\n");
          out.flush();
+         lastMessage = message;
       }
    }
 

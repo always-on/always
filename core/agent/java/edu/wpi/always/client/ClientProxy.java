@@ -59,12 +59,16 @@ public class ClientProxy {
 
    public void gaze (AgentTurn dir, float hor, float ver) {
       HashMap<String, String> p = Maps.newHashMap();
-     // p.put("dir", dir.toString());
-      p.put("horizontal",Float.toString(hor));
-      p.put("vertical",	Float.toString(ver));
+      p.put("horizontal",Float.toString(trim(hor)));
+      p.put("vertical",	Float.toString(trim(ver)));
       enqueue("gaze", p);
    }
 
+   private static float trim (float d) {
+      // trim to nearest decimal point (for easier debugging)
+      return Math.round(d*10f)/10f;
+   }
+   
    public void express (AgentFaceExpression expression) {
       HashMap<String, String> p = Maps.newHashMap();
       p.put("expression", expression.toString());

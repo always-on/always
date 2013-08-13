@@ -49,7 +49,7 @@ public class CollaborationManager extends DiscoRT {
       container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
       if ( plugin != null ) {
-         parent.addComponent(plugin);
+         parent.as(Characteristics.CACHE).addComponent(plugin);
          Plugin instance = parent.getComponent(plugin);
          for (Registry r : instance.getRegistries(new Activity(plugin, activity, 0, 0, 0, 0)))
             addRegistry(r);

@@ -14,7 +14,7 @@
 
   <task id="PlayRummy"/>
   
-  <task id="PlayTicTacToe"/>
+  <!--  <task id="PlayTicTacToe"/> -->
 
   <task id="DiscussWeather"/>
   
