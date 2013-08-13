@@ -1,15 +1,27 @@
 package edu.wpi.always.user.owl;
 
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
-import com.clarkparsia.pellet.rules.builtins.*;
+import java.util.List;
+
 import org.joda.time.MonthDay;
-import org.mindswap.pellet.*;
+import org.mindswap.pellet.ABox;
+import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.PrefixManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
-import java.util.List;
+
+import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.clarkparsia.pellet.rules.builtins.BuiltInRegistry;
+import com.clarkparsia.pellet.rules.builtins.GeneralFunction;
+import com.clarkparsia.pellet.rules.builtins.GeneralFunctionBuiltIn;
 
 public class OntologyImpl implements Ontology {
 

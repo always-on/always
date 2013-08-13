@@ -1,9 +1,14 @@
 package edu.wpi.always.client;
 
-import com.google.common.collect.Maps;
-import com.google.gson.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.google.common.collect.Maps;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class ClientProxy {
 

@@ -1,9 +1,9 @@
 package edu.wpi.always.cm.perceptors.sensor.face;
 
+import org.joda.time.DateTime;
+
 import edu.wpi.always.cm.perceptors.FacePerception;
 import edu.wpi.always.cm.perceptors.FacePerceptor;
-import edu.wpi.disco.rt.perceptor.Perceptor;
-import org.joda.time.DateTime;
 
 public class ShoreFacePerceptor implements FacePerceptor {
 

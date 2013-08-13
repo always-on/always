@@ -1,7 +1,12 @@
 package edu.wpi.always.cm.primitives;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+
 import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
-import javax.sound.sampled.*;
 
 public class AudioFileRealizer extends
       SingleRunPrimitiveRealizer<AudioFileBehavior> implements LineListener {

@@ -1,11 +1,16 @@
 package edu.wpi.always.test;
 
-import org.joda.time.*;
-import java.util.Collections;
+import org.joda.time.DateTime;
+import org.joda.time.Hours;
+
 import edu.wpi.always.Always;
-import edu.wpi.always.user.*;
-import edu.wpi.always.user.calendar.*;
-import edu.wpi.always.user.people.*;
+import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.calendar.Calendar;
+import edu.wpi.always.user.calendar.CalendarEntryImpl;
+import edu.wpi.always.user.calendar.CalendarEntryTypeManager;
+import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.PlaceManager;

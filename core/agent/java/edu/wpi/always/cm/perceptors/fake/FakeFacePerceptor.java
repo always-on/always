@@ -1,9 +1,13 @@
 package edu.wpi.always.cm.perceptors.fake;
 
-import edu.wpi.always.cm.perceptors.*;
-import org.joda.time.DateTime;
 import java.awt.Point;
+
 import javax.swing.JTextField;
+
+import org.joda.time.DateTime;
+
+import edu.wpi.always.cm.perceptors.FacePerception;
+import edu.wpi.always.cm.perceptors.FacePerceptor;
 
 public class FakeFacePerceptor implements FacePerceptor {
 

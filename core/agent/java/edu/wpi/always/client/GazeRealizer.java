@@ -1,8 +1,9 @@
 package edu.wpi.always.client;
 
+import java.awt.Point;
+
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
-import java.awt.Point;
 
 public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
 

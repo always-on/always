@@ -1,7 +1,9 @@
 package edu.wpi.always.cm.perceptors.sensor.pir;
 
-import edu.wpi.always.cm.perceptors.*;
 import org.joda.time.DateTime;
+
+import edu.wpi.always.cm.perceptors.MovementPerception;
+import edu.wpi.always.cm.perceptors.MovementPerceptor;
 
 public class PIRMovementPerceptor implements MovementPerceptor {
 

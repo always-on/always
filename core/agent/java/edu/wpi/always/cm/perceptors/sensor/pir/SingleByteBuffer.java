@@ -1,6 +1,7 @@
 package edu.wpi.always.cm.perceptors.sensor.pir;
 
-import java.nio.*;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 
 public class SingleByteBuffer {
 

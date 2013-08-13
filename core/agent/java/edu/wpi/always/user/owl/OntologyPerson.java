@@ -1,13 +1,15 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.user.calendar.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.joda.time.MonthDay;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
-import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
-
-import org.joda.time.*;
-import org.semanticweb.owlapi.model.*;
-import java.util.*;
 
 public class OntologyPerson implements Person {
 
