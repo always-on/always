@@ -196,7 +196,7 @@ development tools.
 
       [using the same formatting will avoid spurious changes being flagged in Git]
 
-      -select Window > Preferences > Java > Code Style > Foratter
+      -select Window > Preferences > Java > Code Style > Formatter
       -click Import button  
       -navigate to always/docs/MyJavaConventions.xml and Open
       -click Apply and Ok
