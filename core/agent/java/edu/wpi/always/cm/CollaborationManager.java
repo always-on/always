@@ -1,7 +1,10 @@
 package edu.wpi.always.cm;
 
 import edu.wpi.always.*;
+import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor;
 import edu.wpi.always.cm.perceptors.dummy.*;
+import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
+import edu.wpi.always.cm.perceptors.sensor.pir.PIRMovementPerceptor;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.always.user.*;
@@ -35,10 +38,10 @@ public class CollaborationManager extends DiscoRT {
    public void start (Class<? extends Plugin> plugin, String activity) {
       // FIXME Try to use real sensors
       container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class); 
-      container.as(Characteristics.CACHE).addComponent(DummyFacePerceptor.class);
+      container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
       if ( plugin != null ) {
-         parent.as(Characteristics.CACHE).addComponent(plugin);
+         parent.addComponent(plugin);
          Plugin instance = parent.getComponent(plugin);
          for (Registry r : instance.getRegistries(new Activity(plugin, activity, 0, 0, 0, 0)))
             addRegistry(r);

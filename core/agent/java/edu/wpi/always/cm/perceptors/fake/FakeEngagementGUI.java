@@ -38,8 +38,8 @@ public class FakeEngagementGUI {
             g.setColor(Color.BLACK);
             g.drawRect(0, 0, 320, 240);
             if ( facePerception != null )
-               g.fillRect(facePerception.getLeft() + 160,
-                     facePerception.getTop() + 120, facePerception.getRight()
+               g.fillRect(facePerception.getLeft() ,
+                     facePerception.getTop(), facePerception.getRight()
                         - facePerception.getLeft(), facePerception.getBottom()
                         - facePerception.getTop());
          }
