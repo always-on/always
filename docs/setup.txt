@@ -192,13 +192,19 @@ development tools.
       -click Apply and Close
       -use this configuration for run/debug
 
-    * [Optional] Set default Java indentation to 3 spaces
+    * Set default Java code formatting
 
-      -since this is default formatting for rest of Always-On project,
-       it will avoid spurious changes to existing code
-      -select Preferences > Java > Code Style > Formatter > Edit
-      -set Indentation size and tab size to 3
-      -set Tab policy to "Spaces only"
+      [using the same formatting will avoid spurious changes being flagged in Git]
+
+      -select Window > Preferences > Java > Code Style > Foratter
+      -click Import button  
+      -navigate to always/docs/MyJavaConventions.xml and Open
+      -click Apply and Ok
+      
+      -select Window > Preferences > Java Code Style > Organize Imports
+      -click Import button
+      -navigate to always/docs/MyJavaConventions.importorder and Open
+      -click Apply and Ok
 
 ---VISUAL STUDIO SETUP---
 
