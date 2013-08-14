@@ -1,7 +1,11 @@
 package edu.wpi.always.user.calendar;
 
-import org.joda.time.*;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
+
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.ReadableInstant;
 
 public interface Calendar extends Iterable<CalendarEntry> {
 

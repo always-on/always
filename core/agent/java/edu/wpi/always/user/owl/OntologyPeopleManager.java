@@ -1,14 +1,15 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.user.UserModel;
-import edu.wpi.always.user.people.*;
-import edu.wpi.always.user.people.Person.Gender;
-import edu.wpi.always.user.people.Person.Relationship;
-import edu.wpi.always.user.places.Place;
+import java.util.Set;
 
 import org.joda.time.MonthDay;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import java.util.Set;
+
+import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.always.user.people.Person.Gender;
+import edu.wpi.always.user.people.Person.Relationship;
+import edu.wpi.always.user.places.Place;
 
 public class OntologyPeopleManager implements PeopleManager {
 

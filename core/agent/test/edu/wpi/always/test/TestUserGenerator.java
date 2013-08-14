@@ -1,11 +1,16 @@
 package edu.wpi.always.test;
 
-import org.joda.time.*;
-import java.util.Collections;
+import org.joda.time.DateTime;
+import org.joda.time.Hours;
+
 import edu.wpi.always.Always;
-import edu.wpi.always.user.*;
-import edu.wpi.always.user.calendar.*;
-import edu.wpi.always.user.people.*;
+import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.calendar.Calendar;
+import edu.wpi.always.user.calendar.CalendarEntryImpl;
+import edu.wpi.always.user.calendar.CalendarEntryTypeManager;
+import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.PlaceManager;
@@ -30,7 +35,7 @@ public class TestUserGenerator {
       peopleMgr.getUser().setGender(Gender.Female);
       Person daughter = addPerson(peopleMgr, "Ellen Lewis", Relationship.Daughter, null);
       daughter.setPhoneNumber("650-339-0221");
-      daughter.setLocation(placeMgr.getPlace("92041"));
+      daughter.setLocation(placeMgr.getPlace("92049"));
       Person daughterHusband = addPerson(peopleMgr, "Mike", null, null);
       daughterHusband.addRelated(daughter, Relationship.Wife);
       Person linda = addPerson(peopleMgr, "Linda", null, Gender.Female);

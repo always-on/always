@@ -1,7 +1,9 @@
 package edu.wpi.always.cm.perceptors.sensor.pir;
 
-import edu.wpi.always.cm.perceptors.*;
 import org.joda.time.DateTime;
+
+import edu.wpi.always.cm.perceptors.MovementPerception;
+import edu.wpi.always.cm.perceptors.MovementPerceptor;
 
 public class PIRMovementPerceptor implements MovementPerceptor {
 
@@ -18,4 +20,22 @@ public class PIRMovementPerceptor implements MovementPerceptor {
       // note location is unknown
       latest = new MovementPerception(DateTime.now(), sensor.getState(), null);
    }
+
+   // This main method tests the PIR sensor functionality
+   public static void main(String[] args) {
+
+      PIRMovementPerceptor movementPerceptor = new PIRMovementPerceptor();
+
+      while(true){
+         System.out.println(movementPerceptor.sensor.getState());
+         try {
+            Thread.sleep(200);
+         } catch (InterruptedException e) {
+            e.printStackTrace();
+         }
+      }
+
+   }
+
 }
+

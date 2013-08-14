@@ -1,10 +1,9 @@
 package edu.wpi.always.cm.perceptors.sensor.face;
 
-import edu.wpi.always.cm.perceptors.FacePerception;
-import edu.wpi.disco.rt.perceptor.Perceptor;
 import org.joda.time.DateTime;
+import edu.wpi.always.cm.perceptors.*;
 
-public class ShoreFacePerceptor implements Perceptor<FacePerception> {
+public class ShoreFacePerceptor implements FacePerceptor {
 
    private volatile FacePerception latest;
    private final FaceDetection shore = new FaceDetection(0);

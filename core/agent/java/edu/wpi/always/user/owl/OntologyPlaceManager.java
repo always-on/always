@@ -1,10 +1,13 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.user.*;
-import edu.wpi.always.user.places.*;
-import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import java.util.Set;
+
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+
+import edu.wpi.always.user.places.Place;
+import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.always.user.places.ZipCodes;
+import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 
 public class OntologyPlaceManager implements PlaceManager {
 

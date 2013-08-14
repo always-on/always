@@ -1,9 +1,20 @@
 package edu.wpi.always.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import com.google.gson.JsonObject;
-import edu.wpi.always.client.*;
-import org.junit.*;
+
+import edu.wpi.always.client.InvalidMessageTypeException;
+import edu.wpi.always.client.JsonMessageFormatException;
+import edu.wpi.always.client.MessageHandler;
+import edu.wpi.always.client.RemoteConnection;
+import edu.wpi.always.client.TcpConnectionObserver;
+import edu.wpi.always.client.UIMessageDispatcherImpl;
 
 //ToDo:
 // - when text passed to handleMessage() is null

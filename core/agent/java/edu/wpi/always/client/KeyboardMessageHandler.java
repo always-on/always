@@ -1,6 +1,7 @@
 package edu.wpi.always.client;
 
 import com.google.gson.JsonObject;
+
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 
 public class KeyboardMessageHandler implements Keyboard, MessageHandler{

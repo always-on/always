@@ -1,8 +1,9 @@
 package edu.wpi.always.user.calendar;
 
+import java.util.Set;
+
 import edu.wpi.always.user.calendar.RepeatingCalendarEntry.Frequency;
 import edu.wpi.always.user.people.Person;
-import java.util.Set;
 
 public class CalendarEntryTypeManager {
 

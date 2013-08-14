@@ -1,11 +1,21 @@
 package edu.wpi.always.cm.perceptors.fake;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import edu.wpi.always.Always;
 import edu.wpi.always.cm.CollaborationManager;
-import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.always.cm.perceptors.EngagementPerception;
+import edu.wpi.always.cm.perceptors.EngagementPerceptor;
+import edu.wpi.always.cm.perceptors.FacePerception;
+import edu.wpi.always.cm.perceptors.FacePerceptor;
 import edu.wpi.always.user.UserModel;
-import java.awt.*;
-import javax.swing.*;
 
 public class FakeEngagementGUI {
 
@@ -38,8 +48,8 @@ public class FakeEngagementGUI {
             g.setColor(Color.BLACK);
             g.drawRect(0, 0, 320, 240);
             if ( facePerception != null )
-               g.fillRect(facePerception.getLeft() + 160,
-                     facePerception.getTop() + 120, facePerception.getRight()
+               g.fillRect(facePerception.getLeft() ,
+                     facePerception.getTop(), facePerception.getRight()
                         - facePerception.getLeft(), facePerception.getBottom()
                         - facePerception.getTop());
          }

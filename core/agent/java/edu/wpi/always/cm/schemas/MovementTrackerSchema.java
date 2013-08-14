@@ -2,10 +2,13 @@ package edu.wpi.always.cm.schemas;
 
 // not currently used because no implementation of perceptor
 
-import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.always.cm.perceptors.MovementPerception;
+import edu.wpi.always.cm.perceptors.MovementPerceptor;
 import edu.wpi.always.cm.primitives.GazeBehavior;
-import edu.wpi.disco.rt.Scheduler;
-import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.behavior.BehaviorHistory;
+import edu.wpi.disco.rt.behavior.BehaviorMetadata;
+import edu.wpi.disco.rt.behavior.BehaviorMetadataBuilder;
+import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
 import edu.wpi.disco.rt.schema.SchemaBase;
 
 public class MovementTrackerSchema extends SchemaBase {

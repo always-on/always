@@ -24,7 +24,7 @@ public class WeatherReport {
       // forecast
       forecastList = new ArrayList<Forecast>();
       for (int i = 0; i < FORECAST_SIZE; i++) {
-         Forecast forecast = provider.getForcast(mainZip, i);
+         Forecast forecast = provider.getForecast(mainZip, i);
          if ( forecast != null )
             forecastList.add(forecast);
       }

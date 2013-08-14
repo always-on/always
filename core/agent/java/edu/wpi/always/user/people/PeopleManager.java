@@ -6,7 +6,6 @@ import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
-import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 
 public interface PeopleManager {
 

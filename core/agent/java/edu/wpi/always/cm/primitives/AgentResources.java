@@ -1,9 +1,11 @@
 package edu.wpi.always.cm.primitives;
 
-import edu.wpi.always.client.AgentFaceExpression;
-import edu.wpi.disco.rt.*;
-import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import java.awt.Point;
+
+import edu.wpi.always.client.AgentFaceExpression;
+import edu.wpi.disco.rt.Resource;
+import edu.wpi.disco.rt.Resources;
+import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 
 public class AgentResources extends Resources {
 
