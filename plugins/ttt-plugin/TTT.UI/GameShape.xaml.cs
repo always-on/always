@@ -58,11 +58,15 @@ namespace TTT.UI
 
         public void Reset()
         {
-            for(int i = 1; i < 10; i++)
+			this.Dispatcher.Invoke((Action)(() =>
             {
-                ((Button)this.FindName("cell" + i))
-                    .Content = null;
-            }
+				for(int i = 1; i < 10; i++)
+				{
+					((Button)this.FindName("cell" + i)).Content = null;
+
+
+				}
+			}));
         }
 
 		public void MakeTheBoardPlayable() 

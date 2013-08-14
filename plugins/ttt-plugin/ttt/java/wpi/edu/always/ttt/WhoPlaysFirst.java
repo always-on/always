@@ -5,34 +5,33 @@ import java.util.Random;
 
 import edu.wpi.disco.rt.menu.*;
 
-public class WannaPlay extends TTTAdjacencyPairImpl {
+public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
 
    private static final int HUMAN_IDENTIFIER = 1;
    private static final int AGENT_IDENTIFIER = 2;
    private static String currentComment = "";
    private static List<String> humanCommentOptions;
    private static String WhatAgentSaysIfHumanDoesNotChooseAComment = "";
+   private static boolean agentIsCommenting = false;
 
-   public WannaPlay(final TTTStateContext context) {
-      super("Do you want to play Tic Tac Toe?", context);
-      choice("Sure", new DialogStateTransition() {
-         @Override
-         public AdjacencyPair run () {
-            return new WhoPlaysFirst(context);
-         }
-      });
-      choice("Not really", new DialogStateTransition() {
-         @Override
-         public AdjacencyPair run () {
-            return new WannaPlay(context);
-         }
-      });
-   }
+//   public WannaPlay(final TTTStateContext context) {
+//      super("Do you want to play Tic Tac Toe?", context);
+//      choice("Sure", new DialogStateTransition() {
+//         @Override
+//         public AdjacencyPair run () {
+//            return new WhoPlaysFirst(context);
+//         }
+//      });
+//      choice("Not really", new DialogStateTransition() {
+//         @Override
+//         public AdjacencyPair run () {
+//            return new WannaPlay(context);
+//         }
+//      });
+//   }
 
-   public static class WhoPlaysFirst extends TTTAdjacencyPairImpl {
-      public WhoPlaysFirst(final TTTStateContext context){
+   public WhoPlaysFirst(final TTTStateContext context) {
          super("Do you want to play the first move or should I?", context);
-         getContext().getTTTUI().startPluginForTheFirstTime(this);
          choice("Let me play first", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
@@ -45,27 +44,50 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
                return new AgentPlayDelay(context);
             }
          });
-      }
-//      @Override 
-//      public void afterLimbo() {
-//         skipTo(new CreateCommentsAfterLimbo(getContext()));
-//      }
+         choice("test", new DialogStateTransition() {
+            @Override
+            public AdjacencyPair run () {
+               TTTClient.gameOver = true;
+               return new gameOver(context);
+            }
+         });
    }
-
+   @Override
+   public void enter() {
+      if(!TTTClient.gameOver)
+         getContext().getTTTUI().startPluginForTheFirstTime(this);
+      else {
+         TTTClient.gameOver = false;
+         getContext().getTTTUI().updatePlugin(this);
+         getContext().getTTTUI().resetGame();
+      }
+   }
+   
    //Limbo as waiting for user move
    public static class Limbo extends TTTAdjacencyPairImpl { 
       public Limbo(final TTTStateContext context){
          super(currentComment, context);
       }
       @Override
+      public void enter() {
+         if(TTTClient.gameOver)
+            skipTo(new gameOver(getContext()));
+         if(!agentIsCommenting)
+            TTTClient.gazeLeft = true;
+         else 
+            TTTClient.gazeBack = true;
+         getContext().getTTTUI().makeBoardPlayable();
+         getContext().getTTTUI().updatePlugin(this);
+         getContext().getTTTUI().
+            triggerAgentCommentOnUserTurnGazeDelay();
+      }
+      @Override
       public void afterLimbo() {
          skipTo(new CreateCommentsAfterLimbo(getContext()));
       }
       @Override
-      public void enter() {
+      protected void afterAgentCommentOnUserTurnGazeDelayOver() {
          TTTClient.gazeLeft = true;
-         getContext().getTTTUI().updatePlugin(this);
-         getContext().getTTTUI().makeBoardPlayable();
       }
    }
    
@@ -92,7 +114,11 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
       }
       @Override
       public void enter(){
-         TTTClient.gazeLeft = true;
+         if(TTTClient.gameOver)
+            skipTo(new gameOver(getContext()));
+         agentIsCommenting = false;
+         TTTClient.gazeUpLeft = true;
+         getContext().getTTTUI().makeBoardUnplayable();
          getContext().getTTTUI().updatePlugin(this);
          getContext().getTTTUI().triggerAgentPlayTimer();
          getContext().getTTTUI().prepareAgentMove();
@@ -109,6 +135,7 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
       }
       @Override
       public void enter(){
+         TTTClient.gazeLeft = true;
          getContext().getTTTUI().playAgentMove(this);
          getContext().getTTTUI().prepareAgentComment();
          currentComment = getContext().getTTTUI().getCurrentAgentComment();
@@ -128,12 +155,11 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
+         agentIsCommenting = true;
          TTTClient.gazeBack = true;
          if (playerIdentifier == AGENT_IDENTIFIER){
-            //getContext().getTTTUI().prepareAgentMove();
             getContext().getTTTUI().prepareAgentComment();
             currentComment = getContext().getTTTUI().getCurrentAgentComment();
-            //humanCommentOptions = getContext().getTTTUI().getCurrentHumanCommentOptions();  
             skipTo(new Limbo(getContext()));
          }
          else
@@ -163,7 +189,6 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
          if (playerIdentifier == HUMAN_IDENTIFIER){
             WhatAgentSaysIfHumanDoesNotChooseAComment = "OK";
             skipTo(new AgentPlayDelay(getContext()));
-            
          }
       }
       @Override 
@@ -180,6 +205,29 @@ public class WannaPlay extends TTTAdjacencyPairImpl {
          getContext().getTTTUI().makeBoardPlayable();
       }
    }
-
+   public static class gameOver extends TTTAdjacencyPairImpl {
+      public gameOver(final TTTStateContext context){
+         super("Do you want to play again?", context);
+         choice("Sure", new DialogStateTransition() {
+            @Override
+            public AdjacencyPair run () {
+               return new WhoPlaysFirst(context);
+            }
+         });
+         choice("Not really", new DialogStateTransition() {
+            @Override
+            public AdjacencyPair run () {
+               return new gameOver(context);
+            }
+         });
+      }
+      @Override 
+      public void enter(){
+         TTTClient.gazeBack = true;
+         getContext().getTTTUI().makeBoardUnplayable();
+         getContext().getTTTUI().updatePlugin(this);
+         currentComment = "";
+      }
+   }
 
 }

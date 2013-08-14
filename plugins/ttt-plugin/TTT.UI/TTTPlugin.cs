@@ -51,7 +51,8 @@ namespace AgentApp
 
        	private void PlayAgentMove(JObject cellNumAsJObj)
 		{
-            if (cellNumAsJObj["cellNum"]
+            
+if (cellNumAsJObj["cellNum"]
                 .ToString().Trim().Equals("reset"))
             {
                 game.Reset();

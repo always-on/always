@@ -15,7 +15,7 @@ public class TTTSchema extends ActivityStateMachineSchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, TTTUI tttUI,
          UIMessageDispatcher dispatcher,PlaceManager placeManager, PeopleManager peopleManager) {
-      super(new WannaPlay(new TTTStateContext(
+      super(new WhoPlaysFirst(new TTTStateContext(
             keyboard, tttUI, dispatcher, placeManager, peopleManager)),
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
    } 
@@ -44,6 +44,16 @@ public class TTTSchema extends ActivityStateMachineSchema {
          Behavior gazeBehavior = b.build();
          propose(gazeBehavior, m);
          TTTClient.gazeBack = false;
+      }
+      else if(TTTClient.gazeUpLeft){
+         BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
+         SyncSayBuilder b = new SyncSayBuilder(
+               "<GAZE horizontal=\"-1\" vertical=\"1\"/>$");
+         b.setMetaData(metadata);
+         BehaviorMetadata m = b.getMetadata();
+         Behavior gazeBehavior = b.build();
+         propose(gazeBehavior, m);
+         TTTClient.gazeUpLeft = false;
       }
       if(TTTClient.nod){
          //TODO fill me in later

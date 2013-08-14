@@ -30,13 +30,19 @@ implements TTTUIListener {
    public void humanCommentTimeOut(){
       afterTimeOut();
    }
-   public void afterTimeOut(){}
+   protected void afterTimeOut(){}
 
    @Override
    public void agentPlayDelayOver() {
       afterAgentPlayDelay();
    }
-   public void afterAgentPlayDelay(){}
+   protected void afterAgentPlayDelay(){}
+
+   @Override
+   public void agentCommentOnUserTurnGazeDelayOver() {
+      afterAgentCommentOnUserTurnGazeDelayOver();
+   }
+   protected void afterAgentCommentOnUserTurnGazeDelayOver(){}
    
    
 }

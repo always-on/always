@@ -50,7 +50,7 @@ public class TTTGameState extends GameLogicState{
 
       //checks for a tie
       boolean full = true;
-      for (int i = 0; i < 9; i ++)
+      for(int i = 0; i < 9; i ++)
          if(board[i] == 0)
             full = false;
       if(full)      
@@ -73,6 +73,11 @@ public class TTTGameState extends GameLogicState{
       return false;
    }
 
+   public void resetBoard(){
+      for (int i = 0; i < 9; i ++)
+            board[i] = 0;
+   }
+   
    public void visualize(){
 
       for(int i = 0; i < 9; i ++){

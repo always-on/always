@@ -24,10 +24,13 @@ public class TTTClient implements TTTUI {
    private static final String MSG_BOARD_PLAYABILITY = "tictactoe.playability";
    private static final int HUMAN_COMMENTING_TIMEOUT = 8;
    private static final int AGENT_PLAY_DELAY_TIMEOUT = 4;
+   private static final int AGENT_COMMENT_ON_USER_TURN_GAZE_DELAY = 3;
    
    public static boolean gazeLeft = false;
    public static boolean gazeBack = false;
+   public static boolean gazeUpLeft = false;
    public static boolean nod = false;
+   public static boolean gameOver = false;
 
    private static final int USER_IDENTIFIER = 1;
    private static final int AGENT_IDENTIFIER = 2;
@@ -98,7 +101,14 @@ public class TTTClient implements TTTUI {
                   .build();
       dispatcher.send(msg);
       updateWinOrTie();
-
+   }
+   
+   @Override
+   public void resetGame() {
+      Message msg = Message.builder(MSG_AGENT_MOVE)
+            .add("cellNum", "reset").build();
+      gameState.resetBoard();
+      dispatcher.send(msg);
    }
 
    @Override
@@ -113,7 +123,6 @@ public class TTTClient implements TTTUI {
 
    @Override
    public void prepareAgentMove() {
-
       currentMove = null;
       currentMove = 
             //		moveChooser.choose(scenarioFilter.filter(
@@ -122,9 +131,7 @@ public class TTTClient implements TTTUI {
             moveChooser.choose(
                   moveAnnotator.annotate(moveGenerator.generate(
                         gameState), gameState, USER_IDENTIFIER));
-
       updateWinOrTie();
-
    }
 
    @Override
@@ -140,11 +147,6 @@ public class TTTClient implements TTTUI {
          currentComment = commentAsObj.getContent();
       else
          currentComment = "";
-   }
-
-   @Override
-   public void gazeLeft(){
-      
    }
 
    //user commenting timer 
@@ -168,21 +170,37 @@ public class TTTClient implements TTTUI {
    public void triggerAgentPlayTimer() {
       agentPlayDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(new AgentPlayDelayTimerSetter(), 
-            1000*AGENT_PLAY_DELAY_TIMEOUT);
+            1000 * AGENT_PLAY_DELAY_TIMEOUT);
    }
    private class AgentPlayDelayTimerSetter extends TimerTask{
       @Override
       public void run() {listener.agentPlayDelayOver();}
    }
+   //agent comment on user turn gaze delay
+   @Override
+   public void triggerAgentCommentOnUserTurnGazeDelay() {
+      agentPlayDelayTimer = new Timer();
+      agentPlayDelayTimer.schedule(new AgentCommentOnUserTurnGazeTimerSetter(), 
+            1000 * AGENT_COMMENT_ON_USER_TURN_GAZE_DELAY);
+   }
+   private class AgentCommentOnUserTurnGazeTimerSetter extends TimerTask{
+      @Override
+      public void run() {listener.agentCommentOnUserTurnGazeDelayOver();}
+   }
 
    private void updateWinOrTie(){
+     
       winOrTie = gameState.didAnyOneJustWin();
+      
       if(winOrTie == 1)
          gameState.userWins = true;
       else if(winOrTie == 2)
          gameState.agentWins = true;
       else if(winOrTie == 3)
          gameState.tie = true;
+      
+      if(winOrTie != 0)
+         TTTClient.gameOver = true;
    }
 
    private void show(TTTUIListener listener) {
@@ -215,6 +233,5 @@ public class TTTClient implements TTTUI {
       Message m = Message.builder(MSG_BOARD_PLAYABILITY).add("value", "false").build();
       dispatcher.send(m);      
    }
-
 
 }
