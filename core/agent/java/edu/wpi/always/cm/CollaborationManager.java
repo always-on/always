@@ -1,27 +1,16 @@
 package edu.wpi.always.cm;
 
 import java.io.File;
-
-import org.picocontainer.BindKey;
-import org.picocontainer.Characteristics;
-import org.picocontainer.MutablePicoContainer;
-
-import edu.wpi.always.Activity;
-import edu.wpi.always.Plugin;
-import edu.wpi.always.cm.perceptors.dummy.DummyEngagementPerceptor;
-import edu.wpi.always.cm.perceptors.dummy.DummyMovementPerceptor;
+import org.picocontainer.*;
+import edu.wpi.always.*;
+import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
-import edu.wpi.always.cm.primitives.AgentResources;
-import edu.wpi.always.cm.primitives.PluginSpecificActionRealizer;
+import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.SessionSchema;
-import edu.wpi.always.user.UserModel;
-import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.*;
 import edu.wpi.always.user.owl.OntologyUserModel;
-import edu.wpi.cetask.TaskClass;
-import edu.wpi.cetask.TaskModel;
-import edu.wpi.disco.rt.DiscoRT;
-import edu.wpi.disco.rt.Registry;
-import edu.wpi.disco.rt.Resources;
+import edu.wpi.cetask.*;
+import edu.wpi.disco.rt.*;
 
 public class CollaborationManager extends DiscoRT {
 
@@ -44,9 +33,9 @@ public class CollaborationManager extends DiscoRT {
    }
  
    public void start (Class<? extends Plugin> plugin, String activity) {
-      // FIXME Try to use real sensors
-      container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class); 
       container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
+      // FIXME Try to use real sensors
+      container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
       if ( plugin != null ) {
          parent.as(Characteristics.CACHE).addComponent(plugin);

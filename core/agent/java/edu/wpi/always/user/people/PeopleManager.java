@@ -19,6 +19,6 @@ public interface PeopleManager {
 
    Person[] getPeople ();
 
-   Person addPerson(String name, Relationship relationship, Gender gender, String age, String phoneNumber,
-         String SkypeNumber, Place ZipCode, String spouse, MonthDay birthday);
+   Person addPerson(String name, Relationship relationship, Gender gender, int age, String phone,
+         String skype, Place place, Person spouse, MonthDay birthday);
 }

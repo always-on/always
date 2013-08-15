@@ -44,8 +44,8 @@ public class EnrollClient implements EnrollUI{
                   .add("age", person.getAge())
                   .add("gender", gender)
                   .add("zipcode", zipcode)
-                  .add("relationship", person.getRelationship())
-                  .add("spouse", person.getSpouse())
+                  .add("relationship", person.getRelationship().name())
+                  .add("spouse", person.getSpouse().getName())
                   .add("phoneNumber", person.getPhoneNumber())
                   .add("skypeAccount", person.getSkypeNumber())
                   .add("birthday", birthday)
@@ -72,9 +72,9 @@ public class EnrollClient implements EnrollUI{
             jsonObject.addProperty("name", src.getName());
             jsonObject.addProperty("age", src.getAge());
             jsonObject.addProperty("gender", gender);
-            jsonObject.addProperty("relationship", src.getRelationship());
+            jsonObject.addProperty("relationship", src.getRelationship().name());
             jsonObject.addProperty("zipcode", zipcode);
-            jsonObject.addProperty("Spouse", src.getSpouse());
+            jsonObject.addProperty("Spouse", src.getSpouse().getName());
             jsonObject.addProperty("phoneNumber", src.getPhoneNumber());
             jsonObject.addProperty("skypeAccount", src.getSkypeNumber());
             jsonObject.addProperty("birthday", birthday);

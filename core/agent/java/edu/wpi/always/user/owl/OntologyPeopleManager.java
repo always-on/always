@@ -6,7 +6,7 @@ import org.joda.time.MonthDay;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import edu.wpi.always.user.UserModel;
-import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
@@ -41,12 +41,12 @@ public class OntologyPeopleManager implements PeopleManager {
 
    @Override
    public OntologyPerson addPerson (String name) {
-      return addPerson(name, null, null, null, null, null, null, null, null);
+      return addPerson(name, null, null, 0, null, null, null, null, null);
    }
 
    @Override
    public OntologyPerson addPerson(String name, Relationship relationship, Gender gender, 
-         String age, String phoneNumber, String SkypeNumber, Place ZipCode, String spouse, 
+         int age, String phone, String skype, Place place, Person spouse, 
          MonthDay birthday){
       OntologyIndividual owlPerson = helper.getNamedIndividual(name);
       owlPerson.addSuperclass(OntologyPerson.PERSON_CLASS);
@@ -57,14 +57,14 @@ public class OntologyPeopleManager implements PeopleManager {
          person.setRelationship(relationship);
       if ( gender != null )
          person.setGender(gender);
-      if ( age != null)
+      if ( age != 0)
          person.setAge(age);
-      if ( phoneNumber != null)
-         person.setPhoneNumber(phoneNumber);
-      if ( SkypeNumber != null) 
-         person.setSkypeNumber(SkypeNumber);
-      if ( ZipCode != null)
-         person.setLocation(ZipCode);
+      if ( phone != null)
+         person.setPhoneNumber(phone);
+      if ( skype != null) 
+         person.setSkypeNumber(skype);
+      if ( place != null)
+         person.setLocation(place);
       if ( spouse != null)
          person.setSpouse(spouse);
       if (birthday != null)
@@ -82,7 +82,6 @@ public class OntologyPeopleManager implements PeopleManager {
 
    @Override
    public OntologyPerson getPerson (String name) {
-      // TODO get individual by name property
       OntologyPerson person = getPerson(helper.getNamedIndividual(name));
       if ( person == null ) return addPerson(name);
       return person;
