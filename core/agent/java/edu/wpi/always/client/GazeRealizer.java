@@ -16,55 +16,15 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
 
    @Override
    protected void singleRun () {
-      proxy.gaze(translateToAgentTurn(getParams().getPoint()), translateToAgentTurnHor(getParams().getPoint()), translateToAgentTurnVer(getParams().getPoint()));
+      proxy.gaze(translateToAgentTurnHor(getParams().getPoint()), translateToAgentTurnVer(getParams().getPoint()));
       fireDoneMessage();
    }
 
-   public static AgentTurn translateToAgentTurn (Point p) {
-      if ( p == null )
-         return AgentTurn.Mid;
-      if ( p.x > 160 )
-         return AgentTurn.MidRight;
-      if ( p.x < 160)
-         return AgentTurn.MidLeft;
-      return AgentTurn.Mid;
-   }
    public static float translateToAgentTurnHor (Point p) {
-      if ( p == null )
-         return 0;
-      
-      int error = (160-p.x);
-      float hor=0;
-      
-      if(error>0)	//turn left
-      {
-      	hor = (float) (error*0.50)/160;
-      	return hor;
-      }
-      else if(error<0)	//turn right
-      {
-      	hor = (float) (error*0.50/160);
-      	return hor;
-      }
-      return hor;
+      return (160f-p.x)*0.5f/160f;
    }
+
    public static float translateToAgentTurnVer(Point p) {
-   	 if ( p == null )
-          return 0;
-   	 
-       int error = (120-p.y);
-       float ver=0;
-       
-       if(error>0)	//turn up
-       {
-       	ver = (float) (error*0.75)/120;
-       	return ver;
-       }
-       else if(error<0)	//turn down
-       {
-       	ver = (float) (error*0.75/120);
-       	return ver;
-       }
-       return ver;
+      return (120f-p.y)*0.75f/120f;
    }
 }

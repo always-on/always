@@ -1,7 +1,7 @@
 package edu.wpi.always.client;
 
-import edu.wpi.always.cm.perceptors.FacePerception;
-import edu.wpi.always.cm.perceptors.FacePerceptor;
+import java.awt.Point;
+import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
 import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
 
@@ -19,13 +19,23 @@ public class FaceTrackerRealizer extends
       this.perceptor = perceptor;
    }
 
+   private float hor, ver;
+   
    @Override
    public void run () {
       FacePerception perception = perceptor.getLatest();
       if ( perception != null ) {
-         AgentTurn dir = GazeRealizer.translateToAgentTurn(perception.getPoint());
-         proxy.gaze(dir, GazeRealizer.translateToAgentTurnHor(perception.getPoint()), GazeRealizer.translateToAgentTurnVer(perception.getPoint()));
-         fireDoneMessage();
+         Point point = perception.getPoint();
+         if ( point != null ) {
+            float hor = GazeRealizer.translateToAgentTurnHor(point);
+            float ver = GazeRealizer.translateToAgentTurnVer(point);
+            // only send message if face has moved significantly
+            if ( Math.abs(this.hor - hor) > 0.3f || Math.abs(this.ver - ver) > 0.2f ) {
+               proxy.gaze(hor, ver);
+               fireDoneMessage();
+               this.hor = hor; this.ver = ver;
+            }
+         }
       }
    }
 }
