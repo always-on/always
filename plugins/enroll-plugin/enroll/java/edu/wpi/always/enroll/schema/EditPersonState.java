@@ -287,7 +287,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       public AdjacencyPair success(String text) {
          if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
-            person.setAge(text);
+            person.setAge(Integer.parseInt(text));
             return new EditPersonAdjacencyPair(getContext(), person);
          }
          return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
@@ -295,7 +295,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair cancel() {
-         person.setAge(null);
+         person.setAge(0);
          getContext().hideKeyboard();
          return new EditPersonAdjacencyPair(getContext(), person);
       }	
@@ -317,7 +317,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       public AdjacencyPair success(String text) {
          if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
-            person.setAge(text);
+            person.setAge(Integer.parseInt(text));
             return new EditPersonAdjacencyPair(getContext(), person);
          }
          return new ChangeAgeInvalidAdjacencyPair(getContext(), person);
@@ -325,7 +325,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair cancel() {
-         person.setAge(null);
+         person.setAge(0);
          getContext().hideKeyboard();
          return new EditPersonAdjacencyPair(getContext(), person);
       }	
@@ -696,7 +696,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       @Override
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
-         person.setSpouse(text);
+         person.setSpouse(getContext().getPeopleManager().getPerson(text));
          return new EditPersonAdjacencyPair(getContext(), person);
       }
 

@@ -2,7 +2,6 @@ package edu.wpi.always.user.people;
 
 import edu.wpi.always.user.places.Place;
 import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
-
 import org.joda.time.MonthDay;
 
 /* 
@@ -18,9 +17,9 @@ public interface Person {
       Friend, Parent, Father, Mother, Spouse, Husband, Wife, Offspring, Son, Daughter, Sibling, Brother, Sister, Grandchild, Grandson, Granddaughter, Grandparent, Grandfather, Grandmother, Aunt, Uncle, Cousin;
    }
 
-   public static String[] Month = {
-      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-   };
+   public static String[] Month = { "January", "February", "March", "April",
+      "May", "June", "July", "August", "September", "October", "November",
+      "December" };
 
    String getName ();
 
@@ -28,7 +27,7 @@ public interface Person {
 
    Gender getGender ();
 
-   void setGender (Person.Gender gender);
+   void setGender (Gender gender);
 
    MonthDay getBirthday ();
 
@@ -40,19 +39,19 @@ public interface Person {
 
    String getSkypeNumber ();
 
-   void setSkypeNumber(String number);
+   void setSkypeNumber (String number);
 
-   String getRelationship();
+   Relationship getRelationship ();
 
-   void setRelationship(Relationship relationship);
+   void setRelationship (Relationship relationship);
 
-   String getSpouse();
+   Person getSpouse ();
 
-   void setSpouse(String spouse);
+   void setSpouse (Person spouse);
 
-   String getAge();
+   int getAge ();
 
-   void setAge(String age);
+   void setAge (int age);
 
    Place getLocation ();
 
@@ -65,6 +64,23 @@ public interface Person {
 
    void addRelated (Person otherPerson, Relationship relationship);
 
-   void setBirthdayEvent(MonthDay day);
+   void setBirthdayEvent (MonthDay day);
+   
+   // the following are specific to the plugin for talking about people
+   // but need to be here because can be applied to any person
+   
+   enum AboutStatus { Positive, Negative }
+   
+   AboutStatus getAboutStatus ();
+   
+   void setAboutStatus (AboutStatus status);
+   
+   String getAboutComment ();
+   
+   void setAboutComment (String comment);
+   
+   boolean isAboutMentioned ();
+   
+   void setAboutMentioned (boolean mentioned);
 
 }

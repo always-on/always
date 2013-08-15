@@ -38,12 +38,12 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       
       if(error>0)	//turn left
       {
-      	hor = (float) (error*0.30)/160;
+      	hor = (float) (error*0.50)/160;
       	return hor;
       }
       else if(error<0)	//turn right
       {
-      	hor = (float) (error*0.30/160);
+      	hor = (float) (error*0.50/160);
       	return hor;
       }
       return hor;
@@ -57,12 +57,12 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
        
        if(error>0)	//turn up
        {
-       	ver = (float) (error*0.30)/120;
+       	ver = (float) (error*0.75)/120;
        	return ver;
        }
        else if(error<0)	//turn down
        {
-       	ver = (float) (error*0.30/120);
+       	ver = (float) (error*0.75/120);
        	return ver;
        }
        return ver;
