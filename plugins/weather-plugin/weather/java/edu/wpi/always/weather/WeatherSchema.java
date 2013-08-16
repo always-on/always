@@ -25,7 +25,7 @@ public class WeatherSchema extends DiscoActivitySchema {
            (WeatherPlugin.date == null ? getTodayDate(): WeatherPlugin.date)+ "\"" + ";",
           "Weather data");
       interaction.load("edu/wpi/always/weather/resources/Weather.xml"); 
-      switch (Always.THIS.getRM().getCloseness()) {
+      switch (Always.THIS.getUserModel().getCloseness()) {
          case Stranger: start("_WeatherStranger"); break;
          case Acquaintance: start("_WeatherAcquaintance"); break;
          case Companion: start("_WeatherCompanion"); break;

@@ -46,8 +46,7 @@ public class OntologyPeopleManager implements PeopleManager {
 
    @Override
    public OntologyPerson addPerson(String name, Relationship relationship, Gender gender, 
-         int age, String phone, String skype, Place place, Person spouse, 
-         MonthDay birthday){
+         int age, String phone, String skype, Place place, Person spouse, MonthDay birthday){
       OntologyIndividual owlPerson = helper.getNamedIndividual(name);
       owlPerson.addSuperclass(OntologyPerson.PERSON_CLASS);
       OntologyPerson person = new OntologyPerson(
@@ -65,8 +64,8 @@ public class OntologyPeopleManager implements PeopleManager {
          person.setSkypeNumber(skype);
       if ( place != null)
          person.setLocation(place);
-      if ( spouse != null)
-         person.setSpouse(spouse);
+      if ( spouse != null )
+         person.addRelated(spouse, Relationship.Spouse);
       if (birthday != null)
          person.setBirthday(birthday);
       return person;

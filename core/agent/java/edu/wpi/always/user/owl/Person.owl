@@ -6,8 +6,8 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 Prefix(skos:=<http://www.w3.org/2004/02/skos/core#>)
 Prefix(swrlb:=<http://www.w3.org/2003/11/swrlb#>)
 
-
 Ontology(
+
 Declaration(Class(<#Person>))
 
 Declaration(Class(<#User>))
@@ -19,14 +19,10 @@ SubClassOf(<#FemalePerson> <#Person>)
 Declaration(Class(<#MalePerson>))
 SubClassOf(<#MalePerson> <#Person>)
 
-
 Declaration(DataProperty(<#PersonName>))
 DataPropertyDomain(<#PersonName> <#Person>)
 DataPropertyRange(<#PersonName> xsd:string)
 SubClassOf(<#Person> DataExactCardinality(1 <#PersonName> xsd:string))
-
-
-
 
 Declaration(ObjectProperty(<#Parent>))
 ObjectPropertyDomain(<#Parent> <#Person>)
@@ -50,9 +46,6 @@ SubClassOf(<#Person> ObjectMaxCardinality(1 <#Mother> <#Person>))
 DLSafeRule(Body(ObjectPropertyAtom(<#Mother> Variable(<#varA>) Variable(<#varB>)))Head(ClassAtom(<#FemalePerson> Variable(<#varB>))))
 DLSafeRule(Body(ObjectPropertyAtom(<#Mother> Variable(<#varA>) Variable(<#varB>)))Head(ObjectPropertyAtom(<#Parent> Variable(<#varA>) Variable(<#varB>))))
 
-
-
-
 Declaration(ObjectProperty(<#Offspring>))
 ObjectPropertyDomain(<#Offspring> <#Person>)
 ObjectPropertyRange(<#Offspring> <#Person>)
@@ -71,11 +64,6 @@ ObjectPropertyDomain(<#Son> <#Person>)
 ObjectPropertyRange(<#Son> <#Person>)
 DLSafeRule(Body(ObjectPropertyAtom(<#Son> Variable(<#varA>) Variable(<#varB>)))Head(ClassAtom(<#MalePerson> Variable(<#varB>))))
 DLSafeRule(Body(ObjectPropertyAtom(<#Son> Variable(<#varA>) Variable(<#varB>)))Head(ObjectPropertyAtom(<#Offspring> Variable(<#varA>) Variable(<#varB>))))
-
-
-
-
-
 
 Declaration(ObjectProperty(<#Sibling>))
 ObjectPropertyDomain(<#Sibling> <#Person>)
@@ -97,8 +85,6 @@ ObjectPropertyRange(<#Sister> <#Person>)
 DLSafeRule(Body(ObjectPropertyAtom(<#Sister> Variable(<#varA>) Variable(<#varB>)))Head(ClassAtom(<#FemalePerson> Variable(<#varB>))))
 DLSafeRule(Body(ObjectPropertyAtom(<#Sister> Variable(<#varA>) Variable(<#varB>)))Head(ObjectPropertyAtom(<#Sibling> Variable(<#varA>) Variable(<#varB>))))
 
-
-
 Declaration(ObjectProperty(<#Spouse>))
 ObjectPropertyDomain(<#Spouse> <#Person>)
 ObjectPropertyRange(<#Spouse> <#Person>)
@@ -107,6 +93,7 @@ DLSafeRule(Body(ObjectPropertyAtom(<#Grandparent> Variable(<#varA>) Variable(<#v
 DLSafeRule(Body(ObjectPropertyAtom(<#Spouse> Variable(<#varA>) Variable(<#varB>)))Head(ObjectPropertyAtom(<#Spouse> Variable(<#varB>) Variable(<#varA>))))
 DLSafeRule(Body(ObjectPropertyAtom(<#Spouse> Variable(<#varA>) Variable(<#varB>)) ClassAtom(<#MalePerson> Variable(<#varB>)))Head(ObjectPropertyAtom(<#Husband> Variable(<#varA>) Variable(<#varB>))))
 DLSafeRule(Body(ObjectPropertyAtom(<#Spouse> Variable(<#varA>) Variable(<#varB>)) ClassAtom(<#FemalePerson> Variable(<#varB>)))Head(ObjectPropertyAtom(<#Wife> Variable(<#varA>) Variable(<#varB>))))
+DLSafeRule(Body(ObjectPropertyAtom(<#Spouse> Variable(<#varA>) Variable(<#varB>)))Head(ObjectPropertyAtom(<#Spouse> Variable(<#varB>) Variable(<#varA>))))
 
 Declaration(ObjectProperty(<#Husband>))
 ObjectPropertyDomain(<#Husband> <#Person>)
@@ -119,9 +106,6 @@ ObjectPropertyDomain(<#Wife> <#Person>)
 ObjectPropertyRange(<#Wife> <#Person>)
 DLSafeRule(Body(ObjectPropertyAtom(<#Wife> Variable(<#varA>) Variable(<#varB>)))Head(ClassAtom(<#FemalePerson> Variable(<#varB>))))
 DLSafeRule(Body(ObjectPropertyAtom(<#Wife> Variable(<#varA>) Variable(<#varB>)))Head(ObjectPropertyAtom(<#Spouse> Variable(<#varA>) Variable(<#varB>))))
-
-
-
 
 Declaration(ObjectProperty(<#Grandchild>))
 ObjectPropertyDomain(<#Grandchild> <#Person>)
@@ -142,8 +126,6 @@ ObjectPropertyRange(<#Granddaughter> <#Person>)
 DLSafeRule(Body(ObjectPropertyAtom(<#Granddaughter> Variable(<#varA>) Variable(<#varB>)))Head(ClassAtom(<#FemalePerson> Variable(<#varB>))))
 DLSafeRule(Body(ObjectPropertyAtom(<#Granddaughter> Variable(<#varA>) Variable(<#varB>)))Head(ObjectPropertyAtom(<#Grandchild> Variable(<#varA>) Variable(<#varB>))))
 
-
-
 Declaration(ObjectProperty(<#Grandparent>))
 ObjectPropertyDomain(<#Grandparent> <#Person>)
 ObjectPropertyRange(<#Grandparent> <#Person>)
@@ -163,28 +145,10 @@ ObjectPropertyRange(<#Grandmother> <#Person>)
 DLSafeRule(Body(ObjectPropertyAtom(<#Grandmother> Variable(<#varA>) Variable(<#varB>)))Head(ClassAtom(<#FemalePerson> Variable(<#varB>))))
 DLSafeRule(Body(ObjectPropertyAtom(<#Grandmother> Variable(<#varA>) Variable(<#varB>)))Head(ObjectPropertyAtom(<#Grandparent> Variable(<#varA>) Variable(<#varB>))))
 
-
-
-
-
-
-
-
-
 Declaration(ObjectProperty(<#Friend>))
 ObjectPropertyDomain(<#Friend> <#Person>)
 ObjectPropertyRange(<#Friend> <#Person>)
 DLSafeRule(Body(ObjectPropertyAtom(<#Friend> Variable(<#varA>) Variable(<#varB>)))Head(ObjectPropertyAtom(<#Friend> Variable(<#varB>) Variable(<#varA>))))
-
-
-
-
-
-
-
-
-
-
 
 Declaration(ObjectProperty(<#PersonLivesIn>))
 ObjectPropertyDomain(<#PersonLivesIn> <#Person>)
@@ -196,13 +160,35 @@ DataPropertyDomain(<#PersonPhoneNumber> <#Person>)
 DataPropertyRange(<#PersonPhoneNumber> xsd:string)
 SubClassOf(<#Person> DataMaxCardinality(1 <#PersonPhoneNumber> xsd:string))
 
+Declaration(DataProperty(<#PersonSkypeNumber>))
+DataPropertyDomain(<#PersonSkypeNumber> <#Person>)
+DataPropertyRange(<#PersonSkypeNumber> xsd:string)
+SubClassOf(<#Person> DataMaxCardinality(1 <#PersonSkypeNumber> xsd:string))
 
+Declaration(DataProperty(<#PersonAge>))
+DataPropertyDomain(<#PersonAge> <#Person>)
+DataPropertyRange(<#PersonAge> xsd:int)
+SubClassOf(<#Person> DataMaxCardinality(1 <#PersonAge> xsd:int))
 
 Declaration(DataProperty(<#PersonBirthday>))
 DataPropertyDomain(<#PersonBirthday> <#Person>)
 DataPropertyRange(<#PersonBirthday> xsd:gMonthDay)
 SubClassOf(<#Person> DataMaxCardinality(1 <#PersonBirthday> xsd:gMonthDay))
 
+Declaration(DataProperty(<#PersonAboutStatus>))
+DataPropertyDomain(<#PersonAboutStatus> <#Person>)
+DataPropertyRange(<#PersonAboutStatus> xsd:string)
+SubClassOf(<#Person> DataMaxCardinality(1 <#PersonAboutStatus> xsd:string))
+
+Declaration(DataProperty(<#PersonAboutComment>))
+DataPropertyDomain(<#PersonAboutComment> <#Person>)
+DataPropertyRange(<#PersonAboutComment> xsd:string)
+SubClassOf(<#Person> DataMaxCardinality(1 <#PersonAboutComment> xsd:string))
+
+Declaration(DataProperty(<#PersonAboutMentioned>))
+DataPropertyDomain(<#PersonAboutMentioned> <#Person>)
+DataPropertyRange(<#PersonAboutMentioned> xsd:boolean)
+SubClassOf(<#Person> DataMaxCardinality(1 <#PersonAboutMentioned> xsd:boolean))
 
 DLSafeRule(
 Body(

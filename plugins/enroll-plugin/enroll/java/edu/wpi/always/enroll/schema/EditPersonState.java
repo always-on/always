@@ -668,14 +668,12 @@ public class EditPersonState extends EnrollAdjacencyPairs{
          choice("No", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               person.setSpouse(null);
                return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
          choice("Never Mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               person.setSpouse(null);
                return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
@@ -696,13 +694,12 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       @Override
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
-         person.setSpouse(getContext().getPeopleManager().getPerson(text));
+         person.addRelated(getContext().getPeopleManager().getPerson(text), Relationship.Spouse);
          return new EditPersonAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
-         person.setSpouse(null);
          getContext().hideKeyboard();
          return new EditPersonAdjacencyPair(getContext(), person);
       }

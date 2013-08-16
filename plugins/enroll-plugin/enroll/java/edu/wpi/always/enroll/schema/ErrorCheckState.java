@@ -650,14 +650,12 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          choice("No", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               person.setSpouse(null);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
          choice("Never Mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               person.setSpouse(null);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
@@ -675,13 +673,13 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
       @Override
       public AdjacencyPair success (String text) {
          getContext().hideKeyboard();
-         person.setSpouse(getContext().getPeopleManager().getPerson(text));
+         person.addRelated(getContext().getPeopleManager().getPerson(text),
+               Relationship.Spouse);
          return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel () {
-         person.setSpouse(null);
          getContext().hideKeyboard();
          return new CheckCorrectionAdjacencyPair(getContext(), person);
       }

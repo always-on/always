@@ -7,7 +7,7 @@ import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
 import edu.wpi.disco.*;
-import org.joda.time.MonthDay;
+import org.joda.time.*;
 import java.io.*;
 import java.util.regex.Pattern;
 
@@ -33,17 +33,25 @@ public abstract class UserUtils {
     */
    public static void print (UserModel model, PrintStream stream) {
       stream.println("USER MODEL FOR "+model.getUserName());
+      System.out.print("Sessions: "+model.getSessions()+
+            " Closeness: "+model.getCloseness()+
+            "\nStartTime: "+new DateTime(model.getStartTime()));
+      System.out.println();
       for (Person person : model.getPeopleManager().getPeople()) {
          stream.print(person);
          Gender gender = person.getGender();
          if ( gender != null ) stream.println(" (" + gender + ")");
          else stream.println();
+         int age = person.getAge();
+         if ( age != 0 ) stream.println("\tAge = " + age);
          MonthDay birthday = person.getBirthday();
          if ( birthday != null ) stream.println("\tBirthday = " + birthday);
          Place location = person.getLocation();
          if ( location != null ) stream.println("\tLocation = " + location);
          String phone = person.getPhoneNumber();
          if ( phone != null ) stream.println("\tPhoneNumber = " + phone);
+         String skype = person.getSkypeNumber();
+         if ( phone != null ) stream.println("\tSkypeNumber = " + skype);
          for (Relationship relationship : Relationship.values()) {
             Person[] related = person.getRelated(relationship);
             if ( related != null ) {
