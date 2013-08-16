@@ -27,6 +27,20 @@ public abstract class UserUtils {
    public static String USER_FILE = "User.owl";
    
    /**
+    * Optional arguments are USER_DIR and USER_FILE
+    */
+   public static void main (String[] args) {
+      if ( args != null ) {
+         if ( args.length > 0 ) USER_DIR = args[0];
+         if ( args.length > 1 ) USER_FILE = args[1];
+      }
+      UserModel model = new Always(true, false).getUserModel();
+      if ( model.getUserName() == null )
+         System.err.println("Cannot find "+USER_DIR+"/"+USER_FILE);
+      else print(model, System.out);
+   }
+   
+   /**
     * Print out core information about all people
     * 
     * @see CalendarUtils#print(Calendar,PrintStream)

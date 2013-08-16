@@ -15,9 +15,7 @@ public class TestUserGenerator {
       Always always = Always.make(null, null, null);
       UserModel model = always.getContainer().getComponent(UserModel.class);
       generate(model);
-      System.out.println("SPOUSE "+model.getPeopleManager().getUser().getSpouse());////
       UserUtils.print(model, System.out);
-      model.save();
       System.exit(0);
    }
       

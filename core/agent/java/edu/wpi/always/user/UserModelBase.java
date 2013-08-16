@@ -1,12 +1,16 @@
 package edu.wpi.always.user;
 
-import edu.wpi.always.Closeness;
+import edu.wpi.always.*;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 
 public abstract class UserModelBase implements UserModel {
-
+   
+   public static void saveIf () { 
+      if ( !INHIBIT_SAVE ) Always.THIS.getUserModel().save(); 
+   }
+   
    protected String userName;
    
    @Override

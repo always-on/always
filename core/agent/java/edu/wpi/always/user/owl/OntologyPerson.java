@@ -3,6 +3,7 @@ package edu.wpi.always.user.owl;
 import java.util.*;
 import org.joda.time.*;
 import org.semanticweb.owlapi.model.*;
+import edu.wpi.always.user.UserModelBase;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
@@ -57,6 +58,7 @@ public class OntologyPerson implements Person {
    @Override
    public void setName (String name) {
       owlPerson.setDataProperty(NAME_PROPERTY, helper.getLiteral(name));
+      UserModelBase.saveIf();
    }
 
    @Override
@@ -87,12 +89,14 @@ public class OntologyPerson implements Person {
    public void addRelated (Person otherPerson, Relationship relationship) {
       owlPerson.addObjectProperty(relationship.name(),
             helper.getNamedIndividual(otherPerson.getName()));
+      UserModelBase.saveIf();
    }
 
    @Override
    public void setPhoneNumber (String number) {
       owlPerson.setDataProperty(PHONE_NUMBER_PROPERTY, (number != null)
          ? helper.getLiteral(number) : null);
+      UserModelBase.saveIf();
    }
 
    @Override
@@ -104,6 +108,7 @@ public class OntologyPerson implements Person {
    public void setSkypeNumber (String number) {
       owlPerson.setDataProperty(SKYPE_NUMBER_PROPERTY, (number != null)
          ? helper.getLiteral(number) : null);
+      UserModelBase.saveIf();
    }
 
    @Override
@@ -114,6 +119,7 @@ public class OntologyPerson implements Person {
    @Override
    public void setAge (int age) {
       owlPerson.setDataProperty(AGE_PROPERTY, helper.getLiteral(age));
+      UserModelBase.saveIf();
    }
 
    @Override
@@ -148,6 +154,7 @@ public class OntologyPerson implements Person {
       else
          owlPerson.removeSuperclass(FEMALE_PERSON_CLASS);
       helper.applyChanges(changes);
+      UserModelBase.saveIf();
    }
 
    @Override
@@ -163,7 +170,6 @@ public class OntologyPerson implements Person {
    public MonthDay getBirthday () {
       return owlPerson.getDataPropertyValue(BIRTHDAY_PROPERTY).asMonthDay();
    }
-
 
    @Override
    public void setBirthday (MonthDay day) {
@@ -187,6 +193,7 @@ public class OntologyPerson implements Person {
          birthdayEntry.setStart(day.toDateTime(new DateMidnight()));
          model.getCalendar().update(birthdayEntry, true);
       }
+      UserModelBase.saveIf();
    }
 
    @Override
@@ -201,6 +208,7 @@ public class OntologyPerson implements Person {
             (place != null) ? 
                model.getPlaceManager().getPlace(place.getZip()).getIndividual() 
                : null);
+      UserModelBase.saveIf();
    }
 
    @Override
@@ -234,6 +242,7 @@ public class OntologyPerson implements Person {
    public void setAboutStatus (AboutStatus status) {
       owlPerson.setDataProperty(ABOUT_STATUS_PROPERTY, 
             (status != null) ? helper.getLiteral(status.name()) : null);
+      UserModelBase.saveIf();
    }
 
    @Override
@@ -246,6 +255,7 @@ public class OntologyPerson implements Person {
    public void setAboutComment (String comment) {
       owlPerson.setDataProperty(ABOUT_COMMENT_PROPERTY, (comment != null)
          ? helper.getLiteral(comment) : null);
+      UserModelBase.saveIf();
    }
 
    @Override
@@ -256,6 +266,7 @@ public class OntologyPerson implements Person {
    @Override
    public void setAboutMentioned (boolean mentioned) {
       owlPerson.setDataProperty(ABOUT_MENTIONED_PROPERTY, helper.getLiteral(mentioned));
+      UserModelBase.saveIf();
    }
 
    @Override

@@ -1,5 +1,6 @@
 package edu.wpi.always.user.owl;
 
+import edu.wpi.always.Always;
 import edu.wpi.always.user.*;
 import org.picocontainer.annotations.Bind;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
@@ -32,8 +33,9 @@ public class OntologyUserModel extends UserModelBase {
       this.peopleManager = peopleManager;
       this.placeManager = placeManager;
       peopleManager.setUserModel(this);
+      System.out.println("Saving user ontology to: "+userDataFile);
    }
-
+   
    @Override
    public void setUserName (String userName) {
       if ( this.userName == null ) {
@@ -43,6 +45,7 @@ public class OntologyUserModel extends UserModelBase {
             user.addSuperclass(OntologyPerson.USER_CLASS);
             peopleManager.addPerson(userName);
          }
+         saveIf();
       } else throw new UnsupportedOperationException(
                   "User model already has name: "+this.userName);
    }
@@ -70,6 +73,7 @@ public class OntologyUserModel extends UserModelBase {
    @Override
    public void setProperty (String property, String value) {
       user.setDataProperty(property, value == null ? null : ontology.getLiteral(value));
+      saveIf();
    }
    
    @Override
@@ -80,6 +84,7 @@ public class OntologyUserModel extends UserModelBase {
    @Override
    public void setProperty (String property, int value) {
        user.setDataProperty(property, ontology.getLiteral(value));
+       saveIf();
    }
      
    @Override
@@ -90,6 +95,7 @@ public class OntologyUserModel extends UserModelBase {
    @Override
    public void setProperty (String property, long value) {
        user.setDataProperty(property, ontology.getLiteral(value));
+       saveIf();
    }
    
    @Override
@@ -100,11 +106,13 @@ public class OntologyUserModel extends UserModelBase {
    @Override
    public void setProperty (String property, double value) {
       user.setDataProperty(property, ontology.getLiteral(value));
+      saveIf();
    }
 
    @Override
    public void setProperty (String property, boolean value) {
       user.setDataProperty(property, ontology.getLiteral(value));
+      saveIf();
    }
    
    @Override
@@ -112,9 +120,15 @@ public class OntologyUserModel extends UserModelBase {
       return user.getDataPropertyValue(property).asBoolean();
    }
    
-   public void addAxioms (InputStream stream) { ontology.addAxioms(stream); }
+   public void addAxioms (InputStream stream) { 
+      ontology.addAxioms(stream);
+      saveIf();
+   }
    
-   public void addAxioms (File file) { ontology.addAxioms(file); }
+   public void addAxioms (File file) { 
+      ontology.addAxioms(file);
+      saveIf();
+   }
    
    private static final Set<AxiomType<?>> types = new HashSet<AxiomType<?>>();
    static {
@@ -124,7 +138,6 @@ public class OntologyUserModel extends UserModelBase {
       types.add(AxiomType.OBJECT_PROPERTY_ASSERTION);
    }
 
-   
    @Override
    public void save () {
       try {
@@ -136,7 +149,6 @@ public class OntologyUserModel extends UserModelBase {
                userAxioms.add(new AddAxiom(userOntology, ax));
          }
          manager.applyChanges(userAxioms);
-         System.out.println("Saving user ontology to: "+userDataFile);
          manager.saveOntology(userOntology,
                new OWLFunctionalSyntaxOntologyFormat(), new FileOutputStream(
                      userDataFile));

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
+import edu.wpi.always.user.UserModelBase;
 import edu.wpi.always.user.places.Place;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.always.user.places.ZipCodes;
@@ -37,6 +38,7 @@ public class OntologyPlaceManager implements PlaceManager {
          place.setCityName(placeData.getCity() + ", " + placeData.getState());
          place.setTimeZone(placeData.getTimezone());
       }
+      UserModelBase.saveIf();
       return place;
    }
 

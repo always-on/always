@@ -1,5 +1,6 @@
 package edu.wpi.always.user.owl;
 
+import edu.wpi.always.user.UserModelBase;
 import edu.wpi.always.user.places.Place;
 import org.joda.time.DateTimeZone;
 
@@ -42,17 +43,19 @@ public class OntologyPlace implements Place {
       return owlPlace;
    }
 
-   public void setZip (String zip) {
+   void setZip (String zip) {
       owlPlace.setDataProperty(ZIP_PROPERTY, helper.getLiteral(zip));
+      UserModelBase.saveIf();
    }
 
-   public void setCityName (String name) {
+   void setCityName (String name) {
       owlPlace.setDataProperty(CITY_NAME_PROPERTY, helper.getLiteral(name));
+      UserModelBase.saveIf();
    }
 
-   public void setTimeZone (DateTimeZone timezone) {
-      owlPlace.setDataProperty(TIMEZONE_PROPERTY,
-            helper.getLiteral(timezone.getID()));
+   void setTimeZone (DateTimeZone timezone) {
+      owlPlace.setDataProperty(TIMEZONE_PROPERTY, helper.getLiteral(timezone.getID()));
+      UserModelBase.saveIf();
    }
    
    @Override
