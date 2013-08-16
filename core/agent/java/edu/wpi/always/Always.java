@@ -159,9 +159,11 @@ public class Always {
    public void addRegistry (Registry registry) {
       if ( registry instanceof ComponentRegistry )
          registries.add((ComponentRegistry) registry);
-      else if ( registry instanceof OntologyRegistry )
+      // NB could be instance of both
+      if ( registry instanceof OntologyRegistry )
          ontologyRegistries.add((OntologyRegistry) registry);
-      else throw new IllegalArgumentException("Unknown registry type: "+registry);
+      if ( !(registry instanceof ComponentRegistry || registry instanceof OntologyRegistry) )
+            throw new IllegalArgumentException("Unknown registry type: "+registry);
    }
 
    public void addCMRegistry (Registry registry) {

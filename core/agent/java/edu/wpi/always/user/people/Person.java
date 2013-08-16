@@ -42,7 +42,7 @@ public interface Person {
    void setSkypeNumber (String number);
 
    /**
-    * Relationship to the user
+    * Relationship to the user (if more than one, chosen randomly).
     */
    Relationship getRelationship ();
 

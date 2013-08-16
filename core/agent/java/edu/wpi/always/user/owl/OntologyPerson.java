@@ -130,6 +130,7 @@ public class OntologyPerson implements Person {
    public Relationship getRelationship () {
       OntologyIndividual user = model.getPeopleManager().getUser().owlPerson;
       for (Relationship r : Relationship.values())
+         // TODO Prefer most specific to first one found
          if ( owlPerson.getObjectPropertyValue(r.name()) == user )
             return r;
       return null;
@@ -166,9 +167,6 @@ public class OntologyPerson implements Person {
 
    @Override
    public void setBirthday (MonthDay day) {
-      // TODO Remove old birthday (if any) from calendar
-      owlPerson.setDataProperty(BIRTHDAY_PROPERTY,
-            (day != null) ? helper.getLiteral(day) : null);
       CalendarEntry birthdayEntry = null;
       for (CalendarEntry entry : model.getCalendar().retrieve(null)) {
          if ( entry.getType().equals(CalendarEntryTypeManager.Types.Birthday) ) {
@@ -240,8 +238,8 @@ public class OntologyPerson implements Person {
 
    @Override
    public AboutStatus getAboutStatus () {
-      return AboutStatus.valueOf(
-            owlPerson.getDataPropertyValue(ABOUT_STATUS_PROPERTY).asString());
+      String status = owlPerson.getDataPropertyValue(ABOUT_STATUS_PROPERTY).asString();
+      return status == null ? null : AboutStatus.valueOf(status);
    }
  
    @Override

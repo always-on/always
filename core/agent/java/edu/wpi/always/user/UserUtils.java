@@ -65,6 +65,13 @@ public abstract class UserUtils {
                stream.println();
             }
          }
+         // plugin specific
+         Person.AboutStatus status = person.getAboutStatus();
+         if ( status != null ) stream.println("\tAboutStatus = "+status);
+         String comment = person.getAboutComment();
+         if ( comment != null ) stream.println("\tAboutComment = "+comment);
+         boolean mentioned = person.isAboutMentioned();
+         if ( mentioned ) stream.println("\tAboutMentioned= "+mentioned);
       }
       stream.println("CALENDAR");
       CalendarUtils.print(model.getCalendar(), stream);
