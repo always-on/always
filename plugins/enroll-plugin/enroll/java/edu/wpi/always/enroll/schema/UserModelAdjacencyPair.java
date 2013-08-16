@@ -503,7 +503,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
       @Override
       public AdjacencyPair success(String text) {
          Spouse = getContext().getPeopleManager().getPerson(text);
-         getContext().getPeopleManager().getUser().setSpouse(Spouse);
+         getContext().getPeopleManager().getUser().addRelated(Spouse, Person.Relationship.Spouse);
          return new UserPhoneNumberAdjacencyPair(getContext());
       }
 

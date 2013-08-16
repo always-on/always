@@ -41,13 +41,15 @@ public interface Person {
 
    void setSkypeNumber (String number);
 
+   /**
+    * Relationship to the user
+    */
    Relationship getRelationship ();
 
+   /**
+    * Relationship to the user
+    */
    void setRelationship (Relationship relationship);
-
-   Person getSpouse ();
-
-   void setSpouse (Person spouse);
 
    int getAge ();
 
@@ -63,9 +65,9 @@ public interface Person {
    Person[] getRelated (Relationship relationship);
 
    void addRelated (Person otherPerson, Relationship relationship);
-
-   void setBirthdayEvent (MonthDay day);
    
+   Person getSpouse ();
+
    // the following are specific to the plugin for talking about people
    // but need to be here because can be applied to any person
    

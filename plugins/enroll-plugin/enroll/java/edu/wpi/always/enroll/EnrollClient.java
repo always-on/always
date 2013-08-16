@@ -6,26 +6,32 @@ import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.user.people.*;
 import org.joda.time.format.*;
 
-public class EnrollClient implements EnrollUI{
+public class EnrollClient implements EnrollUI {
 
    private static final String PLUGIN_NAME = "enroll";
+
    private static final String MSG_ENROLL_DISPLAY = "enroll.display";
+
    private final PeopleManager enroll;
+
    private final UIMessageDispatcher dispatcher;
-   private final DateTimeFormatter formatter = DateTimeFormat.forPattern("MMMM dd");
+
+   private final DateTimeFormatter formatter = DateTimeFormat
+         .forPattern("MMMM dd");
 
    public EnrollClient (final PeopleManager enroll,
          UIMessageDispatcher dispatcher) {
       this.enroll = enroll;
       this.dispatcher = dispatcher;
    }
+
    private void show () {
       ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
             InstanceReuseMode.Reuse, null);
    }
 
    @Override
-   public void showAllEntries() {
+   public void showAllEntries () {
       show();
       Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "people")
             .add("peopleData", getPeopleData()).build();
@@ -33,24 +39,27 @@ public class EnrollClient implements EnrollUI{
    }
 
    @Override
-   public void showCurrentEntry(Person person) {
+   public void showCurrentEntry (Person person) {
       show();
-      String gender = (person.getGender() != null)? person.getGender().toString() : null;
-      String zipcode = (person.getLocation() != null)? 
-            person.getLocation().toString() + ", " + person.getLocation().getZip() : null;
-            String birthday = (person.getBirthday() != null)? person.getBirthday().toString(formatter) : null;
-            Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
-                  .add("name", person.getName())
-                  .add("age", person.getAge())
-                  .add("gender", gender)
-                  .add("zipcode", zipcode)
-                  .add("relationship", person.getRelationship().name())
-                  .add("spouse", person.getSpouse().getName())
-                  .add("phoneNumber", person.getPhoneNumber())
-                  .add("skypeAccount", person.getSkypeNumber())
-                  .add("birthday", birthday)
-                  .build();
-            dispatcher.send(m);
+      String gender = person.getGender() == null ? null : person.getGender().name();
+      String zipcode = (person.getLocation() == null) ? null :
+         person.getLocation().toString() + ", " + person.getLocation().getZip();
+      String spouse = person.getSpouse() == null ? null : person.getSpouse().getName();
+      String birthday = (person.getBirthday() == null) ? null :
+         person.getBirthday().toString(formatter);
+      
+      Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
+            .add("name", person.getName())
+            .add("age", person.getAge())
+            .add("gender", gender)
+            .add("zipcode", zipcode)
+            .add("relationship", person.getRelationship().name())
+            .add("spouse", spouse)
+            .add("phoneNumber", person.getPhoneNumber())
+            .add("skypeAccount", person.getSkypeNumber())
+            .add("birthday", birthday)
+            .build();
+      dispatcher.send(m);
    }
 
    public JsonElement getPeopleData () {
@@ -64,24 +73,27 @@ public class EnrollClient implements EnrollUI{
    }
 
    private JsonElement asPersonJson (Person src) {
-      String gender = (src.getGender() != null)? src.getGender().toString() : null;
-      String zipcode = (src.getLocation() != null)? 
-            src.getLocation().toString() + ", " + src.getLocation().getZip() : null;
-            String birthday = (src.getBirthday() != null)? src.getBirthday().toString() : null;
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("name", src.getName());
-            jsonObject.addProperty("age", src.getAge());
-            jsonObject.addProperty("gender", gender);
-            jsonObject.addProperty("relationship", src.getRelationship().name());
-            jsonObject.addProperty("zipcode", zipcode);
-            jsonObject.addProperty("Spouse", src.getSpouse().getName());
-            jsonObject.addProperty("phoneNumber", src.getPhoneNumber());
-            jsonObject.addProperty("skypeAccount", src.getSkypeNumber());
-            jsonObject.addProperty("birthday", birthday);
-            return jsonObject;
+      String gender = (src.getGender() != null) ? src.getGender().toString()
+         : null;
+      String zipcode = (src.getLocation() != null) ? src.getLocation()
+            .toString() + ", " + src.getLocation().getZip() : null;
+      String birthday = (src.getBirthday() != null) ? src.getBirthday()
+            .toString() : null;
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("name", src.getName());
+      jsonObject.addProperty("age", src.getAge());
+      jsonObject.addProperty("gender", gender);
+      jsonObject.addProperty("relationship", src.getRelationship().name());
+      jsonObject.addProperty("zipcode", zipcode);
+      jsonObject.addProperty("Spouse", src.getSpouse().getName());
+      jsonObject.addProperty("phoneNumber", src.getPhoneNumber());
+      jsonObject.addProperty("skypeAccount", src.getSkypeNumber());
+      jsonObject.addProperty("birthday", birthday);
+      return jsonObject;
    }
+
    @Override
-   public void hideEnrollUI() {
+   public void hideEnrollUI () {
       ClientPluginUtils.closePlugin(dispatcher);
    }
 }

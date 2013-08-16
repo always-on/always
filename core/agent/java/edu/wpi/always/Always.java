@@ -63,9 +63,9 @@ public class Always {
       Always always = new Always(true, plugin == null);
       if ( args != null && args.length > 0 ) {
          Closeness closeness = Closeness.valueOf(args[0]);
-         System.out.println("Using closeness = "+closeness);
-         always.getRM().setCloseness(closeness);
+         always.getUserModel().setCloseness(closeness);
       }
+      System.out.println("Using closeness = "+always.getUserModel().getCloseness());
       always.plugin = plugin; 
       always.activity = activity;
       return always;
@@ -76,11 +76,15 @@ public class Always {
     * user model) without starting Always GUI.
     */
    public static class Disco {
+      
       public static void main (String[] args) { 
          Interaction interaction = new Interaction(
             new Agent("agent"), 
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
+         UserUtils.USER_FILE = new java.io.File("../../user").exists() ? 
+                                  "../../user" : "../../../user";  
+         UserUtils.USER_FILE = "TestUser.owl";  // no way to change for now
          // initialize duplicate interaction created above
          new Always(true, false).init(interaction); 
          interaction.start(true);

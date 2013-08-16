@@ -27,10 +27,6 @@ public class OntologyPerson implements Person {
 
    public static final String AGE_PROPERTY = "PersonAge";
 
-   public static final String SPOUSE_PROPERTY = "PersonSpouse";
-
-   public static final String RELATION_PROPERTY = "PersonRelation";
-
    public static final String LIVES_IN_PROPERTY = "PersonLivesIn";
 
    private final OntologyHelper helper;
@@ -80,6 +76,12 @@ public class OntologyPerson implements Person {
          return related;
       }
    }
+   
+   @Override
+   public Person getSpouse () {
+      Person[] spouses = getRelated(Relationship.Spouse);
+      return spouses == null ? null : spouses[0]; // ignore polygamy
+   }
 
    @Override
    public void addRelated (Person otherPerson, Relationship relationship) {
@@ -96,20 +98,6 @@ public class OntologyPerson implements Person {
    @Override
    public String getPhoneNumber () {
       return owlPerson.getDataPropertyValue(PHONE_NUMBER_PROPERTY).asString();
-   }
-
-   @Override
-   public void setSpouse (Person spouse) {
-      owlPerson.setObjectProperty(SPOUSE_PROPERTY,
-            (spouse != null) ? 
-               model.getPeopleManager().getPerson(spouse.getName()).getIndividual()
-               : null);
-   }
-
-   @Override
-   public Person getSpouse () {
-      return model.getPeopleManager().getPerson(
-            owlPerson.getObjectPropertyValue(SPOUSE_PROPERTY));
    }
 
    @Override
@@ -135,14 +123,16 @@ public class OntologyPerson implements Person {
 
    @Override
    public void setRelationship (Relationship relationship) {
-      owlPerson.setDataProperty(RELATION_PROPERTY, 
-            (relationship != null) ? helper.getLiteral(relationship.name()) : null);
+      addRelated(model.getPeopleManager().getUser(), relationship);
    }
 
    @Override
    public Relationship getRelationship () {
-      return Relationship.valueOf(
-            owlPerson.getDataPropertyValue(RELATION_PROPERTY).asString());
+      OntologyIndividual user = model.getPeopleManager().getUser().owlPerson;
+      for (Relationship r : Relationship.values())
+         if ( owlPerson.getObjectPropertyValue(r.name()) == user )
+            return r;
+      return null;
    }
 
    @Override
@@ -173,14 +163,12 @@ public class OntologyPerson implements Person {
       return owlPerson.getDataPropertyValue(BIRTHDAY_PROPERTY).asMonthDay();
    }
 
-   @Override
-   public void setBirthday (MonthDay day) {
-      owlPerson.setDataProperty(BIRTHDAY_PROPERTY,
-            (day != null) ? helper.getLiteral(day) : null);
-   }
 
    @Override
-   public void setBirthdayEvent (MonthDay day) {
+   public void setBirthday (MonthDay day) {
+      // TODO Remove old birthday (if any) from calendar
+      owlPerson.setDataProperty(BIRTHDAY_PROPERTY,
+            (day != null) ? helper.getLiteral(day) : null);
       CalendarEntry birthdayEntry = null;
       for (CalendarEntry entry : model.getCalendar().retrieve(null)) {
          if ( entry.getType().equals(CalendarEntryTypeManager.Types.Birthday) ) {
@@ -240,9 +228,9 @@ public class OntologyPerson implements Person {
    }
 
    public static final String
-         ABOUT_STATUS_PROPERTY = "AboutStatus",
-         ABOUT_COMMENT_PROPERTY = "AboutComment",
-         ABOUT_MENTIONED_PROPERTY = "AboutMentioned";
+         ABOUT_STATUS_PROPERTY = "PersonAboutStatus",
+         ABOUT_COMMENT_PROPERTY = "PersonAboutComment",
+         ABOUT_MENTIONED_PROPERTY = "PersonAboutMentioned";
    
    @Override
    public void setAboutStatus (AboutStatus status) {

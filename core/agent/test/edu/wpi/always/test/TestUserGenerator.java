@@ -1,16 +1,10 @@
 package edu.wpi.always.test;
 
-import org.joda.time.DateTime;
-import org.joda.time.Hours;
-
-import edu.wpi.always.Always;
-import edu.wpi.always.user.UserModel;
-import edu.wpi.always.user.UserUtils;
-import edu.wpi.always.user.calendar.Calendar;
-import edu.wpi.always.user.calendar.CalendarEntryImpl;
-import edu.wpi.always.user.calendar.CalendarEntryTypeManager;
-import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.always.user.people.Person;
+import org.joda.time.*;
+import edu.wpi.always.*;
+import edu.wpi.always.user.*;
+import edu.wpi.always.user.calendar.*;
+import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.PlaceManager;
@@ -21,6 +15,7 @@ public class TestUserGenerator {
       Always always = Always.make(null, null, null);
       UserModel model = always.getContainer().getComponent(UserModel.class);
       generate(model);
+      System.out.println("SPOUSE "+model.getPeopleManager().getUser().getSpouse());////
       UserUtils.print(model, System.out);
       model.save();
       System.exit(0);
@@ -28,13 +23,20 @@ public class TestUserGenerator {
       
    public static void generate (UserModel userModel) {
       userModel.setUserName("Diane Ferguson");
+      ((UserModelBase) userModel).start();
+      ((UserModelBase) userModel).nextSession();
+      userModel.setCloseness(Closeness.Companion);
       PeopleManager peopleMgr = userModel.getPeopleManager();
       PlaceManager placeMgr = userModel.getPlaceManager();
       Calendar calendar = userModel.getCalendar();
       peopleMgr.getUser().setLocation(placeMgr.getPlace("02118"));
       peopleMgr.getUser().setGender(Gender.Female);
+      peopleMgr.getUser().setAge(62);
+      peopleMgr.getUser().setBirthday(new MonthDay(1,1));
+      Person spouse = addPerson(peopleMgr, "Bob Ferguson", Relationship.Spouse, null);
       Person daughter = addPerson(peopleMgr, "Ellen Lewis", Relationship.Daughter, null);
       daughter.setPhoneNumber("650-339-0221");
+      daughter.setSkypeNumber("ellenlewis");
       daughter.setLocation(placeMgr.getPlace("92049"));
       Person daughterHusband = addPerson(peopleMgr, "Mike", null, null);
       daughterHusband.addRelated(daughter, Relationship.Wife);

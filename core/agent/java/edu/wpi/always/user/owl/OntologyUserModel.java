@@ -1,6 +1,6 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.*;
 import org.picocontainer.annotations.Bind;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.*;
@@ -8,14 +8,13 @@ import java.io.*;
 import java.lang.annotation.*;
 import java.util.*;
 
-public class OntologyUserModel implements UserModel {
+public class OntologyUserModel extends UserModelBase {
 
    @Retention(RetentionPolicy.RUNTIME)
    @Target({ ElementType.FIELD, ElementType.PARAMETER })
    @Bind
    public @interface UserOntologyLocation {}
 
-   private String userName;
    private OntologyIndividual user;
    
    private final OntologyHelper ontology;
@@ -35,11 +34,6 @@ public class OntologyUserModel implements UserModel {
       peopleManager.setUserModel(this);
    }
 
-   @Override
-   public String getUserName () {
-      return userName;
-   }
-   
    @Override
    public void setUserName (String userName) {
       if ( this.userName == null ) {

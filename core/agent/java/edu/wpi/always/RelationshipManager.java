@@ -1,6 +1,7 @@
 package edu.wpi.always;
 
 import edu.wpi.always.cm.CollaborationManager;
+import edu.wpi.always.user.UserModel;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.util.DiscoDocument;
 
@@ -11,33 +12,22 @@ import edu.wpi.disco.rt.util.DiscoDocument;
 public class RelationshipManager {
 
    private final Interaction interaction;
+   private final UserModel model;
    
    public RelationshipManager (CollaborationManager cm) {
       interaction = cm.getContainer().getComponent(Interaction.class);
+      model = cm.getContainer().getComponent(UserModel.class);
    }
-   
-   private Closeness closeness = Closeness.Stranger;
-   
-   public Closeness getCloseness () { return closeness; }
-   
-   /**
-    * To call from Disco console:
-    * 
-    * <code>eval $always.getRM().setCloseness(edu.wpi.always.Closeness.Acquaintance)</code>
-    */
-   public void setCloseness (Closeness closeness) {
-      this.closeness = closeness;
-   }
-   
+ 
    public DiscoDocument getSession () { 
-      switch (closeness) {
+      switch (model.getCloseness()) {
          case Stranger:
             return new DiscoDocument(interaction.getDisco(), "Stranger.xml"); 
          case Acquaintance:
             return new DiscoDocument(interaction.getDisco(), "Acquaintance.xml"); 
          case Companion:
             return new DiscoDocument(interaction.getDisco(), "Acquaintance.xml");
-         default: throw new IllegalStateException("Unknown closeness value: "+closeness);
+         default: throw new IllegalStateException("Unknown closeness value");
       }
    }
 
