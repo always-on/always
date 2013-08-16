@@ -35,6 +35,15 @@
     var pronounSubj = "she";
     print("here is the list of family and friends = " + familyFriendsList);
 
+    // convenience functions
+    function positive (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Positive); }
+    function negative (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Negative); }
+    function reset (person) {
+        person.setAboutMentioned(false); 
+	person.setAboutStatus(null);
+	person.setAboutComment(null); 
+    }
+
   </t:script>
 
   <t:task id="TalkAbout">
@@ -150,9 +159,7 @@
   <agent id="_MoreAboutX" text="Last time we talked about {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was going on vacation'">
       <agent text="so how did it go?" 
-	     eval="famFriend.setAboutMentioned(false); 
-		   famFriend.setAboutStatus(null); 
-		   famFriend.setAboutComment(null);">
+	     eval="reset(famFriend);" >
 	<!-- reset statusType to empty and previousTalk to null -->
 	<user text="I don't know.  I haven't talked to {pronounObj} for a while" >
 	  <agent text="maybe today is good time to give {pronounObj} a call">
@@ -182,24 +189,16 @@
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='had a new grandchild'">
       <agent text="so is there anything else new with {pronounObj} ?">
 	<user text="no not really" >
-	  <agent text="okay" 	     
-		 eval="famFriend.setAboutMentioned(false); 
-		   famFriend.setAboutStatus(null); 
-		   famFriend.setAboutComment(null);" />
+	  <agent text="okay" 
+		 eval="reset(famFriend);"/>
 	  <!-- put previousTalk as null and reset status and statusType to empty in UM -->
 	</user>
 	<user text="just more about the grandchild" >
-	  <agent text="I see" 	    
-		 eval="famFriend.setAboutMentioned(false); 
-		       famFriend.setAboutStatus(null); 
-		       famFriend.setAboutComment(null);" />
+	  <agent text="I see" eval="reset(famFriend);" />
 	  <!-- put previousTalk as null and reset status and statusType to empty in UM -->
 	</user>
 	<user text=" {pronounSubj} is fine" >
-	  <agent text="glad to hear it" 	     
-		 eval="famFriend.setAboutMentioned(false); 
-		   famFriend.setAboutStatus(null); 
-		   famFriend.setAboutComment(null);" />
+	  <agent text="glad to hear it" eval="reset(famFriend);" />	     
 	  <!-- put previousTalk as null and reset status and statusType to empty in UM -->
 	</user>  
 	<user text=" {pronounSubj} isn't doing so well" >
@@ -207,24 +206,18 @@
 	</user>
       </agent>
     </user>
-    <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='got a new friend'" 
-	  eval="famFriend.setAboutMentioned(false); 
-		   famFriend.setAboutStatus(null); 
-		   famFriend.setAboutComment(null);" >
+    <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='got a new friend'"
+          eval="reset(famFriend);" > 
       <do task="_HowIsXDoing" />
     </user>
     <user text="yes, {pronounSubj} did | yes, that's right" applicable="statusFamFriend =='went shopping'"
-	  eval="famFriend.setAboutMentioned(false); 
-		   famFriend.setAboutStatus(null); 
-		   famFriend.setAboutComment(null);">
+	  eval="reset(famFriend);" >
       <do task="_HowIsXDoing" />
     </user>
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was coming to visit you'">
       <agent text="is {pronounSubj} still coming?" >
-	<user text=" {pronounSubj} came already" 	     
-	      eval="famFriend.setAboutMentioned(false); 
-		    famFriend.setAboutStatus(null); 
-		    famFriend.setAboutComment(null);" >
+	<user text=" {pronounSubj} came already" 
+	   eval="reset(famFriend);" >  
 	  <!-- put previousTalk as null and reset status and statusType to empty in UM -->
 	  <agent text="was it a good visit?" >
 	    <user text="yes, I really enjoyed it "/>
@@ -253,10 +246,7 @@
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was ill'">
       <agent text="Is {pronounSubj} recovering?" >
 	<user text="Yes, pretty well">
-	  <agent text="That's good to hear" 	     
-		 eval="famFriend.setAboutMentioned(false); 
-		   famFriend.setAboutStatus(null); 
-		   famFriend.setAboutComment(null);" />
+	  <agent text="That's good to hear" eval="reset(famFriend);" /> 	     
 	  <!-- reset statusType to empty and previousTalk to null -->
 	</user>
 	<user text="No, {pronounSubj} is still ill" >
@@ -287,10 +277,7 @@
       </agent>
     </user>
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was lonely'">
-      <agent text="Is that still the case?" 
-	     eval="famFriend.setAboutMentioned(false); 
-		   famFriend.setAboutStatus(null); 
-		   famFriend.setAboutComment(null);" >
+      <agent text="Is that still the case?"  eval="reset(famFriend);" >
 	<user text="yes, no change" >
 	  <agent text="Loneliness is hard.  Maybe you should give {pronounObj} a call" >
 	    <user text="yes.  I think I will" />
@@ -304,10 +291,7 @@
       </agent>
     </user>
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='lost a family member'">
-      <agent text="That takes a long time to recover from" 
-	     eval="famFriend.setAboutMentioned(false); 
-		   famFriend.setAboutStatus(null); 
-		   famFriend.setAboutComment(null);">
+      <agent text="That takes a long time to recover from"  eval="reset(famFriend);" >
 	<user text= "yes it does">
 	  <agent text="have you visited {pronounObj} recently?">
 	    <user text="no but I will" />
@@ -326,10 +310,7 @@
     </user>
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='had an accident'">
       <agent text=" is the recovery going well? " >
-	<user text="yes {pronounSubj} is up and around" 
-	      eval="famFriend.setAboutMentioned(false); 
-		   famFriend.setAboutStatus(null); 
-		   famFriend.setAboutComment(null);">
+	<user text="yes {pronounSubj} is up and around" eval="reset(famFriend);" >
 	  <agent text="Oh that's good to know | That is good news! | I bet you are glad for {pronounObj}" />
 	</user>
 	<!-- for these two answers leave UM unchanged so can ask again -->
@@ -359,29 +340,29 @@
 	<user text="No news really"/>
 	<user text=" {pronounSubj} has a new grandchild"
 	      eval="famFriend.setAboutMentioned(true); 
-		    famFriend.setAboutStatus('positive'); 
+		    positive(famFriend);
 		    famFriend.setAboutComment('had a new grandchild');" >
 	  <!-- UM GETS "had a new grandchild" for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
-	  <agent text="oh that's great for her" >
+	  <agent text="oh that's great for {pronounObj}" >
 	    <user text="Yes, she's very excited" >
 	      <agent text="uh-huh.  I can understand." />
 	    </user>
-	    <user text="Yes, she has a lot of grandchildren" >
+	    <user text="Yes, {pronounSubj} has a lot of grandchildren" >
 	      <agent text="really, well, that's a nice part of life!" />
 	    </user>
-	    <user text="Yes, she's waited a long time for a grandchild" >
+	    <user text="Yes, {pronounSubj}'s waited a long time for a grandchild" >
 	      <agent text="people say that grandchildren are a real treat"/>
 	    </user>
-	    <user text="Yes, it's all she talks about!" >
+	    <user text="Yes, it's all {pronounSubj} talks about!" >
 	      <agent text="well, I'm sure that will change in a month or so! " />
 	    </user>
 	  </agent>
 	</user>
 	<user id="clothes" text=" {pronounSubj} went shopping for new clothes"
 	      	      eval="famFriend.setAboutMentioned(true); 
-		    famFriend.setAboutStatus('positive'); 
-		    famFriend.setAboutComment('went shopping');">
+			    positive(famFriend);
+			    famFriend.setAboutComment('went shopping');">
 	  <!-- UM gets "went shopping" for status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="how nice to get new clothes" >
@@ -392,8 +373,8 @@
 	  </agent>
 	</user>
 	<user id="vacation" text=" {pronounSubj} is going on vacation"
-	      eval="famFriend.setAboutMentioned(true); 
-		    famFriend.setAboutStatus('positive'); 
+	      eval="famFriend.setAboutMentioned(true);
+		    positive(famFriend);
 		    famFriend.setAboutComment('was going on vacation');">
 	  <!-- UM gets "was going on vacation" status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
@@ -409,7 +390,7 @@
 	</user>
 	<user id="newfriend" text=" {pronounSubj} has a new friend"
 	      eval="famFriend.setAboutMentioned(true); 
-		    famFriend.setAboutStatus('positive'); 
+		    positive(famFriend);
 		    famFriend.setAboutComment('got a new friend');">
 	  <!-- UM gets "got a new friend" status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
@@ -417,7 +398,7 @@
 	</user>
 	<user text=" {pronounSubj} is coming to visit me"
 	      eval="famFriend.setAboutMentioned(true); 
-		    famFriend.setAboutStatus('positive'); 
+		    positive(famFriend);
 		    famFriend.setAboutComment('was coming to visit you');">
 	  <!-- UM gets "was going to visit you" status and statusType positive  for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
@@ -442,8 +423,8 @@
   <agent id="NotGoingWell" text="oh, what's wrong?">
     <user text=" {pronounSubj} is ill" 
 	  eval="famFriend.setAboutMentioned(true); 
-		    famFriend.setAboutStatus('negative'); 
-		    famFriend.setAboutComment('was ill');">
+		negative(famFriend);
+		famFriend.setAboutComment('was ill');">
       <!-- put in UM status as ill, statusType as negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
       <agent text="I hope it's not serious" >
@@ -463,8 +444,8 @@
     </user>
     <user text="  {pronounSubj} had an accident" 
 	  eval="famFriend.setAboutMentioned(true); 
-		    famFriend.setAboutStatus('negative'); 
-		    famFriend.setAboutComment('had an accident');">
+		negative(famFriend);
+		famFriend.setAboutComment('had an accident');">
 	  <!-- put in UM status as had accident and statusType as negative for {famFriend}  -->
 	  <!-- <eval set previousTalk in UM to negative> -->
 	  <agent text=" Is {pronounSubj} in the hospital?" >
@@ -505,8 +486,8 @@
 	  </agent>
 	</user>
 	<user text=" {pronounSubj} lost a family member " 
-	      eval="famFriend.setAboutMentioned(true); 
-		    famFriend.setAboutStatus('negative'); 
+	      eval="famFriend.setAboutMentioned(true);
+		    negative(famFriend);
 		    famFriend.setAboutComment('lost a family member');">
 	  <!-- put in UM as status lost a family member and statusType as negative for {famFriend}  -->
 	        <!-- <eval set previousTalk in UM to negative> -->
@@ -536,7 +517,7 @@
 	</user>
 	<user text= " {pronounSubj} is pretty lonely" 
 	      eval="famFriend.setAboutMentioned(true); 
-		    famFriend.setAboutStatus('negative'); 
+		    negative(famFriend);
 		    famFriend.setAboutComment('was lonely');">
 	  <!-- put in UM  status as was lonely and statusType negative for {famFriend}  -->
 	        <!-- <eval set previousTalk in UM to negative> -->

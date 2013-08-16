@@ -4,8 +4,11 @@ import edu.wpi.always.user.places.Place;
 import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 import org.joda.time.MonthDay;
 
-/* 
+/** 
  * This interface defines accessors for the core properties of a person.
+ * 
+ * Note user model is automatically saved to file after every update command
+ * unless prevented with {@link edu.wpi.always.user.UserModel#INHIBIT_SAVE}.
  */
 public interface Person {
 

@@ -1,11 +1,9 @@
 package edu.wpi.always.user.owl;
 
 import java.util.Set;
-
 import org.joda.time.MonthDay;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-
-import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.*;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;

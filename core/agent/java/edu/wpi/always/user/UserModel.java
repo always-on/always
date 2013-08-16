@@ -7,7 +7,23 @@ import edu.wpi.always.user.places.PlaceManager;
 import org.picocontainer.annotations.Bind;
 import java.lang.annotation.*;
 
+/**
+ * Note user model is automatically saved to file after every update command
+ * unless prevented with {@link UserModel#INHIBIT_SAVE}.
+ */
 public interface UserModel {
+   
+   /**
+    * <code>
+    * try { 
+    *    UserModel.INHIBIT_SAVE = true;
+    *    ...updates to userModel...
+    * } finally { 
+    *    UserModel.INHIBIT_SAVE = false;
+    *    userModel.save()
+    * </code>
+    */
+   static boolean INHIBIT_SAVE = false;
 
    /**
     * Will throw an error if user model already has a name.

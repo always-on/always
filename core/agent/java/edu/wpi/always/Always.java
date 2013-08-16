@@ -128,7 +128,7 @@ public class Always {
       return container;
    }
    
-   private Always (boolean logToConsole, boolean allPlugins) {
+   public Always (boolean logToConsole, boolean allPlugins) {
       THIS = this;
       if ( logToConsole )
          BasicConfigurator.configure();

@@ -7,6 +7,10 @@ import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
 
+/**
+ * Note user model is automatically saved to file after every update command
+ * unless prevented with {@link edu.wpi.always.user.UserModel#INHIBIT_SAVE}. @author rich
+ */
 public interface PeopleManager {
 
    UserModel getUserModel();

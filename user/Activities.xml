@@ -26,11 +26,6 @@
   	<precondition> false </precondition>
   </task>
 
-  <task id="TalkAboutFriendsFamily">
-    <!-- **TODO** inhibit if no friends in database -->
-    <precondition>null</precondition>
-  </task>
-
   <script init="true">
 
     /*
@@ -55,7 +50,8 @@
        C:\Dropbox subfolder */
 
     Packages.edu.wpi.always.user.UserUtils.USER_DIR = 
-        new java.io.File("../../user").exists() ? "../../user" : "../../../user";    
+        new java.io.File("../../user").exists() ? "../../user" : 
+           new java.io.File("../../../user").exists() ? "../../../user" : ".";    
     
   </script>
 

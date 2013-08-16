@@ -13,6 +13,7 @@ import org.joda.time.ReadablePeriod;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import edu.wpi.always.Always;
+import edu.wpi.always.user.UserModelBase;
 import edu.wpi.always.user.calendar.AbstractCalendar;
 import edu.wpi.always.user.calendar.CalendarEntry;
 import edu.wpi.always.user.calendar.CalendarEntryImpl;
@@ -167,5 +168,6 @@ public class OntologyCalendar extends AbstractCalendar {
       owlEntry.setDataProperty(TYPE_PROPERTY,
             helper.getLiteral(entry.getType().getId()));
       owlEntry.setDataProperty(UUID_PROPERTY, helper.getLiteral(id));
+      UserModelBase.saveIf();
    }
 }
