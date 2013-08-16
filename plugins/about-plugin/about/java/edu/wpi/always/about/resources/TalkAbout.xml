@@ -16,7 +16,7 @@
          <step name="__MoreAboutX_step" task="disco:Say$Expression"/>
          <step name="__MoreAboutX_ref" task="__MoreAboutX_tree"/>
          <binding slot="$__MoreAboutX_step.text"
-                  value="&#34;\&#34;Last time we talked about \&#34;+(famFriend)+\&#34;, I remember that \&#34;+(pronounSubj)+\&#34; \&#34;+(statusFamFriend)&#34;"/>
+                  value="&#34;\&#34;Last time we talked about \&#34;+(famFriendName)+\&#34;, I remember that \&#34;+(pronounSubj)+\&#34; \&#34;+(statusFamFriend)&#34;"/>
          <binding slot="$__MoreAboutX_step.external" value="false"/>
       </subtasks>
    </task>
@@ -25,7 +25,7 @@
          <step name="__BetterYet_step" task="disco:Say$Expression"/>
          <step name="__BetterYet_ref" task="__BetterYet_tree"/>
          <binding slot="$__BetterYet_step.text"
-                  value="&#34;\&#34;Last time we talked about \&#34;+(famFriend)+\&#34;, I remember that \&#34;+(pronounSubj)+\&#34; \&#34;+(statusFamFriend)&#34;"/>
+                  value="&#34;\&#34;Last time we talked about \&#34;+(famFriendName)+\&#34;, I remember that \&#34;+(pronounSubj)+\&#34; \&#34;+(statusFamFriend)&#34;"/>
          <binding slot="$__BetterYet_step.external" value="false"/>
       </subtasks>
    </task>
@@ -33,7 +33,8 @@
       <subtasks id="__HowIsXDoing_subtasks">
          <step name="__HowIsXDoing_step" task="disco:Say$Expression"/>
          <step name="__HowIsXDoing_ref" task="__HowIsXDoing_tree"/>
-         <binding slot="$__HowIsXDoing_step.text" value="&#34;\&#34;How is \&#34;+(famFriend)+\&#34; doing?\&#34;&#34;"/>
+         <binding slot="$__HowIsXDoing_step.text"
+                  value="&#34;\&#34;How is \&#34;+(famFriendName)+\&#34; doing?\&#34;&#34;"/>
          <binding slot="$__HowIsXDoing_step.external" value="false"/>
       </subtasks>
    </task>
@@ -1128,7 +1129,7 @@
          <binding slot="$_d4e270_step.text" value="&#34;only a bit&#34;"/>
          <binding slot="$_d4e270_step.external" value="true"/>
          <binding slot="$_d4e271_step.text"
-                  value="&#34;\&#34;well, I'm sure \&#34;+(famFriend)+\&#34; would like hearing from you\&#34;&#34;"/>
+                  value="&#34;\&#34;well, I'm sure \&#34;+(famFriendName)+\&#34; would like hearing from you\&#34;&#34;"/>
          <binding slot="$_d4e271_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e272_subtasks">
@@ -1232,13 +1233,17 @@
       </subtasks>
    </task>
    <task id="_GetPerson">
-      <script> famFriend = familyFriendsList[$plan.getParent().getRepeatStep()]; 
-    statusFamFriend = famFriend.getAboutComment();
-	          statusType = famFriend.getAboutStatus();
-		  genderFamFriend = famFriend.getGender();
-		  previousTalk = famFriend.isAboutMentioned();
-                  if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"} 
-                  else  {pronounObj = "her"; pronounSubj = "she"}; </script>
+      <script> 
+      famFriend = familyFriendsList[$plan.getParent().getRepeatStep()]; 
+      print("famFriend =" + famFriend);
+      statusFamFriend = famFriend.getAboutComment();
+      statusType = famFriend.getAboutStatus();
+      genderFamFriend = famFriend.getGender();
+      famFriendName = famFriend.getName();
+      previousTalk = famFriend.isAboutMentioned();
+      if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"} 
+      else  {pronounObj = "her"; pronounSubj = "she"}; 
+    </script>
    </task>
    <task id="_HowIsSoAndSo">
       <subtasks id="basic">
@@ -1262,28 +1267,29 @@
     var holidayType = "July4th";
 
     //for testing; need these variables but they will be set from UM in integrated system
-    var familyFriendsList = new Array("Mary", "Bill", "Sally");
-    var famFriend = "Jill";  //just set to indicate famFriend is string
+    //var familyFriendsList = new Array("Mary", "Bill", "Sally");
+    //var famFriend = "Jill";  //just set to indicate famFriend is string
     //status comes from OWL DB from the person on the list.  It must be gotten during the run not set ahead as was done here
-    var statusFamFriend = "ill";
-    var statusType = "negative";
-    var previousTalk = true;
-    var genderFamFriend = "Female";
-    var pronounObj = "her";
-    var pronounSubj = "she";
-    //default is female; reset for when person of interest is male
-    if (genderFamFriend == "Male") {pronounObj = "him";  pronounSubj = "he"}; 
+   // var statusFamFriend = "ill";
+   // var statusType = "negative";
+   // var previousTalk = true;
+   //var genderFamFriend = "Female";
+   // var pronounObj = "her";
+   // var pronounSubj = "she";
+   //default is female; reset for when person of interest is male
+   // if (genderFamFriend == "Male") {pronounObj = "him";  pronounSubj = "he"}; 
 
 //for alwayson testing:
-//   var familyFriendsList = $always.getUserModel().getPeopleManager().getPeople();
+    var familyFriendsList = $always.getUserModel().getPeopleManager().getPeople();
     var famFriend ;
     var statusFamFriend;
     var statusType ;
     var previousTalk ;
     var genderFamFriend ;
+    var famFriendName;
     var pronounObj = "her";
     var pronounSubj = "she";
-
+    print("here is the list of family and friends = " + familyFriendsList);
 
   </script>
 </taskModel>

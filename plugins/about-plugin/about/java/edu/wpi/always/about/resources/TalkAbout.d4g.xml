@@ -11,28 +11,29 @@
     var holidayType = "July4th";
 
     //for testing; need these variables but they will be set from UM in integrated system
-    var familyFriendsList = new Array("Mary", "Bill", "Sally");
-    var famFriend = "Jill";  //just set to indicate famFriend is string
+    //var familyFriendsList = new Array("Mary", "Bill", "Sally");
+    //var famFriend = "Jill";  //just set to indicate famFriend is string
     //status comes from OWL DB from the person on the list.  It must be gotten during the run not set ahead as was done here
-    var statusFamFriend = "ill";
-    var statusType = "negative";
-    var previousTalk = true;
-    var genderFamFriend = "Female";
-    var pronounObj = "her";
-    var pronounSubj = "she";
-    //default is female; reset for when person of interest is male
-    if (genderFamFriend == "Male") {pronounObj = "him";  pronounSubj = "he"}; 
+   // var statusFamFriend = "ill";
+   // var statusType = "negative";
+   // var previousTalk = true;
+   //var genderFamFriend = "Female";
+   // var pronounObj = "her";
+   // var pronounSubj = "she";
+   //default is female; reset for when person of interest is male
+   // if (genderFamFriend == "Male") {pronounObj = "him";  pronounSubj = "he"}; 
 
 //for alwayson testing:
-//   var familyFriendsList = $always.getUserModel().getPeopleManager().getPeople();
+    var familyFriendsList = $always.getUserModel().getPeopleManager().getPeople();
     var famFriend ;
     var statusFamFriend;
     var statusType ;
     var previousTalk ;
     var genderFamFriend ;
+    var famFriendName;
     var pronounObj = "her";
     var pronounSubj = "she";
-
+    print("here is the list of family and friends = " + familyFriendsList);
 
   </t:script>
 
@@ -114,17 +115,21 @@
       <t:step name="get" task="_GetPerson"/>
       <t:step name="how" task="_HowIsSoAndSo" />
     </t:subtasks>
+
   </t:task>
 
   <t:task id="_GetPerson">
-    <t:script> famFriend = familyFriendsList[$plan.getParent().getRepeatStep()]; 
-    statusFamFriend = famFriend.getAboutComment();
-	          statusType = famFriend.getAboutStatus();
-		  genderFamFriend = famFriend.getGender();
-		  previousTalk = famFriend.isAboutMentioned();
-                  if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"} 
-                  else  {pronounObj = "her"; pronounSubj = "she"}; </t:script>
-    
+    <t:script> 
+      famFriend = familyFriendsList[$plan.getParent().getRepeatStep()]; 
+      print("famFriend =" + famFriend);
+      statusFamFriend = famFriend.getAboutComment();
+      statusType = famFriend.getAboutStatus();
+      genderFamFriend = famFriend.getGender();
+      famFriendName = famFriend.getName();
+      previousTalk = famFriend.isAboutMentioned();
+      if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"} 
+      else  {pronounObj = "her"; pronounSubj = "she"}; 
+    </t:script>
   </t:task>
 
   <t:task id="_HowIsSoAndSo">
@@ -142,7 +147,7 @@
     </t:subtasks> 
   </t:task>
 
-  <agent id="_MoreAboutX" text="Last time we talked about {famFriend}, I remember that {pronounSubj} {statusFamFriend}" >
+  <agent id="_MoreAboutX" text="Last time we talked about {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was going on vacation'">
       <agent text="so how did it go?" 
 	     eval="famFriend.setAboutMentioned(false); 
@@ -244,7 +249,7 @@
     </user>
   </agent>
 
-  <agent id="_BetterYet" text="Last time we talked about {famFriend}, I remember that {pronounSubj} {statusFamFriend}" >
+  <agent id="_BetterYet" text="Last time we talked about {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was ill'">
       <agent text="Is {pronounSubj} recovering?" >
 	<user text="Yes, pretty well">
@@ -342,7 +347,7 @@
   </agent>
    
   <agent id="_HowIsXDoing"
-	 text="How is {famFriend} doing?" >
+	 text="How is {famFriendName} doing?" >
     <user text="I don't want to talk about {pronounObj} today">
       <agent text="okay." />
     </user>
@@ -517,7 +522,7 @@
 		  </agent>
 		</user>
 		<user text="only a bit" >
-		  <agent text="well, I'm sure {famFriend} would like hearing from you" />
+		  <agent text="well, I'm sure {famFriendName} would like hearing from you" />
 		</user>
 		<user text="No, not really" >
 		  <agent text="Perhaps should get in touch with {pronounObj}" >
