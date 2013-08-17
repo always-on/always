@@ -52,9 +52,8 @@ public class ClientProxy {
       enqueue("speech", p);
    }
 
-   public void gaze (AgentTurn dir, float hor, float ver) {
+   public void gaze (float hor, float ver) {
       HashMap<String, String> p = Maps.newHashMap();
-     // p.put("dir", dir.toString());
       p.put("horizontal",Float.toString(hor));
       p.put("vertical",	Float.toString(ver));
       enqueue("gaze", p);
