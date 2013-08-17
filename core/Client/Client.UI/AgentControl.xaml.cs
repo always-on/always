@@ -36,6 +36,7 @@ namespace Agent.UI
         public event EventHandler LoadComplete;
         XmlDocument xmlMessage = new XmlDocument();
 
+        private ReetiTranslation AgentTranslate = new ReetiTranslation();
         //Agent Controls
         public AgentControl()
         {
@@ -122,6 +123,7 @@ namespace Agent.UI
 
         private void Perform(string xmlCommand)
         {
+            AgentTranslate.TranslateToReetiCommand(xmlCommand);
             xmlMessage.LoadXml(xmlCommand);
             agent.perform(xmlMessage);
         }
