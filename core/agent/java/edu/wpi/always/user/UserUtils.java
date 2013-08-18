@@ -1,6 +1,6 @@
 package edu.wpi.always.user;
 
-import edu.wpi.always.Always;¯
+import edu.wpi.always.Always;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.always.user.people.*;
