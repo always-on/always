@@ -5,7 +5,7 @@ SETLOCAL
 ::
 :: always-user [USER_FILE]
 :: 
-:: default file is User.owl in always/user
+:: default file is User.owl in always/user or current directory
 
 SET folder="%~d1%~p0"
 CD %folder%
