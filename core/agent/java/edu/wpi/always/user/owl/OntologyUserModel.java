@@ -11,11 +11,6 @@ import java.util.*;
 
 public class OntologyUserModel extends UserModelBase {
 
-   @Retention(RetentionPolicy.RUNTIME)
-   @Target({ ElementType.FIELD, ElementType.PARAMETER })
-   @Bind
-   public @interface UserOntologyLocation {}
-
    private OntologyIndividual user;
    
    private final OntologyHelper ontology;
@@ -25,7 +20,7 @@ public class OntologyUserModel extends UserModelBase {
    private final OntologyPlaceManager placeManager;
 
    public OntologyUserModel (OntologyHelper ontology,
-         @UserOntologyLocation File userDataFile, OntologyCalendar calendar,
+         @UserModel.UserOntologyLocation File userDataFile, OntologyCalendar calendar,
          OntologyPeopleManager peopleManager, OntologyPlaceManager placeManager) {
       this.ontology = ontology;
       this.userDataFile = userDataFile;

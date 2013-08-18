@@ -64,7 +64,7 @@ public class EnrollClient implements EnrollUI {
 
    public JsonElement getPeopleData () {
       JsonArray People = new JsonArray();
-      Person[] entries = enroll.getPeople();
+      Person[] entries = enroll.getPeople(true);
       for (Person entry : entries)
          People.add(asPersonJson(entry));
       JsonObject peopleData = new JsonObject();

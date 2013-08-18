@@ -1,9 +1,6 @@
 package edu.wpi.always.user;
 
 import edu.wpi.always.*;
-import edu.wpi.always.user.calendar.Calendar;
-import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.always.user.places.PlaceManager;
 
 public abstract class UserModelBase implements UserModel {
    

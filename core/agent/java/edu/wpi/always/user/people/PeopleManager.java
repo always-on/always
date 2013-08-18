@@ -21,7 +21,7 @@ public interface PeopleManager {
 
    Person getPerson (String name);
 
-   Person[] getPeople ();
+   Person[] getPeople (boolean includeUser);
 
    Person addPerson(String name, Relationship relationship, Gender gender, int age, String phone,
          String skype, Place place, Person spouse, MonthDay birthday);

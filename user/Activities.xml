@@ -49,9 +49,12 @@
     /* Initialize user folder location for Eclipse development.  Will later add
        C:\Dropbox subfolder */
 
-    Packages.edu.wpi.always.user.UserUtils.USER_DIR = 
-        new java.io.File("../../user").exists() ? "../../user" : 
-           new java.io.File("../../../user").exists() ? "../../../user" : ".";    
+    if ( Packages.edu.wpi.always.user.UserUtils.USER_DIR == null ||
+         !new java.io.File(Packages.edu.wpi.always.user.UserUtils.USER_DIR,
+                           Packages.edu.wpi.always.user.UserUtils.USER_FILE).exists )
+       Packages.edu.wpi.always.user.UserUtils.USER_DIR =
+          new java.io.File("../../user").exists() ? "../../user" : 
+             new java.io.File("../../../user").exists() ? "../../../user" : ".";    
     
   </script>
 

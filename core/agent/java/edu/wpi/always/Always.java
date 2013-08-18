@@ -82,8 +82,6 @@ public class Always {
             new Agent("agent"), 
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
-         UserUtils.USER_FILE = new java.io.File("../../user").exists() ? 
-                                  "../../user" : "../../../user";  
          UserUtils.USER_FILE = "TestUser.owl";  // no way to change for now
          // initialize duplicate interaction created above
          new Always(true, false).init(interaction); 

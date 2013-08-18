@@ -85,13 +85,18 @@ public class OntologyPeopleManager implements PeopleManager {
    }
 
    @Override
-   public OntologyPerson[] getPeople () {
+   public OntologyPerson[] getPeople (boolean includeUser) {
       Set<OWLNamedIndividual> owlPeople = helper
             .getAllOfClass(OntologyPerson.PERSON_CLASS);
-      OntologyPerson[] people = new OntologyPerson[owlPeople.size()];
+      int size = owlPeople.size();
+      if ( !includeUser ) size--;
+      OntologyPerson[] people = new OntologyPerson[size];
       int i = 0;
+      OntologyIndividual user = helper.getNamedIndividual(model.getUserName());
       for (OWLNamedIndividual owlPerson : owlPeople) {
-         people[i++] = getPerson(new OntologyIndividual(ontology, owlPerson));
+         OntologyIndividual individual = new OntologyIndividual(ontology, owlPerson); 
+         if ( !includeUser || individual != user ) 
+            people[i++] = getPerson(individual); 
       }
       return people;
    }
