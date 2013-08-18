@@ -13,6 +13,7 @@ public class FacePerception extends Perception {
    private final int right;
    private final int center;
    private final int tiltcenter;
+   private final int area;
 
    public FacePerception (DateTime stamp, int top, int bottom, int left, int right, int happiness) {
       super(stamp);
@@ -22,7 +23,9 @@ public class FacePerception extends Perception {
       this.right = right;
       this.happiness = happiness;
      
-   	this.center=(this.right-this.left)/2+this.left;
+      this.area = (this.right-this.left)*(this.bottom-this.top);
+   	
+      this.center=(this.right-this.left)/2+this.left;
    	
    	this.tiltcenter=(this.bottom-this.top)/2+this.top;
    }
@@ -58,6 +61,8 @@ public class FacePerception extends Perception {
    public int getLeft () { return left; }
 
    public int getRight () { return right; }
+   
+   public int getArea () { return area; }
 
    @Override
    public String toString () {
