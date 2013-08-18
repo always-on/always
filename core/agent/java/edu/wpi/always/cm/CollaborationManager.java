@@ -26,8 +26,7 @@ public class CollaborationManager extends DiscoRT {
       activities = interaction.load("Activities.xml");
       // load user model after Activities.xml for initialization of USER_FOLDER
       parent.as(Characteristics.CACHE).addComponent(
-            BindKey.bindKey(File.class,
-                  OntologyUserModel.UserOntologyLocation.class),
+            BindKey.bindKey(File.class, UserModel.UserOntologyLocation.class),
                   new File(UserUtils.USER_DIR, UserUtils.USER_FILE));
       parent.getComponent(UserModel.class).load();
    }

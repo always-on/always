@@ -1,17 +1,22 @@
 package edu.wpi.always.user;
 
+import java.lang.annotation.*;
+import org.picocontainer.annotations.Bind;
 import edu.wpi.always.Closeness;
 import edu.wpi.always.user.calendar.Calendar;
-import edu.wpi.always.user.people.*;
+import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
-import org.picocontainer.annotations.Bind;
-import java.lang.annotation.*;
 
 /**
  * Note user model is automatically saved to file after every update command
  * unless prevented with {@link UserModel#INHIBIT_SAVE}.
  */
 public interface UserModel {
+      
+   @Retention(RetentionPolicy.RUNTIME)
+   @Target({ ElementType.FIELD, ElementType.PARAMETER })
+   @Bind
+   public @interface UserOntologyLocation {}
    
    /**
     * <code>

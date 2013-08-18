@@ -2,11 +2,13 @@ package edu.wpi.always.user;
 
 import edu.wpi.always.Always;
 import edu.wpi.always.user.calendar.*;
+import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
 import edu.wpi.disco.*;
+import org.picocontainer.*;
 import org.joda.time.*;
 import java.io.*;
 import java.util.regex.Pattern;
@@ -14,10 +16,10 @@ import java.util.regex.Pattern;
 public abstract class UserUtils {
 
    /**
-    * Folder where user model is stored.  Default is user home directory.
+    * Folder where user model is stored.  
     * See initialization in always/user/Activities.xml
     */
-   public static String USER_DIR = System.getProperty("user.home"); 
+   public static String USER_DIR;
    
    /**
     * Filename in USER_FOLDER for user model.
@@ -27,16 +29,17 @@ public abstract class UserUtils {
    public static String USER_FILE = "User.owl";
    
    /**
-    * Optional arguments are USER_DIR and USER_FILE
+    * Optional argument is USER_FILE
     */
    public static void main (String[] args) {
-      if ( args != null ) {
-         if ( args.length > 0 ) USER_DIR = args[0];
-         if ( args.length > 1 ) USER_FILE = args[1];
-      }
-      UserModel model = new Always(true, false).getUserModel();
+      //USER_DIR = "."
+      if ( args != null && args.length > 0 ) USER_FILE = args[0];
+      Always always = new Always(true, false);
+      UserModel model = always.getUserModel();
       if ( model.getUserName() == null )
-         System.err.println("Cannot find "+USER_DIR+"/"+USER_FILE);
+         System.err.println("Could not load model from "+
+             always.getContainer().getComponent(
+                   BindKey.bindKey(File.class, UserModel.UserOntologyLocation.class)));
       else print(model, System.out);
    }
    
@@ -46,12 +49,13 @@ public abstract class UserUtils {
     * @see CalendarUtils#print(Calendar,PrintStream)
     */
    public static void print (UserModel model, PrintStream stream) {
+      stream.println();
       stream.println("USER MODEL FOR "+model.getUserName());
       System.out.print("Sessions: "+model.getSessions()+
             " Closeness: "+model.getCloseness()+
             "\nStartTime: "+new DateTime(model.getStartTime()));
       System.out.println();
-      for (Person person : model.getPeopleManager().getPeople()) {
+      for (Person person : model.getPeopleManager().getPeople(true)) {
          stream.print(person);
          Gender gender = person.getGender();
          if ( gender != null ) stream.println(" (" + gender + ")");
@@ -85,8 +89,9 @@ public abstract class UserUtils {
          String comment = person.getAboutComment();
          if ( comment != null ) stream.println("\tAboutComment = "+comment);
          boolean mentioned = person.isAboutMentioned();
-         if ( mentioned ) stream.println("\tAboutMentioned= "+mentioned);
+         if ( mentioned ) stream.println("\tAboutMentioned = "+mentioned);
       }
+      stream.println();
       stream.println("CALENDAR");
       CalendarUtils.print(model.getCalendar(), stream);
    }

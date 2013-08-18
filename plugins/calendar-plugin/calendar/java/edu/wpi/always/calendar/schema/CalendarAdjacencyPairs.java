@@ -44,7 +44,7 @@ abstract class CalendarAdjacencyPairs {
       public EventPersonAdjacencyPair (final String question,
             final CalendarStateContext context) {
          super(question, context, true);
-         for (final Person person : context.getPeopleManager().getPeople()) {
+         for (final Person person : context.getPeopleManager().getPeople(false)) {
             choice(person.getName(), new DialogStateTransition() {
 
                @Override
