@@ -1,365 +1,177 @@
 package edu.wpi.sgf.comment;
 
-import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
-
-import javax.speech.AudioException;
-import javax.speech.EngineException;
-import javax.speech.EngineStateError;
-
-import com.google.common.base.Functions;
-import com.google.common.collect.ImmutableSortedMap;
-import com.google.common.collect.Ordering;
 
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.logic.GameLogicState;
-import edu.wpi.sgf.scenario.Scenario;
-import edu.wpi.sgf.scenario.ScenarioManager;
 
 public class CommentingManager {
 
-   Tts tts; //Text to Speech (freetts)
-   Gtts gtts; //Text to Speech (google (online))
    private CommentLibraryHandler libHandler;
-   private List<Comment> eligibleComments;
-   private List<String> currentMomentsTags;
-   private Map<Comment, Integer> eachCommentsTagCovering;
-   private Map<Comment, Integer> sortedEachCommentsTagCovering;
-   //private Map<Comment, Integer> maxTagCoveringComments;
-   private Map<Comment, Integer> shuffledMaxTagCoveringComments;
-
-   /*all comments imported from edu.wpi.sgf.comment library 
-	for making 'on' human moves or agent moves 'by' the agent*/
-   private List<Comment> allComments = new ArrayList<Comment>();
 
    public CommentingManager(){
-
       libHandler = new CommentLibraryHandler();
-      eligibleComments = new ArrayList<Comment>();
-      currentMomentsTags = new ArrayList<String>();
-      eachCommentsTagCovering = new HashMap<Comment, Integer>();
-      sortedEachCommentsTagCovering = new TreeMap<Comment, Integer>();
-      //maxTagCoveringComments = new HashMap<Comment, Integer>();
-      shuffledMaxTagCoveringComments = new HashMap<Comment, Integer>();
-
-      //get all comments from library
-      allComments.addAll(
-            libHandler.retrieveAllCommentsFromLibrary());
-
-      gtts = new Gtts();
-      tts = new Tts();
-      try {
-         tts.init("kevin16");
-      } catch (EngineException | AudioException | 
-            EngineStateError| PropertyVetoException e) {
-         e.printStackTrace();
-      }
-
    }
 
-   public Comment pickCommentOnUserMove(GameLogicState gameState
-         , AnnotatedLegalMove move, int who){
+   public List<String> getHumanCommentingOptionsForHumanMove(
+         GameLogicState gameState, AnnotatedLegalMove humanMove, 
+         List<String> gameSpecificTags) {
 
-      eligibleComments.clear();
-      currentMomentsTags.clear();
-
-      /* the strategy to choose a comment for agent to make on human move is as follows:
-       * if win, lose or tie, respected tagged comments
-       * else, based on user's move strength...
-       */
-
-      //win, lose, tie
+      //if win or tie situation
       if(gameState.agentWins)
-         for(Comment cm : allComments)
-            if(cm.getTags().contains("agentWon"))
-               eligibleComments.add(cm);
-      if(gameState.userWins)
-         for(Comment cm : allComments)
-            if(cm.getTags().contains("humanWon"))
-               eligibleComments.add(cm);
-      if(gameState.tie)
-         for(Comment cm : allComments)
-            if(cm.getTags().contains("tie"))
-               eligibleComments.add(cm);
-
-      for(Comment cm : allComments)
-         if(cm.getStrengthLowerBount() < move.getMoveStrength()
-               &&cm.getStrengthUpperBound() > move.getMoveStrength())
-            eligibleComments.add(cm);
-
-      return null;
+         return shuffleAndGetMax3(
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getAgentWinningCommentsAmong(
+                           libHandler.getHumanComments())));
+      else if(gameState.userWins)
+         return shuffleAndGetMax3( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getHumanWinningCommentsAmong(
+                           libHandler.getHumanComments())));
+      else if(gameState.tie)
+         return shuffleAndGetMax3( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getTieCommentsAmong(
+                           libHandler.getHumanComments())));
+      //if still playing
+      else
+         return shuffleAndGetMax3(  
+               libHandler.getContentsOfTheseComments(
+                     libHandler.prioritizeByTags(
+                           //libHandler.getValidCommentsByStrength(
+                                 libHandler.getCmForMakingOnPlayerAmong(
+                                       libHandler.getStillPlayingCommentsAmong(
+                                             libHandler.getHumanComments()), "human"),
+                                             //humanMove.getMoveStrength()), 
+                                             null, gameSpecificTags, null)));
    }
 
-   public Comment pickCommentOnOwnMove(AnnotatedLegalMove agentMove){
-      //GameLogicState gameState,, Scenario currentScenario
-      eligibleComments.clear();
-      currentMomentsTags.clear();
-      eachCommentsTagCovering.clear();
-      sortedEachCommentsTagCovering.clear();
-      shuffledMaxTagCoveringComments.clear();
+   public List<String> getHumanCommentingOptionsForAgentMove(
+         GameLogicState gameState, AnnotatedLegalMove agentMove,
+         List<String> gameSpecificTags) {
 
-      //		if(gameState.agentWins)
-      //			for(Comment cm : allComments)
-      //				if(cm.getTags().contains("agentWon"))
-      //					eligibleComments.add(cm);
-      //		if(gameState.userWins)
-      //			for(Comment cm : allComments)
-      //				if(cm.getTags().contains("userWins"))
-      //					eligibleComments.add(cm);
-
-      for(Comment cm : allComments){
-
-         if(agentMove.getAnnotation() < 0.5){
-            for(String eachTag : cm.getTags())
-               if(eachTag.contains("discard"))
-                  eligibleComments.add(cm);
-         }
-         if(0.4 < agentMove.getAnnotation() 
-               && agentMove.getAnnotation() < 0.7){
-            for(String eachTag : cm.getTags())
-               if(eachTag.contains("layoff"))
-                  eligibleComments.add(cm);
-         }
-         if(0.7 < agentMove.getAnnotation() 
-               && agentMove.getAnnotation() < 0.9){
-            for(String eachTag : cm.getTags())
-               if(eachTag.contains("meld"))
-                  eligibleComments.add(cm);
-         }
-
-      }
-
-      if(eligibleComments.size() > 0)
-         return eligibleComments.get(0);
-      else return null;
-   }
-   
-   /*This function chooses the edu.wpi.sgf.comment to be made by agent for an agent move
-    * who: game turn. 1: user, 2:agent*/ 
-   public Comment pickCommentOnOwnMove(GameLogicState gameState, 
-         List<Scenario> activeScenarios, AnnotatedLegalMove move, int who){
-
-      eligibleComments.clear();
-      currentMomentsTags.clear();
-      eachCommentsTagCovering.clear();
-      sortedEachCommentsTagCovering.clear();
-      shuffledMaxTagCoveringComments.clear();
-
-      /*the strategy to choose a edu.wpi.sgf.comment for agent to make on its own move is as follows:
-       * 
-       * -If no win, lose or tie AND no moment tags, no edu.wpi.sgf.comment is made. (LATER MAKE RANDOMLY MADE)
-       * -At either win, lose or tie situations, all appropriate comments are selected, one is
-       * chosen randomly.
-       * -Else, based on tags, all matching comments are chosen (w/ max # of covering tags), then 
-       * one is chosen between them based on prioritized order in the file or random. THINK LATER
-       */
-
-      //win, lose, tie if applicable
+      //if win or tie situation
       if(gameState.agentWins)
-         for(Comment cm : allComments)
-            if(cm.getTags().contains("agentWon") && cm.who != 1)
-               eligibleComments.add(cm);
-      if(gameState.userWins)
-         for(Comment cm : allComments)
-            if(cm.getTags().contains("humanWon") && cm.who != 1)
-               eligibleComments.add(cm);
-      if(gameState.tie)
-         for(Comment cm : allComments)
-            if(cm.getTags().contains("tie") && cm.who != 1)
-               eligibleComments.add(cm);
-
-      //TEMP>> MAKE FLAG FOR NO SCENARIO TO SKIP THIS
-      //moments 
-      //		for(Scenario easchScenario : activeScenarios)
-      //			if(easchScenario.
-      //					reportCommentingTagsForTheCurrentProgress(
-      //							easchScenario.tellProgress()) != null)
-      //				currentMomentsTags.addAll(easchScenario
-      //						.reportCommentingTagsForTheCurrentProgress(
-      //								easchScenario.tellProgress()));
-
-
-      //to do max covering problem, then randomly or chosen with priority ...
-      if(!currentMomentsTags.isEmpty()){
-         
-         //LATEST VERSION COMMENTED <<<<<<<<<<
-         
-//         int covering;
-//         boolean irrelevant;
-//         for(Comment cm : allComments){
-//            covering = 0;
-//            irrelevant = false;
-//            for(String eachTag : cm.getTags())
-//               if(currentMomentsTags.contains(eachTag))
-//                  covering++;
-//            for(String eachTag : cm.getTags()) //TEMP? Comment tag defined consistent or what?
-//               if(!currentMomentsTags.contains(eachTag)
-//                     && !eachTag.contains("usr")
-//                     && !eachTag.contains("own"))
-//                  irrelevant = true;
-//            if(cm.who == who && !irrelevant){
-//               eachCommentsTagCovering.put(cm, covering);
-//               eligibleComments.add(cm); //TEMP
-//            }
-//         }
-
-         //			//sorting map by Google guava >> RETURNS ERROR, INVESTIGATE
-         //			Ordering<Comment> valueComparator = Ordering.natural()
-         //					.onResultOf(Functions.forMap(eachCommentsTagCovering)).reverse();
-         //			sortedEachCommentsTagCovering = 
-         //					ImmutableSortedMap.copyOf(eachCommentsTagCovering, valueComparator);
-
-
-         //building a map that has only max covering comments.
-         //			int maxCover = 0;
-         //			boolean firstIteration = true;
-         //			for(Map.Entry<Comment, Integer> each : sortedEachCommentsTagCovering.entrySet()){
-         //				if(firstIteration){
-         //					maxCover = each.getValue();
-         //					maxTagCoveringComments.put(each.getKey(), each.getValue());
-         //					firstIteration = false;
-         //				}
-         //					if(each.getValue() == maxCover)
-         //						maxTagCoveringComments.put(each.getKey(), each.getValue());
-         //					else
-         //						break;
-         //			}
-
-         //			//shuffle it //(prioritize?)
-         //			List<Comment> keys2shuffle = 
-         //					new ArrayList<Comment>(maxTagCoveringComments.keySet());
-         //			Collections.shuffle(keys2shuffle);
-         //			for (Comment cm : keys2shuffle)
-         //				shuffledMaxTagCoveringComments
-         //						.put(cm, maxTagCoveringComments.get(cm));
-         //			
-         //			//now chose first edu.wpi.sgf.comment in there
-         //			for(Map.Entry<Comment, Integer> each : shuffledMaxTagCoveringComments.entrySet())
-         //				eligibleComments.add(each.getKey());
-
-      }
-
-      ///ttt
-      if(!gameState.agentWins && !gameState.userWins && !gameState.tie){
-         for(Comment cm : allComments){
-            if(cm.who == 1)
-               continue;
-            if(!cm.getTags().contains("humanWon")
-                  && !cm.getTags().contains("agentWon")  
-                  && !cm.getTags().contains("tie")
-                  && cm.getTags().contains("competition"))
-               eligibleComments.add(cm);
-         }
-      }
-      
-      ///rummy
-      //		for(Comment cm : allComments)
-      //			if(cm.getStrengthLowerBount() < move.getMoveStrength()
-      //					&&cm.getStrengthUpperBound() > move.getMoveStrength())
-      //				eligibleComments.add(cm);
-
-//      for(Comment cm : allComments)
-//         if(cm.getTags().contains("competition"))
-//            eligibleComments.add(cm);
-
-      Collections.shuffle(eligibleComments);
-
-      if(eligibleComments.isEmpty())
-         return null;
-      return eligibleComments.get(
-            new Random().nextInt(eligibleComments.size()));
-
+         return shuffleAndGetMax3(
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getAgentWinningCommentsAmong(
+                           libHandler.getHumanComments())));
+      else if(gameState.userWins)
+         return shuffleAndGetMax3( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getHumanWinningCommentsAmong(
+                           libHandler.getHumanComments())));
+      else if(gameState.tie)
+         return shuffleAndGetMax3( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getTieCommentsAmong(
+                           libHandler.getHumanComments())));
+      //if still playing
+      else
+         return shuffleAndGetMax3(  
+               libHandler.getContentsOfTheseComments(
+                     libHandler.prioritizeByTags(
+                           //libHandler.getValidCommentsByStrength(
+                                 libHandler.getCmForMakingOnPlayerAmong(
+                                       libHandler.getStillPlayingCommentsAmong(
+                                             libHandler.getHumanComments()), "agent"),
+                                             //agentMove.getMoveStrength()), 
+                                             null, gameSpecificTags, null)));
    }
 
-   public void make(Comment cm) {
-      gtts.say(cm.getContent());
+   public String getAgentCommentForAgentMove(
+         GameLogicState gameState, AnnotatedLegalMove agentMove,
+         List<String> scenariosTags, List<String> gameSpecificTags) {
+
+      //TODO ADD SCENARIO, or got from callers and already in? Which better? 
+      //gameName is null right now, should it be gotten from somewhere?
+
+      //if win or tie situation
+      if(gameState.agentWins)
+         return getOneRandomlyAmong(
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getAgentWinningCommentsAmong(
+                           libHandler.getAgentComments())));
+      else if(gameState.userWins)
+         return getOneRandomlyAmong( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getHumanWinningCommentsAmong(
+                           libHandler.getAgentComments())));
+      else if(gameState.tie)
+         return getOneRandomlyAmong( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getTieCommentsAmong(
+                           libHandler.getAgentComments())));
+      //if still playing
+      else
+         return getOneRandomlyAmong( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.prioritizeByTags(
+                           //libHandler.getValidCommentsByStrength(
+                                 libHandler.getCmForMakingOnPlayerAmong(
+                                       libHandler.getStillPlayingCommentsAmong(
+                                             libHandler.getAgentComments()), "agent"),
+                                             //agentMove.getMoveStrength()), 
+                                             scenariosTags, gameSpecificTags, null)));
    }
 
-   //testing main
-   public static void main(String[] args) {
-      CommentingManager ch = new CommentingManager();
-      List<String> a = new ArrayList<String>();
-      List<String> b = new ArrayList<String>();
-      a.add("hey"); a.add("hoy");
-      b.add("bay"); b.add("boy");
+   public String getAgentCommentForHumanMove(
+         GameLogicState gameState, AnnotatedLegalMove humanMove,
+         List<String> scenariosTags, List<String> gameSpecificTags) {
 
-      Comment cm1 = new Comment("Hello", a, 0, 1, 1);
-      Comment cm2 = new Comment("Heeho", b, 0, 1, 1);
-      Comment cm3 = new Comment("Hesho", b, 0, 1, 1);
-      Comment cm4 = new Comment("Haeho", b, 0, 1, 1);
+      //TODO ADD SCENARIO, or got from callers and already in ? Which better?
+      //gameName is null right now, should it be gotten from somewhere?
 
-      ch.eachCommentsTagCovering.put(cm1, 5);
-      ch.eachCommentsTagCovering.put(cm3, 6);
-      ch.eachCommentsTagCovering.put(cm2, 3);
-      ch.eachCommentsTagCovering.put(cm4, 1);
-
-      System.out.println(ch.eachCommentsTagCovering);
-
-      Ordering<Comment> valueComparator = Ordering.natural()
-            .onResultOf(Functions.forMap(ch.eachCommentsTagCovering)).reverse();
-      ch.sortedEachCommentsTagCovering = 
-            ImmutableSortedMap.copyOf(ch.eachCommentsTagCovering, valueComparator);
-
-      System.out.println("SORTED:" + ch.sortedEachCommentsTagCovering);
-
-      ScenarioManager sm = new ScenarioManager();
-
-      System.out.println(sm.getCurrentScenario());
-
-      //		ch.make(new Comment("hello"));
+      //if win or tie situation
+      if(gameState.agentWins)
+         return getOneRandomlyAmong(
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getAgentWinningCommentsAmong(
+                           libHandler.getAgentComments())));
+      else if(gameState.userWins)
+         return getOneRandomlyAmong( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getHumanWinningCommentsAmong(
+                           libHandler.getAgentComments())));
+      else if(gameState.tie)
+         return getOneRandomlyAmong( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.getTieCommentsAmong(
+                           libHandler.getAgentComments())));
+      //if still playing
+      else
+         return getOneRandomlyAmong( 
+               libHandler.getContentsOfTheseComments(
+                     libHandler.prioritizeByTags(
+                           //libHandler.getValidCommentsByStrength(
+                                 libHandler.getCmForMakingOnPlayerAmong(
+                                       libHandler.getStillPlayingCommentsAmong(
+                                             libHandler.getAgentComments()), "human"),
+                                             //humanMove.getMoveStrength()), 
+                                             scenariosTags, gameSpecificTags, null)));
    }
 
-   public List<String> getHumanCommentingOptions(GameLogicState gameState) {
 
-      List<String> allCommentOptions = new ArrayList<String>();
-      List<String> finalCommentOptions = new ArrayList<String>();
-      List<Comment> allLibComments = new ArrayList<Comment>();
-      allLibComments.addAll(libHandler.retrieveAllCommentsFromLibrary());
-
-      if(gameState.agentWins){
-         for(Comment eachComment: allLibComments)
-            if(eachComment.getTags().contains("agentWon")
-                  && (eachComment.who == 3 || eachComment.who == 1))
-               allCommentOptions.add(eachComment.getContent());
-      }
-      else if(gameState.userWins){
-         for(Comment eachComment: allLibComments)
-            if(eachComment.getTags().contains("humanWon")
-                  && (eachComment.who == 3 || eachComment.who == 1))
-               allCommentOptions.add(eachComment.getContent());
-      }
-      else if(gameState.tie){
-         for(Comment eachComment: allLibComments)
-            if(eachComment.getTags().contains("tie")
-                  && (eachComment.who == 3 || eachComment.who == 1))
-               allCommentOptions.add(eachComment.getContent());
-      }
-      else{
-         for(Comment eachComment: allLibComments)
-            if(!eachComment.getTags().contains("humanWon")
-                  && !eachComment.getTags().contains("agentWon")
-                  && !eachComment.getTags().contains("tie")
-                  && (eachComment.who == 3 || eachComment.who == 1))
-               allCommentOptions.add(eachComment.getContent());
-      }
-
-      if(allCommentOptions.size() > 3){
-         Collections.shuffle(allCommentOptions);
+   //utilities:
+   private List<String> shuffleAndGetMax3(List<String> someStrings){
+      List<String> final3 = new ArrayList<String>();
+      if(someStrings.size() > 3){
+         Collections.shuffle(someStrings);
          for(int i = 0; i < 3; i ++)
-            finalCommentOptions.add(allCommentOptions.get(i));
+            final3.add(someStrings.get(i));
       }
       else
-         finalCommentOptions.addAll(allCommentOptions);
-      Collections.shuffle(finalCommentOptions);
-      return finalCommentOptions;
-
+         final3.addAll(someStrings);
+      Collections.shuffle(final3);
+      return final3;
    }
-
+   private String getOneRandomlyAmong(List<String> someStrings){
+      Collections.shuffle(someStrings);
+      return someStrings.get(new Random().
+            nextInt(someStrings.size()));
+   }
 
 }

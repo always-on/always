@@ -19,8 +19,8 @@ import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.util.TimeStampedValue;
-import edu.wpi.sgf.comment.Comment;
-import edu.wpi.sgf.comment.CommentingManager;
+import edu.wpi.sgf.comment.Comment3;
+import edu.wpi.sgf.comment.CommentingManager3;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.scenario.MoveChooser;
 import edu.wpi.sgf.scenario.ScenarioFilter;
@@ -65,7 +65,7 @@ public class RummyClient implements ClientPlugin {
 	private ScenarioManager scenarioManager;
 	private ScenarioFilter scenarioFilter;
 	private MoveChooser moveChooser;
-	private CommentingManager commentingManager;
+	private CommentingManager3 commentingManager;
 	private GameState gameState;
 	private List<Move> humanPlayedMoves;
 	private int hashCodeOfTheSelectedMove;
@@ -98,7 +98,7 @@ public class RummyClient implements ClientPlugin {
 		moveFetcher = new LegalMoveFetcher();
 		moveAnnotator = new RummyLegalMoveAnnotator();
 		scenarioManager = new ScenarioManager();
-		commentingManager = new CommentingManager();
+		commentingManager = new CommentingManager3();
 		scenarioFilter = new ScenarioFilter();
 		moveChooser = new MoveChooser();
 		gameState = new GameState();
@@ -144,8 +144,7 @@ public class RummyClient implements ClientPlugin {
 			yourTurn = false;
 			waitingForUserSince = System.currentTimeMillis();
 		}
-		// everything between here and **** below can be replaced by Morteza's
-		// new architecture - CR > Tnx :) Done, -Morteza
+
 		String comment = "";
 		comment = processInbox();
 
@@ -212,8 +211,7 @@ public class RummyClient implements ClientPlugin {
 				return builder;
 			}
 		}
-		// ******** see note above 
-		//
+
 		if ( yourTurn  
 				|| (waitingForUserSince > 0 
 						&& ( (System.currentTimeMillis() - waitingForUserSince) > TIMEOUT_DELAY))
@@ -418,7 +416,7 @@ public class RummyClient implements ClientPlugin {
 		scenarioManager.tickAll();
 		
 		//make the comment on own move, based on annotations and scenario
-		Comment cm = null;
+		Comment3 cm = null;
 		cm = commentingManager
 				.pickCommentOnOwnMove(selectedMove);
 		if(cm != null)

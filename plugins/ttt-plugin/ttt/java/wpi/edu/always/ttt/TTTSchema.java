@@ -19,14 +19,30 @@ public class TTTSchema extends ActivityStateMachineSchema {
             keyboard, tttUI, dispatcher, placeManager, peopleManager)),
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
    } 
-   
+
    @Override
    public void run() {
-      
+
       super.run();
-      
+
+      //since MenuTurnStateMachine cannot accommodate
+      //saying this inside any state (in a proper way)
+      if(TTTClient.sayAgentCommentOnHumanMove){
+         BehaviorMetadataBuilder metadata = 
+               new BehaviorMetadataBuilder();
+         SyncSayBuilder b = new SyncSayBuilder(
+               "<GAZE horizontal=\"0\" vertical=\"0\"/>$ " 
+                     + WhoPlaysFirst.getCurrentAgentComment()
+                     + " <GAZE horizontal=\"-1\" vertical=\"1\"/>$");
+         b.setMetaData(metadata);
+         BehaviorMetadata m = b.getMetadata();
+         Behavior speechBehavior = b.build();
+         propose(speechBehavior, m);
+         TTTClient.sayAgentCommentOnHumanMove = false;
+      }
       if(TTTClient.gazeLeft){
-         BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
+         BehaviorMetadataBuilder metadata = 
+               new BehaviorMetadataBuilder();
          SyncSayBuilder b = new SyncSayBuilder(
                "<GAZE horizontal=\"-2\" vertical=\"-1\"/>$");
          b.setMetaData(metadata);
@@ -35,8 +51,9 @@ public class TTTSchema extends ActivityStateMachineSchema {
          propose(gazeBehavior, m);
          TTTClient.gazeLeft = false;
       }
-      else if(TTTClient.gazeBack){
-         BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
+      if(TTTClient.gazeBack){
+         BehaviorMetadataBuilder metadata = 
+               new BehaviorMetadataBuilder();
          SyncSayBuilder b = new SyncSayBuilder(
                "<GAZE horizontal=\"0\" vertical=\"0\"/>$");
          b.setMetaData(metadata);
@@ -45,8 +62,9 @@ public class TTTSchema extends ActivityStateMachineSchema {
          propose(gazeBehavior, m);
          TTTClient.gazeBack = false;
       }
-      else if(TTTClient.gazeUpLeft){
-         BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();
+      if(TTTClient.gazeUpLeft){
+         BehaviorMetadataBuilder metadata = 
+               new BehaviorMetadataBuilder();
          SyncSayBuilder b = new SyncSayBuilder(
                "<GAZE horizontal=\"-1\" vertical=\"1\"/>$");
          b.setMetaData(metadata);
@@ -59,13 +77,13 @@ public class TTTSchema extends ActivityStateMachineSchema {
          //TODO fill me in later
          TTTClient.nod = false;
       }
-         
+
    }
 
    // always adds focus
    @Override
    public void setNeedsFocusResource (boolean focus) {} 
-   
+
 
 }
 

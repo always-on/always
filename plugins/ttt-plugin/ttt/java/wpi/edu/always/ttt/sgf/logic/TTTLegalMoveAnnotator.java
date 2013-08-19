@@ -14,7 +14,7 @@ public class TTTLegalMoveAnnotator implements LegalMoveAnnotator{
 
    //turn:: 1:user, 2:agent
    public List<AnnotatedLegalMove> annotate(
-         List<TTTLegalMove> moves, TTTGameState state, int turn){
+         List<TTTLegalMove> moves, TTTGameState state){
 
       List<AnnotatedLegalMove> annotatedMoves = 
             new ArrayList<AnnotatedLegalMove>();
@@ -75,13 +75,13 @@ public class TTTLegalMoveAnnotator implements LegalMoveAnnotator{
        * 		corners, if any available: .6
        * }
        * if finishing cell to win for agent{
-       * 		that cell: .9
+       * 		that cell: 1
        * 		any other cell: .2
        * 		corners, if any available: .3
        * 		center cell, if available: .4
        * }
        * if finishing cell to win for human{
-       * 		that cell: 1
+       * 		that cell: 0.9
        * 		any other cell: 0
        * }
        */
@@ -106,7 +106,7 @@ public class TTTLegalMoveAnnotator implements LegalMoveAnnotator{
          for(int i = 0; i < 9; i ++){
             if(allWinChances.containsKey(i)){
                if(allWinChances.get(i) == 2){
-                  annotationBoard[i] = .9;
+                  annotationBoard[i] = 1;
                   for(int j = 0; j < 9; j ++)
                      if(j != i)
                         annotationBoard[j] = .2;
@@ -117,7 +117,7 @@ public class TTTLegalMoveAnnotator implements LegalMoveAnnotator{
                   if(i != 4) annotationBoard[4] = .4;
                }
                if(allWinChances.get(i) == 1){
-                  annotationBoard[i] = 1;
+                  annotationBoard[i] = .9;
                   for(int j = 0; j < 9; j ++)
                      if(j != i)
                         annotationBoard[j] = 0;
@@ -126,62 +126,22 @@ public class TTTLegalMoveAnnotator implements LegalMoveAnnotator{
          }
       }
 
-      //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
-      //OLD APPROACH OLD APPROACH OLD APPROACH OLD APPROACH OLD APPROACH OLD APPROACH OLD APPROACH 
-      //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-      /* assigning the annotated values based on the rules below:
-       * if finishing cell to win for either of users, 1.
-       * else 
-       * 		if center cell, 0.7
-       * 		if corner, 0.6
-       * any other, 0.3
-       * 
-       * PLEASE NOTE: all cells are annotated, obviously only 
-       * available cells actually get back with annotation.
-       */
-      /*In this loop, for "any user", if there exists in any horizontal, vertical or diagonal shapes 
-		a wining chance, put a 1 annotation value for that cell in annotation map.
-		for(int i = 0; i < 9; i++){
-			if(rowWinChances.containsKey(i) ||
-					colWinChances.containsKey(i) ||
-						diaWinChances.containsKey(i))
-				annotationBoard[i] = 1;
-		}
-		//for the remaining cells, if not conflicting, according to the comments above...
-		if(!rowWinChances.containsKey(4) &&
-				!colWinChances.containsKey(4) &&
-					!diaWinChances.containsKey(4))
-			annotationBoard[4] = .7;
-		//for still remaining cells, if not conflicting, according to the comments above...
-		if(!rowWinChances.containsKey(0) &&
-				!colWinChances.containsKey(0) &&
-					!diaWinChances.containsKey(0))
-			annotationBoard[0] = .6;
-		if(!rowWinChances.containsKey(2) &&
-				!colWinChances.containsKey(2) &&
-					!diaWinChances.containsKey(2))
-			annotationBoard[0] = .6;
-		if(!rowWinChances.containsKey(6) &&
-				!colWinChances.containsKey(6) &&
-					!diaWinChances.containsKey(6))
-			annotationBoard[0] = .6;
-		if(!rowWinChances.containsKey(8) &&
-				!colWinChances.containsKey(8) &&
-					!diaWinChances.containsKey(8))
-			annotationBoard[0] = .6;
-       */
-
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	
-      //OLD APPROACH OLD APPROACH OLD APPROACH OLD APPROACH OLD APPROACH OLD APPROACH OLD APPROACH 
-      //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
       //Building annotated moves based on annotation map and input available moves, legal moves.
       for(TTTLegalMove move : moves)
          annotatedMoves.add(new TTTAnnotatedLegalMove(move, annotationBoard[move.cellNumber]));
 
       return annotatedMoves;
 
+   }
+   
+   public AnnotatedLegalMove annotate(
+         TTTLegalMove move, TTTGameState state){
+      
+      List<TTTLegalMove> moveAsList = new ArrayList<TTTLegalMove>();
+      moveAsList.add(move);
+      
+      return annotate(moveAsList, state).get(0);
+      
    }
 
    protected void visualize(){
@@ -198,7 +158,7 @@ public class TTTLegalMoveAnnotator implements LegalMoveAnnotator{
       testState.board[7] = 1;
       testState.board[8] = 0;
       List<TTTLegalMove> testLegalMoves = testmg.generate(testState);
-      annotate(testLegalMoves, testState, 1);
+      annotate(testLegalMoves, testState);
 
       for(int i = 0; i < 9; i ++){
          if(i%3 == 0){

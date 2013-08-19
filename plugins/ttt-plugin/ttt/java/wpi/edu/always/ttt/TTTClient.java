@@ -22,17 +22,17 @@ public class TTTClient implements TTTUI {
    private static final String MSG_HUMAN_MOVE = "tictactoe.human_played_cell";
    private static final String MSG_AGENT_MOVE = "tictactoe.agent_cell";
    private static final String MSG_BOARD_PLAYABILITY = "tictactoe.playability";
-   private static final int HUMAN_COMMENTING_TIMEOUT = 8;
+   private static final int HUMAN_COMMENTING_TIMEOUT = 15;
    private static final int AGENT_PLAY_DELAY_TIMEOUT = 4;
-   private static final int AGENT_COMMENT_ON_USER_TURN_GAZE_DELAY = 3;
-   
+
    public static boolean gazeLeft = false;
    public static boolean gazeBack = false;
    public static boolean gazeUpLeft = false;
    public static boolean nod = false;
    public static boolean gameOver = false;
+   public static boolean sayAgentCommentOnHumanMove = false;
 
-   private static final int USER_IDENTIFIER = 1;
+   private static final int HUMAN_IDENTIFIER = 1;
    private static final int AGENT_IDENTIFIER = 2;
    //1: userWins, 2: agentWins, 3: tie
    private int winOrTie = 0; 
@@ -52,6 +52,9 @@ public class TTTClient implements TTTUI {
    private TTTGameState gameState;
    private Timer humanCommentingTimer;
    private Timer agentPlayDelayTimer;
+   private TTTAnnotatedLegalMove latestAgentMove;
+   private TTTAnnotatedLegalMove latestHumanMove;
+
 
    public TTTClient (UIMessageDispatcher dispatcher){
 
@@ -71,7 +74,11 @@ public class TTTClient implements TTTUI {
          public void handleMessage (JsonObject body) {
             if ( listener != null ) {
                int cellNum = Integer.valueOf(body.get("cellNum").getAsString());
-               gameState.board[cellNum - 1] = USER_IDENTIFIER;
+               gameState.updateLastBoardState();
+               gameState.board[cellNum - 1] = HUMAN_IDENTIFIER;
+               latestHumanMove = (TTTAnnotatedLegalMove) 
+                     moveAnnotator.annotate(new TTTLegalMove(
+                           cellNum - 1), gameState);
                updateWinOrTie();
                if(winOrTie > 0)
                   makeBoardUnplayable();
@@ -94,7 +101,10 @@ public class TTTClient implements TTTUI {
       if(currentMove == null) return;
 
       scenarioManager.tickAll();
+
+      gameState.updateLastBoardState();
       gameState.board[((TTTLegalMove)currentMove.getMove()).getCellNum()] = AGENT_IDENTIFIER;
+      latestAgentMove = (TTTAnnotatedLegalMove) currentMove;
       Message msg = Message.builder(MSG_AGENT_MOVE)
             .add("cellNum", 
                   ((TTTLegalMove)currentMove.getMove()).getCellNum() + 1)
@@ -102,12 +112,13 @@ public class TTTClient implements TTTUI {
       dispatcher.send(msg);
       updateWinOrTie();
    }
-   
+
    @Override
    public void resetGame() {
       Message msg = Message.builder(MSG_AGENT_MOVE)
             .add("cellNum", "reset").build();
       gameState.resetBoard();
+      gameState.resetGameStatus();
       dispatcher.send(msg);
    }
 
@@ -117,8 +128,15 @@ public class TTTClient implements TTTUI {
    }
 
    @Override
-   public List<String> getCurrentHumanCommentOptions() {
-      return commentingManager.getHumanCommentingOptions(gameState);
+   public List<String> getCurrentHumanCommentOptionsForAMoveBy(int player) {
+      updateWinOrTie();
+      
+      if(player == HUMAN_IDENTIFIER)
+         return commentingManager.getHumanCommentingOptionsForHumanMove(
+               gameState, latestHumanMove, gameState.getGameSpecificCommentingTags());
+      else
+         return commentingManager.getHumanCommentingOptionsForAgentMove(
+               gameState, latestAgentMove, gameState.getGameSpecificCommentingTags());
    }
 
    @Override
@@ -127,39 +145,53 @@ public class TTTClient implements TTTUI {
       currentMove = 
             //		moveChooser.choose(scenarioFilter.filter(
             //				moveAnnotator.annotate(moveGenerator.generate(
-            //						gameState), gameState, 2), scenarioManager.getCurrentScenario()));
+            //						gameState), gameState), scenarioManager.getCurrentScenario()));
             moveChooser.choose(
                   moveAnnotator.annotate(moveGenerator.generate(
-                        gameState), gameState, USER_IDENTIFIER));
+                        gameState), gameState));
       updateWinOrTie();
    }
 
    @Override
-   public void prepareAgentComment() {
+   public void getCurrentAgentCommentForAMoveBy(int player) {
 
-      currentComment = null;
       updateWinOrTie();
-      Comment commentAsObj = 
-            commentingManager.pickCommentOnOwnMove(
-                  gameState, scenarioManager.getCurrentActiveScenarios(),
-                  currentMove, AGENT_IDENTIFIER);
-      if(commentAsObj != null)
-         currentComment = commentAsObj.getContent();
+
+      //null passed for scenarios here.
+      if(player == HUMAN_IDENTIFIER)
+         currentComment =  commentingManager.getAgentCommentForHumanMove(
+               gameState, latestHumanMove, null, gameState.getGameSpecificCommentingTags());
       else
+         currentComment =  commentingManager.getAgentCommentForAgentMove(
+               gameState, latestAgentMove, null, gameState.getGameSpecificCommentingTags());
+
+      if(currentComment == null)
          currentComment = "";
+
+      //      currentComment = null;
+      //      Comment3 commentAsObj = 
+      //            oldCommentingManager.pickCommentOnOwnMove(
+      //                  gameState, scenarioManager.getCurrentActiveScenarios(),
+      //                  currentMove, AGENT_IDENTIFIER);
+      //      if(commentAsObj != null)
+      //         currentComment = commentAsObj.getContent();
+      //      else
+      //         currentComment = "";
+
    }
 
    //user commenting timer 
-   //(only used when agent turn)
+   //(used only in agent turn)
    @Override
    public void triggerHumanCommentingTimer(){
       humanCommentingTimer = new Timer();
       humanCommentingTimer.schedule(new HumanCommentingTimerSetter(), 
-            1000*HUMAN_COMMENTING_TIMEOUT);
+            1000 * HUMAN_COMMENTING_TIMEOUT);
    }
    @Override
    public void cancelHumanCommentingTimer(){
       humanCommentingTimer.cancel();
+      humanCommentingTimer.purge();
    }
    private class HumanCommentingTimerSetter extends TimerTask{
       @Override
@@ -176,29 +208,18 @@ public class TTTClient implements TTTUI {
       @Override
       public void run() {listener.agentPlayDelayOver();}
    }
-   //agent comment on user turn gaze delay
-   @Override
-   public void triggerAgentCommentOnUserTurnGazeDelay() {
-      agentPlayDelayTimer = new Timer();
-      agentPlayDelayTimer.schedule(new AgentCommentOnUserTurnGazeTimerSetter(), 
-            1000 * AGENT_COMMENT_ON_USER_TURN_GAZE_DELAY);
-   }
-   private class AgentCommentOnUserTurnGazeTimerSetter extends TimerTask{
-      @Override
-      public void run() {listener.agentCommentOnUserTurnGazeDelayOver();}
-   }
 
    private void updateWinOrTie(){
-     
+
       winOrTie = gameState.didAnyOneJustWin();
-      
+
       if(winOrTie == 1)
          gameState.userWins = true;
       else if(winOrTie == 2)
          gameState.agentWins = true;
       else if(winOrTie == 3)
          gameState.tie = true;
-      
+
       if(winOrTie != 0)
          TTTClient.gameOver = true;
    }

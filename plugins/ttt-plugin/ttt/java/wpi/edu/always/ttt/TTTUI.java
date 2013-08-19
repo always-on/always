@@ -7,16 +7,15 @@ public interface TTTUI {
    public void resetGame();
    public void prepareAgentMove();
    public void makeBoardPlayable();
-   public void prepareAgentComment();
+   public void getCurrentAgentCommentForAMoveBy(int player);
    public void makeBoardUnplayable();
    public String getCurrentAgentComment();
    public void triggerAgentPlayTimer();
-   public void triggerAgentCommentOnUserTurnGazeDelay();
    public void cancelHumanCommentingTimer();
    public void triggerHumanCommentingTimer();
    public void updatePlugin(TTTUIListener listener);
    public void playAgentMove (TTTUIListener listener);
-   public List<String> getCurrentHumanCommentOptions();
+   public List<String> getCurrentHumanCommentOptionsForAMoveBy(int player);
    public void startPluginForTheFirstTime(TTTUIListener listener);
    
 

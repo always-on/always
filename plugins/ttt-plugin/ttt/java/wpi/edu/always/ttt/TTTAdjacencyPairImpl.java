@@ -38,11 +38,4 @@ implements TTTUIListener {
    }
    protected void afterAgentPlayDelay(){}
 
-   @Override
-   public void agentCommentOnUserTurnGazeDelayOver() {
-      afterAgentCommentOnUserTurnGazeDelayOver();
-   }
-   protected void afterAgentCommentOnUserTurnGazeDelayOver(){}
-   
-   
 }

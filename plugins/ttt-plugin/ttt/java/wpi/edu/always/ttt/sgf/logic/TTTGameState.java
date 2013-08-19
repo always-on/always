@@ -1,5 +1,9 @@
 package wpi.edu.always.ttt.sgf.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import sun.management.resources.agent;
 import edu.wpi.sgf.logic.GameLogicState;
 
 /** 
@@ -10,8 +14,11 @@ import edu.wpi.sgf.logic.GameLogicState;
 
 public class TTTGameState extends GameLogicState{
 
-   //public int[] board = {1, 1, 2, 0, 0, 2, 1, 0, 0};
+   private static final int AGENT_IDENTIFIER = 2;
+   
+   //public int[] board = {1, 1, 2, 0, 0, 2, 1, 0, 0}; //for test
    public int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+   private int[] lastBoardState = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
    /*
     * if a winner, returns the winner number (1 user, 2 agent), tie 3, else 0;
@@ -76,6 +83,167 @@ public class TTTGameState extends GameLogicState{
    public void resetBoard(){
       for (int i = 0; i < 9; i ++)
             board[i] = 0;
+   }
+   
+   public void resetGameStatus(){
+      userWins = false;
+      agentWins = false;
+      tie = false;
+   }
+   
+   public List<String> getGameSpecificCommentingTags(){
+      
+      //center cell taken tags
+      List<String> gameSpecificTags = 
+            new ArrayList<String>();
+      if(lastBoardState[4] == 0
+            && board[4] != 0){
+         if(board[4] == AGENT_IDENTIFIER)
+            gameSpecificTags.add("centerCellTakenByAgent");
+         else
+            gameSpecificTags.add("centerCellTakenByHuman");
+      }
+      
+      //win opportunity blocked
+      //>> check horizontal
+      for(int i = 0; i < 9; i += 3){
+         if(lastBoardState[i] == lastBoardState[i + 1] 
+               && lastBoardState[i] != 0 
+               && lastBoardState[i + 2] == 0 
+               && board[i + 2] != 0
+               && board[i + 2] != lastBoardState[i]){
+            if(board[i + 2] == AGENT_IDENTIFIER)
+               gameSpecificTags.add("HumanWinOppBlocked");
+            else
+               gameSpecificTags.add("AgentWinOppBlocked");
+         }
+         if(lastBoardState[i] == lastBoardState[i + 2] 
+               && lastBoardState[i] != 0 
+               && lastBoardState[i + 1] == 0
+               && board[i + 1] != 0
+               && board[i + 1] != lastBoardState[i]){
+            if(board[i + 1] == AGENT_IDENTIFIER)
+               gameSpecificTags.add("HumanWinOppBlocked");
+            else
+               gameSpecificTags.add("AgentWinOppBlocked");
+         }
+         if(lastBoardState[i + 1] == lastBoardState[i + 2] 
+               && lastBoardState[i + 1] != 0 
+               && lastBoardState[i] == 0
+               && board[i] != 0
+               && board[i] != lastBoardState[i + 1]){
+            if(board[i] == AGENT_IDENTIFIER)
+               gameSpecificTags.add("HumanWinOppBlocked");
+            else
+               gameSpecificTags.add("AgentWinOppBlocked");
+         }
+      }
+      //<<
+      //>> Check vertical 
+      for(int i = 0; i < 3; i ++){
+         if(lastBoardState[i] == lastBoardState[i + 3]
+               && lastBoardState[i] != 0 
+               && lastBoardState[i + 6] == 0
+               && board[i + 6] != 0
+               && board[i + 6] != lastBoardState[i]){
+            if(board[i + 6] == AGENT_IDENTIFIER)
+               gameSpecificTags.add("HumanWinOppBlocked");
+            else
+               gameSpecificTags.add("AgentWinOppBlocked");
+         }
+         if(lastBoardState[i] == lastBoardState[i + 6] 
+               && lastBoardState[i] != 0 
+               && lastBoardState[i + 3] == 0
+               && board[i + 3] != 0
+               && board[i + 3] != lastBoardState[i]){
+            if(board[i + 3] == AGENT_IDENTIFIER)
+               gameSpecificTags.add("HumanWinOppBlocked");
+            else
+               gameSpecificTags.add("AgentWinOppBlocked");
+         }
+         if(lastBoardState[i + 3] == lastBoardState[i + 6] 
+               && lastBoardState[i + 3] != 0 
+               && lastBoardState[i] == 0
+               && board[i] != 0
+               && board[i] != lastBoardState[i + 3]){
+            if(board[i] == AGENT_IDENTIFIER)
+               gameSpecificTags.add("HumanWinOppBlocked");
+            else
+               gameSpecificTags.add("AgentWinOppBlocked");
+         }
+      }
+      //<<
+      //>> Check diagonal 1
+      if(lastBoardState[0] == lastBoardState[4] 
+            && lastBoardState[0] != 0 
+            && lastBoardState[8] == 0
+            && board[8] != 0
+            && board[8] != lastBoardState[0]){
+         if(board[8] == AGENT_IDENTIFIER)
+            gameSpecificTags.add("HumanWinOppBlocked");
+         else
+            gameSpecificTags.add("AgentWinOppBlocked");
+      }
+      if(lastBoardState[0] == lastBoardState[8] 
+            && lastBoardState[0] != 0 
+            && lastBoardState[4] == 0
+            && board[4] != 0
+            && board[4] != lastBoardState[0]){
+         if(board[4] == AGENT_IDENTIFIER)
+            gameSpecificTags.add("HumanWinOppBlocked");
+         else
+            gameSpecificTags.add("AgentWinOppBlocked");
+      }
+      if(lastBoardState[4] == lastBoardState[8] 
+            && lastBoardState[4] != 0 
+            && lastBoardState[0] == 0
+            && board[0] != 0
+            && board[0] != lastBoardState[4]){
+         if(board[0] == AGENT_IDENTIFIER)
+            gameSpecificTags.add("HumanWinOppBlocked");
+         else
+            gameSpecificTags.add("AgentWinOppBlocked");
+      }
+      //<<
+      //>> Check diagonal 2
+      if(lastBoardState[2] == lastBoardState[4] 
+            && lastBoardState[2] != 0 
+            && lastBoardState[6] == 0
+            && board[6] != 0
+            && board[6] != lastBoardState[2]){
+         if(board[6] == AGENT_IDENTIFIER)
+            gameSpecificTags.add("HumanWinOppBlocked");
+         else
+            gameSpecificTags.add("AgentWinOppBlocked");
+      }
+      if(lastBoardState[2] == lastBoardState[6] 
+            && lastBoardState[2] != 0 
+            && lastBoardState[4] == 0
+            && board[4] != 0
+            && board[4] != lastBoardState[2]){
+         if(board[4] == AGENT_IDENTIFIER)
+            gameSpecificTags.add("HumanWinOppBlocked");
+         else
+            gameSpecificTags.add("AgentWinOppBlocked");
+      }
+      if(lastBoardState[4] == lastBoardState[6] 
+            && lastBoardState[4] != 0 
+            && lastBoardState[2] == 0
+            && board[2] != 0
+            && board[2] != lastBoardState[4]){
+         if(board[2] == AGENT_IDENTIFIER)
+            gameSpecificTags.add("HumanWinOppBlocked");
+         else
+            gameSpecificTags.add("AgentWinOppBlocked");
+      }
+      //<<
+      
+      return gameSpecificTags;
+   }
+   
+   public void updateLastBoardState(){
+      for(int i = 0; i < 9; i ++)
+         lastBoardState[i] = board[i];
    }
    
    public void visualize(){
