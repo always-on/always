@@ -82,7 +82,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
       public PeopleSelectEvent (final EnrollStateContext context) {
          super("Tell me whose profile do you want to edit.", context);
-         Person[] people = getContext().getPeopleManager().getPeople();
+         Person[] people = getContext().getPeopleManager().getPeople(true);
          for(final Person person : people){
             choice(person.getName(), new DialogStateTransition() {
 

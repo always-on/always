@@ -1,12 +1,28 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.Always;
-import edu.wpi.always.user.calendar.*;
-import edu.wpi.always.user.calendar.RepeatingCalendarEntry.Frequency;
-import edu.wpi.always.user.people.Person;
-import org.joda.time.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.UUID;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.joda.time.Period;
+import org.joda.time.ReadablePeriod;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import java.util.*;
+
+import edu.wpi.always.Always;
+import edu.wpi.always.user.UserModelBase;
+import edu.wpi.always.user.calendar.AbstractCalendar;
+import edu.wpi.always.user.calendar.CalendarEntry;
+import edu.wpi.always.user.calendar.CalendarEntryImpl;
+import edu.wpi.always.user.calendar.CalendarEntryType;
+import edu.wpi.always.user.calendar.CalendarEntryTypeManager;
+import edu.wpi.always.user.calendar.RepeatingCalendarEntry;
+import edu.wpi.always.user.calendar.RepeatingCalendarEntry.Frequency;
+import edu.wpi.always.user.calendar.RepeatingCalendarEntryImpl;
+import edu.wpi.always.user.people.Person;
 
 public class OntologyCalendar extends AbstractCalendar {
 
@@ -152,5 +168,6 @@ public class OntologyCalendar extends AbstractCalendar {
       owlEntry.setDataProperty(TYPE_PROPERTY,
             helper.getLiteral(entry.getType().getId()));
       owlEntry.setDataProperty(UUID_PROPERTY, helper.getLiteral(id));
+      UserModelBase.saveIf();
    }
 }

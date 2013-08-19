@@ -1,19 +1,29 @@
 package edu.wpi.always;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.varia.NullAppender;
+import org.picocontainer.Characteristics;
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.PicoBuilder;
+import org.picocontainer.behaviors.OptInCaching;
+
 import edu.wpi.always.client.ClientRegistry;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.StartupSchemas;
-import edu.wpi.always.user.*;
-import edu.wpi.always.user.owl.*;
-import edu.wpi.disco.*;
-import edu.wpi.disco.rt.*;
+import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.owl.OntologyRegistry;
+import edu.wpi.always.user.owl.OntologyRuleHelper;
+import edu.wpi.always.user.owl.OntologyUserRegistry;
+import edu.wpi.disco.Agent;
+import edu.wpi.disco.Interaction;
+import edu.wpi.disco.User;
+import edu.wpi.disco.rt.DiscoRT;
+import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.varia.NullAppender;
-import org.picocontainer.*;
-import org.picocontainer.behaviors.OptInCaching;
-import java.io.File;
-import java.util.*;
 
 public class Always {
 
@@ -53,9 +63,9 @@ public class Always {
       Always always = new Always(true, plugin == null);
       if ( args != null && args.length > 0 ) {
          Closeness closeness = Closeness.valueOf(args[0]);
-         System.out.println("Using closeness = "+closeness);
-         always.getRM().setCloseness(closeness);
+         always.getUserModel().setCloseness(closeness);
       }
+      System.out.println("Using closeness = "+always.getUserModel().getCloseness());
       always.plugin = plugin; 
       always.activity = activity;
       return always;
@@ -66,11 +76,13 @@ public class Always {
     * user model) without starting Always GUI.
     */
    public static class Disco {
+      
       public static void main (String[] args) { 
          Interaction interaction = new Interaction(
             new Agent("agent"), 
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
+         UserUtils.USER_FILE = "TestUser.owl";  // no way to change for now
          // initialize duplicate interaction created above
          new Always(true, false).init(interaction); 
          interaction.start(true);
@@ -114,7 +126,7 @@ public class Always {
       return container;
    }
    
-   private Always (boolean logToConsole, boolean allPlugins) {
+   public Always (boolean logToConsole, boolean allPlugins) {
       THIS = this;
       if ( logToConsole )
          BasicConfigurator.configure();
@@ -145,9 +157,11 @@ public class Always {
    public void addRegistry (Registry registry) {
       if ( registry instanceof ComponentRegistry )
          registries.add((ComponentRegistry) registry);
-      else if ( registry instanceof OntologyRegistry )
+      // NB could be instance of both
+      if ( registry instanceof OntologyRegistry )
          ontologyRegistries.add((OntologyRegistry) registry);
-      else throw new IllegalArgumentException("Unknown registry type: "+registry);
+      if ( !(registry instanceof ComponentRegistry || registry instanceof OntologyRegistry) )
+            throw new IllegalArgumentException("Unknown registry type: "+registry);
    }
 
    public void addCMRegistry (Registry registry) {

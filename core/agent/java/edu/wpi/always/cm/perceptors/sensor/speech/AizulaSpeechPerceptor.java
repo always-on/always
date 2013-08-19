@@ -1,10 +1,14 @@
 package edu.wpi.always.cm.perceptors.sensor.speech;
 
-import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.cm.perceptors.SpeechPerception.SpeechState;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.activemq.ActiveMQConnection;
 import org.joda.time.DateTime;
-import java.util.regex.*;
+
+import edu.wpi.always.cm.perceptors.SpeechPerception;
+import edu.wpi.always.cm.perceptors.SpeechPerception.SpeechState;
+import edu.wpi.always.cm.perceptors.SpeechPerceptor;
 
 public class AizulaSpeechPerceptor extends
       JMSMessagePerceptor<SpeechPerception> implements SpeechPerceptor {

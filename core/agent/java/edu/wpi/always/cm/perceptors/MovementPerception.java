@@ -1,8 +1,10 @@
 package edu.wpi.always.cm.perceptors;
 
-import edu.wpi.disco.rt.perceptor.Perception;
-import org.joda.time.DateTime;
 import java.awt.Point;
+
+import org.joda.time.DateTime;
+
+import edu.wpi.disco.rt.perceptor.Perception;
 
 public class MovementPerception extends Perception {
 

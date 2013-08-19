@@ -1,13 +1,15 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.always.client.*;
+import edu.wpi.always.client.Keyboard;
 import edu.wpi.always.cm.ProposalBuilder;
-import edu.wpi.always.user.calendar.Calendar;
-import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
-import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.behavior.Behavior;
+import edu.wpi.disco.rt.behavior.BehaviorHistory;
+import edu.wpi.disco.rt.behavior.BehaviorMetadata;
+import edu.wpi.disco.rt.behavior.BehaviorMetadataBuilder;
+import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
+import edu.wpi.disco.rt.menu.MenuPerceptor;
 
 public abstract class ActivityStateMachineKeyboardSchema extends ActivityStateMachineSchema {
 

@@ -1,11 +1,16 @@
 package edu.wpi.always.cm.perceptors.fake;
 
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.PicoContainer;
+
 import edu.wpi.always.test.AquariumTripSchema;
-import edu.wpi.disco.rt.Scheduler;
-import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.behavior.BehaviorHistory;
+import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
+import edu.wpi.disco.rt.schema.Schema;
+import edu.wpi.disco.rt.schema.SchemaFactory;
+import edu.wpi.disco.rt.schema.SchemaManager;
+import edu.wpi.disco.rt.schema.SchemaRegistry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
-import org.picocontainer.*;
 
 public class FakeDemoGUIRegistry implements ComponentRegistry, SchemaRegistry {
 

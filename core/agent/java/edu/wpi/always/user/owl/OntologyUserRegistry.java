@@ -1,12 +1,14 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.user.*;
+import org.picocontainer.Characteristics;
+import org.picocontainer.MutablePicoContainer;
+
+import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
-import edu.wpi.always.user.places.*;
+import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.always.user.places.ZipCodes;
 import edu.wpi.disco.rt.util.ComponentRegistry;
-import org.picocontainer.*;
-import java.io.File;
 
 public class OntologyUserRegistry implements ComponentRegistry, OntologyRegistry {
 
@@ -31,8 +33,9 @@ public class OntologyUserRegistry implements ComponentRegistry, OntologyRegistry
 
    @Override
    public void register (OntologyRuleHelper ontology) {
-      ontology.addAxioms(getClass().getResourceAsStream("/edu/wpi/always/user/owl/People.owl"));
+      ontology.addAxioms(getClass().getResourceAsStream("/edu/wpi/always/user/owl/Person.owl"));
       ontology.addAxioms(getClass().getResourceAsStream("/edu/wpi/always/user/owl/Calendar.owl"));
       ontology.addAxioms(getClass().getResourceAsStream("/edu/wpi/always/user/owl/Place.owl"));
+      ontology.addAxioms(getClass().getResourceAsStream("/edu/wpi/always/user/owl/User.owl"));
    }
 }

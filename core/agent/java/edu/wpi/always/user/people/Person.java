@@ -2,11 +2,13 @@ package edu.wpi.always.user.people;
 
 import edu.wpi.always.user.places.Place;
 import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
-
 import org.joda.time.MonthDay;
 
-/* 
+/** 
  * This interface defines accessors for the core properties of a person.
+ * 
+ * Note user model is automatically saved to file after every update command
+ * unless prevented with {@link edu.wpi.always.user.UserModel#INHIBIT_SAVE}.
  */
 public interface Person {
 
@@ -18,9 +20,9 @@ public interface Person {
       Friend, Parent, Father, Mother, Spouse, Husband, Wife, Offspring, Son, Daughter, Sibling, Brother, Sister, Grandchild, Grandson, Granddaughter, Grandparent, Grandfather, Grandmother, Aunt, Uncle, Cousin;
    }
 
-   public static String[] Month = {
-      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-   };
+   public static String[] Month = { "January", "February", "March", "April",
+      "May", "June", "July", "August", "September", "October", "November",
+      "December" };
 
    String getName ();
 
@@ -28,7 +30,7 @@ public interface Person {
 
    Gender getGender ();
 
-   void setGender (Person.Gender gender);
+   void setGender (Gender gender);
 
    MonthDay getBirthday ();
 
@@ -40,19 +42,21 @@ public interface Person {
 
    String getSkypeNumber ();
 
-   void setSkypeNumber(String number);
+   void setSkypeNumber (String number);
 
-   String getRelationship();
+   /**
+    * Relationship to the user (if more than one, chosen randomly).
+    */
+   Relationship getRelationship ();
 
-   void setRelationship(Relationship relationship);
+   /**
+    * Relationship to the user
+    */
+   void setRelationship (Relationship relationship);
 
-   String getSpouse();
+   int getAge ();
 
-   void setSpouse(String spouse);
-
-   String getAge();
-
-   void setAge(String age);
+   void setAge (int age);
 
    Place getLocation ();
 
@@ -64,5 +68,24 @@ public interface Person {
    Person[] getRelated (Relationship relationship);
 
    void addRelated (Person otherPerson, Relationship relationship);
+   
+   Person getSpouse ();
+
+   // the following are specific to the plugin for talking about people
+   // but need to be here because can be applied to any person
+   
+   enum AboutStatus { Positive, Negative }
+   
+   AboutStatus getAboutStatus ();
+   
+   void setAboutStatus (AboutStatus status);
+   
+   String getAboutComment ();
+   
+   void setAboutComment (String comment);
+   
+   boolean isAboutMentioned ();
+   
+   void setAboutMentioned (boolean mentioned);
 
 }

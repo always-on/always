@@ -6,8 +6,11 @@ import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
-import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 
+/**
+ * Note user model is automatically saved to file after every update command
+ * unless prevented with {@link edu.wpi.always.user.UserModel#INHIBIT_SAVE}. @author rich
+ */
 public interface PeopleManager {
 
    UserModel getUserModel();
@@ -18,8 +21,8 @@ public interface PeopleManager {
 
    Person getPerson (String name);
 
-   Person[] getPeople ();
+   Person[] getPeople (boolean includeUser);
 
-   Person addPerson(String name, Relationship relationship, Gender gender, String age, String phoneNumber,
-         String SkypeNumber, Place ZipCode, String spouse, MonthDay birthday);
+   Person addPerson(String name, Relationship relationship, Gender gender, int age, String phone,
+         String skype, Place place, Person spouse, MonthDay birthday);
 }

@@ -1,10 +1,15 @@
 package edu.wpi.always.client;
 
-import edu.wpi.always.Always;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ConnectException;
+import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import edu.wpi.always.Always;
 
 public class TcpConnection implements RemoteConnection {
 
@@ -81,13 +86,23 @@ public class TcpConnection implements RemoteConnection {
       });
    }
 
+   private String lastMessage = "";
+   private int count;
+   
    private void send (String message) {
       if ( !isConnected() )
          connect();
       if ( isConnected() ) {
-         if ( true ) System.out.println("Sending... " + message);
+         // optimization to help debugging
+         if ( lastMessage.equals(message) ) count++;
+         else {
+            if ( count > 0 ) System.out.println("Sending... "+count+" more"); 
+            System.out.println("Sending... " + message);
+            count = 0;
+         }
          out.print(message + "\n");
          out.flush();
+         lastMessage = message;
       }
    }
 

@@ -1,8 +1,9 @@
 package edu.wpi.always.client;
 
+import java.awt.Point;
+
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.disco.rt.realizer.SingleRunPrimitiveRealizer;
-import java.awt.Point;
 
 public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
 
@@ -15,17 +16,15 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
 
    @Override
    protected void singleRun () {
-      proxy.gaze(translateToAgentTurn(getParams().getPoint()));
+      proxy.gaze(translateToAgentTurnHor(getParams().getPoint()), translateToAgentTurnVer(getParams().getPoint()));
       fireDoneMessage();
    }
 
-   public static AgentTurn translateToAgentTurn (Point p) {
-      if ( p == null )
-         return AgentTurn.Mid;
-      if ( p.x > 50 )
-         return AgentTurn.MidRight;
-      if ( p.x < -50 )
-         return AgentTurn.MidLeft;
-      return AgentTurn.Mid;
+   public static float translateToAgentTurnHor (Point p) {
+      return (160f-p.x)*0.5f/160f;
+   }
+
+   public static float translateToAgentTurnVer(Point p) {
+      return (120f-p.y)*0.75f/120f;
    }
 }

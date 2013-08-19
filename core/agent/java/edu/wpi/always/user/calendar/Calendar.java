@@ -1,8 +1,17 @@
 package edu.wpi.always.user.calendar;
 
-import org.joda.time.*;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.ReadableInstant;
+
+/**
+ * Note user model is automatically saved to file after every update command
+ * unless prevented with {@link edu.wpi.always.user.UserModel#INHIBIT_SAVE}.
+ *
+ */
 public interface Calendar extends Iterable<CalendarEntry> {
 
    /**

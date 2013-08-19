@@ -1,6 +1,7 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.user.UserModel;
+import edu.wpi.always.Always;
+import edu.wpi.always.user.*;
 import org.picocontainer.annotations.Bind;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.*;
@@ -8,14 +9,8 @@ import java.io.*;
 import java.lang.annotation.*;
 import java.util.*;
 
-public class OntologyUserModel implements UserModel {
+public class OntologyUserModel extends UserModelBase {
 
-   @Retention(RetentionPolicy.RUNTIME)
-   @Target({ ElementType.FIELD, ElementType.PARAMETER })
-   @Bind
-   public @interface UserOntologyLocation {}
-
-   private String userName;
    private OntologyIndividual user;
    
    private final OntologyHelper ontology;
@@ -25,7 +20,7 @@ public class OntologyUserModel implements UserModel {
    private final OntologyPlaceManager placeManager;
 
    public OntologyUserModel (OntologyHelper ontology,
-         @UserOntologyLocation File userDataFile, OntologyCalendar calendar,
+         @UserModel.UserOntologyLocation File userDataFile, OntologyCalendar calendar,
          OntologyPeopleManager peopleManager, OntologyPlaceManager placeManager) {
       this.ontology = ontology;
       this.userDataFile = userDataFile;
@@ -33,11 +28,7 @@ public class OntologyUserModel implements UserModel {
       this.peopleManager = peopleManager;
       this.placeManager = placeManager;
       peopleManager.setUserModel(this);
-   }
-
-   @Override
-   public String getUserName () {
-      return userName;
+      System.out.println("Saving user ontology to: "+userDataFile);
    }
    
    @Override
@@ -49,6 +40,7 @@ public class OntologyUserModel implements UserModel {
             user.addSuperclass(OntologyPerson.USER_CLASS);
             peopleManager.addPerson(userName);
          }
+         saveIf();
       } else throw new UnsupportedOperationException(
                   "User model already has name: "+this.userName);
    }
@@ -76,6 +68,7 @@ public class OntologyUserModel implements UserModel {
    @Override
    public void setProperty (String property, String value) {
       user.setDataProperty(property, value == null ? null : ontology.getLiteral(value));
+      saveIf();
    }
    
    @Override
@@ -86,6 +79,7 @@ public class OntologyUserModel implements UserModel {
    @Override
    public void setProperty (String property, int value) {
        user.setDataProperty(property, ontology.getLiteral(value));
+       saveIf();
    }
      
    @Override
@@ -96,6 +90,7 @@ public class OntologyUserModel implements UserModel {
    @Override
    public void setProperty (String property, long value) {
        user.setDataProperty(property, ontology.getLiteral(value));
+       saveIf();
    }
    
    @Override
@@ -106,11 +101,13 @@ public class OntologyUserModel implements UserModel {
    @Override
    public void setProperty (String property, double value) {
       user.setDataProperty(property, ontology.getLiteral(value));
+      saveIf();
    }
 
    @Override
    public void setProperty (String property, boolean value) {
       user.setDataProperty(property, ontology.getLiteral(value));
+      saveIf();
    }
    
    @Override
@@ -118,9 +115,15 @@ public class OntologyUserModel implements UserModel {
       return user.getDataPropertyValue(property).asBoolean();
    }
    
-   public void addAxioms (InputStream stream) { ontology.addAxioms(stream); }
+   public void addAxioms (InputStream stream) { 
+      ontology.addAxioms(stream);
+      saveIf();
+   }
    
-   public void addAxioms (File file) { ontology.addAxioms(file); }
+   public void addAxioms (File file) { 
+      ontology.addAxioms(file);
+      saveIf();
+   }
    
    private static final Set<AxiomType<?>> types = new HashSet<AxiomType<?>>();
    static {
@@ -130,9 +133,8 @@ public class OntologyUserModel implements UserModel {
       types.add(AxiomType.OBJECT_PROPERTY_ASSERTION);
    }
 
-   
    @Override
-   public void save () {
+   public synchronized void save () {
       try {
          OWLOntologyManager manager = ontology.getManager();
          OWLOntology userOntology = manager.createOntology(IRI.create("UserModel"));
@@ -142,7 +144,6 @@ public class OntologyUserModel implements UserModel {
                userAxioms.add(new AddAxiom(userOntology, ax));
          }
          manager.applyChanges(userAxioms);
-         System.out.println("Saving user ontology to: "+userDataFile);
          manager.saveOntology(userOntology,
                new OWLFunctionalSyntaxOntologyFormat(), new FileOutputStream(
                      userDataFile));
@@ -153,8 +154,8 @@ public class OntologyUserModel implements UserModel {
    }
 
    @Override
-   public void load () {
-      if ( userDataFile != null && userDataFile.exists() ) {
+   public synchronized void load () {
+      if ( userDataFile != null && userDataFile.canRead() ) {
          System.out.println("Loading user model from: "+userDataFile);
          ontology.addAxioms(userDataFile);
          setUserName(new OntologyIndividual(

@@ -1,9 +1,14 @@
 package edu.wpi.always.client;
 
-import com.google.common.collect.Maps;
-import com.google.gson.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.google.common.collect.Maps;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class ClientProxy {
 
@@ -52,12 +57,13 @@ public class ClientProxy {
       enqueue("speech", p);
    }
 
-   public void gaze (AgentTurn dir) {
+   public void gaze (float hor, float ver) {
       HashMap<String, String> p = Maps.newHashMap();
-      p.put("dir", dir.toString());
+      p.put("horizontal", Float.toString(hor));
+      p.put("vertical",	Float.toString(ver));
       enqueue("gaze", p);
    }
-
+   
    public void express (AgentFaceExpression expression) {
       HashMap<String, String> p = Maps.newHashMap();
       p.put("expression", expression.toString());

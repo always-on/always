@@ -33,24 +33,27 @@ fi
 if [ "$filename" ]; then
   good="$filename.test"
   base=`basename "$filename"`
-  if [ -f "$filename" ]; then
-    cp -f "$filename" "$tmp/$base"
-  else
-    grep "  >" "$good" > "$tmp/$base"
-  fi;
-  java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main" "$tmp/$base"
+  arg="$tmp/$base"
+  if [ -f "$good" ]; then
+     if [ -f "$filename" ]; then
+       cp -f "$filename" "$arg"
+     else 
+       grep "  >" "$good" > "$arg"
+     fi
+  else arg="$filename"; fi
+  java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main" "$arg"
 else
   java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main"
 fi
 end=`date +%s`
 if [ "$filename" ]; then
   # keep all test cases in Unix lines
-  if [[ $uname == CYGWIN* ]]; then dos2unix -q "$tmp/$base.test"; fi
+  if [[ $uname == CYGWIN* ]]; then dos2unix -q "$arg.test"; fi
   if [ -f "$good" ]; then 
     # ignore comments and blank lines (Unix and Windows)
-    diff -qBI "^.$\|\#" --strip-trailing-cr "$tmp/$base.test" "$good"
+    diff -qBI "^.$\|\#" --strip-trailing-cr "$arg.test" "$good"
     diff=$?
-    if [ $diff = 0 ]; then echo "Succeed" $base "("`expr $end - $start` "sec)" ; fi;
+    if [ $diff = 0 ]; then echo "Succeed" $base "("`expr $end - $start` "sec)" ; fi
     exit $diff
-  fi;
+  fi
 fi

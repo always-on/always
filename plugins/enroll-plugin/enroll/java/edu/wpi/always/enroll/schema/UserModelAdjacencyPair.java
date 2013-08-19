@@ -13,12 +13,12 @@ import java.util.List;
 
 public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateContext>{
 
-   private static String UserName, UserAge, PhoneNumber, SkypeNumber, Spouse;
-   private static int Month;
-   private static int Day;
+   private static String UserName, PhoneNumber, SkypeNumber;
+   private static Person Spouse;
+   private static int UserAge, Month, Day;
    private static MonthDay userBirthday;
    private static Gender gender;
-   private static Place zipcode;
+   private static Place location;
    private static String UserState;
 
    public UserModelAdjacencyPair(final EnrollStateContext context) {
@@ -51,7 +51,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
       public AdjacencyPair success(String text) {
          if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
-            UserAge = text;
+            UserAge = Integer.parseInt(text);
             getContext().getPeopleManager().getUser().setAge(UserAge);
             return new TellUserBirthdayAdjacencyPair(getContext());
          }
@@ -64,11 +64,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
          getContext().hideKeyboard();
          return new TellUserBirthdayAdjacencyPair(getContext());
       }
-
-      //		@Override
-      //		public void overflow() {
-      //
-      //		}	
    }
 
    public static class UserAgeInvalidAdjacencyPair extends
@@ -83,7 +78,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
       public AdjacencyPair success(String text) {
          if(UserUtils.isInteger(text)){
             getContext().hideKeyboard();
-            UserAge = text;
+            UserAge = Integer.parseInt(text);
             getContext().getPeopleManager().getUser().setAge(UserAge);
             return new TellUserBirthdayAdjacencyPair(getContext());
          }
@@ -297,8 +292,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
          ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
          ZipCodeEntry zip = zipcodes.getPlaceData(text);
          if(zip != null){
-            zipcode = getContext().getPlaceManager().getPlace(zip.getZip());
-            getContext().getPeopleManager().getUser().setLocation(zipcode);
+            location = getContext().getPlaceManager().getPlace(zip.getZip());
+            getContext().getPeopleManager().getUser().setLocation(location);
             getContext().hideKeyboard();
             return new UserSpouseAdjacencyPair(getContext());
          }
@@ -325,8 +320,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
          ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
          ZipCodeEntry zip = zipcodes.getPlaceData(text);
          if(zip != null){
-            zipcode = getContext().getPlaceManager().getPlace(zip.getZip());
-            getContext().getPeopleManager().getUser().setLocation(zipcode);
+            location = getContext().getPlaceManager().getPlace(zip.getZip());
+            getContext().getPeopleManager().getUser().setLocation(location);
             getContext().hideKeyboard();
             return new UserSpouseAdjacencyPair(getContext());
          }
@@ -407,8 +402,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
          for(ZipCodeEntry city : cities){
             if(city.getState().equals(UserState)){
                getContext().hideKeyboard();
-               zipcode = getContext().getPlaceManager().getPlace(city.getZip());
-               getContext().getPeopleManager().getUser().setLocation(zipcode);
+               location = getContext().getPlaceManager().getPlace(city.getZip());
+               getContext().getPeopleManager().getUser().setLocation(location);
                return new UserSpouseAdjacencyPair(getContext());
             }
          }
@@ -420,8 +415,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
          getContext().hideKeyboard();
          ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
          StateEntry state = zipcodes.getState(UserState);
-         zipcode = getContext().getPlaceManager().getPlace(state.getCapitalZip());
-         getContext().getPeopleManager().getUser().setLocation(zipcode);
+         location = getContext().getPlaceManager().getPlace(state.getCapitalZip());
+         getContext().getPeopleManager().getUser().setLocation(location);
          return new UserSpouseAdjacencyPair(getContext());
       }
    }
@@ -442,15 +437,15 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
          for(ZipCodeEntry city : cities){
             if(city.getState().equals(UserState)){
                getContext().hideKeyboard();
-               zipcode = getContext().getPlaceManager().getPlace(city.getZip());
-               getContext().getPeopleManager().getUser().setLocation(zipcode);
+               location = getContext().getPlaceManager().getPlace(city.getZip());
+               getContext().getPeopleManager().getUser().setLocation(location);
                return new UserSpouseAdjacencyPair(getContext());
             }
          }
          getContext().hideKeyboard();
          StateEntry state = zipcodes.getState(UserState);
-         zipcode = getContext().getPlaceManager().getPlace(state.getCapitalZip());
-         getContext().getPeopleManager().getUser().setLocation(zipcode);
+         location = getContext().getPlaceManager().getPlace(state.getCapitalZip());
+         getContext().getPeopleManager().getUser().setLocation(location);
          return new UserSpouseAdjacencyPair(getContext());
       }
 
@@ -459,8 +454,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
          getContext().hideKeyboard();
          ZipCodes zipcodes = getContext().getPlaceManager().getZipCodes();
          StateEntry state = zipcodes.getState(UserState);
-         zipcode = getContext().getPlaceManager().getPlace(state.getCapitalZip());
-         getContext().getPeopleManager().getUser().setLocation(zipcode);
+         location = getContext().getPlaceManager().getPlace(state.getCapitalZip());
+         getContext().getPeopleManager().getUser().setLocation(location);
          return new UserSpouseAdjacencyPair(getContext());
       }
    }
@@ -507,8 +502,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
       @Override
       public AdjacencyPair success(String text) {
-         Spouse = text;
-         getContext().getPeopleManager().getUser().setSpouse(Spouse);
+         Spouse = getContext().getPeopleManager().getPerson(text);
+         getContext().getPeopleManager().getUser().addRelated(Spouse, Person.Relationship.Spouse);
          return new UserPhoneNumberAdjacencyPair(getContext());
       }
 

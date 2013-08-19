@@ -1,6 +1,7 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.schema.SchemaManager;
+import edu.wpi.disco.rt.schema.SchemaRegistry;
 
 public class StartupSchemas implements SchemaRegistry {
 

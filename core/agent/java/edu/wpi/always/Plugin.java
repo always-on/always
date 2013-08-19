@@ -1,5 +1,17 @@
 package edu.wpi.always;
 
+import java.io.File;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.picocontainer.Characteristics;
+import org.picocontainer.MutablePicoContainer;
+
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.ActivitySchema;
 import edu.wpi.always.user.UserModel;
@@ -7,11 +19,11 @@ import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.TaskClass;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.Registry;
-import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.schema.Schema;
+import edu.wpi.disco.rt.schema.SchemaConfig;
+import edu.wpi.disco.rt.schema.SchemaManager;
+import edu.wpi.disco.rt.schema.SchemaRegistry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
-import org.picocontainer.*;
-import java.io.*;
-import java.util.*;
 
 /**
  * Base class for plugins.

@@ -1,0 +1,20 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(
+
+  Declaration(DataProperty(<#UserSessions>))
+  DataPropertyDomain(<#UserSessions> <#User>)
+  DataPropertyRange(<#UserSessions> xsd:int)
+  SubClassOf(<#User> DataExactCardinality(1 <#UserSessions> xsd:int))
+  
+  Declaration(DataProperty(<#UserStartTime>))
+  DataPropertyDomain(<#UserStartTime> <#User>)
+  DataPropertyRange(<#UserStartTime> xsd:long)
+  SubClassOf(<#User> DataExactCardinality(1 <#UserStartTime> xsd:long))
+   
+  Declaration(DataProperty(<#UserCloseness>))
+  DataPropertyDomain(<#UserCloseness> <#User>)
+  DataPropertyRange(<#UserCloseness> xsd:string)
+  SubClassOf(<#User> DataExactCardinality(1 <#UserCloseness> xsd:string))
+
+)

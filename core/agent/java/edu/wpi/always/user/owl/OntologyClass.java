@@ -1,8 +1,16 @@
 package edu.wpi.always.user.owl;
 
-import org.semanticweb.owlapi.model.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataRange;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
-import java.util.*;
 
 public class OntologyClass {
 

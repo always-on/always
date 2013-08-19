@@ -1,14 +1,24 @@
 package edu.wpi.always.test;
 
 import static org.junit.Assert.assertEquals;
-import com.google.common.collect.Lists;
-import edu.wpi.always.client.ClientPlugin;
-import edu.wpi.always.cm.*;
-import edu.wpi.always.cm.primitives.*;
-import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.realizer.*;
-import org.junit.Test;
+
 import java.util.ArrayList;
+
+import org.junit.Test;
+
+import com.google.common.collect.Lists;
+
+import edu.wpi.always.client.ClientPlugin;
+import edu.wpi.always.cm.ProposalBuilder;
+import edu.wpi.always.cm.primitives.AgentResources;
+import edu.wpi.always.cm.primitives.FaceTrackBehavior;
+import edu.wpi.always.cm.primitives.PluginSpecificBehavior;
+import edu.wpi.disco.rt.behavior.Behavior;
+import edu.wpi.disco.rt.behavior.BehaviorBuilder;
+import edu.wpi.disco.rt.behavior.CompoundBehavior;
+import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
+import edu.wpi.disco.rt.behavior.SimpleCompoundBehavior;
+import edu.wpi.disco.rt.behavior.SpeechBehavior;
 
 public class ProposalBuilderFixture {
 

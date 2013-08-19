@@ -10,15 +10,15 @@
   
       var date; // initialize with date to use (today if undefined)
       
-      // load date from always/user (must be on classpath!)
+      // load data from always/user (must be on classpath!)
 
       var resource = getResource(); 
-		if ( resource == null ) {
-		   println("Cannot find weather data for "+todayDate());
-		   println("Using testing data...");
-		   date = "testing";
-		   resource = getResource();
-		} 
+      if ( resource == null ) {
+		 println("Cannot find weather data for "+todayDate());
+		 println("Using testing data...");
+		 date = "testing";
+		 resource = getResource();
+      } 
 		
       var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(resource.openStream()));
 

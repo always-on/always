@@ -1,10 +1,11 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.always.Always;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.ResourceMonitor;
-import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.behavior.BehaviorHistory;
+import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
+import edu.wpi.disco.rt.menu.DiscoAdjacencyPair;
+import edu.wpi.disco.rt.menu.MenuPerceptor;
 
 public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
 

@@ -1,8 +1,12 @@
 package edu.wpi.always.user.calendar;
 
-import org.joda.time.*;
 import java.io.PrintStream;
 import java.util.Iterator;
+
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 public abstract class CalendarUtils {
 

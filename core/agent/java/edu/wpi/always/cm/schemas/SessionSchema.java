@@ -1,18 +1,31 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.always.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.picocontainer.MutablePicoContainer;
+
+import edu.wpi.always.Always;
+import edu.wpi.always.Plugin;
+import edu.wpi.always.RelationshipManager;
 import edu.wpi.always.client.ClientProxy;
-import edu.wpi.cetask.*;
-import edu.wpi.disco.*;
+import edu.wpi.cetask.Plan;
+import edu.wpi.cetask.Task;
+import edu.wpi.cetask.TaskClass;
+import edu.wpi.cetask.Utils;
+import edu.wpi.disco.Agenda;
+import edu.wpi.disco.Interaction;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.ResourceMonitor;
-import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.behavior.BehaviorHistory;
+import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
+import edu.wpi.disco.rt.menu.DiscoAdjacencyPair;
+import edu.wpi.disco.rt.menu.MenuPerceptor;
 import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.DiscoDocument;
-import org.picocontainer.MutablePicoContainer;
-import java.util.*;
 
 public class SessionSchema extends DiscoAdjacencyPairSchema {
    

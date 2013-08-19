@@ -26,6 +26,10 @@
             return true;
         }
 
+        public Card GetCard(){
+            return _card;
+        }
+
         public override int GetHashCode()
         {
             return (int)Player + (int)_card.GetHashCode() * 2;

@@ -137,7 +137,7 @@ public class StoryAdjacencyPairs {
             final StoryStateContext context) {
          super("Was this story meant for someone? If yes, tell me who?",
                context);
-         Person[] persons = context.getPeopleManager().getPeople();
+         Person[] persons = context.getPeopleManager().getPeople(false);
          for (final Person person : persons)
             choice(person.getName(), new DialogStateTransition() {
 

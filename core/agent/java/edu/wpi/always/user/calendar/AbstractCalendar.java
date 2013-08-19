@@ -1,7 +1,17 @@
 package edu.wpi.always.user.calendar;
 
-import org.joda.time.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.ReadableInstant;
 
 public abstract class AbstractCalendar implements Calendar {
 

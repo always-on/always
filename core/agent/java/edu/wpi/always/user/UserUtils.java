@@ -2,22 +2,24 @@ package edu.wpi.always.user;
 
 import edu.wpi.always.Always;
 import edu.wpi.always.user.calendar.*;
+import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
 import edu.wpi.disco.*;
-import org.joda.time.MonthDay;
+import org.picocontainer.*;
+import org.joda.time.*;
 import java.io.*;
 import java.util.regex.Pattern;
 
 public abstract class UserUtils {
 
    /**
-    * Folder where user model is stored.  Default is user home directory.
+    * Folder where user model is stored.  
     * See initialization in always/user/Activities.xml
     */
-   public static String USER_DIR = System.getProperty("user.home"); 
+   public static String USER_DIR;
    
    /**
     * Filename in USER_FOLDER for user model.
@@ -27,23 +29,47 @@ public abstract class UserUtils {
    public static String USER_FILE = "User.owl";
    
    /**
+    * Optional argument is USER_FILE
+    */
+   public static void main (String[] args) {
+      if ( args != null && args.length > 0 && args[0].length() > 0 )
+         USER_FILE = args[0];
+      Always always = new Always(true, false);
+      UserModel model = always.getUserModel();
+      if ( model.getUserName() == null )
+         System.err.println("Could not load model from "+
+             always.getContainer().getComponent(
+                   BindKey.bindKey(File.class, UserModel.UserOntologyLocation.class)));
+      else print(model, System.out);
+   }
+   
+   /**
     * Print out core information about all people
     * 
     * @see CalendarUtils#print(Calendar,PrintStream)
     */
    public static void print (UserModel model, PrintStream stream) {
+      stream.println();
       stream.println("USER MODEL FOR "+model.getUserName());
-      for (Person person : model.getPeopleManager().getPeople()) {
+      System.out.print("Sessions: "+model.getSessions()+
+            " Closeness: "+model.getCloseness()+
+            "\nStartTime: "+new DateTime(model.getStartTime()));
+      System.out.println();
+      for (Person person : model.getPeopleManager().getPeople(true)) {
          stream.print(person);
          Gender gender = person.getGender();
          if ( gender != null ) stream.println(" (" + gender + ")");
          else stream.println();
+         int age = person.getAge();
+         if ( age != 0 ) stream.println("\tAge = " + age);
          MonthDay birthday = person.getBirthday();
          if ( birthday != null ) stream.println("\tBirthday = " + birthday);
          Place location = person.getLocation();
          if ( location != null ) stream.println("\tLocation = " + location);
          String phone = person.getPhoneNumber();
          if ( phone != null ) stream.println("\tPhoneNumber = " + phone);
+         String skype = person.getSkypeNumber();
+         if ( phone != null ) stream.println("\tSkypeNumber = " + skype);
          for (Relationship relationship : Relationship.values()) {
             Person[] related = person.getRelated(relationship);
             if ( related != null ) {
@@ -57,7 +83,15 @@ public abstract class UserUtils {
                stream.println();
             }
          }
+         // plugin specific
+         Person.AboutStatus status = person.getAboutStatus();
+         if ( status != null ) stream.println("\tAboutStatus = "+status);
+         String comment = person.getAboutComment();
+         if ( comment != null ) stream.println("\tAboutComment = "+comment);
+         boolean mentioned = person.isAboutMentioned();
+         if ( mentioned ) stream.println("\tAboutMentioned = "+mentioned);
       }
+      stream.println();
       stream.println("CALENDAR");
       CalendarUtils.print(model.getCalendar(), stream);
    }

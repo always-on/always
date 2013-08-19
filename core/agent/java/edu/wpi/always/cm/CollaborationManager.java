@@ -1,16 +1,16 @@
 package edu.wpi.always.cm;
 
+import java.io.File;
+import org.picocontainer.*;
 import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.dummy.*;
+import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.always.user.*;
-import edu.wpi.always.user.owl.*;
-import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.rt.*;
-import org.picocontainer.*;
-import java.io.File;
 
 public class CollaborationManager extends DiscoRT {
 
@@ -26,16 +26,15 @@ public class CollaborationManager extends DiscoRT {
       activities = interaction.load("Activities.xml");
       // load user model after Activities.xml for initialization of USER_FOLDER
       parent.as(Characteristics.CACHE).addComponent(
-            BindKey.bindKey(File.class,
-                  OntologyUserModel.UserOntologyLocation.class),
+            BindKey.bindKey(File.class, UserModel.UserOntologyLocation.class),
                   new File(UserUtils.USER_DIR, UserUtils.USER_FILE));
       parent.getComponent(UserModel.class).load();
    }
  
    public void start (Class<? extends Plugin> plugin, String activity) {
+      container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
       // FIXME Try to use real sensors
-      container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class); 
-      container.as(Characteristics.CACHE).addComponent(DummyFacePerceptor.class);
+      container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
       if ( plugin != null ) {
          parent.as(Characteristics.CACHE).addComponent(plugin);
