@@ -92,11 +92,10 @@ public class OntologyPeopleManager implements PeopleManager {
       if ( !includeUser ) size--;
       OntologyPerson[] people = new OntologyPerson[size];
       int i = 0;
-      OntologyIndividual user = helper.getNamedIndividual(model.getUserName());
+      Person user = getUser();
       for (OWLNamedIndividual owlPerson : owlPeople) {
-         OntologyIndividual individual = new OntologyIndividual(ontology, owlPerson); 
-         if ( !includeUser || individual != user ) 
-            people[i++] = getPerson(individual); 
+         OntologyPerson person = getPerson(new OntologyIndividual(ontology, owlPerson));
+         if ( includeUser || !person.equals(user) ) people[i++] = person; 
       }
       return people;
    }
