@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+
+<!--
+	THE COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
+	AUTHOR: MORTEZA BEHROOZ
+	WORCESTER POLYTECHNIC INSTITUTE 
+-->
+
+<!--
+	> Attributes brief description:
+	- strength: determines how much of a strong move should it be, 
+	the move which this comment is being made for, human's or agent's.
+	- competitiveness: how competitive the comment sounds.
+	- tags: the social tags which comment carries.
+	- gameType: if a specific type of game the comment is made for.
+	- gameName: if a specific game the comment is made for.
+	- madeOn: to be made on agent's move, human's or both.
+	
+	> agent and human sections contain comments which should 
+	be made by each of them.
+	
+	PLEASE REFER TO SOCIAL GAMEPLAY FRAMEWORK DOCUMENTS FOR FURTHER INFORMATION.
+-->
+
+<comments>
+
+	<agent>
+		<comment strength='0.9' competitiveness='0.8' tags="brag/offense" gameType="generic" madeOn="both">
+			Haha! Prepare to lose
+		</comment>
+		<comment strength='0.5' competitiveness='0.6' tags="offense" gameType="generic" madeOn="human">
+			Bring it on
+		</comment>
+		<comment strength='0.5' competitiveness='0.6' tags="offense" gameType="generic" madeOn="agent">
+			I can do this
+		</comment>
+		<comment strength='0.5' competitiveness='0.1' tags="compliment" gameType="generic" madeOn="human">
+			Wow, nice one
+		</comment>
+		<comment strength='0.6' competitiveness='0.8' tags="brag/offense" gameType="generic" madeOn="both">
+			I have Intel inside, you got cheese burger
+		</comment>
+		<comment strength='0.6' competitiveness='0.7' tags="brag/offense" gameType="generic" madeOn="both">
+			Humans are somewhat intelligent but robots are genius
+		</comment>
+		<comment strength='0.6' competitiveness='0.7' tags="brag" gameType="generic" madeOn="both">
+			Nobody beats me
+		</comment>
+		<comment strength='0.7' competitiveness='0.7' tags="brag" gameType="generic" madeOn="both">
+			My nickname is champion
+		</comment>
+		<comment strength='0.7' competitiveness='0.6' tags="brag" gameType="generic" madeOn="agent">
+			Heard about robots? We are fast
+		</comment>
+		<comment strength='0.5' competitiveness = '0.8' tags="offense" gameType="generic" madeOn="human">
+			Seriously. Give up already
+		</comment>
+		<comment strength='0.4' competitiveness = '0.6' tags="" gameType="generic" madeOn="both">
+			Robots reputation is on the line here
+		</comment>
+		<comment strength='0.6' competitiveness = '0.8' tags="offense" gameType="generic" madeOn="agent">
+			Now get this
+		</comment>
+		<comment strength='0.1' competitiveness='0.1' tags="regret" gameType="generic" madeOn="both">
+			Oops
+		</comment>
+		<comment strength='0.1' competitiveness='0.1' tags="regret" gameType="generic" madeOn="agent">
+			Why did I just do that
+		</comment>
+		<comment competitiveness='0.2' tags="regret" gameType="generic" gameState="humanWon">
+			Oops
+		</comment>
+		<comment competitiveness='0.1' tags="compliment" gameType="generic" gameState="humanWon">
+			Nice win
+		</comment>
+		<comment competitiveness='0.7' tags="brag" gameType="generic" gameState="humanWon">
+			You will lose the next game
+		</comment>
+		<comment competitiveness='0.7' tags="brag" gameType="generic" gameState="humanWon">
+			I let you win, haha
+		</comment>
+		<comment competitiveness='0.5' tags="brag" gameType="generic" gameState="agentWon">
+			Robots rule, I win
+		</comment>
+		<comment competitiveness='0.1' tags="compliment" gameType="generic" gameState="agentWon">
+			Nice game
+		</comment>
+		<comment competitiveness='0.7' tags="brag" gameType="generic" gameState="agentWon">
+			Say hello to the winner
+		</comment>
+		<comment competitiveness='0.8' tags="brag" gameType="generic" gameState="agentWon">
+			and that's how it's done
+		</comment>
+		<comment competitiveness='0.5' tags="compliment" gameType="generic" gameState="tie">
+			Seems like we are equals at last
+		</comment>
+		<comment competitiveness='0.5' tags="compliment" gameType="generic" gameState="tie">
+			Nice tie
+		</comment>
+		<comment competitiveness='0.6' tags="brag" gameType="generic" gameState="tie">
+			Well well well, looks like a tie
+		</comment>
+		<comment competitiveness='0.9' tags="2winChanceByAgent/brag" gameType="board" gameName="ttt" madeOn="both">
+			Whichever you block, I take the other
+		</comment>
+		<comment competitiveness='0.9' tags="2winChanceByAgent/brag" gameType="board" gameName="ttt" madeOn="both">
+			I get a feeling I am winning
+		</comment>
+		<comment competitiveness='0.1' tags="2winChanceByHuman/compliment" gameType="board" gameName="ttt" madeOn="both">
+			What the hell, what just happened?
+		</comment>
+		<comment competitiveness='0.1' tags="2winChanceByHuman/compliment" gameType="board" gameName="ttt" madeOn="both">
+			Wow you got me trapped in losing, nice
+		</comment>
+		<comment competitiveness='0.2' tags="centerCellTakenByHuman/compliment" gameType="board" gameName="ttt" madeOn="human">
+			Nice! You got the golden cell
+		</comment>
+		<comment competitiveness='0.4' tags="centerCellTakenByHuman/offense" gameType="board" gameName="ttt" madeOn="human">
+			Smart ha? Taking the center cell
+		</comment>
+		<comment competitiveness='0.5' tags="centerCellTakenByHuman/brag" gameType="board" gameName="ttt" madeOn="human">
+			I can win without that cell
+		</comment>
+		<comment competitiveness='0.6' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
+			I got the golden cell
+		</comment>
+		<comment competitiveness='0.5' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
+			center cell, yes!
+		</comment>
+		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
+			Not that easy
+		</comment>
+		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
+			Nice try 
+		</comment>
+		<comment competitiveness='0.2' tags="AgentWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="human">
+			Haha! smart move
+		</comment>
+		<comment competitiveness='0.5' tags="AgentWinOppBlocked/brag" gameType="board" gameName="ttt" madeOn="human">
+			Victory cannot be blocked, it finds a way
+		</comment>
+		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense/brag" gameType="board" gameName="ttt" madeOn="human">
+			No one blocks me, how dare you?
+		</comment>
+	</agent>
+	
+	<human>
+		<comment strength='0.9' competitiveness='0.8' tags="brag/offense" gameType="generic" madeOn="human">
+			Haha! Prepare to lose
+		</comment>
+		<comment strength='0.5' competitiveness='0.6' tags="offense" gameType="generic" madeOn="agent">
+			Bring it on
+		</comment>
+		<comment strength='0.5' competitiveness='0.6' tags="offense" gameType="generic" madeOn="human">
+			I can do this
+		</comment>
+		<comment strength='0.5' competitiveness='0.1' tags="compliment" gameType="generic" madeOn="agent">
+			Wow, nice one
+		</comment>
+		<comment strength='0.6' competitiveness='0.8' tags="brag/offense" gameType="generic" madeOn="human">
+			Humans always rule
+		</comment>
+		<comment strength='0.6' competitiveness='0.7' tags="brag/offense" gameType="generic" madeOn="human">
+			We made you, humans rule
+		</comment>
+		<comment strength='0.6' competitiveness='0.7' tags="brag" gameType="generic" madeOn="human">
+			Nobody beats me
+		</comment>
+		<comment strength='0.7' competitiveness='0.6' tags="brag" gameType="generic" madeOn="human">
+			My nickname is champion
+		</comment>
+		<comment strength='0.7' competitiveness='0.6' tags="brag" gameType="generic" madeOn="both">
+			I am not going to lose
+		</comment>
+		<comment strength='0.5' competitiveness='0.8' tags="offense" gameType="generic" madeOn="agent">
+			Seriously. Give up already
+		</comment>
+		<comment strength='0.6' competitiveness='0.7' tags="" gameType="generic" madeOn="both">
+			No robot beats me
+		</comment>
+		<comment strength='0.6' competitiveness='0.8' tags="offense" gameType="generic" madeOn="human">
+			Now get this
+		</comment>
+		<comment strength='0.1' competitiveness='0.1' tags="regret" gameType="generic" madeOn="both">
+			Oops
+		</comment>
+		<comment strength='0.1' competitiveness='0.1' tags="regret" gameType="generic" madeOn="human">
+			Why did I just do that
+		</comment>
+		<comment competitiveness='0.3' tags="" gameType="generic" gameState="humanWon">
+			Haha I win
+		</comment>
+		<comment competitiveness='0.8' tags="brag" gameType="generic" gameState="humanWon">
+			Robots never beat humans
+		</comment>
+		<comment competitiveness='0.5' tags="compliment" gameType="generic" gameState="humanWon">
+			Nice game
+		</comment>
+		<comment competitiveness='0.7' tags="brag" gameType="generic" gameState="humanWon">
+			That's how it's done
+		</comment>
+		<comment competitiveness='0.6' tags="brag" gameType="generic" gameState="agentWon">
+			Robots never beat humans
+		</comment>
+		<comment competitiveness='0.8' tags="brag" gameType="generic" gameState="agentWon">
+			You will lose the next game
+		</comment>
+		<comment competitiveness='0.1' tags="compliment" gameType="generic" gameState="agentWon">
+			Nice win
+		</comment>
+		<comment competitiveness='0.8' tags="brag" gameType="generic" gameState="agentWon">
+			I let you win
+		</comment>
+		<comment competitiveness='0.9' tags="compliment" gameType="generic" gameState="tie">
+			Play again and I beat you
+		</comment>
+		<comment competitiveness='0.1' tags="compliment" gameType="generic" gameState="tie">
+			Nice tie
+		</comment>
+		<comment competitiveness='0.5' tags="brag" gameType="generic" gameState="tie">
+			Well, looks like a tie
+		</comment>
+		<comment competitiveness='0.9' tags="2winChanceByHuman/brag" gameType="board" gameName="ttt" madeOn="both">
+			Whichever you block, I take the other
+		</comment>
+		<comment competitiveness='0.9' tags="2winChanceByHuman/brag" gameType="board" gameName="ttt" madeOn="both">
+			I get a feeling I am winning
+		</comment>
+		<comment competitiveness='0.1' tags="2winChanceByAgent/compliment" gameType="board" gameName="ttt" madeOn="both">
+			What the hell, what just happened?
+		</comment>
+		<comment competitiveness='0.1' tags="2winChanceByAgent/compliment" gameType="board" gameName="ttt" madeOn="both">
+			Wow you got me trapped in losing, nice
+		</comment>
+		<comment competitiveness='0.2' tags="centerCellTakenByAgent/compliment" gameType="board" gameName="ttt" madeOn="agent">
+			Nice! You got the golden cell
+		</comment>
+		<comment competitiveness='0.4' tags="centerCellTakenByAgent/offense" gameType="board" gameName="ttt" madeOn="agent">
+			Smart ha? Taking the center cell
+		</comment>
+		<comment competitiveness='0.5' tags="centerCellTakenByAgent/brag" gameType="board" gameName="ttt" madeOn="both">
+			I can win without that cell
+		</comment>
+		<comment competitiveness='0.6' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
+			I got the golden cell
+		</comment>
+		<comment competitiveness='0.5' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
+			center cell, yes!
+		</comment>
+		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
+			Not that easy
+		</comment>
+		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
+			Nice try 
+		</comment>
+		<comment competitiveness='0.2' tags="HumanWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="agent">
+			Haha! smart move
+		</comment>
+		<comment competitiveness='0.5' tags="HumanWinOppBlocked/brag" gameType="board" gameName="ttt" madeOn="agent">
+			Victory can't be blocked
+		</comment>
+		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense/brag" gameType="board" gameName="ttt" madeOn="agent">
+			No one blocks me, how dare you?
+		</comment>
+	</human>
+	
+</comments>

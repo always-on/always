@@ -32,9 +32,10 @@ namespace AgentApp
                     var allAvailableMovesBody = getPossibleMovesAsJson();
                     
                     //logging
-                    Console.WriteLine("------****-------");
-                    Console.WriteLine(allAvailableMovesBody.ToString());
-                    Console.WriteLine("------****-------");
+
+                    //Console.WriteLine("------****-------");
+                    //Console.WriteLine(allAvailableMovesBody.ToString());
+                    //Console.WriteLine("------****-------");
                    
                     var body = new JObject();
                     Move m = game.AgentCardsController.GetBestMove();
@@ -42,7 +43,7 @@ namespace AgentApp
                     _remote.Send("rummy.available_action", body);
                    
                     //here, sending all the possible moves to Java
-                    _remote.Send("rummy.available_moves", allAvailableMovesBody);
+                    //_remote.Send("rummy.available_moves", allAvailableMovesBody);
                 };
 
                 game.GameState.StateChanged += (oldState, newState) =>
@@ -54,7 +55,7 @@ namespace AgentApp
 					body["agent_cards"] = game.GameState.GetCards(GameShape.AgentPlayer).Count;
 					_remote.Send("rummy.state_changed", body); //delete? java side dependency?/
 
-                    _remote.Send("rummy.game_state", getGameStateAsJson());
+                    //_remote.Send("rummy.game_state", getGameStateAsJson());
                 };
 
                 game.GameState.MoveHappened += m =>
@@ -64,27 +65,28 @@ namespace AgentApp
                     body["player"] = PlayerNameToSend(m.Player);
 					_remote.Send("rummy.move_happened", body);
 
-                    //true place?
                     if (m.Player == Player.One) 
                     {
-                        _remote.Send("rummy.human_move", getHumanMoveAsJson(m));
+                     //   _remote.Send("rummy.human_move", getHumanMoveAsJson(m));
                     }
                 };
                 pluginContainer = new Viewbox();
                 pluginContainer.Child = game;
             });
 
-//            _remote.RegisterReceiveHandler("rummy.best_move",
-//				  new MessageHandlerDelegateWrapper(x => DoBestMove()));
+            _remote.RegisterReceiveHandler("rummy.best_move",
+				  new MessageHandlerDelegateWrapper(x => DoBestMove()));
 
-            _remote.RegisterReceiveHandler("rummy.sgf_move",
-				  new MessageHandlerDelegateWrapper(x => DoSGFMove(x)));
+            //_remote.RegisterReceiveHandler("rummy.sgf_move",
+			//	  new MessageHandlerDelegateWrapper(x => DoSGFMove(x)));
 
         }
 		public void Dispose()
 		{
 			_remote.RemoveReceiveHandler("rummy.best_move");
-            //_remote.RemoveReceiveHandler("rummy.sgf_move"); //? add?
+
+            //_remote.RemoveReceiveHandler("rummy.sgf_move");
+
 		}
 
         private string StateToSend(State newState)
