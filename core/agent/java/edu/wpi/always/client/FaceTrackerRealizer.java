@@ -8,7 +8,6 @@ import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
 public class FaceTrackerRealizer extends
       PrimitiveRealizerBase<FaceTrackBehavior> {
 
-   public static long FACE_TRACK_TIME_DAMPENING = 1000;
    private final ClientProxy proxy;
    private final FacePerceptor perceptor;
    
