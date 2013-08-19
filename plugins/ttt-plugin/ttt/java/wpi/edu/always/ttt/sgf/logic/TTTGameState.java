@@ -1,9 +1,6 @@
 package wpi.edu.always.ttt.sgf.logic;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import sun.management.resources.agent;
+import java.util.*;
 import edu.wpi.sgf.logic.GameLogicState;
 
 /** 
