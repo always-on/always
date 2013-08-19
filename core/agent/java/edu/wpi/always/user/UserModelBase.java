@@ -1,4 +1,3 @@
-
 package edu.wpi.always.user;
 
 import edu.wpi.always.*;
@@ -42,4 +41,5 @@ public abstract class UserModelBase implements UserModel {
    public void setCloseness (Closeness closeness) { 
       setProperty(CLOSENESS, closeness.name()); 
    }
+  
 }

@@ -134,7 +134,7 @@ public class OntologyUserModel extends UserModelBase {
    }
 
    @Override
-   public void save () {
+   public synchronized void save () {
       try {
          OWLOntologyManager manager = ontology.getManager();
          OWLOntology userOntology = manager.createOntology(IRI.create("UserModel"));
@@ -154,8 +154,8 @@ public class OntologyUserModel extends UserModelBase {
    }
 
    @Override
-   public void load () {
-      if ( userDataFile != null && userDataFile.exists() ) {
+   public synchronized void load () {
+      if ( userDataFile != null && userDataFile.canRead() ) {
          System.out.println("Loading user model from: "+userDataFile);
          ontology.addAxioms(userDataFile);
          setUserName(new OntologyIndividual(

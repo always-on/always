@@ -24,13 +24,17 @@
    // if (genderFamFriend == "Male") {pronounObj = "him";  pronounSubj = "he"}; 
 
 //for alwayson testing:
-    var familyFriendsList = $always.getUserModel().getPeopleManager().getPeople();
+    var familyFriendsList = $always.getUserModel().getPeopleManager().getPeople(false);
     var famFriend ;
     var statusFamFriend;
     var statusType ;
-    var previousTalk ;
-    var genderFamFriend ;
+    var previousTalk;
+    var genderFamFriend;
     var famFriendName;
+    var famFriendRelationship;
+    var user = $always.getUserModel().getPeopleManager().getUser();
+    var userName = user.getName();
+    print ("the user's name is =" + userName);
     var pronounObj = "her";
     var pronounSubj = "she";
     print("here is the list of family and friends = " + familyFriendsList);
@@ -49,7 +53,7 @@
   <t:task id="TalkAbout">
     <t:subtasks id="main">
       <t:step name="start" task="_Holiday" minOccurs="0" maxOccurs="1"/>
-      <t:step name="who" task="IteratePeople" maxOccurs="6"/>
+      <t:step name="who" task="IteratePeople" maxOccurs="10"/>
       <t:step name="end" task="_End"/>
     </t:subtasks>
   </t:task>
@@ -61,60 +65,7 @@
     </t:subtasks>
   </t:task>
 
-  <agent id="_WhatDoingOnHoliday"
-	 text="You know {holidayType} is coming.  Have you got any plans for spending it with family or friends?" >
-    <user text="Yes">
-      <agent text="Nice.  Who are you spending it with?" >
-	<!-- how do I get a list of F&F names to appear here? -->
-	<user text="none of those people.  Someone I haven't told you about" >
-	  <agent text="well have a good time"/>
-	</user>
-      </agent>
-    </user>
-    <user text="No">
-      <agent text="Well, at least we can talk on that day" >
-	<user text="Yes, but that's not that same">
-	  <agent text="But you can have a video call with someone.  Want to?">
-	    <user text="Sure" >
-	      <agent text="okay, who?" >
-		<!-- how do I get a list of F&F names to appear here? -->
-		<user text="need list here" >
-		  <agent text="I will arrange this for you" > 
-		    <!-- need to fill in OWL hierachy with user request for SKYPE call with above person -->
-		    <user text="Thanks!"/>
-		    <user text="Okay" />
-		  </agent>
-		</user>
-	      </agent>
-	    </user>
-	    <user text="No thanks">
-	      <agent text="okay"/>
-	    </user>
-	  </agent>
-	</user>
-	<user text="Uh huh" >
-	  <agent text="But you can have a video call with someone.  Want to?">
-	    <user text="Sure" >
-	      <agent text="okay, who?" >
-		<!-- how do I get a list of F&F names to appear here? -->
-		<user text="need list here" >
-		  <agent text="I will arrange this for you" > 
-		    <!-- need to fill in OWL hierachy with user request for SKYPE call with above person -->
-		    <user text="Thanks!"/>
-		    <user text="Okay" />
-		  </agent>
-		</user>
-	      </agent>
-	    </user>
-	    <user text="No thanks">
-	      <agent text="okay"/>
-	    </user>
-	  </agent>
-	</user>
-      </agent>
-    </user>
-  </agent>
-
+ 
   <!-- this task has to iterate over the familyFriendsList -->
   <!-- in OWL db, a person has an AboutStatus (positive, negative or null), may have been mentioned before isAboutMentioned, with values true, false, null.  AboutMentioned is from previous conversations.  What has been said about a family or friend is stored in AboutComment and is particular to this app  -->
 
@@ -135,6 +86,7 @@
       statusType = famFriend.getAboutStatus();
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
+      famFriendRelationship = famFriend.getRelationship();
       previousTalk = famFriend.isAboutMentioned();
       if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"} 
       else  {pronounObj = "her"; pronounSubj = "she"}; 
@@ -156,7 +108,7 @@
     </t:subtasks> 
   </t:task>
 
-  <agent id="_MoreAboutX" text="Last time we talked about {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
+  <agent id="_MoreAboutX" text="Last time we talked about your {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was going on vacation'">
       <agent text="so how did it go?" 
 	     eval="reset(famFriend);" >
@@ -242,7 +194,7 @@
     </user>
   </agent>
 
-  <agent id="_BetterYet" text="Last time we talked about {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
+  <agent id="_BetterYet" text="Last time we talked about your {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was ill'">
       <agent text="Is {pronounSubj} recovering?" >
 	<user text="Yes, pretty well">
@@ -328,7 +280,7 @@
   </agent>
    
   <agent id="_HowIsXDoing"
-	 text="How is {famFriendName} doing?" >
+	 text=" {userName} , How is your {famFriendRelationship} {famFriendName} doing?" >
     <user text="I don't want to talk about {pronounObj} today">
       <agent text="okay." />
     </user>
@@ -421,7 +373,7 @@
 
 
   <agent id="NotGoingWell" text="oh, what's wrong?">
-    <user text=" {pronounSubj} is ill" 
+    <user text=" {pronounSubj} is ill | {famFriendName} is ill" 
 	  eval="famFriend.setAboutMentioned(true); 
 		negative(famFriend);
 		famFriend.setAboutComment('was ill');">
@@ -434,7 +386,7 @@
 		<user text="yes I think I'll do that" />  
 	      </agent>
 	    </user>
-	    <user text=" but {pronounSubj} is getting better" >
+	    <user text=" But {pronounSubj} is getting better" >
 	      <agent text=" that's good to hear" />
 	    </user>
 	    <user text="no, I think {pronounSubj}'ll be okay" >
@@ -551,6 +503,61 @@
     <user text="Okay, not now" />
   </agent>
 
-  <agent id="_End" text="well, it was nice talking about your friends and family with you" />
+  <agent id="_End" text="well, {userName}, it was nice talking about your friends and family with you" />
+
+ <agent id="_WhatDoingOnHoliday"
+	 text="You know {holidayType} is coming.  Have you got any plans for spending it with family or friends?" >
+    <user text="Yes">
+      <agent text="Nice.  Who are you spending it with?" >
+	<!-- how do I get a list of F&F names to appear here? -->
+	<user text="none of those people.  Someone I haven't told you about" >
+	  <agent text="well have a good time"/>
+	</user>
+      </agent>
+    </user>
+    <user text="No">
+      <agent text="Well, at least we can talk on that day" >
+	<user text="Yes, but that's not that same">
+	  <agent text="But you can have a video call with someone.  Want to?">
+	    <user text="Sure" >
+	      <agent text="okay, who?" >
+		<!-- how do I get a list of F&F names to appear here? -->
+		<user text="need list here" >
+		  <agent text="I will arrange this for you" > 
+		    <!-- need to fill in OWL hierachy with user request for SKYPE call with above person -->
+		    <user text="Thanks!"/>
+		    <user text="Okay" />
+		  </agent>
+		</user>
+	      </agent>
+	    </user>
+	    <user text="No thanks">
+	      <agent text="okay"/>
+	    </user>
+	  </agent>
+	</user>
+	<user text="Uh huh" >
+	  <agent text="But you can have a video call with someone.  Want to?">
+	    <user text="Sure" >
+	      <agent text="okay, who?" >
+		<!-- how do I get a list of F&F names to appear here? -->
+		<user text="need list here" >
+		  <agent text="I will arrange this for you" > 
+		    <!-- need to fill in OWL hierachy with user request for SKYPE call with above person -->
+		    <user text="Thanks!"/>
+		    <user text="Okay" />
+		  </agent>
+		</user>
+	      </agent>
+	    </user>
+	    <user text="No thanks">
+	      <agent text="okay"/>
+	    </user>
+	  </agent>
+	</user>
+      </agent>
+    </user>
+  </agent>
+
 
 </model>

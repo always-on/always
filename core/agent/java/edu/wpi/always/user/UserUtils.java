@@ -32,8 +32,8 @@ public abstract class UserUtils {
     * Optional argument is USER_FILE
     */
    public static void main (String[] args) {
-      //USER_DIR = "."
-      if ( args != null && args.length > 0 ) USER_FILE = args[0];
+      if ( args != null && args.length > 0 && args[0].length() > 0 )
+         USER_FILE = args[0];
       Always always = new Always(true, false);
       UserModel model = always.getUserModel();
       if ( model.getUserName() == null )

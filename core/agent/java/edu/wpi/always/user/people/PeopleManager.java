@@ -1,4 +1,3 @@
-
 package edu.wpi.always.user.people;
 
 import org.joda.time.MonthDay;

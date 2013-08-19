@@ -1,0 +1,26 @@
+>>>>>>>>>>>>>>>>>>>>>>>>NEW ASUS MACHINE SETUP INSTRUCTIONS>>>>>>>>>>>>>>>>>>>>>>>>
+In setting up Windows for the first time, computer name should be alwaysN (N replaced by computer's number). 
+If WPI, register on WPI Networks by emailing Network administrator the Model, SN, Computer name and the MAC address.
+Register Asus machines: Username: rich@wpi.edu, Pass: (same as all), Reseller: Directron
+The user name for account has to be set to 'mel' and the password is the same as all again. 
+
+Useful software: Chrome, Skype, 7zip, Dropbox, Notepad++
+
+>> Uninstall native trial anti-virus software(Titanium...), install MacAfee (also patch 1 if 8.8) 
+(If WPI from \\shares.wpi.edu\applications).
+
+> install Java 1.7
+> install .Net 2010
+> install Eclipse Juno SR1 (extracted folder is in C:)
+> Git 1.8 (or newer stable version)
+> Github
+> (Tortoisegit)
+> Tortoise SVN for fusion trunk access if required (or Eclipse SVN or both)
+
+>> GitHub folder is normally in documents folder.
+>> SHORE is tested successfully
+>> PIRmovementPerceptor class must test the PIR successfully.
+
+>>>> Go on to the "setup.txt" file for always development machines
+
+
