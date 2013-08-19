@@ -1,8 +1,6 @@
 package edu.wpi.always.client;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 
 public class UIMessagingJson {
 
@@ -41,10 +39,12 @@ public class UIMessagingJson {
       throw new JsonMessageFormatException("Message type should be a string");
    }
 
+   private final static GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
+   
    String generate (Message msg) {
       JsonObject o = new JsonObject();
       o.addProperty(MSG_TYPE, msg.getType());
       o.add(MSG_BODY, msg.getBody());
-      return new Gson().toJson(o);
+      return builder.create().toJson(o);
    }
 }
