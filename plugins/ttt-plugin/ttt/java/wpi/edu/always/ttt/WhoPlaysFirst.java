@@ -208,7 +208,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                }
             });
          if(playerIdentifier == HUMAN_IDENTIFIER){
-            choice("Just play", new DialogStateTransition() {
+            choice("Your turn", new DialogStateTransition() {
                @Override
                public AdjacencyPair run () {
                   //getContext().getTTTUI().cancelHumanCommentingTimer();
