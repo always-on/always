@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="java">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="agent/lib/win32-x86-64"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="agent/lib/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" output="tmp" path="USER"/>
@@ -14,6 +14,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/activemq-all-5.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/bsh-2.0b4.jar"/>
+	<classpathentry kind="lib" path="lib/jna.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.9.0.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/owlapi/owlapi-bin.jar">
@@ -36,7 +37,5 @@
 			<attribute name="javadoc_location" value="http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/jna-4.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/win32-x86-64"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>
