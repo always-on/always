@@ -37,13 +37,13 @@ public class TTTSchema extends ActivityStateMachineSchema {
       // saying this inside any state (in a proper way)
       if ( TTTClient.sayAgentCommentOnHumanMove ) {
          propose(new SyncSayBuilder(
-               "<GAZE horizontal=\"0\" vertical=\"0\"/>$ "
-                  + WhoPlaysFirst.getCurrentAgentComment()
-                  + " <GAZE horizontal=\"-1\" vertical=\"1\"/>$")
-               .build());
+               "$ "+WhoPlaysFirst.getCurrentAgentComment()+" $",
+                new GazeBehavior(back),
+                new GazeBehavior(upLeft))
+                .build());
          TTTClient.sayAgentCommentOnHumanMove = false;
       }
-      if ( TTTClient.gazeLeft ) {
+      if ( TTTClient.gazeLeft ) { 
          propose(new GazeBehavior(left));
          TTTClient.gazeLeft = false;
       }
