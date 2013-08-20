@@ -24,4 +24,12 @@ public abstract class ActivitySchema extends SchemaBase {
     */
    public abstract void setNeedsFocusResource (boolean focus);
    
+   protected void propose (PrimitiveBehavior behavior) {
+      propose(behavior, SPECIFICITY);
+   }
+   
+   protected void propose (Behavior behavior) {
+      propose(behavior, SPECIFICITY);
+   }
+   
 }
