@@ -7,7 +7,6 @@ public class FaceDetection {
    private final CPPinterface lib;
 
    public FaceDetection (int intDebug) {
-   	NativeLibrary.addSearchPath("FaceDetection","C:\\Users\\mel\\Documents\\GitHub\\always\\core\\agent\\lib\\native");
       lib = CPPinterface.INSTANCE;
       if ( lib != null )
          lib.initProcess(intDebug);
