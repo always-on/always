@@ -1,4 +1,4 @@
-package wpi.edu.always.ttt.sgf.logic;
+package edu.wpi.always.ttt.sgf.logic;
 
 import edu.wpi.sgf.logic.LegalMove;
 
