@@ -16,8 +16,13 @@ public abstract class ClientPluginUtils {
       dispatcher.send(m);
    }
 
-   public static void closePlugin (UIMessageDispatcher dispatcher) {
-      Message m = Message.builder("close_plugin").build();
+   public static void showPlugin (UIMessageDispatcher dispatcher, String pluginName) {
+      Message m = Message.builder("show_plugin").add("name", pluginName).build();
+      dispatcher.send(m);
+   }
+   
+   public static void hidePlugin (UIMessageDispatcher dispatcher) {
+      Message m = Message.builder("hide_plugin").build();
       dispatcher.send(m);
    }
    

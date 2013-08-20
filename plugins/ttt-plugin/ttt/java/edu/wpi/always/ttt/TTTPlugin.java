@@ -18,4 +18,7 @@ public class TTTPlugin extends Plugin {
       Plugin.main(args, TTTPlugin.class, "PlayTicTacToe");
    }
 
+   public void show () {
+      container.getComponent(TTTClient.class).show();
+   }
 }
