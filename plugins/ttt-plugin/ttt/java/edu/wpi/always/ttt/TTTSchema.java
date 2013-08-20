@@ -1,4 +1,4 @@
-package wpi.edu.always.ttt;
+package edu.wpi.always.ttt;
 
 import java.awt.Point;
 import edu.wpi.always.client.*;

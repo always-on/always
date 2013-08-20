@@ -1,4 +1,4 @@
-package wpi.edu.always.ttt;
+package edu.wpi.always.ttt;
 
 import java.util.List;
 import java.util.Timer;
@@ -11,10 +11,10 @@ import edu.wpi.always.client.Message;
 import edu.wpi.always.client.MessageHandler;
 import edu.wpi.always.client.UIMessageDispatcher;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
+import edu.wpi.always.ttt.sgf.logic.*;
 import edu.wpi.sgf.comment.*;
 import edu.wpi.sgf.logic.*;
 import edu.wpi.sgf.scenario.*;
-import wpi.edu.always.ttt.sgf.logic.*;
 
 public class TTTClient implements TTTUI {
 
