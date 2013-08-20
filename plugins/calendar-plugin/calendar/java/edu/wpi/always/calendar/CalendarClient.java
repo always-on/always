@@ -69,8 +69,7 @@ public class CalendarClient implements CalendarUI {
             });
    }
 
-   private void show (CalendarUIListener listener) {
-      this.listener = listener;
+   public void show () {
       ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
             InstanceReuseMode.Reuse, null);
    }
@@ -78,7 +77,8 @@ public class CalendarClient implements CalendarUI {
    @Override
    public void showDay (LocalDate day, CalendarUIListener listener,
          boolean touchable) {
-      show(listener);
+      this.listener = listener;
+      show();
       String label = WEEK_DATE_FORMAT.print(day);
       DateMidnight dayInstant = CalendarUtils.toMidnight(day);
       Message m = Message.builder(MSG_CALENDAR_DISPLAY).add("type", "day")
@@ -90,7 +90,8 @@ public class CalendarClient implements CalendarUI {
    @Override
    public void showWeek (LocalDate startDay, CalendarUIListener listener,
          boolean touchable) {
-      show(listener);
+      this.listener = listener;
+      show();
       startDay = CalendarUtils.getFirstDayOfWeek(startDay);
       String weekLabel = WEEK_DATE_FORMAT.print(startDay) + " - "
          + WEEK_DATE_FORMAT.print(startDay.plusDays(6));
@@ -123,7 +124,8 @@ public class CalendarClient implements CalendarUI {
 
    @Override
    public void showMonth (LocalDate startDay, CalendarUIListener listener) {
-      show(listener);
+      this.listener = listener;
+      show();
       startDay = startDay.withDayOfMonth(1);
       int numWeeks = getWeeksInMonth(startDay);
       Message m = Message.builder(MSG_CALENDAR_DISPLAY).add("type", "month")

@@ -1,4 +1,4 @@
-package wpi.edu.always.ttt;
+package edu.wpi.always.ttt;
 
 import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;
@@ -18,4 +18,7 @@ public class TTTPlugin extends Plugin {
       Plugin.main(args, TTTPlugin.class, "PlayTicTacToe");
    }
 
+   public void show () {
+      container.getComponent(TTTClient.class).show();
+   }
 }

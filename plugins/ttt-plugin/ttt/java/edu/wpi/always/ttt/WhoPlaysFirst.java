@@ -1,4 +1,4 @@
-package wpi.edu.always.ttt;
+package edu.wpi.always.ttt;
 
 import java.util.List;
 import java.util.Random;
@@ -177,7 +177,9 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                   playerIdentifier);
             currentAgentComment = getContext().getTTTUI()
                   .getCurrentAgentComment() + 
-                  "<GAZE horizontal=\"-2\" vertical=\"-1\"/>";
+                  // TODO This should be abstracted but I couldn't figure
+                  // out the right logic to move it to TTTSchema -CR
+                  " <GAZE horizontal=\"-2\" vertical=\"-1\"/>";
             skipTo(new Limbo(getContext()));
          }
          else{

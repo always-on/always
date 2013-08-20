@@ -3,6 +3,7 @@ package edu.wpi.always.rummy;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import edu.wpi.always.client.*;
+import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.ActivitySchema;
@@ -25,6 +26,8 @@ public class RummyClient implements ClientPlugin {
    private static final String MSG_HUMAN_MOVE = "rummy.human_move";
    private static final String MSG_MOVE_HAPPENED = "rummy.move_happened";
    private static final String MSG_STATE_CHANGED = "rummy.state_changed";
+   private static final String PLUGIN_NAME = "rummy";
+   private final ClientProxy proxy;
    private final UIMessageDispatcher dispatcher;
    private final ConcurrentLinkedQueue<Message> inbox = new ConcurrentLinkedQueue<Message>();
    private TimeStampedValue<String> availableMove = null;
@@ -44,7 +47,8 @@ public class RummyClient implements ClientPlugin {
    private long waitingForUserSince; // millis or zero if not waiting
    private boolean yourTurn;  // last proposal (not done)
 
-   public RummyClient (UIMessageDispatcher dispatcher) {
+   public RummyClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
+      this.proxy = proxy;
       this.dispatcher = dispatcher;
       registerHandlerFor(MSG_AVAILABLE_ACTION);
       registerHandlerFor(MSG_MOVE_HAPPENED);
@@ -69,13 +73,13 @@ public class RummyClient implements ClientPlugin {
 
    @Override
    public void initInteraction () {
-      Message params = Message.builder("params").add("first_move", "agent")
-            .build();
-      Message m = Message.builder("start_plugin").add("name", "rummy")
-            .add(params).build();
-      sendToEngine(m);
+      JsonObject params = new JsonObject();
+      params.addProperty("first_move", "agent");
+      proxy.startPlugin(PLUGIN_NAME, InstanceReuseMode.Reuse, params);
    }
 
+   public void show () { proxy.showPlugin(PLUGIN_NAME); }
+   
    boolean gameOver () {
       return userWon != null;
    }
@@ -246,11 +250,6 @@ public class RummyClient implements ClientPlugin {
 	  // }
    }
 
-   @Override
-   public void endInteraction () {
-      Message m = Message.builder("stop_plugin").add("name", "rummy").build();
-      sendToEngine(m);
-   }
 
    @Override
    public void doAction (String actionName) { // ignoring actionName
@@ -261,4 +260,8 @@ public class RummyClient implements ClientPlugin {
    private void sendToEngine (Message m) {
       dispatcher.send(m);
    }
+
+   @Override
+   public void endInteraction () {}
+   
 }

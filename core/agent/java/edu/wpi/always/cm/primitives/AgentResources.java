@@ -69,7 +69,7 @@ public class AgentResources extends Resources {
       PrimitiveBehavior idle = super.getIdleBehavior(resource);
       return idle != null ? idle :
          resource == FACE_EXPRESSION ?  new FaceExpressionBehavior(AgentFaceExpression.Warm) :
-            resource == GAZE ?  new GazeBehavior(new Point(0, 0)) :
+            resource == GAZE ?  null :
                resource == IDLE ? new IdleBehavior(true) : 
                   resource == DISPLAY ? null : // *****
                   null;

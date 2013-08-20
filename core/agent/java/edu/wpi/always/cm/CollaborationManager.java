@@ -32,7 +32,7 @@ public class CollaborationManager extends DiscoRT {
    }
  
    public void start (Class<? extends Plugin> plugin, String activity) {
-      container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
+      container.as(Characteristics.CACHE).addComponent(DummyFacePerceptor.class);
       // FIXME Try to use real sensors
       container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
