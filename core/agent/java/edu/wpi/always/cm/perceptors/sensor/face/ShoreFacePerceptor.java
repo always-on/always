@@ -13,8 +13,20 @@ public class ShoreFacePerceptor implements FacePerceptor {
       return latest;
    }
 
+   public void FaceTrackingFlag()
+   {
+      //create file
+      
+      
+   }
+   public void ReetiFaceTracking()
+   {
+    //run executable
+   }
    @Override
    public void run () {
+      FaceTrackingFlag(); 
+      ReetiFaceTracking();    // determine Reeti/Agent/Both
       CPPinterface.FaceInfo info = shore.getFaceInfo(0);
       latest = new FacePerception(DateTime.now(), 
             info.intTop, info.intBottom, info.intLeft, info.intRight, info.intHappiness);

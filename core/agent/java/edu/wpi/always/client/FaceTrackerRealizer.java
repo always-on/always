@@ -45,14 +45,14 @@ public class FaceTrackerRealizer extends
             if( facefound == false )
             {
                //Assume it's a false face the first time a face is found
-               if(FalseFace == false) 
+               if( FalseFace == false) 
                {
                   FalseFaceTol =  System.currentTimeMillis();
                   FalseFace = true;
                }
                
                //Wait for two seconds grace time to determine whether or not it's a false face
-               if(System.currentTimeMillis() - FalseFaceTol >= FACE_TRACK_TIME_DAMPENING) 
+               if( System.currentTimeMillis() - FalseFaceTol >= FACE_TRACK_TIME_DAMPENING ) 
                {
                   facefound = true;
                   lastNewNext = System.currentTimeMillis();
@@ -61,14 +61,14 @@ public class FaceTrackerRealizer extends
                }
             }
             //If face found consecutive times, apply heuristics to track it
-            if ( ( facefound == true && Math.abs(left - this.lastLeft ) <= 50) && 
-                  (facefound == true && Math.abs(area - this.lastArea ) <= 2000) && 
-                  ( facefound == true && Math.abs(top - this.lastTop ) <= 30))  {
+            if ( ( facefound == true && Math.abs(left - this.lastLeft ) <= 50 ) && 
+                  ( facefound == true && Math.abs(area - this.lastArea ) <= 2000 ) && 
+                  ( facefound == true && Math.abs(top - this.lastTop ) <= 30 ))  {
                   // only send message if face has moved significantly
-                  if ( Math.abs(left - this.lastLeft) > 25 || Math.abs(top - this.lastTop) > 15 ) {
+                  if ( Math.abs( left - this.lastLeft ) > 25 || Math.abs( top - this.lastTop ) > 15 ) {
                      tracktime = System.currentTimeMillis();
                      proxy.gaze(hor, ver);
-                     this.lastLeft  = left; this.lastTop = top; this.lastArea = area;
+                     this.lastLeft = left; this.lastTop = top; this.lastArea = area;
                   }
             }
             //Face Lost for a long time due to false faces
@@ -80,7 +80,7 @@ public class FaceTrackerRealizer extends
             }
          }
          //If Face Not Found
-         else if(perception.getPoint()==null)
+         else if( perception.getPoint()==null )
          {
             facefound = false;
             FalseFace = false;
