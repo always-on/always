@@ -62,7 +62,11 @@ public class FaceTrackerRealizer extends
             }
             //If face found consecutive times, apply heuristics to track it
             if ( ( facefound == true && Math.abs(left - this.lastLeft ) <= 50 ) && 
+
                   ( facefound == true && Math.abs(area - this.lastArea ) <= 2000 ) && 
+
+                  (facefound == true && Math.abs(area - this.lastArea ) <= 2000 ) && 
+
                   ( facefound == true && Math.abs(top - this.lastTop ) <= 30 ))  {
                   // only send message if face has moved significantly
                   if ( Math.abs( left - this.lastLeft ) > 25 || Math.abs( top - this.lastTop ) > 15 ) {
