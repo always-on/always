@@ -56,7 +56,7 @@ public class TTTSchema extends ActivityStateMachineSchema {
          TTTClient.gazeUpLeft = false;
       }
       if ( TTTClient.nod ) {
-         // TODO fill me in later
+         // TODO fill me in later (When human plays, nod?)
          TTTClient.nod = false;
       }
 

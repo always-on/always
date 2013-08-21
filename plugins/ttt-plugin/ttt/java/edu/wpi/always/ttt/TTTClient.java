@@ -21,7 +21,7 @@ public class TTTClient implements TTTUI {
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;
 
-   private static final int AGENT_PLAY_DELAY_TIMEOUT = 4;
+   private static final int AGENT_PLAY_DELAY_AMOUNT = 4;
 
    public static boolean gazeLeft = false;
 
@@ -184,16 +184,6 @@ public class TTTClient implements TTTUI {
       if ( currentComment == null )
          currentComment = "";
 
-      // currentComment = null;
-      // Comment3 commentAsObj =
-      // oldCommentingManager.pickCommentOnOwnMove(
-      // gameState, scenarioManager.getCurrentActiveScenarios(),
-      // currentMove, AGENT_IDENTIFIER);
-      // if(commentAsObj != null)
-      // currentComment = commentAsObj.getContent();
-      // else
-      // currentComment = "";
-
    }
 
    // user commenting timer
@@ -223,7 +213,7 @@ public class TTTClient implements TTTUI {
    public void triggerAgentPlayTimer () {
       agentPlayDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(new AgentPlayDelayTimerSetter(),
-            1000 * AGENT_PLAY_DELAY_TIMEOUT);
+            1000 * AGENT_PLAY_DELAY_AMOUNT);
    }
 
    private class AgentPlayDelayTimerSetter extends TimerTask {
@@ -232,7 +222,7 @@ public class TTTClient implements TTTUI {
          listener.agentPlayDelayOver();
       }
    }
-
+   
    private void updateWinOrTie () {
 
       winOrTie = gameState.didAnyOneJustWin();
