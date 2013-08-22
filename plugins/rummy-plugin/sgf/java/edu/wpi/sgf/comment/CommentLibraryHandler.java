@@ -333,9 +333,9 @@ public class CommentLibraryHandler {
       if(!noCoveringForAnyGameSpecificComment)
          results.addAll(gameSpecificMaxCoverings.keySet());
       else if(!noCoveringForAnyGameTypeSpecificComment)
-         results.addAll(gameTypeSpecificCommentsTagCovering.keySet());
+         results.addAll(gameTypeSpecificMaxCoverings.keySet());
       else if(!noCoveringForAnyGenericComment)
-         results.addAll(genericCommentsTagCovering.keySet());*/
+         results.addAll(genericMaxCoverings.keySet());*/
 
       //sorting the generic map based on values by Guava
       //      Ordering<Comment> valueComparator = Ordering.natural()

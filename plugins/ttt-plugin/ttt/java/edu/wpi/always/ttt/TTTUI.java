@@ -17,6 +17,5 @@ public interface TTTUI {
    public void playAgentMove (TTTUIListener listener);
    public List<String> getCurrentHumanCommentOptionsForAMoveBy(int player);
    public void startPluginForTheFirstTime(TTTUIListener listener);
-   
 
 }

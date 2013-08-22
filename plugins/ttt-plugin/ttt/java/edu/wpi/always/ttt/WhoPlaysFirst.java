@@ -140,10 +140,10 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsForAMoveBy(AGENT_IDENTIFIER);
-         //if(new Random().nextBoolean())
+         if(new Random().nextBoolean())
             skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
-         //else
-         //   skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+         else
+            skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
       }
    }
 
@@ -162,7 +162,6 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                   playerIdentifier);
             currentAgentComment = 
                   getContext().getTTTUI().getCurrentAgentComment(); 
-            TTTClient.sayAgentCommentOnHumanMove = true;
             skipTo(new Limbo(getContext()));
          }
          else{
@@ -170,8 +169,8 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                   playerIdentifier);
             currentAgentComment = getContext().getTTTUI()
                   .getCurrentAgentComment();
-            //***limbo>agentComments>>CM?>>AgentPlayDelay>>Play>>CM 
-            //agentIsCommentingOnUserMove = true;
+            //***
+            //agentIsCommentingOnHumanMove = true;
             skipTo(new AgentPlayDelay(getContext()));
          }
       }
