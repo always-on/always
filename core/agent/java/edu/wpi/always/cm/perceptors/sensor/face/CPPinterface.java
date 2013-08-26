@@ -2,14 +2,16 @@ package edu.wpi.always.cm.perceptors.sensor.face;
 
 import java.util.*;
 import com.sun.jna.*;
+import com.sun.jna.ptr.PointerByReference;
+import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
 public interface CPPinterface extends Library {
 
    public class FaceInfo extends Structure implements Structure.ByValue {
 
-      public int intLeft, intRight, intTop, intBottom, intHappiness;
+      public int intLeft, intRight, intTop, intBottom, intHappiness, intArea, intCenter, intTiltCenter;
       private final static List<String> fieldOrder = Arrays.asList(
-         new String[]{"intLeft", "intRight", "intTop", "intBottom", "intHappiness"});
+         new String[]{"intLeft", "intRight", "intTop", "intBottom", "intHappiness", "intArea", "intCenter", "intTiltCenter"});
       
       @Override
       protected List<String> getFieldOrder () { return fieldOrder; }
@@ -31,4 +33,10 @@ public interface CPPinterface extends Library {
    void initProcess (int intDebug);
 
    void terminateProcess (int intDebug);
+
+   FaceInfo getFaceInfoReeti (int intDebug);
+
+   void initProcessReeti (String[] iP_ADDRESS, int intDebug);
+
+   void terminateProcessReeti (int intDebug);
 }

@@ -28,4 +28,10 @@ public class ClientMenuPerceptor implements MenuPerceptor, ClientProxyObserver {
    public void notifyMenuSelected (ClientProxy proxy, String text) {
       latest = new MenuPerception(text);
    }
+
+   @Override
+   public MenuPerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

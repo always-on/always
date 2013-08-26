@@ -32,4 +32,10 @@ public class AizulaSpeechPerceptor extends
       }
       return getLatest();
    }
+
+   @Override
+   public SpeechPerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

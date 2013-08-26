@@ -30,4 +30,10 @@ public class DummySpeechPerceptor implements SpeechPerceptor {
    @Override
    public void removePerceptorListener (
          AsyncPerceptorListener<SpeechPerception> listener) {}
+
+   @Override
+   public SpeechPerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

@@ -18,4 +18,10 @@ public class PIRMovementPerceptor implements MovementPerceptor {
       // note location is unknown
       latest = new MovementPerception(DateTime.now(), sensor.getState(), null);
    }
+
+   @Override
+   public MovementPerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

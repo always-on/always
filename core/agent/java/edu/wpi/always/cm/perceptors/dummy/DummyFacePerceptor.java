@@ -13,6 +13,12 @@ public class DummyFacePerceptor implements FacePerceptor {
 
    @Override
    public void run () {
-      latest = new FacePerception(0, 0, 0, 0, -1);
+      latest = new FacePerception(0, 0, 0, 0, -1, 0, 0, 0);
+   }
+
+   @Override
+   public FacePerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
    }
 }

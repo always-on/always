@@ -16,4 +16,10 @@ public class DummyMovementPerceptor implements MovementPerceptor {
       latest = new MovementPerception(false, null);
    }
 
+   @Override
+   public MovementPerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
 }

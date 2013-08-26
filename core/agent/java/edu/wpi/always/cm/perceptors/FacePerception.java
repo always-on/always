@@ -15,7 +15,7 @@ public class FacePerception extends Perception {
    private final int tiltcenter;
    private final int area;
 
-   public FacePerception (DateTime stamp, int top, int bottom, int left, int right, int happiness) {
+   public FacePerception (DateTime stamp, int top, int bottom, int left, int right, int happiness, int area, int center, int tiltcenter) {
       super(stamp);
       this.top = top;
       this.bottom = bottom;
@@ -23,15 +23,15 @@ public class FacePerception extends Perception {
       this.right = right;
       this.happiness = happiness;
      
-      this.area = (this.right-this.left)*(this.bottom-this.top);
+      this.area = area;
    	
-      this.center=(this.right-this.left)/2+this.left;
+      this.center = center;
    	
-   	this.tiltcenter=(this.bottom-this.top)/2+this.top;
+   	this.tiltcenter = tiltcenter;
    }
  
-   public FacePerception (int top, int bottom, int left, int right, int happiness) {
-      this(DateTime.now(), top, bottom, left, right, happiness);
+   public FacePerception (int top, int bottom, int left, int right, int happiness, int area, int center, int tiltcenter) {
+      this(DateTime.now(), top, bottom, left, right, happiness, area, center, tiltcenter);
    }
    
    /**
@@ -63,7 +63,11 @@ public class FacePerception extends Perception {
    public int getRight () { return right; }
    
    public int getArea () { return area; }
-
+   
+   public int getCenter () { return center; }
+   
+   public int getTiltCenter () { return tiltcenter; }
+   
    @Override
    public String toString () {
       return "FacePerception [happiness=" + happiness + ", bottom=" + bottom

@@ -49,4 +49,10 @@ public class LaunSpeechPerceptor extends JMSMessagePerceptor<SpeechPerception>
       }
       return getLatest();
    }
+
+   @Override
+   public SpeechPerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

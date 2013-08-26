@@ -16,4 +16,10 @@ public class DummyEngagementPerceptor implements EngagementPerceptor {
    @Override
    public void run () {}
 
+   @Override
+   public EngagementPerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
 }

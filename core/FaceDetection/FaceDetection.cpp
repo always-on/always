@@ -173,6 +173,7 @@ void initProcessReeti( char ** IP_ADDRESS, int intDebug ) {
 	}
 
 }
+
 extern "C" __declspec(dllexport)
 
 void terminateProcess( int intDebug ) {
@@ -337,7 +338,7 @@ FaceInfo getFaceInfoReeti( int intDebug )
 	Image image( FRAME_WIDTH,FRAME_HEIGHT,im );
 
 	//cout<<"\n Setting Engine \n";
-	content = engine->Process(  image.LeftTop(),
+	content = ReetiEngine->Process(  image.LeftTop(),
 								image.Width(),
 								image.Height(),
 								1,
@@ -397,6 +398,7 @@ FaceInfo getFaceInfoReeti( int intDebug )
 		faceInfo.intHappiness = -1;
 		faceInfo.intCenter = -1;
 		faceInfo.intTiltCenter = -1;
+		faceInfo.intArea = -1;
 	}
 	return faceInfo;
 }

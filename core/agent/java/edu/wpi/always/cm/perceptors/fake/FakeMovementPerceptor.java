@@ -48,4 +48,10 @@ public class FakeMovementPerceptor implements MovementPerceptor {
    public MovementPerception getLatest () {
       return latest;
    }
+
+   @Override
+   public MovementPerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

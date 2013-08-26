@@ -136,4 +136,10 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
          this.isNear = isNear;
       }
    }
+
+   @Override
+   public EngagementPerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }
