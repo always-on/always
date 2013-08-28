@@ -58,7 +58,6 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          setState(state.nextState(null));
          return Behavior.NULL;
       }
-      
       if ( state.prematureEnd() ) return nextState(null); // loop
       Behavior behavior = Behavior.NULL;
       MenuBehavior menuBehavior = hasChoicesForUser(state) ? 

@@ -1,8 +1,6 @@
 package edu.wpi.disco.rt.menu;
 
 import java.util.List;
-import edu.wpi.disco.rt.behavior.Behavior;
-import edu.wpi.disco.rt.behavior.SpeechBehavior;
 
 public interface AdjacencyPair {
 
