@@ -84,7 +84,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsForAMoveBy(HUMAN_IDENTIFIER);
-         if(true)
+         if(new Random().nextBoolean())
             skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
          else
             skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
@@ -133,7 +133,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsForAMoveBy(AGENT_IDENTIFIER);
-         if(true)
+         if(new Random().nextBoolean())
             skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
          else
             skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
