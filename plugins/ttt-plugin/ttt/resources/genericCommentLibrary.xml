@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<!--  THE TAGS SHOULD BE AS ABSTRACT AS POSSIBLE, "ESSENSE OF COMMENST" then we have to try to build comment situations on them by right set of values -->
+
+<comments>
+	<comment competition='F' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T' brag = 'T'>
+		Haha! Prepare to lose
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Bring it on
+	</comment>
+	<comment competition='F' compliment='T' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Wow, Nice one
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		I can win this
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'F'>
+		Humans are somewhat intelligent but robots are genius 
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'T' humanWon='F' agentWon='F' own = 'T' usr = 'F'>
+		I have Intel inside, you got Cheese burger
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Nobody beats me
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		My nickname is champion
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'F'>
+		Heard about robots? We are fast
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Seriously. Give up already
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'F'>
+		Robots reputation is on the line here
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Now get this
+	</comment>
+	<comment competition='F' compliment='F' regret='T' offensive = 'F' humanWon='T' agentWon='T' own = 'T' usr = 'T'>
+		Oops
+	</comment>
+	<comment competition='F' compliment='F' regret='T' offensive = 'F' humanWon='T' agentWon='T' own = 'T' usr = 'T'>
+		Say hello to champion
+	</comment>
+	<comment competition='F' compliment='F' regret='T' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T'>
+		Oops
+	</comment>
+	<comment competition='F' compliment='T' regret='F' offensive = 'F' humanWon='T' agentWon='F' own = 'T' usr = 'T'>
+		Good game! Nice win
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'T' humanWon='T' agentWon='F' own = 'T' usr = 'F'>
+		I let you win, Just kidding
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'T' humanWon='F' agentWon='T' own = 'T' usr = 'F'>
+		Wanna play again? I mean, lose again?
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'T' humanWon='F' agentWon='T' own = 'F' usr = 'T'>
+		You'll lose the next game
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='T' agentWon='F' own = 'F' usr = 'T'>
+		Haha! Told you
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='T' agentWon='F' own = 'F' usr = 'T'>
+		Wanna lose again?
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'T' humanWon='F' agentWon='T' own = 'T' usr = 'F'>
+		allow me to beat you again, haha
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T' tie='T'>
+		Good game
+	</comment>
+	<comment competition='T' compliment='F' regret='F' offensive = 'F' humanWon='F' agentWon='F' own = 'T' usr = 'T' tie='T'>
+		Nice tie, haha
+	</comment>
+	
+</comments>

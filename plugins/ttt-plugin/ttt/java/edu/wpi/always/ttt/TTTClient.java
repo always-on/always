@@ -21,19 +21,17 @@ public class TTTClient implements TTTUI {
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;
 
-   private static final int AGENT_PLAY_DELAY_TIMEOUT = 4;
+   private static final int AGENT_PLAY_DELAY_AMOUNT = 4;
 
-   public static boolean gazeLeft = false;
+   public static boolean gazeAtBoard = false;
 
-   public static boolean gazeBack = false;
+   public static boolean gazeAtUser = false;
 
-   public static boolean gazeUpLeft = false;
+   public static boolean gazeOnThinking = false;
 
    public static boolean nod = false;
 
    public static boolean gameOver = false;
-
-   public static boolean sayAgentCommentOnHumanMove = false;
 
    private static final int HUMAN_IDENTIFIER = 1;
 
@@ -68,6 +66,8 @@ public class TTTClient implements TTTUI {
    private Timer humanCommentingTimer;
 
    private Timer agentPlayDelayTimer;
+
+   private Timer nextStateTimer;
 
    private TTTAnnotatedLegalMove latestAgentMove;
 
@@ -167,7 +167,7 @@ public class TTTClient implements TTTUI {
    }
 
    @Override
-   public void getCurrentAgentCommentForAMoveBy (int player) {
+   public void prepareAgentCommentForAMoveBy (int player) {
 
       updateWinOrTie();
 
@@ -184,20 +184,10 @@ public class TTTClient implements TTTUI {
       if ( currentComment == null )
          currentComment = "";
 
-      // currentComment = null;
-      // Comment3 commentAsObj =
-      // oldCommentingManager.pickCommentOnOwnMove(
-      // gameState, scenarioManager.getCurrentActiveScenarios(),
-      // currentMove, AGENT_IDENTIFIER);
-      // if(commentAsObj != null)
-      // currentComment = commentAsObj.getContent();
-      // else
-      // currentComment = "";
-
    }
 
    // user commenting timer
-   // (used only in agent turn)
+   // (used only when agent turn)
    @Override
    public void triggerHumanCommentingTimer () {
       humanCommentingTimer = new Timer();
@@ -223,7 +213,7 @@ public class TTTClient implements TTTUI {
    public void triggerAgentPlayTimer () {
       agentPlayDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(new AgentPlayDelayTimerSetter(),
-            1000 * AGENT_PLAY_DELAY_TIMEOUT);
+            1000 * AGENT_PLAY_DELAY_AMOUNT);
    }
 
    private class AgentPlayDelayTimerSetter extends TimerTask {
@@ -232,7 +222,21 @@ public class TTTClient implements TTTUI {
          listener.agentPlayDelayOver();
       }
    }
-
+   
+   @Override
+   public void triggerNextStateTimer (
+         TTTUIListener listener) {
+      nextStateTimer = new Timer();
+      nextStateTimer.schedule(new testTimerSetter(),
+            4000);
+   }
+   private class testTimerSetter extends TimerTask {
+      @Override
+      public void run () {
+         listener.nextState();
+      }
+   }
+   
    private void updateWinOrTie () {
 
       winOrTie = gameState.didAnyOneJustWin();
