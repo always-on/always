@@ -19,7 +19,7 @@ implements TTTUIListener {
    public void skipTo (AdjacencyPair nextAdjacencyPair) {
       setNextState(nextAdjacencyPair);
    }
-
+   
    @Override
    public void humanPlayed() {
       afterLimbo();
@@ -37,5 +37,11 @@ implements TTTUIListener {
       afterAgentPlayDelay();
    }
    protected void afterAgentPlayDelay(){}
+   
+   @Override
+   public void nextState () {
+      goToNextState();      
+   }
+   public void goToNextState(){}
 
 }

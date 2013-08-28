@@ -1,6 +1,13 @@
 package edu.wpi.disco.rt.menu;
 
 import com.google.common.collect.Lists;
+import edu.wpi.disco.rt.behavior.Behavior;
+import edu.wpi.disco.rt.behavior.CompoundBehaviorWithConstraints;
+import edu.wpi.disco.rt.behavior.Constraint;
+import edu.wpi.disco.rt.behavior.Constraint.Type;
+import edu.wpi.disco.rt.behavior.SpeechBehavior;
+import edu.wpi.disco.rt.realizer.petri.SyncPoint;
+import edu.wpi.disco.rt.realizer.petri.SyncRef;
 import edu.wpi.disco.rt.util.NullArgumentException;
 import java.util.*;
 
@@ -30,7 +37,7 @@ public abstract class AdjacencyPairBase<C> implements AdjacencyPair {
          throw new NullArgumentException("choice");
       choices.put(choice, transition);
    }
-
+   
    @Override
    public String getMessage () {
       return message;

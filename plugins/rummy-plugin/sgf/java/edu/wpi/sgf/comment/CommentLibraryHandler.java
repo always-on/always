@@ -252,6 +252,7 @@ public class CommentLibraryHandler {
             new HashMap<Comment, Integer>();
       Map<Comment, Integer> gameTypeSpecificCommentsTagCovering = 
             new HashMap<Comment, Integer>();
+      @SuppressWarnings("unused")
       Map<Comment, Integer> sortedGameTypeSpecificCommentsTagCovering = 
             new HashMap<Comment, Integer>();
 
