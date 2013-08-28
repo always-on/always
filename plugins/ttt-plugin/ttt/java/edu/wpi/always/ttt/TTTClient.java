@@ -224,7 +224,8 @@ public class TTTClient implements TTTUI {
    }
    
    @Override
-   public void triggerNextStateTimer (TTTUIListener listener) {
+   public void triggerNextStateTimer (
+         TTTUIListener listener) {
       nextStateTimer = new Timer();
       nextStateTimer.schedule(new testTimerSetter(),
             4000);

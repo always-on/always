@@ -84,7 +84,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsForAMoveBy(HUMAN_IDENTIFIER);
-         if(new Random().nextBoolean())
+         if(true)
             skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
          else
             skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
@@ -107,7 +107,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                   .getCurrentAgentComment();
             skipTo(new gameOverDialogue(getContext()));
          }
-            TTTClient.gazeOnThinking = true;
+         TTTClient.gazeOnThinking = true;
          getContext().getTTTUI().makeBoardUnplayable();
          getContext().getTTTUI().updatePlugin(this);
          getContext().getTTTUI().triggerAgentPlayTimer();
@@ -133,7 +133,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsForAMoveBy(AGENT_IDENTIFIER);
-         if(new Random().nextBoolean())
+         if(true)
             skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
          else
             skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
@@ -150,27 +150,20 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       @Override 
       public void enter(){
          TTTClient.gazeAtUser = true;
-         if (playerIdentifier == AGENT_IDENTIFIER){
-            getContext().getTTTUI().prepareAgentCommentForAMoveBy(
-                  playerIdentifier);
-            currentAgentComment = 
-                  getContext().getTTTUI().getCurrentAgentComment(); 
-            skipTo(new Limbo(getContext()));
-         }
-         else{
-            getContext().getTTTUI().prepareAgentCommentForAMoveBy(
-                  playerIdentifier);
-            currentAgentComment = getContext().getTTTUI()
-                  .getCurrentAgentComment();
-            //** 
-            //skipTo(new AgentPlayDelay(getContext()));
-            getContext().getTTTUI().updatePlugin(this);
-            getContext().getTTTUI().triggerNextStateTimer(this);
-         }
+         getContext().getTTTUI().prepareAgentCommentForAMoveBy(
+               playerIdentifier);
+         currentAgentComment = getContext().getTTTUI()
+               .getCurrentAgentComment();
+         getContext().getTTTUI().updatePlugin(this);
+         getContext().getTTTUI().triggerNextStateTimer(this);
+         currentAgentComment = "";
       }
       @Override
       public void goToNextState () {
-         skipTo(new AgentPlayDelay(getContext()));
+         if(playerIdentifier == AGENT_IDENTIFIER)
+            skipTo(new Limbo(getContext()));
+         else
+            skipTo(new AgentPlayDelay(getContext()));
       }
    }
 
@@ -235,6 +228,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
             getContext().getTTTUI().makeBoardPlayable();
       }
    }
+   
    public static class gameOverDialogue extends TTTAdjacencyPairImpl {
       public gameOverDialogue(final TTTStateContext context){
          super("Game over. " + currentAgentComment, context);
@@ -270,6 +264,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          skipTo(new gameOver(getContext()));
       }
    }
+   
    public static class gameOver extends TTTAdjacencyPairImpl {
       public gameOver(final TTTStateContext context){
          super("Now do you want to play again?", context);
