@@ -62,7 +62,7 @@ namespace Agent.UI
                     //Put Reeti code here
                     break;
                 case "bookmark":
-                    //Put Reeti code here
+                    AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "end":
                     ActionDone(this,new ActionDoneEventArgs("speech",e.sourceUtterance));
@@ -123,7 +123,7 @@ namespace Agent.UI
 
         private void Perform(string xmlCommand)
         {
-            AgentTranslate.TranslateToReetiCommand(xmlCommand);
+            AgentTranslate.TranslateToReetiCommand("perform",xmlCommand);
             xmlMessage.LoadXml(xmlCommand);
             agent.perform(xmlMessage);
         }

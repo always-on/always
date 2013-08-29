@@ -24,7 +24,7 @@ namespace Agent.UI
         }
 
         // The port number for the remote device.
-        private const int port = 12012;
+        private const int port = 12111;
 
         // ManualResetEvent instances signal completion.
         private static ManualResetEvent connectDone =
