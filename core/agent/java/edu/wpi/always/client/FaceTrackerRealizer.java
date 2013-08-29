@@ -2,6 +2,7 @@ package edu.wpi.always.client;
 
 import java.awt.Point;
 import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.always.cm.perceptors.sensor.face.FaceDetection;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
 import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
 import edu.wpi.always.*;
@@ -13,6 +14,7 @@ public class FaceTrackerRealizer extends
    public static long FACE_TRACK_TIME_DAMPENING = 2000;
    private final ClientProxy proxy;
    private final FacePerceptor perceptor;
+   private final FaceDetection shore = new FaceDetection(0);
    
    //Agent
    private float lastLeft;
@@ -233,5 +235,10 @@ public class FaceTrackerRealizer extends
             }
          }
       }
+   }
+   @Override
+   public void shutdown()
+   {
+      shore.terminateFaceDetectionProcess(0);
    }
 }
