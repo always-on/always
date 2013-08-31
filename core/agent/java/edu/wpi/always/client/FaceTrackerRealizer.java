@@ -11,7 +11,7 @@ import edu.wpi.always.client.*;
 public class FaceTrackerRealizer extends
       PrimitiveRealizerBase<FaceTrackBehavior> {
 
-   public static long FACE_TRACK_TIME_DAMPENING = 2000;
+   public static long FACE_TRACK_TIME_DAMPENING = 1000;
    private final ClientProxy proxy;
    private final FacePerceptor perceptor;
    private final FaceDetection shore = new FaceDetection(0);
@@ -58,8 +58,8 @@ public class FaceTrackerRealizer extends
          double InputXPID = 0;
          double InputYPID = 0;
    
-         double OutputXPID = 50;  //Neutral X
-         double OutputYPID = 55.56;  //Neutral Y
+         double OutputXPID = 50;  //Neutral X from JSOn File
+         double OutputYPID = 55.56;  //Neutral Y from JSOn File
          
          FaceTrack = new FaceTrackPIDRealizer( InputXPID, OutputXPID, SetpointXPID, InputYPID, OutputYPID, SetpointYPID );
          
@@ -193,9 +193,7 @@ public class FaceTrackerRealizer extends
    
                      ( facefoundReeti == true && Math.abs(area - this.lastAreaReeti ) <= 1000 ) && 
    
-                     ( facefoundReeti == true && Math.abs(top - this.lastTopReeti ) <= 50 ))  {
-                 // if ( Math.abs( left - this.lastLeft ) > 10 || Math.abs( top - this.lastTop ) > 10 ) {
-                 
+                     ( facefoundReeti == true && Math.abs(top - this.lastTopReeti ) <= 50 ))  {                 
                      tracktimeReeti = System.currentTimeMillis();
                       //Track Face and Determine Command
                      String Message = FaceTrack.Track( XInputPID, YInputPID );  
