@@ -8,26 +8,45 @@ namespace Agent.UI
     class ReetiTranslation
     {
         private ReetiCommunication reeti = new ReetiCommunication();
-        private String Head_Nod = "Global.servo.HeadNod.play();";
-        private String Hor_Rotate = "Global.servo.neckRotat =";
-        private String Ver_Tilt = "Global.servo.neckTilt =";
-        private String Neutral_Position = "Global.servo.neutralPosition();";
-        private String Smile = "Global.servo.Happy.play();";
-        public void TranslateToReetiCommand(String task, String Command)
+        private const String HORIZONTAL = "horizontal";
+        private const String VERTICAL = "vertical";
+        private String Smooth = " smooth:";
+        private const String Head_Nod = "Global.servo.HeadNod.play();";
+        private const String Hor_Rotate = "Global.servo.neckRotat =";
+        private const String Ver_Tilt = "Global.servo.neckTilt =";
+        //private String Neutral_Position = "Global.servo.neutralPosition();";
+        private const String Smile = "Global.servo.Happy.play();";
+
+        private String ConstructMessage(double HorOutput, double VerOutput)
         {
-            if (Command.Contains("NOD") && task.Equals("perform"))
+            String cmd;
+            cmd = Hor_Rotate + HorOutput + Smooth + "1s" + ",";
+            cmd += Ver_Tilt;
+            cmd += VerOutput + Smooth + "1s" + ";";
+            return cmd;
+        }
+        private double findOutput(String HorOrVer, String cmd)
+        {
+            double output;
+            int start = 0;
+            int end = 0;
+            if (HorOrVer.Equals(HORIZONTAL))
             {
-                SendCommand(Head_Nod);
+                start = cmd.IndexOf(HORIZONTAL) + 12;
+                end = cmd.IndexOf(VERTICAL) - 2;
             }
-            if (Command.Contains("GAZE") && task.Equals("speech"))
+            else if (HorOrVer.Equals(VERTICAL))
             {
-                String command;
-                double output;
-               
-                command = Hor_Rotate;
-                int start = Command.IndexOf("horizontal") + 12;
-                int end = Command.IndexOf("vertical") - 2;
-                output = Convert.ToSingle(Command.Substring(start, end - start));
+                start = cmd.IndexOf(VERTICAL) + 10;
+                end = cmd.IndexOf("</bookmark>") - 1;
+            }
+            output = Convert.ToSingle(cmd.Substring(start, end - start));
+            return output;
+        }
+        private double mapOutput(String HorOrVer, double output)
+        {
+            if (HorOrVer.Equals(HORIZONTAL))
+            {
                 //Mirror the Agent 
                 if (output < 0)
                 {
@@ -39,13 +58,10 @@ namespace Agent.UI
                     output = (output * 25);
                 }
                 else
-                    output = 50;
-                command += output + ",";
-
-                command += Ver_Tilt;
-                start = Command.IndexOf("vertical") + 10;
-                end = Command.IndexOf("</bookmark>") - 1;
-                output = Convert.ToSingle(Command.Substring(start, end - start));
+                    output = 50;    //Insert from JSOn File
+            }
+            else if (HorOrVer.Equals(VERTICAL))
+            {
                 if (output < 0)
                 {
                     output *= -1;
@@ -56,8 +72,22 @@ namespace Agent.UI
                     output = (output * 25) + 50;
                 }
                 else
-                    output = 55.56;
-                command += output + ";";
+                    output = 55.56; //Insert from JSOn File
+            }
+            return output;
+        }
+        public void TranslateToReetiCommand(String task, String Command)
+        {
+            if (Command.Contains("NOD") && task.Equals("perform"))
+            {
+                SendCommand(Head_Nod);
+            }
+            if (Command.Contains("GAZE") && task.Equals("speech"))
+            {
+                double HorOutput = mapOutput(HORIZONTAL, findOutput(HORIZONTAL, Command));
+                double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
+
+                String command = ConstructMessage(HorOutput, VerOutput);
                 SendCommand(command);
             }
             if (Command.Contains("SMILE") && task.Equals("perform"))
