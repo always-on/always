@@ -1,9 +1,0 @@
-<scenarionames about="linkShAddedLater">
-
- <!-- This file is loaded at startup to allow registration all of the scenarios.
- -->
-
- <scenario name = "SDHScenario"></scenario>
- 
- 
- </scenarionames>

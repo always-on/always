@@ -32,7 +32,6 @@ namespace AgentApp
                     var allAvailableMovesBody = getPossibleMovesAsJson();
                     
                     //logging
-
                     //Console.WriteLine("------****-------");
                     //Console.WriteLine(allAvailableMovesBody.ToString());
                     //Console.WriteLine("------****-------");
@@ -43,7 +42,7 @@ namespace AgentApp
                     _remote.Send("rummy.available_action", body);
                    
                     //here, sending all the possible moves to Java
-                    //_remote.Send("rummy.available_moves", allAvailableMovesBody);
+                    _remote.Send("rummy.available_moves", allAvailableMovesBody);
                 };
 
                 game.GameState.StateChanged += (oldState, newState) =>
@@ -53,9 +52,9 @@ namespace AgentApp
 					body["old_tate"] = StateToSend(oldState);
 					body["user_cards"] = game.GameState.GetCards(GameShape.HumanPlayer).Count;
 					body["agent_cards"] = game.GameState.GetCards(GameShape.AgentPlayer).Count;
-					_remote.Send("rummy.state_changed", body); //delete? java side dependency?/
+					_remote.Send("rummy.state_changed", body); //delete? java side dependency?
 
-                    //_remote.Send("rummy.game_state", getGameStateAsJson());
+                    _remote.Send("rummy.game_state", getGameStateAsJson());
                 };
 
                 game.GameState.MoveHappened += m =>
@@ -67,7 +66,7 @@ namespace AgentApp
 
                     if (m.Player == Player.One) 
                     {
-                     //   _remote.Send("rummy.human_move", getHumanMoveAsJson(m));
+                        _remote.Send("rummy.human_move", getHumanMoveAsJson(m));
                     }
                 };
                 pluginContainer = new Viewbox();
@@ -77,15 +76,15 @@ namespace AgentApp
             _remote.RegisterReceiveHandler("rummy.best_move",
 				  new MessageHandlerDelegateWrapper(x => DoBestMove()));
 
-            //_remote.RegisterReceiveHandler("rummy.sgf_move",
-			//	  new MessageHandlerDelegateWrapper(x => DoSGFMove(x)));
+            _remote.RegisterReceiveHandler("rummy.agent_move",
+				  new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
 
         }
 		public void Dispose()
 		{
 			_remote.RemoveReceiveHandler("rummy.best_move");
 
-            //_remote.RemoveReceiveHandler("rummy.sgf_move");
+            _remote.RemoveReceiveHandler("rummy.agent_move");
 
 		}
 
@@ -150,7 +149,7 @@ namespace AgentApp
 			}
 		}
 
-        private void DoSGFMove(JObject msg)
+        private void PlayAgentMove(JObject msg)
         {
             Move selectedMvoe = null;
             LogUtils.LogWithTime("Doing SGF suggested move");
@@ -180,8 +179,8 @@ namespace AgentApp
                 }
                
             //else
-                //throw new System.InvalidOperationException(
-                //    "Received hashcode not found in the initially sent set of moves.");
+            //    throw new System.InvalidOperationException(
+            //        "Received hashcode not found in the initially sent set of moves.");
            
             
             Console.WriteLine("\n\n\n******received move: ");
@@ -217,7 +216,7 @@ namespace AgentApp
                     {
                         body.Add(new JProperty("layoff" + ++numOfLayoffs, new JObject(
                            new JProperty("card", ((LayOffMove)eachMove).GetCard().ToString()),
-                           new JProperty("meldcards`", ((LayOffMove)eachMove).Meld.CardsToString()))));
+                           new JProperty("meldcards", ((LayOffMove)eachMove).Meld.CardsToString()))));
                     }
                     else if (eachMove is MeldMove)
                     {
@@ -309,8 +308,6 @@ namespace AgentApp
                 body.Add(new JProperty("meld", new JObject(
                     new JProperty("meldcards", ((MeldMove)humanMove).Meld.CardsToString()))));
             }
-
-
             return body;
         }
 
