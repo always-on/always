@@ -1,4 +1,4 @@
-package edu.wpi.always.ttt.sgf.logic;
+package edu.wpi.always.ttt.logic;
 
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.logic.LegalMove;

@@ -33,7 +33,7 @@ public class CommentLibraryHandler {
       
       try {
          commentLibraryFile = new File(
-               Utils.toURL(CommentLibraryFilePath).toURI());
+               Utils.toURL("edu/wpi/sgf/resources/"+CommentLibraryFilePath).toURI());
       } catch (MalformedURLException|URISyntaxException e) {
          System.out.println(
                "Resource loading error in loading Comment Library."

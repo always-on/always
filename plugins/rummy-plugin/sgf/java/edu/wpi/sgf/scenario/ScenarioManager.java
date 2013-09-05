@@ -35,7 +35,7 @@ public class ScenarioManager {
 
    protected Scenario currentScneario;
 
-   //multiscen
+   //multiple scenario
    protected List<Scenario> activeScenarios;
 
    private static boolean importedByDirectCall;
@@ -116,7 +116,7 @@ public class ScenarioManager {
 
       try{
          AttributesFile = new File(
-               Utils.toURL(AttributesFileName).toURI());
+               Utils.toURL("edu/wpi/sgf/resources/"+AttributesFileName).toURI());
          BufferedReader bufferedReader = new BufferedReader(
                new FileReader(AttributesFile));
          GsonBridge gsonBridge = gson.fromJson(
@@ -271,6 +271,17 @@ public class ScenarioManager {
             e.printStackTrace();
          }
 
+      //      Reflections reflections = new Reflections("edu.wpi.sgf");    
+      //      Set<Class<? extends Scenario>> allScenarios = 
+      //            reflections.getSubTypesOf(Scenario.class);
+      //      for(Class<? extends Scenario> eachScenario : allScenarios){
+      //         try {
+      //            //to initialize
+      //            Class.forName(eachScenario.getName());
+      //         } catch (ClassNotFoundException e) {
+      //            e.printStackTrace();
+      //         }
+      //      }
    }
 
    private List<String> importScenarioNamesFromFile(){
@@ -281,7 +292,7 @@ public class ScenarioManager {
       File scenariosFile = null;
       try {
          scenariosFile = new File(
-               Utils.toURL(ScenarioNamesFile).toURI());
+               Utils.toURL("edu/wpi/sgf/resources/"+ScenarioNamesFile).toURI());
       } catch (MalformedURLException | URISyntaxException e) {
          System.out.println(
                "Resource loading error in loading Scenario names."
@@ -332,6 +343,14 @@ public class ScenarioManager {
       for(Scenario easchScenario : activeScenarios)
          easchScenario.tick();
 
+   }
+
+   //testing main
+   public static void main (String[] args) {
+      new ScenarioManager();
+      for(Class<? extends Scenario> each 
+            : Scenario.allScenarios.values())
+         System.out.println(each.getName());
    }
 
 }

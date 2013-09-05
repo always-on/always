@@ -46,7 +46,8 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
    //Limbo as waiting for user move
    public static class Limbo extends TTTAdjacencyPairImpl { 
       public Limbo(final TTTStateContext context){
-         super(currentAgentComment, context);
+         super("", context);
+         //super(currentAgentComment, context);
       }
       @Override
       public void enter() {
@@ -62,7 +63,9 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          }
          getContext().getTTTUI().makeBoardPlayable();
          getContext().getTTTUI().updatePlugin(this);
-         TTTClient.gazeAtBoard = true;
+         //TTTClient.gazeAtBoard = true;
+         //TTTClient.gazeDirection = "board";
+         TTTClient.gazeDirection = "board";
       }
       @Override
       public void afterLimbo() {
@@ -107,7 +110,8 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                   .getCurrentAgentComment();
             skipTo(new gameOverDialogue(getContext()));
          }
-         TTTClient.gazeOnThinking = true;
+         //TTTClient.gazeOnThinking = true;
+         TTTClient.gazeDirection = "thinking";
          getContext().getTTTUI().makeBoardUnplayable();
          getContext().getTTTUI().updatePlugin(this);
          getContext().getTTTUI().triggerAgentPlayTimer();
@@ -125,7 +129,8 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override
       public void enter(){
-         TTTClient.gazeAtBoard = true;
+         //TTTClient.gazeAtBoard = true;
+         TTTClient.gazeDirection = "board";
          getContext().getTTTUI().playAgentMove(this);
          getContext().getTTTUI().prepareAgentCommentForAMoveBy(
                AGENT_IDENTIFIER);
@@ -144,19 +149,19 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       int playerIdentifier;
       public AgentComments(final TTTStateContext context
             , final int playerIdentifier){
-         super(currentAgentComment, context);
+         //super(currentAgentComment, context);
+         super("", context);
          this.playerIdentifier = playerIdentifier;
       }
       @Override 
       public void enter(){
-         TTTClient.gazeAtUser = true;
          getContext().getTTTUI().prepareAgentCommentForAMoveBy(
                playerIdentifier);
          currentAgentComment = getContext().getTTTUI()
                .getCurrentAgentComment();
          getContext().getTTTUI().updatePlugin(this);
          getContext().getTTTUI().triggerNextStateTimer(this);
-         currentAgentComment = "";
+         TTTClient.gazeDirection = "sayandgaze";
       }
       @Override
       public void goToNextState () {
@@ -172,6 +177,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       public HumanComments(final TTTStateContext context
             , final int playerIdentifier){
          super("", context);
+         TTTClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!TTTClient.gameOver){
             for(String eachCommentOption : humanCommentOptions)
@@ -208,18 +214,22 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override 
       public void afterLimbo() {
-         TTTClient.gazeAtBoard = true;
+         //TTTClient.gazeAtBoard = true;
+         TTTClient.gazeDirection = "board";
          skipTo(new CreateCommentsAfterLimbo(getContext()));
       }
       @Override
       public void enter() {
+         TTTClient.gazeDirection = "useronce";
          if(TTTClient.gameOver){
             skipTo(new gameOverDialogue(getContext()));
-            TTTClient.gazeAtUser = true;
-            TTTClient.gazeAtBoard = true;
+            //TTTClient.gazeAtUser = true;
+            //TTTClient.gazeAtBoard = true;
+            TTTClient.gazeDirection = "board";
          }
          currentAgentComment = "";
-         TTTClient.gazeAtUser = true;
+         //         TTTClient.gazeAtUser = true;
+         //         TTTClient.gazeDirection = "user";
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsForAMoveBy(playerIdentifier);
          getContext().getTTTUI().updatePlugin(this);
@@ -228,10 +238,10 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
             getContext().getTTTUI().makeBoardPlayable();
       }
    }
-   
+
    public static class gameOverDialogue extends TTTAdjacencyPairImpl {
       public gameOverDialogue(final TTTStateContext context){
-         super("Game over. " + currentAgentComment, context);
+         super("", context);
          for(String eachCommentOption : humanCommentOptions)
             choice(eachCommentOption, new DialogStateTransition() {
                @Override
@@ -252,7 +262,8 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       @Override 
       public void enter(){
          currentAgentComment = "";
-         TTTClient.gazeAtUser = true;
+         //TTTClient.gazeAtUser = true;
+         TTTClient.gazeDirection = "sayandgazegameover";
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsForAMoveBy(HUMAN_IDENTIFIER);
          getContext().getTTTUI().makeBoardUnplayable();
@@ -264,7 +275,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          skipTo(new gameOver(getContext()));
       }
    }
-   
+
    public static class gameOver extends TTTAdjacencyPairImpl {
       public gameOver(final TTTStateContext context){
          super("Now do you want to play again?", context);
@@ -283,12 +294,17 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         currentAgentComment = "";
-         TTTClient.gazeAtUser = true;
+         TTTClient.gazeDirection = "";
+         //TTTClient.gazeAtUser = true;
+         //TTTClient.gazeDirection = "user";
          TTTClient.gameOver = true;
          getContext().getTTTUI().makeBoardUnplayable();
          getContext().getTTTUI().updatePlugin(this);
       }
+   }
+
+   public static String getCurrentAgentComment () {
+      return currentAgentComment;
    }
 
 }

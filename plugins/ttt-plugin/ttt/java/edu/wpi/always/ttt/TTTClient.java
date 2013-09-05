@@ -4,7 +4,7 @@ import java.util.*;
 import com.google.gson.JsonObject;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.client.*;
-import edu.wpi.always.ttt.sgf.logic.*;
+import edu.wpi.always.ttt.logic.*;
 import edu.wpi.sgf.comment.CommentingManager;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.scenario.*;
@@ -21,14 +21,14 @@ public class TTTClient implements TTTUI {
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;
 
-   private static final int AGENT_PLAY_DELAY_AMOUNT = 4;
+   private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
 
    public static boolean gazeAtBoard = false;
-
    public static boolean gazeAtUser = false;
-
    public static boolean gazeOnThinking = false;
 
+   public static String gazeDirection = "";
+   
    public static boolean nod = false;
 
    public static boolean gameOver = false;

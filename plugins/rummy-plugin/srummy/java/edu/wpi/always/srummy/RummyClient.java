@@ -5,29 +5,17 @@ import edu.wpi.always.client.*;
 import edu.wpi.always.cm.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.ActivitySchema;
-import edu.wpi.always.srummy.game.Card;
-import edu.wpi.always.srummy.game.DiscardMove;
-import edu.wpi.always.srummy.game.GameState;
-import edu.wpi.always.srummy.game.LayoffMove;
-import edu.wpi.always.srummy.game.Meld;
-import edu.wpi.always.srummy.game.MeldMove;
-import edu.wpi.always.srummy.game.Move;
-import edu.wpi.always.srummy.game.Player;
-import edu.wpi.always.srummy.sgf.logic.RummyLegalMoveAnnotator;
-import edu.wpi.always.srummy.sgf.logic.LegalMoveFetcher;
+import edu.wpi.always.srummy.game.*;
+import edu.wpi.always.srummy.sgf.logic.*;
 import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.util.TimeStampedValue;
-import edu.wpi.sgf.comment.Comment3;
-import edu.wpi.sgf.comment.CommentingManager3;
+import edu.wpi.sgf.comment.Comment;
+import edu.wpi.sgf.comment.CommentingManager;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
-import edu.wpi.sgf.scenario.MoveChooser;
-import edu.wpi.sgf.scenario.ScenarioFilter;
-import edu.wpi.sgf.scenario.ScenarioManager;
-
+import edu.wpi.sgf.scenario.*;
 import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -65,7 +53,7 @@ public class RummyClient implements ClientPlugin {
 	private ScenarioManager scenarioManager;
 	private ScenarioFilter scenarioFilter;
 	private MoveChooser moveChooser;
-	private CommentingManager3 commentingManager;
+	private CommentingManager commentingManager;
 	private GameState gameState;
 	private List<Move> humanPlayedMoves;
 	private int hashCodeOfTheSelectedMove;
@@ -98,7 +86,7 @@ public class RummyClient implements ClientPlugin {
 		moveFetcher = new LegalMoveFetcher();
 		moveAnnotator = new RummyLegalMoveAnnotator();
 		scenarioManager = new ScenarioManager();
-		commentingManager = new CommentingManager3();
+		commentingManager = new CommentingManager();
 		scenarioFilter = new ScenarioFilter();
 		moveChooser = new MoveChooser();
 		gameState = new GameState();
@@ -264,7 +252,7 @@ public class RummyClient implements ClientPlugin {
 				comment = processInbox2(m);
 			}
 			if( m.getType().equals(MSG_GAME_STATE) ) {
-				try {gameState.synchGame(m);
+				try {gameState.syncGameState(m);
 				} catch (Exception e) {e.printStackTrace();}
 			}
 			if( m.getType().equals(MSG_USER_MOVE) ) {
@@ -416,7 +404,7 @@ public class RummyClient implements ClientPlugin {
 		scenarioManager.tickAll();
 		
 		//make the comment on own move, based on annotations and scenario
-		Comment3 cm = null;
+		Comment cm = null;
 		cm = commentingManager
 				.pickCommentOnOwnMove(selectedMove);
 		if(cm != null)
