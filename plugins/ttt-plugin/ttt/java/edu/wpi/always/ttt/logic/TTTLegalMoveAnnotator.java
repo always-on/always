@@ -1,4 +1,4 @@
-package edu.wpi.always.ttt.sgf.logic;
+package edu.wpi.always.ttt.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;

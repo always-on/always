@@ -447,11 +447,11 @@ public class GameState extends GameLogicState {
 	}
 
 	/**
-	 * This method 'synchs' the state received from .Net
+	 * This method 'synchronizes' the state received from .Net
 	 * @see Javadoc for GameState
 	 * @throws Exception for not having the correct format in json
 	 */
-	public void synchGame(Message gameStateAsMessage) throws Exception{
+	public void syncGameState(Message gameStateAsMessage) throws Exception{
 
 		JsonObject gameStateJsonObj = 
 				gameStateAsMessage.getBody();
@@ -523,8 +523,8 @@ public class GameState extends GameLogicState {
 		playersMelds.put(Player.Agent, agentMeldsTemp);
 		playersMelds.put(Player.Human, humanMeldsTemp);
 		
-		stock.synch(stockCardsTemp, stockIndex); //get index in JSON (e.g. ... -- index)
-		discard.synch(discardCardsTemp, discardIndex); //get index
+		stock.sync(stockCardsTemp, stockIndex); //get index in JSON (e.g. ... -- index)
+		discard.sync(discardCardsTemp, discardIndex); //get index
 		
 	}
 
