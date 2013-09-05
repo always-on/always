@@ -28,7 +28,7 @@ public class FaceTrackerRealizer extends
    private boolean AgentSent;
    
    //Reeti
-   private FaceTrackPIDRealizer FaceTrack;
+   private ReetiPIDMessages FaceTrack;
    private JavaClient Client;
    private float lastLeftReeti;
    private float lastAreaReeti;
@@ -61,7 +61,7 @@ public class FaceTrackerRealizer extends
          double OutputXPID = 50;  //Neutral X from JSOn File
          double OutputYPID = 55.56;  //Neutral Y from JSOn File
          
-         FaceTrack = new FaceTrackPIDRealizer( InputXPID, OutputXPID, SetpointXPID, InputYPID, OutputYPID, SetpointYPID );
+         FaceTrack = new ReetiPIDMessages( InputXPID, OutputXPID, SetpointXPID, InputYPID, OutputYPID, SetpointYPID );
          
          Client = new JavaClient();
          
@@ -72,168 +72,181 @@ public class FaceTrackerRealizer extends
          AgentSent = false;
    }
    
-   @Override
-   public void run () {
-      //If Face Tracking for Agent or Both
-      if( Always.getAgentType() == Always.AgentType.Unity || Always.getAgentType() == Always.AgentType.Both )
-      {
-         FacePerception perception = perceptor.getLatest();
+ //If Face Tracking for Agent or Both
+   public void KarenFaceTracking()
+   {
+      FacePerception perception = perceptor.getLatest();
+      
+      if ( perception != null ) {
+         Point point = perception.getPoint();
          
-         if ( perception != null ) {
-            Point point = perception.getPoint();
+         //If Face exists in frame
+         if ( point != null ) {
+            //Determine Facial Parameters
+            float hor = GazeRealizer.translateToAgentTurnHor(point);
+            float ver = GazeRealizer.translateToAgentTurnVer(point);
+            float left = perception.getLeft();
+            float top = perception.getTop();
+            float area = perception.getArea();
             
-            //If Face exists in frame
-            if ( point != null ) {
-               //Determine Facial Parameters
-               float hor = GazeRealizer.translateToAgentTurnHor(point);
-               float ver = GazeRealizer.translateToAgentTurnVer(point);
-               float left = perception.getLeft();
-               float top = perception.getTop();
-               float area = perception.getArea();
-               
-               //If face was found for the first time
-               if( facefound == false )
+            //If face was found for the first time
+            if( facefound == false )
+            {
+               AgentSent = false;
+               //Assume it's a false face the first time a face is found
+               if( FalseFace == false) 
                {
-                  AgentSent = false;
-                  //Assume it's a false face the first time a face is found
-                  if( FalseFace == false) 
-                  {
-                     FalseFaceTol =  System.currentTimeMillis();
-                     FalseFace = true;
-                  }
-                  
-                  //Wait for two seconds grace time to determine whether or not it's a false face
-                  if( System.currentTimeMillis() - FalseFaceTol >= FACE_TRACK_TIME_DAMPENING ) 
-                  {
-                     facefound = true;
-                     lastNewNext = System.currentTimeMillis();
+                  FalseFaceTol =  System.currentTimeMillis();
+                  FalseFace = true;
+               }
+               
+               //Wait for two seconds grace time to determine whether or not it's a false face
+               if( System.currentTimeMillis() - FalseFaceTol >= FACE_TRACK_TIME_DAMPENING ) 
+               {
+                  facefound = true;
+                  lastNewNext = System.currentTimeMillis();
+                  proxy.gaze(hor, ver);
+                  this.lastLeft = left; this.lastTop = top; this.lastArea = area;
+               }
+            }
+            //If face found consecutive times, apply heuristics to track it
+            if ( ( facefound == true && Math.abs(left - this.lastLeft ) <= 50 ) && 
+
+                  ( facefound == true && Math.abs(area - this.lastArea ) <= 2000 ) && 
+
+                  ( facefound == true && Math.abs(top - this.lastTop ) <= 30 ))  {
+                  // only send message if face has moved significantly
+                  if ( Math.abs( left - this.lastLeft ) > 25 || Math.abs( top - this.lastTop ) > 15 ) {
+                     tracktime = System.currentTimeMillis();
                      proxy.gaze(hor, ver);
                      this.lastLeft = left; this.lastTop = top; this.lastArea = area;
                   }
-               }
-               //If face found consecutive times, apply heuristics to track it
-               if ( ( facefound == true && Math.abs(left - this.lastLeft ) <= 50 ) && 
-   
-                     ( facefound == true && Math.abs(area - this.lastArea ) <= 2000 ) && 
-   
-                     ( facefound == true && Math.abs(top - this.lastTop ) <= 30 ))  {
-                     // only send message if face has moved significantly
-                     if ( Math.abs( left - this.lastLeft ) > 25 || Math.abs( top - this.lastTop ) > 15 ) {
-                        tracktime = System.currentTimeMillis();
-                        proxy.gaze(hor, ver);
-                        this.lastLeft = left; this.lastTop = top; this.lastArea = area;
-                     }
-               }
-               //Face Lost for a long time due to false faces
-               else     
-               {
-                  if ( System.currentTimeMillis() - tracktime < FACE_TRACK_TIME_DAMPENING ) {
-                     facefound = false;
-                  }
-               }
             }
-            //If Face Not Found
-            else if( point == null )
+            //Face Lost for a long time due to false faces
+            else     
             {
-               facefound = false;
-               FalseFace = false;
-               if ( System.currentTimeMillis() - lastNewNext > FACE_TRACK_TIME_DAMPENING ) {
-                  if(AgentSent == false)
-                  {  proxy.gaze(0, 0);
-                     AgentSent = true;
-                  }
+               if ( System.currentTimeMillis() - tracktime < FACE_TRACK_TIME_DAMPENING ) {
+                  facefound = false;
                }
             }
-            fireDoneMessage(); 
          }
+         //If Face Not Found
+         else if( point == null )
+         {
+            facefound = false;
+            FalseFace = false;
+            if ( System.currentTimeMillis() - lastNewNext > FACE_TRACK_TIME_DAMPENING ) {
+               if(AgentSent == false)
+               {  proxy.gaze(0, 0);
+                  AgentSent = true;
+               }
+            }
+         }
+         fireDoneMessage(); 
       }
-      if( Always.getAgentType() == Always.AgentType.Reeti || Always.getAgentType() == Always.AgentType.Both )
-      {
-         FacePerception perception = perceptor.getReetiLatest();
-         
-         if ( perception != null ) {
-            Point point = perception.getPoint();
-            //If Face exists in frame
-            if ( point != null ) {
-               //Determine Facial Parameters
-               double XInputPID = perception.getCenter();
-               double YInputPID = perception.getTiltCenter();
-               float left = perception.getLeft();
-               float top = perception.getTop();
-               float area = perception.getArea();
-               
-               //If face was found for the first time
-               if( facefoundReeti == false )
+   }
+
+   //If Face Tracking for Reeti or Both
+   public void ReetiFaceTracking()
+   {
+      FacePerception perception = perceptor.getReetiLatest();
+      
+      if ( perception != null ) {
+         Point point = perception.getPoint();
+         //If Face exists in frame
+         if ( point != null ) {
+            //Determine Facial Parameters
+            double XInputPID = perception.getCenter();
+            double YInputPID = perception.getTiltCenter();
+            float left = perception.getLeft();
+            float top = perception.getTop();
+            float area = perception.getArea();
+            
+            //If face was found for the first time
+            if( facefoundReeti == false )
+            {
+               ReetiSent = false;
+               //Assume it's a false face the first time a face is found
+               if( FalseFaceReeti == false) 
                {
-                  ReetiSent = false;
-                  //Assume it's a false face the first time a face is found
-                  if( FalseFaceReeti == false) 
-                  {
-                     FalseFaceTolReeti =  System.currentTimeMillis();
-                     FalseFaceReeti = true;
-                  }
-               
-                  //Wait for two seconds grace time to determine whether or not it's a false face
-                  if( System.currentTimeMillis() - FalseFaceTolReeti >= FACE_TRACK_TIME_DAMPENING ) 
-                  {
-                     facefoundReeti = true;
-                     lastNewNextReeti = System.currentTimeMillis();
-                     //Track Face and Determine Command
-                     String Message = FaceTrack.Track( XInputPID, YInputPID);  
-                     
-                     //Send Command over Socket
-                     System.out.println(Message);
-                     Client.send(Message);
-                     this.lastLeftReeti = left; this.lastTopReeti = top; this.lastAreaReeti = area; this.lastMessage = Message;
-                  }
+                  FalseFaceTolReeti =  System.currentTimeMillis();
+                  FalseFaceReeti = true;
                }
-               
-               //If face found consecutive times, apply heuristics to track it
-               if ( ( facefoundReeti == true && Math.abs(left - this.lastLeftReeti ) <= 50) && 
-   
-                     ( facefoundReeti == true && Math.abs(area - this.lastAreaReeti ) <= 1000 ) && 
-   
-                     ( facefoundReeti == true && Math.abs(top - this.lastTopReeti ) <= 50 ))  {                 
-                     tracktimeReeti = System.currentTimeMillis();
-                      //Track Face and Determine Command
-                     String Message = FaceTrack.Track( XInputPID, YInputPID );  
-                     if( !this.lastMessage.equals(Message) )
-                     {
-                        Client.send(Message);
-                        //Send Command over Socket
-                        System.out.println(Message);
-                        this.lastLeftReeti = left; this.lastTopReeti = top; this.lastAreaReeti = area; this.lastMessage = Message;
-                     }
-                 // }
-               }
-               
-               //Face Lost for a long time due to false faces
-               else     
+            
+               //Wait for two seconds grace time to determine whether or not it's a false face
+               if( System.currentTimeMillis() - FalseFaceTolReeti >= FACE_TRACK_TIME_DAMPENING ) 
                {
-                  if ( System.currentTimeMillis() - tracktimeReeti < FACE_TRACK_TIME_DAMPENING ) {
-                     facefoundReeti = false;
-                  }
+                  facefoundReeti = true;
+                  lastNewNextReeti = System.currentTimeMillis();
+                  //Track Face and Determine Command
+                  String Message = FaceTrack.Track( XInputPID, YInputPID);  
+                  
+                  //Send Command over Socket
+                  System.out.println(Message);
+                  Client.send(Message);
+                  this.lastLeftReeti = left; this.lastTopReeti = top; this.lastAreaReeti = area; this.lastMessage = Message;
                }
             }
             
-            //If Face Not Found
-            else if( point == null )
-            {
-               facefoundReeti = false;
-               FalseFaceReeti = false;
-               if ( System.currentTimeMillis() - lastNewNextReeti > FACE_TRACK_TIME_DAMPENING ) {
-                  if(ReetiSent == false)
+            //If face found consecutive times, apply heuristics to track it
+            if ( ( facefoundReeti == true && Math.abs(left - this.lastLeftReeti ) <= 50) && 
+
+                  ( facefoundReeti == true && Math.abs(area - this.lastAreaReeti ) <= 1000 ) && 
+
+                  ( facefoundReeti == true && Math.abs(top - this.lastTopReeti ) <= 50 ))  {                 
+                  tracktimeReeti = System.currentTimeMillis();
+                   //Track Face and Determine Command
+                  String Message = FaceTrack.Track( XInputPID, YInputPID );  
+                  if( !this.lastMessage.equals(Message) )
                   {
-                     String Message = FaceTrack.Search();
                      Client.send(Message);
+                     //Send Command over Socket
                      System.out.println(Message);
-                     ReetiSent = true;
+                     this.lastLeftReeti = left; this.lastTopReeti = top; this.lastAreaReeti = area; this.lastMessage = Message;
                   }
+              // }
+            }
+            
+            //Face Lost for a long time due to false faces
+            else     
+            {
+               if ( System.currentTimeMillis() - tracktimeReeti < FACE_TRACK_TIME_DAMPENING ) {
+                  facefoundReeti = false;
+               }
+            }
+         }
+         
+         //If Face Not Found
+         else if( point == null )
+         {
+            facefoundReeti = false;
+            FalseFaceReeti = false;
+            if ( System.currentTimeMillis() - lastNewNextReeti > FACE_TRACK_TIME_DAMPENING ) {
+               if(ReetiSent == false)
+               {
+                  String Message = FaceTrack.Search();
+                  Client.send(Message);
+                  System.out.println(Message);
+                  ReetiSent = true;
                }
             }
          }
       }
    }
+   
+   @Override
+   public void run () {
+      
+      if( Always.getAgentType() == Always.AgentType.Unity || Always.getAgentType() == Always.AgentType.Both )
+      {
+         KarenFaceTracking();
+      }
+      if( Always.getAgentType() == Always.AgentType.Reeti || Always.getAgentType() == Always.AgentType.Both )
+      {
+         ReetiFaceTracking();
+      }
+   }
+   
    @Override
    public void shutdown()
    {

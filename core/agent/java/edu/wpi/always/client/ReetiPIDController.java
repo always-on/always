@@ -1,32 +1,35 @@
 package edu.wpi.always.client;
 
 
-public class PIDRealizer{
+public class ReetiPIDController{
    private double kp;                  // * (P)roportional Tuning Parameter
    private double ki;                  // * (I)ntegral Tuning Parameter
    private double kd;                  // * (D)erivative Tuning Parameter
    
-   int tol = 50;
+   int tol = 100;
    
    private double Input;              // * Pointers to the Input, Output, and Setpoint variables
    private double Output;             //   This creates a hard link between the variables and the 
    private double Setpoint;           //   PID, freeing the user from having to constantly tell us
                                   //   what these values are.  with pointers we'll just know.   
-   private double eyeOut=40;
+   private double eyeOut = 40;
    private long lastTime;
    private double ITerm, lastInput;
    private int SampleTime;
    
+   private boolean EyeFlag;
+   
    private double BigTolFactor,SmallTolFactor;
    
-   public PIDRealizer(double Input, double Output, double Setpoint, double Kp, double Ki, double Kd, double BigTolFactor, double SmallTolFactor)
+   public ReetiPIDController(double Input, double Output, double Setpoint, double Kp, double Ki, double Kd, double BigTolFactor, double SmallTolFactor)
    {
-      this.SampleTime = 500;
+      this.SampleTime = 250;
       this.lastTime = System.currentTimeMillis() - SampleTime;
       setOutput(Output);
       setInput(Input);
       setSetpoint(Setpoint);
       setEyeOut(40); 
+      setEyeFlag(false);
       this.kp = Kp;
       this.ki = Ki;
       this.kd = Kd;
@@ -37,60 +40,61 @@ public class PIDRealizer{
    {  
        long now = System.currentTimeMillis();
        long timeChange = (now - lastTime);
-       if(timeChange>=SampleTime)
+       if( timeChange >= SampleTime )
        {
             /*Compute all the working error variables*/
            double input = this.Input;
             double error = this.Setpoint - input;
-            if( Math.abs(error)>tol ) //Exceeds Tolerance
+            if( Math.abs(error) > tol ) //Exceeds Tolerance
             {  
-                  ITerm+= (this.ki * error);
+                  ITerm += (this.ki * error);
                   double dInput = (input - this.lastInput);
   
                   /*Compute PID Output*/
-                  double output =this.kp * error + ITerm- this.kd * dInput;
+                  double output = this.kp * error + ITerm - this.kd * dInput;
               
-                  output=output*this.BigTolFactor; 
+                  output = output * this.BigTolFactor; 
                
-                  if(error>0)   //my right
+                  if( error > 0 )   //my right
                   { 
-                   if(output>0)
-                      output=(output+this.Output);
+                   if( output > 0 )
+                      output = (output + this.Output);
                    else
-                     output=((output*(-1))+this.Output);
+                     output = ((output * (-1)) + this.Output);
                   }
                   else    //my left
                   {
-                     output = this.Output- (output*(-1));
+                     output = this.Output - (output * (-1));
                   } 
                   /* Ensure that the output will be received by the vex motor*/
-                  if(output > 100) output = 100;
-                  else if(output < 0) output = 0;
-                  setOutput(output);
+                  if( output > 100 ) output = 100;
+                  else if( output < 0 ) output = 0;
+                  setOutput( output );
+                  setEyeFlag(true);
                   setEyeOut(40);
             }
-            else if( Math.abs(error) <= tol && Math.abs(error) > 5)
+            else if( Math.abs(error) <= tol && Math.abs(error) > 5 )
             {
                ITerm += (this.ki * error);
                double dInput = (input - this.lastInput);
              
                /*Compute PID Output*/
-               double output = this.kp * error + ITerm- this.kd * dInput;
+               double output = this.kp * error + ITerm - this.kd * dInput;
               
                
                output=output * SmallTolFactor;
                
-               if(error>0) //my right
+               if(error > 0) //my right
                {  
-                  if(output>0)
+                  if(output > 0)
                      output = (output + getEyeOut());
                   else
-                     output = ((output*(-1)) + getEyeOut());
+                     output = ((output * (-1)) + getEyeOut());
                   
                }
                else  //my left
                {
-                   output = getEyeOut() - (output*(-1));
+                   output = getEyeOut() - (output * (-1));
                }  
                if( output > 60 )
                   output = 60;
@@ -106,6 +110,14 @@ public class PIDRealizer{
        {
            //  System.out.println("Time didn't change much");
        }
+   }
+   public void setEyeFlag(boolean flag)
+   {
+      EyeFlag = flag;
+   }
+   public boolean getEyeFlag()
+   {
+      return EyeFlag;
    }
    public void setInput(double myInput)
    {

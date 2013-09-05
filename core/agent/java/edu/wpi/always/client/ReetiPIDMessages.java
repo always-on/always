@@ -2,10 +2,18 @@ package edu.wpi.always.client;
 import edu.wpi.always.client.*;
 
 /*********************CLASS DEFINITION****************/
-public class FaceTrackPIDRealizer
+public class ReetiPIDMessages
 {
-   private PIDRealizer XPID;
-   private PIDRealizer YPID;
+   private ReetiPIDController XPID;
+   private ReetiPIDController YPID;
+   
+   /********CONSTRUCTOR**********/
+   public ReetiPIDMessages( double InXPID, double OutXPID, int SetXPID, double InYPID, double OutYPID,int SetYPID ) //: XPID( InXPID, OutXPID, SetXPID,0.03,0.00,0,6,7 ), YPID( InYPID, OutYPID, SetYPID,0.03,0,0,20,5.5 )  //0.03,0,0,12,5.5 //neck xpid //0.03,0.00,0,3,7 //4.5
+   {
+      XPID = new ReetiPIDController( InXPID, OutXPID, SetXPID,0.03,0.00,0,7,2 );
+      YPID = new ReetiPIDController( InYPID, OutYPID, SetYPID,0.03,0,0,20,3 );
+   //   SearchCount = -1;
+   };
    
    /*********SEARCH COUNT VARIABLE***********/
    //private int SearchCount;
@@ -77,6 +85,10 @@ public class FaceTrackPIDRealizer
       Message += "," ;        
       Message += "Global.servo.leftEyePan=";    //Move leftEye
       Message += XeyeLOut;
+      if(XPID.getEyeFlag())
+      {
+         Message += "smooth: 1s";
+      }
       Message += ",Global.servo.rightEyePan=" ;    //Move rightEye
       Message += XeyeROut ;
       if(alone)
@@ -121,13 +133,7 @@ public class FaceTrackPIDRealizer
       }
       return Message;
    }
-   /********CONSTRUCTOR**********/
-   public FaceTrackPIDRealizer( double InXPID, double OutXPID, int SetXPID, double InYPID, double OutYPID,int SetYPID ) //: XPID( InXPID, OutXPID, SetXPID,0.03,0.00,0,6,7 ), YPID( InYPID, OutYPID, SetYPID,0.03,0,0,20,5.5 )  //0.03,0,0,12,5.5 //neck xpid //0.03,0.00,0,3,7 //4.5
-   {
-      XPID = new PIDRealizer( InXPID, OutXPID, SetXPID,0.03,0.00,0,2,2 );
-      YPID = new PIDRealizer( InYPID, OutYPID, SetYPID,0.03,0,0,20,3 );
-   //   SearchCount = -1;
-   };
+ 
    
    public String Track( double center, char XorY )
    {
