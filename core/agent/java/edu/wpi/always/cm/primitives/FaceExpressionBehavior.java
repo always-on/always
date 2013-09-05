@@ -14,7 +14,9 @@ public class FaceExpressionBehavior extends PrimitiveBehavior {
 
    @Override
    public Resource getResource () {
-      return AgentResources.FACE_EXPRESSION;
+      // prevent trying to nod and track face at same time
+      return expression == AgentFaceExpression.Nod ?
+         AgentResources.GAZE : AgentResources.FACE_EXPRESSION;
    }
 
    public AgentFaceExpression getExpression () {
