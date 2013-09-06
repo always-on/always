@@ -1,8 +1,6 @@
 package edu.wpi.always.ttt;
 
 import java.awt.Point;
-import java.util.Arrays;
-import com.google.common.collect.Lists;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.SyncSayBuilder;
 import edu.wpi.always.cm.primitives.GazeBehavior;
