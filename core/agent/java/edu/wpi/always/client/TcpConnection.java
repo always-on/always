@@ -52,7 +52,7 @@ public class TcpConnection implements RemoteConnection {
             }
          });
       } catch (ConnectException e) { 
-         System.err.println(e.getMessage()+" to "+hostname+" "+port+" (retrying)"); 
+         System.err.println(e+" to "+hostname+" "+port+" (retrying)"); 
          try { Thread.sleep(3000);  } catch (InterruptedException i) {}
          connect();
       }
