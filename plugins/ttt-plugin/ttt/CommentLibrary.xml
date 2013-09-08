@@ -59,7 +59,7 @@
 			Robots reputation is on the line here
 		</comment>
 		<comment strength='0.6' competitiveness = '0.8' tags="offense" gameType="generic" madeOn="agent">
-			Now get this
+			Now take this
 		</comment>
 		<comment strength='0.1' competitiveness='0.1' tags="regret" gameType="generic" madeOn="both">
 			Oops

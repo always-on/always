@@ -33,6 +33,7 @@ public abstract class Plugin {
    protected final String name;
    protected final UserModel userModel;
    protected final CollaborationManager cm;
+   protected final MutablePicoContainer container;
    private final Interaction interaction;
    
    /**
@@ -42,7 +43,7 @@ public abstract class Plugin {
       this.name = name;
       this.userModel = userModel;
       this.cm = cm;
-      MutablePicoContainer container = cm.getContainer();      
+      container = cm.getContainer();      
       interaction = container.getComponent(Interaction.class);
       InputStream stream = getClass().getResourceAsStream("resources/"+name+".owl");
       if ( stream != null ) {
@@ -74,6 +75,11 @@ public abstract class Plugin {
       always.start();
       return always;
    }
+   
+   /**
+    * Show the related UI plugin, if any
+    */
+   public void show () {}
    
    /**
     * Get user property associated with this plugin.  Property is stored

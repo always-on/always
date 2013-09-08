@@ -1,13 +1,9 @@
-package wpi.edu.always.ttt;
+package edu.wpi.always.ttt;
 
 import java.awt.Point;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
-import edu.wpi.always.ttt.TTTClient;
-import edu.wpi.always.ttt.TTTStateContext;
-import edu.wpi.always.ttt.TTTUI;
-import edu.wpi.always.ttt.WhoPlaysFirst;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;

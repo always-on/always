@@ -9,6 +9,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 
 public class ClientProxy {
 
@@ -110,5 +111,17 @@ public class ClientProxy {
       HashMap<String, String> p = Maps.newHashMap();
       p.put("enabled", enable ? "true" : "false");
       enqueue("idle", p);
+   }
+   
+   public void startPlugin (String pluginName, InstanceReuseMode mode, JsonObject params) {
+      ClientPluginUtils.startPlugin(dispatcher, pluginName, mode, params);
+   }
+   
+   public void showPlugin (String pluginName) { 
+      ClientPluginUtils.showPlugin(dispatcher, pluginName);
+   }
+
+   public void hidePlugin () { 
+      ClientPluginUtils.hidePlugin(dispatcher);
    }
 }

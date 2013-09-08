@@ -18,4 +18,8 @@ public class RummyPlugin extends Plugin {
       Plugin.main(args, RummyPlugin.class, "PlayRummy");
    }
   
+   @Override
+   public void show () {
+      container.getComponent(RummyClient.class).show();
+   }
 }

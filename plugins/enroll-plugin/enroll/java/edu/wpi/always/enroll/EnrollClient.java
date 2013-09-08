@@ -94,6 +94,6 @@ public class EnrollClient implements EnrollUI {
 
    @Override
    public void hideEnrollUI () {
-      ClientPluginUtils.closePlugin(dispatcher);
+      ClientPluginUtils.hidePlugin(dispatcher);
    }
 }
