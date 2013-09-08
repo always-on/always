@@ -1228,6 +1228,7 @@
       famFriend = familyFriendsList[$plan.getParent().getRepeatStep()]; 
       print("famFriend =" + famFriend);
       statusFamFriend = famFriend.getAboutComment();
+      print("status =" + statusFamFriend);
       statusType = famFriend.getAboutStatus();
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
