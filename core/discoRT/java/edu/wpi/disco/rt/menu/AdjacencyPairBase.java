@@ -30,7 +30,7 @@ public abstract class AdjacencyPairBase<C> implements AdjacencyPair {
          throw new NullArgumentException("choice");
       choices.put(choice, transition);
    }
-
+   
    @Override
    public String getMessage () {
       return message;
