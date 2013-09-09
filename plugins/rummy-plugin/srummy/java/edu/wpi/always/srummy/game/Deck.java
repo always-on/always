@@ -145,7 +145,7 @@ public class Deck {
 		
 	}
 	
-	public void synch(List<Card> newCardsList, int newIndex){
+	public void sync(List<Card> newCardsList, int newIndex){
 		
 		removeAll();
 		deck.addAll(newCardsList);

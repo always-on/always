@@ -1,4 +1,4 @@
-package edu.wpi.always.ttt.sgf.logic;
+package edu.wpi.always.ttt.logic;
 
 import java.util.*;
 import edu.wpi.sgf.logic.GameLogicState;
@@ -102,7 +102,7 @@ public class TTTGameState extends GameLogicState{
       }
       
       //win opportunity blocked
-      //>> check horizontal
+      //>> Check horizontal
       for(int i = 0; i < 9; i += 3){
          if(lastBoardState[i] == lastBoardState[i + 1] 
                && lastBoardState[i] != 0 
