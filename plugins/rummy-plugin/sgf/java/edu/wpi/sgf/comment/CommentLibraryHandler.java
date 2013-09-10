@@ -17,39 +17,45 @@ import edu.wpi.cetask.Utils;
  */
 public class CommentLibraryHandler {
 
+
    private final static String CommentLibraryFilePath =
          "CommentLibrary.xml";
    private File commentLibraryFile;
+
 
    private List<Comment> agentComments = 
          new ArrayList<Comment>();
    private List<Comment> humanComments = 
          new ArrayList<Comment>();
 
+
    public CommentLibraryHandler(){
 
+
       SAXBuilder builder = new SAXBuilder();
-//      File commentLibraryFile = new File(CommentLibraryFilePath);
-      
+      //      File commentLibraryFile = new File(CommentLibraryFilePath);
+
       try {
          commentLibraryFile = new File(
                Utils.toURL("edu/wpi/sgf/resources/"+CommentLibraryFilePath).toURI());
       } catch (MalformedURLException|URISyntaxException e) {
          System.out.println(
                "Resource loading error in loading Comment Library."
-               + "The .xml file(s) should be in sgf/resources "
-               + "which should be in the sgf classpath (exported)");
+                     + "The .xml file(s) should be in sgf/resources "
+                     + "which should be in the sgf classpath (exported)");
          e.printStackTrace();
       }
-      
+
       try{
          Document xmldoc = (Document) builder.build(commentLibraryFile);
          Element rootNode = xmldoc.getRootElement();
+
 
          List<Element> retrievedAgentComments = 
                rootNode.getChild("agent").getChildren("comment");
          List<Element> retrievedHumanComments = 
                rootNode.getChild("human").getChildren("comment");        
+
 
          parseComments("agent", retrievedAgentComments);
          parseComments("human", retrievedHumanComments);
@@ -62,7 +68,9 @@ public class CommentLibraryHandler {
          e.printStackTrace();
       }
 
+
    }
+
 
    /**
     * Parses the comments for any given player and puts them in
@@ -254,7 +262,7 @@ public class CommentLibraryHandler {
             new HashMap<Comment, Integer>();
       @SuppressWarnings("unused")
       Map<Comment, Integer> sortedGameTypeSpecificCommentsTagCovering = 
-            new HashMap<Comment, Integer>();
+      new HashMap<Comment, Integer>();
 
       List<Comment> results = new ArrayList<Comment>();
 
@@ -283,9 +291,9 @@ public class CommentLibraryHandler {
 
          genericCovering = gameSpecificCovering = 0;
       }
-/*
+      /*
       //refining
-      
+
       Map<Comment, Integer> genericMaxCoverings = 
             new HashMap<Comment, Integer>();
       Map<Comment, Integer> gameSpecificMaxCoverings = 
@@ -298,7 +306,7 @@ public class CommentLibraryHandler {
       boolean noCoveringForAnyGenericComment = false,
       noCoveringForAnyGameSpecificComment = false,
       noCoveringForAnyGameTypeSpecificComment = false;
-      
+
       //getting maxCovering values
       genericMaxCover = Collections.max(
             genericCommentsTagCovering.values());
@@ -306,6 +314,7 @@ public class CommentLibraryHandler {
             gameSpecificCommentsTagCovering.values());
       gameTypeSpecificMaxCover = Collections.max(
             gameTypeSpecificCommentsTagCovering.values());
+
 
       //getting max covering comments
       if(genericMaxCover != 0){
@@ -329,14 +338,15 @@ public class CommentLibraryHandler {
                gameTypeSpecificMaxCoverings.put(
                      each.getKey(), each.getValue());
       }else{noCoveringForAnyGameTypeSpecificComment = true;}
-      
-      
+
+
       if(!noCoveringForAnyGameSpecificComment)
          results.addAll(gameSpecificMaxCoverings.keySet());
       else if(!noCoveringForAnyGameTypeSpecificComment)
          results.addAll(gameTypeSpecificMaxCoverings.keySet());
       else if(!noCoveringForAnyGenericComment)
          results.addAll(genericMaxCoverings.keySet());*/
+
 
       //sorting the generic map based on values by Guava
       //      Ordering<Comment> valueComparator = Ordering.natural()
@@ -345,6 +355,7 @@ public class CommentLibraryHandler {
       //      sortedGenericCommentsTagCovering = 
       //            ImmutableSortedMap.copyOf(
       //                  genericCommentsTagCovering, valueComparator);
+
 
       sortedGenericCommentsTagCovering.putAll(genericCommentsTagCovering);//temp
       //sorting the game specific comments' map too
@@ -399,6 +410,7 @@ public class CommentLibraryHandler {
 
    }
 
+
    public List<String> getContentsOfTheseComments(List<Comment> someComments){
       List<String> contents = new ArrayList<String>();
       for(Comment eachComment: someComments)
@@ -434,3 +446,4 @@ public class CommentLibraryHandler {
    }
 
 }
+

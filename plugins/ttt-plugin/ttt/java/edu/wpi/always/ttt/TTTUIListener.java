@@ -6,5 +6,6 @@ public interface TTTUIListener {
    public void humanCommentTimeOut();
    public void agentPlayDelayOver();
    public void nextState();
+   public void agentPlayingGazeDelayOver ();
 
 }
