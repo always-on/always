@@ -33,7 +33,7 @@
     var famFriendName;
     var famFriendRelationship;
     var user = $always.getUserModel().getPeopleManager().getUser();
-    var userName = user.getName();
+    var userName = $always.getUserModel().getUserFirstName();
     print ("the user's name is =" + userName);
     var pronounObj = "her";
     var pronounSubj = "she";
@@ -87,8 +87,10 @@
       statusType = famFriend.getAboutStatus();
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
-      famFriendRelationship = famFriend.getRelationship();
+      famFriendRelationship = 
+          (famFriend.getRelationship() == null ? " ": "your" + famFriend.getRelationship() );
       previousTalk = famFriend.isAboutMentioned();
+      print("previous talk about =" + previousTalk);
       if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"} 
       else  {pronounObj = "her"; pronounSubj = "she"}; 
     </t:script>
@@ -101,15 +103,15 @@
     </t:subtasks>
     <t:subtasks id="pasttalk">
       <t:step name="update" task="_MoreAboutX"/>
-      <t:applicable> previousTalk &amp;&amp; statusType=="positive" </t:applicable>  
+      <t:applicable> previousTalk &amp;&amp; statusType=="Positive" </t:applicable>  
     </t:subtasks>
     <t:subtasks id="pastneg">
       <t:step name="talk" task="_BetterYet"/>
-      <t:applicable> previousTalk &amp;&amp; statusType=="negative" </t:applicable>  
+      <t:applicable> ! (previousTalk==null) &amp;&amp; statusType=="Negative" </t:applicable>  
     </t:subtasks> 
   </t:task>
 
-  <agent id="_MoreAboutX" text="Last time we talked about your {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
+  <agent id="_MoreAboutX" text="Last time we talked about {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was going on vacation'">
       <agent text="so how did it go?" 
 	     eval="reset(famFriend);" >
@@ -195,7 +197,7 @@
     </user>
   </agent>
 
-  <agent id="_BetterYet" text="Last time we talked about your {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
+  <agent id="_BetterYet" text="Last time we talked about {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was ill'">
       <agent text="Is {pronounSubj} recovering?" >
 	<user text="Yes, pretty well">
@@ -281,7 +283,7 @@
   </agent>
    
   <agent id="_HowIsXDoing"
-	 text=" {userName} , How is your {famFriendRelationship} {famFriendName} doing?" >
+	 text=" {userName} , How is {famFriendRelationship} {famFriendName} doing?" >
     <user text="I don't want to talk about {pronounObj} today">
       <agent text="okay." />
     </user>
@@ -298,7 +300,7 @@
 	  <!-- UM GETS "had a new grandchild" for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="oh that's great for {pronounObj}" >
-	    <user text="Yes, she's very excited" >
+	    <user text="Yes, {pronounSubj}'s very excited" >
 	      <agent text="uh-huh.  I can understand." />
 	    </user>
 	    <user text="Yes, {pronounSubj} has a lot of grandchildren" >
@@ -374,7 +376,7 @@
 
 
   <agent id="NotGoingWell" text="oh, what's wrong?">
-    <user text=" {pronounSubj} is ill | {famFriendName} is ill" 
+    <user text=" {pronounSubj} is ill" 
 	  eval="famFriend.setAboutMentioned(true); 
 		negative(famFriend);
 		famFriend.setAboutComment('was ill');">
@@ -476,7 +478,7 @@
 	        <!-- <eval set previousTalk in UM to negative> -->
 	  <agent text="I see.  You could give {pronounObj} a call or talk to {pronounObj} by SKYPE">
 	    <user text="Yes, I think I will">
-	      <agent text="I'll remember for next time we talk" />
+	      <agent text="good thing to do" />
 	    </user>
 	    <user text="No not today" />
 	    <user text="I just talked to {pronounObj}"/>

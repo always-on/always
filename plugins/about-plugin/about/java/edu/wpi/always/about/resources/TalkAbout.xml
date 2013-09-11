@@ -7,7 +7,7 @@
          <step name="__MoreAboutX_step" task="disco:Say$Expression"/>
          <step name="__MoreAboutX_ref" task="__MoreAboutX_tree"/>
          <binding slot="$__MoreAboutX_step.text"
-                  value="&#34;\&#34;Last time we talked about your \&#34;+(famFriendRelationship)+\&#34; \&#34;+(famFriendName)+\&#34;, I remember that \&#34;+(pronounSubj)+\&#34; \&#34;+(statusFamFriend)&#34;"/>
+                  value="&#34;\&#34;Last time we talked about \&#34;+(famFriendRelationship)+\&#34; \&#34;+(famFriendName)+\&#34;, I remember that \&#34;+(pronounSubj)+\&#34; \&#34;+(statusFamFriend)&#34;"/>
          <binding slot="$__MoreAboutX_step.external" value="false"/>
       </subtasks>
    </task>
@@ -16,7 +16,7 @@
          <step name="__BetterYet_step" task="disco:Say$Expression"/>
          <step name="__BetterYet_ref" task="__BetterYet_tree"/>
          <binding slot="$__BetterYet_step.text"
-                  value="&#34;\&#34;Last time we talked about your \&#34;+(famFriendRelationship)+\&#34; \&#34;+(famFriendName)+\&#34;, I remember that \&#34;+(pronounSubj)+\&#34; \&#34;+(statusFamFriend)&#34;"/>
+                  value="&#34;\&#34;Last time we talked about \&#34;+(famFriendRelationship)+\&#34; \&#34;+(famFriendName)+\&#34;, I remember that \&#34;+(pronounSubj)+\&#34; \&#34;+(statusFamFriend)&#34;"/>
          <binding slot="$__BetterYet_step.external" value="false"/>
       </subtasks>
    </task>
@@ -25,7 +25,7 @@
          <step name="__HowIsXDoing_step" task="disco:Say$Expression"/>
          <step name="__HowIsXDoing_ref" task="__HowIsXDoing_tree"/>
          <binding slot="$__HowIsXDoing_step.text"
-                  value="&#34;\&#34; \&#34;+(userName)+\&#34; , How is your \&#34;+(famFriendRelationship)+\&#34; \&#34;+(famFriendName)+\&#34; doing?\&#34;&#34;"/>
+                  value="&#34;\&#34; \&#34;+(userName)+\&#34; , How is \&#34;+(famFriendRelationship)+\&#34; \&#34;+(famFriendName)+\&#34; doing?\&#34;&#34;"/>
          <binding slot="$__HowIsXDoing_step.external" value="false"/>
       </subtasks>
    </task>
@@ -658,9 +658,9 @@
    </task>
    <task id="_d4e152_tree">
       <subtasks id="_d4e153_subtasks">
-         <step name="_d4e153_step" task="disco:Say"/>
+         <step name="_d4e153_step" task="disco:Say$Expression"/>
          <step name="_d4e154_step" task="disco:Say"/>
-         <binding slot="$_d4e153_step.text" value="&#34;Yes, she's very excited&#34;"/>
+         <binding slot="$_d4e153_step.text" value="&#34;\&#34;Yes, \&#34;+(pronounSubj)+\&#34;'s very excited\&#34;&#34;"/>
          <binding slot="$_d4e153_step.external" value="true"/>
          <binding slot="$_d4e154_step.text" value="&#34;uh-huh.  I can understand.&#34;"/>
          <binding slot="$_d4e154_step.external" value="false"/>
@@ -753,8 +753,7 @@
          <step name="_d4e190_step" task="disco:Say$Expression$Eval"/>
          <step name="_d4e193_step" task="disco:Say"/>
          <step name="_d4e193_ref" task="_d4e193_tree"/>
-         <binding slot="$_d4e190_step.text"
-                  value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; is ill | \&#34;+(famFriendName)+\&#34; is ill\&#34;&#34;"/>
+         <binding slot="$_d4e190_step.text" value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; is ill\&#34;&#34;"/>
          <binding slot="$_d4e190_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);    negative(famFriend);   famFriend.setAboutComment('was ill');&#34;"/>
          <binding slot="$_d4e190_step.external" value="true"/>
@@ -1030,7 +1029,7 @@
          <step name="_d4e249_step" task="disco:Say"/>
          <binding slot="$_d4e248_step.text" value="&#34;Yes, I think I will&#34;"/>
          <binding slot="$_d4e248_step.external" value="true"/>
-         <binding slot="$_d4e249_step.text" value="&#34;I'll remember for next time we talk&#34;"/>
+         <binding slot="$_d4e249_step.text" value="&#34;good thing to do&#34;"/>
          <binding slot="$_d4e249_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e250_subtasks">
@@ -1232,8 +1231,10 @@
       statusType = famFriend.getAboutStatus();
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
-      famFriendRelationship = famFriend.getRelationship();
+      famFriendRelationship = 
+          (famFriend.getRelationship() == null ? " ": "your" + famFriend.getRelationship() );
       previousTalk = famFriend.isAboutMentioned();
+      print("previous talk about =" + previousTalk);
       if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"} 
       else  {pronounObj = "her"; pronounSubj = "she"}; 
     </script>
@@ -1245,11 +1246,11 @@
       </subtasks>
       <subtasks id="pasttalk">
          <step name="update" task="_MoreAboutX"/>
-         <applicable> previousTalk &amp;&amp; statusType=="positive" </applicable>
+         <applicable> previousTalk &amp;&amp; statusType=="Positive" </applicable>
       </subtasks>
       <subtasks id="pastneg">
          <step name="talk" task="_BetterYet"/>
-         <applicable> previousTalk &amp;&amp; statusType=="negative" </applicable>
+         <applicable> ! (previousTalk==null) &amp;&amp; statusType=="Negative" </applicable>
       </subtasks>
    </task>
    <script init="true">
