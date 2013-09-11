@@ -31,19 +31,19 @@ public class TestUserGenerator {
       peopleMgr.getUser().setGender(Gender.Female);
       peopleMgr.getUser().setAge(62);
       peopleMgr.getUser().setBirthday(new MonthDay(1,1));
-      Person spouse = addPerson(peopleMgr, "Bob Ferguson", Relationship.Spouse, null);
+      Person spouse = addPerson(peopleMgr, "Bob Ferguson", Relationship.Spouse, Gender.Male);
       Person daughter = addPerson(peopleMgr, "Ellen Lewis", Relationship.Daughter, null);
       daughter.setPhoneNumber("650-339-0221");
       daughter.setSkypeNumber("ellenlewis");
       daughter.setLocation(placeMgr.getPlace("92049"));
-      Person daughterHusband = addPerson(peopleMgr, "Mike", null, null);
+      Person daughterHusband = addPerson(peopleMgr, "Mike", null, Gender.Male);
       daughterHusband.addRelated(daughter, Relationship.Wife);
       Person linda = addPerson(peopleMgr, "Linda", null, Gender.Female);
       linda.addRelated(daughterHusband, Relationship.Father);
       Person ed = addPerson(peopleMgr, "Ed", null, Gender.Male);
       ed.addRelated(daughterHusband, Relationship.Father);
       Person sister = addPerson(peopleMgr, "Linda Jefferson",
-            Relationship.Sister, null);
+            Relationship.Sister, Gender.Female);
       sister.setLocation(placeMgr.getPlace("38120"));
       sister.setPhoneNumber("615-334-7889");
       Person friend1 = addPerson(peopleMgr, "Harriet Jones",
