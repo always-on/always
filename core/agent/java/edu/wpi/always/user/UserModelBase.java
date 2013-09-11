@@ -8,14 +8,17 @@ public abstract class UserModelBase implements UserModel {
       if ( !INHIBIT_SAVE ) Always.THIS.getUserModel().save(); 
    }
    
-   protected String userName;
+   protected String userName, userFirstName;
    
    @Override
    public String getUserName () {
       return userName;
    }
   
-    private static final String 
+   @Override
+   public String getUserFirstName () { return userFirstName; }
+   
+   private static final String 
          SESSIONS = "UserSessions",
          START_TIME = "UserStartTime",
          CLOSENESS = "UserCloseness";
