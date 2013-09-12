@@ -9,12 +9,7 @@ public class ShoreFacePerceptor implements FacePerceptor {
 
    private volatile FacePerception latest;
    private volatile FacePerception ReetiLatest;
-   private final FaceDetection shore = new FaceDetection(0);
-
-   private Always.AgentType AgentOrReetiOrBoth()
-   {
-      return Always.getAgentType();
-   }
+   private final FaceDetection shore = new FaceDetection(0, Always.getAgentType());
    
    @Override
    public FacePerception getLatest () {
@@ -29,15 +24,16 @@ public class ShoreFacePerceptor implements FacePerceptor {
    @Override
    public void run () {
   
-      if(AgentOrReetiOrBoth() == Always.AgentType.Reeti  || AgentOrReetiOrBoth() == Always.AgentType.Both)
+      Always.AgentType agentType = Always.getAgentType();
+      
+      if(agentType == Always.AgentType.Reeti  || agentType == Always.AgentType.Both)
       {    
-         
          CPPinterface.FaceInfo info = shore.getFaceInfoReeti(0);
          ReetiLatest = new FacePerception(DateTime.now(), 
                info.intTop, info.intBottom, info.intLeft, info.intRight, info.intHappiness, info.intArea, info.intCenter, info.intTiltCenter); 
       }
       
-      if(AgentOrReetiOrBoth() == Always.AgentType.Unity || AgentOrReetiOrBoth() == Always.AgentType.Both)
+      if(agentType == Always.AgentType.Unity || agentType == Always.AgentType.Both)
       {
          CPPinterface.FaceInfo info = shore.getFaceInfo(0);
          latest = new FacePerception(DateTime.now(), 

@@ -26,12 +26,10 @@
 using namespace std;
 using namespace cv;
 
-
 Communication Com;
 CvCapture* capture; //Alternative: VideoCapture capture(0);
 Shore::Engine* engine;
 Shore::Engine* ReetiEngine;
-int counter = 0;
 
 typedef struct FACE {
 	int intLeft;
@@ -166,12 +164,7 @@ void initProcessReeti( char ** IP_ADDRESS, int intDebug ) {
 		std::cerr << "Error: Engine setup failed - exit!\n";
 		std::exit(1);
 	}
-	if(counter==0)
-	{
-		Com.initSocket(2,IP_ADDRESS);
-		counter++;
-	}
-
+	Com.initSocket(2,IP_ADDRESS);
 }
 
 extern "C" __declspec(dllexport)

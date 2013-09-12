@@ -6,21 +6,25 @@ import edu.wpi.always.*;
 public class FaceDetection {
 
    private final CPPinterface lib;
-
-   private Always.AgentType AgentOrReetiOrBoth()
-   {
-      return Always.getAgentType();
-   }
    
-   public FaceDetection (int intDebug) {
+   public FaceDetection (int intDebug, Always.AgentType agentType) {
+      
       lib = CPPinterface.INSTANCE;
       if ( lib != null )
       {
-         if(AgentOrReetiOrBoth() == Always.AgentType.Unity || AgentOrReetiOrBoth() == Always.AgentType.Both)
-            lib.initProcess(intDebug);
-         if(AgentOrReetiOrBoth() == Always.AgentType.Reeti || AgentOrReetiOrBoth() == Always.AgentType.Both)
+         if(agentType == Always.AgentType.Both)
          {
-            String[] ptr = new String[]{"130.215.28.4"};
+            lib.initProcess(intDebug);
+            String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
+            lib.initProcessReeti(ptr, intDebug);
+         }
+         else if(agentType == Always.AgentType.Unity)
+         {
+            lib.initProcess(intDebug);
+         }
+         else if(agentType == Always.AgentType.Reeti)
+         {
+            String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
             lib.initProcessReeti(ptr, intDebug);
          }
       }
@@ -41,14 +45,14 @@ public class FaceDetection {
       return result;
    }
 
-   public void terminateFaceDetectionProcess (int intDebug) {
+   public void terminateFaceDetectionProcess (int intDebug, Always.AgentType agentType) {
       if ( lib != null )
       {
-         if(AgentOrReetiOrBoth() == Always.AgentType.Unity || AgentOrReetiOrBoth() == Always.AgentType.Both)
+         if(agentType == Always.AgentType.Unity || agentType == Always.AgentType.Both)
             lib.terminateProcess(intDebug);
-         if(AgentOrReetiOrBoth() == Always.AgentType.Reeti || AgentOrReetiOrBoth() == Always.AgentType.Both)
+         if(agentType == Always.AgentType.Reeti || agentType == Always.AgentType.Both)
          {
-            String[] ptr = new String[]{"130.215.28.4"};
+            String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
             lib.terminateProcessReeti(intDebug);
          }
       }
