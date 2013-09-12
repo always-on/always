@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-	THE COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
+	THE GENERIC COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
 	AUTHOR: MORTEZA BEHROOZ
 	WORCESTER POLYTECHNIC INSTITUTE 
 -->
@@ -100,48 +100,6 @@
 		<comment competitiveness='0.6' tags="brag" gameType="generic" gameState="tie">
 			Well well well, looks like a tie
 		</comment>
-		<comment competitiveness='0.9' tags="2winChanceByAgent/brag" gameType="board" gameName="ttt" madeOn="both">
-			Whichever you block, I take the other
-		</comment>
-		<comment competitiveness='0.9' tags="2winChanceByAgent/brag" gameType="board" gameName="ttt" madeOn="both">
-			I get a feeling I am winning
-		</comment>
-		<comment competitiveness='0.1' tags="2winChanceByHuman/compliment" gameType="board" gameName="ttt" madeOn="both">
-			What the hell, what just happened?
-		</comment>
-		<comment competitiveness='0.1' tags="2winChanceByHuman/compliment" gameType="board" gameName="ttt" madeOn="both">
-			Wow you got me trapped in losing, nice
-		</comment>
-		<comment competitiveness='0.2' tags="centerCellTakenByHuman/compliment" gameType="board" gameName="ttt" madeOn="human">
-			Nice! You got the golden cell
-		</comment>
-		<comment competitiveness='0.4' tags="centerCellTakenByHuman/offense" gameType="board" gameName="ttt" madeOn="human">
-			Smart ha? Taking the center cell
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByHuman/brag" gameType="board" gameName="ttt" madeOn="human">
-			I can win without that cell
-		</comment>
-		<comment competitiveness='0.6' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
-			I got the golden cell
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
-			center cell, yes!
-		</comment>
-		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			Not that easy
-		</comment>
-		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			Nice try 
-		</comment>
-		<comment competitiveness='0.2' tags="AgentWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="human">
-			Haha! smart move
-		</comment>
-		<comment competitiveness='0.5' tags="AgentWinOppBlocked/brag" gameType="board" gameName="ttt" madeOn="human">
-			Victory cannot be blocked, it finds a way
-		</comment>
-		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense/brag" gameType="board" gameName="ttt" madeOn="human">
-			No one blocks me, how dare you?
-		</comment>
 	</agent>
 	
 	<human>
@@ -219,48 +177,6 @@
 		</comment>
 		<comment competitiveness='0.5' tags="brag" gameType="generic" gameState="tie">
 			Well, looks like a tie
-		</comment>
-		<comment competitiveness='0.9' tags="2winChanceByHuman/brag" gameType="board" gameName="ttt" madeOn="both">
-			Whichever you block, I take the other
-		</comment>
-		<comment competitiveness='0.9' tags="2winChanceByHuman/brag" gameType="board" gameName="ttt" madeOn="both">
-			I get a feeling I am winning
-		</comment>
-		<comment competitiveness='0.1' tags="2winChanceByAgent/compliment" gameType="board" gameName="ttt" madeOn="both">
-			What the hell, what just happened?
-		</comment>
-		<comment competitiveness='0.1' tags="2winChanceByAgent/compliment" gameType="board" gameName="ttt" madeOn="both">
-			Wow you got me trapped in losing, nice
-		</comment>
-		<comment competitiveness='0.2' tags="centerCellTakenByAgent/compliment" gameType="board" gameName="ttt" madeOn="agent">
-			Nice! You got the golden cell
-		</comment>
-		<comment competitiveness='0.4' tags="centerCellTakenByAgent/offense" gameType="board" gameName="ttt" madeOn="agent">
-			Smart ha? Taking the center cell
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByAgent/brag" gameType="board" gameName="ttt" madeOn="both">
-			I can win without that cell
-		</comment>
-		<comment competitiveness='0.6' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
-			I got the golden cell
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
-			center cell, yes!
-		</comment>
-		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			Not that easy
-		</comment>
-		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			Nice try 
-		</comment>
-		<comment competitiveness='0.2' tags="HumanWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="agent">
-			Haha! smart move
-		</comment>
-		<comment competitiveness='0.5' tags="HumanWinOppBlocked/brag" gameType="board" gameName="ttt" madeOn="agent">
-			Victory can't be blocked
-		</comment>
-		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense/brag" gameType="board" gameName="ttt" madeOn="agent">
-			No one blocks me, how dare you?
 		</comment>
 	</human>
 	
