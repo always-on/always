@@ -55,6 +55,7 @@ public class TTTSchema extends ActivityStateMachineSchema {
       if(TTTClient.gazeDirection.equals("board")){
          propose(new GazeBehavior(board));
       }
+      //>> these to be commented out for face track test
       if(TTTClient.gazeDirection.equals("user")){
          propose(new GazeBehavior(user));
       }
@@ -62,6 +63,7 @@ public class TTTSchema extends ActivityStateMachineSchema {
          propose(new GazeBehavior(user));
          TTTClient.gazeDirection = "";
       }
+      //to here <<
       if(TTTClient.gazeDirection.equals("thinking")){
          propose(new GazeBehavior(thinking));
       }

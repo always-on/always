@@ -270,8 +270,7 @@ public class ScenarioManager {
                   "in the scenario.xml match scenario class names.");
             e.printStackTrace();
          }
-
-      //      Reflections reflections = new Reflections("edu.wpi.sgf");    
+      //      Reflections reflections = new Reflections("scenario");    
       //      Set<Class<? extends Scenario>> allScenarios = 
       //            reflections.getSubTypesOf(Scenario.class);
       //      for(Class<? extends Scenario> eachScenario : allScenarios){

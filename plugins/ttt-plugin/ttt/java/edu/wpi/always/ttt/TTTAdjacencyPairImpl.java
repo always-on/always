@@ -39,9 +39,16 @@ implements TTTUIListener {
    protected void afterAgentPlayDelay(){}
    
    @Override
+   public void agentPlayingGazeDelayOver () {
+      afterAgentPlayingGazeDelay();
+   }
+   protected void afterAgentPlayingGazeDelay(){}
+   
+   @Override
    public void nextState () {
       goToNextState();      
    }
    public void goToNextState(){}
+
 
 }
