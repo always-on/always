@@ -7,6 +7,9 @@
 # 
 # Note that cp's are relative to location of _run below!
 #
+# NB: Using this command will overwrite always/user/TestUser.owl.  Use the
+# always-restore-user to restore it to its original value.
+#
 dir="`dirname $0`"
 filename=$1
 shift
