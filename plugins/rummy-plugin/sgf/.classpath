@@ -2,8 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="java"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/agent"/>
-	<classpathentry kind="lib" path="lib/jdom-2/jdom-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/reflections-0.9.5.one-jar.jar"/>
-	<classpathentry kind="lib" path="lib/reflections-0.9.5.jar"/>
+	<classpathentry kind="lib" path="lib/jdom-2.0.5.jar"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>
