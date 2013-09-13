@@ -11,7 +11,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PrimitiveBehaviorManager implements PrimitiveBehaviorControl,
       PrimitiveRealizerObserver {
 
-   public static int REALIZERS_INTERVAL = 300; // in milliseconds
    public static int NUM_THREADS = 2;
    private final IPrimitiveRealizerFactory factory;
    private final Map<Resource, PrimitiveRealizer<?>> realizersInEffect;
@@ -130,7 +129,7 @@ public class PrimitiveBehaviorManager implements PrimitiveBehaviorControl,
       lock.lock();
       try {
          ScheduledFuture<?> future = executor.scheduleWithFixedDelay(realizer,
-               0, REALIZERS_INTERVAL, TimeUnit.MILLISECONDS);
+               0, DiscoRT.REALIZER_INTERVAL, TimeUnit.MILLISECONDS);
          runningTasks.put(realizer, future);
       } finally {
          lock.unlock();
