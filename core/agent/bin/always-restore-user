@@ -3,4 +3,4 @@
 # restore TestUser file from test folder
 #
 dir="`dirname $0`"
-cp -fv "$dir/../test/TestUser.owl" "$dir/../../../user/TestUser.owl"
+cp -f "$dir/../test/TestUser.owl" "$dir/../../../user/TestUser.owl"
