@@ -62,7 +62,7 @@ public class TTTClient implements TTTUI {
       // startPlugin(dispatcher);
       moveGenerator = new TTTLegalMoveGenerator();
       moveAnnotator = new TTTLegalMoveAnnotator();
-      commentingManager = new CommentingManager();
+      commentingManager = new TTTCommentingManager();
       // scenarioFilter = new ScenarioFilter();
       moveChooser = new MoveChooser();
       scenarioManager = new ScenarioManager();
