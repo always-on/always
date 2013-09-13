@@ -58,7 +58,6 @@ public abstract class Plugin {
    public static void test (String pluginModelFile) {
       UserModel model = Always.THIS.getUserModel();
       File file = new File(pluginModelFile);
-      model.setUserName("Test "+file.getName());
       ((OntologyUserModel) model).addAxioms(file);
    }
    
