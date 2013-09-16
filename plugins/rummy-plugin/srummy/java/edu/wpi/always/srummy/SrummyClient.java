@@ -84,7 +84,7 @@ public class SrummyClient implements SrummyUI {
       //      startPlugin(dispatcher);
       moveFetcher = new SrummyLegalMoveFetcher();
       moveAnnotator = new SrummyLegalMoveAnnotator();
-      commentingManager = new CommentingManager();
+      commentingManager = new SrummyCommentingManager();
       //      scenarioFilter = new ScenarioFilter();
       gameState = new SrummyGameState();
       possibleMoves = new ArrayList<SrummyLegalMove>();
