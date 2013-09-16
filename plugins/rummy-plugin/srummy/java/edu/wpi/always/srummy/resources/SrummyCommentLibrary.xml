@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!--
+	THE GAME SPECIFIC (RUMMY) COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
+	AUTHOR: MORTEZA BEHROOZ
+	WORCESTER POLYTECHNIC INSTITUTE 
+-->
+
+<!--
+	> Attributes brief description:
+	- strength: determines how much of a strong move should it be, 
+	the move which this comment is being made for, human's or agent's.
+	- competitiveness: how competitive the comment sounds.
+	- tags: the social tags which comment carries.
+	- gameType: if a specific type of game the comment is made for.
+	- gameName: if a specific game the comment is made for.
+	- madeOn: to be made on agent's move, human's or both.
+	
+	> agent and human sections contain comments which should 
+	be made by each of them.
+	
+	PLEASE REFER TO SOCIAL GAMEPLAY FRAMEWORK DOCUMENTS FOR FURTHER INFORMATION.
+-->
+
+<comments>
+
+	<agent>
+		<comment competitiveness='0.9' tags="something" gameType="board" gameName="srummy" madeOn="both">
+			dummy comment
+		</comment>
+	</agent>
+	
+	<human>
+		<comment competitiveness='0.9' tags="something" gameType="board" gameName="srummy" madeOn="both">
+			dummy comment
+		</comment>
+	</human>
+	
+</comments>
