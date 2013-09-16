@@ -11,7 +11,7 @@ import edu.wpi.always.client.*;
 public class FaceTrackerRealizer extends
       PrimitiveRealizerBase<FaceTrackBehavior> {
 
-   public static long FACE_TRACK_TIME_DAMPENING = 1500;
+   public static long FACE_TRACK_TIME_DAMPENING = 1000;
    private final ClientProxy proxy;
    private final FacePerceptor perceptor;
    
