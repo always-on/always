@@ -19,7 +19,8 @@ namespace AgentApp
         Viewbox pluginContainer;
         List<Move> currentMoveSuggestions = new List<Move>();
 
-        public RummyPlugin(bool agentStarts, IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
+        public RummyPlugin(bool agentStarts, IMessageDispatcher remote
+			, IUIThreadDispatcher uiThreadDispatcher)
         {
             this._remote = remote;
             uiThreadDispatcher.BlockingInvoke(() =>
@@ -29,95 +30,40 @@ namespace AgentApp
 
                 game.AgentCardsController.CanPlay += (s, e) =>
                 {
-                    var allAvailableMovesBody = getPossibleMovesAsJson();
-                    
                     //logging
                     //Console.WriteLine("------****-------");
                     //Console.WriteLine(allAvailableMovesBody.ToString());
                     //Console.WriteLine("------****-------");
-                   
-                    var body = new JObject();
-                    Move m = game.AgentCardsController.GetBestMove();
-                    body["action"] = MoveNameToSend(m);
-                    _remote.Send("rummy.available_action", body);
-                   
                     //here, sending all the possible moves to Java
+					var allAvailableMovesBody = getPossibleMovesAsJson();
                     _remote.Send("rummy.available_moves", allAvailableMovesBody);
                 };
 
                 game.GameState.StateChanged += (oldState, newState) =>
                 {
-                    var body = new JObject();
-                    body["state"] = StateToSend(newState);
-					body["old_tate"] = StateToSend(oldState);
-					body["user_cards"] = game.GameState.GetCards(GameShape.HumanPlayer).Count;
-					body["agent_cards"] = game.GameState.GetCards(GameShape.AgentPlayer).Count;
-					_remote.Send("rummy.state_changed", body); //delete? java side dependency?
-
                     _remote.Send("rummy.game_state", getGameStateAsJson());
                 };
 
                 game.GameState.MoveHappened += m =>
                 {
-                    var body = new JObject();
-                    body["move"] = MoveNameToSend(m);
-                    body["player"] = PlayerNameToSend(m.Player);
-					_remote.Send("rummy.move_happened", body);
-
-                    if (m.Player == Player.One) 
+					if (m.Player == Player.One) 
                     {
                         _remote.Send("rummy.human_move", getHumanMoveAsJson(m));
                     }
                 };
+
                 pluginContainer = new Viewbox();
                 pluginContainer.Child = game;
             });
 
-            _remote.RegisterReceiveHandler("rummy.best_move",
-				  new MessageHandlerDelegateWrapper(x => DoBestMove()));
-
             _remote.RegisterReceiveHandler("rummy.agent_move",
 				  new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
-
         }
+
 		public void Dispose()
 		{
-			_remote.RemoveReceiveHandler("rummy.best_move");
-
             _remote.RemoveReceiveHandler("rummy.agent_move");
-
 		}
-
-        private string StateToSend(State newState)
-        {
-            string res;
-            switch (newState)
-            {
-                case State.Player1Draw:
-                    res = PlayerNameToSend(Player.One) + "_draw";
-                    break;
-                case State.Player1MeldLayDiscard:
-                    res = PlayerNameToSend(Player.One) + "_action";
-                    break;
-                case State.Player1Won:
-                    res = PlayerNameToSend(Player.One) + "_won";
-                    break;
-                case State.Player2Draw:
-                    res = PlayerNameToSend(Player.Two) + "_draw";
-                    break;
-                case State.Player2MeldLayDiscard:
-                    res = PlayerNameToSend(Player.Two) + "_action";
-                    break;
-                case State.Player2Won:
-                    res = PlayerNameToSend(Player.Two) + "_won";
-                    break;
-                default:
-                    res = "";
-                    break;
-            }
-
-            return res;
-        }
 
         private string PlayerNameToSend(Player player)
         {
@@ -129,29 +75,9 @@ namespace AgentApp
             return m.GetType().Name.Replace("Move", "").ToLower();
         }
 
-		private void DoBestMove()
-		{
-            //for draw only now, temp
-			LogUtils.LogWithTime("Doing rummy best move");
-			bool done = false;
-			int tries = 0;
-			while (!done && tries < 5)
-			{
-				try
-				{
-					tries++;
-					game.AgentCardsController.GetBestMove().Realize(game.GameState);
-					done = true;
-				}
-				catch (Exception)
-				{
-				}
-			}
-		}
-
         private void PlayAgentMove(JObject msg)
         {
-            Move selectedMvoe = null;
+            Move selectedMove = null;
             LogUtils.LogWithTime("Doing SGF suggested move");
             int receivedHashCode = int.Parse(msg["hashcode"].ToString());
 
@@ -160,35 +86,45 @@ namespace AgentApp
 
             foreach (Move m in game.AgentCardsController.possibleMoves.Moves())
                 if (m.GetHashCode() == receivedHashCode)
-                    selectedMvoe = m;
+                    selectedMove = m;
 
-            if (selectedMvoe != null){
-                bool done = false;
-                int tries = 0;
-                while (!done && tries < 5)
-                {
-                    try
-                    {
-                        tries++;
-                        selectedMvoe.Realize(game.GameState);
-                        done = true;
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-               
-            //else
-            //    throw new System.InvalidOperationException(
-            //        "Received hashcode not found in the initially sent set of moves.");
-           
-            
-            Console.WriteLine("\n\n\n******received move: ");
-            Console.WriteLine(selectedMvoe.ToString());
-            Console.WriteLine("\n\n******received move");
-            }
-             else
-                DoBestMove();
+			if (selectedMove != null)
+			{
+				bool done = false;
+				int tries = 0;
+				while (!done && tries < 5)
+				{
+					try
+					{
+						tries++;
+						selectedMove.Realize(game.GameState);
+						done = true;
+					}
+					catch (Exception)
+					{
+					}
+				}
+				//Console.WriteLine("\n\n\n******received move: ");
+				//Console.WriteLine(selectedMove.ToString());
+				//Console.WriteLine("\n\n******received move");
+			}
+				//change based on move type 
+			else {
+				bool done = false;
+				int tries = 0;
+				while (!done && tries < 5)
+				{
+					try
+					{
+						tries++;
+						game.AgentCardsController.GetBestMove().Realize(game.GameState);
+						done = true;
+					}
+					catch (Exception)
+					{
+					}
+				}
+			}
         }
 
         public JObject getPossibleMovesAsJson()
@@ -252,31 +188,43 @@ namespace AgentApp
             foreach (Card card in game.GameState.GetCards(Player.One))
                 humanCardsAsString += card.ToString() + "/";
 
-            int i = 0; Card eachCard = null; 
-            while ((eachCard = game.GameState.Stock.PeekAt(i++)) != null)
-                stockCardsAsString += eachCard.ToString() + "/";
+            Card eachCard = null;
+			for (int i = 0; i < game.GameState.Stock.Count; i++)
+			{
+				eachCard = game.GameState.Stock.PeekAt(i);
+				stockCardsAsString += eachCard.ToString() + "/";
+			}
             stockCardsAsString += "--" + game.GameState.Stock.Count;
 
-            i = 0; eachCard = null;
-            while ((eachCard = game.GameState.Discard.PeekAt(i++)) != null)
-                discardCardsAsString += eachCard.ToString() + "/";
+            eachCard = null;
+			for (int i = 0; i < game.GameState.Discard.Count; i++)
+			{
+				eachCard = game.GameState.Discard.PeekAt(i);
+				discardCardsAsString += eachCard.ToString() + "/";
+			}
             discardCardsAsString += "--" + game.GameState.Discard.Count;
 
             //synatx: each meld's cards by "/", melds seperated by "-"
-            foreach (Meld eachMeld in game.GameState.GetMelds(Player.Two))
-            {
-                foreach (Card eachCardOfIt in eachMeld.getCards())
-                    agentMeldsAsString += eachCardOfIt.ToString() + "/";
-                agentMeldsAsString += "--";
-            }
+			if (game.GameState.GetMelds(Player.Two).Count > 0)
+			{
+				foreach (Meld eachMeld in game.GameState.GetMelds(Player.Two))
+				{
+					foreach (Card eachCardOfIt in eachMeld.getCards())
+						agentMeldsAsString += eachCardOfIt.ToString() + "/";
+					agentMeldsAsString += "--";
+				}
+			}
 
-            //synatx: each meld's cards by "/", melds seperated by "-"
-            foreach (Meld eachMeld in game.GameState.GetMelds(Player.One))
-            {
-                foreach (Card eachCardOfIt in eachMeld.getCards())
-                    humanMeldsAsString += eachCardOfIt.ToString() + "/";
-                humanMeldsAsString += "--";
-            }
+			if (game.GameState.GetMelds(Player.One).Count > 0)
+			{
+				//synatx: each meld's cards by "/", melds seperated by "-"
+				foreach (Meld eachMeld in game.GameState.GetMelds(Player.One))
+				{
+					foreach (Card eachCardOfIt in eachMeld.getCards())
+						humanMeldsAsString += eachCardOfIt.ToString() + "/";
+					humanMeldsAsString += "--";
+				}
+			}
 
             body.Add(new JProperty("agentCards", agentCardsAsString));
             body.Add(new JProperty("humanCards", humanCardsAsString));
@@ -308,6 +256,15 @@ namespace AgentApp
                 body.Add(new JProperty("meld", new JObject(
                     new JProperty("meldcards", ((MeldMove)humanMove).Meld.CardsToString()))));
             }
+			
+			//draw is not sent as it is always performed and does not have a sgf value
+			//if later cheating is added, uncomment, handle java side accordingly.
+			//else if (humanMove is DrawMove)
+			//{ 
+			//    body.Add(new JProperty("draw", new JObject(
+			//        new JProperty("pile", ((DrawMove)humanMove).Pile.ToString()))));
+			//}
+
             return body;
         }
 

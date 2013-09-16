@@ -37,6 +37,9 @@ public class CommentLibraryHandler {
             new ArrayList<Element>();
       retrievedHumanCommentsRootNode = 
             new ArrayList<Element>();
+     
+      //remove comment for this.main
+     //importComments(); 
    }
 
    public void importComments(){
