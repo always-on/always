@@ -1,13 +1,9 @@
 package edu.wpi.always.cm.perceptors.fake;
 
-import java.awt.Point;
-
-import javax.swing.JTextField;
-
+import edu.wpi.always.cm.perceptors.*;
 import org.joda.time.DateTime;
-
-import edu.wpi.always.cm.perceptors.FacePerception;
-import edu.wpi.always.cm.perceptors.FacePerceptor;
+import java.awt.Point;
+import javax.swing.JTextField;
 
 public class FakeFacePerceptor implements FacePerceptor {
 
@@ -26,7 +22,7 @@ public class FakeFacePerceptor implements FacePerceptor {
       if ( p == null )
          latest = null;
       else
-         latest = new FacePerception(DateTime.now(), p.x, p.x, p.y, p.y, 0);
+         latest = new FacePerception(DateTime.now(), p.x, p.x, p.y, p.y, 0, 0, 0, 0);
    }
 
    private Point tryParsePoint () {
@@ -37,5 +33,11 @@ public class FakeFacePerceptor implements FacePerceptor {
    @Override
    public FacePerception getLatest () {
       return latest;
+   }
+
+   @Override
+   public FacePerception getReetiLatest () {
+      // TODO Auto-generated method stub
+      return null;
    }
 }
