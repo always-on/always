@@ -19,6 +19,11 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       proxy.gaze(translateToAgentTurnHor(getParams().getPoint()), translateToAgentTurnVer(getParams().getPoint()));
       fireDoneMessage();
    }
+   
+   public static Point translateAgentTurn(float hor, float ver){
+      return new Point(Math.round(160f - (160f * hor / 0.5f)),
+            Math.round(120f - (120f * ver / 0.75f)));
+   }
 
    public static float translateToAgentTurnHor (Point p) {
       return (160f-p.x)*0.5f/160f;
