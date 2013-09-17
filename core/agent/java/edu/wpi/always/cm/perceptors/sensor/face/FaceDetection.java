@@ -14,46 +14,52 @@ public class FaceDetection {
       {
          if(agentType == Always.AgentType.Both)
          {
-            lib.initProcess(intDebug);
+            lib.initAgentShoreEngine(intDebug);
             String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
-            lib.initProcessReeti(ptr, intDebug);
+            lib.initReetiShoreEngine(ptr, intDebug);
          }
          else if(agentType == Always.AgentType.Unity)
          {
-            lib.initProcess(intDebug);
+            lib.initAgentShoreEngine(intDebug);
          }
          else if(agentType == Always.AgentType.Reeti)
          {
             String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
-            lib.initProcessReeti(ptr, intDebug);
+            lib.initReetiShoreEngine(ptr, intDebug);
          }
       }
    }
 
-   public CPPinterface.FaceInfo getFaceInfo (int intDebug) {
+   public CPPinterface.FaceInfo AgentgetFaceInfo (int intDebug) {
       if ( lib == null )
          return new CPPinterface.FaceInfo();
-      CPPinterface.FaceInfo result = lib.getFaceInfo(intDebug);
+      CPPinterface.FaceInfo result = lib.AgentgetFaceInfo(intDebug);
       return result;
    }
    
-   public CPPinterface.FaceInfo getFaceInfoReeti (int intDebug)
+   public CPPinterface.FaceInfo ReetigetFaceInfo (int intDebug)
    {
       if ( lib == null )
          return new CPPinterface.FaceInfo();
-      CPPinterface.FaceInfo result = lib.getFaceInfoReeti(intDebug);
+      CPPinterface.FaceInfo result = lib.ReetigetFaceInfo(intDebug);
       return result;
    }
 
    public void terminateFaceDetectionProcess (int intDebug, Always.AgentType agentType) {
       if ( lib != null )
       {
-         if(agentType == Always.AgentType.Unity || agentType == Always.AgentType.Both)
-            lib.terminateProcess(intDebug);
-         if(agentType == Always.AgentType.Reeti || agentType == Always.AgentType.Both)
+         if(agentType == Always.AgentType.Both)
+         {
+            lib.terminateAgentShoreEngine(intDebug);
+            String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
+            lib.terminateReetiShoreEngine(intDebug);
+         }
+         else if(agentType == Always.AgentType.Unity)
+            lib.terminateAgentShoreEngine(intDebug);
+         else if(agentType == Always.AgentType.Reeti)
          {
             String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
-            lib.terminateProcessReeti(intDebug);
+            lib.terminateReetiShoreEngine(intDebug);
          }
       }
    }

@@ -25,17 +25,21 @@ public class ShoreFacePerceptor implements FacePerceptor {
    public void run () {
   
       Always.AgentType agentType = Always.getAgentType();
-      
-      if(agentType == Always.AgentType.Reeti  || agentType == Always.AgentType.Both)
-      {    
-         CPPinterface.FaceInfo info = shore.getFaceInfoReeti(0);
+      if(agentType == Always.AgentType.Both)
+      {
+         CPPinterface.FaceInfo info = shore.ReetigetFaceInfo(0);
          ReetiLatest = new FacePerception(DateTime.now(), 
                info.intTop, info.intBottom, info.intLeft, info.intRight, info.intHappiness, info.intArea, info.intCenter, info.intTiltCenter); 
       }
-      
-      if(agentType == Always.AgentType.Unity || agentType == Always.AgentType.Both)
+      else if(agentType == Always.AgentType.Reeti)
+      {    
+         CPPinterface.FaceInfo info = shore.ReetigetFaceInfo(0);
+         ReetiLatest = new FacePerception(DateTime.now(), 
+               info.intTop, info.intBottom, info.intLeft, info.intRight, info.intHappiness, info.intArea, info.intCenter, info.intTiltCenter); 
+      }
+      else if(agentType == Always.AgentType.Unity)
       {
-         CPPinterface.FaceInfo info = shore.getFaceInfo(0);
+         CPPinterface.FaceInfo info = shore.AgentgetFaceInfo(0);
          latest = new FacePerception(DateTime.now(), 
                info.intTop, info.intBottom, info.intLeft, info.intRight, info.intHappiness, info.intArea, info.intCenter, info.intTiltCenter);
       }  

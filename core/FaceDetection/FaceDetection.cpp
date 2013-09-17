@@ -186,7 +186,7 @@ void terminateReetiShoreEngine( int intDebug ) {
 
 extern "C" __declspec(dllexport)
 
-FaceInfo getAgentFaceInfo( int intDebug )
+FaceInfo AgentgetFaceInfo( int intDebug )
 {
 	int intPrevWidth = 0;
 	int intPrevHeight = 0;
@@ -298,7 +298,7 @@ FaceInfo getAgentFaceInfo( int intDebug )
 
 extern "C" __declspec(dllexport)
 
-FaceInfo getReetiFaceInfo( int intDebug )
+FaceInfo ReetigetFaceInfo( int intDebug )
 {	
 	FaceInfo faceInfo;
 

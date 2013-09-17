@@ -10,11 +10,6 @@ import edu.wpi.always.*;
 public class FaceTrackerSchema extends SchemaBase {
 
    private final FacePerceptor facePerceptor;
-
-   private Always.AgentType AgentOrReetiOrBoth()
-   {
-      return Always.getAgentType();
-   }
    
    public FaceTrackerSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, FacePerceptor facePerceptor) {
@@ -25,11 +20,17 @@ public class FaceTrackerSchema extends SchemaBase {
    @Override
    public void run () {
       FacePerception perception = null;
-      if(AgentOrReetiOrBoth() == Always.AgentType.Unity || AgentOrReetiOrBoth() == Always.AgentType.Both)
+      Always.AgentType agentType = Always.getAgentType();
+      if(agentType == Always.AgentType.Both)
+      {
+         perception = facePerceptor.getLatest();
+         perception = facePerceptor.getReetiLatest();
+      }
+      else if(agentType == Always.AgentType.Unity )
       {
          perception = facePerceptor.getLatest();
       }
-      if(AgentOrReetiOrBoth() == Always.AgentType.Reeti || AgentOrReetiOrBoth() == Always.AgentType.Both)
+      else if(agentType == Always.AgentType.Reeti)
       {
          perception = facePerceptor.getReetiLatest();
       }

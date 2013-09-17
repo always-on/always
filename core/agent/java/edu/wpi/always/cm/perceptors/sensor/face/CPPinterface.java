@@ -28,15 +28,15 @@ public interface CPPinterface extends Library {
 
    CPPinterface INSTANCE = LoadHelper.loadLibrary();
 
-   FaceInfo getFaceInfo (int intDebug);
+   FaceInfo AgentgetFaceInfo (int intDebug);
 
-   void initProcess (int intDebug);
+   void initAgentShoreEngine (int intDebug);
 
-   void terminateProcess (int intDebug);
+   void terminateAgentShoreEngine (int intDebug);
 
-   FaceInfo getFaceInfoReeti (int intDebug);
+   FaceInfo ReetigetFaceInfo (int intDebug);
 
-   void initProcessReeti (String[] iP_ADDRESS, int intDebug);
+   void initReetiShoreEngine (String[] iP_ADDRESS, int intDebug);
 
-   void terminateProcessReeti (int intDebug);
+   void terminateReetiShoreEngine (int intDebug);
 }
