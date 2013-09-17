@@ -23,17 +23,21 @@ public class FaceTrackerRealizer extends
    private long FalseFaceTolTime = 0;
    private boolean FaceFound = false;
    private boolean FalseFace = false;
+   private float hor;
+   private float ver;
    
    public FaceTrackerRealizer (FaceTrackBehavior params,
          FacePerceptor perceptor, ClientProxy proxy) {
       super(params);
       this.proxy = proxy;
       this.perceptor = perceptor;
-      this.lastSearch = false;   
+      this.lastSearch = false;
+      
+      this.hor = 0;
+      this.ver = 0;
    }
    
- //If Face Tracking for Agent or Both
-   public void KarenFaceTracking()
+   public void AgentFaceTracking()
    {
       FacePerception perception = perceptor.getLatest();
       
@@ -42,6 +46,7 @@ public class FaceTrackerRealizer extends
          //Face exists in frame
          if ( point != null ) {
             //Determine Facial Parameters
+            //java.awt.Toolkit.getDefaultToolkit().beep();
             float hor = GazeRealizer.translateToAgentTurnHor(point);
             float ver = GazeRealizer.translateToAgentTurnVer(point);
             float left = perception.getLeft();
@@ -106,6 +111,21 @@ public class FaceTrackerRealizer extends
    
    @Override
    public void run () {
-      KarenFaceTracking();
+      //AgentFaceTracking();
+      FacePerception perception = perceptor.getLatest();
+      if ( perception != null ) {
+         Point point = perception.getPoint();
+         if ( point != null ) {
+            // java.awt.Toolkit.getDefaultToolkit().beep();
+            float hor = GazeRealizer.translateToAgentTurnHor(point);
+            float ver = GazeRealizer.translateToAgentTurnVer(point);
+            // only send message if face has moved significantly
+            if ( Math.abs(this.hor - hor) > 0.3f || Math.abs(this.ver - ver) > 0.2f ) {
+               proxy.gaze(hor, ver);
+               fireDoneMessage();
+               this.hor = hor; this.ver = ver;
+            }
+         }
+      }
    }
 }

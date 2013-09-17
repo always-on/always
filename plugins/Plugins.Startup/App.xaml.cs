@@ -23,23 +23,23 @@ namespace Plugins.Startup
             AgentApp.MainWindow.RegisterPlugin("story", "Story.UI.StoryPluginCreator,Story.UI");
         }
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            switch(e.Args[0])
-            {
-                case "Reeti":
-                    AgentControl.agentType = "Reeti";
-                    break;
+        //protected override void OnStartup(StartupEventArgs e)
+        //{
+        //    switch(e.Args[0])
+        //    {
+        //        case "Reeti":
+        //            AgentControl.agentType = "Reeti";
+        //            break;
 
-                case "Unity":
-                    AgentControl.agentType = "Unity";
-                    break;
+        //        case "Unity":
+        //            AgentControl.agentType = "Unity";
+        //            break;
 
-                case "Both":
-                    AgentControl.agentType = "Both";
-                    break;
-            }
-        }
+        //        case "Both":
+        //            AgentControl.agentType = "Both";
+        //            break;
+        //    }
+        //}
     }
 
 }
