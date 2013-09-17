@@ -2,7 +2,6 @@ package edu.wpi.always.srummy;
 
 public interface SrummyUIListener {
 
-   void humanPlayed ();
    void humanCommentTimeOut();
    void agentPlayDelayOver();
    void nextState();

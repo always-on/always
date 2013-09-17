@@ -26,7 +26,7 @@
 
 	<agent>
 		<comment competitiveness='0.9' tags="something" gameType="board" gameName="srummy" madeOn="both">
-			dummy comment
+			dummy comments
 		</comment>
 	</agent>
 	

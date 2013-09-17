@@ -3,6 +3,7 @@ package edu.wpi.always.srummy.logic;
 import java.util.ArrayList;
 import java.util.List;
 import edu.wpi.always.srummy.game.DiscardMove;
+import edu.wpi.always.srummy.game.DrawMove;
 import edu.wpi.always.srummy.game.LayoffMove;
 import edu.wpi.always.srummy.game.MeldMove;
 import edu.wpi.always.srummy.game.SrummyGameState;
@@ -15,6 +16,7 @@ public class SrummyLegalMoveAnnotator
 	private static final double meldMoveStrength = 0.8;
 	private static final double layoffMoveStrength = 0.6;
 	private static final double discardMoveStrength = 0.4;
+	private static final double drawMoveStrength = 0.2;
 	
 	
 	public List<AnnotatedLegalMove> annotate(List<LegalMove> someMoves,
@@ -41,6 +43,10 @@ public class SrummyLegalMoveAnnotator
 				annotatedMoves.add(
 						new AnnotatedLegalMove(
 								eachMove, discardMoveStrength));
+			else if (eachMove instanceof DrawMove)
+			   annotatedMoves.add(
+			         new AnnotatedLegalMove(
+			               eachMove, drawMoveStrength));
 		
 		}
 		

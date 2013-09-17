@@ -40,12 +40,6 @@ implements SrummyUIListener {
    protected void agentMoveOptionsReceived(){}
    
    @Override
-   public void humanPlayed() {
-      afterLimbo();
-   }
-   protected void afterLimbo(){}
-   
-   @Override
    public void humanCommentTimeOut(){
       afterTimeOut();
    }

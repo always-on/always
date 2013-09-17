@@ -1,7 +1,6 @@
 package edu.wpi.always.srummy;
 
 import java.util.*;
-import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.client.*;
@@ -31,8 +30,8 @@ public class SrummyClient implements SrummyUI {
 
    public static String gazeDirection = "";
    public static boolean nod = false;
-
    public static boolean gameOver = false;
+   public static boolean discardNow = false;
 
    private static final int HUMAN_IDENTIFIER = 1;
    //   private static final int AGENT_IDENTIFIER = 2;
@@ -61,16 +60,16 @@ public class SrummyClient implements SrummyUI {
    private CommentingManager commentingManager;
    private SrummyGameState gameState;
 
-   private SrummyAnnotatedLegalMove latestAgentMove;
-   private SrummyAnnotatedLegalMove latestHumanMove;
+   private AnnotatedLegalMove latestAgentMove;
+   private AnnotatedLegalMove latestHumanMove;
 
    private List<SrummyLegalMove> possibleMoves;
    private List<AnnotatedLegalMove> annotatedMoves;
    private List<AnnotatedLegalMove> passedMoves;
    private List<SrummyLegalMove> humanPlayedMoves;
    private int hashCodeOfTheSelectedMove;
-   private int numOfPossibleDiscards
-   , numOfPossibleMelds, numOfPossibleLayoffs;
+   private int numOfPossibleDiscards, numOfPossibleMelds
+   , numOfPossibleLayoffs, numOfPossibleDraws;
 
    public SrummyClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
 
@@ -129,16 +128,23 @@ public class SrummyClient implements SrummyUI {
 
       if(message.getType()
             .equals(MSG_AVLBL_AGENT_MOVES)){
+         //extracts options, choose one move, saves its hash code
          extractPossibleMoves(message);
          getTheHashCodeAmongAllAvailableMovesFor(
                chooseOneAmongAgentAvailableMoves());
 
          listener.receivedAgentMoveOptions();
+         
+         if(discardNow){
+            sendBackAgentMove();
+            discardNow = false;
+         }
+         
          updateWinOrTie();
-         //extracts options, choose one move, saves its hash code
+        
 
          //tickAll
-         //      scenarioManager.tickAll();
+//         scenarioManager.tickAll();
 
          //make the comment on own move, based on annotations and scenario
          //         Comment cm = null;
@@ -158,7 +164,8 @@ public class SrummyClient implements SrummyUI {
                   + "processing human move.");
             e.printStackTrace();
          }
-         listener.humanPlayed();
+         listener.receivedHumanMove();
+         
          updateWinOrTie();
       }
       if(message.getType()
@@ -304,8 +311,7 @@ public class SrummyClient implements SrummyUI {
          } catch (Exception e) {e.printStackTrace();}
       }
 
-      latestAgentMove = 
-            (SrummyAnnotatedLegalMove) selectedMove;
+      latestAgentMove = selectedMove;
 
       //      //debugging log
       //      System.out.println("\n\n******HASH\n\n+ " +
@@ -350,7 +356,8 @@ public class SrummyClient implements SrummyUI {
 
       numOfPossibleDiscards = 
             numOfPossibleMelds = 
-            numOfPossibleLayoffs = 0;
+            numOfPossibleLayoffs =
+            numOfPossibleDraws = 0;
 
       possibleMoves.clear();
       annotatedMoves.clear();
@@ -422,11 +429,23 @@ public class SrummyClient implements SrummyUI {
 
       }
 
-      if(allPossibleMovesJsonObj.has("draw") 
+      while(allPossibleMovesJsonObj
+            .has("draw"+(++numOfPossibleDraws))
             && allPossibleMovesJsonObj != null){
 
-         //if later cheating
-         //possibleMoves.add(new DrawMove(Player.Agent, Which PILE?));
+         String aDrawMovePileName = allPossibleMovesJsonObj
+               .getAsJsonObject("draw"+(numOfPossibleDraws))
+               .get("pile").getAsString();
+
+         Pile aPile;
+         if(aDrawMovePileName.trim()
+               .toLowerCase().contains("stock"))
+            aPile = Pile.Stock;
+         else
+            aPile = Pile.Discard;
+
+         possibleMoves.add(new DrawMove(
+               Player.Agent, aPile));
 
       }
    }
@@ -481,7 +500,7 @@ public class SrummyClient implements SrummyUI {
 
          humanPlayedMoves.add(new MeldMove(
                Player.Human, new Meld(meldCards)));
-         
+
       }
       else if(humanMoveAsJsonObj.has("discard")){
 
@@ -493,16 +512,15 @@ public class SrummyClient implements SrummyUI {
                Player.Human, new Card(
                      aDiscardMoveDescription)));
       }
-      
+
       //<<if cheating, draw should be added<<
       //not there now, as does not contain any sgf value
       else 
          return;
-      
-      latestHumanMove = (SrummyAnnotatedLegalMove)
-            moveAnnotator.annotate(humanPlayedMoves
-            .get(humanPlayedMoves.size() - 1), gameState);
-      
+
+      latestHumanMove = moveAnnotator.annotate(humanPlayedMoves.get(
+            humanPlayedMoves.size() - 1), gameState).get(0);
+
    }
 
    private void updateWinOrTie () {
