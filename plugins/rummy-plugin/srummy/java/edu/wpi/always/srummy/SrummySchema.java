@@ -1,8 +1,6 @@
 package edu.wpi.always.srummy;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import com.google.common.collect.Lists;

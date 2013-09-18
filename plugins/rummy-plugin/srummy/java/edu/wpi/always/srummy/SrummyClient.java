@@ -51,7 +51,9 @@ public class SrummyClient implements SrummyUI {
 
    private SrummyLegalMoveFetcher moveFetcher;
    private SrummyLegalMoveAnnotator moveAnnotator;
+   @SuppressWarnings("unused")//temp
    private ScenarioManager scenarioManager;
+   @SuppressWarnings("unused")//temp
    private ScenarioFilter scenarioFilter;
    //   private ScenarioFilter scenarioFilter;
    private MoveChooser moveChooser;
@@ -118,8 +120,11 @@ public class SrummyClient implements SrummyUI {
             chosenMoveType = "draw";
          else if(latestAgentMove.getMove() instanceof MeldMove)
             chosenMoveType = "meld";
+         else if(latestAgentMove.getMove() instanceof LayoffMove)
+            chosenMoveType = "layoff";
          else if(latestAgentMove.getMove() instanceof DiscardMove)
             chosenMoveType = "discard";
+         
 
          listener.receivedAgentMoveOptions(chosenMoveType);
 
