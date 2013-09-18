@@ -21,13 +21,9 @@ public class SrummyClient implements SrummyUI {
    private static final String MSG_PICKED_AGENT_MOVE = "rummy.agent_move"; //sends
    private static final String MSG_RESET_GAME = "rummy.reset_game"; //sends
 
-   //   private final ConcurrentLinkedQueue<Message> inbox = 
-   //         new ConcurrentLinkedQueue<Message>();
-
-   private static final int HUMAN_COMMENTING_TIMEOUT = 15;
+   private static final int HUMAN_COMMENTING_TIMEOUT = 15;//not currently used
    private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
    private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 1;
-   private static final int DISCARD_DELAY_AMOUNT = 1;
 
    public static String gazeDirection = "";
    public static boolean nod = false;
@@ -35,13 +31,13 @@ public class SrummyClient implements SrummyUI {
    public static boolean DelayAfterDraw = false;
 
    private static final int HUMAN_IDENTIFIER = 1;
-   //   private static final int AGENT_IDENTIFIER = 2;
+   //private static final int AGENT_IDENTIFIER = 2;
 
    // 1: userWins, 2: agentWins, 3: tie
    private int winOrTie = 0;
 
    private String currentComment;
-   //   private AnnotatedLegalMove currentMove;
+   //private AnnotatedLegalMove currentMove;
 
    private final UIMessageDispatcher dispatcher;
 
@@ -51,7 +47,6 @@ public class SrummyClient implements SrummyUI {
    private Timer humanCommentingTimer;
    private Timer agentPlayDelayTimer;
    private Timer agentPlayingGazeDelayTimer;
-   private Timer discardTimer;
    private Timer nextStateTimer;
 
    private SrummyLegalMoveFetcher moveFetcher;
@@ -83,7 +78,6 @@ public class SrummyClient implements SrummyUI {
       registerHandlerFor(MSG_HUMAN_MOVE);
       registerHandlerFor(MSG_AVLBL_AGENT_MOVES);
 
-      //      startPlugin(dispatcher);
       moveFetcher = new SrummyLegalMoveFetcher();
       moveAnnotator = new SrummyLegalMoveAnnotator();
       commentingManager = new SrummyCommentingManager();
@@ -96,7 +90,7 @@ public class SrummyClient implements SrummyUI {
       moveChooser = new MoveChooser();
       humanPlayedMoves = new ArrayList<SrummyLegalMove>();
       hashCodeOfTheSelectedMove = 0;
-      //      scenarioManager.chooseOrUpdateScenario();
+      //scenarioManager.chooseOrUpdateScenario();
 
    }
 
@@ -114,11 +108,11 @@ public class SrummyClient implements SrummyUI {
 
       if(message.getType()
             .equals(MSG_AVLBL_AGENT_MOVES)){
-         //extracts options, choose one move, saves its hash code
+         //extracts options, choose one, saves its hash
          extractPossibleMoves(message);
          getTheHashCodeAmongAllAvailableMovesFor(
                chooseOneAmongAgentAvailableMoves());
-         
+
          String chosenMoveType = "";
          if(latestAgentMove.getMove() instanceof DrawMove)
             chosenMoveType = "draw";
@@ -126,17 +120,8 @@ public class SrummyClient implements SrummyUI {
             chosenMoveType = "meld";
          else if(latestAgentMove.getMove() instanceof DiscardMove)
             chosenMoveType = "discard";
-            
-         listener.receivedAgentMoveOptions(chosenMoveType);
 
-//         if(DelayAfterDraw){
-//               SrummyClient.gazeDirection = "thinking";
-//               discardTimer = new Timer();
-//               discardTimer.schedule(new DiscardTimerSetter(),
-//                     1500 * DISCARD_DELAY_AMOUNT);
-//               //            sendBackAgentMove();
-//               //            discardNow = false;
-//         }
+         listener.receivedAgentMoveOptions(chosenMoveType);
 
          updateWinOrTie();
          //tickAll
@@ -152,8 +137,8 @@ public class SrummyClient implements SrummyUI {
             e.printStackTrace();
          }
 
-         //delicate: draw is not send from .net, if meld in between, 
-         //wait for the discard which concludes user's turn
+         //Delicate: draw is not sent from GUI, if meld in between, 
+         //wait for the discard which concludes human's turn.
          if(!(latestHumanMove.getMove() instanceof MeldMove))
             listener.receivedHumanMove();
          updateWinOrTie();
@@ -170,17 +155,6 @@ public class SrummyClient implements SrummyUI {
          listener.receivedNewState();
       }
    }
-
-   /*delicate: this is for the flag above, for sending back 
-   //the discard move with right gaze and timing (1 sec delay between 
-   //draw and discard/meld/lay-off during which the agents gazes up as'thinking'*/
-//   private class DiscardTimerSetter extends TimerTask {
-//      @Override
-//      public void run () {
-//         DelayAfterDraw = false;
-//         listener.nextState();
-//      }
-//   }
 
    @Override
    public String getCurrentAgentComment () {
@@ -202,22 +176,12 @@ public class SrummyClient implements SrummyUI {
                gameState.getGameSpecificCommentingTags());
    }
 
-   //   public void fetchAgentMoveOptions () {
-   //      currentMove =
-   //            // moveChooser.choose(scenarioFilter.filter(
-   //            // moveAnnotator.annotate(moveGenerator.generate(
-   //            // gameState), gameState), scenarioManager.getCurrentScenario()));
-   //            moveChooser.choose(moveAnnotator.annotate(
-   //                  moveFetcher.getCurrentPossibleMoves(), gameState));
-   //      updateWinOrTie();
-   //   }
-
    @Override
    public void prepareAgentCommentForAMoveBy (int player) {
 
       updateWinOrTie();
 
-      // null passed for scenarios here.
+      // null passed for scenarios here
       if ( player == HUMAN_IDENTIFIER )
          currentComment = commentingManager.getAgentCommentForHumanMove(
                gameState, latestHumanMove, null,
@@ -312,24 +276,6 @@ public class SrummyClient implements SrummyUI {
       }
 
       latestAgentMove = selectedMove;
-
-      //      //debugging log
-      //      System.out.println("\n\n******HASH\n\n+ " +
-      //            hashCodeOfTheSelectedMove + 
-      //            "\n\n******HASH");
-
-      //       System.out.println("*******************");
-      //       System.out.println(moveAnnotator.toString(a));
-      //       System.out.println("*******************");
-      //
-      //       System.out.println("\n***************************\n");
-      //       for(Move eachMove : possibleMoves)
-      //          System.out.println(eachMove.toString() + "\n");
-      //       System.out.println("\n***************************\n");
-
-      //    if(msg.getType().equals(MSG_HUMAN_MOVE)){
-      //
-      //    }
 
    }
 

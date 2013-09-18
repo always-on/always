@@ -1,6 +1,11 @@
 package edu.wpi.always.srummy;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import com.google.common.collect.Lists;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.SyncSayBuilder;
 import edu.wpi.always.cm.primitives.GazeBehavior;
@@ -28,6 +33,9 @@ public class SrummySchema extends ActivityStateMachineSchema {
          thinking = GazeRealizer.translateAgentTurn(-1, 1),
          user = GazeRealizer.translateAgentTurn(0, 0);
  
+   private final List<String> yourTurnStatements = 
+         Lists.newArrayList("your turn", "go ahead", "now you");
+   
    @Override
    public void run () {
 
@@ -49,7 +57,8 @@ public class SrummySchema extends ActivityStateMachineSchema {
       }
       if(SrummyClient.gazeDirection.equals("sayandgazelimbo")){
          propose(new SyncSayBuilder(
-               "$ "+"Your turn "+
+               "$ "+yourTurnStatements.get(
+                     new Random().nextInt(yourTurnStatements.size()))+
                      " $",
                      new GazeBehavior(board))
          .build());
