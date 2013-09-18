@@ -101,9 +101,6 @@ namespace AgentApp
 					{
 					}
 				}
-				//Console.WriteLine("\n\n\n******received move: ");
-				//Console.WriteLine(selectedMove.ToString());
-				//Console.WriteLine("\n\n******received move");
 			}
 			//change based on move type 
 			else

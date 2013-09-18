@@ -47,9 +47,9 @@ implements SrummyUIListener {
 
    @Override
    public void agentPlayDelayOver() {
-      afterAgentPlayDelay();
+      afterDrawAfterThinkingDelay();
    }
-   protected void afterAgentPlayDelay(){}
+   protected void afterDrawAfterThinkingDelay(){}
    
    @Override
    public void agentPlayingGazeDelayOver () {

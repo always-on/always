@@ -72,9 +72,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                   .getCurrentAgentComment();
             skipTo(new gameOverDialogue(getContext()));
          }
-         //         getContext().getSrummyUI().makeBoardPlayable();
+         //getContext().getSrummyUI().makeBoardPlayable();
          getContext().getSrummyUI().updatePlugin(this);
-         //         SrummyClient.gazeDirection = "board";
+         //SrummyClient.gazeDirection = "board";
          SrummyClient.gazeDirection = "sayandgazelimbo";
       }
       @Override
@@ -117,7 +117,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       @Override
       public void enter(){
          if(receivedDrawOptions){
-            //draw, cached
+            //draw, cached from before
             receivedDrawOptions = false;
             getContext().getSrummyUI().sendBackAgentMove();
          }
@@ -136,7 +136,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          getContext().getSrummyUI().triggerAgentPlayTimer();
       }
       @Override
-      protected void afterAgentPlayingGazeDelay () {//1s
+      protected void afterAgentPlayingGazeDelay () {
          SrummyClient.gazeDirection = "thinking";
       }
       @Override
@@ -147,7 +147,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             receivedMeldOptions = true;
       }
       @Override
-      public void afterAgentPlayDelay() {//rename
+      public void afterDrawAfterThinkingDelay() {
          //got meld or discard
          if(receivedDiscardOptions || receivedMeldOptions){
             skipTo(new AgentPlays(getContext()));
@@ -157,7 +157,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             getContext().getSrummyUI().triggerAgentPlayTimer();
       }
    }
-   //****************rename classes, add delay for discard, meld, // rename from chosed...
+   //****************, add delay for discard/meld
    public static class AgentPlays extends SrummyAdjacencyPairImpl {
       public AgentPlays(final SrummyStateContext context){
          super("", context);
@@ -165,8 +165,6 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       public void enter(){
-         //         getContext().getSrummyUI().sendBackAgentMove();//draw, cached
-         //         SrummyClient.DelayAfterDraw = true;
          SrummyClient.gazeDirection = "board";
          getContext().getSrummyUI().updatePlugin(this);
 
@@ -188,16 +186,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             else
                skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
          }
-         //         getContext().getSrummyUI().sendBackAgentMove();//meld
       }
-      //      for discard
-      //      @Override
-      //      public void goToNextState () {
-      //         SrummyClient.gazeDirection = "board";
-      //
-      //
-      //
-      //      }
       @Override
       public void receivedAgentMoveOptions (String moveType) {
          //can be only meld or discard

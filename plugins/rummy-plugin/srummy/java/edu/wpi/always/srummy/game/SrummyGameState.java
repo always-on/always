@@ -528,6 +528,11 @@ public class SrummyGameState extends GameLogicState {
       playersMelds.put(Player.Agent, agentMeldsTemp);
       playersMelds.put(Player.Human, humanMeldsTemp);
 
+      if(agentCardsTemp.isEmpty())
+         currentPhase = GamePhase.AgentWon;
+      if(humanCardsTemp.isEmpty())
+         currentPhase = GamePhase.HumanWon;
+      
       stock.sync(stockCardsTemp, stockIndex);
       discard.sync(discardCardsTemp, discardIndex);
 
