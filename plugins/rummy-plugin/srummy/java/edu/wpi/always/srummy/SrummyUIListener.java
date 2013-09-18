@@ -6,7 +6,7 @@ public interface SrummyUIListener {
    void agentPlayDelayOver();
    void nextState();
    void receivedHumanMove ();
-   void receivedAgentMoveOptions ();
+   void receivedAgentMoveOptions (String chosenMoveType);
    void receivedNewState ();
    void agentPlayingGazeDelayOver ();
 

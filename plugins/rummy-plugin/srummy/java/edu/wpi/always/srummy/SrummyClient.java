@@ -26,12 +26,13 @@ public class SrummyClient implements SrummyUI {
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;
    private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
-   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 2;
+   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 1;
+   private static final int DISCARD_DELAY_AMOUNT = 1;
 
    public static String gazeDirection = "";
    public static boolean nod = false;
    public static boolean gameOver = false;
-   public static boolean discardNow = false;
+   public static boolean DelayAfterDraw = false;
 
    private static final int HUMAN_IDENTIFIER = 1;
    //   private static final int AGENT_IDENTIFIER = 2;
@@ -50,11 +51,13 @@ public class SrummyClient implements SrummyUI {
    private Timer humanCommentingTimer;
    private Timer agentPlayDelayTimer;
    private Timer agentPlayingGazeDelayTimer;
+   private Timer discardTimer;
    private Timer nextStateTimer;
 
    private SrummyLegalMoveFetcher moveFetcher;
    private SrummyLegalMoveAnnotator moveAnnotator;
    private ScenarioManager scenarioManager;
+   private ScenarioFilter scenarioFilter;
    //   private ScenarioFilter scenarioFilter;
    private MoveChooser moveChooser;
    private CommentingManager commentingManager;
@@ -84,7 +87,7 @@ public class SrummyClient implements SrummyUI {
       moveFetcher = new SrummyLegalMoveFetcher();
       moveAnnotator = new SrummyLegalMoveAnnotator();
       commentingManager = new SrummyCommentingManager();
-      //      scenarioFilter = new ScenarioFilter();
+      scenarioFilter = new ScenarioFilter();
       gameState = new SrummyGameState();
       possibleMoves = new ArrayList<SrummyLegalMove>();
       annotatedMoves = new ArrayList<AnnotatedLegalMove>();
@@ -94,23 +97,6 @@ public class SrummyClient implements SrummyUI {
       humanPlayedMoves = new ArrayList<SrummyLegalMove>();
       hashCodeOfTheSelectedMove = 0;
       //      scenarioManager.chooseOrUpdateScenario();
-
-      //      dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
-      //         @Override
-      //         public void handleMessage (JsonObject body) {
-      //            if ( listener != null ) {
-      //               int cellNum = Integer.valueOf(body.get("cellNum").getAsString());
-      //               gameState.updateLastBoardState();
-      //               gameState.board[cellNum - 1] = HUMAN_IDENTIFIER;
-      //               latestHumanMove = (SrummyLegalMove) moveAnnotator
-      //                     .annotate(new SrummyLegalMove(cellNum - 1), gameState);
-      //               updateWinOrTie();
-      //               if ( winOrTie > 0 )
-      //                  makeBoardUnplayable();
-      //               listener.humanPlayed();
-      //            }
-      //         }
-      //      });
 
    }
 
@@ -132,28 +118,29 @@ public class SrummyClient implements SrummyUI {
          extractPossibleMoves(message);
          getTheHashCodeAmongAllAvailableMovesFor(
                chooseOneAmongAgentAvailableMoves());
+         
+         String chosenMoveType = "";
+         if(latestAgentMove.getMove() instanceof DrawMove)
+            chosenMoveType = "draw";
+         else if(latestAgentMove.getMove() instanceof MeldMove)
+            chosenMoveType = "meld";
+         else if(latestAgentMove.getMove() instanceof DiscardMove)
+            chosenMoveType = "discard";
+            
+         listener.receivedAgentMoveOptions(chosenMoveType);
 
-         listener.receivedAgentMoveOptions();
-         
-         if(discardNow){
-            sendBackAgentMove();
-            discardNow = false;
-         }
-         
+//         if(DelayAfterDraw){
+//               SrummyClient.gazeDirection = "thinking";
+//               discardTimer = new Timer();
+//               discardTimer.schedule(new DiscardTimerSetter(),
+//                     1500 * DISCARD_DELAY_AMOUNT);
+//               //            sendBackAgentMove();
+//               //            discardNow = false;
+//         }
+
          updateWinOrTie();
-        
-
          //tickAll
-//         scenarioManager.tickAll();
-
-         //make the comment on own move, based on annotations and scenario
-         //         Comment cm = null;
-         //         cm = commentingManager
-         //               .pickCommentOnOwnMove(selectedMove);
-         //         if(cm != null)
-         //            return cm.getContent();
-         //
-         //         return "";
+         //scenarioManager.tickAll();
       }
       if(message.getType()
             .equals(MSG_HUMAN_MOVE)){
@@ -164,8 +151,11 @@ public class SrummyClient implements SrummyUI {
                   + "processing human move.");
             e.printStackTrace();
          }
-         listener.receivedHumanMove();
-         
+
+         //delicate: draw is not send from .net, if meld in between, 
+         //wait for the discard which concludes user's turn
+         if(!(latestHumanMove.getMove() instanceof MeldMove))
+            listener.receivedHumanMove();
          updateWinOrTie();
       }
       if(message.getType()
@@ -179,8 +169,18 @@ public class SrummyClient implements SrummyUI {
          }
          listener.receivedNewState();
       }
-
    }
+
+   /*delicate: this is for the flag above, for sending back 
+   //the discard move with right gaze and timing (1 sec delay between 
+   //draw and discard/meld/lay-off during which the agents gazes up as'thinking'*/
+//   private class DiscardTimerSetter extends TimerTask {
+//      @Override
+//      public void run () {
+//         DelayAfterDraw = false;
+//         listener.nextState();
+//      }
+//   }
 
    @Override
    public String getCurrentAgentComment () {
@@ -284,10 +284,10 @@ public class SrummyClient implements SrummyUI {
    @Override
    public void triggerNextStateTimer () {
       nextStateTimer = new Timer();
-      nextStateTimer.schedule(new testTimerSetter(),
+      nextStateTimer.schedule(new NextStateTimerSetter(),
             4000);
    }
-   private class testTimerSetter extends TimerTask {
+   private class NextStateTimerSetter extends TimerTask {
       @Override
       public void run () {
          listener.nextState();

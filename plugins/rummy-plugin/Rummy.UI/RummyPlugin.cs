@@ -249,7 +249,7 @@ namespace AgentApp
 			{
 				body.Add(new JProperty("layoff", new JObject(
 				   new JProperty("card", ((LayOffMove)humanMove).GetCard().ToString()),
-				   new JProperty("meldcards`", ((LayOffMove)humanMove).Meld.CardsToString()))));
+				   new JProperty("meldcards", ((LayOffMove)humanMove).Meld.CardsToString()))));
 			}
 			else if (humanMove is MeldMove)
 			{

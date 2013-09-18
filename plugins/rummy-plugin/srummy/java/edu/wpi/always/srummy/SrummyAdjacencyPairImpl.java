@@ -34,10 +34,10 @@ implements SrummyUIListener {
    protected void humanMoveReceived(){}
    
    @Override
-   public void receivedAgentMoveOptions() {
-      agentMoveOptionsReceived();
+   public void receivedAgentMoveOptions(String moveType) {
+      agentMoveOptionsReceived(moveType);
    }
-   protected void agentMoveOptionsReceived(){}
+   protected void agentMoveOptionsReceived(String moveType){}
    
    @Override
    public void humanCommentTimeOut(){

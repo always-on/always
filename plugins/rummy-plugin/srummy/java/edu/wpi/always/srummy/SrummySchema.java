@@ -47,6 +47,14 @@ public class SrummySchema extends ActivityStateMachineSchema {
          .build());
          SrummyClient.gazeDirection = "";
       }
+      if(SrummyClient.gazeDirection.equals("sayandgazelimbo")){
+         propose(new SyncSayBuilder(
+               "$ "+"Your turn "+
+                     " $",
+                     new GazeBehavior(board))
+         .build());
+         SrummyClient.gazeDirection = "";
+      }
       if(SrummyClient.gazeDirection.equals("replay")){
          propose(new SyncSayBuilder(
                "$ "+"Now do you want to play again?")
