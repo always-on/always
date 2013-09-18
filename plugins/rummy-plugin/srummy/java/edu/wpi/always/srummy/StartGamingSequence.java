@@ -157,7 +157,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             getContext().getSrummyUI().triggerAgentPlayTimer();
       }
    }
-   //****************, add delay for discard/meld
+
    public static class AgentPlays extends SrummyAdjacencyPairImpl {
       public AgentPlays(final SrummyStateContext context){
          super("", context);
