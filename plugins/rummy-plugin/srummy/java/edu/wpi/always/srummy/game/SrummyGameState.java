@@ -39,6 +39,8 @@ public class SrummyGameState extends GameLogicState {
    private GamePhase currentPhase;
    private Card theCardJustDrawn;
    private ErrMsg errMsg;
+   
+   private Card topOfStock, topOfDiscard = null;
 
    public Card getCardJustDrawn() 
    {return theCardJustDrawn;}
@@ -446,6 +448,9 @@ public class SrummyGameState extends GameLogicState {
             .equals(GamePhase.HumanWon);
 
    }
+   
+   public Card getTopOfStock(){ return topOfStock;}
+   public Card getTopOfDiscard(){ return topOfDiscard;}
 
    /**
     * This method 'synchs' the state received from .Net
@@ -533,6 +538,8 @@ public class SrummyGameState extends GameLogicState {
       if(humanCardsTemp.isEmpty())
          currentPhase = GamePhase.HumanWon;
       
+      topOfStock = stockCardsTemp.get(stockCardsTemp.size() - 1);
+      topOfDiscard = discardCardsTemp.get(discardCardsTemp.size() - 1);
       stock.sync(stockCardsTemp, stockIndex);
       discard.sync(discardCardsTemp, discardIndex);
 

@@ -62,6 +62,7 @@ public class SrummyClient implements SrummyUI {
 
    private AnnotatedLegalMove latestAgentMove;
    private AnnotatedLegalMove latestHumanMove;
+   private Card latestAgentDrawnCard;
 
    private List<SrummyLegalMove> possibleMoves;
    private List<AnnotatedLegalMove> annotatedMoves;
@@ -125,7 +126,6 @@ public class SrummyClient implements SrummyUI {
          else if(latestAgentMove.getMove() instanceof DiscardMove)
             chosenMoveType = "discard";
          
-
          listener.receivedAgentMoveOptions(chosenMoveType);
 
          updateWinOrTie();
@@ -299,10 +299,27 @@ public class SrummyClient implements SrummyUI {
             annotatedMoves 
             //, scenarioManager.getCurrentScenario())
             );
-      return moveChooser.choose(passedMoves);
-
+      
+      for(AnnotatedLegalMove eachPassedMove : passedMoves)
+         if(eachPassedMove.getMove() instanceof DiscardMove)
+            if(((DiscardMove)eachPassedMove.getMove())
+                  .getCard().equals(latestAgentDrawnCard))
+               passedMoves.remove(eachPassedMove);
+      
+      
+      AnnotatedLegalMove passedMove = moveChooser.choose(passedMoves);
+     
+      if(passedMove.getMove() instanceof DrawMove){
+         Pile pile = ((DrawMove)passedMove.getMove()).getPile();
+         if(pile.equals(Pile.Stock))
+            latestAgentDrawnCard = gameState.getTopOfStock();
+         if(pile.equals(Pile.Discard))
+            latestAgentDrawnCard = gameState.getTopOfDiscard();
+      }
+      
+      return passedMove;
    }
-
+   
    private void extractPossibleMoves (Message msg) {
 
       numOfPossibleDiscards = 

@@ -145,6 +145,8 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             receivedDiscardOptions = true;
          else if(chosenMoveType.equals("meld"))
             receivedMeldOptions = true;
+//         else if (layoff) //add tomo
+//            ...
       }
       @Override
       public void afterDrawAfterThinkingDelay() {
@@ -168,11 +170,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          SrummyClient.gazeDirection = "board";
          getContext().getSrummyUI().updatePlugin(this);
 
-         if(receivedMeldOptions){
-            receivedMeldOptions = false;
-            getContext().getSrummyUI().sendBackAgentMove();
-         }
-         if(receivedDiscardOptions){
+         if(receivedDiscardOptions && !receivedMeldOptions){
             receivedDiscardOptions = false;
             getContext().getSrummyUI().sendBackAgentMove();
             getContext().getSrummyUI().prepareAgentCommentForAMoveBy(
@@ -186,6 +184,10 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             else
                skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
          }
+         if(receivedMeldOptions){
+            receivedMeldOptions = false;
+            getContext().getSrummyUI().sendBackAgentMove();
+         }
       }
       @Override
       public void receivedAgentMoveOptions (String moveType) {
@@ -194,14 +196,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
 //            getContext().getSrummyUI().sendBackAgentMove();//meld
 //         }
          if(moveType.equals("discard")){ //only this case left
-            getContext().getSrummyUI().sendBackAgentMove();//discard
-            getContext().getSrummyUI().sendBackAgentMove();
             getContext().getSrummyUI().prepareAgentCommentForAMoveBy(
                   AGENT_IDENTIFIER);
             currentAgentComment = getContext().getSrummyUI()
                   .getCurrentAgentComment();
             humanCommentOptions = getContext().getSrummyUI()
                   .getCurrentHumanCommentOptionsForAMoveBy(AGENT_IDENTIFIER);
+            getContext().getSrummyUI().sendBackAgentMove();//discard
             if(new Random().nextBoolean())
                skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
             else

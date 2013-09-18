@@ -45,8 +45,8 @@ public class LayoffMove extends SrummyLegalMove{
 		LayoffMove supposedlySameLayOffMove 
 				= (LayoffMove) someMove;
 		
-		if(!(supposedlySameLayOffMove.getPlayer()
-				== this.player))
+		if(supposedlySameLayOffMove.getPlayer()
+				!= this.player)
 			return false;
 		
 		if(!supposedlySameLayOffMove.getCard()

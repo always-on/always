@@ -102,7 +102,7 @@ namespace AgentApp
 					}
 				}
 			}
-			//change based on move type 
+			//necessary? discard sent?? break point test?!!
 			else
 			{
 				bool done = false;
