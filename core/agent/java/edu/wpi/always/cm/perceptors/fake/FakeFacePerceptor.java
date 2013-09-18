@@ -22,7 +22,7 @@ public class FakeFacePerceptor implements FacePerceptor {
       if ( p == null )
          latest = null;
       else
-         latest = new FacePerception(DateTime.now(), p.x, p.x, p.y, p.y, 0, 0, 0, 0);
+         latest = new FacePerception(DateTime.now(), p.x, p.x, p.y, p.y, 0, 0, 0);
    }
 
    private Point tryParsePoint () {
@@ -33,11 +33,5 @@ public class FakeFacePerceptor implements FacePerceptor {
    @Override
    public FacePerception getLatest () {
       return latest;
-   }
-
-   @Override
-   public FacePerception getReetiLatest () {
-      // TODO Auto-generated method stub
-      return null;
    }
 }

@@ -11,7 +11,7 @@ import edu.wpi.always.client.*;
 public class ReetiFaceTrackerRealizer extends
       PrimitiveRealizerBase<FaceTrackBehavior> {
 
-   public static long FACE_TRACK_TIME_DAMPENING = 1500;
+   public static long FACE_TRACK_TIME_DAMPENING = 1000;
    private final FacePerceptor perceptor;
    
    private ReetiPIDMessages FaceTrack;
@@ -51,7 +51,7 @@ public class ReetiFaceTrackerRealizer extends
    //If Face Tracking for Reeti or Both
    public void ReetiFaceTracking()
    {
-      FacePerception perception = perceptor.getReetiLatest();
+      FacePerception perception = perceptor.getLatest(); //This should be solved!
       
       if ( perception != null ) {
          Point point = perception.getPoint();

@@ -23,8 +23,6 @@ public class FaceTrackerRealizer extends
    private long FalseFaceTolTime = 0;
    private boolean FaceFound = false;
    private boolean FalseFace = false;
-   private float hor;
-   private float ver;
    
    public FaceTrackerRealizer (FaceTrackBehavior params,
          FacePerceptor perceptor, ClientProxy proxy) {
@@ -32,9 +30,6 @@ public class FaceTrackerRealizer extends
       this.proxy = proxy;
       this.perceptor = perceptor;
       this.lastSearch = false;
-      
-      this.hor = 0;
-      this.ver = 0;
    }
    
    public void AgentFaceTracking()
@@ -111,21 +106,48 @@ public class FaceTrackerRealizer extends
    
    @Override
    public void run () {
-      //AgentFaceTracking();
-      FacePerception perception = perceptor.getLatest();
-      if ( perception != null ) {
-         Point point = perception.getPoint();
-         if ( point != null ) {
-            // java.awt.Toolkit.getDefaultToolkit().beep();
-            float hor = GazeRealizer.translateToAgentTurnHor(point);
-            float ver = GazeRealizer.translateToAgentTurnVer(point);
-            // only send message if face has moved significantly
-            if ( Math.abs(this.hor - hor) > 0.3f || Math.abs(this.ver - ver) > 0.2f ) {
-               proxy.gaze(hor, ver);
-               fireDoneMessage();
-               this.hor = hor; this.ver = ver;
-            }
-         }
-      }
+      AgentFaceTracking();
    }
 }
+
+//package edu.wpi.always.client;
+//
+//import java.awt.Point;
+//import edu.wpi.always.cm.perceptors.*;
+//import edu.wpi.always.cm.primitives.FaceTrackBehavior;
+//import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
+//
+//public class FaceTrackerRealizer extends
+//      PrimitiveRealizerBase<FaceTrackBehavior> {
+//
+//   private final ClientProxy proxy;
+//   private final FacePerceptor perceptor;
+//   
+//   public FaceTrackerRealizer (FaceTrackBehavior params,
+//         FacePerceptor perceptor, ClientProxy proxy) {
+//      super(params);
+//      this.proxy = proxy;
+//      this.perceptor = perceptor;
+//   }
+//
+//   private float hor, ver;
+//   
+//   @Override
+//   public void run () {
+//      FacePerception perception = perceptor.getLatest();
+//      if ( perception != null ) {
+//         Point point = perception.getPoint();
+//         if ( point != null ) {
+//            java.awt.Toolkit.getDefaultToolkit().beep();
+//            float hor = GazeRealizer.translateToAgentTurnHor(point);
+//            float ver = GazeRealizer.translateToAgentTurnVer(point);
+//            // only send message if face has moved significantly
+//            if ( Math.abs(this.hor - hor) > 0.3f || Math.abs(this.ver - ver) > 0.2f ) {
+//               proxy.gaze(hor, ver);
+//               fireDoneMessage();
+//               this.hor = hor; this.ver = ver;
+//            }
+//         }
+//      }
+//   }
+//}

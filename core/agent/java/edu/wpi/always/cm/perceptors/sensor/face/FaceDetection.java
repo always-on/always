@@ -30,18 +30,18 @@ public class FaceDetection {
       }
    }
 
-   public CPPinterface.FaceInfo AgentgetFaceInfo (int intDebug) {
+   public CPPinterface.FaceInfo getAgentFaceInfo (int intDebug) {
       if ( lib == null )
          return new CPPinterface.FaceInfo();
-      CPPinterface.FaceInfo result = lib.AgentgetFaceInfo(intDebug);
+      CPPinterface.FaceInfo result = lib.getAgentFaceInfo(intDebug);
       return result;
    }
    
-   public CPPinterface.FaceInfo ReetigetFaceInfo (int intDebug)
+   public CPPinterface.FaceInfo getReetiFaceInfo (int intDebug)
    {
       if ( lib == null )
          return new CPPinterface.FaceInfo();
-      CPPinterface.FaceInfo result = lib.ReetigetFaceInfo(intDebug);
+      CPPinterface.FaceInfo result = lib.getReetiFaceInfo(intDebug);
       return result;
    }
 

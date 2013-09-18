@@ -28,13 +28,13 @@ public interface CPPinterface extends Library {
 
    CPPinterface INSTANCE = LoadHelper.loadLibrary();
 
-   FaceInfo AgentgetFaceInfo (int intDebug);
+   FaceInfo getAgentFaceInfo (int intDebug);
 
    void initAgentShoreEngine (int intDebug);
 
    void terminateAgentShoreEngine (int intDebug);
 
-   FaceInfo ReetigetFaceInfo (int intDebug);
+   FaceInfo getReetiFaceInfo (int intDebug);
 
    void initReetiShoreEngine (String[] iP_ADDRESS, int intDebug);
 

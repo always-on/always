@@ -20,20 +20,9 @@ public class FaceTrackerSchema extends SchemaBase {
    @Override
    public void run () {
       FacePerception perception = null;
-      Always.AgentType agentType = Always.getAgentType();
-      if(agentType == Always.AgentType.Both)
-      {
-         perception = facePerceptor.getLatest();
-         perception = facePerceptor.getReetiLatest();
-      }
-      else if(agentType == Always.AgentType.Unity )
-      {
-         perception = facePerceptor.getLatest();
-      }
-      else if(agentType == Always.AgentType.Reeti)
-      {
-         perception = facePerceptor.getReetiLatest();
-      }
+      
+      perception = facePerceptor.getLatest();
+      
       if ( perception != null ) {
          BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0.05)
                .build();

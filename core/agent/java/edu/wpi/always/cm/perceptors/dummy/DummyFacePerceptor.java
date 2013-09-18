@@ -10,9 +10,4 @@ public class DummyFacePerceptor implements FacePerceptor {
    @Override
    public void run () {}
 
-   @Override
-   public FacePerception getReetiLatest () {
-      // TODO Auto-generated method stub
-      return null;
-   }
 }

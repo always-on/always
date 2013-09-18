@@ -6,7 +6,6 @@ import java.awt.Point;
 
 public class FacePerception extends Perception {
 
-   private final int happiness;
    private final int bottom;
    private final int top;
    private final int left;
@@ -15,14 +14,13 @@ public class FacePerception extends Perception {
    private final int tiltcenter;
    private final int area;
 
-   public FacePerception (DateTime stamp, int top, int bottom, int left, int right, int happiness, int area, int center, int tiltcenter) {
+   public FacePerception (DateTime stamp, int top, int bottom, int left, int right, int area, int center, int tiltcenter) {
       super(stamp);
       this.top = top;
       this.bottom = bottom;
       this.left = left;
       this.right = right;
-      this.happiness = happiness;
-     
+
       this.area = area;
    	
       this.center = center;
@@ -30,8 +28,8 @@ public class FacePerception extends Perception {
    	this.tiltcenter = tiltcenter;
    }
  
-   public FacePerception (int top, int bottom, int left, int right, int happiness, int area, int center, int tiltcenter) {
-      this(DateTime.now(), top, bottom, left, right, happiness, area, center, tiltcenter);
+   public FacePerception (int top, int bottom, int left, int right, int area, int center, int tiltcenter) {
+      this(DateTime.now(), top, bottom, left, right, area, center, tiltcenter);
    }
    
    /**
@@ -52,8 +50,6 @@ public class FacePerception extends Perception {
          || (bottom - top) > FACE_NEAR_HEIGHT_THRESHOLD );
    }
    
-   public int getHappiness () { return happiness; }
-
    public int getBottom () { return bottom; }
 
    public int getTop () { return top; }
@@ -70,7 +66,7 @@ public class FacePerception extends Perception {
    
    @Override
    public String toString () {
-      return "FacePerception [happiness=" + happiness + ", bottom=" + bottom
+      return "FacePerception [bottom=" + bottom
          + ", top=" + top + ", left=" + left + ", right=" + right + ", stamp="
          + stamp + "]";
    }

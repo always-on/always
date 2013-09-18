@@ -21,7 +21,6 @@
 
 #define FRAME_WIDTH 320
 #define FRAME_HEIGHT 240
-#define TIMER_DELAY 2000
 
 using namespace std;
 using namespace cv;
@@ -186,7 +185,7 @@ void terminateReetiShoreEngine( int intDebug ) {
 
 extern "C" __declspec(dllexport)
 
-FaceInfo AgentgetFaceInfo( int intDebug )
+FaceInfo getAgentFaceInfo( int intDebug )
 {
 	int intPrevWidth = 0;
 	int intPrevHeight = 0;
@@ -259,7 +258,7 @@ FaceInfo AgentgetFaceInfo( int intDebug )
 				faceInfo.intCenter = (faceInfo.intRight-faceInfo.intLeft)/2;
 				faceInfo.intCenter += faceInfo.intLeft;
 				faceInfo.intTiltCenter = (faceInfo.intBottom-faceInfo.intTop)/2;
-				faceInfo.intTiltCenter += faceInfo.intTop;
+				faceInfo.intTiltCenter += faceInfo.intBottom;
 						
 				faceInfo.intArea = (faceInfo.intRight-faceInfo.intLeft)*(faceInfo.intBottom-faceInfo.intTop);
 
@@ -298,7 +297,7 @@ FaceInfo AgentgetFaceInfo( int intDebug )
 
 extern "C" __declspec(dllexport)
 
-FaceInfo ReetigetFaceInfo( int intDebug )
+FaceInfo getReetiFaceInfo( int intDebug )
 {	
 	FaceInfo faceInfo;
 
@@ -365,7 +364,7 @@ FaceInfo ReetigetFaceInfo( int intDebug )
 			faceInfo.intCenter = (faceInfo.intRight-faceInfo.intLeft)/2;
 			faceInfo.intCenter += faceInfo.intLeft;
 			faceInfo.intTiltCenter = (faceInfo.intBottom-faceInfo.intTop)/2;
-			faceInfo.intTiltCenter += faceInfo.intTop;
+			faceInfo.intTiltCenter += faceInfo.intBottom;
 						
 			faceInfo.intArea = (faceInfo.intRight-faceInfo.intLeft)*(faceInfo.intBottom-faceInfo.intTop);
 
