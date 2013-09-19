@@ -26,10 +26,13 @@ public class SrummyClient implements SrummyUI {
    private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 1;
 
    public static String gazeDirection = "";
+   public static boolean limboEnteredOnce = false;
    public static boolean nod = false;
    public static boolean gameOver = false;
    public static boolean DelayAfterDraw = false;
-   public static boolean meldOrLayoffAlready = false;
+   public static boolean meldedAlready = false;
+   public static boolean agentDrawn = false;
+   public static boolean twoMeldsInARow = false;
 
    private static final int HUMAN_IDENTIFIER = 1;
    //private static final int AGENT_IDENTIFIER = 2;
@@ -306,21 +309,24 @@ public class SrummyClient implements SrummyUI {
 
       AnnotatedLegalMove passedMove = null;
       //remove the card just drawn as a discard option
+      //making a shallow copy for safe concurrent access
       try {
          List<AnnotatedLegalMove> copyOfPassedMoves = 
                new ArrayList<AnnotatedLegalMove>();
-         if(latestAgentDrawnCard != null){
+         if(agentDrawn){
             for(AnnotatedLegalMove eachPassedMove : passedMoves){
                if(eachPassedMove.getMove() instanceof DiscardMove){
                   if(!(((DiscardMove)eachPassedMove.getMove())
-                        .getCard().equals(latestAgentDrawnCard))
-                        && !(meldOrLayoffAlready && (eachPassedMove.getMove() 
-                              instanceof MeldMove || eachPassedMove.getMove()
-                              instanceof LayoffMove)))
+                        .getCard().equals(latestAgentDrawnCard) 
+                        && latestAgentDrawnCard != null))
                      copyOfPassedMoves.add(eachPassedMove.clone());
                }
-               else //meld or layoff
-                  copyOfPassedMoves.add(eachPassedMove.clone());
+               else{//meld or lay-off
+//                  if(!(meldedAlready && (eachPassedMove.getMove() 
+//                        instanceof MeldMove 
+//                  || eachPassedMove.getMove() instanceof LayoffMove)))
+                     copyOfPassedMoves.add(eachPassedMove.clone());
+               }
             }
             passedMove = moveChooser.choose(copyOfPassedMoves);
          }
@@ -331,17 +337,20 @@ public class SrummyClient implements SrummyUI {
       }
       
       if(passedMove.getMove() instanceof DrawMove){
+         agentDrawn = true;
          Pile pile = ((DrawMove)passedMove.getMove()).getPile();
-         if(pile.equals(Pile.Stock))
-            latestAgentDrawnCard = gameState.getTopOfStock();
+         //discarding the card just drawn from stock is fine
+//         if(pile.equals(Pile.Stock))
+//            latestAgentDrawnCard = gameState.getTopOfStock();
          if(pile.equals(Pile.Discard))
             latestAgentDrawnCard = gameState.getTopOfDiscard();
       }
       System.out.println(">>>>>>>>>>>>>"+passedMove.getMove().toString());
       
       if(passedMove.getMove() instanceof MeldMove
-            || passedMove.getMove() instanceof LayoffMove){
-         meldOrLayoffAlready = true;
+            //|| passedMove.getMove() instanceof LayoffMove
+            ){
+         meldedAlready = true;
       }
       
       return passedMove;

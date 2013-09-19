@@ -27,13 +27,14 @@ public class SrummySchema extends ActivityStateMachineSchema {
    }
 
    private final static Point 
-         board = GazeRealizer.translateAgentTurn(-2, -1),
-         thinking = GazeRealizer.translateAgentTurn(-1, 1),
-         user = GazeRealizer.translateAgentTurn(0, 0);
- 
+   board = GazeRealizer.translateAgentTurn(-2, -1),
+   thinking = GazeRealizer.translateAgentTurn(-1, 1),
+   user = GazeRealizer.translateAgentTurn(0, 0);
+
+   private String randomStmnt = "";
    private final List<String> yourTurnStatements = 
          Lists.newArrayList("your turn", "go ahead", "now you");
-   
+
    @Override
    public void run () {
 
@@ -54,13 +55,15 @@ public class SrummySchema extends ActivityStateMachineSchema {
          SrummyClient.gazeDirection = "";
       }
       if(SrummyClient.gazeDirection.equals("sayandgazelimbo")){
-         propose(new SyncSayBuilder(
-               "$ "+yourTurnStatements.get(
-                     new Random().nextInt(yourTurnStatements.size()))+
-                     " $",
-                     new GazeBehavior(board))
+         if(!SrummyClient.limboEnteredOnce)
+            randomStmnt = yourTurnStatements.get(
+                  new Random().nextInt(yourTurnStatements.size()));
+         else 
+            randomStmnt = "";
+         propose(new SyncSayBuilder("$ "+randomStmnt+" $",
+               new GazeBehavior(board))
          .build());
-         SrummyClient.gazeDirection = "";
+         SrummyClient.limboEnteredOnce = true;
       }
       if(SrummyClient.gazeDirection.equals("replay")){
          propose(new SyncSayBuilder(
