@@ -54,7 +54,7 @@ public class LayoffMove extends SrummyLegalMove{
 			return false;
 		
 		if(!supposedlySameLayOffMove.getItsMeld()
-				.equals(this.playedCard))
+				.equals(this.relatedMeld))
 			return false;
 		
 		return true;

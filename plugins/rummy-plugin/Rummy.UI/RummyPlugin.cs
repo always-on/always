@@ -34,7 +34,7 @@ namespace AgentApp
 							&& (!(m is DrawMove)))
 					{
 						_remote.Send("rummy.human_move"
-							, getHumanMoveAsJson(m));
+							, getMoveAsJson(m));
 					}
 				};
 
@@ -87,38 +87,42 @@ namespace AgentApp
 
 			if (selectedMove != null)
 			{
-				bool done = false;
-				int tries = 0;
-				while (!done && tries < 5)
-				{
 					try
 					{
-						tries++;
 						selectedMove.Realize(game.GameState);
-						done = true;
 					}
 					catch (Exception)
 					{
+						try
+						{
+							bool done = false; int tries = 0;
+							while (!done && tries < 5)
+							{
+								tries++;
+								game.AgentCardsController.GetBestMove().Realize(game.GameState);
+								done = true;
+							}
+						}
+						catch (Exception){ }
 					}
-				}
-			}
-			//necessary? discard sent?? break point test?!!
-			else
-			{
-				bool done = false;
-				int tries = 0;
-				while (!done && tries < 5)
-				{
-					try
-					{
-						tries++;
-						game.AgentCardsController.GetBestMove().Realize(game.GameState);
-						done = true;
-					}
-					catch (Exception)
-					{
-					}
-				}
+				//}
+				//else
+				//{
+				//    bool done = false;
+				//    int tries = 0;
+				//    while (!done && tries < 5)
+				//    {
+				//        try
+				//        {
+				//            tries++;
+				//            game.AgentCardsController.GetBestMove().Realize(game.GameState);
+				//            done = true;
+				//        }
+				//        catch (Exception)
+				//        {
+				//        }
+				//    }
+				//}
 			}
 		}
 
@@ -234,32 +238,32 @@ namespace AgentApp
 
 		}
 
-		public JObject getHumanMoveAsJson(Move humanMove)
+		public JObject getMoveAsJson(Move move)
 		{
 			var body = new JObject();
-			if (humanMove is DiscardMove)
+			if (move is DiscardMove)
 			{
 				body.Add(new JProperty("discard", new JObject(
-				   new JProperty("card", ((DiscardMove)humanMove).GetCard().ToString()))));
+				   new JProperty("card", ((DiscardMove)move).GetCard().ToString()))));
 			}
-			else if (humanMove is LayOffMove)
+			else if (move is LayOffMove)
 			{
 				body.Add(new JProperty("layoff", new JObject(
-				   new JProperty("card", ((LayOffMove)humanMove).GetCard().ToString()),
-				   new JProperty("meldcards", ((LayOffMove)humanMove).Meld.CardsToString()))));
+				   new JProperty("card", ((LayOffMove)move).GetCard().ToString()),
+				   new JProperty("meldcards", ((LayOffMove)move).Meld.CardsToString()))));
 			}
-			else if (humanMove is MeldMove)
+			else if (move is MeldMove)
 			{
 				body.Add(new JProperty("meld", new JObject(
-					new JProperty("meldcards", ((MeldMove)humanMove).Meld.CardsToString()))));
+					new JProperty("meldcards", ((MeldMove)move).Meld.CardsToString()))));
 			}
 
 			//draw is not sent as it is always performed and does not have a sgf value
 			//if later cheating is added, uncomment, handle java side accordingly.
-			//else if (humanMove is DrawMove)
-			//{ 
+			//else if (move is DrawMove)
+			//{
 			//    body.Add(new JProperty("draw", new JObject(
-			//        new JProperty("pile", ((DrawMove)humanMove).Pile.ToString()))));
+			//        new JProperty("pile", ((DrawMove)move).))));
 			//}
 
 			return body;

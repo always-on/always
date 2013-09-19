@@ -38,5 +38,12 @@ public class AnnotatedLegalMove implements Comparable<AnnotatedLegalMove>{
 		else
 			return 0;
 	}
+	
+	@Override
+	public AnnotatedLegalMove clone () 
+	      throws CloneNotSupportedException {
+	   return new AnnotatedLegalMove(
+	         this.move, this.moveStrength);
+	}
 
 }
