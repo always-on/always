@@ -9,8 +9,6 @@ import com.google.gson.JsonObject;
 import edu.wpi.always.client.Message;
 import edu.wpi.sgf.logic.GameLogicState;
 
-
-
 /**
  * A class representing the Rummy game state.
  * 
@@ -23,9 +21,8 @@ import edu.wpi.sgf.logic.GameLogicState;
  * and evaluating different paths or other possible usages with SGF.
  * 
  * @author Morteza Behrooz
- * @version 1.3
+ * @version 2.0
  */
-
 public class SrummyGameState extends GameLogicState {
 
    private Deck stock;
@@ -545,7 +542,27 @@ public class SrummyGameState extends GameLogicState {
 
    }
 
+   /**
+    * - Returns rummy specific commenting tags to be used 
+    * by SGF framework. Could be expanded along with the 
+    * rummy comment library, no internal dependency.
+    * 
+    * These are made on both players moves, and given to 
+    * both players as commenting opportunities. 
+    * (e.g. You did a nice layoff e.g. Haha, found a meld).
+    * 
+    * - Current list of situations triggering tags:
+    * 1. Meld Move
+    * 2. Lay off Move
+    * 3. Two melds in a row
+    * 4. Not melding for 4 rounds (averts repeating on 5th.)
+    * 
+    * @return List of String including rummy specific tags
+    * @Sicne 2.0
+    */
    public List<String> getGameSpecificCommentingTags () {
+      
+      
       List<String> tmp = new ArrayList<String>();;
       tmp.add("temp");
       return tmp;
