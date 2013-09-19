@@ -143,9 +143,9 @@ public class SrummyClient implements SrummyUI {
             e.printStackTrace();
          }
 
-         //Note: draw is not sent from GUI, 
+         //note: Human draw is not sent from GUI, 
          //as contains no strategy/commenting value. 
-         //if meld or lay-off sent in between, 
+         //if meld or lay-off is sent in between, 
          //waits for the discard which "concludes" human's turn.
          if(!(latestHumanMove.getMove() instanceof MeldMove)
                && !(latestHumanMove.getMove() instanceof LayoffMove))
