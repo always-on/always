@@ -48,6 +48,10 @@ namespace AgentApp
 					//here, sending all the possible moves to Java
 					_remote.Send("rummy.available_moves", getPossibleMovesAsJson());
 				};
+				game.GameState.GameOver += p =>
+				{
+					_remote.Send("rummy.gameover", getPlayerAsJson(p));
+				};
 
 				pluginContainer = new Viewbox();
 				pluginContainer.Child = game;
@@ -236,6 +240,16 @@ namespace AgentApp
 
 			return body;
 
+		}
+
+		private JObject getPlayerAsJson(Player p) 
+		{
+			var body = new JObject();
+			if (p == Player.One)
+				body.Add(new JProperty("winner", "human"));
+			else
+				body.Add(new JProperty("winner", "agent"));
+			return body;
 		}
 
 		public JObject getMoveAsJson(Move move)

@@ -576,4 +576,11 @@ public class SrummyGameState extends GameLogicState {
       return 0;
    }
 
+   public void gameOver (String winner) {
+     if(winner.equals("human"))
+        currentPhase = GamePhase.HumanWon;
+     else if (winner.equals("agent")) 
+        currentPhase = GamePhase.AgentWon;
+   }
+
 }

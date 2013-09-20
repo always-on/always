@@ -45,11 +45,23 @@ implements SrummyUIListener {
    }
    protected void afterTimeOut(){}
 
-   @Override
-   public void agentPlayDelayOver() {
-      afterDrawAfterThinkingDelay();
+   @Override 
+   public void agentDrawDelayOver(){
+      aferAgentDrawDelay();
    }
-   protected void afterDrawAfterThinkingDelay(){}
+   protected void aferAgentDrawDelay(){}
+   
+   @Override
+   public void agentDiscardDelayOver(){
+      afterAgentDiscardDelay();
+   }
+   protected void afterAgentDiscardDelay(){}
+   
+   @Override
+   public void agentPlayDelayOver(){
+      afterDrawAfterGazeAfterThinkingDelay();
+   }
+   protected void afterDrawAfterGazeAfterThinkingDelay(){}
    
    @Override
    public void agentPlayingGazeDelayOver () {
@@ -62,7 +74,5 @@ implements SrummyUIListener {
       goToNextState();      
    }
    public void goToNextState(){}
-   
-   
 
 }

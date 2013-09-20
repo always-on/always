@@ -20,10 +20,12 @@ public class SrummyClient implements SrummyUI {
    private static final String MSG_GAME_STATE = "rummy.game_state"; //receives
    private static final String MSG_PICKED_AGENT_MOVE = "rummy.agent_move"; //sends
    private static final String MSG_RESET_GAME = "rummy.reset_game"; //sends
+   private static final String MSG_GAME_OVER = "rummy.gameover"; //sends
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;//not currently used
-   private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
-   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 1;
+   private static final int AGENT_PLAY_DELAY_AMOUNT = 5;
+   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 2;
+   private static final int AGENT_DRAWING_DISCARDING_DELAY = 1;
 
    public static String gazeDirection = "";
    public static boolean limboEnteredOnce = false;
@@ -51,6 +53,7 @@ public class SrummyClient implements SrummyUI {
    private Timer humanCommentingTimer;
    private Timer agentPlayDelayTimer;
    private Timer agentPlayingGazeDelayTimer;
+   private Timer agentDrawOrDiscardDelayTimer;
    private Timer nextStateTimer;
 
    private SrummyLegalMoveFetcher moveFetcher;
@@ -112,7 +115,15 @@ public class SrummyClient implements SrummyUI {
    }
 
    private void receivedMessage (Message message) {
-
+      
+      if(message.getType()
+            .equals(MSG_GAME_OVER)){
+         String winner = message.getBody().get("winner")
+         .getAsString().toLowerCase().trim();
+         gameState.gameOver(winner);
+         SrummyClient.gameOver = true;
+      }
+      
       if(message.getType()
             .equals(MSG_AVLBL_AGENT_MOVES)){
          //extracts options, choose one, saves its hash
@@ -166,6 +177,7 @@ public class SrummyClient implements SrummyUI {
          }
          listener.receivedNewState();
       }
+         
    }
 
    @Override
@@ -232,15 +244,19 @@ public class SrummyClient implements SrummyUI {
 
    // agent playing delay timers
    @Override
-   public void triggerAgentPlayTimer () {
+   public void triggerAgentPlayTimers () {
       agentPlayDelayTimer = new Timer();
       agentPlayingGazeDelayTimer = new Timer();
+      agentDrawOrDiscardDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(
             new AgentPlayDelayTimerSetter(),
             1000 * AGENT_PLAY_DELAY_AMOUNT);
       agentPlayingGazeDelayTimer.schedule(
             new AgentPlayingGazeDelayTimerSetter(),
             1000 * AGENT_PLAYING_GAZE_DELAY_AMOUNT);
+      agentDrawOrDiscardDelayTimer.schedule(
+            new AgentDrawDelayTimerSetter(), 
+            1000 * AGENT_DRAWING_DISCARDING_DELAY);
    }
 
    private class AgentPlayDelayTimerSetter extends TimerTask {
@@ -249,11 +265,30 @@ public class SrummyClient implements SrummyUI {
          listener.agentPlayDelayOver();
       }
    }
-
    private class AgentPlayingGazeDelayTimerSetter extends TimerTask {
       @Override
       public void run () {
          listener.agentPlayingGazeDelayOver();
+      }
+   }
+   private class AgentDrawDelayTimerSetter extends TimerTask {
+      @Override
+      public void run () {
+         listener.agentDrawDelayOver();
+      }
+   }
+   
+   @Override
+   public void triggerAgentDiscardDelay () {
+      agentDrawOrDiscardDelayTimer = new Timer();
+      agentDrawOrDiscardDelayTimer.schedule(
+            new AgentDiscardDelayTimerSetter(), 
+            1000 * AGENT_DRAWING_DISCARDING_DELAY);
+   }
+   private class AgentDiscardDelayTimerSetter extends TimerTask {
+      @Override
+      public void run () {
+         listener.agentDiscardDelayOver();
       }
    }
 

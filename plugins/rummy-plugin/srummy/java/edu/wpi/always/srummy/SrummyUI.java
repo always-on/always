@@ -7,7 +7,8 @@ public interface SrummyUI {
 
    public void prepareAgentCommentForAMoveBy(int player);
    public String getCurrentAgentComment();
-   public void triggerAgentPlayTimer();
+   public void triggerAgentPlayTimers();
+   public void triggerAgentDiscardDelay ();
    public void cancelHumanCommentingTimer();
    public void triggerHumanCommentingTimer();
    public List<String> getCurrentHumanCommentOptionsForAMoveBy(int player);
@@ -16,9 +17,7 @@ public interface SrummyUI {
    public void updatePlugin(SrummyUIListener listener);
    public void sendBackAgentMove ();
    public void resetGame();
-   //   public void prepareAgentMove();
    //   public void makeBoardPlayable();
    //   public void makeBoardUnplayable();
-   //   public void playAgentMove (SrummyUI listener);
 
 }
