@@ -31,6 +31,8 @@ namespace Agent.UI
 {
 	public partial class AgentControl : UserControl, IAgentControl
 	{
+        public static String agentType;
+
         UnityUserControl.UnityUserControl agent;
 		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
         public event EventHandler LoadComplete;

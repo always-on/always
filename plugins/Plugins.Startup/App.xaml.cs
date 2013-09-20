@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using Agent.UI;
 
 namespace Plugins.Startup
 {
@@ -20,6 +21,24 @@ namespace Plugins.Startup
             //AgentApp.MainWindow.RegisterPlugin("srummy", "AgentApp.SRummyPluginCreator,SRummy.UI");
             AgentApp.MainWindow.RegisterPlugin("tictactoe", "AgentApp.TTTPluginCreator,TTT.UI");
             AgentApp.MainWindow.RegisterPlugin("story", "Story.UI.StoryPluginCreator,Story.UI");
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            switch (e.Args[0])
+            {
+                case "Reeti":
+                    AgentControl.agentType = "Reeti";
+                    break;
+
+                case "Unity":
+                    AgentControl.agentType = "Unity";
+                    break;
+
+                case "Both":
+                    AgentControl.agentType = "Both";
+                    break;
+            }
         }
     }
 
