@@ -26,10 +26,10 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
    }
 
    public static float translateToAgentTurnHor (Point p) {
-      return (160f-p.x)*0.5f/160f;
+      return (160f-p.x)*0.75f/160f;
    }
 
    public static float translateToAgentTurnVer(Point p) {
-      return (120f-p.y)*0.75f/120f;
+      return (120f-p.y)/120f;
    }
 }

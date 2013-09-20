@@ -258,7 +258,7 @@ FaceInfo getAgentFaceInfo( int intDebug )
 				faceInfo.intCenter = (faceInfo.intRight-faceInfo.intLeft)/2;
 				faceInfo.intCenter += faceInfo.intLeft;
 				faceInfo.intTiltCenter = (faceInfo.intBottom-faceInfo.intTop)/2;
-				faceInfo.intTiltCenter += faceInfo.intBottom;
+				faceInfo.intTiltCenter += faceInfo.intTop;
 						
 				faceInfo.intArea = (faceInfo.intRight-faceInfo.intLeft)*(faceInfo.intBottom-faceInfo.intTop);
 
@@ -364,7 +364,7 @@ FaceInfo getReetiFaceInfo( int intDebug )
 			faceInfo.intCenter = (faceInfo.intRight-faceInfo.intLeft)/2;
 			faceInfo.intCenter += faceInfo.intLeft;
 			faceInfo.intTiltCenter = (faceInfo.intBottom-faceInfo.intTop)/2;
-			faceInfo.intTiltCenter += faceInfo.intBottom;
+			faceInfo.intTiltCenter += faceInfo.intTop;
 						
 			faceInfo.intArea = (faceInfo.intRight-faceInfo.intLeft)*(faceInfo.intBottom-faceInfo.intTop);
 
