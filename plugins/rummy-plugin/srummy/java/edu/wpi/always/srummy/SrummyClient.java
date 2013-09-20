@@ -37,6 +37,9 @@ public class SrummyClient implements SrummyUI {
    public static boolean twoMeldsInARowByAgent = false;
    public static boolean twoMeldsInARowByHuman = false;
    public static boolean oneMeldInHumanTurnAlready = false;
+   public static boolean oneLayoffInHumanTurnAlready = false;
+   public static boolean oneMeldInAgentTurnAlready = false;
+   public static boolean oneLayoffInAgentTurnAlready = false;
 
    private static final int HUMAN_IDENTIFIER = 1;
    //private static final int AGENT_IDENTIFIER = 2;
@@ -89,6 +92,7 @@ public class SrummyClient implements SrummyUI {
       registerHandlerFor(MSG_GAME_STATE);
       registerHandlerFor(MSG_HUMAN_MOVE);
       registerHandlerFor(MSG_AVLBL_AGENT_MOVES);
+      registerHandlerFor(MSG_GAME_OVER);
 
       moveFetcher = new SrummyLegalMoveFetcher();
       moveAnnotator = new SrummyLegalMoveAnnotator();
@@ -136,10 +140,14 @@ public class SrummyClient implements SrummyUI {
          String chosenMoveType = "";
          if(latestAgentMove.getMove() instanceof DrawMove)
             chosenMoveType = "draw";
-         else if(latestAgentMove.getMove() instanceof MeldMove)
+         else if(latestAgentMove.getMove() instanceof MeldMove){
             chosenMoveType = "meld";
-         else if(latestAgentMove.getMove() instanceof LayoffMove)
+            oneMeldInAgentTurnAlready = true;
+         }
+         else if(latestAgentMove.getMove() instanceof LayoffMove){
             chosenMoveType = "layoff";
+            oneLayoffInAgentTurnAlready = true;
+         }
          else if(latestAgentMove.getMove() instanceof DiscardMove)
             chosenMoveType = "discard";
 
@@ -149,6 +157,7 @@ public class SrummyClient implements SrummyUI {
          //tickAll
          //scenarioManager.tickAll();
       }
+      
       if(message.getType()
             .equals(MSG_HUMAN_MOVE)){
          try {
@@ -165,6 +174,10 @@ public class SrummyClient implements SrummyUI {
             twoMeldsInARowByHuman = true;
          if(isMeld)
             oneMeldInHumanTurnAlready = true;
+
+         if(latestHumanMove.getMove() instanceof LayoffMove)
+            oneLayoffInHumanTurnAlready = true;
+
          /* flags ABOVE get reset in StartGamingSequence#AgentPlayDelay#enter()
          since once there, user has not played again yet, 
          and comments on user move is concluded */
@@ -392,7 +405,6 @@ public class SrummyClient implements SrummyUI {
          if(pile.equals(Pile.Discard))
             latestAgentDrawnCard = gameState.getTopOfDiscard();
       }
-      System.out.println(">>>>>>>>>>>>>"+passedMove.getMove().toString());
       
       if(passedMove.getMove() instanceof MeldMove
             //|| passedMove.getMove() instanceof LayoffMove

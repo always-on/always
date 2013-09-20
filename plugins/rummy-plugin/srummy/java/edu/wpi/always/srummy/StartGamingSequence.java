@@ -69,6 +69,8 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          //getContext().getSrummyUI().makeBoardPlayable();
          getContext().getSrummyUI().updatePlugin(this);
          //SrummyClient.gazeDirection = "board";
+         SrummyClient.oneMeldInAgentTurnAlready = false;
+         SrummyClient.oneLayoffInAgentTurnAlready = false;
          SrummyClient.limboEnteredOnce = false;
          SrummyClient.gazeDirection = "sayandgazelimbo";
       }
@@ -113,6 +115,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       public void enter(){
          SrummyClient.twoMeldsInARowByHuman = false;
          SrummyClient.oneMeldInHumanTurnAlready = false;
+         SrummyClient.oneLayoffInHumanTurnAlready = false;
          SrummyClient.gazeDirection = "board";
          getContext().getSrummyUI().updatePlugin(this);
          if(SrummyClient.gameOver){

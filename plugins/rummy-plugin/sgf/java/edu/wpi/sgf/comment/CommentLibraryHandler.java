@@ -232,7 +232,8 @@ public class CommentLibraryHandler {
 
    public List<Comment> getCmForMakingOnPlayerAmong(
          List<Comment> someComments, String player){
-      //player valid values: agent, human, both
+      //player valid values: agent, human, both, null 
+      //(null (no madeOn attribute) is assumed both)
       List<Comment> cmForMakingOnSomePlayer = 
             new ArrayList<Comment>();
       for(Comment eachComment : someComments)

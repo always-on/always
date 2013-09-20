@@ -44,7 +44,7 @@ public class SrummySchema extends ActivityStateMachineSchema {
          propose(new SyncSayBuilder(
                "$ "+StartGamingSequence.getCurrentAgentComment()+" $",
                new GazeBehavior(user))
-         .build());
+         .build());  
       }
       if(SrummyClient.gazeDirection.equals("sayandgazegameover")){
          propose(new SyncSayBuilder(

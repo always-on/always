@@ -8,7 +8,6 @@ import java.util.Map;
 import com.google.gson.JsonObject;
 import edu.wpi.always.client.Message;
 import edu.wpi.always.srummy.SrummyClient;
-import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.logic.GameLogicState;
 
 /**
@@ -564,7 +563,7 @@ public class SrummyGameState extends GameLogicState {
     * 1. Meld Move
     * 2. Lay off Move
     * 3. Two melds in a row
-    * 4. Not melding for 4 rounds (averts repeating on 5th.)
+    * 4. TODO Not melding for 4 rounds (averts repeating on 5th.)
     * 
     * @return List of String including rummy specific tags
     * @Sicne 2.0
@@ -573,26 +572,23 @@ public class SrummyGameState extends GameLogicState {
       
       List<String> tags = new ArrayList<String>();
       
-      AnnotatedLegalMove agentLatestMove = 
-            SrummyClient.getLatestAgentMove();
-      AnnotatedLegalMove humanLatestMove = 
-            SrummyClient.getLatestHumanMove();
-      
-      if(agentLatestMove.getMove() instanceof MeldMove)
+      if(SrummyClient.oneMeldInAgentTurnAlready)
          tags.add(AGENT_MELD_COMMENTING_TAG);
-      else if(agentLatestMove.getMove() instanceof LayoffMove)
+      else if(SrummyClient.oneLayoffInAgentTurnAlready)
          tags.add(AGENT_LAYOFF_COMMENTING_TAG);
       
-      if(humanLatestMove.getMove() instanceof MeldMove)
+      if(SrummyClient.oneMeldInHumanTurnAlready)
          tags.add(HUMAN_MELD_COMMENTING_TAG);
-      else if(humanLatestMove.getMove() instanceof LayoffMove)
+      else if(SrummyClient.oneLayoffInHumanTurnAlready)
          tags.add(HUMAN_LAYOFF_COMMENTING_TAG);
+      
+      //could here add both layoff and meld cm, TODO
       
       if(SrummyClient.twoMeldsInARowByAgent)
          tags.add(TWO_MELDS_IN_A_ROW_BY_AGENT);
       if(SrummyClient.twoMeldsInARowByHuman)
          tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
-         
+      
       return tags;
    }
 

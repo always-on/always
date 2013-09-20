@@ -100,7 +100,7 @@ namespace AgentApp
 						try
 						{
 							bool done = false; int tries = 0;
-							while (!done && tries < 5)
+							while (!done && tries < 10)
 							{
 								tries++;
 								game.AgentCardsController.GetBestMove().Realize(game.GameState);
@@ -109,24 +109,6 @@ namespace AgentApp
 						}
 						catch (Exception){ }
 					}
-				//}
-				//else
-				//{
-				//    bool done = false;
-				//    int tries = 0;
-				//    while (!done && tries < 5)
-				//    {
-				//        try
-				//        {
-				//            tries++;
-				//            game.AgentCardsController.GetBestMove().Realize(game.GameState);
-				//            done = true;
-				//        }
-				//        catch (Exception)
-				//        {
-				//        }
-				//    }
-				//}
 			}
 		}
 
