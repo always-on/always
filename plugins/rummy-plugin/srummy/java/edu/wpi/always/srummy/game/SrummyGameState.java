@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import com.google.gson.JsonObject;
 import edu.wpi.always.client.Message;
+import edu.wpi.always.srummy.SrummyClient;
+import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.logic.GameLogicState;
 
 /**
@@ -25,6 +27,13 @@ import edu.wpi.sgf.logic.GameLogicState;
  */
 public class SrummyGameState extends GameLogicState {
 
+   private final static String AGENT_MELD_COMMENTING_TAG = "agentMeld";
+   private final static String HUMAN_MELD_COMMENTING_TAG = "humanMeld";
+   private final static String AGENT_LAYOFF_COMMENTING_TAG = "agentLayOff";
+   private final static String HUMAN_LAYOFF_COMMENTING_TAG = "humanLayoff";
+   private final static String TWO_MELDS_IN_A_ROW_BY_AGENT = "twoMeldsInARowByAgent";
+   private final static String TWO_MELDS_IN_A_ROW_BY_HUMAN = "twoMeldsInARowByHuman";
+   
    private Deck stock;
    private Deck discard;
 
@@ -562,10 +571,29 @@ public class SrummyGameState extends GameLogicState {
     */
    public List<String> getGameSpecificCommentingTags () {
       
+      List<String> tags = new ArrayList<String>();
       
-      List<String> tmp = new ArrayList<String>();;
-      tmp.add("temp");
-      return tmp;
+      AnnotatedLegalMove agentLatestMove = 
+            SrummyClient.getLatestAgentMove();
+      AnnotatedLegalMove humanLatestMove = 
+            SrummyClient.getLatestHumanMove();
+      
+      if(agentLatestMove.getMove() instanceof MeldMove)
+         tags.add(AGENT_MELD_COMMENTING_TAG);
+      else if(agentLatestMove.getMove() instanceof LayoffMove)
+         tags.add(AGENT_LAYOFF_COMMENTING_TAG);
+      
+      if(humanLatestMove.getMove() instanceof MeldMove)
+         tags.add(HUMAN_MELD_COMMENTING_TAG);
+      else if(humanLatestMove.getMove() instanceof LayoffMove)
+         tags.add(HUMAN_LAYOFF_COMMENTING_TAG);
+      
+      if(SrummyClient.twoMeldsInARowByAgent)
+         tags.add(TWO_MELDS_IN_A_ROW_BY_AGENT);
+      if(SrummyClient.twoMeldsInARowByHuman)
+         tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
+         
+      return tags;
    }
 
    public int didAnyOneJustWin () {

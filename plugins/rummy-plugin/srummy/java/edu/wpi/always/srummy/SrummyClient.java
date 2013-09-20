@@ -34,7 +34,9 @@ public class SrummyClient implements SrummyUI {
    public static boolean DelayAfterDraw = false;
    public static boolean meldedAlready = false;
    public static boolean agentDrawn = false;
-   public static boolean twoMeldsInARow = false;
+   public static boolean twoMeldsInARowByAgent = false;
+   public static boolean twoMeldsInARowByHuman = false;
+   public static boolean oneMeldInHumanTurnAlready = false;
 
    private static final int HUMAN_IDENTIFIER = 1;
    //private static final int AGENT_IDENTIFIER = 2;
@@ -67,8 +69,8 @@ public class SrummyClient implements SrummyUI {
    private CommentingManager commentingManager;
    private SrummyGameState gameState;
 
-   private AnnotatedLegalMove latestAgentMove;
-   private AnnotatedLegalMove latestHumanMove;
+   private static AnnotatedLegalMove latestAgentMove;
+   private static AnnotatedLegalMove latestHumanMove;
    private Card latestAgentDrawnCard;
 
    private List<SrummyLegalMove> possibleMoves;
@@ -156,6 +158,16 @@ public class SrummyClient implements SrummyUI {
                   + "processing human move.");
             e.printStackTrace();
          }
+
+         //>> the logic below checks if two melds is done by human in a turn
+         boolean isMeld = latestHumanMove.getMove() instanceof MeldMove;
+         if(isMeld && oneMeldInHumanTurnAlready)
+            twoMeldsInARowByHuman = true;
+         if(isMeld)
+            oneMeldInHumanTurnAlready = true;
+         /* flags ABOVE get reset in StartGamingSequence#AgentPlayDelay#enter()
+         since once there, user has not played again yet, 
+         and comments on user move is concluded */
 
          //note: Human draw is not sent from GUI, 
          //as contains no strategy/commenting value. 
@@ -576,7 +588,10 @@ public class SrummyClient implements SrummyUI {
       if ( winOrTie != 0 )
          SrummyClient.gameOver = true;
    }
-
+   
+   public static AnnotatedLegalMove getLatestAgentMove(){return latestAgentMove;}
+   public static AnnotatedLegalMove getLatestHumanMove(){return latestHumanMove;}
+   
    public void show () {
       proxy.startPlugin(PLUGIN_NAME, InstanceReuseMode.Reuse, null);
    }

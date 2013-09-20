@@ -111,6 +111,8 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       public void enter(){
+         SrummyClient.twoMeldsInARowByHuman = false;
+         SrummyClient.oneMeldInHumanTurnAlready = false;
          SrummyClient.gazeDirection = "board";
          getContext().getSrummyUI().updatePlugin(this);
          if(SrummyClient.gameOver){
@@ -209,7 +211,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             getContext().getSrummyUI().sendBackAgentMove();//discard
             SrummyClient.meldedAlready = false;
             SrummyClient.agentDrawn = false;
-            SrummyClient.twoMeldsInARow = false;
+            SrummyClient.twoMeldsInARowByAgent = false;
             if(new Random().nextBoolean())//only discard can conclude a turn
                skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
             else
@@ -219,7 +221,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             getContext().getSrummyUI().sendBackAgentMove();//lay off
          }
          else if (moveType.equals("meld")){
-            SrummyClient.twoMeldsInARow = true;
+            SrummyClient.twoMeldsInARowByAgent = true;
             getContext().getSrummyUI().sendBackAgentMove();//meld
          }
       }
