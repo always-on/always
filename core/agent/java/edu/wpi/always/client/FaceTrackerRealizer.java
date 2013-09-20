@@ -21,8 +21,8 @@ public class FaceTrackerRealizer extends
    private static long acceptableLosingTime = 2000;
    private static long realFaceWaitingTime = 1000;
    
-//   private static int faceAreaThreshold = 1000;
-//   private static int facePositionThreshold = 10;
+   private static int faceAreaThreshold = 1000;
+   private static int facePositionThreshold = 10;
    
    private long[] faceProfileVector = new long[4];
    private long[] facePrevProfileVector = new long[4];
