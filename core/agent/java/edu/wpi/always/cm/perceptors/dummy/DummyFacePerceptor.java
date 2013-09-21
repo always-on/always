@@ -9,5 +9,4 @@ public class DummyFacePerceptor implements FacePerceptor {
 
    @Override
    public void run () {}
-
 }
