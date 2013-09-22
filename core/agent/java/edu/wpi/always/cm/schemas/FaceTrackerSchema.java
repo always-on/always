@@ -19,9 +19,7 @@ public class FaceTrackerSchema extends SchemaBase {
 
    @Override
    public void run () {
-      FacePerception perception = null;
-      
-      perception = facePerceptor.getLatest();
+      FacePerception perception = facePerceptor.getLatest();
       
       if ( perception != null ) {
          BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0.05)
