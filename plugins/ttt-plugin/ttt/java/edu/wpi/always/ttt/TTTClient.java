@@ -222,10 +222,10 @@ public class TTTClient implements TTTUI {
    public void triggerNextStateTimer (
          TTTUIListener listener) {
       nextStateTimer = new Timer();
-      nextStateTimer.schedule(new testTimerSetter(),
+      nextStateTimer.schedule(new NextStateTimerSetter(),
             4000);
    }
-   private class testTimerSetter extends TimerTask {
+   private class NextStateTimerSetter extends TimerTask {
       @Override
       public void run () {
          listener.nextState();

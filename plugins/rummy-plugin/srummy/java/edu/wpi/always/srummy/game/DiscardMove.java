@@ -6,7 +6,7 @@ package edu.wpi.always.srummy.game;
  * @version 1.0
  */
 
-public class DiscardMove extends Move{
+public class DiscardMove extends SrummyLegalMove{
 
 	private final Card playedCard;
 	
@@ -84,7 +84,7 @@ public class DiscardMove extends Move{
 	}
 	
 	@Override
-	public void happen(GameState gameState){
+	public void happen(SrummyGameState gameState){
 		
 		gameState.discardCard(player, playedCard);
 		

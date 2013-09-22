@@ -1,23 +1,26 @@
-package edu.wpi.always.srummy.sgf.logic;
+package edu.wpi.always.srummy.logic;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import edu.wpi.always.srummy.game.DiscardMove;
+import edu.wpi.always.srummy.game.DrawMove;
 import edu.wpi.always.srummy.game.LayoffMove;
 import edu.wpi.always.srummy.game.MeldMove;
-import edu.wpi.always.srummy.game.Move;
+import edu.wpi.always.srummy.game.SrummyGameState;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
+import edu.wpi.sgf.logic.LegalMove;
 
-public class RummyLegalMoveAnnotator 
+public class SrummyLegalMoveAnnotator 
 	implements edu.wpi.sgf.logic.LegalMoveAnnotator{
 	
 	private static final double meldMoveStrength = 0.8;
 	private static final double layoffMoveStrength = 0.6;
 	private static final double discardMoveStrength = 0.4;
+	private static final double drawMoveStrength = 0.2;
 	
 	
-	public List<AnnotatedLegalMove> annotate(List<Move> someMoves){
+	public List<AnnotatedLegalMove> annotate(List<LegalMove> someMoves,
+	      SrummyGameState gameState){
 		
 		List<AnnotatedLegalMove> annotatedMoves = 
 				new ArrayList<AnnotatedLegalMove>();
@@ -26,7 +29,7 @@ public class RummyLegalMoveAnnotator
 				|| someMoves.isEmpty())
 			return annotatedMoves;
 		
-		for(Move eachMove : someMoves){
+		for(LegalMove eachMove : someMoves){
 			
 			if(eachMove instanceof MeldMove)
 				annotatedMoves.add(
@@ -40,11 +43,23 @@ public class RummyLegalMoveAnnotator
 				annotatedMoves.add(
 						new AnnotatedLegalMove(
 								eachMove, discardMoveStrength));
+			else if (eachMove instanceof DrawMove)
+			   annotatedMoves.add(
+			         new AnnotatedLegalMove(
+			               eachMove, drawMoveStrength));
 		
 		}
 		
 		return annotatedMoves;
 		
+	}
+	
+	public List<AnnotatedLegalMove> annotate(LegalMove someMove,
+         SrummyGameState gameState){
+	   List<LegalMove> moveAsList = 
+	            new ArrayList<LegalMove>();
+	   moveAsList.add(someMove);
+	   return annotate(moveAsList, gameState);
 	}
 	
 	//for testing
@@ -53,7 +68,7 @@ public class RummyLegalMoveAnnotator
 		String desciption = "";
 		for(AnnotatedLegalMove eachMove : someMoves)
 			desciption +=
-					((edu.wpi.always.srummy.game.Move)eachMove
+					((edu.wpi.always.srummy.game.SrummyLegalMove)eachMove
 					.getMove()).toString() + " >> " + 
 					eachMove.getAnnotation() + "\n" 
 					;

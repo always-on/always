@@ -6,7 +6,7 @@ package edu.wpi.always.srummy.game;
  * @version 1.0
  */
 
-public class MeldMove extends Move{
+public class MeldMove extends SrummyLegalMove{
 	
 	private final Meld meld;
 
@@ -84,7 +84,7 @@ public class MeldMove extends Move{
 	}
 	
 	@Override
-	public void happen(GameState gameState) {
+	public void happen(SrummyGameState gameState) {
 		
 		gameState.meld(player, meld);
 		

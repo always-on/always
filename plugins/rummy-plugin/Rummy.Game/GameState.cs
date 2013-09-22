@@ -531,7 +531,7 @@ namespace Rummy
 
         public delegate void StateChangedEventHandler(State oldState, State newState);
         public event StateChangedEventHandler BeforeStateChange = delegate { };
-        public event StateChangedEventHandler StateChanged = delegate { };
+		public event StateChangedEventHandler StateChanged = delegate { };
 
         public delegate void MeldHappenedEventHandler(MeldMove move);
         public delegate void LayoffHappendEventHandler(LayOffMove move);

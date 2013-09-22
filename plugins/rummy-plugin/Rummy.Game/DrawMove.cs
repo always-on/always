@@ -26,6 +26,11 @@
 			return true;
 		}
 
+		public PileName getPile()
+		{
+			return _pile;
+		}
+
 		public override int GetHashCode()
 		{
 			return (int)Player + (int)_pile * 2;
