@@ -1,11 +1,9 @@
 package edu.wpi.always.srummy;
 
 import java.awt.Point;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import com.google.common.collect.Lists;
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.SyncSayBuilder;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.always.user.people.PeopleManager;

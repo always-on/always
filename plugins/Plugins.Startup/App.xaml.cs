@@ -24,20 +24,9 @@ namespace Plugins.Startup
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            switch (e.Args[0])
-            {
-                case "Reeti":
-                    AgentControl.agentType = "Reeti";
-                    break;
-
-                case "Unity":
-                    AgentControl.agentType = "Unity";
-                    break;
-
-                case "Both":
-                    AgentControl.agentType = "Both";
-                    break;
-            }
+			if ( e.Args.Length > 0 )
+				AgentControl.agentType = (AgentControl.AgentType)
+					Enum.Parse(typeof(AgentControl.AgentType), e.Args[0], true);
         }
     }
 
