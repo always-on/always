@@ -40,13 +40,13 @@ public class SchemaManager {
          return instance;
       } else {
          instance = container.getComponent(type);
-         scheduler.schedule(instance, Schema.DEFAULT_INTERVAL);
+         scheduler.schedule(instance, DiscoRT.SCHEMA_INTERVAL);
       }
       return instance;
    }
 
    public void registerSchema (Class<? extends Schema> type, boolean runOnStartup) {
-      registerSchema(type, Schema.DEFAULT_INTERVAL, runOnStartup);
+      registerSchema(type, DiscoRT.SCHEMA_INTERVAL, runOnStartup);
    }
 
    public void registerSchema (Class<? extends Schema> type, long updateDelay,

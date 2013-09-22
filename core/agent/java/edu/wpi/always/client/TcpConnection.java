@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import edu.wpi.always.Always;
+import edu.wpi.cetask.Utils;
 
 public class TcpConnection implements RemoteConnection {
 
@@ -56,7 +57,7 @@ public class TcpConnection implements RemoteConnection {
          try { Thread.sleep(3000);  } catch (InterruptedException i) {}
          connect();
       }
-        catch (Exception e) { throw new RuntimeException(e); }
+        catch (Exception e) { Utils.rethrow(e); }
    }
 
    protected void fireMessageReceived (String s) {

@@ -12,20 +12,13 @@ import edu.wpi.sgf.scenario.*;
 public class TTTClient implements TTTUI {
 
    private static final String PLUGIN_NAME = "tictactoe";
-
    private static final String MSG_HUMAN_MOVE = "tictactoe.human_played_cell";
-
    private static final String MSG_AGENT_MOVE = "tictactoe.agent_cell";
-
    private static final String MSG_BOARD_PLAYABILITY = "tictactoe.playability";
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;
-
    private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
-
-   public static boolean gazeAtBoard = false;
-   public static boolean gazeAtUser = false;
-   public static boolean gazeOnThinking = false;
+   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 2;
 
    public static String gazeDirection = "";
    
@@ -41,36 +34,26 @@ public class TTTClient implements TTTUI {
    private int winOrTie = 0;
 
    private String currentComment;
-
    private AnnotatedLegalMove currentMove;
 
    private final UIMessageDispatcher dispatcher;
-
    private final ClientProxy proxy;
-
    private TTTUIListener listener;
 
    private TTTLegalMoveGenerator moveGenerator;
-
    private TTTLegalMoveAnnotator moveAnnotator;
-
    private ScenarioManager scenarioManager;
-
    // private ScenarioFilter scenarioFilter;
    private MoveChooser moveChooser;
-
    private CommentingManager commentingManager;
-
    private TTTGameState gameState;
 
    private Timer humanCommentingTimer;
-
    private Timer agentPlayDelayTimer;
-
+   private Timer agentPlayingGazeDelayTimer;
    private Timer nextStateTimer;
 
    private TTTAnnotatedLegalMove latestAgentMove;
-
    private TTTAnnotatedLegalMove latestHumanMove;
 
    public TTTClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
@@ -79,7 +62,7 @@ public class TTTClient implements TTTUI {
       // startPlugin(dispatcher);
       moveGenerator = new TTTLegalMoveGenerator();
       moveAnnotator = new TTTLegalMoveAnnotator();
-      commentingManager = new CommentingManager();
+      commentingManager = new TTTCommentingManager();
       // scenarioFilter = new ScenarioFilter();
       moveChooser = new MoveChooser();
       scenarioManager = new ScenarioManager();
@@ -212,14 +195,26 @@ public class TTTClient implements TTTUI {
    @Override
    public void triggerAgentPlayTimer () {
       agentPlayDelayTimer = new Timer();
-      agentPlayDelayTimer.schedule(new AgentPlayDelayTimerSetter(),
+      agentPlayingGazeDelayTimer = new Timer();
+      agentPlayDelayTimer.schedule(
+            new AgentPlayDelayTimerSetter(),
             1000 * AGENT_PLAY_DELAY_AMOUNT);
+      agentPlayingGazeDelayTimer.schedule(
+            new AgentPlayingGazeDelayTimerSetter(),
+            1000 * AGENT_PLAYING_GAZE_DELAY_AMOUNT);
    }
 
    private class AgentPlayDelayTimerSetter extends TimerTask {
       @Override
       public void run () {
          listener.agentPlayDelayOver();
+      }
+   }
+   
+   private class AgentPlayingGazeDelayTimerSetter extends TimerTask {
+      @Override
+      public void run () {
+         listener.agentPlayingGazeDelayOver();
       }
    }
    

@@ -4,6 +4,7 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 
 import edu.wpi.always.test.AquariumTripSchema;
+import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.behavior.BehaviorHistory;
 import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
 import edu.wpi.disco.rt.schema.Schema;
@@ -35,7 +36,7 @@ public class FakeDemoGUIRegistry implements ComponentRegistry, SchemaRegistry {
 
          @Override
          public long getUpdateDelay () {
-            return Schema.DEFAULT_INTERVAL;
+            return DiscoRT.SCHEMA_INTERVAL;
          }
 
          @Override
