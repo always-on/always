@@ -16,14 +16,17 @@ public class ClientRegistry implements ComponentRegistry {
       container.addComponent(FaceExpressionRealizer.class);
       container.addComponent(IdleBehaviorRealizer.class);
       
-      Always.AgentType agentType = Always.getAgentType();
-      if(agentType == Always.AgentType.Unity)
-         container.addComponent(FaceTrackerRealizer.class);
-      else if(agentType == Always.AgentType.Reeti)
-         container.addComponent(ReetiFaceTrackerRealizer.class);
-      else if(agentType == Always.AgentType.Both)
-         container.addComponent(MirrorFaceTrackerRealizer.class);
-
+      switch ( Always.getAgentType() ) {
+         case Unity:
+            container.addComponent(FaceTrackerRealizer.class);
+            break;
+         case Reeti:
+            container.addComponent(ReetiFaceTrackerRealizer.class);
+            break;
+         case Mirror:
+            container.addComponent(MirrorFaceTrackerRealizer.class);
+            break;
+      }
       container.addComponent(SpeechRealizer.class);
       container.addComponent(AudioFileRealizer.class);
       container.addComponent(ClientMenuRealizer.class);

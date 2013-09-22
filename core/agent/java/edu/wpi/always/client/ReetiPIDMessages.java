@@ -39,7 +39,7 @@ public class ReetiPIDMessages
    /************COMPUTE NECK ROTATE (XPID)*************/
    private double ComputeNeckXPID()
    {
-      XPID.Compute();
+      XPID.compute();
       double Output = XPID.getOutput();
       return Output;
    }
@@ -47,7 +47,7 @@ public class ReetiPIDMessages
    /************COMPUTE NECK TILT (YPID)**************/
    private double ComputeNeckYPID()
    {
-      YPID.Compute();
+      YPID.compute();
       double Output = YPID.getOutput();
       return Output;
    }

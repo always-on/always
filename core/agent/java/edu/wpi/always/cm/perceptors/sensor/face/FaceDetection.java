@@ -12,7 +12,7 @@ public class FaceDetection {
       lib = CPPinterface.INSTANCE;
       if ( lib != null )
       {
-         if(agentType == Always.AgentType.Both)
+         if(agentType == Always.AgentType.Mirror)
          {
             lib.initAgentShoreEngine(intDebug);
             String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
@@ -48,7 +48,7 @@ public class FaceDetection {
    public void terminateFaceDetectionProcess (int intDebug, Always.AgentType agentType) {
       if ( lib != null )
       {
-         if(agentType == Always.AgentType.Both)
+         if(agentType == Always.AgentType.Mirror)
          {
             lib.terminateAgentShoreEngine(intDebug);
             String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.

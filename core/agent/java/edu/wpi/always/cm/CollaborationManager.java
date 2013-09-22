@@ -33,21 +33,17 @@ public class CollaborationManager extends DiscoRT {
  
    public void start (Class<? extends Plugin> plugin, String activity) {
       
-      Always.AgentType agentType = Always.getAgentType();
-      if(agentType == Always.AgentType.Both)
-      {
-         container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
-         container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);
+      switch ( Always.getAgentType() ) {
+         case Unity:
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
+            break;
+         case Reeti:
+            container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);            
+            break;
+         case Mirror:
+            container.as(Characteristics.CACHE).addComponent(MirrorShoreFacePerceptor.class);
+            break;
       }
-      else if(agentType == Always.AgentType.Unity )
-      {
-         container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
-      }
-      else if(agentType == Always.AgentType.Reeti)
-      {
-         container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);
-      }
-      
       // FIXME Try to use real sensors
       container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);

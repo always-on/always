@@ -41,7 +41,7 @@ public class Always {
       always.start();
    }
 
-   public enum AgentType { Unity, Reeti, Both }
+   public enum AgentType { Unity, Reeti, Mirror }
    
    private static AgentType agentType = AgentType.Unity;
    

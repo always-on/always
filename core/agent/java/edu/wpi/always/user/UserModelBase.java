@@ -42,7 +42,7 @@ public abstract class UserModelBase implements UserModel {
 
    @Override
    public void setCloseness (Closeness closeness) { 
-      setProperty(CLOSENESS, closeness.name()); 
+      if ( userName != null ) setProperty(CLOSENESS, closeness.name()); 
    }
   
 }
