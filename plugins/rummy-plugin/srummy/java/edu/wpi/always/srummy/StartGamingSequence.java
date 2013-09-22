@@ -17,7 +17,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    private static boolean receivedAgentLayoffOptions = false;
 
    public StartGamingSequence(final SrummyStateContext context) {
-      super("Let's play rummy", context);
+      super("Let's play rummy socially", context);
       System.out.println(">>>> StartGamingSequence");
       choice("Ok", new DialogStateTransition() {
          @Override
