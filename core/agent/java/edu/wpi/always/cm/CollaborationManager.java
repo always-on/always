@@ -4,7 +4,7 @@ import java.io.File;
 import org.picocontainer.*;
 import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.dummy.*;
-import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
+import edu.wpi.always.cm.perceptors.sensor.face.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.always.user.*;
@@ -32,7 +32,22 @@ public class CollaborationManager extends DiscoRT {
    }
  
    public void start (Class<? extends Plugin> plugin, String activity) {
-      container.as(Characteristics.CACHE).addComponent(DummyFacePerceptor.class);
+      
+      Always.AgentType agentType = Always.getAgentType();
+      if(agentType == Always.AgentType.Both)
+      {
+         container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
+         container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);
+      }
+      else if(agentType == Always.AgentType.Unity )
+      {
+         container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
+      }
+      else if(agentType == Always.AgentType.Reeti)
+      {
+         container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);
+      }
+      
       // FIXME Try to use real sensors
       container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
