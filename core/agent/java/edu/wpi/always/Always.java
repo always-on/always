@@ -106,6 +106,10 @@ public class Always {
       return container.getComponent(UserModel.class);
    }
    
+   public void printUserModel () {
+      UserUtils.print(getUserModel(), System.out);
+   }
+   
    /**
     * To enabled tracing of Always implementation.  Note this variable can be conveniently
     * set using eval command in Disco console or in init script of a task model, such 
