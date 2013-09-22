@@ -8,11 +8,11 @@ import edu.wpi.sgf.logic.LegalMove;
  * @version 1.0
  */
 
-public abstract class Move implements LegalMove {
+public abstract class SrummyLegalMove implements LegalMove {
 
 	protected Player player;
 
-	public Move(Player player){
+	public SrummyLegalMove(Player player){
 		this.player = player;
 	}
 
@@ -21,6 +21,6 @@ public abstract class Move implements LegalMove {
 	}
 	
 	public abstract void happen(
-			GameState gameState);
+			SrummyGameState gameState);
 
 }

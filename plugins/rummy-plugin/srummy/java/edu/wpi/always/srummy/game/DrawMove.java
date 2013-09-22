@@ -5,7 +5,7 @@ package edu.wpi.always.srummy.game;
  * @author Morteza Behrooz
  * @version 1.0
  */
-public class DrawMove extends Move{
+public class DrawMove extends SrummyLegalMove{
 
 	private final Pile pile;
 	
@@ -83,7 +83,7 @@ public class DrawMove extends Move{
 	}
 	
 	@Override
-	public void happen(GameState gameState) {
+	public void happen(SrummyGameState gameState) {
 
 		gameState.drawCard(player, pile);
 		
