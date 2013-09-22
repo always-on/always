@@ -107,7 +107,8 @@ namespace AgentApp
 								done = true;
 							}
 						}
-						catch (Exception){ }
+						catch (Exception){ 
+						}
 					}
 			}
 		}

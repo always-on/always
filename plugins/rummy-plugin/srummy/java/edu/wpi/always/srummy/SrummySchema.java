@@ -62,7 +62,8 @@ public class SrummySchema extends ActivityStateMachineSchema {
                new GazeBehavior(board))
          .build());
          SrummyClient.limboEnteredOnce = true;
-         yourTurnStatements.add("now you");
+         yourTurnStatements = Lists.newArrayList(
+               "your turn", "go ahead", "now you");
       }
       if(SrummyClient.gazeDirection.equals("replay")){
          propose(new SyncSayBuilder(
