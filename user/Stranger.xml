@@ -7,7 +7,7 @@
       <subtasks id="__Greetings_subtasks">
          <step name="__Greetings_step" task="disco:Say"/>
          <step name="__Greetings_ref" task="__Greetings_tree"/>
-         <binding slot="$__Greetings_step.text" value="&#34;Hello&#34;"/>
+         <binding slot="$__Greetings_step.text" value="&#34;Hello&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt;&#34;"/>
          <binding slot="$__Greetings_step.external" value="false"/>
       </subtasks>
    </task>
