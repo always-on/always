@@ -30,8 +30,8 @@ public class SrummySchema extends ActivityStateMachineSchema {
    user = GazeRealizer.translateAgentTurn(0, 0);
 
    private String randomStmnt = "";
-   private final List<String> yourTurnStatements = 
-         Lists.newArrayList("your turn", "go ahead", "now you");
+   private List<String> yourTurnStatements = 
+         Lists.newArrayList("your turn", "go ahead");
 
    @Override
    public void run () {
@@ -62,6 +62,7 @@ public class SrummySchema extends ActivityStateMachineSchema {
                new GazeBehavior(board))
          .build());
          SrummyClient.limboEnteredOnce = true;
+         yourTurnStatements.add("now you");
       }
       if(SrummyClient.gazeDirection.equals("replay")){
          propose(new SyncSayBuilder(
