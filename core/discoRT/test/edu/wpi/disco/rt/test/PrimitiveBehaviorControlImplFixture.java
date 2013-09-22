@@ -84,7 +84,7 @@ public class PrimitiveBehaviorControlImplFixture {
       int r1CountSaved = r1.runCallsCount;
       n = 0;
       while (r2.runCallsCount <= 3) {
-         sleep(PrimitiveBehaviorManager.REALIZERS_INTERVAL);
+         sleep(DiscoRT.REALIZER_INTERVAL);
          n++;
          if ( n > 10 )
             fail("timeout in waiting for r2 to be called 4 times");
@@ -153,7 +153,7 @@ public class PrimitiveBehaviorControlImplFixture {
     */
    private void assertNotRunning (DummyPrimitiveRealizer r) {
       int savedCount = r.runCallsCount;
-      sleep(PrimitiveBehaviorManager.REALIZERS_INTERVAL * 2);
+      sleep(DiscoRT.REALIZER_INTERVAL * 2);
       assertEquals(savedCount, r.runCallsCount);
    }
 

@@ -1,0 +1,7 @@
+#!/bin/bash
+# 
+# restore TestUser file from test folder
+#
+dir="`dirname $0`"
+cp -f "$dir/../test/TestUser.owl" "$dir/../../../user/TestUser.owl"
+echo "Restored TestUser.owl"

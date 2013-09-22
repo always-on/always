@@ -9,7 +9,7 @@ the toplevel packages in edu.wpi.always are:
 
   owl - semantic network, including people, places and calendar
 
-  rm - relationship manager [as of 1/3/12, this component is disabled]
+  rm - relationship manager
 
   user - code for managing user-specific information
 

@@ -1,22 +1,9 @@
-package edu.wpi.always.cm;
-
-import java.util.ArrayList;
-import java.util.List;
+package edu.wpi.disco.rt.behavior;
 
 import com.google.common.collect.Lists;
-
-import edu.wpi.disco.rt.behavior.Behavior;
-import edu.wpi.disco.rt.behavior.BehaviorBuilder;
-import edu.wpi.disco.rt.behavior.BehaviorMetadata;
-import edu.wpi.disco.rt.behavior.BehaviorMetadataBuilder;
-import edu.wpi.disco.rt.behavior.CompoundBehaviorWithConstraints;
-import edu.wpi.disco.rt.behavior.Constraint;
 import edu.wpi.disco.rt.behavior.Constraint.Type;
-import edu.wpi.disco.rt.behavior.FocusRequestBehavior;
-import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
-import edu.wpi.disco.rt.behavior.SpeechBehavior;
-import edu.wpi.disco.rt.realizer.petri.SyncPoint;
-import edu.wpi.disco.rt.realizer.petri.SyncRef;
+import edu.wpi.disco.rt.realizer.petri.*;
+import java.util.*;
 
 public class SyncSayBuilder implements BehaviorBuilder {
 

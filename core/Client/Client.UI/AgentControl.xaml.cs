@@ -31,6 +31,10 @@ namespace Agent.UI
 {
 	public partial class AgentControl : UserControl, IAgentControl
 	{
+        public enum AgentType { Unity, Reeti, Mirror };
+
+		public static AgentType agentType = AgentType.Unity;
+
         UnityUserControl.UnityUserControl agent;
 		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
         public event EventHandler LoadComplete;

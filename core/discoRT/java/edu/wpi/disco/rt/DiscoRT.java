@@ -13,8 +13,12 @@ import java.util.*;
 
 public class DiscoRT {
    
-   public static final long ARBITRATOR_INTERVAL = 50;
-   public static final long PERCEPTORS_INTERVAL = 200;
+   // default intervals in msec
+   public static final int  
+         SCHEMA_INTERVAL = 500,
+         ARBITRATOR_INTERVAL = 300,
+         PERCEPTOR_INTERVAL = 200,
+         REALIZER_INTERVAL = 100;
       
    /**
     * To enabled tracing of DiscoRT implementation.  Note this variable can be conveniently
@@ -23,7 +27,6 @@ public class DiscoRT {
     * @see Disco#TRACE
     */
    public static boolean TRACE;
-   
    
    private final Scheduler scheduler = new Scheduler();
    protected final Interaction interaction =  new Interaction(new Agent("agent"), new User("user"));
@@ -93,7 +96,7 @@ public class DiscoRT {
       List<Perceptor> perceptors = container.getComponents(Perceptor.class);
       scheduler.schedule(arbitrator, ARBITRATOR_INTERVAL);
       for (Perceptor<?> p : perceptors) {
-         scheduler.schedule(p, PERCEPTORS_INTERVAL);
+         scheduler.schedule(p, PERCEPTOR_INTERVAL);
       }
       schemaManager.startUp();
    }

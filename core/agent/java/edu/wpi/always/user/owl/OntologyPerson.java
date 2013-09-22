@@ -135,10 +135,12 @@ public class OntologyPerson implements Person {
    @Override
    public Relationship getRelationship () {
       OntologyIndividual user = model.getPeopleManager().getUser().owlPerson;
-      for (Relationship r : Relationship.values())
-         // TODO Prefer most specific to first one found
-         if ( owlPerson.getObjectPropertyValue(r.name()) == user )
-            return r;
+      for (Relationship r : Relationship.values()) {
+         // Note order of Relationship values start with most specific
+         Set<OWLNamedIndividual> values = owlPerson.getObjectPropertyValues(r.name());
+         for (OWLNamedIndividual related : values) 
+            if ( related == user ) return r;
+      }
       return null;
    }
 

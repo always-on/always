@@ -16,9 +16,16 @@ public interface Person {
       Male, Female;
    }
 
+   // note ordered from most to least specific to improve performance of getRelationship()
    enum Relationship {
-      Friend, Parent, Father, Mother, Spouse, Husband, Wife, Offspring, Son, Daughter, Sibling, Brother, Sister, Grandchild, Grandson, Granddaughter, Grandparent, Grandfather, Grandmother, Aunt, Uncle, Cousin;
-   }
+         Father, Mother, Parent,
+         Husband, Wife, Spouse,
+         Son, Daughter, Offspring,
+         Brother, Sister, Sibling,
+         Grandson, Granddaughter,  Grandchild,
+         Grandfather, Grandmother, Grandparent,
+         Aunt, Uncle, Cousin, Friend
+   };
 
    public static String[] Month = { "January", "February", "March", "April",
       "May", "June", "July", "August", "September", "October", "November",
