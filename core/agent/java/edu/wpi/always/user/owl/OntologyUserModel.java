@@ -35,6 +35,8 @@ public class OntologyUserModel extends UserModelBase {
    public void setUserName (String userName) {
       if ( this.userName == null ) {
          this.userName = userName;
+         int space = userName.indexOf(' ');
+         userFirstName = space < 0 ? userName : userName.substring(0, space);
          this.user = ontology.getNamedIndividual(userName);
          if ( !user.hasSuperclass(OntologyPerson.USER_CLASS) ) {
             user.addSuperclass(OntologyPerson.USER_CLASS);
@@ -158,12 +160,15 @@ public class OntologyUserModel extends UserModelBase {
       if ( userDataFile != null && userDataFile.canRead() ) {
          System.out.println("Loading user model from: "+userDataFile);
          ontology.addAxioms(userDataFile);
-         setUserName(new OntologyIndividual(
-               ontology.getOntologyDataObject(),
-               ontology.getAllOfClass(OntologyPerson.USER_CLASS).iterator().next())
+         Set<OWLNamedIndividual> userClass = ontology.getAllOfClass(OntologyPerson.USER_CLASS);
+         if ( !userClass.isEmpty() ) {
+            setUserName(new OntologyIndividual(
+                  ontology.getOntologyDataObject(),
+                  userClass.iterator().next())
                     .getDataPropertyValue(OntologyPerson.NAME_PROPERTY).asString());
-         System.out.println("User name: "+getUserName());
-      } else System.out.println("Initializing empty user model!");
+            System.out.println("User name: "+getUserName());
+         } else System.out.println("Loaded user model is empty!");
+      } else System.out.println("Starting with no user model!");
    }
    
    @Override

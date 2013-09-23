@@ -114,7 +114,14 @@ namespace AgentApp
 				else
 					pluginManager.Start(x["name"].ToString(), x["params"] as JObject, (InstanceReuseMode)mode);
 			}));
-			dispatcher.RegisterReceiveHandler("close_plugin", new MessageHandlerDelegateWrapper(x =>
+			dispatcher.RegisterReceiveHandler("show_plugin", new MessageHandlerDelegateWrapper(x =>
+			{
+				Dispatcher.BeginInvoke(new Action(() =>
+				{
+					pluginManager.Show(x["name"].ToString());
+				}));
+			}));
+			dispatcher.RegisterReceiveHandler("hide_plugin", new MessageHandlerDelegateWrapper(x =>
 			{
 				Dispatcher.BeginInvoke(new Action(() =>
 				{

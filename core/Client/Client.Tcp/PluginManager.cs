@@ -56,5 +56,15 @@ namespace Agent.Tcp
 
             layout.ShowPlugin(plugin.GetPluginContainer());
         }
+
+		public void Show(string pluginName)
+		{
+			if (!pluginCreators.ContainsKey(pluginName))
+				throw new PluginNotFoundException(pluginName);
+			var creator = pluginCreators[pluginName];
+			IPlugin plugin = instances[creator];
+			if (plugin == null) throw new PluginNotFoundException(pluginName);		
+            layout.ShowPlugin(plugin.GetPluginContainer());
+		}
 	}
 }

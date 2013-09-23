@@ -2,7 +2,6 @@ package edu.wpi.always.ttt;
 
 import java.awt.Point;
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.SyncSayBuilder;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.always.user.people.PeopleManager;
@@ -24,39 +23,53 @@ public class TTTSchema extends ActivityStateMachineSchema {
    }
 
    private final static Point 
-         left = GazeRealizer.translateAgentTurn(-2, -1),
-         upLeft = GazeRealizer.translateAgentTurn(-1, 1),
-         back = GazeRealizer.translateAgentTurn(0, 0);
- 
+   board = GazeRealizer.translateAgentTurn(-2, -1),
+   thinking = GazeRealizer.translateAgentTurn(-1, 1),
+   user = GazeRealizer.translateAgentTurn(0, 0);
+
    @Override
    public void run () {
 
       super.run();
 
-      // since MenuTurnStateMachine cannot accommodate
-      // saying this inside any state (in a proper way)
-      if ( TTTClient.sayAgentCommentOnHumanMove ) {
+      if(TTTClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
                "$ "+WhoPlaysFirst.getCurrentAgentComment()+" $",
-                new GazeBehavior(back),
-                new GazeBehavior(upLeft))
-                .build());
-         TTTClient.sayAgentCommentOnHumanMove = false;
+               new GazeBehavior(user))
+         .build());
       }
-      if ( TTTClient.gazeLeft ) { 
-         propose(new GazeBehavior(left));
-         TTTClient.gazeLeft = false;
+      if(TTTClient.gazeDirection.equals("sayandgazegameover")){
+         propose(new SyncSayBuilder(
+               "$ "+"Game over. "+
+                     WhoPlaysFirst.getCurrentAgentComment()+" $",
+                     new GazeBehavior(user))
+         .build());
+         TTTClient.gazeDirection = "";
       }
-      if ( TTTClient.gazeBack ) {
-         propose(new GazeBehavior(back));
-         TTTClient.gazeBack = false;
+      if(TTTClient.gazeDirection.equals("replay")){
+         propose(new SyncSayBuilder(
+               "$ "+"Now do you want to play again?")
+         .build());
+         TTTClient.gazeDirection = "";
       }
-      if ( TTTClient.gazeUpLeft ) {
-         propose(new GazeBehavior(upLeft));
-         TTTClient.gazeUpLeft = false;
+      if(TTTClient.gazeDirection.equals("board")){
+         propose(new GazeBehavior(board));
       }
+      //>> these to be commented out for face track test
+      if(TTTClient.gazeDirection.equals("user")){
+         propose(new GazeBehavior(user));
+      }
+      if(TTTClient.gazeDirection.equals("useronce")){
+         propose(new GazeBehavior(user));
+         TTTClient.gazeDirection = "";
+      }
+      //to here <<
+      if(TTTClient.gazeDirection.equals("thinking")){
+         propose(new GazeBehavior(thinking));
+      }
+
       if ( TTTClient.nod ) {
-         // TODO fill me in later
+         // TODO fill me in later (after human plays)
          TTTClient.nod = false;
       }
 

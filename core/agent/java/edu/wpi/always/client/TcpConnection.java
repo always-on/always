@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import edu.wpi.always.Always;
+import edu.wpi.cetask.Utils;
 
 public class TcpConnection implements RemoteConnection {
 
@@ -52,11 +53,11 @@ public class TcpConnection implements RemoteConnection {
             }
          });
       } catch (ConnectException e) { 
-         System.err.println(e.getMessage()+" to "+hostname+" "+port+" (retrying)"); 
+         System.err.println(e+" to "+hostname+" "+port+" (retrying)"); 
          try { Thread.sleep(3000);  } catch (InterruptedException i) {}
          connect();
       }
-        catch (Exception e) { throw new RuntimeException(e); }
+        catch (Exception e) { Utils.rethrow(e); }
    }
 
    protected void fireMessageReceived (String s) {
@@ -89,12 +90,17 @@ public class TcpConnection implements RemoteConnection {
    private String lastMessage = "";
    private int count;
    
+   public static int STARTS_WITH = 18; // change to 0 to disable
+   
    private void send (String message) {
       if ( !isConnected() )
          connect();
       if ( isConnected() ) {
          // optimization to help debugging
-         if ( lastMessage.equals(message) ) count++;
+         if ( lastMessage.equals(message) ||
+               (STARTS_WITH > 0 && lastMessage.length() >= STARTS_WITH &&
+                message.startsWith(lastMessage.substring(0, STARTS_WITH))) ) 
+            count++;
          else {
             if ( count > 0 ) System.out.println("Sending... "+count+" more"); 
             System.out.println("Sending... " + message);

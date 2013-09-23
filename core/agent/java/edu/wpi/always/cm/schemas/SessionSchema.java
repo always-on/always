@@ -9,7 +9,7 @@ import org.picocontainer.MutablePicoContainer;
 import edu.wpi.always.Always;
 import edu.wpi.always.Plugin;
 import edu.wpi.always.RelationshipManager;
-import edu.wpi.always.client.ClientProxy;
+import edu.wpi.always.client.*;
 import edu.wpi.cetask.Plan;
 import edu.wpi.cetask.Task;
 import edu.wpi.cetask.TaskClass;
@@ -94,6 +94,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       stateMachine.setExtension(true);
       stateMachine.setSpecificityMetadata(0.5);
       setNeedsFocusResource(false);
+      Plugin.getPlugin(goal.getType(), container).show();
    }
    
    private class Stop extends DiscoAdjacencyPair {
@@ -120,7 +121,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       public AdjacencyPair nextState (String text) {
          super.nextState(text);
          proxy.showMenu(Collections.<String>emptyList(), false, true); // clear extension menu
-         // TODO clear client plugin display
+         proxy.hidePlugin();
          discoAdjacencyPair.update();
          stateMachine.setExtension(false);
          stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);

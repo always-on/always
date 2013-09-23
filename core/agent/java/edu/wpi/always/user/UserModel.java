@@ -41,6 +41,12 @@ public interface UserModel {
    String getUserName ();
    
    /**
+    * The user's first name (computed from full name).  Useful
+    * for addressing the user.
+    */
+   String getUserFirstName ();
+   
+   /**
     * Number of sessions user has completed.
     */
    int getSessions ();

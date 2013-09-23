@@ -19,4 +19,9 @@ public class CalendarPlugin extends Plugin {
       Plugin.main(args, CalendarPlugin.class, "UseCalendar");
    }
 
+   @Override
+   public void show () {
+      // depends on previous state
+      container.getComponent(CalendarClient.class).show();
+   }
 }

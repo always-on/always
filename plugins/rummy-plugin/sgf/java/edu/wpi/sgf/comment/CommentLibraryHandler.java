@@ -1,10 +1,13 @@
 package edu.wpi.sgf.comment;
 
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.Map.Entry;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
+import edu.wpi.cetask.Utils;
 
 /**
  * Comment Library handler for Social Gameplay Framework.
@@ -14,9 +17,15 @@ import org.jdom2.input.SAXBuilder;
  */
 public class CommentLibraryHandler {
 
+
    private final static String CommentLibraryFilePath =
          "CommentLibrary.xml";
+   private File commentLibraryFile;
 
+
+   private List<Element> 
+   retrievedAgentCommentsRootNode
+   , retrievedHumanCommentsRootNode;
    private List<Comment> agentComments = 
          new ArrayList<Comment>();
    private List<Comment> humanComments = 
@@ -24,21 +33,42 @@ public class CommentLibraryHandler {
 
    public CommentLibraryHandler(){
 
+      retrievedAgentCommentsRootNode = 
+            new ArrayList<Element>();
+      retrievedHumanCommentsRootNode = 
+            new ArrayList<Element>();
+     
+      //uncomment for this.main
+     //importComments(); 
+   }
+
+   public void importComments(){
+
       SAXBuilder builder = new SAXBuilder();
-      File commentLibraryFile = new File(CommentLibraryFilePath);
+      try {
+         commentLibraryFile = new File(
+               Utils.toURL("edu/wpi/sgf/resources/"+
+                     CommentLibraryFilePath).toURI());
+      } catch (MalformedURLException|URISyntaxException e) {
+         System.out.println(
+               "Resource loading error in loading Comment Library."
+                     + "The .xml file(s) should be in edu/wpi/sgf/resources/ "
+                     + "package which should be in the sgf classpath.");
+         e.printStackTrace();
+      }
 
       try{
-
+         
          Document xmldoc = (Document) builder.build(commentLibraryFile);
          Element rootNode = xmldoc.getRootElement();
 
-         List<Element> retrievedAgentComments = 
-               rootNode.getChild("agent").getChildren("comment");
-         List<Element> retrievedHumanComments = 
-               rootNode.getChild("human").getChildren("comment");        
+         retrievedAgentCommentsRootNode.addAll( 
+               rootNode.getChild("agent").getChildren("comment"));
+         retrievedHumanCommentsRootNode.addAll( 
+               rootNode.getChild("human").getChildren("comment"));        
 
-         parseComments("agent", retrievedAgentComments);
-         parseComments("human", retrievedHumanComments);
+         parseComments("agent", retrievedAgentCommentsRootNode);
+         parseComments("human", retrievedHumanCommentsRootNode);
 
       }catch(JDOMException e) {
          System.out.println("Comment library parse error.");
@@ -48,6 +78,19 @@ public class CommentLibraryHandler {
          e.printStackTrace();
       }
 
+   }
+
+   public void addTheseGameSpecificComments(
+         Element rootNode){
+
+      List<Element> retrievedGameSpecificAgentComments = 
+            rootNode.getChild("agent").getChildren("comment");
+      List<Element> retrievedGameSpecificHumanComments = 
+            rootNode.getChild("human").getChildren("comment");  
+      retrievedAgentCommentsRootNode.addAll(
+            retrievedGameSpecificAgentComments);
+      retrievedHumanCommentsRootNode.addAll(
+            retrievedGameSpecificHumanComments);
    }
 
    /**
@@ -76,15 +119,15 @@ public class CommentLibraryHandler {
 
          if(gameCmStateAtt != null){
             switch(gameCmStateAtt.getValue().toLowerCase().trim()){
-            case "humanwon":
-               tempGameCmState = GameCommentingState.humanWon;
-               break;
-            case "agentwon":
-               tempGameCmState = GameCommentingState.agentWon;
-               break;
-            case "tie":
-               tempGameCmState = GameCommentingState.tie;
-               break;
+               case "humanwon":
+                  tempGameCmState = GameCommentingState.humanWon;
+                  break;
+               case "agentwon":
+                  tempGameCmState = GameCommentingState.agentWon;
+                  break;
+               case "tie":
+                  tempGameCmState = GameCommentingState.tie;
+                  break;
             }
          }
          else 
@@ -153,7 +196,7 @@ public class CommentLibraryHandler {
             tieComments.add(eachComment);
       return tieComments;
    }
-   
+
    public List<Comment> getStillPlayingCommentsAmong(
          List<Comment> someComments){
       List<Comment> playingComments = 
@@ -189,7 +232,8 @@ public class CommentLibraryHandler {
 
    public List<Comment> getCmForMakingOnPlayerAmong(
          List<Comment> someComments, String player){
-      //player valid values: agent, human, both
+      //player valid values: agent, human, both, null 
+      //(null (no madeOn attribute) is assumed both)
       List<Comment> cmForMakingOnSomePlayer = 
             new ArrayList<Comment>();
       for(Comment eachComment : someComments)
@@ -238,8 +282,9 @@ public class CommentLibraryHandler {
             new HashMap<Comment, Integer>();
       Map<Comment, Integer> gameTypeSpecificCommentsTagCovering = 
             new HashMap<Comment, Integer>();
+      @SuppressWarnings("unused")
       Map<Comment, Integer> sortedGameTypeSpecificCommentsTagCovering = 
-            new HashMap<Comment, Integer>();
+      new HashMap<Comment, Integer>();
 
       List<Comment> results = new ArrayList<Comment>();
 
@@ -268,56 +313,113 @@ public class CommentLibraryHandler {
 
          genericCovering = gameSpecificCovering = 0;
       }
+      /*
+      //refining
+
+      Map<Comment, Integer> genericMaxCoverings = 
+            new HashMap<Comment, Integer>();
+      Map<Comment, Integer> gameSpecificMaxCoverings = 
+            new HashMap<Comment, Integer>();
+      Map<Comment, Integer> gameTypeSpecificMaxCoverings = 
+            new HashMap<Comment, Integer>();
+      int genericMaxCover = 0,
+      gameSpecificMaxCover = 0,
+      gameTypeSpecificMaxCover = 0;
+      boolean noCoveringForAnyGenericComment = false,
+      noCoveringForAnyGameSpecificComment = false,
+      noCoveringForAnyGameTypeSpecificComment = false;
+
+      //getting maxCovering values
+      genericMaxCover = Collections.max(
+            genericCommentsTagCovering.values());
+      gameSpecificMaxCover = Collections.max(
+            gameSpecificCommentsTagCovering.values());
+      gameTypeSpecificMaxCover = Collections.max(
+            gameTypeSpecificCommentsTagCovering.values());
+
+
+      //getting max covering comments
+      if(genericMaxCover != 0){
+         for(Entry<Comment, Integer> each 
+               : genericCommentsTagCovering.entrySet())
+            if(each.getValue() >= genericMaxCover)
+               genericMaxCoverings.put(
+                     each.getKey(), each.getValue());
+      }else{noCoveringForAnyGenericComment = true;}
+      if(gameSpecificMaxCover != 0){
+         for(Entry<Comment, Integer> each 
+               : gameSpecificCommentsTagCovering.entrySet())
+            if(each.getValue() >= gameSpecificMaxCover)
+               gameSpecificMaxCoverings.put(
+                     each.getKey(), each.getValue());
+      }else{noCoveringForAnyGameSpecificComment = true;}
+      if(gameTypeSpecificMaxCover != 0){
+         for(Entry<Comment, Integer> each 
+               : gameTypeSpecificCommentsTagCovering.entrySet())
+            if(each.getValue() >= gameTypeSpecificMaxCover)
+               gameTypeSpecificMaxCoverings.put(
+                     each.getKey(), each.getValue());
+      }else{noCoveringForAnyGameTypeSpecificComment = true;}
+
+
+      if(!noCoveringForAnyGameSpecificComment)
+         results.addAll(gameSpecificMaxCoverings.keySet());
+      else if(!noCoveringForAnyGameTypeSpecificComment)
+         results.addAll(gameTypeSpecificMaxCoverings.keySet());
+      else if(!noCoveringForAnyGenericComment)
+         results.addAll(genericMaxCoverings.keySet());*/
+
 
       //sorting the generic map based on values by Guava
-//      Ordering<Comment> valueComparator = Ordering.natural()
-//            .onResultOf(Functions.forMap(
-//                  genericCommentsTagCovering)).reverse();
-//      sortedGenericCommentsTagCovering = 
-//            ImmutableSortedMap.copyOf(
-//                  genericCommentsTagCovering, valueComparator);
+      //      Ordering<Comment> valueComparator = Ordering.natural()
+      //            .onResultOf(Functions.forMap(
+      //                  genericCommentsTagCovering)).reverse();
+      //      sortedGenericCommentsTagCovering = 
+      //            ImmutableSortedMap.copyOf(
+      //                  genericCommentsTagCovering, valueComparator);
+
 
       sortedGenericCommentsTagCovering.putAll(genericCommentsTagCovering);//temp
       //sorting the game specific comments' map too
-//      Ordering<Comment> anotherValueComparator = Ordering.natural()
-//            .onResultOf(Functions.forMap(
-//                  gameSpecificCommentsTagCovering))
-//                  .compound(Ordering.<Comment> natural()).reverse();
-//      sortedGameSpecificCommentsTagCovering = 
-//            ImmutableSortedMap.copyOf(
-//                  gameSpecificCommentsTagCovering, anotherValueComparator);
+      //      Ordering<Comment> anotherValueComparator = Ordering.natural()
+      //            .onResultOf(Functions.forMap(
+      //                  gameSpecificCommentsTagCovering))
+      //                  .compound(Ordering.<Comment> natural()).reverse();
+      //      sortedGameSpecificCommentsTagCovering = 
+      //            ImmutableSortedMap.copyOf(
+      //                  gameSpecificCommentsTagCovering, anotherValueComparator);
       sortedGameSpecificCommentsTagCovering.putAll(gameSpecificCommentsTagCovering);//temp
       //sorting the game type specific comments' map too
-//      Ordering<Comment> yetAnotherValueComparator = Ordering.natural()
-//            .onResultOf(Functions.forMap(
-//                  gameTypeSpecificCommentsTagCovering))
-//                  .compound(Ordering.<Comment> natural()).reverse();
-//      sortedGameTypeSpecificCommentsTagCovering = 
-//            ImmutableSortedMap.copyOf(
-//                  gameTypeSpecificCommentsTagCovering, yetAnotherValueComparator);
+      //      Ordering<Comment> yetAnotherValueComparator = Ordering.natural()
+      //            .onResultOf(Functions.forMap(
+      //                  gameTypeSpecificCommentsTagCovering))
+      //                  .compound(Ordering.<Comment> natural()).reverse();
+      //      sortedGameTypeSpecificCommentsTagCovering = 
+      //            ImmutableSortedMap.copyOf(
+      //                  gameTypeSpecificCommentsTagCovering, yetAnotherValueComparator);
 
       //getting the max covering
-//      int genericMaxCover = (int) 
-//            sortedGenericCommentsTagCovering.values().toArray()[0];
-//      int gameSpecificMaxCover = (int) 
-//            sortedGameSpecificCommentsTagCovering.values().toArray()[0];
-//      int gameTypeSpecificMaxCover = (int) 
-//            sortedGameTypeSpecificCommentsTagCovering.values().toArray()[0];
+      //      int genericMaxCover = (int) 
+      //            sortedGenericCommentsTagCovering.values().toArray()[0];
+      //      int gameSpecificMaxCover = (int) 
+      //            sortedGameSpecificCommentsTagCovering.values().toArray()[0];
+      //      int gameTypeSpecificMaxCover = (int) 
+      //            sortedGameTypeSpecificCommentsTagCovering.values().toArray()[0];
 
       //filling in the results list by gameName comments, and if empty, game types
       //and if empty again, generic. In all cases only those with max covering values.
       if(!sortedGameSpecificCommentsTagCovering.isEmpty()){
          for(Entry<Comment, Integer> each 
                : sortedGameSpecificCommentsTagCovering.entrySet())
-           // if(each.getValue() >= gameSpecificMaxCover)
-               results.add(each.getKey());
+            // if(each.getValue() >= gameSpecificMaxCover)
+            results.add(each.getKey());
       }
-//      else if(!sortedGameTypeSpecificCommentsTagCovering.isEmpty()){
-//         for(Entry<Comment, Integer> each 
-//               : sortedGameTypeSpecificCommentsTagCovering.entrySet())
-//            if(each.getValue() >= gameTypeSpecificMaxCover)
-//               results.add(each.getKey());
-//      }
+      //      else if(!sortedGameTypeSpecificCommentsTagCovering.isEmpty()){
+      //         for(Entry<Comment, Integer> each 
+      //               : sortedGameTypeSpecificCommentsTagCovering.entrySet())
+      //            if(each.getValue() >= gameTypeSpecificMaxCover)
+      //               results.add(each.getKey());
+      //      }
       else{
          for(Entry<Comment, Integer> each 
                : sortedGenericCommentsTagCovering.entrySet())
@@ -329,6 +431,7 @@ public class CommentLibraryHandler {
       return results;
 
    }
+
 
    public List<String> getContentsOfTheseComments(List<Comment> someComments){
       List<String> contents = new ArrayList<String>();
@@ -365,3 +468,4 @@ public class CommentLibraryHandler {
    }
 
 }
+

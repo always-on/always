@@ -41,9 +41,9 @@ if [ "$filename" ]; then
        grep "  >" "$good" > "$arg"
      fi
   else arg="$filename"; fi
-  java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main" "$arg"
+  java -Xms128m -Xmx512m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main" "$arg"
 else
-  java -Xms64m -Xmx256m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main"
+  java -Xms128m -Xmx512m -Djava.awt.headless=true -Djava.io.tmpdir="$tmp" -cp "$cp" "$main"
 fi
 end=`date +%s`
 if [ "$filename" ]; then

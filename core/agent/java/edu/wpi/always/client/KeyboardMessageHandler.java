@@ -34,7 +34,7 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 
    @Override
    public void hideKeyboard () {
-      ClientPluginUtils.closePlugin(dispatcher);
+      ClientPluginUtils.hidePlugin(dispatcher);
    }
 
    @Override
