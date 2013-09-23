@@ -74,7 +74,7 @@ public class SrummyClient implements SrummyUI {
 
    private static AnnotatedLegalMove latestAgentMove;
    private static AnnotatedLegalMove latestHumanMove;
-   private Card latestAgentDrawnCard;
+//   private Card latestAgentDrawnCard;
 
    private List<SrummyLegalMove> possibleMoves;
    private List<AnnotatedLegalMove> annotatedMoves;
@@ -367,50 +367,14 @@ public class SrummyClient implements SrummyUI {
             //, scenarioManager.getCurrentScenario())
             );
 
-      AnnotatedLegalMove passedMove = null;
-      //remove the card just drawn as a discard option
-      //making a shallow copy for safe concurrent access
-      try {
-         List<AnnotatedLegalMove> copyOfPassedMoves = 
-               new ArrayList<AnnotatedLegalMove>();
-         if(agentDrawn){
-            for(AnnotatedLegalMove eachPassedMove : passedMoves){
-               if(eachPassedMove.getMove() instanceof DiscardMove){
-                  if(!(((DiscardMove)eachPassedMove.getMove())
-                        .getCard().equals(latestAgentDrawnCard) 
-                        && latestAgentDrawnCard != null))
-                     copyOfPassedMoves.add(eachPassedMove.clone());
-               }
-               else{//meld or lay-off
-//                  if(!(meldedAlready && (eachPassedMove.getMove() 
-//                        instanceof MeldMove 
-//                  || eachPassedMove.getMove() instanceof LayoffMove)))
-                     copyOfPassedMoves.add(eachPassedMove.clone());
-               }
-            }
-            passedMove = moveChooser.choose(copyOfPassedMoves);
-         }
-         else //no draw yet
-            passedMove = moveChooser.choose(passedMoves);
-      } catch (CloneNotSupportedException e) {
-         e.printStackTrace();
-      }
+      AnnotatedLegalMove passedMove = 
+            moveChooser.choose(passedMoves);
       
-      if(passedMove.getMove() instanceof DrawMove){
+      if(passedMove.getMove() instanceof DrawMove)
          agentDrawn = true;
-         Pile pile = ((DrawMove)passedMove.getMove()).getPile();
-         //discarding the card just drawn from stock is fine
-//         if(pile.equals(Pile.Stock))
-//            latestAgentDrawnCard = gameState.getTopOfStock();
-         if(pile.equals(Pile.Discard))
-            latestAgentDrawnCard = gameState.getTopOfDiscard();
-      }
       
-      if(passedMove.getMove() instanceof MeldMove
-            //|| passedMove.getMove() instanceof LayoffMove
-            ){
+      if(passedMove.getMove() instanceof MeldMove)
          meldedAlready = true;
-      }
       
       return passedMove;
    }
