@@ -97,18 +97,17 @@ namespace AgentApp
 					}
 					catch (Exception)
 					{
-						try
-						{
 							bool done = false; int tries = 0;
 							while (!done && tries < 10)
 							{
-								tries++;
-								game.AgentCardsController.GetBestMove().Realize(game.GameState);
-								done = true;
+								try{
+									tries++;
+									game.AgentCardsController.GetBestMove().Realize(game.GameState);
+								}
+								catch (Exception){}
 							}
-						}
-						catch (Exception){ }
 					}
+						
 			}
 		}
 
@@ -274,5 +273,6 @@ namespace AgentApp
 		{
 			return pluginContainer;
 		}
+
 	}
 }
