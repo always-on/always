@@ -2,7 +2,6 @@ package edu.wpi.always.srummy;
 
 import java.awt.Point;
 import java.util.*;
-import com.google.common.collect.Lists;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -14,6 +13,11 @@ import edu.wpi.disco.rt.menu.MenuPerceptor;
 
 public class SrummySchema extends ActivityStateMachineSchema {
 
+   private String randomStmnt = "";
+   private boolean saidFirstYourTurn = false;
+   private List<String> yourTurnStatements = 
+         new ArrayList<String>();
+   
    public SrummySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, SrummyUI SrummyUI,
@@ -22,16 +26,16 @@ public class SrummySchema extends ActivityStateMachineSchema {
       super(new StartGamingSequence(new SrummyStateContext(keyboard, SrummyUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor);
+      
+    yourTurnStatements.add("your turn");
+    yourTurnStatements.add("go ahead");
+
    }
 
    private final static Point 
    board = GazeRealizer.translateAgentTurn(-2, -1),
    thinking = GazeRealizer.translateAgentTurn(-1, 1),
    user = GazeRealizer.translateAgentTurn(0, 0);
-
-   private String randomStmnt = "";
-   private List<String> yourTurnStatements = 
-         Lists.newArrayList("your turn", "go ahead");
 
    @Override
    public void run () {
@@ -62,8 +66,10 @@ public class SrummySchema extends ActivityStateMachineSchema {
                new GazeBehavior(board))
          .build());
          SrummyClient.limboEnteredOnce = true;
-         yourTurnStatements = Lists.newArrayList(
-               "your turn", "go ahead", "now you");
+         if(!saidFirstYourTurn){
+            yourTurnStatements.add("now you");
+            saidFirstYourTurn = true;
+         }
       }
       if(SrummyClient.gazeDirection.equals("replay")){
          propose(new SyncSayBuilder(
