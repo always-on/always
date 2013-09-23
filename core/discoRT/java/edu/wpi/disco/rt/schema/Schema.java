@@ -9,11 +9,6 @@ import java.util.concurrent.ScheduledFuture;
 public interface Schema extends Runnable {
 
    /**
-    * Default interval in millis at which run() method is called.
-    */
-   long DEFAULT_INTERVAL = 500;
-   
-   /**
     * Cause this schema to no longer be scheduled for execution.
     */
    void cancel ();

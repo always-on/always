@@ -23,42 +23,52 @@ public class CommentLibraryHandler {
    private File commentLibraryFile;
 
 
+   private List<Element> 
+   retrievedAgentCommentsRootNode
+   , retrievedHumanCommentsRootNode;
    private List<Comment> agentComments = 
          new ArrayList<Comment>();
    private List<Comment> humanComments = 
          new ArrayList<Comment>();
 
-
    public CommentLibraryHandler(){
 
+      retrievedAgentCommentsRootNode = 
+            new ArrayList<Element>();
+      retrievedHumanCommentsRootNode = 
+            new ArrayList<Element>();
+     
+      //uncomment for this.main
+     //importComments(); 
+   }
+
+   public void importComments(){
 
       SAXBuilder builder = new SAXBuilder();
-      //      File commentLibraryFile = new File(CommentLibraryFilePath);
-
       try {
          commentLibraryFile = new File(
-               Utils.toURL("edu/wpi/sgf/resources/"+CommentLibraryFilePath).toURI());
+               Utils.toURL("edu/wpi/sgf/resources/"+
+                     CommentLibraryFilePath).toURI());
       } catch (MalformedURLException|URISyntaxException e) {
          System.out.println(
                "Resource loading error in loading Comment Library."
-                     + "The .xml file(s) should be in sgf/resources "
-                     + "which should be in the sgf classpath (exported)");
+                     + "The .xml file(s) should be in edu/wpi/sgf/resources/ "
+                     + "package which should be in the sgf classpath.");
          e.printStackTrace();
       }
 
       try{
+         
          Document xmldoc = (Document) builder.build(commentLibraryFile);
          Element rootNode = xmldoc.getRootElement();
 
+         retrievedAgentCommentsRootNode.addAll( 
+               rootNode.getChild("agent").getChildren("comment"));
+         retrievedHumanCommentsRootNode.addAll( 
+               rootNode.getChild("human").getChildren("comment"));        
 
-         List<Element> retrievedAgentComments = 
-               rootNode.getChild("agent").getChildren("comment");
-         List<Element> retrievedHumanComments = 
-               rootNode.getChild("human").getChildren("comment");        
-
-
-         parseComments("agent", retrievedAgentComments);
-         parseComments("human", retrievedHumanComments);
+         parseComments("agent", retrievedAgentCommentsRootNode);
+         parseComments("human", retrievedHumanCommentsRootNode);
 
       }catch(JDOMException e) {
          System.out.println("Comment library parse error.");
@@ -68,9 +78,20 @@ public class CommentLibraryHandler {
          e.printStackTrace();
       }
 
-
    }
 
+   public void addTheseGameSpecificComments(
+         Element rootNode){
+
+      List<Element> retrievedGameSpecificAgentComments = 
+            rootNode.getChild("agent").getChildren("comment");
+      List<Element> retrievedGameSpecificHumanComments = 
+            rootNode.getChild("human").getChildren("comment");  
+      retrievedAgentCommentsRootNode.addAll(
+            retrievedGameSpecificAgentComments);
+      retrievedHumanCommentsRootNode.addAll(
+            retrievedGameSpecificHumanComments);
+   }
 
    /**
     * Parses the comments for any given player and puts them in
@@ -211,7 +232,8 @@ public class CommentLibraryHandler {
 
    public List<Comment> getCmForMakingOnPlayerAmong(
          List<Comment> someComments, String player){
-      //player valid values: agent, human, both
+      //player valid values: agent, human, both, null 
+      //(null (no madeOn attribute) is assumed both)
       List<Comment> cmForMakingOnSomePlayer = 
             new ArrayList<Comment>();
       for(Comment eachComment : someComments)

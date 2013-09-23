@@ -41,7 +41,7 @@ public class Always {
       always.start();
    }
 
-   public enum AgentType { Unity, Reeti, Both }
+   public enum AgentType { Unity, Reeti, Mirror }
    
    private static AgentType agentType = AgentType.Unity;
    
@@ -104,6 +104,10 @@ public class Always {
    
    public UserModel getUserModel () {
       return container.getComponent(UserModel.class);
+   }
+   
+   public void printUserModel () {
+      UserUtils.print(getUserModel(), System.out);
    }
    
    /**

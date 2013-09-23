@@ -6,7 +6,7 @@ package edu.wpi.always.srummy.game;
  * @version 1.0
  */
 
-public class LayoffMove extends Move{
+public class LayoffMove extends SrummyLegalMove{
 	
 	private final Card playedCard;
 	private final Meld relatedMeld;
@@ -45,8 +45,8 @@ public class LayoffMove extends Move{
 		LayoffMove supposedlySameLayOffMove 
 				= (LayoffMove) someMove;
 		
-		if(!(supposedlySameLayOffMove.getPlayer()
-				== this.player))
+		if(supposedlySameLayOffMove.getPlayer()
+				!= this.player)
 			return false;
 		
 		if(!supposedlySameLayOffMove.getCard()
@@ -54,7 +54,7 @@ public class LayoffMove extends Move{
 			return false;
 		
 		if(!supposedlySameLayOffMove.getItsMeld()
-				.equals(this.playedCard))
+				.equals(this.relatedMeld))
 			return false;
 		
 		return true;
@@ -96,7 +96,7 @@ public class LayoffMove extends Move{
 	}
 
 	@Override
-	public void happen(GameState gameState) {
+	public void happen(SrummyGameState gameState) {
 		
 		gameState.layOff(player, playedCard, relatedMeld);
 		

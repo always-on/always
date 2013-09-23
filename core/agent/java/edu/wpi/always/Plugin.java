@@ -18,7 +18,7 @@ import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.TaskClass;
 import edu.wpi.disco.Interaction;
-import edu.wpi.disco.rt.Registry;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.schema.SchemaConfig;
 import edu.wpi.disco.rt.schema.SchemaManager;
@@ -58,7 +58,6 @@ public abstract class Plugin {
    public static void test (String pluginModelFile) {
       UserModel model = Always.THIS.getUserModel();
       File file = new File(pluginModelFile);
-      model.setUserName("Test "+file.getName());
       ((OntologyUserModel) model).addAxioms(file);
    }
    
@@ -335,7 +334,7 @@ public abstract class Plugin {
    }
    
    private SchemaConfig newSchemaConfig (Class<? extends Schema> schema) {
-      return new SchemaConfig(schema, Schema.DEFAULT_INTERVAL, false);
+      return new SchemaConfig(schema, DiscoRT.SCHEMA_INTERVAL, false);
    }
 
    public static Plugin getPlugin (TaskClass task, MutablePicoContainer container) {

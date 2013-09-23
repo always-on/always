@@ -10,10 +10,10 @@ import edu.wpi.sgf.logic.GameLogicState;
 
 public class CommentingManager {
 
-   private CommentLibraryHandler libHandler;
+   protected CommentLibraryHandler libHandler;
 
    public CommentingManager(){
-      libHandler = new CommentLibraryHandler();
+
    }
 
    public List<String> getHumanCommentingOptionsForHumanMove(
