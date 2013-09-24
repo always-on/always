@@ -6,61 +6,52 @@ import edu.wpi.always.*;
 public class FaceDetection {
 
    private final CPPinterface lib;
-   
-   public FaceDetection (int intDebug, Always.AgentType agentType) {
-      
+
+   public FaceDetection (boolean debug, Always.AgentType agentType) {
+
       lib = CPPinterface.INSTANCE;
-      if ( lib != null )
-      {
-         if(agentType == Always.AgentType.Mirror)
-         {
-            lib.initAgentShoreEngine(intDebug);
-            String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
-            lib.initReetiShoreEngine(ptr, intDebug);
-         }
-         else if(agentType == Always.AgentType.Unity)
-         {
-            lib.initAgentShoreEngine(intDebug);
-         }
-         else if(agentType == Always.AgentType.Reeti)
-         {
-            String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
-            lib.initReetiShoreEngine(ptr, intDebug);
+      int intDebug = debug ? 1 : 0;
+      if ( lib != null ) {
+         switch (agentType) {
+            case Mirror:
+               lib.initAgentShoreEngine(intDebug);
+               // fall through
+            case Reeti:
+               // TODO: This should come by reading user/Reeti.json
+               String[] ptr = new String[] { "130.215.28.4" };
+               lib.initReetiShoreEngine(ptr, intDebug);
+               break;
+            case Unity:
+               lib.initAgentShoreEngine(intDebug);
+               break;
          }
       }
    }
 
-   public CPPinterface.FaceInfo getAgentFaceInfo (int intDebug) {
-      if ( lib == null )
-         return new CPPinterface.FaceInfo();
-      CPPinterface.FaceInfo result = lib.getAgentFaceInfo(intDebug);
-      return result;
-   }
-   
-   public CPPinterface.FaceInfo getReetiFaceInfo (int intDebug)
-   {
-      if ( lib == null )
-         return new CPPinterface.FaceInfo();
-      CPPinterface.FaceInfo result = lib.getReetiFaceInfo(intDebug);
-      return result;
+   public CPPinterface.FaceInfo getAgentFaceInfo (boolean debug) {
+      return lib == null ? new CPPinterface.FaceInfo() : 
+         lib.getAgentFaceInfo(debug ? 1 : 0);
    }
 
-   public void terminateFaceDetectionProcess (int intDebug, Always.AgentType agentType) {
+   public CPPinterface.FaceInfo getReetiFaceInfo (boolean debug) {
+      return lib == null ? new CPPinterface.FaceInfo() : 
+         lib.getReetiFaceInfo(debug ? 1 : 0);
+   }
+
+   public void terminateFaceDetectionProcess (boolean debug,
+         Always.AgentType agentType) {
+      int intDebug = debug ? 1 : 0;
       if ( lib != null )
-      {
-         if(agentType == Always.AgentType.Mirror)
-         {
-            lib.terminateAgentShoreEngine(intDebug);
-            String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
-            lib.terminateReetiShoreEngine(intDebug);
+         switch (agentType) {
+            case Mirror:
+               lib.terminateAgentShoreEngine(intDebug);
+               // fall through
+            case Reeti:
+               lib.terminateReetiShoreEngine(intDebug);
+               break;
+            case Unity:
+               lib.terminateAgentShoreEngine(intDebug);
+               break;
          }
-         else if(agentType == Always.AgentType.Unity)
-            lib.terminateAgentShoreEngine(intDebug);
-         else if(agentType == Always.AgentType.Reeti)
-         {
-            String[] ptr = new String[]{"130.215.28.4"}; //TODO: This should come by reading from Reeti's json profile.
-            lib.terminateReetiShoreEngine(intDebug);
-         }
-      }
    }
 }
