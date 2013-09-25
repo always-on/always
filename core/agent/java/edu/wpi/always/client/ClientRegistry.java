@@ -1,10 +1,10 @@
 package edu.wpi.always.client;
 
-import org.picocontainer.Characteristics;
-import org.picocontainer.MutablePicoContainer;
-
+import edu.wpi.always.*;
+import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.cm.primitives.AudioFileRealizer;
 import edu.wpi.disco.rt.util.ComponentRegistry;
+import org.picocontainer.*;
 
 public class ClientRegistry implements ComponentRegistry {
 
@@ -15,7 +15,18 @@ public class ClientRegistry implements ComponentRegistry {
       container.addComponent(GazeRealizer.class);
       container.addComponent(FaceExpressionRealizer.class);
       container.addComponent(IdleBehaviorRealizer.class);
-      container.addComponent(FaceTrackerRealizer.class);
+      
+      switch ( Always.getAgentType() ) {
+         case Unity:
+            container.addComponent(FaceTrackerRealizer.class);
+            break;
+         case Reeti:
+            container.addComponent(ReetiFaceTrackerRealizer.class);
+            break;
+         case Mirror:
+            container.addComponent(MirrorFaceTrackerRealizer.class);
+            break;
+      }
       container.addComponent(SpeechRealizer.class);
       container.addComponent(AudioFileRealizer.class);
       container.addComponent(ClientMenuRealizer.class);
