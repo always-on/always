@@ -44,7 +44,7 @@ namespace Agent.Tcp
 			{
 				int bytesRead = _client.GetStream().EndRead(ar);
 				var bytes = (Byte[])ar.AsyncState;
-
+                 
 				if (bytesRead > 0)
 				{
 					var message = Encoding.ASCII.GetString(bytes, 0, bytesRead);
