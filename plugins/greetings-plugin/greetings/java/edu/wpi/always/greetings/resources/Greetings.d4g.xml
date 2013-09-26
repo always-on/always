@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model about="urn:always.wpi.edu:models:Greetings" 
+       xmlns="http://www.cs.wpi.edu/~rich/d4g" 
+       xmlns:t="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext">
+
+  <t:script init="true">
+    var hour = Packages.org.joda.time.LocalTime.now().getHourOfDay();
+  </t:script>
+
+  <!-- TODO: _MorningGreetings -->
+
+  <agent id="_AfternoonGreetings" text="How's your day going?">
+    <user id="affirmAfternoon" text="fine">  
+      <agent text="good, glad to hear it"/>
+    </user>
+    <user text="oh not so great">
+      <agent text="sorry to hear it. Maybe it will improve">
+	<user text="hope so" />
+	<user text="it has to!" />
+	<user text="we'll see" />
+      </agent>
+    </user>
+  </agent>
+  
+  <agent id="_EveningGreetings" text="So had a good day?">
+    <user id="affirmEvening" text="yes, a good one">  
+      <agent text="good, glad to hear it"/>
+    </user>
+    <user text="no, not really">
+      <agent text="sorry to hear it. Maybe this evening will be better">
+	<user text="hope so" />
+	<user text="maybe" />
+	<user text="we'll see" />
+      </agent>
+    </user>
+    <user text="nothing special">
+      <agent text="some days are like that. There's still the evening to come!">
+	<user text="yes, so there is"/>
+	<user text="not expecting much" />
+	<user text="I'm looking forward to it" />
+      </agent>
+    </user>
+  </agent>
+
+</model>

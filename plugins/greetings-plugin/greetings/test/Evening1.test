@@ -1,0 +1,56 @@
+    # Sep 26, 2013 4:19:06 PM - TaskEngine 1.4.8 / Disco 1.6.10
+    Welcome to Disco! (Type 'help' for command list)
+  > load java/edu/wpi/always/greetings/resources/Greetings.xml
+  > task _EveningGreetings
+    User says "Let's achieve _EveningGreetings."
+    Agent says "So had a good day?"
+  > say
+[1] Yes, a good one.
+[2] No, not really.
+[3] Nothing special.
+  >> 2
+    User says "No, not really."
+    Agent says "Sorry to hear it. Maybe this evening will be better."
+  > say
+[1] Hope so.
+[2] Maybe.
+[3] We'll see.
+  >> 2
+    User says "Maybe."
+    Agent says "Ok."
+  > task _EveningGreetings
+    User says "Let's achieve _EveningGreetings."
+    Agent says "So had a good day?"
+  > say
+[1] Yes, a good one.
+[2] No, not really.
+[3] Nothing special.
+  >> 3
+    User says "Nothing special."
+    Agent says "Some days are like that. There's still the evening to come!"
+  > say
+[1] Yes, so there is.
+[2] Not expecting much.
+[3] I'm looking forward to it.
+  >> 3
+    User says "I'm looking forward to it."
+    Agent says "Ok."
+  > task _EveningGreetings
+    User says "Let's achieve _EveningGreetings."
+    Agent says "So had a good day?"
+  > say
+[1] Yes, a good one.
+[2] No, not really.
+[3] Nothing special.
+  >> 3
+    User says "Nothing special."
+    Agent says "Some days are like that. There's still the evening to come!"
+  > say
+[1] Yes, so there is.
+[2] Not expecting much.
+[3] I'm looking forward to it.
+  >> 3
+    User says "I'm looking forward to it."
+    Agent says "Ok."
+  > quit
+    
