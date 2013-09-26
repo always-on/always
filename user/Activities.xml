@@ -10,6 +10,10 @@
   <!-- **TODO** add applicability conditions to these toplevel activities if
                 they are restricted to acquaintance or companion  -->
                 
+  <task id="GreetUser">
+	  	<precondition> false </precondition>
+  </task>		
+
   <task id="UseCalendar"/>
 
   <task id="PlayRummy"/>
@@ -23,7 +27,7 @@
   <task id="ExplainSelf"/>
   
   <task id="DiscussBaseball">
-  	<precondition> false </precondition>
+  		<precondition> false </precondition>
   </task>
 
   <script init="true">
