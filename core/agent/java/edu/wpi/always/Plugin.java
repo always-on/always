@@ -235,6 +235,11 @@ public abstract class Plugin {
                "Property "+property+" must start with plugin name "+name); 
    }
    
+   
+   public void save(){
+	   userModel.save();
+   }
+   
    private final List<Activity> activities = new ArrayList<Activity>();
    private final Map<String,List<Registry>> registries = new HashMap<String,List<Registry>>();
    private final Map<String,List<Class<? extends Schema>>> schemas = 
