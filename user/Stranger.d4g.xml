@@ -23,7 +23,7 @@
   <!--  when session "falls off the end" of this plan, it will
         default to toplevel activities. -->
 
-  <d:agent id="_Greetings" text="Hello&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt;">
+  <d:agent id="_Greetings" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt;">
     <d:user text="Hi"/>
   </d:agent>
 
