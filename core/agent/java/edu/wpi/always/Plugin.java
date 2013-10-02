@@ -354,5 +354,9 @@ public abstract class Plugin {
       String activity = task.getProperty("@activity");
       return activity == null ? task.getPropertyId() : activity;
    }
+   
+   public static boolean isPlugin (TaskClass task) {
+      return task.getEngine().getProperty(getActivity(task)+"@plugin") != null;
+   }
 
 }
