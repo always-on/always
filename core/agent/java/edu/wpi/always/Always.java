@@ -85,7 +85,7 @@ public class Always {
          UserUtils.USER_FILE = "TestUser.owl";  // no way to change for now
          // initialize duplicate interaction created above
          new Always(true, false).init(interaction); 
-         interaction.start(true);
+         interaction.start(true);  
       }
    }
    
