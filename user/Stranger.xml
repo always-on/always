@@ -20,7 +20,7 @@
    </task>
    <task id="_Session">
       <subtasks id="_s1">
-         <step name="greet" task="_Greetings"/>
+         <step name="greet" task="a:GreetUser"/>
          <step name="enroll" task="a:EnrollUser" minOccurs="0"/>
          <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
          <step name="explain" task="a:ExplainSelf" minOccurs="0"/>
