@@ -63,19 +63,21 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             }
             else yield(plan);
          } else {
-            if ( plan.isLive() && !plan.isOptional() ) {
-               if ( !plan.isStarted() ) {
-                  TaskClass task = plan.getType();
-                  started.put(plan,
-                        Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
-                  plan.setStarted(true);
-                  yield(plan);
-               }
+            TaskClass task = plan.getType();
+            if ( Plugin.isPlugin(task) &&
+                 plan.isLive() && !plan.isOptional() && !plan.isStarted() ) {
+               started.put(plan,
+                  Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
+               plan.setStarted(true);
+               yield(plan);
             }
          }
       }
-      // fall through when session plan exhausted or focused activity schema done 
-      // or focused task stopped 
+      // fall through when:
+      //    -live plan is not an activity
+      //    -focused activity schema done
+      //    -focused task stopped
+      //    -session plan exhausted 
       propose(stateMachine);
    }
    
