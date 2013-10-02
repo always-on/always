@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-<<<<<<< HEAD
 	<name>AAScriptbuilderPlugin</name>
-=======
 	<name>scriptbuilder</name>
->>>>>>> upstream/develop
 	<comment></comment>
 	<projects>
 	</projects>
