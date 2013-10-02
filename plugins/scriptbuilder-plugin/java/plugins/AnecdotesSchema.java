@@ -1,5 +1,6 @@
-package pluginCore;
+package plugins;
 
+import pluginCore.*;
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.FaceExpressionBehavior;
@@ -11,9 +12,9 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class ScriptbuilderSchema extends ActivityStateMachineSchema {
+public class AnecdotesSchema extends ActivityStateMachineSchema {
 
-	public ScriptbuilderSchema(BehaviorProposalReceiver behaviorReceiver,
+	public AnecdotesSchema(BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor, Keyboard keyboard,
 			UIMessageDispatcher dispatcher, PlaceManager placeManager,
