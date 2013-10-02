@@ -8,9 +8,12 @@
   </t:script>
 
   <!-- TODO: _MorningGreetings -->
+  <agent id="_MorningGreetings" text="Good morning.">
+	<user text="Good morning."/>
+  </agent> 
 
   <agent id="_AfternoonGreetings" text="How's your day going?">
-    <user id="affirmAfternoon" text="fine">  
+    <user text="fine">  
       <agent text="good, glad to hear it"/>
     </user>
     <user text="oh not so great">
@@ -23,7 +26,7 @@
   </agent>
   
   <agent id="_EveningGreetings" text="So had a good day?">
-    <user id="affirmEvening" text="yes, a good one">  
+    <user text="yes, a good one">  
       <agent text="good, glad to hear it"/>
     </user>
     <user text="no, not really">
