@@ -1,5 +1,6 @@
 package edu.wpi.always.cm.schemas;
 
+import edu.wpi.cetask.Plan;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.BehaviorHistory;
@@ -25,11 +26,8 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
 
    @Override
    public void run () {
-      if ( interaction.getFocus() != null ) {
-         propose(stateMachine);
-      } else {
-         proposeNothing();
-      }
+      if ( interaction.getFocusExhausted(true) == null ) cancel(); 
+      else propose(stateMachine);
    }
 
 }
