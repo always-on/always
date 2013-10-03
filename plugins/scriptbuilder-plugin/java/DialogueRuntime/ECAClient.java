@@ -24,13 +24,15 @@ public class ECAClient extends Client implements Runnable {
     }
 
     protected Thread thread;
-	    public void start() {
+	    @Override
+		public void start() {
 		super.start();
 		thread=new Thread(this);
 		thread.start();
     }
 
-    public void run() {
+    @Override
+	public void run() {
 		try {
             while(clientListener!=null) {
                 String line=bufr.readLine();
@@ -50,7 +52,8 @@ public class ECAClient extends Client implements Runnable {
     /* ----- OUTPUT METHODS ----- */
     
     /* Lowest level output. */
-    public void write(String xml) throws Exception {
+    @Override
+	public void write(String xml) throws Exception {
 		super.write(xml);
 		outs.write((xml.replace('\n', ' ') + "\n").getBytes());
 		outs.flush();
@@ -68,7 +71,8 @@ public class ECAClient extends Client implements Runnable {
     /* Normal termination of client connection. 
      * Set Kill=true if the client should execute a system shutdown on the host computer, or 
      * Kill=false to just close the client app */
-    public void close() {
+    @Override
+	public void close() {
         clientExit(); 
         super.close();
 		try {
@@ -81,7 +85,8 @@ public class ECAClient extends Client implements Runnable {
     
     /* Abnormal session termination. ECA: cause client app to exit, 
        displaying the stated reason in a dialogue box. */
-    public void exit(String reason) {
+    @Override
+	public void exit(String reason) {
 		super.exit(reason);
 		try {
 		    write("<SESSION ERROR=\"" + reason + "\"/>");
@@ -90,14 +95,16 @@ public class ECAClient extends Client implements Runnable {
 		}
     }
     
-    public void perform(String xml,DialogueSession session) throws Exception {
+    @Override
+	public void perform(String xml,DialogueSession session) throws Exception {
 		write("<PERFORM>" + xml + "</PERFORM>");
 		//session.clientOutputEvent(xml);
     }
     
     /* Cause client to halt any ongoing speech & animation, and flush 
        its input queues. */
-    public void flush() throws Exception {
+    @Override
+	public void flush() throws Exception {
 		write("<FLUSH/>"); // flush any stuck PERFORM
     }
     

@@ -8,6 +8,7 @@ public abstract class DialogueScript {
 	protected String name;
 	protected String[] qualifiers;
 	protected DialogueState initState;
+	@SuppressWarnings("rawtypes")
 	protected Map states = new HashMap();
 	
 	protected DialogueScript(String name, String[] qualifiers) {

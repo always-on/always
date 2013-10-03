@@ -17,21 +17,25 @@ public abstract class ThreadModule extends CMModule implements Runnable {
 
     public ThreadModule(String name) { super(name); }
 
-    public void startup() throws Exception {
+    @Override
+	public void startup() throws Exception {
 	super.startup();
 	running=true;
 	(moduleThread=new Thread(this)).start();    //Launches thread.
     }
 
-    public synchronized void shutdown() {
+    @Override
+	public synchronized void shutdown() {
         running=false;    
         moduleThread.interrupt();
     }
     	
     //---Implementation
-    protected void initialize() throws Exception {}
+    @Override
+	protected void initialize() throws Exception {}
     synchronized protected void process() throws Exception {}
-    public void run() {
+    @Override
+	public void run() {
 	if(DEBUG) System.out.println(getName()+": starting thread.");
 	while(running) {
 	    try {
@@ -47,7 +51,8 @@ public abstract class ThreadModule extends CMModule implements Runnable {
     }
 	
 	//---Event Queue handling
-    public void addEvent(String event) {
+    @Override
+	public void addEvent(String event) {
       synchronized(eventQueue) {
 	  super.addEvent(event);
 	  if(eventQueue.size()==1)   //Q was emtpy, so wake up consumer.

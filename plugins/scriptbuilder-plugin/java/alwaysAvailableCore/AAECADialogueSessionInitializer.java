@@ -6,7 +6,8 @@ import DialogueRuntime.*;
 //Default ECA session initialization behavior
 
 public class AAECADialogueSessionInitializer implements DialogueSessionInitializer {
-    public boolean handleInitializationEvent(String event,DialogueSession session) throws Exception {
+    @Override
+	public boolean handleInitializationEvent(String event,DialogueSession session) throws Exception {
     	System.out.println("Initialization routine got event: " + event);
     	if(event==null) {
 	    return false; //do nothing on startup

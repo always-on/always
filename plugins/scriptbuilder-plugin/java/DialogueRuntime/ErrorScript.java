@@ -14,14 +14,17 @@ public class ErrorScript extends DialogueScript {
 			super("Error", script);
 		}
 		
+		@Override
 		public int getStateType() {
 			return OUTPUT_ONLY;
 		}
 
+		@SuppressWarnings("unused")
 		public void doAction(int n, DialogueStateMachine DSM) throws Exception {
 			POP(DSM);
 		}
 		
+		@Override
 		public OutputText getOutput(DialogueStateMachine DSM) {
 			String error = "<SPEECH>Error in " + scriptName + "</SPEECH>";
 			return new OutputText(error, error);
