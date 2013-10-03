@@ -12,41 +12,43 @@ import java.util.*;
 
 public class ScriptbuilderClient implements ClientPlugin {
 
-   private static final String PLUGIN_NAME = "test";
-   private final UIMessageDispatcher dispatcher;
+	// private static final String PLUGIN_NAME = "test";
+	@SuppressWarnings("unused")
+	private final UIMessageDispatcher dispatcher;
 
-   public ScriptbuilderClient (UIMessageDispatcher dispatcher) {
-      this.dispatcher = dispatcher;
-   }
-   // TODO the coding above should make use of ClientPlugin methods below
-   
-   @Override
-   public void doAction (String actionName) {
-      // TODO Auto-generated method stub
-      
-   }
+	public ScriptbuilderClient(UIMessageDispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
 
-   @Override
-   public void initInteraction () {
-      // TODO Auto-generated method stub
-      
-   }
+	// TODO the coding above should make use of ClientPlugin methods below
 
-   public BehaviorBuilder updateInteraction (boolean lastProposalIsDone) {
-      // TODO Auto-generated method stub
-      return null;
-   }
+	@Override
+	public void doAction(String actionName) {
+		// TODO Auto-generated method stub
 
-   @Override
-   public void endInteraction () {
-      // TODO Auto-generated method stub
-      
-   }
+	}
 
-@Override
-public BehaviorBuilder updateInteraction(boolean lastProposalIsDone,
-		double focusMillis) {
-	// TODO Auto-generated method stub
-	return null;
-}
+	@Override
+	public void initInteraction() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public BehaviorBuilder updateInteraction(boolean lastProposalIsDone) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void endInteraction() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public BehaviorBuilder updateInteraction(boolean lastProposalIsDone,
+			double focusMillis) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

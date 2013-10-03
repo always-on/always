@@ -21,6 +21,7 @@ public class FileStore extends PersistentStore {
 	public  final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
 	// open the log and sessions file with the APPEND flag set to true
+	@Override
 	public void open() throws Exception {
 		if(logPath!=null) {
 			FileOutputStream logFOS=new FileOutputStream(logPath,true);
@@ -33,12 +34,14 @@ public class FileStore extends PersistentStore {
 		}
 	}
 
+	@Override
 	public boolean tryLoadProperties(Properties userProperties) throws Exception {
 		loadProperties(userProperties);
 		return true;
 	}
 
 	// closing the open files
+	@Override
 	public void close(DialogueListener.TerminationReason reason) {
 		logfile.close();
 		closeSession(reason);
@@ -66,10 +69,12 @@ public class FileStore extends PersistentStore {
 		filePrefix = Prefix;
 	}
 
+	@Override
 	public ServerConstants.UsersStatus getStatus() {
 		return(status);
 	}
 
+	@Override
 	public void loadProperties(Properties p) throws Exception {
 		p.clear();
 		try {
@@ -113,7 +118,8 @@ public class FileStore extends PersistentStore {
 
     // save the properties to both the current file (i.e. current.dat or whatever) and the
     // date-stamped file, because current-dat is overwritten each session
-    public void saveProperties(Properties p) throws Exception {
+    @Override
+	public void saveProperties(Properties p) throws Exception {
     	FileOutputStream FOS=new FileOutputStream(propsFile);
     	p.store(FOS,"RAG FileStore");
     	FOS.close();
@@ -132,6 +138,7 @@ public class FileStore extends PersistentStore {
     }
 
 
+	@Override
 	public void addLog(LogEventType eventType,String eventData) throws Exception {
 		if(logfile!=null)
 			logfile.println(""+sessionID + "\t" + ""+new Date()+"\t"+eventType+"\t"+eventData);
@@ -141,6 +148,7 @@ public class FileStore extends PersistentStore {
 		return userID;
 	}
 
+	@Override
 	public int usersComputeStudyDay() { 
 		TDate tdateNow=new TDate();
 		System.out.println("start date is " + start_date);
@@ -152,6 +160,7 @@ public class FileStore extends PersistentStore {
 	}
 
 
+	@Override
 	public int usersComputeStudyDay(Calendar c) { 
 		TDate tdatestart = new TDate(start_date);
 
@@ -163,16 +172,19 @@ public class FileStore extends PersistentStore {
 	}
 
 	// In filestore, this method doesn't really make sense. What to do?
+	@Override
 	public boolean  isValidID(int userIN) {
 
 		return (userIN == userID);
 	}
 
 
+	@Override
 	public int getUsersStudyDay() { 
 		return studyDay;
 	}
 
+	@Override
 	public String getUserName() { 
 		return username;	
 	}
@@ -189,6 +201,7 @@ public class FileStore extends PersistentStore {
 	// DKB 0209: it was using the interaction number as the session number, but that caused duplicate session 
 	// entries when the interaction number did not advance (like in tryAgainTomorrow). Changed to use the property 
 	// NUM_SESSIONS, which is incremented every time
+	@Override
 	public int addSession(ServerConstants.Media media) {        	
 		this.media = media;
 		int returnval = 1;
@@ -221,10 +234,12 @@ public class FileStore extends PersistentStore {
 	}
 
 	// Print error message: the userID is set from properties
+	@Override
 	public void setUserID(int userIDIn) {
 		System.err.println("ERROR: the server tried to reset the userid to " +  userIDIn);
 	}
 
+	@Override
 	public  int getUsersLoginPIN() {
 		return 0;
 	}
@@ -237,16 +252,19 @@ public class FileStore extends PersistentStore {
 	}
 
 
+	@Override
 	public  void setUsersStudyDay(int studyDayIn) {
 		studyDay = studyDayIn;
 	}
 
+	@Override
 	public  boolean alreadyLoggedInToday() {
 		
 		return false;
 	}
 
 	// if desired, save the steps out to persistentstore as soon as they are known. 
+	@Override
 	public int saveSteps(int day, int steps) {
 		return 1;
 	}
@@ -254,11 +272,13 @@ public class FileStore extends PersistentStore {
 	//incomplete function
 	// save the goal when the user adopts a goal
 	// goal should be associated with current studyDay
+	@Override
 	public void recordGoal(int goal) {
 
 	}
 
 	// incomplete function
+	@Override
 	public ServerConstants.Condition getUserCondition() {
 		return (ServerConstants.Condition.INTERVENTION);
 	}
