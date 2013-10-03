@@ -7,12 +7,12 @@ import edu.wpi.disco.rt.behavior.Constraint.Type;
 import edu.wpi.disco.rt.realizer.petri.*;
 import edu.wpi.disco.rt.util.TimeStampedValue;
 import org.joda.time.DateTime;
-import java.util.List;
+import java.util.*;
 
 public class MenuTurnStateMachine implements BehaviorBuilder {
 
    public static final int TIMEOUT_DELAY = 10000; 
-   public static final int MENU_DELAY = 10;
+   public static final int MENU_DELAY = 1000;
    
    private final BehaviorHistory behaviorHistory;
    private final MenuPerceptor menuPerceptor;
@@ -64,12 +64,23 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          new MenuBehavior(state.getChoices(), state.isTwoColumnMenu(), extension) :
          null;
       SpeechMarkupBehavior speechBehavior = hasSomethingToSay(state) ? 
-         new SpeechMarkupBehavior(state.getMessage()) : null;
+         new SpeechMarkupBehavior(state.getMessage()) :
+         null;
       if ( speechBehavior != null && menuBehavior != null ) {
-         behavior = new Behavior(new SequenceOfCompoundBehaviors(
-               speechBehavior, 
-               new WaitBehavior(MENU_DELAY),
-               new SimpleCompoundBehavior(menuBehavior)));
+         // note hacking below to deal with fact that CompoundBehaviorWithConstraints
+         // is only defined to work for PrimitiveBehavior's
+         List<PrimitiveBehavior> behaviors = new ArrayList<PrimitiveBehavior>();
+         SpeechBehavior speech = speechBehavior.getSpeech();
+         behaviors.add(speech); behaviors.add(menuBehavior);
+         for (Resource r : speechBehavior.getResources())
+            if ( r != Resources.SPEECH )
+               behaviors.add(PrimitiveBehavior.nullBehavior(r));
+         behavior = new Behavior(new CompoundBehaviorWithConstraints(
+               behaviors,
+               Lists.newArrayList(new Constraint(
+                     new SyncRef(SyncPoint.Start, speech),
+                     new SyncRef(SyncPoint.Start, menuBehavior),
+                     Type.After, MENU_DELAY))));
       } else if ( mode == Mode.Speaking ) {
          if ( speechBehavior == null ) {
             setMode(Mode.Hearing);

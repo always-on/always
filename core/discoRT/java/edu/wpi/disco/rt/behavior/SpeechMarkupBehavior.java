@@ -22,6 +22,8 @@ public class SpeechMarkupBehavior implements CompoundBehavior {
    
    public static SpeechMarkupAnalyzer ANALYZER;
    
+   public SpeechBehavior getSpeech () { return speech; }
+   
    @Override
    public Set<Resource> getResources () { return resources; }
 
