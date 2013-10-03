@@ -63,21 +63,19 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       MenuBehavior menuBehavior = hasChoicesForUser(state) ? 
          new MenuBehavior(state.getChoices(), state.isTwoColumnMenu(), extension) :
          null;
-      SpeechBehavior speechBehavior = hasSomethingToSay(state) ? 
-         new SpeechBehavior(state.getMessage()) : null;
+      SpeechMarkupBehavior speechBehavior = hasSomethingToSay(state) ? 
+         new SpeechMarkupBehavior(state.getMessage()) : null;
       if ( speechBehavior != null && menuBehavior != null ) {
-         behavior = new Behavior(new CompoundBehaviorWithConstraints(
-                Lists.newArrayList(speechBehavior, menuBehavior),
-                Lists.newArrayList(new Constraint(
-                      new SyncRef(SyncPoint.Start, speechBehavior), 
-                      new SyncRef(SyncPoint.Start, menuBehavior),
-                      Type.After, MENU_DELAY))));
+         behavior = new Behavior(new SequenceOfCompoundBehaviors(
+               speechBehavior, 
+               new WaitBehavior(MENU_DELAY),
+               new SimpleCompoundBehavior(menuBehavior)));
       } else if ( mode == Mode.Speaking ) {
          if ( speechBehavior == null ) {
             setMode(Mode.Hearing);
             return build(); // loop
          }
-         behavior = Behavior.newInstance(speechBehavior);
+         behavior = new Behavior(speechBehavior);
       } else if ( mode == Mode.Hearing ) {
          if ( menuBehavior == null ) return nextState(null); // loop
          behavior = Behavior.newInstance(menuBehavior);
