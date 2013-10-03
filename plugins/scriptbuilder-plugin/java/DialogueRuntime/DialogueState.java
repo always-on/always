@@ -9,6 +9,7 @@ public abstract class DialogueState {
 
 	protected String name;
 	protected DialogueScript script;
+	@SuppressWarnings("rawtypes")
 	protected Map flags;
 
 	public static final int ACTION_ONLY = 0;
@@ -229,6 +230,7 @@ public abstract class DialogueState {
 				result = result.replace("</HTML>", " ");
 			}
     	}
+    	reader.close();
     	return result;
     }
 

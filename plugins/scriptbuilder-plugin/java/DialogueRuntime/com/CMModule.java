@@ -1,5 +1,7 @@
 package DialogueRuntime.com;
 
+import DialogueRuntime.com.CMModule.WaitThread;
+
 import java.util.*;
 
 //To create a module:
@@ -21,7 +23,8 @@ public abstract class CMModule {
     public CMModule(String name) { this.name=name; }
     public String getName() { return name; }
 
-    private Hashtable knownModules=new Hashtable();
+    @SuppressWarnings("rawtypes")
+	private Hashtable knownModules=new Hashtable();
     public void register(String name,CMModule subscriber) {
         knownModules.put(name,subscriber);
     }
@@ -60,7 +63,7 @@ public abstract class CMModule {
     */
 
 	//---Event Queue handling
-    protected Vector eventQueue=new Vector();
+    protected Vector<String> eventQueue=new Vector<String>();
     
     public void addEvent(String event) {
         if(DEBUG) System.out.println(getClass().getName()+" received event "+event);
@@ -95,7 +98,8 @@ public abstract class CMModule {
 	}
     }
     
-    public synchronized  void killAllTimers() {
+    @SuppressWarnings("deprecation")
+	public synchronized  void killAllTimers() {
 	//synchronized(timers) {
 	for(int i=0;i<timers.size();i++) {
 	    WaitThread timer=(WaitThread)timers.elementAt(i);
@@ -105,7 +109,7 @@ public abstract class CMModule {
 	//}
     }
 
-    protected Vector timers=new Vector();
+    protected Vector<WaitThread> timers=new Vector<WaitThread>();
     protected int nextTimerInstanceID=0;
 
     //Timer event:  <TIMER ID="id" INSTANCE="instance"/>
@@ -142,7 +146,8 @@ public abstract class CMModule {
             this.ID=ID;
             this.instanceID=instanceID;
         }
-        public void run() {
+        @Override
+		public void run() {
             try {
                 sleep(waitTime);
             }catch(Exception e){};

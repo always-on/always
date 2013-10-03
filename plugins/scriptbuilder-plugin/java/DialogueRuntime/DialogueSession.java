@@ -61,8 +61,8 @@ public abstract class DialogueSession extends QueueModule implements ClientListe
     	DSM.setStateNameDisplay(which);
       }
     
-    private static Vector activeSessions=new Vector();
-    public static Vector getActiveSessions() { return activeSessions; }
+    private static Vector<DialogueSession> activeSessions=new Vector<DialogueSession>();
+    public static Vector<DialogueSession> getActiveSessions() { return activeSessions; }
 
     public Client getClient() { return client; }
     public SessionRuntime getRuntime() { return DSM.getRuntime(); }
@@ -122,7 +122,8 @@ public abstract class DialogueSession extends QueueModule implements ClientListe
     /* Specifies an optional script to run if an exception occurs and
        DialogueListener.exception() returns RESTART_DESIGNATED. Note:
        if used, the stack is first flushed before this is started. */
-    private String exceptionScript=null;
+    @SuppressWarnings("unused")
+	private String exceptionScript=null;
     public void setExceptionScript(String s) { exceptionScript=s; }
 
     /* Perform n'th action in current state. Returns true if dialogue should continue. */
@@ -245,7 +246,8 @@ public abstract class DialogueSession extends QueueModule implements ClientListe
         public void processEvent() throws Exception {}
         public void leave() throws Exception {}
         public String getName() { return "???"; }
-        public String toString() { return "<DlgIntState: "+getName()+">"; };
+        @Override
+		public String toString() { return "<DlgIntState: "+getName()+">"; };
     }
 
     public enum EventType { ET_UNKNOWN, ET_LOGIN, ET_USER_INPUT, ET_PERFORM_COMPLETE,  ET_TIMER, ET_USER_EXIT, ET_START, ET_WEBPAGE, ET_STEPS_ERROR,ET_STEPS,ET_IVRTIMEOUT, ET_RFID_ARRIVE, ET_RFID_LEFT, ET_EVALUATION };
@@ -340,6 +342,7 @@ public abstract class DialogueSession extends QueueModule implements ClientListe
     public String getEvent() {
 		return event;
 	}
+	@Override
 	public void processEvent(String cevent) throws Exception{
     	this.setLastEventTime(new Date());
 	    System.out.println("dlgsessn.procEvent: "+cevent);
@@ -465,7 +468,8 @@ System.out.println("******");
 	}
 	
     /* ------------------ ClientListener implementation --- */
-    public void clientInputEvent(String xml){
+    @Override
+	public void clientInputEvent(String xml){
 	    System.out.println("U: "+xml);
 		addEvent(xml);
     }

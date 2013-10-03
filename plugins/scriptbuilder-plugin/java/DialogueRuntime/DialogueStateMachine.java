@@ -5,7 +5,7 @@ import java.util.*;
 public class DialogueStateMachine {
     public static final String MENU_TEXT_PARAM = "_MENU_TEXT_";
     protected static  boolean REPORT_STATE_NAME = false; // if true, add the state name to the PERFORM tag as a new tag
-    protected static  boolean REPORT_SCRIPT_NAME = false && REPORT_STATE_NAME;
+    protected static  boolean REPORT_SCRIPT_NAME = false;
     
     public static Map<String, DialogueScript> scripts = new HashMap<String, DialogueScript>();
     
@@ -17,7 +17,8 @@ public class DialogueStateMachine {
     	if (name == null)
     		name = "";
     	System.out.println(" *************Name " + name);
-	    Class c = Class.forName("Dialogue." + name + "Initializer");
+	    @SuppressWarnings("rawtypes")
+		Class c = Class.forName("Dialogue." + name + "Initializer");
 	    DialogueInitializer init = (DialogueInitializer) c.newInstance();
 	    init.initialize(scripts);
     }
@@ -34,7 +35,7 @@ public class DialogueStateMachine {
     protected DialogueSession session; //was server
     protected SessionRuntime runtime;
     //Properties userProperties;
-    protected Stack<DialogueState> stack = new Stack<DialogueState>(); // of Dialogue.DialogueState = ATN
+    public Stack<DialogueState> stack = new Stack<DialogueState>(); // of Dialogue.DialogueState = ATN
     protected DialogueState previousState;
 	
     public DialogueStateMachine() {}

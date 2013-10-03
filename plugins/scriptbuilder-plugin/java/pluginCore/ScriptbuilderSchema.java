@@ -6,17 +6,25 @@ import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
 public class ScriptbuilderSchema extends ActivityStateMachineSchema {
-
-   public ScriptbuilderSchema (AdjacencyPair init,
-         BehaviorProposalReceiver behaviorReceiver,
+	
+	RAGStateContext context;
+	
+	public ScriptbuilderSchema(ScriptbuilderCoreScript init,
+			BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor) {
-		 super(init, behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
+		super(init, behaviorReceiver, behaviorHistory, resourceMonitor,
+				menuPerceptor);
+		this.context = init.context;
 	}
-   
-   @Override
-   public void run () {
-      // TODO: need to call cancel() when nothing left in script!
-      super.run();
-   }
+
+	@Override
+	public void run() {
+		// TODO: need to call cancel() when nothing left in script!
+		super.run();
+		System.out.println("Cancel called");
+		if(context.isDone)
+			cancel();
+
+	}
 }
