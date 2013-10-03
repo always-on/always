@@ -74,7 +74,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          }
       }
       // fall through when:
-      //    -live plan is not an activity
+      //    -live plan is not a plugin
       //    -focused activity schema done
       //    -focused task stopped
       //    -session plan exhausted 
