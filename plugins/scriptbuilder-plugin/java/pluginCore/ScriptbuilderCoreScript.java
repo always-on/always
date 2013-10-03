@@ -14,10 +14,13 @@ public class ScriptbuilderCoreScript extends AdjacencyPairBase<RAGStateContext> 
 
 	private boolean outputOnly = false;
 
+	public RAGStateContext context;
+	
 	// Master function that creates the DSM
 	public ScriptbuilderCoreScript(final RAGStateContext context) {
 		//TODO: ADD NVB SUPPORT ONCE WE GET IT WORKING
 		super(context.getNextMessage().getProperty("text"), context);
+		this.context = context;
 //		super(" ", context);
 
 		//OLD STUFF

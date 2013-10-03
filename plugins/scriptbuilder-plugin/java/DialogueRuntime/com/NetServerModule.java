@@ -8,7 +8,7 @@ import java.io.*;
 //Sends <NOTREADY MODULE=id/> to all known modules when client has disconnected.
 
 public abstract class NetServerModule extends CMModule implements Runnable {
-    private BufferedReader in = null;
+//    private BufferedReader in = null;
     private ServerSocket server;
 
     public NetServerModule(String name) { super(name); }
@@ -21,7 +21,8 @@ public abstract class NetServerModule extends CMModule implements Runnable {
 	new Thread(this).start();
     }
 
-    public void run() {
+    @Override
+	public void run() {
 	while(true) {
 	    try {
 		if(DEBUG) System.out.println(getName()+": waiting for connect...");
@@ -55,7 +56,8 @@ public abstract class NetServerModule extends CMModule implements Runnable {
     protected OutputStream outs=null;
 
     //override...
-    public synchronized void addEvent(String event) {
+    @Override
+	public synchronized void addEvent(String event) {
 	if(outs==null) return;
 	try {
 	    outs.write((event.replace('\n',' ')+"\n").getBytes());

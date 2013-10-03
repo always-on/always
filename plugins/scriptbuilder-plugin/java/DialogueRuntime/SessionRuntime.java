@@ -121,7 +121,7 @@ import java.util.*;
 	    	return Integer.parseInt(userProperties.getProperty("USERID"));
 	    }
 	    
-	    public Enumeration enumProperties() {
+	    public Enumeration<Object> enumProperties() {
 	        return(userProperties.elements());
 		}
 	  
@@ -264,7 +264,7 @@ import java.util.*;
 		    public void dumpProperties() {
 		    	System.out.println("*** DEBUG Current properties values:");
 		    	System.out.println("******** Count ::" + userProperties.size());
-		    	Iterator i = userProperties.keySet().iterator();
+		    	Iterator<Object> i = userProperties.keySet().iterator();
 		    	String key = new String();
 		    	while (i.hasNext())  {
 		    			    key = (String) i.next();
