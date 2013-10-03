@@ -74,7 +74,7 @@ public class Arbitrator implements Runnable {
    private Class<? extends Schema> getSchema (Plan plan) {
       Class<? extends Schema> schema = discoRT.getSchema(plan.getType());
       return schema != null ? schema :
-         interaction.getDisco().isTop(plan) ? null : getSchema(plan.getParent());
+         interaction.isTop(plan) ? null : getSchema(plan.getParent());
    }
 
    private void choose (CandidateBehavior chosen) {
