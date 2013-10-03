@@ -67,20 +67,20 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          new SpeechMarkupBehavior(state.getMessage()) :
          null;
       if ( speechBehavior != null && menuBehavior != null ) {
-         // note hacking below to deal with fact that CompoundBehaviorWithConstraints
+         // note hacking below is due to fact that CompoundBehaviorWithConstraints
          // is only defined to work for PrimitiveBehavior's
-         List<PrimitiveBehavior> behaviors = new ArrayList<PrimitiveBehavior>();
          SpeechBehavior speech = speechBehavior.getSpeech();
-         behaviors.add(speech); behaviors.add(menuBehavior);
-         for (Resource r : speechBehavior.getResources())
-            if ( r != Resources.SPEECH )
-               behaviors.add(PrimitiveBehavior.nullBehavior(r));
-         behavior = new Behavior(new CompoundBehaviorWithConstraints(
-               behaviors,
-               Lists.newArrayList(new Constraint(
-                     new SyncRef(SyncPoint.Start, speech),
-                     new SyncRef(SyncPoint.Start, menuBehavior),
-                     Type.After, MENU_DELAY))));
+         List<PrimitiveBehavior> behaviors = Lists.newArrayList(speech, menuBehavior);
+         List<Constraint> constraints = Lists.newArrayList(new Constraint(
+               new SyncRef(SyncPoint.Start, speech),
+               new SyncRef(SyncPoint.Start, menuBehavior),
+               Type.After, MENU_DELAY));
+         Set<Resource> resources = speechBehavior.getResources();
+         if ( resources.size() > 1 )  // has markup
+            for (Resource r : speechBehavior.getResources())
+               if ( r != Resources.SPEECH )
+                  behaviors.add(PrimitiveBehavior.nullBehavior(r));
+         behavior = new Behavior(new CompoundBehaviorWithConstraints(behaviors, constraints));
       } else if ( mode == Mode.Speaking ) {
          if ( speechBehavior == null ) {
             setMode(Mode.Hearing);
