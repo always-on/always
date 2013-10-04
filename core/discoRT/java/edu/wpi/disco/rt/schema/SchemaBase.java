@@ -30,6 +30,7 @@ public abstract class SchemaBase implements Schema {
    @Override
    public void cancel () { 
       if ( future != null ) future.cancel(false);
+      behaviorReceiver.cancel(this);
    }
  
    @Override

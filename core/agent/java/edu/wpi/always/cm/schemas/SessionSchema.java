@@ -23,16 +23,17 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Interaction interaction,
-         RelationshipManager rm, ClientProxy proxy, Always always) {
+         ClientProxy proxy, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
       this.proxy = proxy;
       container = always.getContainer();
       stop = new Stop(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
-      DiscoDocument session = rm.getSession();
+      DiscoDocument session = always.getRM().getSession();
       if ( session != null ) {
          interaction.load("Relationship Manager", 
                session.getDocument(), session.getProperties(), session.getTranslate());
          interaction.push(interaction.addTop("_Session"));
+         always.getCM().setSchema(interaction.getDisco().getTaskClass("_Session"), SessionSchema.class);
       }
       ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
                       .setInterrupt(false);
@@ -47,7 +48,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    public void run () {
       Plan plan = interaction.getFocusExhausted(true);
       if ( plan != null ) {
-         if ( interaction.isTop(plan) ) {
+         if ( plan.getType().getId().equals("_Session") ) {
             // focus is on session, move it down to first live child
             // (must have some or would be popped as exhausted)
             interaction.push(plan.getLive().get(0));
@@ -74,7 +75,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          }
       }
       // fall through when:
-      //    -live plan is not an activity
+      //    -live plan is not a plugin
       //    -focused activity schema done
       //    -focused task stopped
       //    -session plan exhausted 
@@ -123,9 +124,23 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       @Override
       public AdjacencyPair nextState (String text) {
          super.nextState(text);
+         Schema schema = started.get(plan);
+         if ( schema != null ) schema.cancel();
          stop(plan);
-         return discoAdjacencyPair; // one shot
+         return new StopAdjacencyPairWrapper(discoAdjacencyPair); // one shot
       }
    }
- 
+
+   private static class StopAdjacencyPairWrapper extends AdjacencyPairWrapper {
+      
+      public StopAdjacencyPairWrapper (AdjacencyPair inner) {
+         super(inner);
+      }
+   
+      @Override
+      public String getMessage () {
+         String text = inner.getMessage();
+         return text == null ? "Ok." : ("Ok. " + text);
+      }
+   }
 }

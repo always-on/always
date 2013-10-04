@@ -234,7 +234,7 @@ public abstract class Plugin {
          throw new IllegalArgumentException(
                "Property "+property+" must start with plugin name "+name); 
    }
- 
+   
    private final List<Activity> activities = new ArrayList<Activity>();
    private final Map<String,List<Registry>> registries = new HashMap<String,List<Registry>>();
    private final Map<String,List<Class<? extends Schema>>> schemas = 

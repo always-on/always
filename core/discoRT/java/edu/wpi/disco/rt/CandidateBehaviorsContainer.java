@@ -20,6 +20,9 @@ public class CandidateBehaviorsContainer implements
    }
 
    @Override
+   public void cancel (Schema schema) { candidates.remove(schema); }
+   
+   @Override
    public List<CandidateBehavior> all () {
       copyNewProposalsToCandidatesList();
       return ImmutableList.copyOf(candidates.values());

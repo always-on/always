@@ -20,11 +20,7 @@ public class ScriptbuilderSchema extends ActivityStateMachineSchema {
 
 	@Override
 	public void run() {
-		// TODO: need to call cancel() when nothing left in script!
-		super.run();
-		System.out.println("Cancel called");
-		if(context.isDone)
-			cancel();
-
+	   if( context.isDone ) cancel();
+		else super.run();
 	}
 }
