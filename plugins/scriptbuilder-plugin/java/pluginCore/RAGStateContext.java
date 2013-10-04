@@ -35,6 +35,8 @@ public class RAGStateContext {
 	
 	private static UserModel userModel;
 	
+	public static boolean isDone = false;
+	
 	public RAGStateContext(Keyboard keyboard, UIMessageDispatcher dispatcher,
 			PlaceManager placeManager, PeopleManager peopleManager,Always always) {
 		this.keyboard = keyboard;
@@ -71,7 +73,7 @@ public class RAGStateContext {
 	}
 
 	// Support functions to poke the DSM
-	private static void populateDialogue() {
+	private static boolean populateDialogue() {
 		if (firstRun){
 			try {
 				firstRun = false;
@@ -155,15 +157,28 @@ public class RAGStateContext {
 			}*/
 			
 		} catch(Exception e){
-			System.out.println("Exception caught:" + e.getMessage());
-			e.printStackTrace();
+			if(DSM.stack.empty()){
+				System.out.println("Done with script!");
+				isDone = true;
+				return false;
+			} else {
+				System.out.println("Exception caught:" + e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
 		}
+		return true;
 	}
 	
 	public static Message getNextMessage(){
 		System.out.println("in get next message");
 		if(messageQue.size() == 0){
-			populateDialogue();
+			if(!populateDialogue()){
+				Builder b;
+				b = Message.builder("speech");
+				b.add("text","");
+				return b.build();
+			}
 		}
 		if(messageQue.size() > 0)
 			return messageQue.remove(0);

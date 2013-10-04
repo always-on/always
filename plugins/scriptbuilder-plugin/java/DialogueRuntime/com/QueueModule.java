@@ -8,7 +8,8 @@ public class QueueModule extends ThreadModule {
     //Still to be implemented: what to do with each event...
     protected void processEvent(String event) throws Exception {}
   
-    protected void process() { //Called repeatedly during run.
+    @Override
+	protected void process() { //Called repeatedly during run.
 	//System.out.println("---QM.process 1");
         String event=null;
         if (!eventQueue.isEmpty()) {

@@ -18,7 +18,8 @@ public class TDate {
     public TDate(long t) { idate=new Date(t); }
     public TDate() { idate=new Date(); }
     public TDate(Date in) { idate= (Date)in.clone(); }
-    public TDate(String s) { 
+    @SuppressWarnings("deprecation")
+	public TDate(String s) { 
 	//allow for DB strings of form yyyy-mm-dd
 	if(s.indexOf('-')>0) 
 	    s=s.substring(5,7)+"/"+s.substring(8,10)+"/"+s.substring(0,4);
@@ -27,8 +28,12 @@ public class TDate {
     }
     
     public TDate(Calendar c) { idate=c.getTime(); }
-    public String toString() { return ""+(idate.getMonth()+1)+"/"+idate.getDate()+"/0"+(idate.getYear()-100); }
-    public String toString2() { return ""+(idate.getMonth()+1)+"_"+idate.getDate()+"_"+(idate.getYear()-100); }
+    @SuppressWarnings("deprecation")
+	@Override
+	public String toString() { return ""+(idate.getMonth()+1)+"/"+idate.getDate()+"/0"+(idate.getYear()-100); }
+    @SuppressWarnings("deprecation")
+	public String toString2() { return ""+(idate.getMonth()+1)+"_"+idate.getDate()+"_"+(idate.getYear()-100); }
+    @SuppressWarnings("deprecation")
     public String toDBString() { return ""+(1900+idate.getYear())+"-"+zeropad(idate.getMonth()+1,2)+"-"+zeropad(idate.getDate(),2); }
     public String getDay() { return ""+ DAYS_OF_WEEK[myCal.get(Calendar.DAY_OF_WEEK)-1]; }
 
@@ -64,9 +69,13 @@ public class TDate {
 	idate=new Date(idate.getTime()+days*1000*60*60*24);
     }
     
-    public int getYear() { return idate.getYear(); }
+    @SuppressWarnings("deprecation")
+	public int getYear() { return idate.getYear(); }
+    @SuppressWarnings("deprecation")
     public int getMonth() { return idate.getMonth(); }
+    @SuppressWarnings("deprecation")
     public int getDate() { return idate.getDate(); }
+    @SuppressWarnings("deprecation")
     public int getHour() { return idate.getHours(); }
 
     public static void main(String[] args) {

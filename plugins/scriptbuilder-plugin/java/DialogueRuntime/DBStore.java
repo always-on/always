@@ -38,6 +38,7 @@ public class DBStore extends PersistentStore {
 		}
 
 	// Establishes connection to DB
+	@Override
 	public void open() throws Exception {
 		if(testing)
 			return;
@@ -61,6 +62,7 @@ public class DBStore extends PersistentStore {
 		}
 	}
 	
+@Override
 public boolean tryLoadProperties(Properties userProperties) throws Exception {
 	System.out.println("Inside Try Load Properties ...");
     	if (userID > -1 && isValidID(userID)){
@@ -73,6 +75,7 @@ public boolean tryLoadProperties(Properties userProperties) throws Exception {
 	// Closes the DB connection after checking if the Current Session is closed
 	// DB 8/08: there won't be a session unless the user successfully logged in, so 
 	//                    check that there is a sessionID before closing it
+	@Override
 	public void close(DialogueListener.TerminationReason reason) throws Exception {
 		if (sessionID > 0) {
 			ResultSet rs = stmt.executeQuery("SELECT end_time FROM sessions WHERE session_id="
@@ -143,6 +146,7 @@ public boolean tryLoadProperties(Properties userProperties) throws Exception {
 		return null;
 	}
 	
+	@Override
 	public void setUserID(int ID) {
 		userID = ID;
 	}
@@ -151,6 +155,7 @@ public boolean tryLoadProperties(Properties userProperties) throws Exception {
 		return userID;
 	}
 
+	@Override
 	public String getUserName() {
 		String name = "";
 		String query = "SELECT name FROM users WHERE user_id=" + userID;
@@ -170,6 +175,7 @@ public boolean tryLoadProperties(Properties userProperties) throws Exception {
 		return name;
 	}
 
+	@Override
 	public ServerConstants.Condition getUserCondition() {
 		ServerConstants.Condition cond = ServerConstants.Condition.UNKNOWN;
 		int c = 0;
@@ -202,6 +208,7 @@ public boolean tryLoadProperties(Properties userProperties) throws Exception {
 		return cond;
 	}
 
+	@Override
 	public int getUsersStudyDay() {
 System.out.println("getUsersStudyDay, id="+userID);		
 		String query = "SELECT study_day FROM users WHERE user_id=" + userID;
@@ -226,6 +233,7 @@ System.out.println("DB studyday="+studyDay);
 	}
 
 	// Gets the User Status which is an Enum
+	@Override
 	public ServerConstants.UsersStatus getStatus() {
 		ServerConstants.UsersStatus us = ServerConstants.UsersStatus.UNKNOWN;
 		String query = "SELECT status FROM users WHERE user_id=" + userID;
@@ -291,6 +299,7 @@ System.out.println("DB studyday="+studyDay);
 		return loginID;
 	}
 
+	@Override
 	public int getUsersLoginPIN() {
 		int loginPIN = 0;
 		String query = "SELECT login_pin FROM users WHERE user_id=" + userID;
@@ -366,7 +375,8 @@ System.out.println("DB studyday="+studyDay);
 		}
 	}
     
-    public void setUsersStudyDay(int day) {
+    @Override
+	public void setUsersStudyDay(int day) {
     String query = ("UPDATE `users` SET `Study_Day`=" + day + " WHERE `User_ID`=" + userID);
     try{
         stmt.executeUpdate(query);
@@ -393,6 +403,7 @@ System.out.println("DB studyday="+studyDay);
     }
 
 	// Returns today - START_DATE
+	@Override
 	public int usersComputeStudyDay() {
 		String query = "SELECT (SELECT DATEDIFF(DATE(NOW()), DATE(`Start_Date`))) FROM users WHERE user_id="
 				+ userID;
@@ -416,6 +427,7 @@ System.out.println("DB studyday="+studyDay);
 
 	// Returns the input date - START_DATE
 	// Returns -1 on error, or 0 for all dates prior to and equal to start date.
+	@Override
 	public int usersComputeStudyDay(Calendar c)  throws Exception{
 /* stub - was
 		int studyDay = -1;
@@ -468,7 +480,8 @@ System.out.println("DB studyday="+studyDay);
 	}
  
     // Sets START_TIME to now, returns ID
-    public int addSession(ServerConstants.Media media) { 
+    @Override
+	public int addSession(ServerConstants.Media media) { 
     
     String query="";
     try{
@@ -503,7 +516,8 @@ System.out.println("DB studyday="+studyDay);
     }
     }    
 		
-    public void loadProperties(Properties p) throws Exception {
+    @Override
+	public void loadProperties(Properties p) throws Exception {
     	
     String property;
     String value;
@@ -525,7 +539,8 @@ System.out.println("DB studyday="+studyDay);
     }
     }
     
-    public void saveProperties(Properties p) throws Exception {
+    @Override
+	public void saveProperties(Properties p) throws Exception {
 	System.out.println("Saving properties from p to DB. Properties list: " );
     
 	//Thread.dumpStack();
@@ -564,7 +579,8 @@ System.out.println("DB studyday="+studyDay);
         }
     
 // DB 8/08 changed to preparedstatement to eliminate SQL syntax errors when the eventData contains single quote
-    public void addLog(LogEventType eventType,String eventData) throws Exception {
+    @Override
+	public void addLog(LogEventType eventType,String eventData) throws Exception {
     	if(testing)
     		return;
         try{
@@ -612,7 +628,8 @@ System.out.println("DB studyday="+studyDay);
     }
     
     // Returns a true value if the UserID exists or false otherwise
-    public boolean isValidID(int ID) {
+    @Override
+	public boolean isValidID(int ID) {
     	System.out.println("Validating userid");
     try{
         ResultSet rs = stmt.executeQuery("SELECT user_id FROM users");
@@ -629,7 +646,8 @@ System.out.println("DB studyday="+studyDay);
     }
         
     // Checks if there are any logins today else returns a false
-    public boolean alreadyLoggedInToday() {
+    @Override
+	public boolean alreadyLoggedInToday() {
     String query="";
     try{
     	query="SELECT DATEDIFF(DATE(NOW()),DATE(MAX(start_time))) FROM sessions WHERE User_ID=" + userID;
@@ -656,7 +674,8 @@ System.out.println("DB studyday="+studyDay);
 	 * @deprecated 
 	 *   this method is duplicated by recordsteps, use that one instead
 	 */
-    public  int saveSteps(int studyday, int steps){
+    @Override
+	public  int saveSteps(int studyday, int steps){
     	String query = new String();
     	int returnval = -1;
     	try{
@@ -868,7 +887,8 @@ System.out.println("DB studyday="+studyDay);
     	}
     }
 
-    public void recordGoal(int stepsPerDay) {
+    @Override
+	public void recordGoal(int stepsPerDay) {
 		int studyDay=getUsersStudyDay();
 		try {
 		    stmt.executeUpdate("REPLACE into PA_STEP_GOALS (USER_ID,STUDY_DAY,GOAL) VALUES ("+userID+","+studyDay+","+stepsPerDay+")");

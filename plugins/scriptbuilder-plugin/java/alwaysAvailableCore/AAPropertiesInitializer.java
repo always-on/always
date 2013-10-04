@@ -15,9 +15,9 @@ import DialogueRuntime.*;
   */
 
 public class AAPropertiesInitializer extends PropertiesInitializer{
-	
+	@Override
 	public  void initialize(PersistentStore s, Properties p) throws Exception { 
-	    for(Enumeration props=p.keys();props.hasMoreElements();) {
+	    for(Enumeration<Object> props=p.keys();props.hasMoreElements();) {
 		    String prop=(String)props.nextElement();
 		    if(prop.startsWith("CURRENT_"))
 			    p.remove(prop);
