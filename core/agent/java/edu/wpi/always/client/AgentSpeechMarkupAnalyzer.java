@@ -10,13 +10,20 @@ public class AgentSpeechMarkupAnalyzer implements SpeechMarkupAnalyzer {
   @Override
   public Set<Resource> analyze (String text) {
      // quick and dirty for RAG client (e.g., not handling quotation)
-     Set<Resource> resources = new HashSet<Resource>();
-     if ( text.contains("<GAZE") || text.contains("<HEADNOD")  )
+     Set<Resource> resources = Collections.emptySet();
+     if ( text.contains("<GAZE") || text.contains("<HEADNOD")  ) {
+        if ( resources.isEmpty() ) resources = new HashSet<Resource>();
         resources.add(AgentResources.GAZE);
-     if ( text.contains("<FACE") || text.contains("<EYEBROWS") )
+     }
+     if ( text.contains("<FACE") || text.contains("<EYEBROWS") ) {
+        if ( resources.isEmpty() ) resources = new HashSet<Resource>();
         resources.add(AgentResources.FACE_EXPRESSION);
-     if ( text.contains("<GESTURE") )
+     }
+     if ( text.contains("<GESTURE") ) {
+        if ( resources.isEmpty() ) resources = new HashSet<Resource>();
         resources.add(AgentResources.HAND);
+     }
      return resources;
   }
+  
 }

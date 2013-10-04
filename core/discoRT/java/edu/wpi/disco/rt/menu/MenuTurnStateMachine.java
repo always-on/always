@@ -67,20 +67,13 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          new SpeechMarkupBehavior(state.getMessage()) :
          null;
       if ( speechBehavior != null && menuBehavior != null ) {
-         // note hacking below is due to fact that CompoundBehaviorWithConstraints
-         // is only defined to work for PrimitiveBehavior's
-         SpeechBehavior speech = speechBehavior.getSpeech();
-         List<PrimitiveBehavior> behaviors = Lists.newArrayList(speech, menuBehavior);
-         List<Constraint> constraints = Lists.newArrayList(new Constraint(
-               new SyncRef(SyncPoint.Start, speech),
+         List<PrimitiveBehavior> primitives = speechBehavior.getPrimitives(true);
+         primitives.add(menuBehavior);
+         behavior = new Behavior(new CompoundBehaviorWithConstraints(primitives, 
+               Lists.newArrayList(new Constraint(
+               new SyncRef(SyncPoint.Start, speechBehavior.getSpeech()),
                new SyncRef(SyncPoint.Start, menuBehavior),
-               Type.After, MENU_DELAY));
-         Set<Resource> resources = speechBehavior.getResources();
-         if ( resources.size() > 1 )  // has markup
-            for (Resource r : speechBehavior.getResources())
-               if ( r != Resources.SPEECH )
-                  behaviors.add(PrimitiveBehavior.nullBehavior(r));
-         behavior = new Behavior(new CompoundBehaviorWithConstraints(behaviors, constraints));
+               Type.After, MENU_DELAY))));
       } else if ( mode == Mode.Speaking ) {
          if ( speechBehavior == null ) {
             setMode(Mode.Hearing);

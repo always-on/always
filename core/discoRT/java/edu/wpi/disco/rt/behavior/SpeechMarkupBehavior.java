@@ -16,8 +16,35 @@ public class SpeechMarkupBehavior implements CompoundBehavior {
 
    public SpeechMarkupBehavior (String text) {
       this.speech = new SpeechBehavior(text);
-      resources = ANALYZER == null ? new CopyOnWriteArraySet<Resource>() : ANALYZER.analyze(text);
-      resources.add(Resources.SPEECH);
+      Set<Resource> analyzer;
+      if ( ANALYZER == null || (analyzer = ANALYZER.analyze(text)).isEmpty() ) 
+         resources = Collections.singleton(Resources.SPEECH);
+      else {
+         resources = analyzer;
+         resources.add(Resources.SPEECH);
+      }
+   }
+   
+   // method for use where list of primitives is required
+   // for CompoundBehaviorWithConstraints (does not handle compounds)
+   public List<PrimitiveBehavior> getPrimitives (boolean modifiable) {
+      if ( resources.size() == 1 ) {
+         if ( !modifiable )
+            return Collections.<PrimitiveBehavior>singletonList(speech);
+         else {
+            List<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
+            primitives.add(speech);
+            return primitives;
+         }
+      }
+      else {
+         List<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
+         primitives.add(speech);
+         for (Resource r : resources)
+            if ( r != Resources.SPEECH )
+               primitives.add(PrimitiveBehavior.nullBehavior(r));
+         return primitives;
+      }
    }
    
    public static SpeechMarkupAnalyzer ANALYZER;
