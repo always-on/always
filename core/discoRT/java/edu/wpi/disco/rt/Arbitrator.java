@@ -3,10 +3,10 @@ package edu.wpi.disco.rt;
 import com.google.common.collect.Lists;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.Interaction;
-import edu.wpi.disco.rt.behavior.CompoundBehavior;
+import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.IRealizer;
 import edu.wpi.disco.rt.schema.Schema;
-import java.util.List;
+import java.util.*;
 
 public class Arbitrator implements Runnable {
 
@@ -35,10 +35,11 @@ public class Arbitrator implements Runnable {
       freeResources = Lists.newArrayList(Resources.values());
       proposals = filterOutEmptyCandidates(candidateBehaviors.all());
       selected = Lists.newArrayList();
-      // first assign focus based on Disco
+      // first assign discourse focus based on Disco
       Plan focusPlan = interaction.getFocusExhausted(true);
-      Class<? extends Schema> schema = focusPlan == null ?
-            discoRT.getSchema(null) : getSchema(focusPlan);
+      Class<? extends Schema> schema = 
+            discoRT.getSchema(focusPlan == null ? null :
+               focusPlan.getType());
       CandidateBehavior focusProposal = null;
       if ( schema != null ) {
          for (CandidateBehavior proposal : proposals) {
@@ -58,35 +59,36 @@ public class Arbitrator implements Runnable {
          }
          if ( focusProposal == null ) focusSchema = null;
          else focusProposal = null; // for decide
-      } else { // Disco doesn't care
+      } else { // Disco doesn't care, so let current focus schema keep going
          for (CandidateBehavior proposal : proposals)
-            if ( proposal.getProposer() == focusSchema && !proposal.getBehavior().isEmpty() ) { 
+            if ( proposal.getProposer() == focusSchema && !proposal.getBehavior().isEmpty() ) {
                focusProposal = proposal; 
                break;
             }
       }
+      // wait for focus schema to make proposal if needed
+      freeResources.remove(Resources.FOCUS);
+      remove();
       while ( !freeResources.isEmpty() && !proposals.isEmpty() )
          choose(decide(proposals, focusProposal));
       for (CandidateBehavior p : selected) execute(p.getBehavior().getInner());
       for (Resource r : freeResources) realizer.freeUpResource(r);
    }
 
-   private Class<? extends Schema> getSchema (Plan plan) {
-      Class<? extends Schema> schema = discoRT.getSchema(plan.getType());
-      return schema != null ? schema :
-         interaction.isTop(plan) ? null : getSchema(plan.getParent());
-   }
-
    private void choose (CandidateBehavior chosen) {
       freeResources.removeAll(chosen.getBehavior().getResources());
+      remove();
       selected.add(chosen);
-      for (CandidateBehavior p : Lists.newArrayList(proposals)) {
-         for (Resource r : p.getBehavior().getResources()) {
+   }
+   
+   private void remove () { // proposals with no resources available
+      Iterator<CandidateBehavior> iterator = proposals.iterator();
+      while (iterator.hasNext())
+         for (Resource r : iterator.next().getBehavior().getResources()) {
             if ( !freeResources.contains(r) ) {
-               proposals.remove(p);
+               iterator.remove();
                break;
             }
-         }
       }
    }
    

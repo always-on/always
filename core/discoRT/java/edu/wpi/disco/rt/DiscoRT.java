@@ -110,8 +110,8 @@ public class DiscoRT {
                       = new HashMap<TaskClass,Class<? extends Schema>>();
    
    /**
-    * Return the schema, if any, associated with the given task class or null.  If argument is null,
-    * then return the toplevel schema, if any.
+    * Return the schema associated with the given task class or if there
+    * isn't one, then the toplevel schema, if any.
     * 
     * @see #setSchema(TaskClass,Class)
     */
@@ -125,7 +125,7 @@ public class DiscoRT {
                tasks.put(task, schema);
             } catch (ClassNotFoundException e) { 
                System.err.println("Ignoring unknown @schema property: "+name);
-         }
+         } else return getSchema(null);
       }
       return schema;
    }
@@ -135,7 +135,7 @@ public class DiscoRT {
     * This schema will be given the {@link Resources#FOCUS} when the corresponding
     * task has the Disco focus (regardless of whether it requests it or not).
     */
-   public void setSchema (TaskClass task, Class<? extends Schema> schema) { 
+   public void setSchema (TaskClass task, Class<? extends Schema> schema) {
       tasks.put(task, schema); 
    }
 }
