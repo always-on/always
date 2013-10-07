@@ -183,7 +183,9 @@ public class Always {
       System.out.println("Starting Collaboration Manager");
       cm.start(plugin, activity);
       System.out.println("Always running...");
-      if ( plugin != null ) container.getComponent(plugin).startActivity(activity);
+      if ( plugin != null ) 
+         cm.setSchema(null,
+            container.getComponent(plugin).startActivity(activity).getClass());
    }
 
    private void register () {
