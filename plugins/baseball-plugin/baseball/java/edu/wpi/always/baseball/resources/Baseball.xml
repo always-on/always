@@ -59,7 +59,7 @@
          <binding slot="$_d4e16_step.text" value="&#34;It was a good game.&#34;"/>
          <binding slot="$_d4e16_step.external" value="true"/>
          <binding slot="$_d4e17_step.text"
-                  value="&#34;\&#34;I thought it was very good too. \&#34;+(typeOfGameString)+\&#34;\&#34;&#34;"/>
+                  value="&#34;\&#34;I thought it was very good too. \&#34;+(typeOfGameString)&#34;"/>
          <binding slot="$_d4e17_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e18_subtasks">
@@ -69,7 +69,7 @@
          <binding slot="$_d4e18_step.text" value="&#34;Awesome game!&#34;"/>
          <binding slot="$_d4e18_step.external" value="true"/>
          <binding slot="$_d4e19_step.text"
-                  value="&#34;\&#34;Yeh, it was very intense.  Great game. \&#34;+(typeOfGameString)+\&#34;\&#34;&#34;"/>
+                  value="&#34;\&#34;Yeh, it was very intense.  Great game. \&#34;+(typeOfGameString)&#34;"/>
          <binding slot="$_d4e19_step.external" value="false"/>
          <binding slot="$_d4e20_step.text" value="&#34;yeh.&#34;"/>
          <binding slot="$_d4e20_step.external" value="true"/>
