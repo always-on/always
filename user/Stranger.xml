@@ -8,7 +8,7 @@
          <step name="__Greetings_step" task="disco:Say"/>
          <step name="__Greetings_ref" task="__Greetings_tree"/>
          <binding slot="$__Greetings_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; &lt;HEADNOD/&gt; &lt;EYEBROWS DIR=UP/&gt; Hello &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; &lt;GAZE X=\&#34;-1\&#34; Y=\&#34;1\&#34;/&gt; &lt;DELAY MS=\&#34;2000\&#34;/&gt; &lt;GAZE X=\&#34;0\&#34; Y=\&#34;0\&#34;/&gt; &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &lt;EYEBROWS DIR=DOWN/&gt; &#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; &lt;HEADNOD/&gt; &lt;EYEBROWS DIR=UP/&gt; Hello &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; &lt;GAZE horizontal=\&#34;-1\&#34; vertical=\&#34;1\&#34;/&gt; &lt;DELAY MS=\&#34;2000\&#34;/&gt; &lt;GAZE horizontal=\&#34;0\&#34; vertical=\&#34;0\&#34;/&gt; &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &lt;EYEBROWS DIR=DOWN/&gt; &#34;"/>
          <binding slot="$__Greetings_step.external" value="false"/>
       </subtasks>
    </task>
