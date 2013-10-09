@@ -11,8 +11,6 @@
 #     to restore always/user/TestUser.owl.
 #
 dir="`dirname $0`"
-filename=$1
-shift
 "$dir/always-restore-user"
 "$dir/always-disco-continue" "$@"
 

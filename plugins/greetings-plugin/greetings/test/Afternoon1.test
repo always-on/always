@@ -1,0 +1,30 @@
+    # Sep 26, 2013 4:15:12 PM - TaskEngine 1.4.8 / Disco 1.6.10
+    Welcome to Disco! (Type 'help' for command list)
+  > load java/edu/wpi/always/greetings/resources/Greetings.xml
+  > task _AfternoonGreetings
+    User says "Let's achieve _AfternoonGreetings."
+    Agent says "How's your day going?"
+  > say
+[1] Fine.
+[2] Oh not so great.
+  >> 1
+    User says "Fine."
+    Agent says "Good, glad to hear it."
+  > task _AfternoonGreetings
+    User says "Let's achieve _AfternoonGreetings."
+    Agent says "How's your day going?"
+  > say
+[1] Fine.
+[2] Oh not so great.
+  >> 2
+    User says "Oh not so great."
+    Agent says "Sorry to hear it. Maybe it will improve."
+  > say
+[1] Hope so.
+[2] It has to!
+[3] We'll see.
+  >> 2
+    User says "It has to!"
+    Agent says "Ok."
+  > quit
+    

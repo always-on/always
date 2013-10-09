@@ -9,8 +9,8 @@ public class MirrorShoreFacePerceptor implements FacePerceptor {
 
    private volatile FacePerception latest, reetiLatest;
    
-   private final FaceDetection shore = new FaceDetection(0, Always.AgentType.Unity),
-         reetiShore = new FaceDetection(0, Always.AgentType.Reeti);
+   private final FaceDetection shore = new FaceDetection(false, Always.AgentType.Unity),
+         reetiShore = new FaceDetection(false, Always.AgentType.Reeti);
    
    @Override
    public FacePerception getLatest () {
@@ -23,10 +23,10 @@ public class MirrorShoreFacePerceptor implements FacePerceptor {
    
    @Override
    public void run () {
-      CPPinterface.FaceInfo info = shore.getAgentFaceInfo(0);
+      CPPinterface.FaceInfo info = shore.getAgentFaceInfo(false);
       latest = new FacePerception(DateTime.now(), 
             info.intTop, info.intBottom, info.intLeft, info.intRight, info.intArea, info.intCenter, info.intTiltCenter);
-      info = reetiShore.getAgentFaceInfo(0);
+      info = reetiShore.getAgentFaceInfo(false);
       reetiLatest = new FacePerception(DateTime.now(), 
             info.intTop, info.intBottom, info.intLeft, info.intRight, info.intArea, info.intCenter, info.intTiltCenter);
    }

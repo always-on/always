@@ -22,11 +22,6 @@ public class TTTSchema extends ActivityStateMachineSchema {
             resourceMonitor, menuPerceptor);
    }
 
-   private final static Point 
-   board = GazeRealizer.translateAgentTurn(-2, -1),
-   thinking = GazeRealizer.translateAgentTurn(-1, 1),
-   user = GazeRealizer.translateAgentTurn(0, 0);
-
    @Override
    public void run () {
 
@@ -35,14 +30,14 @@ public class TTTSchema extends ActivityStateMachineSchema {
       if(TTTClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
                "$ "+WhoPlaysFirst.getCurrentAgentComment()+" $",
-               new GazeBehavior(user))
+               GazeBehavior.USER)
          .build());
       }
       if(TTTClient.gazeDirection.equals("sayandgazegameover")){
          propose(new SyncSayBuilder(
                "$ "+"Game over. "+
                      WhoPlaysFirst.getCurrentAgentComment()+" $",
-                     new GazeBehavior(user))
+                     GazeBehavior.USER)
          .build());
          TTTClient.gazeDirection = "";
       }
@@ -53,19 +48,10 @@ public class TTTSchema extends ActivityStateMachineSchema {
          TTTClient.gazeDirection = "";
       }
       if(TTTClient.gazeDirection.equals("board")){
-         propose(new GazeBehavior(board));
+         propose(GazeBehavior.PLUGIN);
       }
-      //>> these to be commented out for face track test
-      if(TTTClient.gazeDirection.equals("user")){
-         propose(new GazeBehavior(user));
-      }
-      if(TTTClient.gazeDirection.equals("useronce")){
-         propose(new GazeBehavior(user));
-         TTTClient.gazeDirection = "";
-      }
-      //to here <<
       if(TTTClient.gazeDirection.equals("thinking")){
-         propose(new GazeBehavior(thinking));
+         propose(GazeBehavior.THINKING);
       }
 
       if ( TTTClient.nod ) {

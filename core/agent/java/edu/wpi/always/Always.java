@@ -10,7 +10,7 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoBuilder;
 import org.picocontainer.behaviors.OptInCaching;
 
-import edu.wpi.always.client.ClientRegistry;
+import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.always.user.UserModel;
@@ -23,6 +23,7 @@ import edu.wpi.disco.Interaction;
 import edu.wpi.disco.User;
 import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.Registry;
+import edu.wpi.disco.rt.behavior.SpeechMarkupBehavior;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 
 public class Always {
@@ -85,7 +86,7 @@ public class Always {
          UserUtils.USER_FILE = "TestUser.owl";  // no way to change for now
          // initialize duplicate interaction created above
          new Always(true, false).init(interaction); 
-         interaction.start(true);
+         interaction.start(true);  
       }
    }
    
@@ -144,6 +145,7 @@ public class Always {
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas(allPlugins));
       register();
+      SpeechMarkupBehavior.ANALYZER = new AgentSpeechMarkupAnalyzer();
       init(container.getComponent(CollaborationManager.class).getInteraction());
    }
 
@@ -181,7 +183,9 @@ public class Always {
       System.out.println("Starting Collaboration Manager");
       cm.start(plugin, activity);
       System.out.println("Always running...");
-      if ( plugin != null ) container.getComponent(plugin).startActivity(activity);
+      if ( plugin != null ) 
+         cm.setSchema(null,
+            container.getComponent(plugin).startActivity(activity).getClass());
    }
 
    private void register () {

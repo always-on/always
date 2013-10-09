@@ -8,7 +8,7 @@ import edu.wpi.always.*;
 public class ShoreFacePerceptor implements FacePerceptor {
 
    private volatile FacePerception latest;
-   private final FaceDetection shore = new FaceDetection(0, Always.getAgentType());
+   private final FaceDetection shore = new FaceDetection(false, Always.getAgentType());
    
    @Override
    public FacePerception getLatest () {
@@ -18,7 +18,7 @@ public class ShoreFacePerceptor implements FacePerceptor {
    @Override
    public void run () {
   
-      CPPinterface.FaceInfo info = shore.getAgentFaceInfo(0);
+      CPPinterface.FaceInfo info = shore.getAgentFaceInfo(false);
       latest = new FacePerception(DateTime.now(), 
             info.intTop, info.intBottom, info.intLeft, info.intRight, info.intArea, info.intCenter, info.intTiltCenter);
    }

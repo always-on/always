@@ -1,6 +1,6 @@
 package edu.wpi.disco.rt.util;
 
-import java.util.List;
+import java.util.*;
 
 public abstract class Utils {
  
@@ -14,6 +14,10 @@ public abstract class Utils {
          buffer.append(object);
       }
       return buffer.toString();
+   }
+   
+   public static String listify (Set<?> set) {
+      return listify(new ArrayList<Object>(set));
    }
 
    private Utils () {}

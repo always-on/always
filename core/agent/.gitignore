@@ -3,4 +3,4 @@ USER
 # override default
 !bin/*
 /tmp
-/class
+
