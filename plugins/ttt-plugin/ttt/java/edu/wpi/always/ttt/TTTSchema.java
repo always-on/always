@@ -28,11 +28,17 @@ public class TTTSchema extends ActivityStateMachineSchema {
       super.run();
 
       if(TTTClient.gazeDirection.equals("sayandgaze")){
-         propose(new SpeechBehavior(WhoPlaysFirst.getCurrentAgentComment()));
+         propose(new SyncSayBuilder(
+               "$ "+WhoPlaysFirst.getCurrentAgentComment()+" $",
+               GazeBehavior.USER)
+         .build());
       }
       if(TTTClient.gazeDirection.equals("sayandgazegameover")){
-         propose(new SpeechBehavior("Game over. "+
-                     WhoPlaysFirst.getCurrentAgentComment()));
+         propose(new SyncSayBuilder(
+               "$ "+"Game over. "+
+                     WhoPlaysFirst.getCurrentAgentComment()+" $",
+                     GazeBehavior.USER)
+         .build());
          TTTClient.gazeDirection = "";
       }
       if(TTTClient.gazeDirection.equals("replay")){
