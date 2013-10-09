@@ -1,14 +1,38 @@
 package edu.wpi.always.cm.primitives;
 
+import edu.wpi.always.client.GazeRealizer;
 import edu.wpi.disco.rt.Resource;
 import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import java.awt.Point;
 
 public class GazeBehavior extends PrimitiveBehavior {
 
+   /**
+    * Agent gaze for thinking (up and left)
+    */
+   public static final GazeBehavior THINKING = 
+         new GazeBehavior(GazeRealizer.translateAgentTurn(0.5f, 0.5f));
+
+   /**
+    * Agent gaze directly at user.
+    */
+   public static final GazeBehavior USER = 
+         new GazeBehavior(GazeRealizer.translateAgentTurn(0f, 0f));
+
+   /**
+    * Agent gaze toward plugin area (down and right).
+    */
+   public static final GazeBehavior PLUGIN = 
+         new GazeBehavior(GazeRealizer.translateAgentTurn(-1f, -0.5f));
+  
    private final Point point;
 
-   // TODO: change to polar coordinates?
+   /**
+    * Given point is x-y coordinate on "retina" (camera image) of agent.
+    *
+    * @see GazeRealizer#translateToAgentTurnHor(Point)
+    * @see GazeRealizer#translateToAgentTurnVer(Point)
+    */
    public GazeBehavior (Point m) {
       this.point = m;
    }

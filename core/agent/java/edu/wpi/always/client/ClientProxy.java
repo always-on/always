@@ -59,6 +59,10 @@ public class ClientProxy {
    }
 
    public void gaze (float hor, float ver) {
+      // allow fudge for round-off and coercion
+      if ( Math.abs(hor) > 1.01f || Math.abs(ver) > 1.01f )
+         throw new IllegalArgumentException("Gaze out of bounds: horizontal=\""
+               +hor+"\" vertical=\""+ver+"\"");
       HashMap<String, String> p = Maps.newHashMap();
       p.put("horizontal", Float.toString(hor));
       p.put("vertical",	Float.toString(ver));

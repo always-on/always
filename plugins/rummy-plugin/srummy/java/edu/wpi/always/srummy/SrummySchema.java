@@ -31,12 +31,7 @@ public class SrummySchema extends ActivityStateMachineSchema {
     yourTurnStatements.add("go ahead");
 
    }
-
-   private final static Point 
-   board = GazeRealizer.translateAgentTurn(-2, -1),
-   thinking = GazeRealizer.translateAgentTurn(-1, 1),
-   user = GazeRealizer.translateAgentTurn(0, 0);
-
+  
    @Override
    public void run () {
 
@@ -45,14 +40,14 @@ public class SrummySchema extends ActivityStateMachineSchema {
       if(SrummyClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
                "$ "+StartGamingSequence.getCurrentAgentComment()+" $",
-               new GazeBehavior(user))
+               GazeBehavior.USER)
          .build());  
       }
       if(SrummyClient.gazeDirection.equals("sayandgazegameover")){
          propose(new SyncSayBuilder(
                "$ "+"Game over. "+
                      StartGamingSequence.getCurrentAgentComment()+" $",
-                     new GazeBehavior(user))
+                     GazeBehavior.USER)
          .build());
          SrummyClient.gazeDirection = "";
       }
@@ -63,7 +58,7 @@ public class SrummySchema extends ActivityStateMachineSchema {
          else 
             randomStmnt = "";
          propose(new SyncSayBuilder("$ "+randomStmnt+" $",
-               new GazeBehavior(board))
+               GazeBehavior.PLUGIN)
          .build());
          SrummyClient.limboEnteredOnce = true;
          if(!saidFirstYourTurn){
@@ -78,19 +73,10 @@ public class SrummySchema extends ActivityStateMachineSchema {
          SrummyClient.gazeDirection = "";
       }
       if(SrummyClient.gazeDirection.equals("board")){
-         propose(new GazeBehavior(board));
+         propose(GazeBehavior.PLUGIN);
       }
-      //>> these to be commented out for face track test
-      if(SrummyClient.gazeDirection.equals("user")){
-         propose(new GazeBehavior(user));
-      }
-      if(SrummyClient.gazeDirection.equals("useronce")){
-         propose(new GazeBehavior(user));
-         SrummyClient.gazeDirection = "";
-      }
-      //to here <<
       if(SrummyClient.gazeDirection.equals("thinking")){
-         propose(new GazeBehavior(thinking));
+         propose(GazeBehavior.THINKING);
       }
 
       if ( SrummyClient.nod ) {
