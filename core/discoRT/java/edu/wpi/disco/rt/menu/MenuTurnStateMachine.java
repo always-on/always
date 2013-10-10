@@ -18,7 +18,6 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private final MenuPerceptor menuPerceptor;
    private final ResourceMonitor resourceMonitor;
    private final MenuTimeoutHandler timeoutHandler;
-
    private TimeStampedValue<Behavior> previousBehavior = new TimeStampedValue<Behavior>(Behavior.NULL);
    private AdjacencyPair state, previousState;
    private Mode mode;
@@ -115,6 +114,16 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
             if ( state == previousState ) update(Behavior.NULL);
             return nextState(selected); // loop
          }
+      }
+      if ( alreadyDone && mode == Mode.Hearing && !extension
+           && speechBehavior != null && menuBehavior != null ) { 
+         // while waiting for menu selection, release other resources from speech markup, if any
+         // TODO remove null speech behavior also (e.g., to allow robot to say "ouch" if you
+         //      poke it), but figure out first why that causes timeout response to keep
+         //      repeating
+         behavior = new Behavior(new SimpleCompoundBehavior(
+               PrimitiveBehavior.nullBehavior(Resources.SPEECH), menuBehavior));
+         if ( needsFocusResource ) behavior = behavior.addFocusResource();
       }
       if ( mode == Mode.Hearing && !extension
            && waitingForResponseSince.isBefore(DateTime.now().minusMillis(TIMEOUT_DELAY)) ) {
