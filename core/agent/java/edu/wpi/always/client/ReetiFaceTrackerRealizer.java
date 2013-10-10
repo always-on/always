@@ -11,21 +11,37 @@ import edu.wpi.always.client.*;
 public class ReetiFaceTrackerRealizer extends
       PrimitiveRealizerBase<FaceTrackBehavior> {
 
-   public static long FACE_TRACK_TIME_DAMPENING = 1000;
-
    private final FacePerceptor perceptor;
+   
+   private final int trackingDirections = 2;          // 0: X Direction, 1: Y Direction, 2: Both Directions --> (Y direction is not implemented yet.)
 
-   private final ReetiPIDMessages faceTrack;
+   private long initialTime = 0;
+
+   private long currentTime = 0;
+
+   private long currentLosingTime = 0;
+
+   private static long acceptableLosingTime = 2000;
+
+   private static long realFaceWaitingTime = 1000;
+
+   private static int faceAreaThreshold = 1700;
+
+   private static int faceHorizontalDisplacementThreshold = 50;
+
+   private static int faceVerticalDisplacementThreshold = 50;
+
+   private long[] faceProfileVector = new long[3];
+
+   private long[] facePrevProfileVector = new long[3];
+   
+   private boolean searchFlag = false;
+   
+   private final ReetiPIDMessages reetiPIDOutput;
 
    private final ReetiCommandSocketConnection client;
 
-   private float lastLeftReeti, lastAreaReeti, lastTopReeti;
-
-   private String lastMessage;
-
-   private long lastNewNextReeti, falseFaceTolReeti;
-
-   private boolean facefoundReeti, falseFaceReeti;
+   private String lastMessage = "";
 
    public ReetiFaceTrackerRealizer (FaceTrackBehavior params,
          FacePerceptor perceptor, ClientProxy proxy) {
@@ -33,99 +49,104 @@ public class ReetiFaceTrackerRealizer extends
       super(params);
       this.perceptor = perceptor;
 
-      /********* PID VARIABLES ***********/
-
-      final int SetpointXPID = 160;
-      final int SetpointYPID = 120;
-
       double InputXPID = 0;
       double InputYPID = 0;
+      
+      reetiPIDOutput = new ReetiPIDMessages();
 
-      double OutputXPID = 50; // TODO: This should come by reading from Reeti's
-                              // json profile.
-      double OutputYPID = 55.56; // TODO: This should come by reading from
-                                 // Reeti's json profile.
-      // initialize PID Controller
-      faceTrack = new ReetiPIDMessages(InputXPID, OutputXPID, SetpointXPID,
-            InputYPID, OutputYPID, SetpointYPID); 
-      // initialize socket connection
-      client = new ReetiCommandSocketConnection(); 
+      client = new ReetiCommandSocketConnection();
 
+   }
+
+   public void ReetiFaceTracking () {
+      double XInputPID = 0, YInputPID = 0;
+      
+      FacePerception perception = perceptor.getLatest();
+     
+      if ( perception != null ) {
+         Point point = perception.getPoint();
+       
+         if ( point != null ) {
+       
+            // following is useful for debugging
+            // java.awt.Toolkit.getDefaultToolkit().beep();
+            
+            // Happens when a face is detected for the first time.
+            if ( initialTime == 0 ) {
+               initialTime = System.currentTimeMillis();
+
+               facePrevProfileVector[0] = perception.getLeft();
+               facePrevProfileVector[1] = perception.getTop();
+               facePrevProfileVector[2] = perception.getArea();
+            }
+
+            XInputPID = perception.getCenter();
+            YInputPID = perception.getTiltCenter();
+            
+            currentTime = System.currentTimeMillis();
+
+            // Waiting for a second to make sure the face is still there.
+            if ( (currentTime - initialTime) < realFaceWaitingTime )
+               return;
+         
+            faceProfileVector[0] = perception.getLeft();
+            faceProfileVector[1] = perception.getTop();
+            faceProfileVector[2] = perception.getArea();
+         
+            // Making sure the face is not a fake one based on the awkward
+            // changes in size and position.
+            if ( isProportionalPosition() && isProportionalArea() ) {
+               String Message = reetiPIDOutput.Track(XInputPID, YInputPID, trackingDirections);
+               
+               // Making sure that the PID controller has returned different
+               // control command.
+               if ( !this.lastMessage.equals(Message) ) 
+               {
+                  client.send(Message);
+                  fireDoneMessage();
+               }
+               this.lastMessage = Message;
+            }
+         
+            facePrevProfileVector[0] = faceProfileVector[0];
+            facePrevProfileVector[1] = faceProfileVector[1];
+            facePrevProfileVector[2] = faceProfileVector[2];
+            
+            this.searchFlag= true; 
+         
+       } else {
+            currentLosingTime = System.currentTimeMillis();
+
+            // Waiting for the lost face for a predefined period of time looking
+            // at the same direction.
+            if (( (currentLosingTime - currentTime) > acceptableLosingTime ) && (this.searchFlag == true) ){
+               initialTime = 0;
+               String Message = reetiPIDOutput.faceSearch();
+               client.send(Message);
+               this.lastMessage = Message;
+               this.searchFlag = false;
+            }
+         }
+     }
+   }
+   
+   private boolean isProportionalPosition () {
+      if ( Math.abs(faceProfileVector[0] - facePrevProfileVector[0]) <= faceHorizontalDisplacementThreshold
+         && Math.abs(faceProfileVector[1] - facePrevProfileVector[1]) <= faceVerticalDisplacementThreshold )
+         return true;
+
+      return false;
+   }
+
+   private boolean isProportionalArea () {
+      if ( Math.abs(faceProfileVector[2] - facePrevProfileVector[2]) <= faceAreaThreshold )
+         return true;
+
+      return false;
    }
 
    @Override
    public void run () {
-      FacePerception perception = perceptor.getLatest(); // This should be
-                                                         // solved!
-
-      if ( perception != null ) {
-         Point point = perception.getPoint();
-         // If Face exists in frame
-         if ( point != null ) {
-            // Determine Facial Parameters
-            double XInputPID = perception.getCenter();
-            double YInputPID = perception.getTiltCenter();
-            float left = perception.getLeft();
-            float top = perception.getTop();
-            float area = perception.getArea();
-
-            // If face was found for the first time
-            if ( !facefoundReeti ) {
-               // Assume it's a false face
-               if ( !falseFaceReeti ) {
-                  // Record time at the moment the face was found
-                  falseFaceTolReeti = System.currentTimeMillis();
-                  falseFaceReeti = true; // Set False Face Flag to true
-               }
-
-               // Wait for FACE_TRACK_TIME_DAMPENING seconds grace time to
-               // determine whether or not it's a false face
-               if ( System.currentTimeMillis() - falseFaceTolReeti >= FACE_TRACK_TIME_DAMPENING ) {
-                  facefoundReeti = true; // Set true face found flag
-                  lastNewNextReeti = System.currentTimeMillis(); // Record time
-                  // Track Face using PID and Determine Command
-                  String Message = faceTrack.Track(XInputPID, YInputPID);
-                  // Send Command over Socket
-                  client.send(Message);
-                  // Update facial parameters for later comparison
-                  this.lastLeftReeti = left;
-                  this.lastTopReeti = top;
-                  this.lastAreaReeti = area;
-                  this.lastMessage = Message;
-               }
-            }
-
-            // If face found consecutive times, apply heuristics to track it
-            if ( facefoundReeti
-               && Math.abs(left - this.lastLeftReeti) <= 50
-               && Math.abs(area - this.lastAreaReeti) <= 1000
-               && Math.abs(top - this.lastTopReeti) <= 50 ) {
-               // Track Face using PID and Determine Command
-               String Message = faceTrack.Track(XInputPID, YInputPID);
-               if ( !this.lastMessage.equals(Message) ) {
-                  // Send Command over Socket
-                  client.send(Message);
-                  // Update facial parameters for later comparison
-                  this.lastLeftReeti = left;
-                  this.lastTopReeti = top;
-                  this.lastAreaReeti = area;
-                  this.lastMessage = Message;
-               }
-            }
-         }
-         // Face does NOT exist in frame
-         else if ( point == null ) {
-            // Reset Flags
-            facefoundReeti = false;
-            falseFaceReeti = false;
-            if ( System.currentTimeMillis() - lastNewNextReeti > FACE_TRACK_TIME_DAMPENING ) {
-               // Track Face using PID and Determine Command
-               String Message = faceTrack.Search();
-               // Send Command over Socket
-               client.send(Message);
-            }
-         }
-      }
+      ReetiFaceTracking();
    }
-
 }
