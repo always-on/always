@@ -102,7 +102,8 @@ public class TcpConnection implements RemoteConnection {
                 message.startsWith(lastMessage.substring(0, STARTS_WITH))) ) 
             count++;
          else {
-            if ( count > 0 ) System.out.println("Sending... "+count+" more"); 
+            if ( count > 0 ) 
+               System.out.println("Sending... "+lastMessage.substring(0, STARTS_WITH)+"-- "+count+" more"); 
             System.out.println("Sending... " + message);
             count = 0;
          }
