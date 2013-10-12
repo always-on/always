@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt.util;
 
 import edu.wpi.disco.rt.DiscoRT;
+import edu.wpi.cetask.Utils;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.*;
 import java.util.*;
@@ -97,7 +98,7 @@ public class ThreadPools {
             if ( DiscoRT.TRACE ) System.out.println("Timeout " + getName(r));
          }
       }
-      if ( t != null ) { throw new RuntimeException(t); }
+      if ( t != null ) { Utils.rethrow(t); }
    }
 
    private static String getName (Runnable runnable) {

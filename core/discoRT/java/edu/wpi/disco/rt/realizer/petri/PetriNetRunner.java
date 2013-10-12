@@ -1,5 +1,6 @@
 package edu.wpi.disco.rt.realizer.petri;
 
+import edu.wpi.cetask.Utils;
 import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.realizer.petri.Place.State;
 import edu.wpi.disco.rt.util.ThreadPools;
@@ -44,8 +45,7 @@ public class PetriNetRunner implements Runnable {
                // Place behavior may have set success and then an exception
                // happened
                if ( p.getState() == Place.State.ExecutionSuccessful ) {
-                  System.err.println("WARNING: Place executed successfuly, but an ExecutionException was thrown: ");
-                  e.printStackTrace();
+                  Utils.rethrow("Place executed successfuly, but an ExecutionException was thrown: ", e);
                } else {
                   failedPlaces.add(p);
                }
