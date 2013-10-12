@@ -1,6 +1,5 @@
 package edu.wpi.always.ttt;
 
-import java.awt.Point;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
