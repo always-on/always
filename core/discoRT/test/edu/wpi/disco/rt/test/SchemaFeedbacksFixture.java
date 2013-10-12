@@ -19,7 +19,7 @@ public class SchemaFeedbacksFixture {
    @Before
    public void setUp () {
       pico = configureContainer();
-      pico.addComponent(new DiscoRT());
+      pico.as(Characteristics.CACHE).addComponent(new DiscoRT());
       schemaUnderTest = pico.getComponent(FakeSchema.class);
       otherSchema = pico.getComponent(HigherPriorityDummySchema.class);
       arbitrator = pico.getComponent(Arbitrator.class);

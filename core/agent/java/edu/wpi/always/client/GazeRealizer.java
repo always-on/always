@@ -19,14 +19,14 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
             translateToAgentTurnVer(getParams().getPoint()));
       fireDoneMessage();
    }
-
+  
    /**
     * Inverse of {@link #translateToAgentTurnHor} and 
     * {@link #translateToAgentTurnVer}.
     */
    public static Point translateAgentTurn (float hor, float ver) {
-      return new Point(Math.round(160f - (160f * hor / 0.75f)),
-            Math.round(120f - (120f * ver)));
+      return new Point(Math.round(160f - (160f * hor / 0.5f)),
+            Math.round(120f - (120f * ver / 0.1f)));
    }
 
    /**
@@ -35,9 +35,8 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
     * 
     * @return between (inclusive) -1 (agent's right) and +1 (agent's left)
     */
-   public static float translateToAgentTurnHor (Point p) {
-      // NB: update translateAgentTurn if change this!
-      return (160f - p.x) * 0.75f / 160f;
+    public static float translateToAgentTurnHor (Point p) {
+      return (160f - p.x) * 0.5f / 160f;
    }
 
    /**
@@ -47,7 +46,6 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
     * @return between (inclusive) -1 (down) and +1 (up)
     */
    public static float translateToAgentTurnVer (Point p) {
-      // NB: update translateAgentTurn if change this!
-      return (120f - p.y) / 120f;
+      return (120f - p.y) * 0.1f / 120f;
    }
 }
