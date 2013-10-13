@@ -12,7 +12,6 @@ public class SchemaManager {
    private final MutablePicoContainer container;
    private final Scheduler scheduler;
    private final List<Class<? extends Schema>> toRunAtStartUp = new ArrayList<Class<? extends Schema>>();
-   private final List<Class<? extends Schema>> alwaysAvailableOnes = new ArrayList<Class<? extends Schema>>();
    private final Map<Class<? extends Schema>, SchemaFactory> factories = new HashMap<Class<? extends Schema>, SchemaFactory>();
    private boolean startUpDone = false;
 
@@ -97,9 +96,4 @@ public class SchemaManager {
       }
 
    }
-
-   public List<Class<? extends Schema>> getAlwaysAvailableSchemas () {
-      return Collections.unmodifiableList(alwaysAvailableOnes);
-   }
-
 }
