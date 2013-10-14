@@ -1,5 +1,6 @@
 package edu.wpi.always.client;
 
+import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.MirrorShoreFacePerceptor;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
@@ -13,7 +14,7 @@ public class MirrorFaceTrackerRealizer extends
    private final ReetiFaceTrackerRealizer ftrReeti;
 
    public MirrorFaceTrackerRealizer (FaceTrackBehavior params,
-         final MirrorShoreFacePerceptor perceptor, ClientProxy proxy) {
+         final MirrorShoreFacePerceptor perceptor, CollaborationManager cm, ClientProxy proxy) {
 
       super(params);
       ftrAgent = new FaceTrackerRealizer(params, perceptor, proxy);
@@ -25,7 +26,7 @@ public class MirrorFaceTrackerRealizer extends
                }
                @Override
                public void run() {}},  // not called by realizer
-            proxy);
+            cm, proxy);
    }
 
    @Override
