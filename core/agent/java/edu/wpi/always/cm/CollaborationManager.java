@@ -3,6 +3,7 @@ package edu.wpi.always.cm;
 import java.io.File;
 import org.picocontainer.*;
 import edu.wpi.always.*;
+import edu.wpi.always.client.ReetiCommandSocketConnection;
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.perceptors.sensor.face.*;
 import edu.wpi.always.cm.primitives.*;
@@ -31,6 +32,10 @@ public class CollaborationManager extends DiscoRT {
       parent.getComponent(UserModel.class).load();
    }
  
+   private ReetiCommandSocketConnection reetiSocket;
+   
+   public ReetiCommandSocketConnection getReetiSocket () { return reetiSocket; }
+   
    public void start (Class<? extends Plugin> plugin, String activity) {
       
       switch ( Always.getAgentType() ) {
@@ -38,10 +43,12 @@ public class CollaborationManager extends DiscoRT {
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
             break;
          case Reeti:
-            container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);            
+            container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);  
+            reetiSocket = new ReetiCommandSocketConnection();
             break;
          case Mirror:
             container.as(Characteristics.CACHE).addComponent(MirrorShoreFacePerceptor.class);
+            reetiSocket = new ReetiCommandSocketConnection();
             break;
       }
       // FIXME Try to use real sensors
@@ -64,4 +71,12 @@ public class CollaborationManager extends DiscoRT {
       super.start(plugin == null ? "Session" : null);
       if ( plugin == null ) setSchema(null, SessionSchema.class);
    }
+   
+   @Override
+   public void stop () {
+      super.stop();
+      if (reetiSocket != null ) reetiSocket.close();
+      System.out.println("Collaboration Manager stopped.");
+   }
+
 }

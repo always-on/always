@@ -1,6 +1,7 @@
 package edu.wpi.always.client;
 
 import java.awt.Point;
+import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.FaceDetection;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
@@ -48,7 +49,7 @@ public class ReetiFaceTrackerRealizer extends
    private String lastMessage = "";
 
    public ReetiFaceTrackerRealizer (FaceTrackBehavior params,
-         FacePerceptor perceptor, ClientProxy proxy) {
+         FacePerceptor perceptor, CollaborationManager cm, ClientProxy proxy) {
 
       super(params);
       this.perceptor = perceptor;
@@ -56,10 +57,22 @@ public class ReetiFaceTrackerRealizer extends
       double InputXPID = 0;
       double InputYPID = 0;
 
+<<<<<<< HEAD
       reetiPIDOutput = new ReetiPIDMessages();
 
       client = new ReetiCommandSocketConnection();
 
+=======
+      double OutputXPID = 50; // TODO: This should come by reading from Reeti's
+                              // json profile.
+      double OutputYPID = 55.56; // TODO: This should come by reading from
+                                 // Reeti's json profile.
+      // initialize PID Controller
+      faceTrack = new ReetiPIDMessages(InputXPID, OutputXPID, SetpointXPID,
+            InputYPID, OutputYPID, SetpointYPID); 
+      // get socket connection
+      client = cm.getReetiSocket(); 
+>>>>>>> upstream/develop
    }
 
    public void ReetiFaceTracking () {

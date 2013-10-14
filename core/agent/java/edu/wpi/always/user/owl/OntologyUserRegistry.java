@@ -19,8 +19,7 @@ public class OntologyUserRegistry implements ComponentRegistry, OntologyRegistry
       container.as(Characteristics.CACHE).addComponent(Ontology.class,
             OntologyImpl.class);
       container.as(Characteristics.CACHE).addComponent(OntologyHelper.class);
-      container.as(Characteristics.CACHE)
-            .addComponent(OntologyRuleHelper.class);
+      container.as(Characteristics.CACHE).addComponent(OntologyRuleHelper.class);
       container.as(Characteristics.CACHE).addComponent(ZipCodes.class);
       container.getComponent(ZipCodes.class);// force zip codes to be loaded now
       container.as(Characteristics.CACHE).addComponent(PeopleManager.class,

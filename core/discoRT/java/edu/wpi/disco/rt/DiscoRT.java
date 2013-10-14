@@ -7,11 +7,13 @@ import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
+import org.picocontainer.lifecycle.StartableLifecycleStrategy;
+import org.picocontainer.monitors.LifecycleComponentMonitor;
 import org.picocontainer.behaviors.OptInCaching;
 import java.awt.Frame;
 import java.util.*;
 
-public class DiscoRT {
+public class DiscoRT implements Startable {
    
    // default intervals in msec
    public static final int  
@@ -37,28 +39,30 @@ public class DiscoRT {
    public Interaction getInteraction () { return interaction; }
    
    public DiscoRT () {
-      container = new PicoBuilder().withBehaviors(new OptInCaching()).withConstructorInjection().build();
+      container = new PicoBuilder().withBehaviors(new OptInCaching())
+            .withLifecycle(new StartableLifecycleStrategy(new LifecycleComponentMonitor()))
+            .withConstructorInjection().build();
       container.as(Characteristics.CACHE).addComponent(Resources.class);
-      container.addComponent(interaction);
+      container.as(Characteristics.CACHE).addComponent(interaction);
    }
 
    public DiscoRT (MutablePicoContainer parent) {
-      container = new DefaultPicoContainer(new OptInCaching(), parent);
+      container = new DefaultPicoContainer(new OptInCaching(), 
+            new StartableLifecycleStrategy(new LifecycleComponentMonitor()), 
+            parent);
       container.as(Characteristics.CACHE).addComponent(Resources.class);
-      container.addComponent(interaction);
+      container.as(Characteristics.CACHE).addComponent(interaction);
    }
    
    private void configure (String title) {
-      container.addComponent(container);
       container.as(Characteristics.CACHE).addComponent(PrimitiveBehaviorManager.class);
       container.as(Characteristics.CACHE).addComponent(Realizer.class);
       container.addComponent(FocusRequestRealizer.class);
-      container.addComponent(FuzzyArbitrationStrategy.class);
+      container.as(Characteristics.CACHE).addComponent(FuzzyArbitrationStrategy.class);
       container.as(Characteristics.CACHE).addComponent(CandidateBehaviorsContainer.class);
       container.as(Characteristics.CACHE).addComponent(Arbitrator.class);
       container.as(Characteristics.CACHE).addComponent(ResourceMonitor.class);
-      container.as(Characteristics.CACHE).addComponent(SchemaManager.class);
-      container.addComponent(scheduler);
+      container.as(Characteristics.CACHE).addComponent(scheduler);
       if ( title != null ) new DiscoRT.ConsoleWindow(interaction, title);
    }
 
@@ -81,17 +85,18 @@ public class DiscoRT {
 
    public void start (String title) {
       configure(title);
+      SchemaManager schemaManager = new SchemaManager(container); 
+      container.as(Characteristics.CACHE).addComponent(schemaManager);
       for (ComponentRegistry registry : registries) {
          registry.register(container);
       }
-      SchemaManager schemaManager = getContainer().getComponent(SchemaManager.class);
       for (SchemaRegistry registry : schemaRegistries) {
          registry.register(schemaManager);
       }
       PrimitiveRealizerFactory realizerFactory = new PrimitiveRealizerFactory(container);
-      container.addComponent(realizerFactory);
+      container.as(Characteristics.CACHE).addComponent(realizerFactory);
       realizerFactory.registerAllRealizerInContainer();
-      Arbitrator arbitrator = getContainer().getComponent(Arbitrator.class);
+      Arbitrator arbitrator = container.getComponent(Arbitrator.class);
       @SuppressWarnings("rawtypes")
       List<Perceptor> perceptors = container.getComponents(Perceptor.class);
       scheduler.schedule(arbitrator, ARBITRATOR_INTERVAL);
@@ -99,6 +104,18 @@ public class DiscoRT {
          scheduler.schedule(p, PERCEPTOR_INTERVAL);
       }
       schemaManager.startUp();
+   }
+   
+   @Override
+   public void start () {
+      System.out.println("Starting DiscoRT...");
+      container.start();
+   }
+   
+   @Override
+   public void stop () {
+      container.stop();
+      System.out.println("DiscoRT stopped.");
    }
 
    public MutablePicoContainer getContainer () {
