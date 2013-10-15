@@ -57,12 +57,10 @@ public class ReetiFaceTrackerRealizer extends
       double InputXPID = 0;
       double InputYPID = 0;
 
-<<<<<<< HEAD
       reetiPIDOutput = new ReetiPIDMessages();
 
       client = new ReetiCommandSocketConnection();
 
-=======
       double OutputXPID = 50; // TODO: This should come by reading from Reeti's
                               // json profile.
       double OutputYPID = 55.56; // TODO: This should come by reading from
@@ -72,7 +70,6 @@ public class ReetiFaceTrackerRealizer extends
             InputYPID, OutputYPID, SetpointYPID); 
       // get socket connection
       client = cm.getReetiSocket(); 
->>>>>>> upstream/develop
    }
 
    public void ReetiFaceTracking () {
