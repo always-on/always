@@ -1,5 +1,6 @@
 package edu.wpi.disco.rt.realizer;
 
+import edu.wpi.cetask.Utils;
 import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import edu.wpi.disco.rt.util.FutureValue;
 import java.util.concurrent.*;
@@ -37,12 +38,9 @@ public class PrimitiveRealizerHandleObserver implements PrimitiveRealizerHandle,
          return null;
       try {
          return state.get();
-      } catch (InterruptedException e) {
-         e.printStackTrace();
-         return null;
-      } catch (ExecutionException e) {
-         e.printStackTrace();
-         return null;
+      } catch (InterruptedException|ExecutionException e) {
+         Throwable t = e.getCause();
+         throw new RuntimeException( t == null ? e : t);
       }
    }
 

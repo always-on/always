@@ -10,7 +10,7 @@ public class ClientRegistry implements ComponentRegistry {
 
    @Override
    public void register (MutablePicoContainer container) {
-      container.addComponent(new UIMessageDispatcherImpl(new TcpConnection(
+      container.as(Characteristics.CACHE).addComponent(new UIMessageDispatcherImpl(new TcpConnection(
             "localhost", 11000)));
       container.addComponent(GazeRealizer.class);
       container.addComponent(FaceExpressionRealizer.class);
@@ -31,8 +31,7 @@ public class ClientRegistry implements ComponentRegistry {
       container.addComponent(AudioFileRealizer.class);
       container.addComponent(ClientMenuRealizer.class);
       container.addComponent(ClientMenuPerceptor.class);
-      container.as(Characteristics.CACHE).addComponent(
-            KeyboardMessageHandler.class);
+      container.as(Characteristics.CACHE).addComponent(KeyboardMessageHandler.class);
       container.as(Characteristics.CACHE).addComponent(ClientProxy.class);
    }
 }
