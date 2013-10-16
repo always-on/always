@@ -40,10 +40,10 @@ public class CollaborationManager extends DiscoRT {
       
       switch ( Always.getAgentType() ) {
          case Unity:
-            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Agent.class);
             break;
          case Reeti:
-            container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);  
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);  
             reetiSocket = new ReetiCommandSocketConnection();
             break;
          case Mirror:

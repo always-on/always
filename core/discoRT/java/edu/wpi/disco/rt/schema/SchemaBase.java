@@ -40,6 +40,9 @@ public abstract class SchemaBase implements Schema {
       return future == null || future.isDone();
    }
    
+   @Override
+   public void dispose () {}
+   
    private long focusMillis;
    
    @Override
