@@ -38,6 +38,7 @@ public class SkypeSchema extends ActivityStateMachineSchema {
          super("This is a test", null);
          this.shore = shore;
          choice("Ok", new DialogStateTransition() {
+            @Override
             public AdjacencyPair run () { 
                schema.cancel();
                return null;
