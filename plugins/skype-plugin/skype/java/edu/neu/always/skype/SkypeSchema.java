@@ -5,6 +5,7 @@ import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.schema.Schema;
 
 // this is the schema for initiating a Skype call
 
@@ -15,14 +16,15 @@ public class SkypeSchema extends ActivityStateMachineSchema {
    public SkypeSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, ShoreFacePerceptor shore) {
-      super(new Test(shore),  // TODO: need to provide real initial AdjacencyPair here 
-            behaviorReceiver, behaviorHistory, resourceMonitor,
+      super(null, behaviorReceiver, behaviorHistory, resourceMonitor,
 				menuPerceptor);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
+      stateMachine.setState(new Test(shore, this));
    }
 
    @Override
    public void dispose () { 
+      // this is here so it is run even if schema throws an error
       if ( shore != null ) shore.start(); 
    }
  
@@ -32,11 +34,14 @@ public class SkypeSchema extends ActivityStateMachineSchema {
 
       private final ShoreFacePerceptor shore;
       
-      public Test (ShoreFacePerceptor shore) {
+      public Test (ShoreFacePerceptor shore, final Schema schema) {
          super("This is a test", null);
          this.shore = shore;
          choice("Ok", new DialogStateTransition() {
-            public AdjacencyPair run () { throw new RuntimeException(); }
+            public AdjacencyPair run () { 
+               schema.cancel();
+               return null;
+            }
          });
       }
       
