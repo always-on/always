@@ -1,19 +1,12 @@
 package edu.wpi.always.cm.perceptors.sensor.face;
 
 import org.joda.time.DateTime;
-import java.io.*;
 import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.*;
-import edu.wpi.cetask.Utils;
+import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
 public abstract class ShoreFacePerceptor implements FacePerceptor {
 
-   // to call start in ThreadPools.afterExecute to 
-   public static ShoreFacePerceptor THIS;
-
-   protected ShoreFacePerceptor () { THIS = this; }
-   
-   protected abstract CPPinterface.FaceInfo getFaceInfo (int debug);
+   protected abstract FaceInfo getFaceInfo (int debug);
    
    public abstract void start ();
    public abstract void stop ();
@@ -25,7 +18,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    
    @Override
    public void run () {
-      CPPinterface.FaceInfo info = getFaceInfo(0);
+      FaceInfo info = getFaceInfo(0);
       latest = info == null ? null :
          new FacePerception(DateTime.now(), 
                info.intTop, info.intBottom, info.intLeft, info.intRight, info.intArea, info.intCenter, info.intTiltCenter);
@@ -61,7 +54,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
       
       @Override
-      protected CPPinterface.FaceInfo getFaceInfo (int debug) {
+      protected FaceInfo getFaceInfo (int debug) {
          return CPPinterface.INSTANCE.getAgentFaceInfo(debug);
       }
    }
@@ -75,7 +68,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
          
       @Override
-      protected CPPinterface.FaceInfo getFaceInfo (int debug) {
+      protected FaceInfo getFaceInfo (int debug) {
          return CPPinterface.INSTANCE.getReetiFaceInfo(debug);
       }
       
@@ -88,5 +81,37 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       public void stop () {
          CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
       }
-   }         
+   }    
+   
+   public static class Mirror extends ShoreFacePerceptor {
+
+      private final ShoreFacePerceptor agent = new Agent(),
+            reeti = new Reeti();
+
+      @Override
+      public FacePerception getLatest () {
+         return agent.getLatest();
+      }
+
+      public FacePerception getReetiLatest () {
+         return reeti.getLatest();
+      }
+
+      @Override
+      public void start () { agent.start(); }
+
+      @Override
+      public void stop () { agent.stop(); }
+
+      @Override
+      public void run () {
+         agent.run();
+         reeti.run();
+      }
+
+      @Override
+      protected FaceInfo getFaceInfo (int debug) {
+         throw new UnsupportedOperationException();
+      }
+   }
 }

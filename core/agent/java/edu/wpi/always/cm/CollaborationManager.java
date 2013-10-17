@@ -21,6 +21,7 @@ public class CollaborationManager extends DiscoRT {
    public CollaborationManager (MutablePicoContainer parent) {
       super(parent);
       this.parent = parent;
+      SCHEMA_INTERVAL = 500;
       container.removeComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
@@ -47,7 +48,7 @@ public class CollaborationManager extends DiscoRT {
             reetiSocket = new ReetiCommandSocketConnection();
             break;
          case Mirror:
-            container.as(Characteristics.CACHE).addComponent(MirrorShoreFacePerceptor.class);
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Mirror.class);
             reetiSocket = new ReetiCommandSocketConnection();
             break;
       }

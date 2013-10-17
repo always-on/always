@@ -18,12 +18,12 @@ public class SkypeSchema extends ActivityStateMachineSchema {
       super(new Test(shore),  // TODO: need to provide real initial AdjacencyPair here 
             behaviorReceiver, behaviorHistory, resourceMonitor,
 				menuPerceptor);
-      this.shore = shore;
+      this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
    }
 
    @Override
    public void dispose () { 
-      shore.start(); 
+      if ( shore != null ) shore.start(); 
    }
  
    // to test camera release and restart
@@ -42,7 +42,7 @@ public class SkypeSchema extends ActivityStateMachineSchema {
       
       @Override
       public void enter () {
-         shore.stop();
+         if ( shore != null ) shore.stop();
       }
    }
 }

@@ -16,8 +16,8 @@ import java.util.*;
 public class DiscoRT implements Startable {
    
    // default intervals in msec
-   public static final int  
-         SCHEMA_INTERVAL = 500,
+   public static int  
+         SCHEMA_INTERVAL = 1000,
          ARBITRATOR_INTERVAL = 300,
          PERCEPTOR_INTERVAL = 200,
          REALIZER_INTERVAL = 100;
