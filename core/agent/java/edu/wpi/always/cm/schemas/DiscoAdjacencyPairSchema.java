@@ -1,29 +1,34 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.cetask.Plan;
-import edu.wpi.disco.Interaction;
-import edu.wpi.disco.rt.ResourceMonitor;
-import edu.wpi.disco.rt.behavior.BehaviorHistory;
-import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
-import edu.wpi.disco.rt.menu.DiscoAdjacencyPair;
-import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.always.Always;
+import edu.wpi.disco.*;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.*;
 
 public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
 
-   protected final Interaction interaction; 
    protected final DiscoAdjacencyPair discoAdjacencyPair;
+   protected final DiscoRT.Interaction interaction;
 
    public DiscoAdjacencyPairSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction) {
-      super(new DiscoAdjacencyPair(behaviorReceiver, behaviorHistory, 
-                    resourceMonitor, menuPerceptor, interaction), 
-            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
+         MenuPerceptor menuPerceptor, Always always) {
+      this(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
+            new DiscoRT.Interaction(new Agent("agent"), new User("user")));
+   }
+   
+   public DiscoAdjacencyPairSchema (BehaviorProposalReceiver behaviorReceiver,
+         BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
+         MenuPerceptor menuPerceptor, Always always, DiscoRT.Interaction interaction) {
+      super(new DiscoAdjacencyPair(interaction), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
+      this.discoAdjacencyPair = (DiscoAdjacencyPair) stateMachine.getState();     
       this.interaction = interaction;
       interaction.setOk(false);
-      discoAdjacencyPair = (DiscoAdjacencyPair) stateMachine.getState();
+      interaction.setSchema(this);
+      always.init(interaction);
    }
-
+   
    @Override
    public void run () {
       if ( interaction.getFocusExhausted(true) == null ) cancel(); 

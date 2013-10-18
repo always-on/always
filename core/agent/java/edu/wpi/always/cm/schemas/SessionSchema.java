@@ -8,10 +8,10 @@ import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
-import edu.wpi.disco.rt.ResourceMonitor;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
-import edu.wpi.disco.rt.schema.Schema;
+import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.DiscoDocument;
 
 public class SessionSchema extends DiscoAdjacencyPairSchema {
@@ -19,15 +19,18 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final MutablePicoContainer container; // for plugins
    private final Stop stop;
    private final ClientProxy proxy;
+   private final SchemaManager schemaManager;
    
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction,
-         ClientProxy proxy, Always always) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
+         MenuPerceptor menuPerceptor, ClientProxy proxy,
+         SchemaManager schemaManager, Always always, 
+         DiscoRT.Interaction interaction) {
+      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
       this.proxy = proxy;
+      this.schemaManager = schemaManager;
       container = always.getContainer();
-      stop = new Stop(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
+      stop = new Stop(interaction);
       DiscoDocument session = always.getRM().getSession();
       if ( session != null ) {
          interaction.load("Relationship Manager", 
@@ -82,6 +85,14 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       propose(stateMachine);
    }
    
+   @Override
+   public void dispose () {
+      super.dispose();
+      // restart if fails for some reason
+      System.err.println("Restarting SessionSchema...");
+      schemaManager.start(getClass());
+   }
+   
    private void yield (Plan plan) {
       stop.setPlan(plan);
       stop.update();
@@ -109,10 +120,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       
       private void setPlan (Plan plan) { this.plan = plan; }
       
-      public Stop (BehaviorProposalReceiver behaviorReceiver,
-         BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction) {
-         super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
+      public Stop (DiscoRT.Interaction interaction) {
+         super(interaction);
       }
       
       @Override

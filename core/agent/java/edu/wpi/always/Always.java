@@ -24,6 +24,7 @@ import edu.wpi.disco.User;
 import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.behavior.SpeechMarkupBehavior;
+import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 
 public class Always {

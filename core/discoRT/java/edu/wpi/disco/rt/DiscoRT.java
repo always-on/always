@@ -31,12 +31,22 @@ public class DiscoRT implements Startable {
    public static boolean TRACE;
    
    private final Scheduler scheduler = new Scheduler();
-   protected final Interaction interaction =  new Interaction(new Agent("agent"), new User("user"));
+   protected final DiscoRT.Interaction interaction =  new DiscoRT.Interaction(new Agent("agent"), new User("user"));
    protected final MutablePicoContainer container;
    protected final List<SchemaRegistry> schemaRegistries = new ArrayList<SchemaRegistry>();
    protected final List<ComponentRegistry> registries = new ArrayList<ComponentRegistry>();
   
    public Interaction getInteraction () { return interaction; }
+   
+   public static class Interaction extends edu.wpi.disco.Interaction {
+      
+      public Interaction (Actor system, Actor external) {
+         super(system, external);
+         setName("edu.wpi.disco.rt.DiscoRT.Interaction");
+      }
+      
+      public void setSchema (Schema schema) { setGlobal("$schema", schema); } 
+   }
    
    public DiscoRT () {
       container = new PicoBuilder().withBehaviors(new OptInCaching())
@@ -153,6 +163,6 @@ public class DiscoRT implements Startable {
     * task has the Disco focus (regardless of whether it requests it or not).
     */
    public void setSchema (TaskClass task, Class<? extends Schema> schema) {
-      tasks.put(task, schema); 
+      tasks.put(task, schema);
    }
 }
