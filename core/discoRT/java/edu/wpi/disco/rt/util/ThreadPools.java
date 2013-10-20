@@ -47,18 +47,8 @@ public class ThreadPools {
 
          @Override
          protected void afterExecute (Runnable r, Throwable t) {
-            try {
-               super.afterExecute(r, t);
-               ThreadPools.afterExecute(r, t);
-            } finally { 
-               if ( r instanceof ScheduledFutureTask<?> ) {
-                  ScheduledFutureTask<?> task = (ScheduledFutureTask<?>) r;
-                  if ( t != null || task.isDone() || task.isCancelled() ) {
-                     r = task.getInner();
-                     if ( r instanceof Schema ) ((Schema) r).dispose();
-                  }
-               }
-            }
+            super.afterExecute(r, t);
+            ThreadPools.afterExecute(r, t);
          }
       };
    }
@@ -95,21 +85,34 @@ public class ThreadPools {
 
    private static void afterExecute (Runnable r, Throwable t) {
       if ( t == null && Future.class.isAssignableFrom(r.getClass()) ) {
-         if ( !((Future<?>) r).isDone() )
-            return;
+         if ( !((Future<?>) r).isDone() ) return;
          try {
             ((Future<?>) r).get(1, TimeUnit.MILLISECONDS);
-         } catch (CancellationException ce) {
+         } catch (CancellationException e) {
             if ( DiscoRT.TRACE ) System.out.println("Cancelled " + getName(r));
-         } catch (ExecutionException ee) {
-            t = ee.getCause();
-         } catch (InterruptedException ie) {
+         } catch (ExecutionException e) {
+            t = e.getCause();
+         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-         } catch (TimeoutException te) {
+         } catch (TimeoutException e) {
             if ( DiscoRT.TRACE ) System.out.println("Timeout " + getName(r));
          }
+         if ( r instanceof ScheduledFutureTask<?> ) {
+            ScheduledFutureTask<?> task = (ScheduledFutureTask<?>) r;
+            r = task.getInner();
+            if ( r instanceof Schema ) {
+               // code repeated here for better error log
+               if ( t != null ) t.printStackTrace();  
+               System.err.println("Disposing of "+r+"...");
+               ((Schema) r).dispose();
+               if ( t != null ) Utils.rethrow(t);
+            }
+         }
       }
-      if ( t != null ) { Utils.rethrow(t); }
+      if ( t != null ) { 
+         t.printStackTrace();
+         Utils.rethrow(t); 
+      }
    }
    
    private static String getName (Runnable runnable) {
