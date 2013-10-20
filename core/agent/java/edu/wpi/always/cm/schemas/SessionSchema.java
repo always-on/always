@@ -5,14 +5,15 @@ import org.picocontainer.MutablePicoContainer;
 import edu.wpi.always.*;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.cetask.*;
-import edu.wpi.disco.*;
+import edu.wpi.disco.Agenda;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.schema.*;
-import edu.wpi.disco.rt.util.DiscoDocument;
+import edu.wpi.disco.rt.util.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public class SessionSchema extends DiscoAdjacencyPairSchema {
    
@@ -64,8 +65,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             if ( schema.isDone() ) {
                stop(plan);
                stateMachine.setState(discoAdjacencyPair);
-            }
-            else yield(plan);
+            } else yield(plan);
          } else {
             TaskClass task = plan.getType();
             if ( Plugin.isPlugin(task) &&
@@ -73,6 +73,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                started.put(plan,
                   Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
                plan.setStarted(true);
+               Utils.lnprint(System.out, "Starting "+plan.getType()+"...");
+               history();
                yield(plan);
             }
          }
@@ -89,7 +91,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    public void dispose () {
       super.dispose();
       // restart if fails for some reason
-      System.err.println("Restarting SessionSchema...");
+      Utils.lnprint(System.out, "Restarting SessionSchema...");
       schemaManager.start(getClass());
    }
    
@@ -108,6 +110,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       started.remove(plan.getGoal());
       proxy.showMenu(Collections.<String>emptyList(), false, true); // clear extension menu
       proxy.hidePlugin();
+      Utils.lnprint(System.out, "Returning to Session...");
+      history(); // before update
       discoAdjacencyPair.update();
       stateMachine.setExtension(false);
       stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
@@ -149,7 +153,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       @Override
       public String getMessage () {
          String text = inner.getMessage();
-         return text == null ? "Ok." : ("Ok. " + text);
+         //TODO replace DELAY with IVONA pause markup
+         return text == null ? "Ok." : ("Ok. <DELAY MS=\"1000\"> Now " + text);
       }
    }
 }

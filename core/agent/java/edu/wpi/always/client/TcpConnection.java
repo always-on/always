@@ -1,16 +1,11 @@
 package edu.wpi.always.client;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ConnectException;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
+import java.util.concurrent.*;
 import edu.wpi.always.Always;
-import edu.wpi.cetask.Utils;
+import edu.wpi.disco.rt.util.Utils;
 
 public class TcpConnection implements RemoteConnection {
 
@@ -29,7 +24,7 @@ public class TcpConnection implements RemoteConnection {
       sendThreadService = Executors.newSingleThreadExecutor();
       recvThreadService = Executors.newSingleThreadExecutor();
    }
-
+   
    @Override
    public void connect () {
       try {
@@ -46,7 +41,7 @@ public class TcpConnection implements RemoteConnection {
                   while ((n = in.read(buf)) != -1) {
                      String s = new String(buf, 0, n);
                      // note can receive more than one message in buffer
-                     if ( Always.TRACE ) System.out.println("Received: " + s);
+                     if ( Always.TRACE ) Utils.lnprint(System.out, "Received "+ s);
                      fireMessageReceived(s);
                   }
                } catch (Exception e) { e.printStackTrace(); }
@@ -57,7 +52,7 @@ public class TcpConnection implements RemoteConnection {
          try { Thread.sleep(3000);  } catch (InterruptedException i) {}
          connect();
       }
-        catch (Exception e) { Utils.rethrow(e); }
+        catch (Exception e) { edu.wpi.cetask.Utils.rethrow(e); }
    }
 
    protected void fireMessageReceived (String s) {
@@ -91,11 +86,13 @@ public class TcpConnection implements RemoteConnection {
    private int count;
    
    public static int STARTS_WITH = 18; // change to 0 to disable
-   
+  
    private void send (String message) {
       if ( !isConnected() )
          connect();
       if ( isConnected() ) {
+         out.println(message);
+         out.flush();
          // optimization to help debugging
          if ( lastMessage.equals(message) ||
                (STARTS_WITH > 0 && lastMessage.length() >= STARTS_WITH &&
@@ -103,12 +100,10 @@ public class TcpConnection implements RemoteConnection {
             count++;
          else {
             if ( count > 0 ) 
-               System.out.println("Sending... "+lastMessage.substring(0, STARTS_WITH)+"-- "+count+" more"); 
-            System.out.println("Sending... " + message);
+               Utils.lnprint(System.out, "Sent "+lastMessage.substring(0, STARTS_WITH)+"-- "+count+" more"); 
+            Utils.lnprint(System.out, "Sent "+message);
             count = 0;
          }
-         out.print(message + "\n");
-         out.flush();
          lastMessage = message;
       }
    }

@@ -1,17 +1,18 @@
 package edu.wpi.disco.rt;
 
+import java.awt.Frame;
+import java.util.*;
+import org.picocontainer.*;
+import org.picocontainer.behaviors.OptInCaching;
+import org.picocontainer.lifecycle.StartableLifecycleStrategy;
+import org.picocontainer.monitors.LifecycleComponentMonitor;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.perceptor.Perceptor;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.util.Utils;
 import edu.wpi.disco.rt.util.ComponentRegistry;
-import org.picocontainer.*;
-import org.picocontainer.lifecycle.StartableLifecycleStrategy;
-import org.picocontainer.monitors.LifecycleComponentMonitor;
-import org.picocontainer.behaviors.OptInCaching;
-import java.awt.Frame;
-import java.util.*;
 
 public class DiscoRT implements Startable {
    
@@ -73,13 +74,13 @@ public class DiscoRT implements Startable {
       container.as(Characteristics.CACHE).addComponent(Arbitrator.class);
       container.as(Characteristics.CACHE).addComponent(ResourceMonitor.class);
       container.as(Characteristics.CACHE).addComponent(scheduler);
-      if ( title != null ) new DiscoRT.ConsoleWindow(interaction, title);
+      if ( title != null ) new DiscoRT.ConsoleWindow(interaction, title, false);
    }
 
    public static class ConsoleWindow extends edu.wpi.disco.ConsoleWindow {
       
-      public ConsoleWindow (Interaction interaction, String title) {
-         super(interaction, 600, 500, 14);
+      public ConsoleWindow (Interaction interaction, String title, boolean append) {
+         super(interaction, 600, 500, 14, append);
          setExtendedState(Frame.ICONIFIED);
          setTitle(title);
       }
@@ -125,7 +126,7 @@ public class DiscoRT implements Startable {
    @Override
    public void stop () {
       container.stop();
-      System.out.println("DiscoRT stopped.");
+      Utils.lnprint(System.out, "DiscoRT stopped.");
    }
 
    public MutablePicoContainer getContainer () {

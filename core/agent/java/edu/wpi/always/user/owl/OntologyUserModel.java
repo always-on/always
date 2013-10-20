@@ -1,13 +1,10 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.Always;
-import edu.wpi.always.user.*;
-import org.picocontainer.annotations.Bind;
+import java.io.*;
+import java.util.*;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.*;
-import java.io.*;
-import java.lang.annotation.*;
-import java.util.*;
+import edu.wpi.always.user.*;
 
 public class OntologyUserModel extends UserModelBase {
 

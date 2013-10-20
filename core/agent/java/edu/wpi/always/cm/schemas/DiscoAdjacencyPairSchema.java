@@ -34,5 +34,9 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
       if ( interaction.getFocusExhausted(true) == null ) cancel(); 
       else propose(stateMachine);
    }
-
+   
+   protected void history () {
+      final Console console = interaction.getConsole();
+      if ( console != null ) console.history(null);
+   }
 }

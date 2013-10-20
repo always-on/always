@@ -1,12 +1,11 @@
 package edu.wpi.disco.rt.util;
 
-import edu.wpi.disco.rt.DiscoRT;
-import edu.wpi.cetask.Utils;
-import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.realizer.*;
-import edu.wpi.disco.rt.schema.Schema;
 import java.util.*;
 import java.util.concurrent.*;
+import edu.wpi.disco.rt.DiscoRT;
+import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.realizer.CompoundRealizer;
+import edu.wpi.disco.rt.schema.Schema;
 
 /**
  * Utility class with factory methods to make thread pools that use class names
@@ -89,29 +88,26 @@ public class ThreadPools {
          try {
             ((Future<?>) r).get(1, TimeUnit.MILLISECONDS);
          } catch (CancellationException e) {
-            if ( DiscoRT.TRACE ) System.out.println("Cancelled " + getName(r));
+            if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Cancelled " + getName(r));
          } catch (ExecutionException e) {
             t = e.getCause();
          } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
          } catch (TimeoutException e) {
-            if ( DiscoRT.TRACE ) System.out.println("Timeout " + getName(r));
+            if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Timeout " + getName(r));
          }
          if ( r instanceof ScheduledFutureTask<?> ) {
             ScheduledFutureTask<?> task = (ScheduledFutureTask<?>) r;
             r = task.getInner();
             if ( r instanceof Schema ) {
-               // code repeated here for better error log
-               if ( t != null ) t.printStackTrace();  
-               System.err.println("Disposing of "+r+"...");
+               Utils.lnprint(System.out, "Disposing of "+r+"...");
                ((Schema) r).dispose();
-               if ( t != null ) Utils.rethrow(t);
             }
          }
       }
-      if ( t != null ) { 
-         t.printStackTrace();
-         Utils.rethrow(t); 
+      if ( t != null ) {
+         System.out.println(); // may improve readability
+         edu.wpi.cetask.Utils.rethrow(t); 
       }
    }
    

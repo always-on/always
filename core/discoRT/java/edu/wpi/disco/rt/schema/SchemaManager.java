@@ -3,6 +3,7 @@ package edu.wpi.disco.rt.schema;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.behavior.Behavior;
+import edu.wpi.disco.rt.util.Utils;
 import org.picocontainer.*;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
@@ -29,7 +30,7 @@ public class SchemaManager {
    }
 
    public <T extends Schema> T start (Class<T> type) {
-      if ( DiscoRT.TRACE ) System.out.println("Starting: "+type);
+      if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Starting: "+type);
       T instance = null;
       if ( factories.containsKey(type) ) {
          SchemaFactory factory = factories.get(type);

@@ -12,6 +12,7 @@ import edu.wpi.always.user.*;
 import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public class CollaborationManager extends DiscoRT {
 
@@ -77,7 +78,7 @@ public class CollaborationManager extends DiscoRT {
    public void stop () {
       super.stop();
       if (reetiSocket != null ) reetiSocket.close();
-      System.out.println("Collaboration Manager stopped.");
+      Utils.lnprint(System.out, "Collaboration Manager stopped.");
    }
 
 }
