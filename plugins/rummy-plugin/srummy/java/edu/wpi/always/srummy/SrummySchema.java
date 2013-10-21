@@ -1,6 +1,5 @@
 package edu.wpi.always.srummy;
 
-import java.awt.Point;
 import java.util.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;

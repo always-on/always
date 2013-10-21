@@ -21,7 +21,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       public CheckCorrectionAdjacencyPair (final EnrollStateContext context,
             final Person person) {
-         super("Okay, here's what I have.  Are there any mistakes?", context,
+         super("Okay, here's what I have. Are there any mistakes?", context,
                true);
          this.person = person;
          choice("Edit Name", new DialogStateTransition() {

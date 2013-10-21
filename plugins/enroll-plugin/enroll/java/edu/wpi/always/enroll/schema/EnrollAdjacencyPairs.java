@@ -372,8 +372,8 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public ZipCodeInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("The zipcode entered is invalid. Please enter an valid zipcode.", 
-               "Enter" + name +"'s zipcode again:", context, context.getKeyboard(), true);
+         super("The zipcode entered is invalid. Please enter a valid zipcode.", 
+               "Enter " +name +"'s zipcode again:", context, context.getKeyboard(), true);
          choice("Skip "+name, new DialogStateTransition() {
 
             @Override
