@@ -283,8 +283,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                      //getContext().getSrummyUI().cancelHumanCommentingTimer();
                      if (playerIdentifier == AGENT_IDENTIFIER)
                         return new Limbo(getContext());
-                     else
-                        return new AgentPlayDelay(getContext());
+                     return new AgentPlayDelay(getContext());
                   }
                });
             if(playerIdentifier == HUMAN_IDENTIFIER){
@@ -294,8 +293,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                      //getContext().getSrummyUI().cancelHumanCommentingTimer();
                      if (playerIdentifier == AGENT_IDENTIFIER)
                         return new Limbo(getContext());
-                     else
-                        return new AgentPlayDelay(getContext());
+                     return new AgentPlayDelay(getContext());
                   }
                });
             }

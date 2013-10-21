@@ -197,10 +197,8 @@ public class Meld implements Iterable<Card>{
          tempMeldCards.remove(cardToBeAdded);
          return true;
       }
-      else{
-         tempMeldCards.remove(cardToBeAdded);
-         return false;
-      }
+      tempMeldCards.remove(cardToBeAdded);
+      return false;
 
    }
 

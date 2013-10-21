@@ -59,7 +59,7 @@ public class CommentLibraryHandler {
 
       try{
          
-         Document xmldoc = (Document) builder.build(commentLibraryFile);
+         Document xmldoc = builder.build(commentLibraryFile);
          Element rootNode = xmldoc.getRootElement();
 
          retrievedAgentCommentsRootNode.addAll( 
