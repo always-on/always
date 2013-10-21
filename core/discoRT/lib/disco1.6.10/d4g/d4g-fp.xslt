@@ -336,6 +336,25 @@
 	</xsl:if>
       </xsl:if>
 
+      <!-- apply external modifiers if actor specified -->
+      <xsl:if test="@actor">
+        <xsl:element name="binding">
+          <xsl:attribute name="slot">
+            <xsl:text>$</xsl:text>
+            <xsl:value-of select="$id"/>
+            <xsl:text>_step.external</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="value">
+            <xsl:if test="@actor=$external"> 
+              <xsl:text>true</xsl:text>
+            </xsl:if>
+            <xsl:if test="@actor!=$external">
+              <xsl:text>false</xsl:text>
+            </xsl:if>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:if>
+
     </xsl:element>
   </xsl:template>
 
