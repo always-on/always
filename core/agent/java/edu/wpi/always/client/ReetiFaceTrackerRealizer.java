@@ -65,8 +65,6 @@ public class ReetiFaceTrackerRealizer extends
 
       FacePerception perception, prevPerception;
 
-      //ReetiShoreFacePerceptor reetiShoreFacePerceptor = new ReetiShoreFacePerceptor(); I commented this out!
-
       perception = perceptor.getLatest();
       prevPerception = perception;
 
@@ -98,13 +96,13 @@ public class ReetiFaceTrackerRealizer extends
 
             // Making sure the face is not a fake one based on the awkward
             // changes in size and position.
-//            if ( reetiShoreFacePerceptor.isProportionalPosition(perception,
-//                  prevPerception, faceHorizontalDisplacementThreshold,
-//                  faceVerticalDisplacementThreshold)
-//               && reetiShoreFacePerceptor.isProportionalArea(perception,
-//                     prevPerception, faceAreaThreshold) ) {
-                if ( isProportionalPosition(perception, prevPerception)
-                && isProportionalArea(perception, prevPerception) ) {
+            // if ( reetiShoreFacePerceptor.isProportionalPosition(perception,
+            // prevPerception, faceHorizontalDisplacementThreshold,
+            // faceVerticalDisplacementThreshold)
+            // && reetiShoreFacePerceptor.isProportionalArea(perception,
+            // prevPerception, faceAreaThreshold) ) {
+            if ( isProportionalPosition(perception, prevPerception)
+               && isProportionalArea(perception, prevPerception) ) {
                String Message = reetiPIDOutput.Track(XInputPID, YInputPID,
                      trackingDirections);
 
