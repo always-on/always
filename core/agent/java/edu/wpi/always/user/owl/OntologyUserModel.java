@@ -26,6 +26,8 @@ public class OntologyUserModel extends UserModelBase {
       this.placeManager = placeManager;
       peopleManager.setUserModel(this);
       System.out.println("Saving user ontology to: "+userDataFile);
+      // partially set for testing
+      user = ontology.getNamedIndividual("User");
    }
    
    @Override
@@ -43,7 +45,7 @@ public class OntologyUserModel extends UserModelBase {
       } else throw new UnsupportedOperationException(
                   "User model already has name: "+this.userName);
    }
-   
+      
    @Override
    public OntologyCalendar getCalendar () {
       return calendar;
