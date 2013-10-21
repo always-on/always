@@ -4,6 +4,8 @@ import java.awt.Point;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
 import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
+import edu.wpi.always.*;
+import edu.wpi.always.client.*;
 
 public class FaceTrackerRealizer extends
       PrimitiveRealizerBase<FaceTrackBehavior> {
@@ -32,10 +34,6 @@ public class FaceTrackerRealizer extends
 
    private static int faceVerticalDisplacementThreshold = 50;
 
-   private long[] faceProfileVector = new long[3];
-
-   private long[] facePrevProfileVector = new long[3];
-
    public FaceTrackerRealizer (FaceTrackBehavior params,
          FacePerceptor perceptor, ClientProxy proxy) {
       super(params);
@@ -45,23 +43,24 @@ public class FaceTrackerRealizer extends
 
    public void AgentFaceTracking () {
 
-      FacePerception perception = perceptor.getLatest();
+      FacePerception perception, prevPerception;
+
+      perception = perceptor.getLatest();
+      prevPerception = perception;
 
       if ( perception != null ) {
          Point point = perception.getPoint();
 
          if ( point != null ) {
-      
+
             // following is useful for debugging
             // java.awt.Toolkit.getDefaultToolkit().beep();
-            
+
             // Happens when a face is detected for the first time.
             if ( initialTime == 0 ) {
                initialTime = System.currentTimeMillis();
 
-               facePrevProfileVector[0] = perception.getLeft();
-               facePrevProfileVector[1] = perception.getTop();
-               facePrevProfileVector[2] = perception.getArea();
+               prevPerception = perception;
             }
 
             currentTime = System.currentTimeMillis();
@@ -70,26 +69,23 @@ public class FaceTrackerRealizer extends
             if ( (currentTime - initialTime) < realFaceWaitingTime )
                return;
 
-            faceProfileVector[0] = perception.getLeft();
-            faceProfileVector[1] = perception.getTop();
-            faceProfileVector[2] = perception.getArea();
+            perception = perceptor.getLatest();
 
             // Eliminating fast moving faces above a threshold.
-            if ( !isSignificantMotion() )
+            if ( !isSignificantMotion(perception, prevPerception) )
                return;
 
             // Making sure the face is not a fake one based on the awkward
             // changes in size and position.
-            if ( isProportionalPosition() && isProportionalArea() ) {
+            if ( isProportionalPosition(perception, prevPerception)
+               && isProportionalArea(perception, prevPerception) ) {
                float hor = GazeRealizer.translateToAgentTurnHor(point);
                float ver = GazeRealizer.translateToAgentTurnVer(point);
                proxy.gaze(hor, ver);
                fireDoneMessage();
             }
 
-            facePrevProfileVector[0] = faceProfileVector[0];
-            facePrevProfileVector[1] = faceProfileVector[1];
-            facePrevProfileVector[2] = faceProfileVector[2];
+            prevPerception = perception;
          } else {
             currentLosingTime = System.currentTimeMillis();
 
@@ -103,24 +99,27 @@ public class FaceTrackerRealizer extends
       }
    }
 
-   private boolean isSignificantMotion () {
-      if ( Math.abs(faceProfileVector[0] - facePrevProfileVector[0]) > faceHorizontalMovementThreshold
-         || Math.abs(faceProfileVector[1] - facePrevProfileVector[1]) > faceVerticalMovementThreshold )
+   private boolean isSignificantMotion (FacePerception perception,
+         FacePerception prevPerception) {
+      if ( Math.abs(perception.getLeft() - prevPerception.getLeft()) > faceHorizontalMovementThreshold
+         || Math.abs(perception.getTop() - prevPerception.getTop()) > faceVerticalMovementThreshold )
          return true;
 
       return false;
    }
 
-   private boolean isProportionalPosition () {
-      if ( Math.abs(faceProfileVector[0] - facePrevProfileVector[0]) <= faceHorizontalDisplacementThreshold
-         && Math.abs(faceProfileVector[1] - facePrevProfileVector[1]) <= faceVerticalDisplacementThreshold )
+   private boolean isProportionalPosition (FacePerception perception,
+         FacePerception prevPerception) {
+      if ( Math.abs(perception.getLeft() - prevPerception.getLeft()) <= faceHorizontalDisplacementThreshold
+         && Math.abs(perception.getTop() - prevPerception.getTop()) <= faceVerticalDisplacementThreshold )
          return true;
 
       return false;
    }
 
-   private boolean isProportionalArea () {
-      if ( Math.abs(faceProfileVector[2] - facePrevProfileVector[2]) <= faceAreaThreshold )
+   private boolean isProportionalArea (FacePerception perception,
+         FacePerception prevPerception) {
+      if ( Math.abs(perception.getArea() - perception.getArea()) <= faceAreaThreshold )
          return true;
 
       return false;
