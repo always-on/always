@@ -19,7 +19,7 @@
     var genderFamFriend;
     var famFriendName;
     var famFriendRelationship;
-    var user = $always.getUserModel().getPeopleManager().getUser();
+    Var user = $always.getUserModel().getPeopleManager().getUser();
     var userName = $always.getUserModel().getUserFirstName();
     print ("the user's name is =" + userName + "  ");
     var pronounObj = "her";
