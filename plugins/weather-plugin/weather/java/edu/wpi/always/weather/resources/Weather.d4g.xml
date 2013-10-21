@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model about="urn:weather.always.wpi.edu:models:Weather"
+       xmlns="http://www.cs.wpi.edu/~rich/d4g"
+       xmlns:t="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext">
+
+  <!-- NB: Test cases using this model should be executed using
+      agent/core/bin/always-disco -->
+
+  <t:script init="true">
+  
+      var date; // initialize with date to use (today if undefined)
+      
+      // load data from always/user (must be on classpath!)
+
+      var resource = getResource(); 
+      if ( resource == null ) {
+		 println("Cannot find weather data for "+todayDate());
+		 println("Using testing data...");
+		 date = "testing";
+		 resource = getResource();
+      } 
+		
+      var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(resource.openStream()));
+
+      function getResource () {
+         return java.lang.ClassLoader.getSystemResource("weatherData/"+
+		                       (date == undefined ? todayDate() : date)+".json");
+      }
+      
+      function todayDate () { // return today's date, e.g., 02_14_2012
+	      var currentTime = new Date();
+	      var month = currentTime.getMonth() + 1;
+	      var day = currentTime.getDate();
+	      var year = currentTime.getFullYear();	
+	      return (pad2(month) + "_" + pad2(day) + "_" + year);
+      }
+      
+      function pad2 (number) { return (10 > number ? '0' : '') + number; }
+
+      // dynamically create enumerations for interesting cities 
+      // and friends from JSON data
+
+      function City (name) { this.name = name; }
+      City.prototype.toString = function () { return this.name; }	
+      City.ENUM = {};       
+
+      for (var city in $W.interestCities)
+        City.ENUM[city] = new City(city);
+
+      function Friend (name) { this.name = name; }
+      Friend.prototype.toString = function () { return this.name; }	
+      Friend.ENUM = {}; 
+
+      for (var friend in $W.friendsCities)
+        Friend.ENUM[friend] = new Friend(friend);
+
+  </t:script>    		         
+  
+  <!-- These first three tasks are automatically started by the
+       weather plugin for the "WeatherChat" activity depending on the
+       closeness setting.  Also, the session schema will automatically add
+       Propose.ShouldNot(DiscussWeather) to the menu; see
+       always/user/Activities.xml (these will not show up in Disco test cases).
+
+       For testing, the closeness can be set on the console, e.g.,
+
+       > eval $always.getRM().setCloseness(edu.wpi.always.Closeness.Acquaintance)
+
+       Note: the default for @generate properties on internal tasks (starting with
+       underscore) is false, but can be overridden to true.
+   -->
+
+  <!-- weather task for stranger -->
+
+  <t:task id="_WeatherStranger">
+    <t:subtasks id="stranger">      	
+      <t:step name="local" task="WeatherLocal"/>
+      <t:step name="alerts" task="WeatherAlert"/>
+      <t:step name="city" task="WeatherCity" minOccurs="0" maxOccurs="10"/>
+      <t:step name="ending" task="_Ending"/>
+    </t:subtasks>
+  </t:task>
+
+  <!-- weather task for acquaintance: add stats -->
+
+  <t:task id="_WeatherAcquaintance">
+    <t:subtasks id="acquaintance">
+      <t:step name="local" task="WeatherLocal"/>
+      <t:step name="alerts" task="WeatherAlert"/>
+      <t:step name="city" task="WeatherCity" minOccurs="0" maxOccurs="10"/>
+      <t:step name="stats" task="WeatherAlmanac"/>
+      <t:step name="ending" task="_Ending"/>
+    </t:subtasks>
+  </t:task>
+
+  <!-- weather task for companion: add friends -->
+
+  <t:task id="_WeatherCompanion">
+    <t:subtasks id="companion">
+      <t:step name="local" task="WeatherLocal"/>
+      <t:step name="alerts" task="WeatherAlert"/>
+      <t:step name="city" task="WeatherCity" minOccurs="0" maxOccurs="10"/>
+      <t:step name="stats" task="WeatherAlmanac"/>
+      <t:step name="friend" task="WeatherFriend" minOccurs="0" maxOccurs="10"/>
+      <t:step name="ending" task="_Ending"/>
+    </t:subtasks>
+  </t:task>
+
+  <!-- note we are not displaying radarURL -->
+    
+  <agent id="WeatherLocal" text="Today in {$W.currentWeather.locationName} it is going to be {$W.currentWeather.temperature} fahrenheit and it is {$W.currentWeather.weatherCondition}">
+      <user text="How does it feel outside?">
+	<agent text="With {$W.currentWeather.humidity} humidity, it feels like {$W.currentWeather.temperature} fahrenheit.">
+	  <agent ref="WeatherLocal"/>
+	</agent>
+      </user>
+      <user text="What's the forecast for tomorrow?">
+	<agent id="tomorrow" text=" {$W.forecast[1].summary}">
+	  <agent ref="WeatherLocal"/>
+	</agent>
+      </user>
+      <user text="ok, now I know the local weather!">
+      </user>	
+  </agent>
+    
+  <agent id="WeatherAlert" text="Let me check if there's a severe weather alert in your area.">
+      <user text="That would be helpful.">
+	<agent text="{$W.alert.alertMessage}">
+	  <user text="Good to know."/>
+	</agent>
+      </user>
+      <user text="No, I don't want to know">
+      </user>
+  </agent>  
+     
+  <agent id="WeatherAlmanac"  text="Are you interested in knowing the record weather for today in the history?">
+      <user id="talk_stats_bad_option" text="No, I don't want to">
+	<agent text="Come on.  It is interesting to know those things!">
+	  <user text="Alright. What's the record weather?">
+	    <do task="DoAlmanac" />
+	  </user>
+	  <user text="no thanks">
+	    <agent text="ok"/>
+	  </user>
+	</agent>
+      </user>
+		   
+      <user text="okay I guess">
+	<do task="DoAlmanac"/>
+      </user>        
+		   
+      <user text="yes, tell me.">
+	<do task="DoAlmanac" />
+      </user>
+  </agent>
+    
+  <agent id="DoAlmanac" text="The record high is {$W.almanac.recordHigh.extremeTemp} F. It happened in {$W.almanac.recordHigh.year}.">
+    	<user text="Wow, go on.">
+	  <agent text="The record low is {$W.almanac.recordLow.extremeTemp} F. It happened in  {$W.almanac.recordLow.year}.">
+	    <user text="That's pretty cold.">
+	      <agent text="Yeah.  Compared to the average temperatures of {$W.almanac.recordLow.averageTemp} (low) and {$W.almanac.recordHigh.averageTemp} (high), you can judge the difference.">
+		<user text="yeh, thanks for telling me." />
+		<user text="Sure glad I'm here"/>
+	      </agent>
+	    </user>
+	    <user text="That sounds about right"/>
+	  </agent>
+	</user>
+	<user text="uh-huh.  That's enough"/>
+  </agent>
+
+  <!-- one could add a conversation to record in user model which cities the user
+       is interested in for future weather chats -->
+
+  <t:task id="WeatherCity">
+    <t:input name="city" type="City"/>
+    <t:subtasks id="weatherCity">
+      <t:step name="say" task="disco:Say.Agent"/>
+      <t:binding slot="$say.text"
+                 value="$this.city == undefined ? undefined :
+                        ( $W.interestCities[$this.city.name].comment +
+                          ' The temperature is ' + 
+                          $W.interestCities[$this.city.name].temperature +
+                          ' fahrenheit.  It is ' +
+                          $W.interestCities[$this.city.name].weatherCondition +
+                          ' now.' )" />
+    </t:subtasks>     
+  </t:task>
+
+  <t:task id="WeatherFriend">
+    <t:input name="friend" type="Friend"/>
+    <t:subtasks id="weatherFriend">
+      <t:step name="say1" task="disco:Say.Agent"/>
+      <t:step name="say2" task="disco:Say.User"/>
+      <t:step name="say3" task="disco:Say.Agent"/>
+      <t:binding slot="$say1.text"
+                 value="$this.friend == undefined ? undefined :
+                        ( $this.friend.name + ' is in ' +
+                          $W.friendsCities[$this.friend.name].locationName +
+                          '. Right now it is ' + 
+                          $W.friendsCities[$this.friend.name].temperature +
+                          ' fahrenheit.' )" />
+      <t:binding slot="$say2.text" value="'go on'"/>
+      <t:binding slot="$say3.text"
+                 value="$this.friend == undefined ? undefined :
+                        ( 'And the weather condition is ' +
+                          $W.friendsCities[$this.friend.name].weatherCondition )" />
+      </t:subtasks>     
+  </t:task>
+
+  <agent id="_Ending" text="well, weather sure is interesting.">
+    <user text="yes. I love talking about weather">
+      <agent text="yeh, me too. That's it for now "/>
+    </user>
+    <user text="yes, I need to know the weather before I go out">
+      <agent text="Feel free to ask me!" />
+    </user>
+    <user text="yes, but I only want to know about it sometimes">
+      <agent text="I'm ready to talk about it whenever you want"/>
+    </user>
+  </agent>
+
+</model>
