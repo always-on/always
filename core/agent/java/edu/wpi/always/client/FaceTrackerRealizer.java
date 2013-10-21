@@ -2,11 +2,8 @@ package edu.wpi.always.client;
 
 import java.awt.Point;
 import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.cm.perceptors.sensor.face.FaceDetection;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
 import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
-import edu.wpi.always.*;
-import edu.wpi.always.client.*;
 
 public class FaceTrackerRealizer extends
       PrimitiveRealizerBase<FaceTrackBehavior> {

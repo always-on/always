@@ -12,6 +12,7 @@ import edu.wpi.always.user.*;
 import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public class CollaborationManager extends DiscoRT {
 
@@ -21,6 +22,7 @@ public class CollaborationManager extends DiscoRT {
    public CollaborationManager (MutablePicoContainer parent) {
       super(parent);
       this.parent = parent;
+      SCHEMA_INTERVAL = 500;
       container.removeComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
@@ -40,14 +42,14 @@ public class CollaborationManager extends DiscoRT {
       
       switch ( Always.getAgentType() ) {
          case Unity:
-            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Agent.class);
             break;
          case Reeti:
-            container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);  
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);  
             reetiSocket = new ReetiCommandSocketConnection();
             break;
          case Mirror:
-            container.as(Characteristics.CACHE).addComponent(MirrorShoreFacePerceptor.class);
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Mirror.class);
             reetiSocket = new ReetiCommandSocketConnection();
             break;
       }
@@ -76,7 +78,7 @@ public class CollaborationManager extends DiscoRT {
    public void stop () {
       super.stop();
       if (reetiSocket != null ) reetiSocket.close();
-      System.out.println("Collaboration Manager stopped.");
+      Utils.lnprint(System.out, "Collaboration Manager stopped.");
    }
 
 }

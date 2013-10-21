@@ -33,8 +33,8 @@
          <step name="__ExplainPlayRummy_ref" task="__ExplainPlayRummy_tree"/>
          <binding slot="$__ExplainPlayRummy_step.text"
                   value="&#34;We can play cards together.  In particular we can play rummy.  Other computers can play cards, but they just make the moves, and then give you a turn.  When we play cards, we can talk about our hands and anything else you want while we play the game.&#34;"/>
-         <binding slot="$__ExplainPlayRummy_step.eval" value="&#34;Activity.ALL.PlayRummy.setFlag()&#34;"/>
          <binding slot="$__ExplainPlayRummy_step.external" value="false"/>
+         <binding slot="$__ExplainPlayRummy_step.eval" value="&#34;Activity.ALL.PlayRummy.setFlag()&#34;"/>
       </subtasks>
    </task>
    <task id="_ExplainUseCalendar">
@@ -52,9 +52,9 @@
          <step name="__ExplainDiscussWeather_ref" task="__ExplainDiscussWeather_tree"/>
          <binding slot="$__ExplainDiscussWeather_step.text"
                   value="&#34;We've already talked about the weather.  BUT I can do more!  I can get information from the internet about weather just about anywhere&#34;"/>
+         <binding slot="$__ExplainDiscussWeather_step.external" value="false"/>
          <binding slot="$__ExplainDiscussWeather_step.eval"
                   value="&#34;Activity.ALL.DiscussWeather.setFlag()&#34;"/>
-         <binding slot="$__ExplainDiscussWeather_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_ExplainDiscussFamily">
@@ -72,8 +72,8 @@
          <step name="__ExplainTellStory_ref" task="__ExplainTellStory_tree"/>
          <binding slot="$__ExplainTellStory_step.text"
                   value="&#34;You can tell me a story about your life.  I will pay attention even though I won't understand most of what you say.  When you are done, you can save the story, and if you want, send it out to friends.&#34;"/>
-         <binding slot="$__ExplainTellStory_step.eval" value="&#34;Activity.ALL.TellStory.setFlag()&#34;"/>
          <binding slot="$__ExplainTellStory_step.external" value="false"/>
+         <binding slot="$__ExplainTellStory_step.eval" value="&#34;Activity.ALL.TellStory.setFlag()&#34;"/>
       </subtasks>
    </task>
    <task id="_ExplainPlanExercise">
@@ -120,15 +120,15 @@
       <subtasks id="_d4e17_subtasks">
          <step name="_d4e17_step" task="disco:Say$Eval"/>
          <binding slot="$_d4e17_step.text" value="&#34;no thanks.&#34;"/>
-         <binding slot="$_d4e17_step.eval" value="&#34;noThanks=true&#34;"/>
          <binding slot="$_d4e17_step.external" value="true"/>
+         <binding slot="$_d4e17_step.eval" value="&#34;noThanks=true&#34;"/>
       </subtasks>
       <subtasks id="_d4e18_subtasks">
          <step name="_d4e18_step" task="disco:Say$Eval"/>
          <binding slot="$_d4e18_step.text"
                   value="&#34;I would rather hear about all the activities again&#34;"/>
-         <binding slot="$_d4e18_step.eval" value="&#34;Activity.ENUM = Activity.ALL&#34;"/>
          <binding slot="$_d4e18_step.external" value="true"/>
+         <binding slot="$_d4e18_step.eval" value="&#34;Activity.ENUM = Activity.ALL&#34;"/>
       </subtasks>
    </task>
    <task id="__EndExplaining_tree">
@@ -164,8 +164,8 @@
       <subtasks id="_d4e48_subtasks">
          <step name="_d4e48_step" task="disco:Say$Eval"/>
          <binding slot="$_d4e48_step.text" value="&#34;Ok&#34;"/>
-         <binding slot="$_d4e48_step.eval" value="&#34;Activity.ALL.UseCalendar.setFlag()&#34;"/>
          <binding slot="$_d4e48_step.external" value="true"/>
+         <binding slot="$_d4e48_step.eval" value="&#34;Activity.ALL.UseCalendar.setFlag()&#34;"/>
       </subtasks>
       <subtasks id="_d4e49_subtasks">
          <step name="_d4e49_step" task="disco:Say"/>
@@ -176,8 +176,8 @@
          <binding slot="$_d4e49_step.external" value="true"/>
          <binding slot="$_d4e50_step.text"
                   value="&#34;well, I will ask you about some event you plan to do, like go to the doctor.  After you tell me the day and time, I'll show you the calendar with that event.  You can change it later if you want.&#34;"/>
-         <binding slot="$_d4e50_step.eval" value="&#34;Activity.ALL.UseCalendar.setFlag()&#34;"/>
          <binding slot="$_d4e50_step.external" value="false"/>
+         <binding slot="$_d4e50_step.eval" value="&#34;Activity.ALL.UseCalendar.setFlag()&#34;"/>
       </subtasks>
    </task>
    <task id="_d4e50_tree">
@@ -254,8 +254,8 @@
          <binding slot="$_d4e64_step.external" value="true"/>
          <binding slot="$_d4e65_step.text"
                   value="&#34;When I know about your family, I can give you weather information where they live, and I can help you with your calendar.&#34;"/>
-         <binding slot="$_d4e65_step.eval" value="&#34;Activity.ALL.DiscussFamily.setFlag()&#34;"/>
          <binding slot="$_d4e65_step.external" value="false"/>
+         <binding slot="$_d4e65_step.eval" value="&#34;Activity.ALL.DiscussFamily.setFlag()&#34;"/>
       </subtasks>
    </task>
    <task id="_d4e65_tree">
@@ -325,8 +325,8 @@
          <binding slot="$_d4e80_step.external" value="true"/>
          <binding slot="$_d4e81_step.text"
                   value="&#34;I can help you work out an exercise plan, including getting a walking buddy.  I can also follow up with you every day once you start walking.&#34;"/>
-         <binding slot="$_d4e81_step.eval" value="&#34;Activity.ALL.PlanExercise.setFlag()&#34;"/>
          <binding slot="$_d4e81_step.external" value="false"/>
+         <binding slot="$_d4e81_step.eval" value="&#34;Activity.ALL.PlanExercise.setFlag()&#34;"/>
       </subtasks>
    </task>
    <task id="_d4e81_tree">

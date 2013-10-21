@@ -7,7 +7,7 @@
          <step name="_WeatherLocal_step" task="disco:Say$Expression"/>
          <step name="_WeatherLocal_ref" task="_WeatherLocal_tree"/>
          <binding slot="$_WeatherLocal_step.text"
-                  value="&#34;\&#34;Today in \&#34;+($W.currentWeather.locationName)+\&#34; it is going to be \&#34;+($W.currentWeather.temperature)+\&#34; fahrenheit and it is \&#34;+($W.currentWeather.weatherCondition)+\&#34;\&#34;&#34;"/>
+                  value="&#34;\&#34;Today in \&#34;+($W.currentWeather.locationName)+\&#34; it is going to be \&#34;+($W.currentWeather.temperature)+\&#34; fahrenheit and it is \&#34;+($W.currentWeather.weatherCondition)&#34;"/>
          <binding slot="$_WeatherLocal_step.external" value="false"/>
       </subtasks>
    </task>
@@ -56,7 +56,6 @@
          <binding slot="$_d4e33_step.text"
                   value="&#34;\&#34;With \&#34;+($W.currentWeather.humidity)+\&#34; humidity, it feels like \&#34;+($W.currentWeather.temperature)+\&#34; fahrenheit.\&#34;&#34;"/>
          <binding slot="$_d4e33_step.external" value="false"/>
-         <binding slot="$_d4e34_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e35_subtasks">
          <step name="_d4e35_step" task="disco:Say"/>
@@ -64,9 +63,8 @@
          <step name="_d4e37_step" task="_WeatherLocal_tree"/>
          <binding slot="$_d4e35_step.text" value="&#34;What's the forecast for tomorrow?&#34;"/>
          <binding slot="$_d4e35_step.external" value="true"/>
-         <binding slot="$_tomorrow_step.text" value="&#34;\&#34; \&#34;+($W.forecast[1].summary)+\&#34;\&#34;&#34;"/>
+         <binding slot="$_tomorrow_step.text" value="&#34;\&#34; \&#34;+($W.forecast[1].summary)&#34;"/>
          <binding slot="$_tomorrow_step.external" value="false"/>
-         <binding slot="$_d4e37_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e38_subtasks">
          <step name="_d4e38_step" task="disco:Say"/>
@@ -258,15 +256,15 @@
   
       var date; // initialize with date to use (today if undefined)
       
-      // load date from always/user (must be on classpath!)
+      // load data from always/user (must be on classpath!)
 
       var resource = getResource(); 
-		if ( resource == null ) {
-		   println("Cannot find weather data for "+todayDate());
-		   println("Using testing data...");
-		   date = "testing";
-		   resource = getResource();
-		} 
+      if ( resource == null ) {
+		 println("Cannot find weather data for "+todayDate());
+		 println("Using testing data...");
+		 date = "testing";
+		 resource = getResource();
+      } 
 		
       var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(resource.openStream()));
 

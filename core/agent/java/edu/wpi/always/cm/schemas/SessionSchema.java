@@ -5,29 +5,33 @@ import org.picocontainer.MutablePicoContainer;
 import edu.wpi.always.*;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.cetask.*;
-import edu.wpi.disco.*;
+import edu.wpi.disco.Agenda;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
-import edu.wpi.disco.rt.ResourceMonitor;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
-import edu.wpi.disco.rt.schema.Schema;
-import edu.wpi.disco.rt.util.DiscoDocument;
+import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.util.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    private final MutablePicoContainer container; // for plugins
    private final Stop stop;
    private final ClientProxy proxy;
+   private final SchemaManager schemaManager;
    
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction,
-         ClientProxy proxy, Always always) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
+         MenuPerceptor menuPerceptor, ClientProxy proxy,
+         SchemaManager schemaManager, Always always, 
+         DiscoRT.Interaction interaction) {
+      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
       this.proxy = proxy;
+      this.schemaManager = schemaManager;
       container = always.getContainer();
-      stop = new Stop(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
+      stop = new Stop(interaction);
       DiscoDocument session = always.getRM().getSession();
       if ( session != null ) {
          interaction.load("Relationship Manager", 
@@ -61,8 +65,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             if ( schema.isDone() ) {
                stop(plan);
                stateMachine.setState(discoAdjacencyPair);
-            }
-            else yield(plan);
+            } else yield(plan);
          } else {
             TaskClass task = plan.getType();
             if ( Plugin.isPlugin(task) &&
@@ -70,6 +73,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                started.put(plan,
                   Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
                plan.setStarted(true);
+               Utils.lnprint(System.out, "Starting "+plan.getType()+"...");
+               history();
                yield(plan);
             }
          }
@@ -80,6 +85,14 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       //    -focused task stopped
       //    -session plan exhausted 
       propose(stateMachine);
+   }
+   
+   @Override
+   public void dispose () {
+      super.dispose();
+      // restart if fails for some reason
+      Utils.lnprint(System.out, "Restarting SessionSchema...");
+      schemaManager.start(getClass());
    }
    
    private void yield (Plan plan) {
@@ -97,6 +110,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       started.remove(plan.getGoal());
       proxy.showMenu(Collections.<String>emptyList(), false, true); // clear extension menu
       proxy.hidePlugin();
+      Utils.lnprint(System.out, "Returning to Session...");
+      history(); // before update
       discoAdjacencyPair.update();
       stateMachine.setExtension(false);
       stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
@@ -109,10 +124,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       
       private void setPlan (Plan plan) { this.plan = plan; }
       
-      public Stop (BehaviorProposalReceiver behaviorReceiver,
-         BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction) {
-         super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
+      public Stop (DiscoRT.Interaction interaction) {
+         super(interaction);
       }
       
       @Override
@@ -140,7 +153,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       @Override
       public String getMessage () {
          String text = inner.getMessage();
-         return text == null ? "Ok." : ("Ok. " + text);
+         return text == null ? "Ok." : ("Ok. Now. " + text);
       }
    }
 }

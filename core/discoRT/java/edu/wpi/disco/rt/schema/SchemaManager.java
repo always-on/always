@@ -3,6 +3,7 @@ package edu.wpi.disco.rt.schema;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.behavior.Behavior;
+import edu.wpi.disco.rt.util.Utils;
 import org.picocontainer.*;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
@@ -12,7 +13,6 @@ public class SchemaManager {
    private final MutablePicoContainer container;
    private final Scheduler scheduler;
    private final List<Class<? extends Schema>> toRunAtStartUp = new ArrayList<Class<? extends Schema>>();
-   private final List<Class<? extends Schema>> alwaysAvailableOnes = new ArrayList<Class<? extends Schema>>();
    private final Map<Class<? extends Schema>, SchemaFactory> factories = new HashMap<Class<? extends Schema>, SchemaFactory>();
    private boolean startUpDone = false;
 
@@ -30,7 +30,7 @@ public class SchemaManager {
    }
 
    public <T extends Schema> T start (Class<T> type) {
-      if ( DiscoRT.TRACE ) System.out.println("Starting: "+type);
+      if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Starting: "+type);
       T instance = null;
       if ( factories.containsKey(type) ) {
          SchemaFactory factory = factories.get(type);
@@ -97,9 +97,4 @@ public class SchemaManager {
       }
 
    }
-
-   public List<Class<? extends Schema>> getAlwaysAvailableSchemas () {
-      return Collections.unmodifiableList(alwaysAvailableOnes);
-   }
-
 }

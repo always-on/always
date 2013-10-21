@@ -149,7 +149,7 @@ public class Transition {
    public String toString () {
       lock.readLock().lock();
       try {
-         return "tran " + asString(getInputs()) + "\n=> "
+         return "tran " + asString(getInputs()) + System.lineSeparator() + "=> "
             + asString(getOutputs());
       } finally {
          lock.readLock().unlock();

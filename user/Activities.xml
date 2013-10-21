@@ -13,6 +13,8 @@
   <task id="GreetUser"/>
 
   <task id="UseCalendar"/>
+  
+  <task id="UseSkype"/>
 
   <task id="PlayRummy"/>
   
@@ -25,8 +27,6 @@
   <task id="ExplainSelf"/>
   
   <task id="TellAnecdotes"/>
-  
-  <task id="DiscussBaseball"/>
   
   <script init="true">
 

@@ -18,13 +18,13 @@ public class CandidateBehaviorsContainer implements
    public void add (Schema schema, Behavior behavior, BehaviorMetadata metadata) {
       newProposals.add(new CandidateBehavior(behavior, schema, metadata));
    }
-
-   @Override
-   public void cancel (Schema schema) { candidates.remove(schema); }
    
    @Override
    public List<CandidateBehavior> all () {
       copyNewProposalsToCandidatesList();
+      Iterator<Map.Entry<Schema,CandidateBehavior>> i = candidates.entrySet().iterator();
+      while (i.hasNext())
+         if ( i.next().getKey().isDone() ) i.remove();
       return ImmutableList.copyOf(candidates.values());
    }
 

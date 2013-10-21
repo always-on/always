@@ -50,7 +50,7 @@ public class AgentResources extends Resources {
    /**
     * Resource for agent's idling. ??????
     * 
-    * @see ??IdleBehavior??
+    * see ??IdleBehavior??
     */
    public static final Resource IDLE = new Resource() {
       @Override
