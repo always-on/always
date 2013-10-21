@@ -131,10 +131,9 @@ public class TTTClient implements TTTUI {
          return commentingManager.getHumanCommentingOptionsForHumanMove(
                gameState, latestHumanMove,
                gameState.getGameSpecificCommentingTags());
-      else
-         return commentingManager.getHumanCommentingOptionsForAgentMove(
-               gameState, latestAgentMove,
-               gameState.getGameSpecificCommentingTags());
+      return commentingManager.getHumanCommentingOptionsForAgentMove(
+            gameState, latestAgentMove,
+            gameState.getGameSpecificCommentingTags());
    }
 
    @Override
