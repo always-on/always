@@ -29,14 +29,19 @@ public abstract class SchemaBase implements Schema {
  
    @Override
    public void cancel () { 
+      // mayInterruptIfRunning is false, because might leave 
+      // something in inconsistent state
       if ( future != null ) future.cancel(false);
-      behaviorReceiver.cancel(this);
+      future = null;
    }
- 
+
    @Override
    public boolean isDone () {
       return future == null || future.isDone();
    }
+   
+   @Override
+   public void dispose () {}
    
    private long focusMillis;
    

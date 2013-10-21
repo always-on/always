@@ -6,6 +6,7 @@ import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.IRealizer;
 import edu.wpi.disco.rt.schema.Schema;
+import edu.wpi.disco.rt.util.Utils;
 import java.util.*;
 
 public class Arbitrator implements Runnable {
@@ -51,7 +52,7 @@ public class Arbitrator implements Runnable {
                   proposer.focus();
                   if ( proposer != focusSchema ) {
                      focusSchema = proposer;
-                     /* if ( DiscoRT.TRACE ) */ System.out.println("New focus: "+focusSchema);
+                     /* if ( DiscoRT.TRACE ) */ Utils.lnprint(System.out, "New focus: "+focusSchema);
                   }
                   break;
                }

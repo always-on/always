@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
            xmlns:disco="urn:disco.wpi.edu:Disco"
-           about="urn:disco.wpi.edu:models:TalkAbout">
+           about="urn:disco.wpi.edu:models:About">
    <task id="_MoreAboutX">
       <subtasks id="__MoreAboutX_subtasks">
          <step name="__MoreAboutX_step" task="disco:Say$Expression"/>
@@ -72,8 +72,8 @@
          <binding slot="$_d4e39_step.text" value="&#34;Yes, that's right | Uh-huh&#34;"/>
          <binding slot="$_d4e39_step.external" value="true"/>
          <binding slot="$_d4e40_step.text" value="&#34;so how did it go?&#34;"/>
-         <binding slot="$_d4e40_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e40_step.external" value="false"/>
+         <binding slot="$_d4e40_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e56_subtasks">
          <step name="_d4e56_step" task="disco:Say"/>
@@ -91,8 +91,8 @@
          <step name="_d4e70_step" task="_HowIsXDoing"/>
          <applicable>statusFamFriend =='got a new friend'</applicable>
          <binding slot="$_d4e69_step.text" value="&#34;Yes, that's right | Uh-huh&#34;"/>
-         <binding slot="$_d4e69_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e69_step.external" value="true"/>
+         <binding slot="$_d4e69_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e71_subtasks">
          <step name="_d4e71_step" task="disco:Say$Expression$Eval"/>
@@ -100,8 +100,8 @@
          <applicable>statusFamFriend =='went shopping'</applicable>
          <binding slot="$_d4e71_step.text"
                   value="&#34;\&#34;yes, \&#34;+(pronounSubj)+\&#34; did | yes, that's right\&#34;&#34;"/>
-         <binding slot="$_d4e71_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e71_step.external" value="true"/>
+         <binding slot="$_d4e71_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e73_subtasks">
          <step name="_d4e73_step" task="disco:Say"/>
@@ -197,8 +197,8 @@
          <binding slot="$_d4e58_step.text" value="&#34;no not really&#34;"/>
          <binding slot="$_d4e58_step.external" value="true"/>
          <binding slot="$_d4e59_step.text" value="&#34;okay&#34;"/>
-         <binding slot="$_d4e59_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e59_step.external" value="false"/>
+         <binding slot="$_d4e59_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e61_subtasks">
          <step name="_d4e61_step" task="disco:Say"/>
@@ -206,8 +206,8 @@
          <binding slot="$_d4e61_step.text" value="&#34;just more about the grandchild&#34;"/>
          <binding slot="$_d4e61_step.external" value="true"/>
          <binding slot="$_d4e62_step.text" value="&#34;I see&#34;"/>
-         <binding slot="$_d4e62_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e62_step.external" value="false"/>
+         <binding slot="$_d4e62_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e64_subtasks">
          <step name="_d4e64_step" task="disco:Say$Expression"/>
@@ -215,8 +215,8 @@
          <binding slot="$_d4e64_step.text" value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; is fine\&#34;&#34;"/>
          <binding slot="$_d4e64_step.external" value="true"/>
          <binding slot="$_d4e65_step.text" value="&#34;glad to hear it&#34;"/>
-         <binding slot="$_d4e65_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e65_step.external" value="false"/>
+         <binding slot="$_d4e65_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e67_subtasks">
          <step name="_d4e67_step" task="disco:Say$Expression"/>
@@ -231,8 +231,8 @@
          <step name="_d4e77_step" task="disco:Say"/>
          <step name="_d4e77_ref" task="_d4e77_tree"/>
          <binding slot="$_d4e75_step.text" value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; came already\&#34;&#34;"/>
-         <binding slot="$_d4e75_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e75_step.external" value="true"/>
+         <binding slot="$_d4e75_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e77_step.text" value="&#34;was it a good visit?&#34;"/>
          <binding slot="$_d4e77_step.external" value="false"/>
       </subtasks>
@@ -310,8 +310,8 @@
          <binding slot="$_d4e112_step.text" value="&#34;Yes, that's right | Uh-huh&#34;"/>
          <binding slot="$_d4e112_step.external" value="true"/>
          <binding slot="$_d4e113_step.text" value="&#34;Is that still the case?&#34;"/>
-         <binding slot="$_d4e113_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e113_step.external" value="false"/>
+         <binding slot="$_d4e113_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e121_subtasks">
          <step name="_d4e121_step" task="disco:Say"/>
@@ -321,8 +321,8 @@
          <binding slot="$_d4e121_step.text" value="&#34;Yes, that's right | Uh-huh&#34;"/>
          <binding slot="$_d4e121_step.external" value="true"/>
          <binding slot="$_d4e122_step.text" value="&#34;That takes a long time to recover from&#34;"/>
-         <binding slot="$_d4e122_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e122_step.external" value="false"/>
+         <binding slot="$_d4e122_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e131_subtasks">
          <step name="_d4e131_step" task="disco:Say"/>
@@ -342,8 +342,8 @@
          <binding slot="$_d4e92_step.text" value="&#34;Yes, pretty well&#34;"/>
          <binding slot="$_d4e92_step.external" value="true"/>
          <binding slot="$_d4e93_step.text" value="&#34;That's good to hear&#34;"/>
-         <binding slot="$_d4e93_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e93_step.external" value="false"/>
+         <binding slot="$_d4e93_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e95_subtasks">
          <step name="_d4e95_step" task="disco:Say$Expression"/>
@@ -476,9 +476,9 @@
          <binding slot="$_d4e129_step.text" value="&#34;I don't want to talk about this anymore&#34;"/>
          <binding slot="$_d4e129_step.external" value="true"/>
          <binding slot="$_d4e130_step.text" value="&#34;okay, I understand&#34;"/>
+         <binding slot="$_d4e130_step.external" value="false"/>
          <binding slot="$_d4e130_step.eval"
                   value="&#34;famFriend.setAboutMentioned(false);       famFriend.setAboutStatus(null);       famFriend.setAboutComment(null);&#34;"/>
-         <binding slot="$_d4e130_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_d4e124_tree">
@@ -509,8 +509,8 @@
          <step name="_d4e134_step" task="disco:Say$Expression"/>
          <binding slot="$_d4e133_step.text"
                   value="&#34;\&#34;yes \&#34;+(pronounSubj)+\&#34; is up and around\&#34;&#34;"/>
-         <binding slot="$_d4e133_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e133_step.external" value="true"/>
+         <binding slot="$_d4e133_step.eval" value="&#34;reset(famFriend);&#34;"/>
          <binding slot="$_d4e134_step.text"
                   value="&#34;\&#34;Oh that's good to know | That is good news! | I bet you are glad for \&#34;+(pronounObj)&#34;"/>
          <binding slot="$_d4e134_step.external" value="false"/>
@@ -593,9 +593,9 @@
          <step name="_d4e152_ref" task="_d4e152_tree"/>
          <binding slot="$_d4e150_step.text"
                   value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; has a new grandchild\&#34;&#34;"/>
+         <binding slot="$_d4e150_step.external" value="true"/>
          <binding slot="$_d4e150_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);        positive(famFriend);       famFriend.setAboutComment('had a new grandchild');&#34;"/>
-         <binding slot="$_d4e150_step.external" value="true"/>
          <binding slot="$_d4e152_step.text" value="&#34;\&#34;oh that's great for \&#34;+(pronounObj)&#34;"/>
          <binding slot="$_d4e152_step.external" value="false"/>
       </subtasks>
@@ -605,9 +605,9 @@
          <step name="_d4e163_ref" task="_d4e163_tree"/>
          <binding slot="$_clothes_step.text"
                   value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; went shopping for new clothes\&#34;&#34;"/>
+         <binding slot="$_clothes_step.external" value="true"/>
          <binding slot="$_clothes_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);         positive(famFriend);        famFriend.setAboutComment('went shopping');&#34;"/>
-         <binding slot="$_clothes_step.external" value="true"/>
          <binding slot="$_d4e163_step.text" value="&#34;how nice to get new clothes&#34;"/>
          <binding slot="$_d4e163_step.external" value="false"/>
       </subtasks>
@@ -619,9 +619,9 @@
          <step name="_d4e171_ref" task="_d4e171_tree"/>
          <binding slot="$_vacation_step.text"
                   value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; is going on vacation\&#34;&#34;"/>
+         <binding slot="$_vacation_step.external" value="true"/>
          <binding slot="$_vacation_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);       positive(famFriend);       famFriend.setAboutComment('was going on vacation');&#34;"/>
-         <binding slot="$_vacation_step.external" value="true"/>
          <binding slot="$_d4e169_step.text"
                   value="&#34;oh really, where?  Want me to keep track in weather updates?&#34;"/>
          <binding slot="$_d4e169_step.external" value="false"/>
@@ -636,9 +636,9 @@
          <step name="_d4e177_step" task="disco:Say"/>
          <binding slot="$_newfriend_step.text"
                   value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; has a new friend\&#34;&#34;"/>
+         <binding slot="$_newfriend_step.external" value="true"/>
          <binding slot="$_newfriend_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);        positive(famFriend);       famFriend.setAboutComment('got a new friend');&#34;"/>
-         <binding slot="$_newfriend_step.external" value="true"/>
          <binding slot="$_d4e177_step.text" value="&#34;well, that's good.&#34;"/>
          <binding slot="$_d4e177_step.external" value="false"/>
       </subtasks>
@@ -648,9 +648,9 @@
          <step name="_d4e180_ref" task="_d4e180_tree"/>
          <binding slot="$_d4e178_step.text"
                   value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; is coming to visit me\&#34;&#34;"/>
+         <binding slot="$_d4e178_step.external" value="true"/>
          <binding slot="$_d4e178_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);        positive(famFriend);       famFriend.setAboutComment('was coming to visit you');&#34;"/>
-         <binding slot="$_d4e178_step.external" value="true"/>
          <binding slot="$_d4e180_step.text"
                   value="&#34;great for you.  When we do your calendar, we can add the visit&#34;"/>
          <binding slot="$_d4e180_step.external" value="false"/>
@@ -755,9 +755,9 @@
          <step name="_d4e193_ref" task="_d4e193_tree"/>
          <binding slot="$_d4e190_step.text"
                   value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; is ill | \&#34;+(famFriendName)+\&#34; is ill\&#34;&#34;"/>
+         <binding slot="$_d4e190_step.external" value="true"/>
          <binding slot="$_d4e190_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);    negative(famFriend);   famFriend.setAboutComment('was ill');&#34;"/>
-         <binding slot="$_d4e190_step.external" value="true"/>
          <binding slot="$_d4e193_step.text" value="&#34;I hope it's not serious&#34;"/>
          <binding slot="$_d4e193_step.external" value="false"/>
       </subtasks>
@@ -766,9 +766,9 @@
          <step name="_d4e205_step" task="disco:Say$Expression"/>
          <step name="_d4e205_ref" task="_d4e205_tree"/>
          <binding slot="$_d4e202_step.text" value="&#34;\&#34;  \&#34;+(pronounSubj)+\&#34; had an accident\&#34;&#34;"/>
+         <binding slot="$_d4e202_step.external" value="true"/>
          <binding slot="$_d4e202_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);    negative(famFriend);   famFriend.setAboutComment('had an accident');&#34;"/>
-         <binding slot="$_d4e202_step.external" value="true"/>
          <binding slot="$_d4e205_step.text"
                   value="&#34;\&#34; Is \&#34;+(pronounSubj)+\&#34; in the hospital?\&#34;&#34;"/>
          <binding slot="$_d4e205_step.external" value="false"/>
@@ -779,9 +779,9 @@
          <step name="_d4e230_ref" task="_d4e230_tree"/>
          <binding slot="$_d4e227_step.text"
                   value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; lost a family member \&#34;&#34;"/>
+         <binding slot="$_d4e227_step.external" value="true"/>
          <binding slot="$_d4e227_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);       negative(famFriend);       famFriend.setAboutComment('lost a family member');&#34;"/>
-         <binding slot="$_d4e227_step.external" value="true"/>
          <binding slot="$_d4e230_step.text" value="&#34;that's very sad&#34;"/>
          <binding slot="$_d4e230_step.external" value="false"/>
       </subtasks>
@@ -790,9 +790,9 @@
          <step name="_d4e247_step" task="disco:Say$Expression"/>
          <step name="_d4e247_ref" task="_d4e247_tree"/>
          <binding slot="$_d4e244_step.text" value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; is pretty lonely\&#34;&#34;"/>
+         <binding slot="$_d4e244_step.external" value="true"/>
          <binding slot="$_d4e244_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);        negative(famFriend);       famFriend.setAboutComment('was lonely');&#34;"/>
-         <binding slot="$_d4e244_step.external" value="true"/>
          <binding slot="$_d4e247_step.text"
                   value="&#34;\&#34;I see.  You could give \&#34;+(pronounObj)+\&#34; a call or talk to \&#34;+(pronounObj)+\&#34; by SKYPE\&#34;&#34;"/>
          <binding slot="$_d4e247_step.external" value="false"/>

@@ -29,4 +29,10 @@ public interface Schema extends Runnable {
     * Called by schema manager.
     */
    void setFuture (ScheduledFuture<?> future);
+   
+   /**
+    * Called by scheduler when schema is finished running (either normally or
+    * due to error).
+    */
+   void dispose ();
 }

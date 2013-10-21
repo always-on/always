@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<model about="urn:disco.wpi.edu:models:TalkAbout" 
+<model about="urn:disco.wpi.edu:models:About" 
        xmlns="http://www.cs.wpi.edu/~rich/d4g" 
        xmlns:t="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext">
 

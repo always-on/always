@@ -1,12 +1,12 @@
 package edu.wpi.disco.rt.realizer.petri;
 
-import edu.wpi.cetask.Utils;
-import edu.wpi.disco.rt.DiscoRT;
-import edu.wpi.disco.rt.realizer.petri.Place.State;
-import edu.wpi.disco.rt.util.ThreadPools;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
+import edu.wpi.disco.rt.util.Utils;
+import edu.wpi.disco.rt.DiscoRT;
+import edu.wpi.disco.rt.realizer.petri.Place.State;
+import edu.wpi.disco.rt.util.ThreadPools;
 
 public class PetriNetRunner implements Runnable {
 
@@ -37,7 +37,7 @@ public class PetriNetRunner implements Runnable {
                continue;
             }
             try {
-               if ( DiscoRT.TRACE) System.out.println("\nPetriNetRunner: waiting for Place <" + p + ">");
+               if ( DiscoRT.TRACE) Utils.lnprint(System.out, "PetriNetRunner: waiting for Place <" + p + ">");
                future.get();
             } catch (InterruptedException e) {
             } catch (ExecutionException e) {
@@ -45,7 +45,7 @@ public class PetriNetRunner implements Runnable {
                // Place behavior may have set success and then an exception
                // happened
                if ( p.getState() == Place.State.ExecutionSuccessful ) {
-                  Utils.rethrow("Place executed successfuly, but an ExecutionException was thrown: ", e);
+                  edu.wpi.cetask.Utils.rethrow("Place executed successfuly, but an ExecutionException was thrown: ", e);
                } else {
                   failedPlaces.add(p);
                }

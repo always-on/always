@@ -24,7 +24,8 @@ import edu.wpi.disco.User;
 import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.behavior.SpeechMarkupBehavior;
-import edu.wpi.disco.rt.util.ComponentRegistry;
+import edu.wpi.disco.rt.schema.Schema;
+import edu.wpi.disco.rt.util.*;
 
 public class Always {
 
@@ -193,7 +194,7 @@ public class Always {
 
    public void stop () { 
       container.stop();
-      System.out.println("Always stopped.");
+      Utils.lnprint(System.out, "Always stopped.");
    }
    
    private void register () {

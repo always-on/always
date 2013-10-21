@@ -15,8 +15,8 @@
          <step name="__Baseball_Saw_Game_step" task="disco:Say$Eval"/>
          <step name="__Baseball_Saw_Game_ref" task="__Baseball_Saw_Game_tree"/>
          <binding slot="$__Baseball_Saw_Game_step.text" value="&#34;What did you think of it?&#34;"/>
-         <binding slot="$__Baseball_Saw_Game_step.eval" value="&#34;talkedAboutLG=true;&#34;"/>
          <binding slot="$__Baseball_Saw_Game_step.external" value="false"/>
+         <binding slot="$__Baseball_Saw_Game_step.eval" value="&#34;talkedAboutLG=true;&#34;"/>
       </subtasks>
    </task>
    <task id="_GetRecap">
@@ -41,15 +41,15 @@
          <step name="_d4e4_step" task="disco:Say$Eval"/>
          <step name="_d4e5_step" task="_DiscussLastGame"/>
          <binding slot="$_d4e4_step.text" value="&#34;The Yankees.&#34;"/>
-         <binding slot="$_d4e4_step.eval" value="&#34;preferredTeam = 'Yankees' &#34;"/>
          <binding slot="$_d4e4_step.external" value="true"/>
+         <binding slot="$_d4e4_step.eval" value="&#34;preferredTeam = 'Yankees' &#34;"/>
       </subtasks>
       <subtasks id="_d4e6_subtasks">
          <step name="_d4e6_step" task="disco:Say$Eval"/>
          <step name="_d4e8_step" task="_SmartRemark"/>
          <binding slot="$_d4e6_step.text" value="&#34;The Red Sox.&#34;"/>
-         <binding slot="$_d4e6_step.eval" value="&#34;preferredTeam = 'Yankees' &#34;"/>
          <binding slot="$_d4e6_step.external" value="true"/>
+         <binding slot="$_d4e6_step.eval" value="&#34;preferredTeam = 'Yankees' &#34;"/>
       </subtasks>
    </task>
    <task id="__Baseball_Saw_Game_tree">

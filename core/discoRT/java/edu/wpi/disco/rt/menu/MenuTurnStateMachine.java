@@ -5,7 +5,7 @@ import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.behavior.Constraint.Type;
 import edu.wpi.disco.rt.realizer.petri.*;
-import edu.wpi.disco.rt.util.TimeStampedValue;
+import edu.wpi.disco.rt.util.*;
 import org.joda.time.DateTime;
 import java.util.*;
 
@@ -50,7 +50,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    public Behavior build () {
       // note this method is coded as tail-recursive loops
       if ( state == null ) {
-         if ( DiscoRT.TRACE) System.out.println("Nothing to say/do");
+         if ( DiscoRT.TRACE) Utils.lnprint(System.out, "Nothing to say/do");
          return Behavior.NULL;
       }
       if ( !hasSomethingToSay(state) && !hasChoicesForUser(state) ) {
