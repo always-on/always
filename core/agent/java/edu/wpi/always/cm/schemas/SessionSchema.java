@@ -153,8 +153,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       @Override
       public String getMessage () {
          String text = inner.getMessage();
-         //TODO replace DELAY with IVONA pause markup
-         return text == null ? "Ok." : ("Ok. <DELAY MS=\"1000\"> Now " + text);
+         return text == null ? "Ok." : ("Ok. Now. " + text);
       }
    }
 }
