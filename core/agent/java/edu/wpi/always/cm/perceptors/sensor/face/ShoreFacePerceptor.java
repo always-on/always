@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
-public abstract class ShoreFacePerceptor implements FacePerceptor {
+public abstract class ShoreFacePerceptor extends FacePerceptorBase implements FacePerceptor {
 
    protected abstract FaceInfo getFaceInfo (int debug);
    
