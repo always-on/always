@@ -4,8 +4,7 @@ import org.joda.time.DateTime;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
-public abstract class ShoreFacePerceptor extends FacePerceptorBase implements
-      FacePerceptor {
+public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    protected abstract FaceInfo getFaceInfo (int debug);
 
@@ -28,6 +27,35 @@ public abstract class ShoreFacePerceptor extends FacePerceptorBase implements
             info.intArea, info.intCenter, info.intTiltCenter);
    }
 
+   public boolean isSignificantMotion (FacePerception perception,
+         FacePerception prevPerception, int faceHorizontalMovementThreshold,
+         int faceVerticalMovementThreshold) {
+      if ( Math.abs(perception.getLeft() - prevPerception.getLeft()) > faceHorizontalMovementThreshold
+         || Math.abs(perception.getTop() - prevPerception.getTop()) > faceVerticalMovementThreshold )
+         return true;
+
+      return false;
+   }
+
+   public boolean isProportionalPosition (FacePerception perception,
+         FacePerception prevPerception,
+         int faceHorizontalDisplacementThreshold,
+         int faceVerticalDisplacementThreshold) {
+      if ( Math.abs(perception.getLeft() - prevPerception.getLeft()) <= faceHorizontalDisplacementThreshold
+         && Math.abs(perception.getTop() - prevPerception.getTop()) <= faceVerticalDisplacementThreshold )
+         return true;
+
+      return false;
+   }
+
+   public boolean isProportionalArea (FacePerception perception,
+         FacePerception prevPerception, int faceAreaThreshold) {
+      if ( Math.abs(perception.getArea() - perception.getArea()) <= faceAreaThreshold )
+         return true;
+
+      return false;
+   }
+   
    public static class Agent extends ShoreFacePerceptor {
 
       public Agent () {
