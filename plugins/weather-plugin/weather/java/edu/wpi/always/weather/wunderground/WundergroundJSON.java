@@ -86,7 +86,7 @@ public class WundergroundJSON {
    private Map<String, String> createFriendMap () {
       Map<String, String> result = new HashMap<String, String>();
       if ( model != null ) {
-         Person[] people = model.getPeopleManager().getPeople();
+         Person[] people = model.getPeopleManager().getPeople(false);
          if ( people != null ) {
             for (Person person : people) {
                String name = person.getName();
