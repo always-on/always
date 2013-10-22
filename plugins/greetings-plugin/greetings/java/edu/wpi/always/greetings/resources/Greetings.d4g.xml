@@ -5,6 +5,19 @@
 
   <t:script init="true">
     var hour = Packages.org.joda.time.LocalTime.now().getHourOfDay();
+    
+    function getPoorSleepReports () {
+       return $always.getUserModel().getIntProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS);
+    }
+    
+    function setPoorSleepReports (n) {
+       $always.getUserModel().setProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS, n);    
+    }
+    
+    // to test
+    setPoorSleepReports(5);
+    println(getPoorSleepReports());
+       
   </t:script>
 
   <!-- TODO: _MorningGreetings -->
