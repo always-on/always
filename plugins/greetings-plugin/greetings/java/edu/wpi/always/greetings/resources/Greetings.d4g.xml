@@ -13,10 +13,6 @@
     function setPoorSleepReports (n) {
        $always.getUserModel().setProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS, n);    
     }
-    
-    // to test
-    setPoorSleepReports(5);
-    println(getPoorSleepReports());
        
   </t:script>
 
