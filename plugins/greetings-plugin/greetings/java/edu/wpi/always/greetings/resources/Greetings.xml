@@ -142,7 +142,7 @@
     
     function setPoorSleepReports (n) {
        $always.getUserModel().setProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS,
-          new java.lang.Integer(n));    
+            new java.lang.Integer(n));    
     }
        
   </script>
