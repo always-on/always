@@ -1,0 +1,25 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(
+
+  Declaration(DataProperty(<#WeatherFavorite>))
+  DataPropertyDomain(<#WeatherFavorite> <#User>)
+  DataPropertyRange(<#WeatherFavorite> xsd:string)
+  SubClassOf(<#User> DataExactCardinality(1 <#WeatherFavorite> xsd:string))
+  
+  Declaration(DataProperty(<#WeatherFlag>))
+  DataPropertyDomain(<#WeatherFlag> <#User>)
+  DataPropertyRange(<#WeatherFlag> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#WeatherFlag> xsd:boolean))
+  
+  Declaration(DataProperty(<#WeatherRank>))
+  DataPropertyDomain(<#WeatherRank> <#User>)
+  DataPropertyRange(<#WeatherRank> xsd:int)
+  SubClassOf(<#User> DataExactCardinality(1 <#WeatherRank> xsd:int))
+  
+  Declaration(DataProperty(<#WeatherTime>))
+  DataPropertyDomain(<#WeatherTime> <#User>)
+  DataPropertyRange(<#WeatherTime> xsd:long)
+  SubClassOf(<#User> DataExactCardinality(1 <#WeatherTime> xsd:long))
+
+)
