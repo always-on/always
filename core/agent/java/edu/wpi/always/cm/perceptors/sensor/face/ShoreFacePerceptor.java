@@ -1,6 +1,7 @@
 package edu.wpi.always.cm.perceptors.sensor.face;
 
 import org.joda.time.DateTime;
+import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
@@ -8,11 +9,19 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    protected abstract FaceInfo getFaceInfo (int debug);
 
+   protected abstract boolean isRealFace ();
+
    public abstract void start ();
 
    public abstract void stop ();
 
-   protected volatile FacePerception latest;
+   protected static volatile FacePerception latest; // Can latest be defined as
+                                                    // static?
+
+   // How can I define the prevLatest?
+
+   // We only have one latest. In the mirror mode how do we know latest belongs
+   // to which one, Reeti or Agent?!
 
    @Override
    public FacePerception getLatest () {
@@ -22,41 +31,51 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    @Override
    public void run () {
       FaceInfo info = getFaceInfo(0);
-      latest = info == null ? null : new FacePerception(DateTime.now(),
-            info.intTop, info.intBottom, info.intLeft, info.intRight,
-            info.intArea, info.intCenter, info.intTiltCenter);
+
+      if ( (info != null) && (isRealFace()) ) {
+         latest = info == null ? null : new FacePerception(DateTime.now(),
+               info.intTop, info.intBottom, info.intLeft, info.intRight,
+               info.intArea, info.intCenter, info.intTiltCenter);
+      }
    }
 
-   public boolean isSignificantMotion (FacePerception perception,
-         FacePerception prevPerception, int faceHorizontalMovementThreshold,
-         int faceVerticalMovementThreshold) {
-      if ( Math.abs(perception.getLeft() - prevPerception.getLeft()) > faceHorizontalMovementThreshold
-         || Math.abs(perception.getTop() - prevPerception.getTop()) > faceVerticalMovementThreshold )
+   private static boolean isSignificantMotion (
+         int faceHorizontalMovementThreshold, int faceVerticalMovementThreshold) {
+      if ( Math.abs(latest.getLeft() - prevLatest.getLeft()) > faceHorizontalMovementThreshold
+         || Math.abs(latest.getTop() - prevLatest.getTop()) > faceVerticalMovementThreshold )
          return true;
 
       return false;
    }
 
-   public boolean isProportionalPosition (FacePerception perception,
-         FacePerception prevPerception,
+   private static boolean isProportionalPosition (
          int faceHorizontalDisplacementThreshold,
          int faceVerticalDisplacementThreshold) {
-      if ( Math.abs(perception.getLeft() - prevPerception.getLeft()) <= faceHorizontalDisplacementThreshold
-         && Math.abs(perception.getTop() - prevPerception.getTop()) <= faceVerticalDisplacementThreshold )
+      if ( Math.abs(latest.getLeft() - prevLatest.getLeft()) <= faceHorizontalDisplacementThreshold
+         && Math.abs(latest.getTop() - prevLatest.getTop()) <= faceVerticalDisplacementThreshold )
          return true;
 
       return false;
    }
 
-   public boolean isProportionalArea (FacePerception perception,
-         FacePerception prevPerception, int faceAreaThreshold) {
-      if ( Math.abs(perception.getArea() - perception.getArea()) <= faceAreaThreshold )
+   private static boolean isProportionalArea (int faceAreaThreshold) {
+      if ( Math.abs(latest.getArea() - prevLatest.getArea()) <= faceAreaThreshold )
          return true;
 
       return false;
    }
-   
+
    public static class Agent extends ShoreFacePerceptor {
+
+      private static int faceHorizontalMovementThreshold = 5;
+
+      private static int faceVerticalMovementThreshold = 5;
+
+      private static int faceHorizontalDisplacementThreshold = 50;
+
+      private static int faceVerticalDisplacementThreshold = 50;
+
+      private static int faceAreaThreshold = 1700;
 
       public Agent () {
          start();
@@ -92,9 +111,30 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       protected FaceInfo getFaceInfo (int debug) {
          return CPPinterface.INSTANCE.getAgentFaceInfo(debug);
       }
+
+      @Override
+      protected boolean isRealFace () {
+         if ( !isSignificantMotion(faceHorizontalMovementThreshold,
+               faceVerticalMovementThreshold) )
+            return false;
+
+         if ( isProportionalPosition(faceHorizontalDisplacementThreshold,
+               faceVerticalDisplacementThreshold)
+            && isProportionalArea(faceAreaThreshold) ) {
+            return true;
+         } else {
+            return false;
+         }
+      }
    }
 
    public static class Reeti extends ShoreFacePerceptor {
+
+      private static int faceHorizontalDisplacementThreshold = 50;
+
+      private static int faceVerticalDisplacementThreshold = 50;
+
+      private static int faceAreaThreshold = 1700;
 
       public Reeti () {
          // TODO: This should come by reading user/Reeti.json
@@ -116,9 +156,23 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       public void stop () {
          CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
       }
+
+      @Override
+      protected boolean isRealFace () {
+
+         if ( isProportionalPosition(faceHorizontalDisplacementThreshold,
+               faceVerticalDisplacementThreshold)
+            && isProportionalArea(faceAreaThreshold) ) {
+            return true;
+         } else {
+            return false;
+         }
+      }
    }
 
-   public static class Mirror extends ShoreFacePerceptor {
+   public static class Mirror extends ShoreFacePerceptor { // How to implement
+                                                           // screening in the
+                                                           // mirror?
 
       private final ShoreFacePerceptor agent = new Agent(),
             reeti = new Reeti();
@@ -151,6 +205,12 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       @Override
       protected FaceInfo getFaceInfo (int debug) {
          throw new UnsupportedOperationException();
+      }
+
+      @Override
+      protected boolean isRealFace () {
+         // TODO Auto-generated method stub
+         return false;
       }
    }
 }

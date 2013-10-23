@@ -119,7 +119,7 @@ public class FaceTrackerRealizer extends
 
    private boolean isProportionalArea (FacePerception perception,
          FacePerception prevPerception) {
-      if ( Math.abs(perception.getArea() - perception.getArea()) <= faceAreaThreshold )
+      if ( Math.abs(perception.getArea() - prevPerception.getArea()) <= faceAreaThreshold ) //Found a bug here!
          return true;
 
       return false;
