@@ -15,7 +15,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    public abstract void stop ();
 
-   protected static volatile FacePerception latest;
+   protected volatile FacePerception latest;
 
    private long initialTime = 0;
 

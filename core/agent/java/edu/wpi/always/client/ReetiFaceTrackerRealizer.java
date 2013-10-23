@@ -68,9 +68,6 @@ public class ReetiFaceTrackerRealizer extends
             XInputPID = perception.getCenter();
             YInputPID = perception.getTiltCenter();
 
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-               + XInputPID + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + YInputPID);
-
             currentTime = System.currentTimeMillis();
 
             String Message = reetiPIDOutput.Track(XInputPID, YInputPID,
