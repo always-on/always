@@ -99,11 +99,14 @@ public abstract class UserUtils {
       stream.println();
       // plugin specific properties
       for (Class<? extends Plugin> plugin : Plugin.getPlugins()) {
+         boolean hasProperties = false;
          try {
-            for (String property : (String[]) plugin.getMethod("getProperties").invoke(null))
+            for (String property : (String[]) plugin.getMethod("getProperties").invoke(null)) {
                stream.println("\t"+property+" = "+model.getProperty(property));
-         } catch (NoSuchMethodException|IllegalAccessException|InvocationTargetException e) {}
-         stream.println();
+               hasProperties = true;
+            }
+         } catch (Exception e) {}
+         if ( hasProperties) stream.println();
       }
       stream.println("CALENDAR");
       CalendarUtils.print(model.getCalendar(), stream);
