@@ -20,21 +20,11 @@ public class ReetiFaceTrackerRealizer extends
 
    private final Directions trackingDirections = Directions.bothDIRECTIONS;
 
-   private long initialTime = 0;
-
    private long currentTime = 0;
 
    private long currentLosingTime = 0;
 
    private static long acceptableLosingTime = 3000;
-
-   private static long realFaceWaitingTime = 1000;
-
-   private static int faceAreaThreshold = 1400;
-
-   private static int faceHorizontalDisplacementThreshold = 50;
-
-   private static int faceVerticalDisplacementThreshold = 50;
 
    private boolean searchFlag = false;
 
@@ -63,94 +53,46 @@ public class ReetiFaceTrackerRealizer extends
 
       double XInputPID = 0, YInputPID = 0;
 
-      FacePerception perception, prevPerception;
+      FacePerception perception;
 
       perception = perceptor.getLatest();
-      prevPerception = perception;
 
       if ( perception != null ) {
-         Point point = perception.getPoint();
 
-         if ( point != null ) {
+         // following is useful for debugging
+         // java.awt.Toolkit.getDefaultToolkit().beep();
 
-            // following is useful for debugging
-            // java.awt.Toolkit.getDefaultToolkit().beep();
+         XInputPID = perception.getCenter();
+         YInputPID = perception.getTiltCenter();
 
-            // Happens when a face is detected for the first time.
-            if ( initialTime == 0 ) {
-               initialTime = System.currentTimeMillis();
+         currentTime = System.currentTimeMillis();
 
-               prevPerception = perception;
-            }
+         String Message = reetiPIDOutput.Track(XInputPID, YInputPID,
+               trackingDirections);
 
-            XInputPID = perception.getCenter();
-            YInputPID = perception.getTiltCenter();
+         // Making sure that the PID controller has returned different
+         // control command.
+         if ( !this.lastMessage.equals(Message) ) {
+            client.send(Message);
+            fireDoneMessage();
+         }
+         this.lastMessage = Message;
 
-            currentTime = System.currentTimeMillis();
+         this.searchFlag = true;
 
-            // Waiting for a second to make sure the face is still there.
-            if ( (currentTime - initialTime) < realFaceWaitingTime )
-               return;
+      } else {
+         currentLosingTime = System.currentTimeMillis();
 
-            perception = perceptor.getLatest();
-
-            // Making sure the face is not a fake one based on the awkward
-            // changes in size and position.
-            // if ( reetiShoreFacePerceptor.isProportionalPosition(perception,
-            // prevPerception, faceHorizontalDisplacementThreshold,
-            // faceVerticalDisplacementThreshold)
-            // && reetiShoreFacePerceptor.isProportionalArea(perception,
-            // prevPerception, faceAreaThreshold) ) {
-            if ( isProportionalPosition(perception, prevPerception)
-               && isProportionalArea(perception, prevPerception) ) {
-               String Message = reetiPIDOutput.Track(XInputPID, YInputPID,
-                     trackingDirections);
-
-               // Making sure that the PID controller has returned different
-               // control command.
-               if ( !this.lastMessage.equals(Message) ) {
-                  client.send(Message);
-                  fireDoneMessage();
-               }
-               this.lastMessage = Message;
-            }
-
-            prevPerception = perception;
-
-            this.searchFlag = true;
-
-         } else {
-            currentLosingTime = System.currentTimeMillis();
-
-            // Waiting for the lost face for a predefined period of time looking
-            // at the same direction.
-            if ( ((currentLosingTime - currentTime) > acceptableLosingTime)
-               && (this.searchFlag == true) ) {
-               initialTime = 0;
-               String Message = reetiPIDOutput.faceSearch();
-               client.send(Message);
-               this.lastMessage = Message;
-               this.searchFlag = false;
-            }
+         // Waiting for the lost face for a predefined period of time looking
+         // at the same direction.
+         if ( ((currentLosingTime - currentTime) > acceptableLosingTime)
+            && (this.searchFlag == true) ) {
+            String Message = reetiPIDOutput.faceSearch();
+            client.send(Message);
+            this.lastMessage = Message;
+            this.searchFlag = false;
          }
       }
-   }
-
-   private boolean isProportionalPosition (FacePerception perception,
-         FacePerception prevPerception) {
-      if ( Math.abs(perception.getLeft() - prevPerception.getLeft()) <= faceHorizontalDisplacementThreshold
-         && Math.abs(perception.getTop() - prevPerception.getTop()) <= faceVerticalDisplacementThreshold )
-         return true;
-
-      return false;
-   }
-
-   private boolean isProportionalArea (FacePerception perception,
-         FacePerception prevPerception) {
-      if ( Math.abs(perception.getArea() - perception.getArea()) <= faceAreaThreshold )
-         return true;
-
-      return false;
    }
 
    @Override

@@ -9,16 +9,19 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    protected abstract FaceInfo getFaceInfo (int debug);
 
-   protected abstract boolean isRealFace ();
+   protected abstract boolean isRealFace (FaceInfo info, FaceInfo prevInfo);
 
    public abstract void start ();
 
    public abstract void stop ();
 
-   protected static volatile FacePerception latest; // Can latest be defined as
-                                                    // static?
+   protected static volatile FacePerception latest;
 
-   // How can I define the prevLatest?
+   private long initialTime = 0;
+
+   private long currentTime = 0;
+
+   private static long realFaceWaitingTime = 1000;
 
    // We only have one latest. In the mirror mode how do we know latest belongs
    // to which one, Reeti or Agent?!
@@ -30,36 +33,58 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    @Override
    public void run () {
-      FaceInfo info = getFaceInfo(0);
 
-      if ( (info != null) && (isRealFace()) ) {
-         latest = info == null ? null : new FacePerception(DateTime.now(),
-               info.intTop, info.intBottom, info.intLeft, info.intRight,
-               info.intArea, info.intCenter, info.intTiltCenter);
+      FaceInfo info = getFaceInfo(0);
+      FaceInfo prevInfo = info;
+
+      if ( info != null ) {
+
+         if ( initialTime == 0 ) {
+            initialTime = System.currentTimeMillis();
+
+            prevInfo = info;
+         }
+
+         currentTime = System.currentTimeMillis();
+
+         if ( (currentTime - initialTime) < realFaceWaitingTime )
+            return;
+
+         info = getFaceInfo(0);
+
+         if ( (info != null) && (isRealFace(info, prevInfo)) ) {
+            latest = new FacePerception(DateTime.now(), info.intTop,
+                  info.intBottom, info.intLeft, info.intRight, info.intArea,
+                  info.intCenter, info.intTiltCenter);
+         }
+
+         prevInfo = info;
       }
    }
 
-   private static boolean isSignificantMotion (
-         int faceHorizontalMovementThreshold, int faceVerticalMovementThreshold) {
-      if ( Math.abs(latest.getLeft() - prevLatest.getLeft()) > faceHorizontalMovementThreshold
-         || Math.abs(latest.getTop() - prevLatest.getTop()) > faceVerticalMovementThreshold )
+   private static boolean isSignificantMotion (FaceInfo info,
+         FaceInfo prevInfo, int faceHorizontalMovementThreshold,
+         int faceVerticalMovementThreshold) {
+      if ( Math.abs(info.intLeft - prevInfo.intLeft) > faceHorizontalMovementThreshold
+         || Math.abs(info.intTop - prevInfo.intTop) > faceVerticalMovementThreshold )
          return true;
 
       return false;
    }
 
-   private static boolean isProportionalPosition (
-         int faceHorizontalDisplacementThreshold,
+   private static boolean isProportionalPosition (FaceInfo info,
+         FaceInfo prevInfo, int faceHorizontalDisplacementThreshold,
          int faceVerticalDisplacementThreshold) {
-      if ( Math.abs(latest.getLeft() - prevLatest.getLeft()) <= faceHorizontalDisplacementThreshold
-         && Math.abs(latest.getTop() - prevLatest.getTop()) <= faceVerticalDisplacementThreshold )
+      if ( Math.abs(info.intLeft - prevInfo.intLeft) <= faceHorizontalDisplacementThreshold
+         && Math.abs(info.intTop - prevInfo.intTop) <= faceVerticalDisplacementThreshold )
          return true;
 
       return false;
    }
 
-   private static boolean isProportionalArea (int faceAreaThreshold) {
-      if ( Math.abs(latest.getArea() - prevLatest.getArea()) <= faceAreaThreshold )
+   private static boolean isProportionalArea (FaceInfo info, FaceInfo prevInfo,
+         int faceAreaThreshold) {
+      if ( Math.abs(info.intArea - prevInfo.intArea) <= faceAreaThreshold )
          return true;
 
       return false;
@@ -113,14 +138,15 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
 
       @Override
-      protected boolean isRealFace () {
-         if ( !isSignificantMotion(faceHorizontalMovementThreshold,
-               faceVerticalMovementThreshold) )
+      protected boolean isRealFace (FaceInfo info, FaceInfo prevInfo) {
+         if ( !isSignificantMotion(info, prevInfo,
+               faceHorizontalMovementThreshold, faceVerticalMovementThreshold) )
             return false;
 
-         if ( isProportionalPosition(faceHorizontalDisplacementThreshold,
+         if ( isProportionalPosition(info, prevInfo,
+               faceHorizontalDisplacementThreshold,
                faceVerticalDisplacementThreshold)
-            && isProportionalArea(faceAreaThreshold) ) {
+            && isProportionalArea(info, prevInfo, faceAreaThreshold) ) {
             return true;
          } else {
             return false;
@@ -158,11 +184,12 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
 
       @Override
-      protected boolean isRealFace () {
+      protected boolean isRealFace (FaceInfo info, FaceInfo prevInfo) {
 
-         if ( isProportionalPosition(faceHorizontalDisplacementThreshold,
+         if ( isProportionalPosition(info, prevInfo,
+               faceHorizontalDisplacementThreshold,
                faceVerticalDisplacementThreshold)
-            && isProportionalArea(faceAreaThreshold) ) {
+            && isProportionalArea(info, prevInfo, faceAreaThreshold) ) {
             return true;
          } else {
             return false;
@@ -208,7 +235,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
 
       @Override
-      protected boolean isRealFace () {
+      protected boolean isRealFace (FaceInfo info, FaceInfo prevInfo) {
          // TODO Auto-generated method stub
          return false;
       }
