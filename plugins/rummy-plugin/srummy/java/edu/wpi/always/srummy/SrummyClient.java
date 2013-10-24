@@ -219,10 +219,9 @@ public class SrummyClient implements SrummyUI {
          return commentingManager.getHumanCommentingOptionsForHumanMove(
                gameState, latestHumanMove,
                gameState.getGameSpecificCommentingTags());
-      else
-         return commentingManager.getHumanCommentingOptionsForAgentMove(
-               gameState, latestAgentMove,
-               gameState.getGameSpecificCommentingTags());
+      return commentingManager.getHumanCommentingOptionsForAgentMove(
+            gameState, latestAgentMove,
+            gameState.getGameSpecificCommentingTags());
    }
 
    @Override
@@ -394,8 +393,7 @@ public class SrummyClient implements SrummyUI {
             msg.getBody();
 
       while(allPossibleMovesJsonObj
-            .has("discard"+(++numOfPossibleDiscards))
-            && allPossibleMovesJsonObj != null){
+            .has("discard"+(++numOfPossibleDiscards))){
 
          String aDiscardMoveDescription = allPossibleMovesJsonObj
                .getAsJsonObject("discard"+(numOfPossibleDiscards))
@@ -408,8 +406,7 @@ public class SrummyClient implements SrummyUI {
       }
 
       while(allPossibleMovesJsonObj
-            .has("meld"+(++numOfPossibleMelds))
-            && allPossibleMovesJsonObj != null){
+            .has("meld"+(++numOfPossibleMelds))){
 
          String meldCardsDescriptionsString = allPossibleMovesJsonObj
                .getAsJsonObject("meld"+(numOfPossibleMelds))
@@ -429,8 +426,7 @@ public class SrummyClient implements SrummyUI {
       }
 
       while(allPossibleMovesJsonObj
-            .has("layoff"+(++numOfPossibleLayoffs))
-            && allPossibleMovesJsonObj != null){
+            .has("layoff"+(++numOfPossibleLayoffs))){
 
          String layoffMoveCardDescription = allPossibleMovesJsonObj
                .getAsJsonObject("layoff"+(numOfPossibleLayoffs))
@@ -457,8 +453,7 @@ public class SrummyClient implements SrummyUI {
       }
 
       while(allPossibleMovesJsonObj
-            .has("draw"+(++numOfPossibleDraws))
-            && allPossibleMovesJsonObj != null){
+            .has("draw"+(++numOfPossibleDraws))){
 
          String aDrawMovePileName = allPossibleMovesJsonObj
                .getAsJsonObject("draw"+(numOfPossibleDraws))
