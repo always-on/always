@@ -23,9 +23,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    private static long realFaceWaitingTime = 1000;
 
-   // We only have one latest. In the mirror mode how do we know latest belongs
-   // to which one, Reeti or Agent?!
-
    @Override
    public FacePerception getLatest () {
       return latest;
@@ -197,9 +194,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
    }
 
-   public static class Mirror extends ShoreFacePerceptor { // How to implement
-                                                           // screening in the
-                                                           // mirror?
+   public static class Mirror extends ShoreFacePerceptor {
 
       private final ShoreFacePerceptor agent = new Agent(),
             reeti = new Reeti();
@@ -236,8 +231,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
       @Override
       protected boolean isRealFace (FaceInfo info, FaceInfo prevInfo) {
-         // TODO Auto-generated method stub
-         return false;
+         throw new UnsupportedOperationException();
       }
    }
 }
