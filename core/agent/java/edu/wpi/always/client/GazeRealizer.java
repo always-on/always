@@ -25,8 +25,8 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
     * {@link #translateToAgentTurnVer}.
     */
    public static Point translateAgentTurn (float hor, float ver) {
-      return new Point(Math.round(160f - (160f * hor / 0.5f)),
-            Math.round(120f - (120f * ver / 0.1f)));
+      return new Point(Math.round(160f - (160f * hor / 0.15f)),
+            Math.round(120f - (120f * ver / 0.07f)));
    }
 
    /**
@@ -37,7 +37,7 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
     */
     public static float translateToAgentTurnHor (Point p) {
        // NB: Make sure to change translateAgentTurn if change this
-       return (160f - p.x) * 0.5f / 160f;
+       return (160f - p.x) * 0.15f / 160f;
    }
 
    /**
@@ -48,6 +48,6 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
     */
    public static float translateToAgentTurnVer (Point p) {
       // NB: Make sure to change translateAgentTurn if change this
-      return (120f - p.y) * 0.1f / 120f;
+      return (120f - p.y) * 0.07f / 120f;
    }
 }
