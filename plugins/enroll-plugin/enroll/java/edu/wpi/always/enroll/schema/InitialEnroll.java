@@ -35,10 +35,28 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
          @Override
          public AdjacencyPair run () {
-            return new EditPersonAdjacencyPair(getContext(), 
-                  getContext().getUserModel().getPeopleManager().getUser());
+            Person person = getContext()
+                  .getUserModel().getPeopleManager().getUser();
+            if(person == null)
+               return new NoOwnProfile(getContext());
+            return new EditPersonAdjacencyPair(getContext(), person);
          }
       });
+   }
+   
+   public static class NoOwnProfile extends EnrollAdjacencyPairImpl{
+
+      public NoOwnProfile(final EnrollStateContext context) {
+         super("Oh! I forgot to ask you to enter your profile first."
+            + " After you do, you can edit it.", context);
+         choice("Oh! Okay", new DialogStateTransition() {
+
+            @Override
+            public AdjacencyPair run() {
+               return new InitialEnroll(context);
+            }
+         });
+      }
    }
 
    public static class ReadyForStartEvent extends EnrollAdjacencyPairImpl{
