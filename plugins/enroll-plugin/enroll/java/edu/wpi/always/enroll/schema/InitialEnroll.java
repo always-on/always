@@ -10,21 +10,21 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
    public InitialEnroll (final EnrollStateContext context) {
       super("I'm ready for you to tell me about your family and friends", context);
-      choice("Okay.", new DialogStateTransition() {
+      choice("Okay", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
             return new ReadyForStartEvent(context);
          }
       });
-      choice("No, I'm not ready for doing that.", new DialogStateTransition() {
+      choice("No, not right now.", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
             return new DialogEndEvent(context);
          }
       });
-      choice("I want to edit people's profile.", new DialogStateTransition() {
+      choice("I want to edit someones's profile.", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
@@ -62,7 +62,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    public static class ReadyForStartEvent extends EnrollAdjacencyPairImpl{
 
       public ReadyForStartEvent(final EnrollStateContext context) {
-         super("That's good. Let's start right now.", context);
+         super("That's good. Let's start", context);
          choice("Yes, let's start.", new DialogStateTransition() {
 
             @Override
