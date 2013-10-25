@@ -74,8 +74,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
             @Override
             public AdjacencyPair run() {
-               return new EditPersonAdjacencyPair(getContext(), 
-                     getContext().getUserModel().getPeopleManager().getUser());
+               return new InitialEnroll(getContext());
             }
          });
       }
