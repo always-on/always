@@ -7,9 +7,9 @@ import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
 public abstract class ShoreFacePerceptor implements FacePerceptor {
 
-   protected abstract FaceInfo getFaceInfo (int debug);
-
-   protected abstract boolean isRealFace (FaceInfo info, FaceInfo prevInfo);
+   protected FaceInfo getFaceInfo (int debug) {
+      return null;
+   }
 
    public abstract void start ();
 
@@ -17,11 +17,16 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    protected volatile FacePerception latest;
 
-   private long initialTime = 0;
+   protected volatile FaceInfo info, prevInfo;
 
-   private long currentTime = 0;
+   private final int faceHorizontalDisplacementThreshold,
+         faceVerticalDisplacementThreshold, faceAreaThreshold;
 
-   private static long realFaceWaitingTime = 1000;
+   protected ShoreFacePerceptor (int hor, int vert, int area) {
+      faceHorizontalDisplacementThreshold = hor;
+      faceVerticalDisplacementThreshold = vert;
+      faceAreaThreshold = area;
+   }
 
    @Override
    public FacePerception getLatest () {
@@ -31,25 +36,11 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    @Override
    public void run () {
 
-      FaceInfo info = getFaceInfo(0);
-      FaceInfo prevInfo = info;
+      info = getFaceInfo(0);
+      prevInfo = info;
 
       if ( info != null ) {
-
-         if ( initialTime == 0 ) {
-            initialTime = System.currentTimeMillis();
-
-            prevInfo = info;
-         }
-
-         currentTime = System.currentTimeMillis();
-
-         if ( (currentTime - initialTime) < realFaceWaitingTime )
-            return;
-
-         info = getFaceInfo(0);
-
-         if ( (info != null) && (isRealFace(info, prevInfo)) ) {
+         if ( (info != null) && (isRealFace()) ) {
             latest = new FacePerception(DateTime.now(), info.intTop,
                   info.intBottom, info.intLeft, info.intRight, info.intArea,
                   info.intCenter, info.intTiltCenter);
@@ -59,47 +50,26 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
    }
 
-   private static boolean isSignificantMotion (FaceInfo info,
-         FaceInfo prevInfo, int faceHorizontalMovementThreshold,
-         int faceVerticalMovementThreshold) {
-      if ( Math.abs(info.intLeft - prevInfo.intLeft) > faceHorizontalMovementThreshold
-         || Math.abs(info.intTop - prevInfo.intTop) > faceVerticalMovementThreshold )
-         return true;
-
-      return false;
+   protected boolean isRealFace () {
+      return (isProportionalPosition() && isProportionalArea());
    }
 
-   private static boolean isProportionalPosition (FaceInfo info,
-         FaceInfo prevInfo, int faceHorizontalDisplacementThreshold,
-         int faceVerticalDisplacementThreshold) {
-      if ( Math.abs(info.intLeft - prevInfo.intLeft) <= faceHorizontalDisplacementThreshold
-         && Math.abs(info.intTop - prevInfo.intTop) <= faceVerticalDisplacementThreshold )
-         return true;
-
-      return false;
+   private boolean isProportionalPosition () {
+      return (Math.abs(info.intLeft - prevInfo.intLeft) <= faceHorizontalDisplacementThreshold && Math
+            .abs(info.intTop - prevInfo.intTop) <= faceVerticalDisplacementThreshold);
    }
 
-   private static boolean isProportionalArea (FaceInfo info, FaceInfo prevInfo,
-         int faceAreaThreshold) {
-      if ( Math.abs(info.intArea - prevInfo.intArea) <= faceAreaThreshold )
-         return true;
-
-      return false;
+   private boolean isProportionalArea () {
+      return (Math.abs(info.intArea - prevInfo.intArea) <= faceAreaThreshold);
    }
 
    public static class Agent extends ShoreFacePerceptor {
 
-      private static int faceHorizontalMovementThreshold = 5;
-
-      private static int faceVerticalMovementThreshold = 5;
-
-      private static int faceHorizontalDisplacementThreshold = 50;
-
-      private static int faceVerticalDisplacementThreshold = 50;
-
-      private static int faceAreaThreshold = 1700;
+      protected final int faceHorizontalMovementThreshold = 5,
+            faceVerticalMovementThreshold = 5;
 
       public Agent () {
+         super(50, 50, 1700);
          start();
       }
 
@@ -135,32 +105,21 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
 
       @Override
-      protected boolean isRealFace (FaceInfo info, FaceInfo prevInfo) {
-         if ( !isSignificantMotion(info, prevInfo,
-               faceHorizontalMovementThreshold, faceVerticalMovementThreshold) )
-            return false;
+      protected boolean isRealFace () {
+         return super.isRealFace() && isSignificantMotion();
+      }
 
-         if ( isProportionalPosition(info, prevInfo,
-               faceHorizontalDisplacementThreshold,
-               faceVerticalDisplacementThreshold)
-            && isProportionalArea(info, prevInfo, faceAreaThreshold) ) {
-            return true;
-         } else {
-            return false;
-         }
+      private boolean isSignificantMotion () {
+         return (Math.abs(info.intLeft - prevInfo.intLeft) > faceHorizontalMovementThreshold || Math
+               .abs(info.intTop - prevInfo.intTop) > faceVerticalMovementThreshold);
       }
    }
 
    public static class Reeti extends ShoreFacePerceptor {
 
-      private static int faceHorizontalDisplacementThreshold = 50;
-
-      private static int faceVerticalDisplacementThreshold = 50;
-
-      private static int faceAreaThreshold = 1700;
-
       public Reeti () {
          // TODO: This should come by reading user/Reeti.json
+         super(50, 50, 1700);
          String[] ptr = new String[] { "130.215.28.4" };
          CPPinterface.INSTANCE.initReetiShoreEngine(ptr, 0);
       }
@@ -179,25 +138,16 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       public void stop () {
          CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
       }
-
-      @Override
-      protected boolean isRealFace (FaceInfo info, FaceInfo prevInfo) {
-
-         if ( isProportionalPosition(info, prevInfo,
-               faceHorizontalDisplacementThreshold,
-               faceVerticalDisplacementThreshold)
-            && isProportionalArea(info, prevInfo, faceAreaThreshold) ) {
-            return true;
-         } else {
-            return false;
-         }
-      }
    }
 
    public static class Mirror extends ShoreFacePerceptor {
 
       private final ShoreFacePerceptor agent = new Agent(),
             reeti = new Reeti();
+
+      public Mirror () {
+         super(0, 0, 0);
+      }
 
       @Override
       public FacePerception getLatest () {
@@ -222,16 +172,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       public void run () {
          agent.run();
          reeti.run();
-      }
-
-      @Override
-      protected FaceInfo getFaceInfo (int debug) {
-         throw new UnsupportedOperationException();
-      }
-
-      @Override
-      protected boolean isRealFace (FaceInfo info, FaceInfo prevInfo) {
-         throw new UnsupportedOperationException();
       }
    }
 }
