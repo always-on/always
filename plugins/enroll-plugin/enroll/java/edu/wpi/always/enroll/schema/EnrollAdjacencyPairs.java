@@ -30,13 +30,17 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonNameAdjacencyPair(final EnrollStateContext context) {
-         super("What is the person's name", "Enter name:", context, context.getKeyboard());
+         super("What is the person's name", 
+               "Enter name:", context, context.getKeyboard());
       }
 
       @Override
       public AdjacencyPair success(String text) {
-         name = text;
-         return new PersonAgeAdjacencyPair(getContext());
+         if(!text.isEmpty()){
+            name = text;
+            return new PersonAgeAdjacencyPair(getContext());
+         }
+         return new PersonNameInvalidAdjacencyPair(getContext());
       }
 
       @Override
@@ -45,6 +49,30 @@ public abstract class EnrollAdjacencyPairs{
          return new InitialEnroll(getContext());
       }
 
+   }
+   
+   public static class PersonNameInvalidAdjacencyPair extends
+   KeyboardAdjacencyPair<EnrollStateContext> {
+
+      public PersonNameInvalidAdjacencyPair(final EnrollStateContext context) {
+         super("You must enter some name, even a nickname will do", 
+               "Enter name:", context, context.getKeyboard());
+      }
+
+      @Override
+      public AdjacencyPair success(String text) {
+         if(!text.isEmpty()){
+            name = text;
+            return new PersonAgeAdjacencyPair(getContext());
+         }
+         return new PersonNameInvalidAdjacencyPair(getContext());
+      }
+
+      @Override
+      public AdjacencyPair cancel() {
+         getContext().hideKeyboard();
+         return new InitialEnroll(getContext());
+      }  
    }
 
    public static class PersonAgeAdjacencyPair extends
@@ -84,7 +112,7 @@ public abstract class EnrollAdjacencyPairs{
 
       public PersonAgeInvalidAdjacencyPair(final EnrollStateContext context) {
          super("The age you enter is invalid please enter again", 
-               "Enter valid "+ name+ "'s age:", context, context.getKeyboard(), true);
+               "Enter valid "+ name + "'s age:", context, context.getKeyboard(), true);
          choice("Skip " + name, new DialogStateTransition() {
 
             @Override

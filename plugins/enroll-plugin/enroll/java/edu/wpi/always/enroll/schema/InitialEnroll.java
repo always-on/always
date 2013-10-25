@@ -9,7 +9,7 @@ import edu.wpi.always.enroll.schema.EnrollAdjacencyPairs.*;
 public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
    public InitialEnroll (final EnrollStateContext context) {
-      super("I'm ready for you to tell me about your family and friends.", context);
+      super("I'm ready for you to tell me about your family and friends", context);
       choice("Okay.", new DialogStateTransition() {
 
          @Override
