@@ -33,13 +33,14 @@ namespace Agent.UI
 	{
         public enum AgentType { Unity, Reeti, Mirror };
 
-		public static AgentType agentType = AgentType.Unity;
+        public static AgentType agentType = AgentType.Unity;
 
         UnityUserControl.UnityUserControl agent;
 		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
         public event EventHandler LoadComplete;
         XmlDocument xmlMessage = new XmlDocument();
 
+       // private ReetiTranslation AgentTranslate = new ReetiTranslation();
         //Agent Controls
         public AgentControl()
         {
@@ -62,10 +63,10 @@ namespace Agent.UI
             switch (e.eventType)
             {
                 case "viseme":
-                    //Put Reeti code here
+                    // Put Reeti code here
                     break;
                 case "bookmark":
-                    //Put Reeti code here
+               //     AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "end":
                     ActionDone(this,new ActionDoneEventArgs("speech",e.sourceUtterance));
@@ -126,6 +127,7 @@ namespace Agent.UI
 
         private void Perform(string xmlCommand)
         {
+           // AgentTranslate.TranslateToReetiCommand("perform",xmlCommand);
             xmlMessage.LoadXml(xmlCommand);
             agent.perform(xmlMessage);
         }
