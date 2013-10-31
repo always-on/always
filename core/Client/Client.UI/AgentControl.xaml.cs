@@ -32,15 +32,16 @@ namespace Agent.UI
 	public partial class AgentControl : UserControl, IAgentControl
 	{
         public enum AgentType { Unity, Reeti, Mirror };
+        
+        public static AgentType agentType;
 
-        public static AgentType agentType = AgentType.Unity;
+        private ReetiTranslation AgentTranslate;
 
         UnityUserControl.UnityUserControl agent;
 		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
         public event EventHandler LoadComplete;
         XmlDocument xmlMessage = new XmlDocument();
 
-        private ReetiTranslation AgentTranslate = new ReetiTranslation();
         //Agent Controls
         public AgentControl()
         {
@@ -50,6 +51,9 @@ namespace Agent.UI
             InitializeComponent();
 
             InitAgent();
+
+            if(agentType == AgentType.Reeti)
+                AgentTranslate = new ReetiTranslation();
         }
 
         private void agentCallbackListener(object sender, AgentEvent e)
