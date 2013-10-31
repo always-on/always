@@ -52,7 +52,7 @@ namespace Agent.UI
 
             InitAgent();
 
-            if(agentType == AgentType.Reeti)
+            if( (agentType == AgentType.Reeti) || (agentType == AgentType.Mirror) )
                 AgentTranslate = new ReetiTranslation();
         }
 
@@ -73,7 +73,7 @@ namespace Agent.UI
                     AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "end":
-                    ActionDone(this,new ActionDoneEventArgs("speech",e.sourceUtterance));
+                    ActionDone(this,new ActionDoneEventArgs("speech", e.sourceUtterance));
                     break;
             }
         }
