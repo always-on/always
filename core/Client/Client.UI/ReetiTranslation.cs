@@ -94,9 +94,17 @@ namespace Agent.UI
                 String command = ConstructMessage(HorOutput, VerOutput);
                 SendCommand(command);
             }
-            if (Command.Contains("SMILE") && task.Equals("perform"))
+            if (Command.Contains("CONCERN"))
+            {
+                SendCommand(Concern);
+            }
+            if (Command.Contains("SMILE"))
             {
                 SendCommand(Smile);
+            }
+            if (Command.Contains("WARM"))
+            {
+                SendCommand(Neutral_Position);
             }
         }
 

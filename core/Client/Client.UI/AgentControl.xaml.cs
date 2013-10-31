@@ -40,7 +40,7 @@ namespace Agent.UI
         public event EventHandler LoadComplete;
         XmlDocument xmlMessage = new XmlDocument();
 
-       // private ReetiTranslation AgentTranslate = new ReetiTranslation();
+        private ReetiTranslation AgentTranslate = new ReetiTranslation();
         //Agent Controls
         public AgentControl()
         {
@@ -66,7 +66,7 @@ namespace Agent.UI
                     // Put Reeti code here
                     break;
                 case "bookmark":
-               //     AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
+                    AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "end":
                     ActionDone(this,new ActionDoneEventArgs("speech",e.sourceUtterance));
@@ -127,7 +127,7 @@ namespace Agent.UI
 
         private void Perform(string xmlCommand)
         {
-           // AgentTranslate.TranslateToReetiCommand("perform",xmlCommand);
+            AgentTranslate.TranslateToReetiCommand("perform",xmlCommand);
             xmlMessage.LoadXml(xmlCommand);
             agent.perform(xmlMessage);
         }
