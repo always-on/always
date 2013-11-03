@@ -8,58 +8,26 @@ public class RepeatMenuTimeoutHandler implements MenuTimeoutHandler {
 
    @Override
    public AdjacencyPair handle (AdjacencyPair original) {
-      if ( original == null )
-         throw new NullArgumentException("original");
-      if ( original instanceof RepeatAdjacencyPairWrapper )
-         return original;
-      return new RepeatAdjacencyPairWrapper(original);
+      if ( original == null ) throw new NullArgumentException("original");
+      return original instanceof RepeatAdjacencyPairWrapper ? original :
+         new RepeatAdjacencyPairWrapper(original);
    }
-
-   private static class RepeatAdjacencyPairWrapper implements AdjacencyPair {
-
-      private final AdjacencyPair inner;
-
+   
+   private static class RepeatAdjacencyPairWrapper extends AdjacencyPairWrapper {
+      
       public RepeatAdjacencyPairWrapper (AdjacencyPair inner) {
-         this.inner = inner;
-      }
-
-      @Override
-      public void enter () {
-      }
-
-      @Override
-      public boolean prematureEnd () {
-         return inner.prematureEnd();
-      }
-
-      @Override
-      public AdjacencyPair nextState (String text) {
-         return inner.nextState(text);
+         super(inner);
       }
 
       private final static Pattern pattern = Pattern.compile("[a-zA-Z0-9]"); 
-
+   
       @Override
       public String getMessage () {
          String original = inner.getMessage();
-         if ( original == null || !pattern.matcher(original).find() )
-            return original;
-         return "So, " + original;
-      }
-
-      @Override
-      public List<String> getChoices () {
-         return inner.getChoices();
-      }
-
-      @Override
-      public double timeRemaining () {
-         return inner.timeRemaining();
-      }
-
-      @Override
-      public boolean isTwoColumnMenu () {
-         return inner.isTwoColumnMenu();
+         return( original == null || !pattern.matcher(original).find()
+                 // TODO: provide more control over multiple wrappings
+                 || inner instanceof AdjacencyPairWrapper ) ?
+            original : "So, " + original;
       }
    }
 }

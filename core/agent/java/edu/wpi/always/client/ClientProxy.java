@@ -58,13 +58,25 @@ public class ClientProxy {
       enqueue("speech", p);
    }
 
+   private float hor, ver;
+   
+   //TODO need to get information back for gaze changes
+   //     do to html markup
+   public float getGazeHor () { return hor; }
+   public float getGazeVer () { return ver; }
+   
    public void gaze (float hor, float ver) {
+      // allow fudge for round-off and coercion
+      if ( Math.abs(hor) > 1.01f || Math.abs(ver) > 1.01f )
+         throw new IllegalArgumentException("Gaze out of bounds: horizontal=\""
+               +hor+"\" vertical=\""+ver+"\"");
       HashMap<String, String> p = Maps.newHashMap();
       p.put("horizontal", Float.toString(hor));
       p.put("vertical",	Float.toString(ver));
       enqueue("gaze", p);
+      this.hor = hor; this.ver = ver;
    }
-   
+ 
    public void express (AgentFaceExpression expression) {
       HashMap<String, String> p = Maps.newHashMap();
       p.put("expression", expression.toString());

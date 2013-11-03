@@ -144,7 +144,7 @@
 			  //g:do[@task=concat('_',current()/@id,'_tree')]"/>
 
     <!-- only generate task if there are child elements or if this <do>
-         is being referenced by a node somewhere else (which would be werid,
+         is being referenced by a node somewhere else (which would be weird,
          but legal) -->
     <xsl:if test="./* | $refs">
       <xsl:element name="task">
@@ -548,6 +548,34 @@
           </xsl:attribute>
         </xsl:element>
 
+        <!-- apply external modifiers if actor specified -->
+        <xsl:if test="@actor">
+          <xsl:element name="binding">
+            <xsl:attribute name="slot">
+              <xsl:text>$</xsl:text>
+              <xsl:value-of select="$id"/>
+              <xsl:text>_step.external</xsl:text>
+            </xsl:attribute>
+            <xsl:attribute name="value">
+              <xsl:if test="@actor=$external">
+                <xsl:text>true</xsl:text>
+              </xsl:if>
+              <xsl:if test="@actor!=$external">
+                <xsl:text>false</xsl:text>
+              </xsl:if>
+            </xsl:attribute>
+          </xsl:element>
+          <!-- issue warning if not same actor as siblings -->
+          <xsl:if test="../name()!='model' and preceding-sibling::*/@actor and @actor!=preceding-sibling::*/@actor[1]">
+            <xsl:message>
+              Warning, 'say' element with different actor than sibling. 
+              Say @text="<xsl:value-of select="@text"/>"
+            </xsl:message>
+            <xsl:comment>Warning, &lt;say&gt; with different actor than sibling. Say @text="<xsl:value-of select="@text"/>"</xsl:comment>
+            <xsl:text>&#10;</xsl:text> <!-- insert newline -->
+          </xsl:if>
+        </xsl:if>
+
 	<!-- include eval if applicable -->
 	<xsl:if test="@eval">
           <xsl:element name="binding">
@@ -566,33 +594,6 @@
 
       </xsl:if>
 
-      <!-- apply external modifiers if actor specified -->
-      <xsl:if test="@actor">
-        <xsl:element name="binding">
-          <xsl:attribute name="slot">
-            <xsl:text>$</xsl:text>
-            <xsl:value-of select="$id"/>
-            <xsl:text>_step.external</xsl:text>
-          </xsl:attribute>
-          <xsl:attribute name="value">
-            <xsl:if test="@actor=$external">
-              <xsl:text>true</xsl:text>
-            </xsl:if>
-            <xsl:if test="@actor!=$external">
-              <xsl:text>false</xsl:text>
-            </xsl:if>
-          </xsl:attribute>
-        </xsl:element>
-	<!-- issue warning if not same actor as siblings -->
-	<xsl:if test="../name()!='model' and preceding-sibling::*/@actor and @actor!=preceding-sibling::*/@actor[1]">
-	  <xsl:message>
-	    Warning, 'say' element with different actor than sibling. 
-	    Say @text="<xsl:value-of select="@text"/>"
-	  </xsl:message>
-	  <xsl:comment>Warning, &lt;say&gt; with different actor than sibling. Say @text="<xsl:value-of select="@text"/>"</xsl:comment>
-	  <xsl:text>&#10;</xsl:text> <!-- insert newline -->
-	</xsl:if>
-      </xsl:if>
     </xsl:element>
   </xsl:template>
   <!-- end templates for first pass -->

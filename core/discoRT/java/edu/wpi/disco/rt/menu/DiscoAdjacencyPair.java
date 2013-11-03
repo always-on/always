@@ -3,18 +3,19 @@ package edu.wpi.disco.rt.menu;
 import edu.wpi.disco.Agenda.Plugin;
 import edu.wpi.disco.*;
 import edu.wpi.disco.lang.*;
-import edu.wpi.disco.rt.ResourceMonitor;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import java.util.*;
 
 public class DiscoAdjacencyPair implements AdjacencyPair {
 
-   protected final Interaction interaction; 
-   private Cache current;
+   private final DiscoRT.Interaction interaction;
+   
+   public DiscoRT.Interaction getInteraction () { return interaction; }
 
-   public DiscoAdjacencyPair (BehaviorProposalReceiver behaviorReceiver,
-         BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction) {
+   private Cache current;
+   
+   public DiscoAdjacencyPair (DiscoRT.Interaction interaction) {
       this.interaction = interaction;
    }
    

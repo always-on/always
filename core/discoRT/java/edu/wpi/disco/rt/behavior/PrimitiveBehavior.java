@@ -17,11 +17,11 @@ public abstract class PrimitiveBehavior {
       return getResource().toString();
    }
 
-   private static class NullPrimitiveBehavior extends PrimitiveBehavior {
+   private static class Null extends PrimitiveBehavior {
 
       private final Resource resource;
 
-      public NullPrimitiveBehavior (Resource r) {
+      public Null (Resource r) {
          this.resource = r;
       }
 
@@ -34,9 +34,9 @@ public abstract class PrimitiveBehavior {
       public boolean equals (Object o) {
          if ( this == o )
             return true;
-         if ( !(o instanceof NullPrimitiveBehavior) )
+         if ( !(o instanceof Null) )
             return false;
-         NullPrimitiveBehavior theOther = (NullPrimitiveBehavior) o;
+         Null theOther = (Null) o;
          return theOther.resource.equals(this.resource);
       }
 
@@ -52,6 +52,6 @@ public abstract class PrimitiveBehavior {
    }
 
    public static PrimitiveBehavior nullBehavior (Resource resource) {
-      return new NullPrimitiveBehavior(resource);
+      return new Null(resource);
    }
 }

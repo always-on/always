@@ -1,133 +1,159 @@
 package edu.wpi.always.cm.schemas;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
 import org.picocontainer.MutablePicoContainer;
-
-import edu.wpi.always.Always;
-import edu.wpi.always.Plugin;
-import edu.wpi.always.RelationshipManager;
-import edu.wpi.always.client.*;
-import edu.wpi.cetask.Plan;
-import edu.wpi.cetask.Task;
-import edu.wpi.cetask.TaskClass;
-import edu.wpi.cetask.Utils;
+import edu.wpi.always.*;
+import edu.wpi.always.client.ClientProxy;
+import edu.wpi.cetask.*;
 import edu.wpi.disco.Agenda;
-import edu.wpi.disco.Interaction;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
-import edu.wpi.disco.rt.ResourceMonitor;
-import edu.wpi.disco.rt.behavior.BehaviorHistory;
-import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
-import edu.wpi.disco.rt.menu.AdjacencyPair;
-import edu.wpi.disco.rt.menu.DiscoAdjacencyPair;
-import edu.wpi.disco.rt.menu.MenuPerceptor;
-import edu.wpi.disco.rt.schema.Schema;
-import edu.wpi.disco.rt.util.DiscoDocument;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.util.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    private final MutablePicoContainer container; // for plugins
    private final Stop stop;
+   private final ClientProxy proxy;
+   private final SchemaManager schemaManager;
    
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction,
-         RelationshipManager rm, ClientProxy proxy, Always always) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
+         MenuPerceptor menuPerceptor, ClientProxy proxy,
+         SchemaManager schemaManager, Always always, 
+         DiscoRT.Interaction interaction) {
+      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
+      this.proxy = proxy;
+      this.schemaManager = schemaManager;
       container = always.getContainer();
-      stop = new Stop(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction,
-                      proxy);
-      DiscoDocument session = rm.getSession();
+      stop = new Stop(interaction);
+      DiscoDocument session = always.getRM().getSession();
       if ( session != null ) {
          interaction.load("Relationship Manager", 
                session.getDocument(), session.getProperties(), session.getTranslate());
          interaction.push(interaction.addTop("_Session"));
+         always.getCM().setSchema(interaction.getDisco().getTaskClass("_Session"), SessionSchema.class);
       }
       ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
                       .setInterrupt(false);
    }
 
    // activities for which startActivity has been called (not same as Plan.isStarted)
-   private final Map<Task,ActivitySchema> started = new HashMap<Task,ActivitySchema>();
+   private final Map<Plan,ActivitySchema> started = new HashMap<Plan,ActivitySchema>();
    
    // note this schema uses menu with focus and menu extension without focus
    
    @Override
    public void run () {
-      Plan focus = interaction.getFocusExhausted(true);
-      if ( focus != null ) {
-         Task goal = focus.getGoal();
-         if ( goal instanceof Propose.Should ) {
-            goal = ((Propose.Should) goal).getGoal();
-            focus = focus.getParent();
+      Plan plan = interaction.getFocusExhausted(true);
+      if ( plan != null ) {
+         if ( plan.getType().getId().equals("_Session") ) {
+            // focus is on session, move it down to first live child
+            // (must have some or would be popped as exhausted)
+            interaction.push(plan.getLive().get(0));
+            plan = interaction.getFocusExhausted(true);
          }
-         Schema schema = started.get(goal);
+         if ( plan.getGoal() instanceof Propose.Should ) 
+            plan = plan.getParent();
+         Schema schema = started.get(plan);
          if ( schema != null ) {
             if ( schema.isDone() ) {
-               focus.setComplete(true);
-               started.remove(goal);
-            } else yield(goal);
+               stop(plan);
+               stateMachine.setState(discoAdjacencyPair);
+            } else yield(plan);
          } else {
-            if ( focus.isLive() && Utils.isTrue(goal.getShould()) ) {
-               if ( !focus.isStarted() ) {
-                  TaskClass task = goal.getType();
-                  started.put(goal,
-                        Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
-                  focus.setStarted(true);
-                  yield(goal);
-               }
+            TaskClass task = plan.getType();
+            if ( Plugin.isPlugin(task) &&
+                 plan.isLive() && !plan.isOptional() && !plan.isStarted() ) {
+               started.put(plan,
+                  Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
+               plan.setStarted(true);
+               Utils.lnprint(System.out, "Starting "+plan.getType()+"...");
+               history();
+               yield(plan);
             }
          }
       }
-      // fall through when session plan exhausted or focused activity schema done 
-      // or focused task stopped 
+      // fall through when:
+      //    -live plan is not a plugin
+      //    -focused activity schema done
+      //    -focused task stopped
+      //    -session plan exhausted 
       propose(stateMachine);
    }
    
-   private void yield (Task goal) {
-      stop.setGoal(goal);
+   @Override
+   public void dispose () {
+      super.dispose();
+      // restart if fails for some reason
+      Utils.lnprint(System.out, "Restarting SessionSchema...");
+      schemaManager.start(getClass());
+   }
+   
+   private void yield (Plan plan) {
+      stop.setPlan(plan);
       stop.update();
       stateMachine.setState(stop);
       stateMachine.setExtension(true);
       stateMachine.setSpecificityMetadata(0.5);
       setNeedsFocusResource(false);
-      Plugin.getPlugin(goal.getType(), container).show();
+      Plugin.getPlugin(plan.getType(), container).show();
+   }
+   
+   private void stop (Plan plan) {
+      plan.setComplete(true);
+      started.remove(plan.getGoal());
+      proxy.showMenu(Collections.<String>emptyList(), false, true); // clear extension menu
+      proxy.hidePlugin();
+      Utils.lnprint(System.out, "Returning to Session...");
+      history(); // before update
+      discoAdjacencyPair.update();
+      stateMachine.setExtension(false);
+      stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
+      setNeedsFocusResource(true);
    }
    
    private class Stop extends DiscoAdjacencyPair {
       
-      private Task goal;
-      private final ClientProxy proxy;
+      private Plan plan;
       
-      private void setGoal (Task goal) { this.goal = goal; }
+      private void setPlan (Plan plan) { this.plan = plan; }
       
-      public Stop (BehaviorProposalReceiver behaviorReceiver,
-         BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Interaction interaction, ClientProxy proxy) {
-         super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, interaction);
-         this.proxy = proxy;
+      public Stop (DiscoRT.Interaction interaction) {
+         super(interaction);
       }
       
       @Override
       public void update () {
          update(null, Collections.singletonList(
-               Agenda.newItem(new Propose.Stop(interaction.getDisco(), true, goal), null)));
+               Agenda.newItem(new Propose.Stop(interaction.getDisco(), true, plan.getGoal()), null)));
       }
       
       @Override
       public AdjacencyPair nextState (String text) {
          super.nextState(text);
-         proxy.showMenu(Collections.<String>emptyList(), false, true); // clear extension menu
-         proxy.hidePlugin();
-         discoAdjacencyPair.update();
-         stateMachine.setExtension(false);
-         stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
-         setNeedsFocusResource(true);
-         return discoAdjacencyPair; // one shot
+         Schema schema = started.get(plan);
+         if ( schema != null ) schema.cancel();
+         stop(plan);
+         return new StopAdjacencyPairWrapper(discoAdjacencyPair); // one shot
       }
    }
- 
+
+   private static class StopAdjacencyPairWrapper extends AdjacencyPairWrapper {
+      
+      public StopAdjacencyPairWrapper (AdjacencyPair inner) {
+         super(inner);
+      }
+   
+      @Override
+      public String getMessage () {
+         String text = inner.getMessage();
+         return text == null ? "Ok." : ("Ok. Now. " + text);
+      }
+   }
 }

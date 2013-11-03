@@ -5,13 +5,22 @@
 
 <!--  <t:script init="true">
     var hour = Packages.org.joda.time.LocalTime.now().getHourOfDay();
+       
   </t:script>
 -->
- <t:script init="true"> 
+ <t:script init="true">
+   function getPoorSleepReports () {
+       return $always.getUserModel().getIntProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS);
+    };
+    
+    function setPoorSleepReports (n) {
+       $always.getUserModel().setProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS,
+            new java.lang.Integer(n));}; 
+ 
     var user = $always.getUserModel().getPeopleManager().getUser();
     var userName = $always.getUserModel().getUserFirstName();
     print ("the user's name is =" + userName + "  ");
-  var poorSleepreports= 0;
+  var poorSleepreports= getPoorSleepReports();
  </t:script>
 
 <t:task id="_FirstThingStrangerAcq">
@@ -48,10 +57,16 @@
       </agent>
     </user>
     <user id="neg" text="No">
-      <agent id="feeling" text="oh, are you feeling sick?">
+      <agent id="feeling" text="oh, are you feeling sick?"
+	     eval="poorSleepreports=poorSleepreports + 1;
+		   print ('poorSleepreport is now' + poorSleepreports);
+		   setPoorSleepReports(poorSleepreports);" >
 	<!-- set poorSleep in UM to 1+ poorSleepreports -->
 	<user text="no">
-	  <agent text="I hope you sleep better tonight" />
+	  <agent text="I hope you sleep better tonight" >
+	    <user text="me too"/>
+	    <user text="I probably will. Nothing to worry about."/>
+	  </agent>
 	</user>
 	<user text="yes"> 
 	  <do task="_CallDoc" />
@@ -62,9 +77,9 @@
 
 <agent id="_CallDoc" text="do you think you should call your doctor?">
   <user text="yes">
-    <agent text="ok, so do that sometime today">
-      <user text="ok"/> 
-      <user text="no, I'll call the doc later if I still don't feel good.">
+    <agent text="ok, might be a good idea">
+      <user text="yes, I'll call"/> 
+      <user text="well, I think I'll call the doc later if I still don't feel good.">
 	<agent text="okay"/>  
       </user>
     </agent>
@@ -88,11 +103,14 @@
 	</user>
       </agent>
     </user>
-    <user text="no"> <!-- note "poorSleep" in user model -->
+    <user text="no"
+	  eval="poorSleepreports=poorSleepreports+ 1;
+		print ('poorSleepreport is now' + poorSleepreports);
+		setPoorSleepReports(poorSleepreports);"> 
+      <!-- note "poorSleep" in user model -->
       <agent 
 	  text="Oh, you aren't sleeping well.  Maybe you should consult your doctor" 
 	  applicable="poorSleepreports &gt; 7" >
-	<!-- set poorSleep in UM to 1+ poorSleepreports -->
 	<user text="yes, I will next time I go to the doctor"/>
 	<user text="no I am just not a good sleeper" />
 	<user text="oh, it's not anything" >
@@ -105,7 +123,6 @@
       <agent 
 	    text="Gee, that's rare for you.  Are you feeling okay?"
 	    applicable="poorSleepreports &lt; 7">
-	<!-- set poorSleep in UM to 1+ poorSleepreports -->
 	<user text="yes" >
 	  <agent text="good!"/>
 	</user>
@@ -125,29 +142,28 @@
       </agent>
     </user>
  </agent>
-
-  <agent id="_AfternoonGreetings" text="How's your day going?">
-    <user id="affirmAfternoon" text="fine">  
+ <agent id="_AfternoonGreetings" text="How's your day going?">
+    <user text="fine">  
       <agent text="good, glad to hear it"/>
     </user>
     <user text="oh not so great">
       <agent text="sorry to hear it. Maybe it will improve">
 	<user text="hope so" />
-	<user text="it has to!" />
-	<user text="we'll see" />
+	<user text="I think it will!" />
+	<user text="may be so may be no" />
       </agent>
     </user>
   </agent>
   
   <agent id="_EveningGreetings" text="So had a good day?">
-    <user id="affirmEvening" text="yes, a good one">  
+    <user text="yes, a good one">  
       <agent text="good, glad to hear it"/>
     </user>
     <user text="no, not really">
       <agent text="sorry to hear it. Maybe this evening will be better">
 	<user text="Hope so" />
-	<user text="Maybe" />
-	<user text="We'll see" />
+	<user text="Possibly" />
+	<user text="Definitely" />
       </agent>
     </user>
     <user text="nothing special">
@@ -159,7 +175,7 @@
     </user>
   </agent>
 
-  <agent id="_GoodNight" text="Guess it's time to say goodnight">
+  <agent id="_GoodNight" text="Guess it's time to say good night|It's about time to say good night">
     <user id="affirmGoodNight" text="Yes, good night">  
       <agent text="Thanks, sleep well."/>
     </user>

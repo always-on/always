@@ -111,6 +111,8 @@ public class ArbitratorFixture {
          @Override
          public void cancel () {}
          @Override
+         public void dispose () {}
+         @Override
          public boolean isDone () { return false; }
          @Override
          public void focus () {}

@@ -48,7 +48,8 @@ public class ProposalBuilder implements BehaviorBuilder {
    public boolean isEmpty () { return primitives.isEmpty(); }
    
    public ProposalBuilder say (String text) {
-      internalAdd(new SpeechBehavior(text));
+      for (PrimitiveBehavior pb : new SpeechMarkupBehavior(text).getPrimitives(false)) 
+         internalAdd(pb);
       return this;
    }
 

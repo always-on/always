@@ -30,9 +30,8 @@ public class SimpleCompoundBehavior implements CompoundBehavior {
    }
 
    @Override
-   public CompoundRealizer createRealizer (
-         final PrimitiveBehaviorControl primitiveControl) {
-      return new Realizer(primitiveControl, primitives);
+   public CompoundRealizer createRealizer (PrimitiveBehaviorControl primitiveControl) {
+      return new Realizer(primitiveControl);
    }
 
    @Override
@@ -64,17 +63,14 @@ public class SimpleCompoundBehavior implements CompoundBehavior {
       return "Simple(" + Utils.listify(primitives) + ')';
    }
 
-   public static class Realizer extends CompoundRealizerBase implements
+   private class Realizer extends CompoundRealizerBase implements
          PrimitiveBehaviorControlObserver {
 
       private final PrimitiveBehaviorControl primitiveControl;
       private final Map<PrimitiveBehavior, Boolean> primitivesStatus = new HashMap<PrimitiveBehavior, Boolean>();
-      private final List<PrimitiveBehavior> primitives;
 
-      public Realizer (PrimitiveBehaviorControl primitiveControl,
-            List<PrimitiveBehavior> primitives) {
+      public Realizer (PrimitiveBehaviorControl primitiveControl) {
          this.primitiveControl = primitiveControl;
-         this.primitives = primitives;
          for (PrimitiveBehavior pb : primitives)
             primitivesStatus.put(pb, false);
       }
