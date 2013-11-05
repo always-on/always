@@ -43,7 +43,6 @@ public class FaceTrackerRealizer extends
             // java.awt.Toolkit.getDefaultToolkit().beep();
 
             currentTime = System.currentTimeMillis();
-
             float hor = GazeRealizer.translateToAgentTurnHor(point);
             float ver = GazeRealizer.translateToAgentTurnVer(point);
             proxy.gaze(hor, ver);
