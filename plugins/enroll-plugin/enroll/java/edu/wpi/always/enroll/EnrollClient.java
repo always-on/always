@@ -48,12 +48,16 @@ public class EnrollClient implements EnrollUI {
       String birthday = (person.getBirthday() == null) ? null :
          person.getBirthday().toString(formatter);
       
+      String relationshipName = "";
+      if( person.getRelationship() != null )
+         relationshipName =person.getRelationship().name();
+      
       Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
             .add("name", person.getName())
             .add("age", person.getAge())
             .add("gender", gender)
             .add("zipcode", zipcode)
-            .add("relationship", person.getRelationship().name())
+            .add("relationship", relationshipName)
             .add("spouse", spouse)
             .add("phoneNumber", person.getPhoneNumber())
             .add("skypeAccount", person.getSkypeNumber())
