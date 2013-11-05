@@ -54,12 +54,16 @@ namespace Checkers.UI
         /// <param name="e"></param>
         void grdBoard_Drop(object sender, DragEventArgs e)
         {
+			// /red is user
+			string from = "", to = "", hit = "";
+
             // use the label in the cell to get the current row and column
             EmptySpace l = e.Source as EmptySpace;
             int r = Grid.GetRow((EmptySpace)e.Source);
             int c = Grid.GetColumn((EmptySpace)e.Source);
             bool okToMove = false;
-            
+			from = currentPiece.row + "/" + currentPiece.col;
+
             // Because both RedChecker and BlackChecker derive from CheckerPiece, we can use polymorphism
             // to create the correct piece. Get the correct piece and determine if the move is valid.
             // A valid move is one row forward to an unoccupied space.
@@ -74,19 +78,24 @@ namespace Checkers.UI
 
                 // It's red's turn...
                 checker = new RedChecker();
-                if (l.row == currentPiece.row + 1 && (l.col == currentPiece.col+1 || l.col==currentPiece.col-1))
-                    okToMove = true;
+				if (l.row == currentPiece.row + 1 && (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1))
+				{
+					okToMove = true;
+					to = l.row + "/" + l.col;
+				}
                 
                 //now check to see if we captured anything
                 BlackChecker opponentPiece ;
                 if (c == currentPiece.col + 2)
                 {
                     opponentPiece = grdBoard.Children.OfType<BlackChecker>().Where(p => p.row == currentPiece.row + 1 && (p.col == currentPiece.col + 1)).SingleOrDefault();
+					hit = opponentPiece.row + "/" + opponentPiece.col;
                 }
                 else
                 {
                     opponentPiece = grdBoard.Children.OfType<BlackChecker>().Where(p => p.row == currentPiece.row + 1 && (p.col == currentPiece.col - 1)).SingleOrDefault();
-                }
+					hit = opponentPiece.row + "/" + opponentPiece.col;
+				}
 
                 if (opponentPiece != null && l.row - currentPiece.row == 2)
                 {
@@ -108,6 +117,9 @@ namespace Checkers.UI
                 if (okToMove)
                 {                    
                     currentTurn = Turn.Black;
+					this.Played(this, new cellEventArg
+					{moveDesc = from+"//"+to+"//"+hit}
+					);
                 }
             }
             else
@@ -343,5 +355,13 @@ namespace Checkers.UI
             this.grdBoard.Children.Clear();
             this.ResetGame();
         }
+
+		public event EventHandler Played = delegate { };
     }
+
+	class cellEventArg : EventArgs
+	{
+		public string moveDesc { get; set; }
+
+	}
 }

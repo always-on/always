@@ -26,27 +26,28 @@ namespace AgentApp
 
             uiThreadDispatcher.BlockingInvoke(() =>
             {
-			  //game = new GameShape();
-			  //game.Played += (s, e) =>
-			  //{ 
-			  //    JObject body = new JObject();
-			  //    body["cellNum"] = ((cellEventArg)e).cellNum;
-			  //    _remote.Send("tictactoe.human_played_cell", body);
-			  //};
-			  //pluginContainer = new Viewbox();
-			  //pluginContainer.Child = game;
+			  game = new GameShape();
+			  game.Played += (s, e) =>
+			  { 
+			      JObject body = new JObject();
+			      body["humanMove"] = ((cellEventArg)e).moveDesc;
+			      _remote.Send("checkers.human_played_move", body);
+			  };
+			  pluginContainer = new Viewbox();
+			  pluginContainer.Child = game;
             });
 
-			//_remote.RegisterReceiveHandler("tictactoe.agent_cell",
-			//     new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
+			_remote.RegisterReceiveHandler("checkers.agent_move",
+			     new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
 
-			//_remote.RegisterReceiveHandler("tictactoe.playability",
+			//_remote.RegisterReceiveHandler("checkers.playability",
 			//      new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
         }
 
 		public void Dispose()
 		{
-			//_remote.RemoveReceiveHandler("tictactoe.agent_cell");
+			_remote.RemoveReceiveHandler("checkers.agent_move");
+			_remote.RemoveReceiveHandler("checkers.playability");
 		}
 
        	private void PlayAgentMove(JObject cellNumAsJObj)
