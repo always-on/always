@@ -1,6 +1,6 @@
 {
 	"currentWeather" : {
-		"locationName" : "Woooorcester, MA",
+		"locationName" : "Worcester, MA",
 		"temperature" : "32.5",
 		"weatherCondition" : "Overcast",
 		"humidity" : "24%"
