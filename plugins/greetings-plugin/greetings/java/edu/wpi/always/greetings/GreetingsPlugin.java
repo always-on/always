@@ -18,6 +18,11 @@ public class GreetingsPlugin extends Plugin {
       Plugin.main(args, GreetingsPlugin.class, "GreetUser");
    }
   
-
-  
+   // plugin-specific properties
+   
+   public static final String POOR_SLEEP_REPORTS = "GreetingsPoorSleepReports";
+   
+   public static String[] getProperties () {
+      return new String[] { POOR_SLEEP_REPORTS };         
+   }
 }

@@ -10,6 +10,8 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
 
    protected final DiscoAdjacencyPair discoAdjacencyPair;
    protected final DiscoRT.Interaction interaction;
+   
+   public Interaction getInteraction () { return interaction; }
 
    public DiscoAdjacencyPairSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,

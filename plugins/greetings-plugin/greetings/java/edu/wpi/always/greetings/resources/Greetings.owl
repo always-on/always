@@ -1,0 +1,10 @@
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+
+Ontology(
+
+  Declaration(DataProperty(<#GreetingsPoorSleepReports>))
+  DataPropertyDomain(<#GreetingsPoorSleepReports> <#User>)
+  DataPropertyRange(<#GreetingsPoorSleepReports> xsd:int)
+  SubClassOf(<#User> DataExactCardinality(1 <#GreetingsPoorSleepReports> xsd:int))
+ 
+)

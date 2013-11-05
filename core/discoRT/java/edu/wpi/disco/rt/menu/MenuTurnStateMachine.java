@@ -11,7 +11,7 @@ import java.util.*;
 
 public class MenuTurnStateMachine implements BehaviorBuilder {
 
-   public static final int TIMEOUT_DELAY = 10000; 
+   public static final int TIMEOUT_DELAY = 20000; 
    public static final int MENU_DELAY = 1000;
    
    private final BehaviorHistory behaviorHistory;

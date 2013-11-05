@@ -1,167 +1,267 @@
 package edu.wpi.always.client;
 
 public class ReetiPIDController {
-   private double kp; // * (P)roportional Tuning Parameter
 
-   private double ki; // * (I)ntegral Tuning Parameter
+   private double kpXNeck = 0.05, kpYNeck = 0.08; // For the future
+                                                  // improvements: kiNeck = 0,
+                                                  // kdNeck = 0;
 
-   private double kd; // * (D)erivative Tuning Parameter
+   private double kpXEye = 0.03, kpYEye = 0.03; // For the future improvements:
+                                                // kiEye = 0, kdEye = 0;
 
-   int tol = 100;
+   private double inputXPID = 0, inputYPID = 0, neckXPIDoutput,
+         neckYPIDoutput = 50, eyeXPIDoutput, eyeYPIDoutput = 42.55;
 
-   private double Input; // * Pointers to the Input, Output, and Setpoint
-                         // variables
+   private final int neckOvershootTolerancePercentage = 70;
 
-   private double Output; // This creates a hard link between the variables and
-                          // the
+   private final int eyeOvershootTolerancePercentage = 50;
 
-   private double Setpoint; // PID, freeing the user from having to constantly
-                            // tell us
+   private boolean eyeReachedXLimit = false;
 
-   // what these values are. with pointers we'll just know.
-   private double eyeOut = 40;
+   private boolean eyeReachedYLimit = false;
 
-   private long lastTime;
+   private double neckInitialOutputXPID = 50; // TODO: This should come by
+                                              // reading from
+                                              // Reeti's json profile.
 
-   private double ITerm, lastInput;
+   private double neckInitialOutputYPID = 55.56; // TODO: This should come by
+                                                 // reading from
+                                                 // Reeti's json profile.
 
-   private int SampleTime;
+   private double eyeInitialOutputXPID = 50; // TODO: This should come by
+                                             // reading from
+                                             // Reeti's json profile.
 
-   private boolean EyeFlag;
+   private double eyeInitialOutputYPID = 42.55; // TODO: This should come by
+                                                // reading from
+                                                // Reeti's json profile.
 
-   private double BigTolFactor, SmallTolFactor;
+   private final int setPointXPID = 160;
 
-   public ReetiPIDController (double Input, double Output, double Setpoint,
-         double Kp, double Ki, double Kd, double BigTolFactor,
-         double SmallTolFactor) {
-      this.SampleTime = 250;
-      this.lastTime = System.currentTimeMillis() - SampleTime;
-      setOutput(Output);
-      setInput(Input);
-      setSetpoint(Setpoint);
-      setEyeOut(40);
-      setEyeFlag(false);
-      this.kp = Kp;
-      this.ki = Ki;
-      this.kd = Kd;
-      setBigTolFactor(BigTolFactor);
-      setSmallTolFactor(SmallTolFactor);
-   } // * constructor. links the PID to the Input, Output, and
+   private final int setPointYPID = 120;
 
-   public void compute () {
-      long now = System.currentTimeMillis();
-      long timeChange = (now - lastTime);
-      if ( timeChange >= SampleTime ) {
-         /* Compute all the working error variables */
-         double input = this.Input;
-         double error = this.Setpoint - input;
-         if ( Math.abs(error) > tol ) // Exceeds Tolerance
-         {
-            ITerm += (this.ki * error);
-            double dInput = (input - this.lastInput);
+   private double neckXError = 0;
 
-            /* Compute PID Output */
-            double output = this.kp * error + ITerm - this.kd * dInput;
+   private double neckYError = 0;
 
-            output = output * this.BigTolFactor;
+   private double eyeXError = 0;
 
-            if ( error > 0 ) // my right
-            {
-               if ( output > 0 )
-                  output = (output + this.Output);
-               else
-                  output = ((output * (-1)) + this.Output);
-            } else // my left
-            {
-               output = this.Output - (output * (-1));
-            }
-            /* Ensure that the output will be received by the vex motor */
-            if ( output > 100 )
-               output = 100;
-            else if ( output < 0 )
-               output = 0;
-            setOutput(output);
-            setEyeFlag(true);
-            setEyeOut(40);
-         } else if ( Math.abs(error) <= tol && Math.abs(error) > 5 ) {
-            ITerm += (this.ki * error);
-            double dInput = (input - this.lastInput);
+   private double eyeYError = 0;
 
-            /* Compute PID Output */
-            double output = this.kp * error + ITerm - this.kd * dInput;
+   public ReetiPIDController () {
+      setNeckXPIDoutput(this.neckInitialOutputXPID);
+      setEyeXPIDoutput(this.eyeInitialOutputXPID);
+   }
 
-            output = output * SmallTolFactor;
+   private void neckXPIDcontroller () {
 
-            if ( error > 0 ) // my right
-            {
-               if ( output > 0 )
-                  output = (output + getEyeOut());
-               else
-                  output = ((output * (-1)) + getEyeOut());
+      double output = this.kpXNeck * this.neckXError + this.neckXPIDoutput;
 
-            } else // my left
-            {
-               output = getEyeOut() - (output * (-1));
-            }
-            if ( output > 60 )
-               output = 60;
-            else if ( output < 20 )
-               output = 20;
-            setEyeOut(output);
+      // These can be used in the future if Integral and Derivative terms of the
+      // PID controller are required.
+      // output += this.ki * errorAccumulation;
+      // output += this.kd * (error - lastError);
+
+      if ( output > 100 ) {
+         if ( (output > (((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100) + this.neckXPIDoutput))
+            && ((((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100) + this.neckXPIDoutput) <= 100) ) {
+            output = this.neckXPIDoutput
+               + ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100);
+         } else {
+            output = 100;
          }
-         /* Remember some variables for next time */
-         this.lastInput = input;
-         this.lastTime = now;
-      } else {
-         // System.out.println("Time didn't change much");
+      } else if ( output < 0 ) {
+         if ( (output < (this.neckXPIDoutput - ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100)))
+            && ((this.neckXPIDoutput - ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100)) >= 0) ) {
+            output = this.neckXPIDoutput
+               - ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100);
+         } else {
+            output = 0;
+         }
+      }
+
+      setNeckXPIDoutput(output);
+      setEyeReachedXLimit(false);
+   }
+
+   private void neckYPIDcontroller () {
+
+      double output = this.kpYNeck * this.neckYError + this.neckYPIDoutput;
+
+      // These can be used in the future if Integral and Derivative terms of the
+      // PID controller are required.
+      // output += this.ki * errorAccumulation;
+      // output += this.kd * (error - lastError);
+
+      if ( output > 100 ) {
+         if ( (output > (((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100) + this.neckYPIDoutput))
+            && ((((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100) + this.neckYPIDoutput) <= 100) ) {
+            output = this.neckYPIDoutput
+               + ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100);
+         } else {
+            output = 100;
+         }
+      } else if ( output < 0 ) {
+         if ( (output < (this.neckYPIDoutput - ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100)))
+            && ((this.neckYPIDoutput - ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100)) >= 0) ) {
+            output = this.neckYPIDoutput
+               - ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100);
+         } else {
+            output = 0;
+         }
+      }
+
+      setNeckYPIDoutput(output);
+      setEyeReachedYLimit(false);
+   }
+
+   private void eyeXPIDcontroller () {
+
+      double output = this.kpXEye * this.eyeXError + this.eyeXPIDoutput;
+
+      // These can be used in the future if Integral and Derivative terms of the
+      // PID controller are required.
+      // output += this.ki * errorAccumulation;
+      // output += this.kd * (error - lastError);
+
+      if ( output > 60 ) {
+         if ( (output > (((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100) + this.eyeXPIDoutput))
+            && ((((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100) + this.eyeXPIDoutput) <= 60) ) {
+            output = this.eyeXPIDoutput
+               + ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100);
+         } else {
+            output = 60;
+         }
+      } else if ( output < 20 ) {
+         if ( (output < (this.eyeXPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100)))
+            && ((this.eyeXPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100)) >= 20) ) {
+            output = this.eyeXPIDoutput
+               - ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100);
+         } else {
+            output = 20;
+         }
+      }
+
+      if ( (output == 20) || (output == 60) )
+         setEyeReachedXLimit(true);
+
+      setEyeXPIDoutput(output);
+   }
+
+   private void eyeYPIDcontroller () {
+
+      double output = this.kpYEye * this.eyeYError + this.eyeYPIDoutput;
+
+      // These can be used in the future if Integral and Derivative terms of the
+      // PID controller are required.
+      // output += this.ki * errorAccumulation;
+      // output += this.kd * (error - lastError);
+
+      if ( output > 80 ) {
+         if ( (output > (((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100) + this.eyeYPIDoutput))
+            && ((((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100) + this.eyeYPIDoutput) <= 80) ) {
+            output = this.eyeYPIDoutput
+               + ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100);
+         } else {
+            output = 80;
+         }
+      } else if ( output < 20 ) {
+         if ( (output < (this.eyeYPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100)))
+            && ((this.eyeYPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100)) >= 20) ) {
+            output = this.eyeYPIDoutput
+               - ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100);
+         } else {
+            output = 20;
+         }
+      }
+
+      if ( (output == 20) || (output == 80) )
+         setEyeReachedYLimit(true);
+
+      setEyeYPIDoutput(output);
+   }
+
+   public void computeX () {
+
+      double error = this.setPointXPID - this.inputXPID;
+
+      if ( this.eyeReachedXLimit == true ) {
+         this.neckXError = error;
+         neckXPIDcontroller();
+
+      } else if ( Math.abs(error) > 10 ) {
+         this.eyeXError = error;
+         eyeXPIDcontroller();
       }
    }
 
-   public void setEyeFlag (boolean flag) {
-      EyeFlag = flag;
+   public void computeY () {
+
+      double error = this.setPointYPID - this.inputYPID;
+
+      if ( this.eyeReachedYLimit == true ) {
+         this.neckYError = error;
+         neckYPIDcontroller();
+
+      } else if ( Math.abs(error) > 10 ) {
+         this.eyeYError = error;
+         eyeYPIDcontroller();
+      }
    }
 
-   public boolean getEyeFlag () {
-      return EyeFlag;
+   private void setEyeReachedXLimit (boolean flag) {
+      this.eyeReachedXLimit = flag;
    }
 
-   public void setInput (double myInput) {
-      Input = myInput;
+   private void setEyeReachedYLimit (boolean flag) {
+      this.eyeReachedYLimit = flag;
    }
 
-   public double getInput () {
-      return Input;
+   public void setXinput (double input) {
+      this.inputXPID = input;
    }
 
-   public void setOutput (double myOutput) {
-      Output = myOutput;
+   public void setYinput (double input) {
+      this.inputYPID = input;
    }
 
-   public double getOutput () {
-      return Output;
+   public double getXInput () {
+      return this.inputXPID;
    }
 
-   public void setSetpoint (double setpoint) {
-      Setpoint = setpoint;
+   public double getYInput () {
+      return this.inputYPID;
    }
 
-   public double getSetpoint () {
-      return Setpoint;
+   public void setNeckXPIDoutput (double output) {
+      this.neckXPIDoutput = output;
    }
 
-   public void setEyeOut (double myeyeOut) {
-      eyeOut = myeyeOut;
+   public double getNeckXPIDoutput () {
+      return this.neckXPIDoutput;
    }
 
-   public double getEyeOut () {
-      return eyeOut;
+   public void setNeckYPIDoutput (double output) {
+      this.neckYPIDoutput = output;
    }
 
-   public void setBigTolFactor (double myBigTolFactor) {
-      BigTolFactor = myBigTolFactor;
+   public double getNeckYPIDoutput () {
+      return this.neckYPIDoutput;
    }
 
-   public void setSmallTolFactor (double mySmallTolFactor) {
-      SmallTolFactor = mySmallTolFactor;
+   public void setEyeXPIDoutput (double output) {
+      this.eyeXPIDoutput = output;
+   }
+
+   public double getEyeXPIDoutput () {
+      return this.eyeXPIDoutput;
+   }
+
+   public void setEyeYPIDoutput (double output) {
+      this.eyeYPIDoutput = output;
+   }
+
+   public double getEyeYPIDoutput () {
+      return this.eyeYPIDoutput;
    }
 }

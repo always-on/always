@@ -1,5 +1,6 @@
 package edu.wpi.always.weather;
 
+import java.util.*;
 import org.joda.time.DateTime;
 import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;
@@ -22,7 +23,11 @@ public class WeatherPlugin extends Plugin {
          FLAG = "WeatherFlag",
          RANK = "WeatherRank",
          TIME = "WeatherTime";
-         
+      
+   public static String[] getProperties () {
+      return new String[] {FAVORITE, FLAG, RANK, TIME};
+   }
+   
    public static String date;  // for testing
    
    /**
@@ -45,7 +50,5 @@ public class WeatherPlugin extends Plugin {
                +" my #"+plugin.getIntProperty(RANK)
                +" favorite weather is "+plugin.getProperty(FAVORITE));
    }
-  
-
-  
+ 
 }

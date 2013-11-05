@@ -50,10 +50,10 @@
     User says "Really? Tell me more."
     Agent says "You can tell me about your family and friends, and I will remember what you say.  You can also tell me if you want to know the weather for that person everyday or just once in a while."
   > say
-[1] Ok, I will tell you about my family an dfriends.
+[1] Ok, I will tell you about my family and friends.
 [2] I don't want to know the weather except here.
   >> 1
-    User says "Ok, I will tell you about my family an dfriends."
+    User says "Ok, I will tell you about my family and friends."
     Agent says "Want to hear about another activity?"
   > say
 [1] Yes.
@@ -71,7 +71,7 @@
 [7] No more activities.
   >> 7
     User says "No more activities."
-    Agent says "Well, anytime you want more explanations, just ask!"
+    Agent says "Well, any time you want more explanations, just ask!"
   > say
 [1] Ok, thanks.
 [2] Thanks that was really interesting!
