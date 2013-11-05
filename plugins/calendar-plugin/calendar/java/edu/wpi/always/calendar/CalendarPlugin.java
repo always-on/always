@@ -1,5 +1,6 @@
 package edu.wpi.always.calendar;
 
+import java.util.*;
 import edu.wpi.always.*;
 import edu.wpi.always.calendar.schema.CalendarSchema;
 import edu.wpi.always.cm.CollaborationManager;

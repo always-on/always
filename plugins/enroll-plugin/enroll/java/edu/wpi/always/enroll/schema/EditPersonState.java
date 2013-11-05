@@ -15,10 +15,13 @@ import java.util.List;
 public class EditPersonState extends EnrollAdjacencyPairs{
 
    public static class EditPersonAdjacencyPair extends
-   AdjacencyPairBase<EnrollStateContext> {
-
+   AdjacencyPairBase<EnrollStateContext> { 
+     
+      Person person;
+     
       public EditPersonAdjacencyPair(final EnrollStateContext context, final Person person){
          super("Here is the previous information about the person?", context, true);
+         this.person = person;
          choice("Edit name", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -93,7 +96,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeNameAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("Please enter the Person's name.", "Enter name:", context, context.getKeyboard());
+         super("Please enter the new name", "New name:", context, context.getKeyboard());
          this.person = person;
       }
 
@@ -116,7 +119,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
       public TellChangeBirthdayAdjacencyPair(final EnrollStateContext context, 
             final Person person) {
-         super("Do you want to tell " + person.getName() + "s birthday", context);
+         super("Do you want to tell " + person.getName() + "'s birthday", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -307,7 +310,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeAgeInvalidAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("The age you enter is invalid please enter again", 
+         super("The age you enter is invalid, please enter it again", 
                "Enter valid " + person.getName() + "'s age:", 
                context, context.getKeyboard(),true);
          this.person = person;

@@ -23,7 +23,7 @@
          <step name="__EndExplaining_step" task="disco:Say"/>
          <step name="__EndExplaining_ref" task="__EndExplaining_tree"/>
          <binding slot="$__EndExplaining_step.text"
-                  value="&#34;Well, anytime you want more explanations, just ask!&#34;"/>
+                  value="&#34;Well, any time you want more explanations, just ask!&#34;"/>
          <binding slot="$__EndExplaining_step.external" value="false"/>
       </subtasks>
    </task>
@@ -236,7 +236,7 @@
       <subtasks id="_d4e60_subtasks">
          <step name="_d4e60_step" task="disco:Say"/>
          <binding slot="$_d4e60_step.text"
-                  value="&#34;Ok, I will tell you about my family an dfriends&#34;"/>
+                  value="&#34;Ok, I will tell you about my family and friends&#34;"/>
          <binding slot="$_d4e60_step.external" value="true"/>
       </subtasks>
       <subtasks id="_d4e61_subtasks">
@@ -390,7 +390,7 @@
     // defining the Javascript type Activity
 
     function Activity (flag, format) { 
-       this.flag = "Explain"+flag; 
+       this.flag = flag; 
        this.format = format; 
     }
 
@@ -399,11 +399,11 @@
     }
 
     Activity.prototype.setFlag = function () {
-       $always.getUserModel().setProperty(this.flag, true);
+       $always.getUserModel().setProperty(edu.wpi.always.explain.ExplainPlugin[this.flag], true);
     }
 
     Activity.prototype.checkFlag = function () {
-       return $always.getUserModel().isProperty(this.flag);
+       return $always.getUserModel().isProperty(edu.wpi.always.explain.ExplainPlugin[this.flag]);
     }
 
     // all activities that this plugin knows about 
@@ -413,12 +413,12 @@
     // NB: All flags must be defined in Explain.owl
 
     Activity.ALL = {
-         PlanExercise : new Activity("PlanExercise", "developing an exercise plan for me"), 
-         DiscussFamily : new Activity("DiscussFamily", "talking together about my family and friends"),
-         UseCalendar : new Activity("UseCalendar", "keeping my personal calendar"),
-         PlayRummy : new Activity("PlayRummy", "playing a social game of cards"),
-         TellStory : new Activity("TellStory", "telling one of my life stories "),
-         DiscussWeather : new Activity("DiscussWeather", "telling weather where my friends and family live")
+         PlanExercise : new Activity("PLAN_EXERCISE", "developing an exercise plan for me"), 
+         DiscussFamily : new Activity("DISCUSS_FAMILY", "talking together about my family and friends"),
+         UseCalendar : new Activity("USE_CALENDAR", "keeping my personal calendar"),
+         PlayRummy : new Activity("PLAY_RUMMY", "playing a social game of cards"),
+         TellStory : new Activity("TELL_STORY", "telling one of my life stories "),
+         DiscussWeather : new Activity("DISCUSS_WEATHER", "telling weather where my friends and family live")
          // TODO: add the other activities
     }
 
@@ -435,7 +435,7 @@
     var noThanks = false;
     var $CHOICE;
 
-    var previousTalk = $always.getUserModel().isProperty("ExplainPreviousTalk");
+    var previousTalk = $always.getUserModel().isProperty(edu.wpi.always.explain.ExplainPlugin.PREVIOUS_TALK);
 
   </script>
 </taskModel>
