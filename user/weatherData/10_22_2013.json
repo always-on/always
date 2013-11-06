@@ -1,0 +1,133 @@
+{
+  "currentWeather": {
+    "weatherCondition": "Overcast",
+    "temperature": "63.1",
+    "humidity": "36%",
+    "locationName": "Worcester, MA",
+    "zip": "01609"
+  },
+  "radar": {
+    "radarURL": "http://resize.wunderground.com/cgi-bin/resize_convert?ox\u003dgif\u0026url\u003dradblast/cgi-bin/radar/WUNIDS_composite%3Fcenterlat\u003d42.27581787%26centerlon\u003d-71.82014465%26radius\u003d75%26newmaps\u003d1%26smooth\u003d1%26reproj.automerc\u003d1%26api_key\u003dcd3b2dc51dd67e26",
+    "helper": {}
+  },
+  "alert": {
+    "alertMessage": "There is no severe alert in your area.",
+    "helper": {}
+  },
+  "almanac": {
+    "recordLow": {
+      "year": 1940,
+      "averageTemp": 40,
+      "extremeTemp": 19
+    },
+    "recordHigh": {
+      "year": 1979,
+      "averageTemp": 56,
+      "extremeTemp": 82
+    },
+    "helper": {}
+  },
+  "forecast": [
+    {
+      "summary": "Mostly cloudy in the morning, then overcast with a chance of rain. High of 68F. Winds from the SW at 10 to 15 mph. Chance of rain 20%.",
+      "date": {
+        "date": "10/22/2013",
+        "daysApartFromToday": 0
+      }
+    },
+    {
+      "summary": "Partly cloudy. Low of 37F. Winds from the West at 5 to 15 mph.",
+      "date": {
+        "date": "10/23/2013",
+        "daysApartFromToday": 1
+      }
+    }
+  ],
+  "interestCities": {
+    "Miami": {
+      "weatherCondition": "Mostly Cloudy",
+      "temperature": "84.2",
+      "humidity": "75%",
+      "locationName": "Miami, FL",
+      "zip": "33125",
+      "comment": "City of beaches."
+    },
+    "San Francisco": {
+      "weatherCondition": "Overcast",
+      "temperature": "55.9",
+      "humidity": "74%",
+      "locationName": "San Francisco, CA",
+      "zip": "94105",
+      "comment": "The Golden Gate city."
+    },
+    "New York": {
+      "weatherCondition": "Overcast",
+      "temperature": "61.2",
+      "humidity": "57%",
+      "locationName": "New York, NY",
+      "zip": "10001",
+      "comment": "The big apple."
+    },
+    "Seattle": {
+      "weatherCondition": "Overcast",
+      "temperature": "47.5",
+      "humidity": "99%",
+      "locationName": "Seattle, WA",
+      "zip": "98106",
+      "comment": "The emerald city, home of Mount Rainier"
+    },
+    "Boston": {
+      "weatherCondition": "Mostly Cloudy",
+      "temperature": "67.6",
+      "humidity": "49%",
+      "locationName": "Boston, MA",
+      "zip": "2101",
+      "comment": "Well, you could just look out the window!"
+    },
+    "New Orleans": {
+      "weatherCondition": "Scattered Clouds",
+      "temperature": "75.0",
+      "humidity": "63%",
+      "locationName": "New Orleans, LA",
+      "zip": "70112",
+      "comment": "The big easy."
+    }
+  },
+  "friendsCities": {
+    "Ellen Lewis": {
+      "weatherCondition": "Haze",
+      "temperature": "68.3",
+      "humidity": "75%",
+      "locationName": "Oceanside, CA",
+      "zip": "92049"
+    },
+    "Philip Morley": {
+      "weatherCondition": "Scattered Clouds",
+      "temperature": "92.5",
+      "humidity": "17%",
+      "locationName": "Tampa, FL",
+      "zip": "33604"
+    },
+    "Harriet Jones": {
+      "weatherCondition": "Mostly Cloudy",
+      "temperature": "67.1",
+      "humidity": "51%",
+      "locationName": "Boston, MA",
+      "zip": "02118"
+    },
+    "Marion Smith": {
+      "weatherCondition": "Mostly Cloudy",
+      "temperature": "67.2",
+      "humidity": "52%",
+      "locationName": "Dorchester, MA",
+      "zip": "02124"
+    },
+    "Linda Jefferson": {
+      "weatherCondition": "Partly Cloudy",
+      "temperature": "65.5",
+      "humidity": "74%",
+      "locationName": "Memphis, TN",
+      "zip": "38120"
+    }
+  }
+}
