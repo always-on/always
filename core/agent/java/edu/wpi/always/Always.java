@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
-import org.picocontainer.Characteristics;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoBuilder;
+import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
+import org.picocontainer.lifecycle.StartableLifecycleStrategy;
+import org.picocontainer.monitors.LifecycleComponentMonitor;
 
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
@@ -18,13 +18,16 @@ import edu.wpi.always.user.UserUtils;
 import edu.wpi.always.user.owl.OntologyRegistry;
 import edu.wpi.always.user.owl.OntologyRuleHelper;
 import edu.wpi.always.user.owl.OntologyUserRegistry;
+import edu.wpi.cetask.*;
 import edu.wpi.disco.Agent;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.User;
 import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.behavior.SpeechMarkupBehavior;
-import edu.wpi.disco.rt.util.ComponentRegistry;
+import edu.wpi.disco.rt.schema.Schema;
+import edu.wpi.disco.rt.util.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public class Always {
 
@@ -84,6 +87,9 @@ public class Always {
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
          UserUtils.USER_FILE = "TestUser.owl";  // no way to change for now
+         // to get plugin classes 
+         for (TaskClass task : new TaskEngine().load("Activities.xml").getTaskClasses())
+            Plugin.getPlugin(task);
          // initialize duplicate interaction created above
          new Always(true, false).init(interaction); 
          interaction.start(true);  
@@ -125,6 +131,7 @@ public class Always {
     */
    private final MutablePicoContainer container =
          new PicoBuilder().withBehaviors(new OptInCaching())
+            .withLifecycle(new StartableLifecycleStrategy(new LifecycleComponentMonitor())) 
             .withConstructorInjection().build();
    
    public MutablePicoContainer getContainer () {
@@ -137,16 +144,16 @@ public class Always {
          BasicConfigurator.configure();
       else
          BasicConfigurator.configure(new NullAppender());
-      container.addComponent(container); 
-      container.addComponent(this);
+      container.as(Characteristics.CACHE).addComponent(this);
       container.as(Characteristics.CACHE).addComponent(RelationshipManager.class);  
-      container.as(Characteristics.CACHE).addComponent(CollaborationManager.class);
       addRegistry(new OntologyUserRegistry()); 
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas(allPlugins));
       register();
       SpeechMarkupBehavior.ANALYZER = new AgentSpeechMarkupAnalyzer();
-      init(container.getComponent(CollaborationManager.class).getInteraction());
+      CollaborationManager cm = new CollaborationManager(container);
+      container.as(Characteristics.CACHE).addComponent(cm);
+      init(cm.getInteraction());
    }
 
    public void init (Interaction interaction) {
@@ -178,9 +185,11 @@ public class Always {
    private String activity;
    
    public void start () {
+      // start container first, since cm has own start method
+      container.start(); 
       CollaborationManager cm = container.getComponent(CollaborationManager.class);
       for (Registry registry : cmRegistries) cm.addRegistry(registry);
-      System.out.println("Starting Collaboration Manager");
+      System.out.println("Starting Collaboration Manager...");
       cm.start(plugin, activity);
       System.out.println("Always running...");
       if ( plugin != null ) 
@@ -188,6 +197,11 @@ public class Always {
             container.getComponent(plugin).startActivity(activity).getClass());
    }
 
+   public void stop () { 
+      container.stop();
+      Utils.lnprint(System.out, "Always stopped.");
+   }
+   
    private void register () {
       for (ComponentRegistry registry : registries)
          registry.register(container);

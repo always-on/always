@@ -3,7 +3,7 @@ package edu.wpi.disco.rt.realizer.petri;
 import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import edu.wpi.disco.rt.realizer.*;
-import edu.wpi.disco.rt.util.FutureValue;
+import edu.wpi.disco.rt.util.*;
 
 public class BehaviorStartPlace extends Place {
 
@@ -23,7 +23,7 @@ public class BehaviorStartPlace extends Place {
 
    @Override
    public void run () {
-      if ( DiscoRT.TRACE) System.out.println("starting on " + behavior.getClass());
+      if ( DiscoRT.TRACE) Utils.lnprint(System.out, "starting on " + behavior.getClass());
       handle.set(control.realize(behavior));
       done();
    }

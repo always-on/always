@@ -1,10 +1,11 @@
 package edu.wpi.disco.rt.util;
 
-import edu.wpi.disco.rt.DiscoRT;
-import edu.wpi.disco.rt.behavior.*;
-import edu.wpi.disco.rt.realizer.*;
 import java.util.*;
 import java.util.concurrent.*;
+import edu.wpi.disco.rt.DiscoRT;
+import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.realizer.CompoundRealizer;
+import edu.wpi.disco.rt.schema.Schema;
 
 /**
  * Utility class with factory methods to make thread pools that use class names
@@ -25,13 +26,14 @@ public class ThreadPools {
             TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
    }
 
-   public static ScheduledExecutorService newScheduledThreadPool (
-         int corePoolSize) {
+   public static ScheduledExecutorService newScheduledThreadPool (int corePoolSize) {
+      
       return new ScheduledThreadPoolExecutor(corePoolSize) {
 
          @Override
          protected <V> RunnableScheduledFuture<V> decorateTask (
                Runnable runnable, RunnableScheduledFuture<V> task) {
+            task = new ScheduledFutureTask<V>(task, runnable);
             names.put(task, runnable.getClass().getName());
             return task;
          }
@@ -49,7 +51,6 @@ public class ThreadPools {
          }
       };
    }
-
    // note using weak hash map to avoid memory leak due to many tasks while
    // always on
    private static final Map<RunnableScheduledFuture<? extends Object>, String> names = Collections
@@ -78,28 +79,38 @@ public class ThreadPools {
       protected void afterExecute (Runnable r, Throwable t) {
          super.afterExecute(r, t);
          ThreadPools.afterExecute(r, t);
-      };
+      }
    }
 
    private static void afterExecute (Runnable r, Throwable t) {
       if ( t == null && Future.class.isAssignableFrom(r.getClass()) ) {
-         if ( !((Future<?>) r).isDone() )
-            return;
+         if ( !((Future<?>) r).isDone() ) return;
          try {
             ((Future<?>) r).get(1, TimeUnit.MILLISECONDS);
-         } catch (CancellationException ce) {
-            if ( DiscoRT.TRACE ) System.out.println("Cancelled " + getName(r));
-         } catch (ExecutionException ee) {
-            t = ee.getCause();
-         } catch (InterruptedException ie) {
+         } catch (CancellationException e) {
+            if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Cancelled " + getName(r));
+         } catch (ExecutionException e) {
+            t = e.getCause();
+         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-         } catch (TimeoutException te) {
-            if ( DiscoRT.TRACE ) System.out.println("Timeout " + getName(r));
+         } catch (TimeoutException e) {
+            if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Timeout " + getName(r));
+         }
+         if ( r instanceof ScheduledFutureTask<?> ) {
+            ScheduledFutureTask<?> task = (ScheduledFutureTask<?>) r;
+            r = task.getInner();
+            if ( r instanceof Schema ) {
+               Utils.lnprint(System.out, "Disposing of "+r+"...");
+               ((Schema) r).dispose();
+            }
          }
       }
-      if ( t != null ) { throw new RuntimeException(t); }
+      if ( t != null ) {
+         System.out.println(); // may improve readability
+         edu.wpi.cetask.Utils.rethrow(t); 
+      }
    }
-
+   
    private static String getName (Runnable runnable) {
       if ( runnable instanceof ThreadPools.FutureTask<?> )
          runnable = ((ThreadPools.FutureTask<?>) runnable).getInner();
@@ -107,13 +118,11 @@ public class ThreadPools {
          || runnable instanceof CompoundRealizer )
          return runnable.toString();
       String name = names.get(runnable);
-      if ( name != null )
-         return name;
+      if ( name != null ) return name;
       return runnable.getClass().getName();
    }
 
-   private static class FutureTask<V> extends
-         java.util.concurrent.FutureTask<V> {
+   private static class FutureTask<V> extends java.util.concurrent.FutureTask<V> {
 
       private final Runnable inner;
 
@@ -122,11 +131,54 @@ public class ThreadPools {
          this.inner = inner;
       }
 
-      public Runnable getInner () {
-         return inner;
-      }
+      public Runnable getInner () { return inner; }
    }
 
+   private static class ScheduledFutureTask<V> implements RunnableScheduledFuture<V> {
+
+      private final RunnableScheduledFuture<V> task;
+      private final Runnable inner;
+
+      private ScheduledFutureTask (RunnableScheduledFuture<V> task, Runnable inner) {
+         this.task = task;
+         this.inner = inner;
+      }
+
+      public Runnable getInner () { return inner; }
+
+      @Override
+      public long getDelay (TimeUnit arg0) { return task.getDelay(arg0); }
+
+      @Override
+      public int compareTo (Delayed arg0) { return task.compareTo(arg0); }
+
+      @Override
+      public boolean isPeriodic () { return task.isPeriodic(); }
+
+      @Override
+      public void run () { task.run(); }
+
+      @Override
+      public boolean cancel (boolean arg0) { return task.cancel(arg0); }
+
+      @Override
+      public V get () throws InterruptedException, ExecutionException {
+         return task.get();
+      }
+
+      @Override
+      public V get (long arg0, TimeUnit arg1) throws InterruptedException,
+            ExecutionException, TimeoutException {
+         return task.get(arg0, arg1);
+      }
+
+      @Override
+      public boolean isCancelled () { return task.isCancelled(); }
+
+      @Override
+      public boolean isDone () { return task.isDone(); }
+   }
+    
    /** Cannot instantiate. */
    private ThreadPools () {
    }

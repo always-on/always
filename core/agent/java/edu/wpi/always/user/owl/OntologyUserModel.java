@@ -1,13 +1,10 @@
 package edu.wpi.always.user.owl;
 
-import edu.wpi.always.Always;
-import edu.wpi.always.user.*;
-import org.picocontainer.annotations.Bind;
+import java.io.*;
+import java.util.*;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.*;
-import java.io.*;
-import java.lang.annotation.*;
-import java.util.*;
+import edu.wpi.always.user.*;
 
 public class OntologyUserModel extends UserModelBase {
 
@@ -29,6 +26,8 @@ public class OntologyUserModel extends UserModelBase {
       this.placeManager = placeManager;
       peopleManager.setUserModel(this);
       System.out.println("Saving user ontology to: "+userDataFile);
+      // partially set for testing
+      user = ontology.getNamedIndividual("User");
    }
    
    @Override
@@ -46,7 +45,7 @@ public class OntologyUserModel extends UserModelBase {
       } else throw new UnsupportedOperationException(
                   "User model already has name: "+this.userName);
    }
-   
+      
    @Override
    public OntologyCalendar getCalendar () {
       return calendar;

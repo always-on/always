@@ -8,7 +8,7 @@
     // defining the Javascript type Activity
 
     function Activity (flag, format) { 
-       this.flag = "Explain"+flag; 
+       this.flag = flag; 
        this.format = format; 
     }
 
@@ -17,11 +17,11 @@
     }
 
     Activity.prototype.setFlag = function () {
-       $always.getUserModel().setProperty(this.flag, true);
+       $always.getUserModel().setProperty(edu.wpi.always.explain.ExplainPlugin[this.flag], true);
     }
 
     Activity.prototype.checkFlag = function () {
-       return $always.getUserModel().isProperty(this.flag);
+       return $always.getUserModel().isProperty(edu.wpi.always.explain.ExplainPlugin[this.flag]);
     }
 
     // all activities that this plugin knows about 
@@ -31,12 +31,12 @@
     // NB: All flags must be defined in Explain.owl
 
     Activity.ALL = {
-         PlanExercise : new Activity("PlanExercise", "developing an exercise plan for me"), 
-         DiscussFamily : new Activity("DiscussFamily", "talking together about my family and friends"),
-         UseCalendar : new Activity("UseCalendar", "keeping my personal calendar"),
-         PlayRummy : new Activity("PlayRummy", "playing a social game of cards"),
-         TellStory : new Activity("TellStory", "telling one of my life stories "),
-         DiscussWeather : new Activity("DiscussWeather", "telling weather where my friends and family live")
+         PlanExercise : new Activity("PLAN_EXERCISE", "developing an exercise plan for me"), 
+         DiscussFamily : new Activity("DISCUSS_FAMILY", "talking together about my family and friends"),
+         UseCalendar : new Activity("USE_CALENDAR", "keeping my personal calendar"),
+         PlayRummy : new Activity("PLAY_RUMMY", "playing a social game of cards"),
+         TellStory : new Activity("TELL_STORY", "telling one of my life stories "),
+         DiscussWeather : new Activity("DISCUSS_WEATHER", "telling weather where my friends and family live")
          // TODO: add the other activities
     }
 
@@ -53,7 +53,7 @@
     var noThanks = false;
     var $CHOICE;
 
-    var previousTalk = $always.getUserModel().isProperty("ExplainPreviousTalk");
+    var previousTalk = $always.getUserModel().isProperty(edu.wpi.always.explain.ExplainPlugin.PREVIOUS_TALK);
 
   </t:script>
 
@@ -112,7 +112,7 @@
     <t:script> $CHOICE = $this.choice </t:script>
   </t:task>
 
-  <agent id="_EndExplaining" text="Well, anytime you want more explanations, just ask!">
+  <agent id="_EndExplaining" text="Well, any time you want more explanations, just ask!">
     <user text="Ok, thanks">
     </user>
     <user text="Thanks that was really interesting!">
@@ -149,7 +149,7 @@
          eval="Activity.ALL.DiscussWeather.setFlag()">
     <user text="Really? Tell me more">
       <agent text="You can tell me about your family and friends, and I will remember what you say.  You can also tell me if you want to know the weather for that person everyday or just once in a while">
-        <user text="Ok, I will tell you about my family an dfriends" />
+        <user text="Ok, I will tell you about my family and friends" />
         <user text="I don't want to know the weather except here" />
       </agent>
     </user>

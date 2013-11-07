@@ -1,12 +1,8 @@
 package edu.wpi.always.cm.schemas;
 
 import edu.wpi.disco.rt.ResourceMonitor;
-import edu.wpi.disco.rt.behavior.BehaviorHistory;
-import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
-import edu.wpi.disco.rt.menu.AdjacencyPair;
-import edu.wpi.disco.rt.menu.MenuPerceptor;
-import edu.wpi.disco.rt.menu.MenuTurnStateMachine;
-import edu.wpi.disco.rt.menu.RepeatMenuTimeoutHandler;
+import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.*;
 
 public abstract class ActivityStateMachineSchema extends ActivitySchema {
 

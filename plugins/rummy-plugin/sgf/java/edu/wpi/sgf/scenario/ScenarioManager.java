@@ -300,7 +300,7 @@ public class ScenarioManager {
          e.printStackTrace();
       }
       try {
-         Document xmldoc = (Document) builder
+         Document xmldoc = builder
                .build(scenariosFile);
          Element rootNode = xmldoc.getRootElement();
          List<Element> retrievedScenarioNamesFromFile = 

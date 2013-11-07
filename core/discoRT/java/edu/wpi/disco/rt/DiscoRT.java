@@ -1,21 +1,24 @@
 package edu.wpi.disco.rt;
 
+import java.awt.Frame;
+import java.util.*;
+import org.picocontainer.*;
+import org.picocontainer.behaviors.OptInCaching;
+import org.picocontainer.lifecycle.StartableLifecycleStrategy;
+import org.picocontainer.monitors.LifecycleComponentMonitor;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.perceptor.Perceptor;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.schema.*;
+import edu.wpi.disco.rt.util.Utils;
 import edu.wpi.disco.rt.util.ComponentRegistry;
-import org.picocontainer.*;
-import org.picocontainer.behaviors.OptInCaching;
-import java.awt.Frame;
-import java.util.*;
 
-public class DiscoRT {
+public class DiscoRT implements Startable {
    
    // default intervals in msec
-   public static final int  
-         SCHEMA_INTERVAL = 500,
+   public static int  
+         SCHEMA_INTERVAL = 1000,
          ARBITRATOR_INTERVAL = 300,
          PERCEPTOR_INTERVAL = 200,
          REALIZER_INTERVAL = 100;
@@ -29,43 +32,55 @@ public class DiscoRT {
    public static boolean TRACE;
    
    private final Scheduler scheduler = new Scheduler();
-   protected final Interaction interaction =  new Interaction(new Agent("agent"), new User("user"));
+   protected final DiscoRT.Interaction interaction =  new DiscoRT.Interaction(new Agent("agent"), new User("user"));
    protected final MutablePicoContainer container;
    protected final List<SchemaRegistry> schemaRegistries = new ArrayList<SchemaRegistry>();
    protected final List<ComponentRegistry> registries = new ArrayList<ComponentRegistry>();
   
    public Interaction getInteraction () { return interaction; }
    
+   public static class Interaction extends edu.wpi.disco.Interaction {
+      
+      public Interaction (Actor system, Actor external) {
+         super(system, external);
+         setName("edu.wpi.disco.rt.DiscoRT.Interaction");
+      }
+      
+      public void setSchema (Schema schema) { setGlobal("$schema", schema); } 
+   }
+   
    public DiscoRT () {
-      container = new PicoBuilder().withBehaviors(new OptInCaching()).withConstructorInjection().build();
+      container = new PicoBuilder().withBehaviors(new OptInCaching())
+            .withLifecycle(new StartableLifecycleStrategy(new LifecycleComponentMonitor()))
+            .withConstructorInjection().build();
       container.as(Characteristics.CACHE).addComponent(Resources.class);
-      container.addComponent(interaction);
+      container.as(Characteristics.CACHE).addComponent(interaction);
    }
 
    public DiscoRT (MutablePicoContainer parent) {
-      container = new DefaultPicoContainer(new OptInCaching(), parent);
+      container = new DefaultPicoContainer(new OptInCaching(), 
+            new StartableLifecycleStrategy(new LifecycleComponentMonitor()), 
+            parent);
       container.as(Characteristics.CACHE).addComponent(Resources.class);
-      container.addComponent(interaction);
+      container.as(Characteristics.CACHE).addComponent(interaction);
    }
    
    private void configure (String title) {
-      container.addComponent(container);
       container.as(Characteristics.CACHE).addComponent(PrimitiveBehaviorManager.class);
       container.as(Characteristics.CACHE).addComponent(Realizer.class);
       container.addComponent(FocusRequestRealizer.class);
-      container.addComponent(FuzzyArbitrationStrategy.class);
+      container.as(Characteristics.CACHE).addComponent(FuzzyArbitrationStrategy.class);
       container.as(Characteristics.CACHE).addComponent(CandidateBehaviorsContainer.class);
       container.as(Characteristics.CACHE).addComponent(Arbitrator.class);
       container.as(Characteristics.CACHE).addComponent(ResourceMonitor.class);
-      container.as(Characteristics.CACHE).addComponent(SchemaManager.class);
-      container.addComponent(scheduler);
-      if ( title != null ) new DiscoRT.ConsoleWindow(interaction, title);
+      container.as(Characteristics.CACHE).addComponent(scheduler);
+      if ( title != null ) new DiscoRT.ConsoleWindow(interaction, title, false);
    }
 
    public static class ConsoleWindow extends edu.wpi.disco.ConsoleWindow {
       
-      public ConsoleWindow (Interaction interaction, String title) {
-         super(interaction, 600, 500, 14);
+      public ConsoleWindow (Interaction interaction, String title, boolean append) {
+         super(interaction, 600, 500, 14, append);
          setExtendedState(Frame.ICONIFIED);
          setTitle(title);
       }
@@ -81,17 +96,18 @@ public class DiscoRT {
 
    public void start (String title) {
       configure(title);
+      SchemaManager schemaManager = new SchemaManager(container); 
+      container.as(Characteristics.CACHE).addComponent(schemaManager);
       for (ComponentRegistry registry : registries) {
          registry.register(container);
       }
-      SchemaManager schemaManager = getContainer().getComponent(SchemaManager.class);
       for (SchemaRegistry registry : schemaRegistries) {
          registry.register(schemaManager);
       }
       PrimitiveRealizerFactory realizerFactory = new PrimitiveRealizerFactory(container);
-      container.addComponent(realizerFactory);
+      container.as(Characteristics.CACHE).addComponent(realizerFactory);
       realizerFactory.registerAllRealizerInContainer();
-      Arbitrator arbitrator = getContainer().getComponent(Arbitrator.class);
+      Arbitrator arbitrator = container.getComponent(Arbitrator.class);
       @SuppressWarnings("rawtypes")
       List<Perceptor> perceptors = container.getComponents(Perceptor.class);
       scheduler.schedule(arbitrator, ARBITRATOR_INTERVAL);
@@ -99,6 +115,18 @@ public class DiscoRT {
          scheduler.schedule(p, PERCEPTOR_INTERVAL);
       }
       schemaManager.startUp();
+   }
+   
+   @Override
+   public void start () {
+      System.out.println("Starting DiscoRT...");
+      container.start();
+   }
+   
+   @Override
+   public void stop () {
+      container.stop();
+      Utils.lnprint(System.out, "DiscoRT stopped.");
    }
 
    public MutablePicoContainer getContainer () {
@@ -136,6 +164,6 @@ public class DiscoRT {
     * task has the Disco focus (regardless of whether it requests it or not).
     */
    public void setSchema (TaskClass task, Class<? extends Schema> schema) {
-      tasks.put(task, schema); 
+      tasks.put(task, schema);
    }
 }

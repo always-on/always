@@ -5,20 +5,19 @@ import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.behavior.Constraint.Type;
 import edu.wpi.disco.rt.realizer.petri.*;
-import edu.wpi.disco.rt.util.TimeStampedValue;
+import edu.wpi.disco.rt.util.*;
 import org.joda.time.DateTime;
 import java.util.*;
 
 public class MenuTurnStateMachine implements BehaviorBuilder {
 
-   public static final int TIMEOUT_DELAY = 10000; 
+   public static final int TIMEOUT_DELAY = 20000; 
    public static final int MENU_DELAY = 1000;
    
    private final BehaviorHistory behaviorHistory;
    private final MenuPerceptor menuPerceptor;
    private final ResourceMonitor resourceMonitor;
    private final MenuTimeoutHandler timeoutHandler;
-
    private TimeStampedValue<Behavior> previousBehavior = new TimeStampedValue<Behavior>(Behavior.NULL);
    private AdjacencyPair state, previousState;
    private Mode mode;
@@ -51,7 +50,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    public Behavior build () {
       // note this method is coded as tail-recursive loops
       if ( state == null ) {
-         if ( DiscoRT.TRACE) System.out.println("Nothing to say/do");
+         if ( DiscoRT.TRACE) Utils.lnprint(System.out, "Nothing to say/do");
          return Behavior.NULL;
       }
       if ( !hasSomethingToSay(state) && !hasChoicesForUser(state) ) {
@@ -115,6 +114,16 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
             if ( state == previousState ) update(Behavior.NULL);
             return nextState(selected); // loop
          }
+      }
+      if ( alreadyDone && mode == Mode.Hearing && !extension
+           && speechBehavior != null && menuBehavior != null ) { 
+         // while waiting for menu selection, release other resources from speech markup, if any
+         // TODO remove null speech behavior also (e.g., to allow robot to say "ouch" if you
+         //      poke it), but figure out first why that causes timeout response to keep
+         //      repeating
+         behavior = new Behavior(new SimpleCompoundBehavior(
+               PrimitiveBehavior.nullBehavior(Resources.SPEECH), menuBehavior));
+         if ( needsFocusResource ) behavior = behavior.addFocusResource();
       }
       if ( mode == Mode.Hearing && !extension
            && waitingForResponseSince.isBefore(DateTime.now().minusMillis(TIMEOUT_DELAY)) ) {

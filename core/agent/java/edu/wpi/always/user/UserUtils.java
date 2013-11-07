@@ -1,17 +1,19 @@
 package edu.wpi.always.user;
 
-import edu.wpi.always.Always;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.regex.Pattern;
+import org.joda.time.*;
+import org.picocontainer.BindKey;
+import edu.wpi.always.*;
 import edu.wpi.always.user.calendar.*;
-import edu.wpi.always.user.owl.OntologyUserModel;
+import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
-import edu.wpi.disco.*;
-import org.picocontainer.*;
-import org.joda.time.*;
-import java.io.*;
-import java.util.regex.Pattern;
+import edu.wpi.cetask.*;
 
 public abstract class UserUtils {
 
@@ -34,7 +36,10 @@ public abstract class UserUtils {
    public static void main (String[] args) {
       if ( args != null && args.length > 0 && args[0].length() > 0 )
          USER_FILE = args[0];
-      Always always = new Always(true, false);
+      Always always = new Always(true, true);
+      // to get plugin classes 
+      for (TaskClass task : new TaskEngine().load("Activities.xml").getTaskClasses())
+         Plugin.getPlugin(task);
       UserModel model = always.getUserModel();
       if ( model.getUserName() == null )
          System.err.println("Could not load model from "+
@@ -52,8 +57,8 @@ public abstract class UserUtils {
       stream.println();
       stream.println("USER MODEL FOR "+model.getUserName());
       System.out.print("Sessions: "+model.getSessions()+
-            " Closeness: "+model.getCloseness()+
-            "\nStartTime: "+new DateTime(model.getStartTime()));
+            " Closeness: "+model.getCloseness());
+      System.out.println(" StartTime: "+new DateTime(model.getStartTime()));
       System.out.println();
       for (Person person : model.getPeopleManager().getPeople(true)) {
          stream.print(person);
@@ -92,6 +97,17 @@ public abstract class UserUtils {
          if ( mentioned ) stream.println("\tAboutMentioned = "+mentioned);
       }
       stream.println();
+      // plugin specific properties
+      for (Class<? extends Plugin> plugin : Plugin.getPlugins()) {
+         boolean hasProperties = false;
+         try {
+            for (String property : (String[]) plugin.getMethod("getProperties").invoke(null)) {
+               stream.println("\t"+property+" = "+model.getProperty(property));
+               hasProperties = true;
+            }
+         } catch (Exception e) {}
+         if ( hasProperties) stream.println();
+      }
       stream.println("CALENDAR");
       CalendarUtils.print(model.getCalendar(), stream);
    }

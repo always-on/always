@@ -3,6 +3,7 @@ package edu.wpi.always.cm;
 import java.io.File;
 import org.picocontainer.*;
 import edu.wpi.always.*;
+import edu.wpi.always.client.ReetiCommandSocketConnection;
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.perceptors.sensor.face.*;
 import edu.wpi.always.cm.primitives.*;
@@ -11,6 +12,7 @@ import edu.wpi.always.user.*;
 import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public class CollaborationManager extends DiscoRT {
 
@@ -20,6 +22,7 @@ public class CollaborationManager extends DiscoRT {
    public CollaborationManager (MutablePicoContainer parent) {
       super(parent);
       this.parent = parent;
+      SCHEMA_INTERVAL = 500;
       container.removeComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
@@ -31,17 +34,23 @@ public class CollaborationManager extends DiscoRT {
       parent.getComponent(UserModel.class).load();
    }
  
+   private ReetiCommandSocketConnection reetiSocket;
+   
+   public ReetiCommandSocketConnection getReetiSocket () { return reetiSocket; }
+   
    public void start (Class<? extends Plugin> plugin, String activity) {
       
       switch ( Always.getAgentType() ) {
          case Unity:
-            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.class);
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Agent.class);
             break;
          case Reeti:
-            container.as(Characteristics.CACHE).addComponent(ReetiShoreFacePerceptor.class);            
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);  
+            reetiSocket = new ReetiCommandSocketConnection();
             break;
          case Mirror:
-            container.as(Characteristics.CACHE).addComponent(MirrorShoreFacePerceptor.class);
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Mirror.class);
+            reetiSocket = new ReetiCommandSocketConnection();
             break;
       }
       // FIXME Try to use real sensors
@@ -64,4 +73,12 @@ public class CollaborationManager extends DiscoRT {
       super.start(plugin == null ? "Session" : null);
       if ( plugin == null ) setSchema(null, SessionSchema.class);
    }
+   
+   @Override
+   public void stop () {
+      super.stop();
+      if (reetiSocket != null ) reetiSocket.close();
+      Utils.lnprint(System.out, "Collaboration Manager stopped.");
+   }
+
 }

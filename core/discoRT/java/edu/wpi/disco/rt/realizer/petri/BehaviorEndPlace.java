@@ -1,5 +1,6 @@
 package edu.wpi.disco.rt.realizer.petri;
 
+import edu.wpi.cetask.Utils;
 import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.util.FutureValue;
@@ -28,10 +29,7 @@ public class BehaviorEndPlace extends Place {
       } catch (InterruptedException e) {
          e.printStackTrace();
          fail();
-      } catch (ExecutionException e) {
-         e.printStackTrace();
-         fail();
-      }
+      } catch (ExecutionException e) { Utils.rethrow(e); }
    }
 
    @Override
