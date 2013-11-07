@@ -58,7 +58,7 @@ public abstract class UserUtils {
       stream.println("USER MODEL FOR "+model.getUserName());
       System.out.print("Sessions: "+model.getSessions()+
             " Closeness: "+model.getCloseness());
-      System.out.println("StartTime: "+new DateTime(model.getStartTime()));
+      System.out.println(" StartTime: "+new DateTime(model.getStartTime()));
       System.out.println();
       for (Person person : model.getPeopleManager().getPeople(true)) {
          stream.print(person);
