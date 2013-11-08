@@ -13,7 +13,7 @@ public class AboutSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
-      interaction.load("edu/wpi/always/greetings/resources/Greetings.xml");
+      interaction.load("edu/wpi/always/about/resources/About.xml");
       start("_TalkAbout");
               
    }
