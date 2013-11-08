@@ -20,6 +20,7 @@ namespace Plugins.Startup
             AgentApp.MainWindow.RegisterPlugin("rummy", "AgentApp.RummyPluginCreator,Rummy.UI");
             AgentApp.MainWindow.RegisterPlugin("tictactoe", "AgentApp.TTTPluginCreator,TTT.UI");
             AgentApp.MainWindow.RegisterPlugin("story", "Story.UI.StoryPluginCreator,Story.UI");
+			AgentApp.MainWindow.RegisterPlugin("enroll", "Enroll.UI.EnrollPluginCreator,Enroll.UI");
         }
 
         protected override void OnStartup(StartupEventArgs e)

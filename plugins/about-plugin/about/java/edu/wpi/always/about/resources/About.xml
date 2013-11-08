@@ -1203,7 +1203,7 @@
          <binding slot="$_d4e294_step.external" value="true"/>
       </subtasks>
    </task>
-   <task id="TalkAbout">
+   <task id="_TalkAbout">
       <subtasks id="main">
          <step name="start" task="_Holiday" minOccurs="0" maxOccurs="1"/>
          <step name="who" task="IteratePeople" maxOccurs="10"/>

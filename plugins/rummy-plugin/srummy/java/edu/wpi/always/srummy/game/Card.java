@@ -137,7 +137,8 @@ public class Card implements Iterable<Card>{
 
 	}
 
-	public String toString(){ 
+	@Override
+   public String toString(){ 
 
 		return rank + " of " + suit; 
 
