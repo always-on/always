@@ -23,15 +23,20 @@ public class ExplainPlugin extends Plugin {
    public static final String
       PREVIOUS_TALK = "ExplainPreviousTalk",
       PLAN_EXERCISE = "ExplainPlanExercise",
-      DISCUSS_FAMILY = "ExplainDiscussFamily",
+      TALK_ABOUT = "ExplainTalkAbout",
       USE_CALENDAR = "ExplainUseCalendar",
       PLAY_RUMMY = "ExplainPlayRummy",
       TELL_STORY = "ExplainTellStory",
-      DISCUSS_WEATHER = "ExplainDiscussWeather";
+      DISCUSS_WEATHER = "ExplainDiscussWeather",
+      PLAY_TICTACTOE = "ExplainPlayTicTacToe",
+      HEAR_ANECDOTES = "ExplainHearAnecdotes",
+      ADVISE_NUTRITION = "ExplainAdviseNutrition",
+      USE_SKYPE = "ExplainUseSkype";
             
    public static String[] getProperties () {
-      return new String[] { PREVIOUS_TALK, PLAN_EXERCISE, DISCUSS_FAMILY, USE_CALENDAR,
-                            PLAY_RUMMY, TELL_STORY, DISCUSS_WEATHER };
+      return new String[] { PREVIOUS_TALK, PLAN_EXERCISE, TALK_ABOUT, USE_CALENDAR,
+                            PLAY_RUMMY, TELL_STORY, DISCUSS_WEATHER, PLAY_TICTACTOE,
+                            HEAR_ANECDOTES, ADVISE_NUTRITION, USE_SKYPE};
    }
   
 }
