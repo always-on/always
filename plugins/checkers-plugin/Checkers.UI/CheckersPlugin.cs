@@ -50,18 +50,17 @@ namespace AgentApp
 			_remote.RemoveReceiveHandler("checkers.playability");
 		}
 
-       	private void PlayAgentMove(JObject cellNumAsJObj)
+       	private void PlayAgentMove(JObject moveDescAsJObj)
 		{
-            
-			//if (cellNumAsJObj["cellNum"]
-			//    .ToString().Trim().Equals("reset"))
-			//{
-			//    game.Reset();
-			//    return;
-			//}
-			//int cellNum = int.Parse(cellNumAsJObj["cellNum"].ToString());
-			////Console.WriteLine(cellNum);
-			//game.PlayAgentMove(cellNum);
+
+			if (moveDescAsJObj["moveDesc"]
+                .ToString().Trim().Equals("reset"))
+            {
+				game.Reset();
+                return;
+            }
+			string moveDesc = moveDescAsJObj["moveDesc"].ToString();
+			game.PlayAgentMove(moveDesc);
 		}
 
 		private void SetPlayability(JObject playabilityAsJObj)

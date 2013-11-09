@@ -23,6 +23,8 @@ namespace Checkers.UI
 	/// </summary>
 	public partial class GameShape : UserControl
 	{
+		bool okToMove = false;
+
         private enum Turn
         {
             Red,
@@ -45,13 +47,9 @@ namespace Checkers.UI
             this.grdBoard.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonUp);            
         }
         
-        /// <summary>
-        /// Here, the source is the drop target which in this case is a Label. This is needed to get
-        /// a reference to the underlying grid cell. That way we know the cell to which to add the new 
-        /// image. 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        // Here, the source is the drop target which in this case is a Label. This is needed to get
+        // a reference to the underlying grid cell. That way we know the cell to which to add the new 
+        // image. 
         void grdBoard_Drop(object sender, DragEventArgs e)
         {
 			// /red is user
@@ -61,12 +59,9 @@ namespace Checkers.UI
             EmptySpace l = e.Source as EmptySpace;
             int r = Grid.GetRow((EmptySpace)e.Source);
             int c = Grid.GetColumn((EmptySpace)e.Source);
-            bool okToMove = false;
+            okToMove = false;
 			from = currentPiece.row + "/" + currentPiece.col;
 
-            // Because both RedChecker and BlackChecker derive from CheckerPiece, we can use polymorphism
-            // to create the correct piece. Get the correct piece and determine if the move is valid.
-            // A valid move is one row forward to an unoccupied space.
             CheckerPiece checker;
             if (currentPiece is RedChecker)
             {
@@ -134,61 +129,71 @@ namespace Checkers.UI
                 checker = new BlackChecker();
                 if (l.row == currentPiece.row - 1 && (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1))
                     okToMove = true;
-
-                RedChecker opponentPiece = null;
-                if (c == currentPiece.col + 2)
-                {
-                    opponentPiece = grdBoard.Children.OfType<RedChecker>().Where(p => p.row == currentPiece.row - 1 && (p.col == currentPiece.col + 1)).SingleOrDefault();
-                }
-                else if (c== currentPiece.col - 2)
-                {
-                    opponentPiece = grdBoard.Children.OfType<RedChecker>().Where(p => p.row == currentPiece.row - 1 && (p.col == currentPiece.col - 1)).SingleOrDefault();
-                }
-
-                //FIXME: capturing a piece to the left isn't working //isn't it??
-                if (opponentPiece != null && currentPiece.row -l.row == 2)
-                {
-                    int validCol = (opponentPiece.col > currentPiece.col) ? currentPiece.col + 2 : currentPiece.col - 2;
-                    if (r == currentPiece.row - 2 && c == validCol)
-                    {
-                        capturedPiece = opponentPiece;
-                        Storyboard PieceCaptured = opponentPiece.Resources["PieceCaptured"] as Storyboard;
-                        if (PieceCaptured != null)
-                        {
-                            PieceCaptured.Completed += new EventHandler(RemovePiece);
-                            PieceCaptured.Begin();
-                        }
-                        okToMove = true;
-                    }
-                }
+				
+				CaptureHumanCellInAgentMoveIfAny(currentPiece, r, c, l);
+				
                 if (okToMove)
                     currentTurn = Turn.Red;
             }
 
             if (okToMove)
             {
-                checker.col = c;
-                checker.row = r;
-
-                // bind the mouse events
-                checker.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
-                checker.PreviewMouseMove += new MouseEventHandler(grdBoard_PreviewMouseMove);
-                checker.Cursor = Cursors.Hand;
-                checker.AllowDrop = false;
-
-                // add the piece to the board
-                Grid.SetRow(checker, r);
-                Grid.SetColumn(checker, c);
-                this.grdBoard.Children.Remove(currentPiece);
-                grdBoard.Children.Add(checker);
-                Storyboard DropPiece = checker.Resources["DropPiece"] as Storyboard;
-                if (DropPiece != null)
-                {
-                    DropPiece.Begin();
-                }
-                
+				MoveChecker(r, c, checker);
             }
         }
+
+		public void MoveChecker(int r, int c, CheckerPiece checker)
+		{
+			checker.col = c;
+			checker.row = r;
+
+			// bind the mouse events
+			checker.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
+			checker.PreviewMouseMove += new MouseEventHandler(grdBoard_PreviewMouseMove);
+			checker.Cursor = Cursors.Hand;
+			checker.AllowDrop = false;
+
+			// add the piece to the board
+			Grid.SetRow(checker, r);
+			Grid.SetColumn(checker, c);
+			this.grdBoard.Children.Remove(currentPiece);
+			grdBoard.Children.Add(checker);
+			Storyboard DropPiece = checker.Resources["DropPiece"] as Storyboard;
+			if (DropPiece != null)
+			{
+				DropPiece.Begin();
+			}
+		}
+
+		public void CaptureHumanCellInAgentMoveIfAny(CheckerPiece currentPiece, int r, int c, EmptySpace l)
+		{
+			RedChecker opponentPiece = null;
+			if (c == currentPiece.col + 2)
+			{
+				opponentPiece = grdBoard.Children.OfType<RedChecker>().Where(p => p.row == currentPiece.row - 1 && (p.col == currentPiece.col + 1)).SingleOrDefault();
+			}
+			else if (c == currentPiece.col - 2)
+			{
+				opponentPiece = grdBoard.Children.OfType<RedChecker>().Where(p => p.row == currentPiece.row - 1 && (p.col == currentPiece.col - 1)).SingleOrDefault();
+			}
+
+			//FIXME: capturing a piece to the left isn't working //isn't it??
+			if (opponentPiece != null && currentPiece.row - l.row == 2)
+			{
+				int validCol = (opponentPiece.col > currentPiece.col) ? currentPiece.col + 2 : currentPiece.col - 2;
+				if (r == currentPiece.row - 2 && c == validCol)
+				{
+					capturedPiece = opponentPiece;
+					Storyboard PieceCaptured = opponentPiece.Resources["PieceCaptured"] as Storyboard;
+					if (PieceCaptured != null)
+					{
+						PieceCaptured.Completed += new EventHandler(RemovePiece);
+						PieceCaptured.Begin();
+					}
+					okToMove = true;
+				}
+			}
+		}
 
         void RemovePiece(object sender, EventArgs e)
         {
@@ -218,13 +223,13 @@ namespace Checkers.UI
 		{
 			this.InitializeComponent();
             this.grdBoard.AllowDrop = true;
-            ResetGame();
+            Reset();
 		}
 
         /// <summary>
         /// This function loads the game pieces into the grid cells and prepares
         /// </summary>
-        private void ResetGame()
+        public void Reset()
         {
             currentTurn = Turn.Black; // Red goes first.
             this.pnlBlackGraveyard.Children.Clear();
@@ -353,10 +358,33 @@ namespace Checkers.UI
         private void btnReset_Click(object sender, RoutedEventArgs e)//rename to something with reset msg
         {
             this.grdBoard.Children.Clear();
-            this.ResetGame();
+            this.Reset();
         }
 
 		public event EventHandler Played = delegate { };
+
+		public void PlayAgentMove(string moveDesc)
+		{
+			this.Dispatcher.Invoke((Action)(() =>
+			{
+				char[] del = "//".ToArray();
+				List<string> descs = moveDesc.Split(del).ToList();
+				string from = descs[0];
+				string to = descs[1];
+				MoveChecker(int.Parse(to.Split(',')[0]), int.Parse(to.Split(',')[1]),
+ 					grdBoard.Children.OfType<RedChecker>().Where(
+					p => (p.row == int.Parse(from.Split(',')[0])) 
+						&& (p.col == int.Parse(from.Split(',')[1]))).SingleOrDefault());
+				CaptureHumanCellInAgentMoveIfAny(grdBoard.Children.OfType<RedChecker>().Where(
+					p => (p.row == int.Parse(from.Split(',')[0]))
+						&& (p.col == int.Parse(from.Split(',')[1]))).SingleOrDefault(), 
+						int.Parse(to.Split(',')[0]), int.Parse(to.Split(',')[1]),
+						grdBoard.Children.OfType<EmptySpace>().Where(
+					p => (p.row == int.Parse(to.Split(',')[0]))
+						&& (p.col == int.Parse(to.Split(',')[1]))).SingleOrDefault());
+			}));
+		}
+
     }
 
 	class cellEventArg : EventArgs
