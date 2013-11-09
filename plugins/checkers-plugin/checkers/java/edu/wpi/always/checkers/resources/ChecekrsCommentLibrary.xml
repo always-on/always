@@ -43,6 +43,15 @@
 		<comment competitiveness='0.1' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
 			And that checker is out!
 		</comment>
+		<comment competitiveness='0.1' tags="agentCaptureALot" gameType="board" gameName="checkers" madeOn="agent">
+			Haha, one more jump!
+		</comment>
+		<comment competitiveness='0.8' tags="agentCaptureALot" gameType="board" gameName="checkers" madeOn="agent">
+			Jumps were not finished!!!
+		</comment>
+		<comment competitiveness='0.1' tags="agentCaptureALot" gameType="board" gameName="checkers" madeOn="agent">
+			That is a killer move!
+		</comment>
 		<comment competitiveness='0.7' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
 			Crowning won't help you
 		</comment>
@@ -60,6 +69,15 @@
 		</comment>
 		<comment competitiveness='0.5' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
 			Outch!
+		</comment>
+		<comment competitiveness='0.5' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			Keeps coming ha?!
+		</comment>
+		<comment competitiveness='0.4' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			one more jump? wow!
+		</comment>
+		<comment competitiveness='0.8' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			Haha, is jumping ceremony over yet?
 		</comment>
 		
 	</agent>
@@ -83,6 +101,15 @@
 		<comment competitiveness='0.1' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
 			And that one is out
 		</comment>
+		<comment competitiveness='0.4' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			Not just one, haha!
+		</comment>
+		<comment competitiveness='0.5' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			More was on the way! 
+		</comment>
+		<comment competitiveness='0.6' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			I was not finish!
+		</comment>
 		<comment competitiveness='0.7' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
 			Crowning won't help you
 		</comment>
@@ -100,6 +127,15 @@
 		</comment>
 		<comment competitiveness='0.5' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
 			Outch!
+		</comment>
+		<comment competitiveness='0.7' tags="agentCaptureAlot" gameType="board" gameName="checkers" madeOn="agent">
+			Wow enough already!
+		</comment>
+		<comment competitiveness='0.8' tags="agentCaptureAlot" gameType="board" gameName="checkers" madeOn="agent">
+			Too many jumps there! 
+		</comment>
+		<comment competitiveness='0.2' tags="agentCaptureAlot" gameType="board" gameName="checkers" madeOn="agent">
+			jumping and jumping, haha
 		</comment>
 	</human>
 	

@@ -25,7 +25,6 @@ public class CheckersClient implements CheckersUI {
    public static boolean nod = false;
    public static boolean gameOver = false;
    private static final int HUMAN_IDENTIFIER = 1;
-   private static final int AGENT_IDENTIFIER = 2;
 
    // 1: userWins, 2: agentWins, 3: tie
    private int winOrTie = 0;
@@ -69,12 +68,19 @@ public class CheckersClient implements CheckersUI {
          @Override
          public void handleMessage (JsonObject body) {
             if ( listener != null ) {
-               int cellNum = Integer.valueOf(body.get("cellNum").getAsString());
-               gameState.updateLastBoardState();
-               gameState.board[cellNum - 1] = HUMAN_IDENTIFIER;
+               String moveDesc = body.get("moveDesc").getAsString();
+               
+               CheckersLegalMove humanMove = new CheckersLegalMove(
+                     Integer.parseInt(moveDesc.split("//")[0].split(",")[0]), 
+                     Integer.parseInt(moveDesc.split("//")[0].split(",")[1]), 
+                     Integer.parseInt(moveDesc.split("//")[1].split(",")[0]), 
+                     Integer.parseInt(moveDesc.split("//")[1].split(",")[1]));
+               
+               gameState.performUserMove(humanMove);
+               
                latestHumanMove = (CheckersAnnotatedLegalMove) moveAnnotator
-                     .annotate(new CheckersLegalMove(cellNum - 1), gameState);
-               updateWinOrTie();
+                     .annotate(humanMove, gameState);
+               updateWin();
                if ( winOrTie > 0 )
                   makeBoardUnplayable();
                listener.humanPlayed();
@@ -93,25 +99,27 @@ public class CheckersClient implements CheckersUI {
          return;
 
       scenarioManager.tickAll();
-
-      gameState.updateLastBoardState();
-      gameState.board[((CheckersLegalMove) currentMove.getMove()).getCellNum()] = AGENT_IDENTIFIER;
-      latestAgentMove = (CheckersAnnotatedLegalMove) currentMove;
+      latestAgentMove = 
+            (CheckersAnnotatedLegalMove) currentMove;
+      gameState.performAgentMove(
+            (CheckersLegalMove)currentMove.getMove());
+      
       Message msg = Message
             .builder(MSG_AGENT_MOVE)
-            .add("cellNum",
-                  ((CheckersLegalMove) currentMove.getMove()).getCellNum() + 1)
+            .add("moveDesc",
+                  (gameState.makeMoveDesc(
+                        (CheckersLegalMove) currentMove.getMove())))
             .build();
+      
       dispatcher.send(msg);
-      updateWinOrTie();
+      updateWin();
    }
 
    @Override
    public void resetGame () {
-      Message msg = Message.builder(MSG_AGENT_MOVE).add("cellNum", "reset")
+      Message msg = Message.builder(MSG_AGENT_MOVE).add("moveDesc", "reset")
             .build();
-      gameState.resetBoard();
-      gameState.resetGameStatus();
+      gameState.resetGame();
       dispatcher.send(msg);
    }
 
@@ -122,16 +130,18 @@ public class CheckersClient implements CheckersUI {
 
    @Override
    public List<String> getCurrentHumanCommentOptionsForAMoveBy (int player) {
-      updateWinOrTie();
+      updateWin();
 
       if ( player == HUMAN_IDENTIFIER )
          return commentingManager.getHumanCommentingOptionsForHumanMove(
                gameState, latestHumanMove,
-               gameState.getGameSpecificCommentingTags());
+               gameState.getGameSpecificCommentingTags(
+                     (CheckersLegalMove)latestHumanMove.getMove(), player));
       else
          return commentingManager.getHumanCommentingOptionsForAgentMove(
                gameState, latestAgentMove,
-               gameState.getGameSpecificCommentingTags());
+               gameState.getGameSpecificCommentingTags(
+                     (CheckersLegalMove)latestAgentMove.getMove(), player));
    }
 
    @Override
@@ -143,23 +153,25 @@ public class CheckersClient implements CheckersUI {
       // gameState), gameState), scenarioManager.getCurrentScenario()));
       moveChooser.choose(moveAnnotator.annotate(
             moveGenerator.generate(gameState), gameState));
-      updateWinOrTie();
+      updateWin();
    }
 
    @Override
    public void prepareAgentCommentForAMoveBy (int player) {
 
-      updateWinOrTie();
+      updateWin();
 
       // null passed for scenarios here.
       if ( player == HUMAN_IDENTIFIER )
          currentComment = commentingManager.getAgentCommentForHumanMove(
                gameState, latestHumanMove, null,
-               gameState.getGameSpecificCommentingTags());
+               gameState.getGameSpecificCommentingTags(
+                     (CheckersLegalMove)latestHumanMove.getMove(), player));
       else
          currentComment = commentingManager.getAgentCommentForAgentMove(
                gameState, latestAgentMove, null,
-               gameState.getGameSpecificCommentingTags());
+               gameState.getGameSpecificCommentingTags(
+                     (CheckersLegalMove)latestAgentMove.getMove(), player));
 
       if ( currentComment == null )
          currentComment = "";
@@ -229,19 +241,11 @@ public class CheckersClient implements CheckersUI {
       }
    }
    
-   private void updateWinOrTie () {
+   private void updateWin () {
 
-      winOrTie = gameState.didAnyOneJustWin();
-
-      if ( winOrTie == 1 )
-         gameState.userWins = true;
-      else if ( winOrTie == 2 )
-         gameState.agentWins = true;
-      else if ( winOrTie == 3 )
-         gameState.tie = true;
-
-      if ( winOrTie != 0 )
+      if ( gameState.possibleWinner() != 0 )
          CheckersClient.gameOver = true;
+      
    }
 
    public void show () {
@@ -261,7 +265,7 @@ public class CheckersClient implements CheckersUI {
 
    @Override
    public void makeBoardPlayable () {
-      if ( gameState.didAnyOneJustWin() == 0 ) {
+      if ( gameState.possibleWinner() == 0 ) {
          Message m = Message.builder(MSG_BOARD_PLAYABILITY)
                .add("value", "true").build();
          dispatcher.send(m);
