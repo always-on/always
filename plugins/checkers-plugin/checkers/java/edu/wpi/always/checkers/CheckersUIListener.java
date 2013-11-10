@@ -2,10 +2,12 @@ package edu.wpi.always.checkers;
 
 public interface CheckersUIListener {
 
-   public void humanPlayed ();
-   public void humanCommentTimeOut();
-   public void agentPlayDelayOver();
-   public void nextState();
-   public void agentPlayingGazeDelayOver ();
+   void humanCommentTimeOut();
+   void agentPlayDelayOver();
+   void nextState();
+   void receivedHumanMove();
+   void receivedAgentMoveOptions(String chosenMoveType);
+   void agentPlayingGazeDelayOver();
+   //   void receivedNewState();
 
 }

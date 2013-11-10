@@ -13,8 +13,8 @@ public class CheckersClient implements CheckersUI {
 
    private static final String PLUGIN_NAME = "checkers";
    private static final String MSG_HUMAN_MOVE = "checkers.human_move";
-   private static final String MSG_AGENT_MOVE = "tictactoe.agent_move";
-   private static final String MSG_BOARD_PLAYABILITY = "tictactoe.playability";
+   private static final String MSG_AGENT_MOVE = "checkers.agent_move";
+   private static final String MSG_BOARD_PLAYABILITY = "checkers.playability";
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;
    private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
@@ -83,7 +83,7 @@ public class CheckersClient implements CheckersUI {
                updateWin();
                if ( winOrTie > 0 )
                   makeBoardUnplayable();
-               listener.humanPlayed();
+               listener.receivedHumanMove();
             }
          }
       });
@@ -228,8 +228,7 @@ public class CheckersClient implements CheckersUI {
    }
    
    @Override
-   public void triggerNextStateTimer (
-         CheckersUIListener listener) {
+   public void triggerNextStateTimer () {
       nextStateTimer = new Timer();
       nextStateTimer.schedule(new NextStateTimerSetter(),
             4000);

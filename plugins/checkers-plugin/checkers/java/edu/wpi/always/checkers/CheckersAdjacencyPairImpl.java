@@ -19,13 +19,13 @@ implements CheckersUIListener {
    public void skipTo (AdjacencyPair nextAdjacencyPair) {
       setNextState(nextAdjacencyPair);
    }
-   
+
    @Override
-   public void humanPlayed() {
-      afterLimbo();
+   public void receivedHumanMove() {
+      humanMoveReceived();
    }
-   protected void afterLimbo(){}
-   
+   protected void humanMoveReceived(){}
+
    @Override
    public void humanCommentTimeOut(){
       afterTimeOut();
@@ -37,18 +37,29 @@ implements CheckersUIListener {
       afterAgentPlayDelay();
    }
    protected void afterAgentPlayDelay(){}
-   
+
    @Override
    public void agentPlayingGazeDelayOver () {
       afterAgentPlayingGazeDelay();
    }
    protected void afterAgentPlayingGazeDelay(){}
-   
+
    @Override
    public void nextState () {
       goToNextState();      
    }
-   public void goToNextState(){}
+   protected void goToNextState(){}
+
+   @Override
+   public void receivedAgentMoveOptions(String moveType) {
+      agentMoveOptionsReceived(moveType);
+   }
+   protected void agentMoveOptionsReceived(String moveType){}
+
+   //   @Override
+   //   public void receivedNewState() {
+   //   
+   //   }
 
 
 }

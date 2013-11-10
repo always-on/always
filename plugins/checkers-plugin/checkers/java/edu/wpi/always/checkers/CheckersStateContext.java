@@ -7,16 +7,16 @@ import edu.wpi.always.user.places.PlaceManager;
 public class CheckersStateContext{
 
    private final Keyboard keyboard;
-   private final CheckersUI CheckersUI;
+   private final CheckersUI srummyUIUI;
    private final UIMessageDispatcher dispatcher;
    private final PlaceManager placeManager;
    private final PeopleManager peopleManager;
 
-   public CheckersStateContext (Keyboard keyboard, CheckersUI CheckersUI,
+   public CheckersStateContext (Keyboard keyboard, CheckersUI srummyUIUI,
          UIMessageDispatcher dispatcher,
          PlaceManager placeManager, PeopleManager peopleManager) {
       this.keyboard = keyboard;
-      this.CheckersUI = CheckersUI;
+      this.srummyUIUI = srummyUIUI;
       this.dispatcher = dispatcher;
       this.placeManager = placeManager;
       this.peopleManager = peopleManager;
@@ -26,8 +26,8 @@ public class CheckersStateContext{
       return keyboard;
    }
 
-   public CheckersUI geCheckersTUI () {
-      return CheckersUI;
+   public CheckersUI getCheckersUI () {
+      return srummyUIUI;
    }
 
    public UIMessageDispatcher getDispatcher () {

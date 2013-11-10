@@ -17,7 +17,7 @@ public class CheckersSchema extends ActivityStateMachineSchema {
          MenuPerceptor menuPerceptor, Keyboard keyboard, CheckersUI CheckersUI,
          UIMessageDispatcher dispatcher, PlaceManager placeManager,
          PeopleManager peopleManager) {
-      super(new WhoPlaysFirst(new CheckersStateContext(keyboard, CheckersUI, dispatcher,
+      super(new StartGamingSequence(new CheckersStateContext(keyboard, CheckersUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor);
    }
@@ -34,14 +34,14 @@ public class CheckersSchema extends ActivityStateMachineSchema {
 
       if(CheckersClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
-               "$ "+WhoPlaysFirst.getCurrentAgentComment()+" $",
+               "$ "+StartGamingSequence.getCurrentAgentComment()+" $",
                new GazeBehavior(user))
          .build());
       }
       if(CheckersClient.gazeDirection.equals("sayandgazegameover")){
          propose(new SyncSayBuilder(
                "$ "+"Game over. "+
-                     WhoPlaysFirst.getCurrentAgentComment()+" $",
+                     StartGamingSequence.getCurrentAgentComment()+" $",
                      new GazeBehavior(user))
          .build());
          CheckersClient.gazeDirection = "";

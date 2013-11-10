@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 import edu.wpi.disco.rt.menu.*;
 
-public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
+public class StartGamingSequence extends CheckersAdjacencyPairImpl {
 
    private static final int HUMAN_IDENTIFIER = 1;
    private static final int AGENT_IDENTIFIER = 2;
@@ -12,35 +12,33 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
    private static String currentAgentComment = "";
    private static String WhatAgentSaysIfHumanDoesNotChooseAComment = "";
 
-   public WhoPlaysFirst(final CheckersStateContext context) {
-      super("Do you want to play the first move or should I?", context);
-      choice("Let me play first", new DialogStateTransition() {
+   public StartGamingSequence(final CheckersStateContext context) {
+      super("Let's play checkers", context);
+      choice("Ok", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {
             return new Limbo(context);
-         }
-      });
-      choice("You go ahead", new DialogStateTransition() {
-         @Override
-         public AdjacencyPair run () {
-            return new AgentPlayDelay(context);
          }
       });
    }
    @Override
    public void enter() {
       if(!CheckersClient.gameOver)
-         getContext().geCheckersTUI().startPluginForTheFirstTime(this);
+         getContext().getCheckersUI().startPluginForTheFirstTime(this);
       else {
          CheckersClient.gameOver = false;
-         getContext().geCheckersTUI().resetGame();
-         getContext().geCheckersTUI().updatePlugin(this);
+         getContext().getCheckersUI().resetGame();
+         getContext().getCheckersUI().updatePlugin(this);
       }
-      getContext().geCheckersTUI().makeBoardPlayable();
+//      getContext().getCheckersUI().makeBoardPlayable();
    }
    @Override
-   public void afterLimbo() {
+   public void humanMoveReceived() {
       skipTo(new CreateCommentsAfterLimbo(getContext()));
+   }
+   @Override
+   public void agentMoveOptionsReceived (String chosenMoveType) {
+      
    }
 
    //Limbo as waiting for user move
@@ -52,21 +50,21 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
       @Override
       public void enter() {
          if(CheckersClient.gameOver){
-            humanCommentOptions = getContext().geCheckersTUI()
+            humanCommentOptions = getContext().getCheckersUI()
                   .getCurrentHumanCommentOptionsForAMoveBy(
                         AGENT_IDENTIFIER);
-            getContext().geCheckersTUI().prepareAgentCommentForAMoveBy(
+            getContext().getCheckersUI().prepareAgentCommentForAMoveBy(
                   AGENT_IDENTIFIER);
-            currentAgentComment = getContext().geCheckersTUI()
+            currentAgentComment = getContext().getCheckersUI()
                   .getCurrentAgentComment();
             skipTo(new gameOverDialogue(getContext()));
          }
-         getContext().geCheckersTUI().makeBoardPlayable();
-         getContext().geCheckersTUI().updatePlugin(this);
+//         getContext().getCheckersUI().makeBoardPlayable();
+         getContext().getCheckersUI().updatePlugin(this);
          CheckersClient.gazeDirection = "board";
       }
       @Override
-      public void afterLimbo() {
+      public void humanMoveReceived() {
          currentAgentComment = "";
          skipTo(new CreateCommentsAfterLimbo(getContext()));
       }
@@ -78,12 +76,12 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
       }
       @Override
       public void enter(){
-         getContext().geCheckersTUI().makeBoardUnplayable();
-         getContext().geCheckersTUI().prepareAgentCommentForAMoveBy(
+//         getContext().getCheckersUI().makeBoardUnplayable();
+         getContext().getCheckersUI().prepareAgentCommentForAMoveBy(
                HUMAN_IDENTIFIER);
-         currentAgentComment = getContext().geCheckersTUI()
+         currentAgentComment = getContext().getCheckersUI()
                .getCurrentAgentComment();
-         humanCommentOptions = getContext().geCheckersTUI()
+         humanCommentOptions = getContext().getCheckersUI()
                .getCurrentHumanCommentOptionsForAMoveBy(HUMAN_IDENTIFIER);
          if(new Random().nextBoolean())
             skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
@@ -100,19 +98,19 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
       @Override
       public void enter(){
          if(CheckersClient.gameOver){
-            humanCommentOptions = getContext().geCheckersTUI()
+            humanCommentOptions = getContext().getCheckersUI()
                   .getCurrentHumanCommentOptionsForAMoveBy(AGENT_IDENTIFIER);
-            getContext().geCheckersTUI().prepareAgentCommentForAMoveBy(
+            getContext().getCheckersUI().prepareAgentCommentForAMoveBy(
                   AGENT_IDENTIFIER);
-            currentAgentComment = getContext().geCheckersTUI()
+            currentAgentComment = getContext().getCheckersUI()
                   .getCurrentAgentComment();
             skipTo(new gameOverDialogue(getContext()));
          }
          CheckersClient.gazeDirection = "thinking";
-         getContext().geCheckersTUI().makeBoardUnplayable();
-         getContext().geCheckersTUI().updatePlugin(this);
-         getContext().geCheckersTUI().triggerAgentPlayTimer();
-         getContext().geCheckersTUI().prepareAgentMove();
+//         getContext().getCheckersUI().makeBoardUnplayable();
+         getContext().getCheckersUI().updatePlugin(this);
+         getContext().getCheckersUI().triggerAgentPlayTimer();
+         getContext().getCheckersUI().prepareAgentMove();
       }
       @Override
       public void afterAgentPlayDelay() {
@@ -131,12 +129,12 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
       @Override
       public void enter(){
          //CheckersClient.gazeDirection = "board";
-         getContext().geCheckersTUI().playAgentMove(this);
-         getContext().geCheckersTUI().prepareAgentCommentForAMoveBy(
+         getContext().getCheckersUI().playAgentMove(this);
+         getContext().getCheckersUI().prepareAgentCommentForAMoveBy(
                AGENT_IDENTIFIER);
-         currentAgentComment = getContext().geCheckersTUI()
+         currentAgentComment = getContext().getCheckersUI()
                .getCurrentAgentComment();
-         humanCommentOptions = getContext().geCheckersTUI()
+         humanCommentOptions = getContext().getCheckersUI()
                .getCurrentHumanCommentOptionsForAMoveBy(AGENT_IDENTIFIER);
          if(new Random().nextBoolean())
             skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
@@ -155,12 +153,12 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         getContext().geCheckersTUI().prepareAgentCommentForAMoveBy(
+         getContext().getCheckersUI().prepareAgentCommentForAMoveBy(
                playerIdentifier);
-         currentAgentComment = getContext().geCheckersTUI()
+         currentAgentComment = getContext().getCheckersUI()
                .getCurrentAgentComment();
-         getContext().geCheckersTUI().updatePlugin(this);
-         getContext().geCheckersTUI().triggerNextStateTimer(this);
+         getContext().getCheckersUI().updatePlugin(this);
+         getContext().getCheckersUI().triggerNextStateTimer();
          CheckersClient.gazeDirection = "sayandgaze";
       }
       @Override
@@ -184,22 +182,20 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
                choice(eachCommentOption, new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
-                     //getContext().geCheckersTUI().cancelHumanCommentingTimer();
+                     //getContext().getCheckersUI().cancelHumanCommentingTimer();
                      if (playerIdentifier == AGENT_IDENTIFIER)
                         return new Limbo(getContext());
-                     else
-                        return new AgentPlayDelay(getContext());
+                     return new AgentPlayDelay(getContext());
                   }
                });
             if(playerIdentifier == HUMAN_IDENTIFIER){
                choice("Your turn", new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
-                     //getContext().geCheckersTUI().cancelHumanCommentingTimer();
+                     //getContext().getCheckersUI().cancelHumanCommentingTimer();
                      if (playerIdentifier == AGENT_IDENTIFIER)
                         return new Limbo(getContext());
-                     else
-                        return new AgentPlayDelay(getContext());
+                     return new AgentPlayDelay(getContext());
                   }
                });
             }
@@ -213,7 +209,7 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
          }
       }
       @Override 
-      public void afterLimbo() {
+      public void humanMoveReceived() {
          CheckersClient.gazeDirection = "board";
          skipTo(new CreateCommentsAfterLimbo(getContext()));
       }
@@ -226,12 +222,12 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
          }
          currentAgentComment = "";
          //CheckersClient.gazeDirection = "user";
-         humanCommentOptions = getContext().geCheckersTUI()
+         humanCommentOptions = getContext().getCheckersUI()
                .getCurrentHumanCommentOptionsForAMoveBy(playerIdentifier);
-         getContext().geCheckersTUI().updatePlugin(this);
-         //getContext().geCheckersTUI().triggerHumanCommentingTimer();
-         if(playerIdentifier == AGENT_IDENTIFIER)
-            getContext().geCheckersTUI().makeBoardPlayable();
+         getContext().getCheckersUI().updatePlugin(this);
+         //getContext().getCheckersUI().triggerHumanCommentingTimer();
+//         if(playerIdentifier == AGENT_IDENTIFIER)
+//            getContext().getCheckersUI().makeBoardPlayable();
       }
    }
 
@@ -243,14 +239,14 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
                @Override
 
                public AdjacencyPair run () {
-                  //getContext().geCheckersTUI().cancelHumanCommentingTimer();
+                  //getContext().getCheckersUI().cancelHumanCommentingTimer();
                   return new gameOver(getContext());
                }
             });
          choice("Anyway", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               //getContext().geCheckersTUI().cancelHumanCommentingTimer();
+               //getContext().getCheckersUI().cancelHumanCommentingTimer();
                return new gameOver(getContext());
             }
          });
@@ -259,11 +255,11 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
       public void enter(){
          currentAgentComment = "";
          CheckersClient.gazeDirection = "sayandgazegameover";
-         humanCommentOptions = getContext().geCheckersTUI()
+         humanCommentOptions = getContext().getCheckersUI()
                .getCurrentHumanCommentOptionsForAMoveBy(HUMAN_IDENTIFIER);
-         getContext().geCheckersTUI().makeBoardUnplayable();
-         getContext().geCheckersTUI().updatePlugin(this);
-         //getContext().geCheckersTUI().triggerHumanCommentingTimer();
+//         getContext().getCheckersUI().makeBoardUnplayable();
+         getContext().getCheckersUI().updatePlugin(this);
+         //getContext().getCheckersUI().triggerHumanCommentingTimer();
       }
       @Override
       public void afterTimeOut() {
@@ -277,7 +273,7 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
          choice("Sure", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new WhoPlaysFirst(context);
+               return new StartGamingSequence(context);
             }
          });
          choice("Not really", new DialogStateTransition() {
@@ -292,8 +288,8 @@ public class WhoPlaysFirst extends CheckersAdjacencyPairImpl {
          CheckersClient.gazeDirection = "";
          //CheckersClient.gazeDirection = "user";
          CheckersClient.gameOver = true;
-         getContext().geCheckersTUI().makeBoardUnplayable();
-         getContext().geCheckersTUI().updatePlugin(this);
+//         getContext().getCheckersUI().makeBoardUnplayable();
+         getContext().getCheckersUI().updatePlugin(this);
       }
    }
 
