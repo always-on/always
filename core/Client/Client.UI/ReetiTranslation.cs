@@ -39,8 +39,18 @@ namespace Agent.UI
             }
             else if (HorOrVer.Equals(VERTICAL))
             {
-                start = cmd.IndexOf(VERTICAL) + 10;
-                end = cmd.IndexOf("</bookmark>") - 1;
+
+                if (cmd.Contains("bookmark"))
+                {
+                    start = cmd.IndexOf(VERTICAL) + 10;
+                    end = cmd.IndexOf("</bookmark>") - 1;
+                }
+                else
+                {
+                    start = cmd.IndexOf(VERTICAL) + 10;
+                    end = cmd.IndexOf("/>") - 2;
+                }
+
             }
             output = Convert.ToSingle(cmd.Substring(start, end - start));
             return output;
@@ -86,7 +96,8 @@ namespace Agent.UI
             {
                 SendCommand(Head_Nod);
             }
-            if (Command.Contains("GAZE") && task.Equals("speech"))
+            //TODO: check if face tracking
+            if (Command.Contains("GAZE")) //&& task.Equals("speech") )
             {
                 double HorOutput = mapOutput(HORIZONTAL, findOutput(HORIZONTAL, Command));
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
