@@ -67,7 +67,7 @@ namespace Agent.UI
             switch (e.eventType)
             {
                 case "viseme":
-                    Console.WriteLine(e.eventValue);// Put Reeti code here
+                    Console.WriteLine("Viseme happened: " + e.eventValue); // Put Reeti code here
                     break;
                 case "bookmark":
                     if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
@@ -133,7 +133,7 @@ namespace Agent.UI
         private void Perform(string xmlCommand)
         {
             if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
-                AgentTranslate.TranslateToReetiCommand("perform",xmlCommand);
+                AgentTranslate.TranslateToReetiCommand("perform", xmlCommand);
             xmlMessage.LoadXml(xmlCommand);
             agent.perform(xmlMessage);
         }
