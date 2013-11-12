@@ -50,9 +50,14 @@ implements CheckersUIListener {
    }
    protected void goToNextState(){}
 
+   @Override
+   public void shouldHaveJumped () {
+      tellShouldHaveJumped();
+   }
+   protected void tellShouldHaveJumped(){}
+
    //   @Override
    //   public void receivedNewState() {
-   //   
    //   }
 
 }

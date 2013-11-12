@@ -11,7 +11,8 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
    private static List<String> humanCommentOptions;
    private static String currentAgentComment = "";
    private static String WhatAgentSaysIfHumanDoesNotChooseAComment = "";
-
+   private static String shouldHaveJumpedClarificationString = "";
+   
    public StartGamingSequence(final CheckersStateContext context) {
       super("Let's play checkers", context);
       choice("Ok", new DialogStateTransition() {
@@ -60,6 +61,42 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          currentAgentComment = "";
          skipTo(new CreateCommentsAfterLimbo(getContext()));
       }
+      @Override
+      public void shouldHaveJumped () {
+         
+         //over designed a little, but makes it more compelling.
+         
+         if(CheckersClient.userJumpedAtLeastOnceInThisTurn)
+            shouldHaveJumpedClarificationString = 
+            CheckersClient.shouldHaveJumpedClarificationStringOptions
+            .get(new Random(CheckersClient
+                  .shouldHaveJumpedClarificationStringOptions.size()).nextInt());
+         else
+            shouldHaveJumpedClarificationString = 
+            CheckersClient.shouldJumpAgainClarificationStringOptions
+            .get(new Random(CheckersClient
+                  .shouldJumpAgainClarificationStringOptions.size()).nextInt());
+
+         skipTo (new ExplainJumpNecessity(getContext()));
+      }
+   }
+   
+   public static class ExplainJumpNecessity extends CheckersAdjacencyPairImpl { 
+      
+      public ExplainJumpNecessity(final CheckersStateContext context){
+         super(shouldHaveJumpedClarificationString, context);
+         choice("Got it!", new DialogStateTransition() {
+            @Override
+            public AdjacencyPair run () {
+               return new Limbo(getContext());
+            }
+         });
+      }
+      @Override
+      public void enter() {
+         getContext().getCheckersUI().updatePlugin(this);
+         CheckersClient.gazeDirection = "user";
+      }
    }
 
    public static class CreateCommentsAfterLimbo extends CheckersAdjacencyPairImpl { 
@@ -96,6 +133,8 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                   AGENT_IDENTIFIER);
             currentAgentComment = getContext().getCheckersUI()
                   .getCurrentAgentComment();
+            CheckersClient.
+            userJumpedAtLeastOnceInThisTurn = false;
             skipTo(new gameOverDialogue(getContext()));
          }
          CheckersClient.gazeDirection = "thinking";

@@ -14,20 +14,27 @@ public class CheckersClient implements CheckersUI {
    private static final String PLUGIN_NAME = "checkers";
    private static final String MSG_HUMAN_MOVE = "checkers.human_played_move";
    private static final String MSG_AGENT_MOVE = "checkers.agent_move";
+   private static final String MSG_CONFIRM_HUMAN_MOVE = "checkers.confirm_human_move";
    private static final String MSG_BOARD_PLAYABILITY = "checkers.playability";
+   private static final String MSG_U_SHOULD_JUMP = "checkers.should_jump";
+   private static final String MSG_RESET = "checkers.reset";
+   public static List<String> shouldHaveJumpedClarificationStringOptions =
+         new ArrayList<String>();
+   public static List<String> shouldJumpAgainClarificationStringOptions =
+         new ArrayList<String>();
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;
    private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
    private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 2;
 
    public static String gazeDirection = "";
+   public static boolean userJumpedAtLeastOnceInThisTurn = false;
    
    public static boolean nod = false;
    public static boolean gameOver = false;
    private static final int HUMAN_IDENTIFIER = 1;
 
    // 1: userWins, 2: agentWins, 3: tie
-   private int winOrTie = 0;
 
    private String currentComment;
    private AnnotatedLegalMove currentMove;
@@ -56,6 +63,20 @@ public class CheckersClient implements CheckersUI {
       this.proxy = proxy;
       this.dispatcher = dispatcher;
       // startPlugin(dispatcher);
+      shouldHaveJumpedClarificationStringOptions.
+      add("In checkers, if you can jump, you have to jump");
+      shouldHaveJumpedClarificationStringOptions.
+      add("You should jump whenever you can");
+      shouldHaveJumpedClarificationStringOptions.
+      add("You can jump, do it");
+      
+      shouldJumpAgainClarificationStringOptions
+      .add("You can jump once more!");
+      shouldJumpAgainClarificationStringOptions
+      .add("Look, You can jump again!");
+      shouldJumpAgainClarificationStringOptions
+      .add("You should jump all the way!");
+      
       moveGenerator = new CheckersLegalMoveGenerator();
       moveAnnotator = new CheckersLegalMoveAnnotator();
       commentingManager = new CheckersCommentingManager();
@@ -63,6 +84,7 @@ public class CheckersClient implements CheckersUI {
       moveChooser = new MoveChooser();
       scenarioManager = new ScenarioManager();
       gameState = new CheckersGameState();
+      
 
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override
@@ -77,12 +99,16 @@ public class CheckersClient implements CheckersUI {
                      Integer.parseInt(moveDesc.split("//")[1].split(",")[0]), 
                      Integer.parseInt(moveDesc.split("//")[1].split(",")[1]));
                
-               gameState.performUserMove(humanMove);
+               //false if user could have jumped but did not
+               if(!gameState.performUserMove(humanMove))
+                  listener.shouldHaveJumped();
+               else
+                  confirmHumanMove();
                
                latestHumanMove = moveAnnotator.annotate(humanMove, gameState);
                updateWin();
-               if ( winOrTie > 0 )
-                  makeBoardUnplayable();
+               if ( gameState.possibleWinner() > 0 )
+//                  makeBoardUnplayable();
                listener.receivedHumanMove();
             }
          }
@@ -90,6 +116,18 @@ public class CheckersClient implements CheckersUI {
 
    }
 
+   private void confirmHumanMove () {
+      
+      Message msg = Message
+            .builder(MSG_AGENT_MOVE)
+            .add("human_move",
+                  ("confirmed"))
+            .build();
+      
+      dispatcher.send(msg);
+      
+   }
+   
    @Override
    public void playAgentMove (CheckersUIListener listener) {
 
@@ -116,7 +154,7 @@ public class CheckersClient implements CheckersUI {
 
    @Override
    public void resetGame () {
-      Message msg = Message.builder(MSG_AGENT_MOVE).add("moveDesc", "reset")
+      Message msg = Message.builder(MSG_RESET).add("command", "reset")
             .build();
       gameState.resetGame();
       dispatcher.send(msg);

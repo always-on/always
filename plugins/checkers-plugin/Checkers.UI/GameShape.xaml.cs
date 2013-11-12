@@ -129,7 +129,7 @@ namespace Checkers.UI
             {
                 if (currentTurn != Turn.Black)
                 {
-                    System.Windows.Forms.MessageBox.Show("It's not your turn");
+                    System.Windows.Forms.MessageBox.Show("Wait, that's mine!");
                     return; // it's not your turn.
                 }
 
@@ -192,7 +192,6 @@ namespace Checkers.UI
 						&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 			}
 
-			//FIXME: capturing a piece to the left isn't working //isn't it??
 			if (opponentPiece != null && currentPiece.row - l.row == 2)
 			{
 				int validCol = (opponentPiece.col > currentPiece.col) ? 
@@ -250,7 +249,7 @@ namespace Checkers.UI
         /// </summary>
         public void Reset()
         {
-            currentTurn = Turn.Black; // Red goes first.
+            currentTurn = Turn.Black;
             this.pnlBlackGraveyard.Children.Clear();
             this.pnlRedGraveyard.Children.Clear();
 
@@ -418,7 +417,12 @@ namespace Checkers.UI
 			}));
 		}
 
-    }
+
+		public void ReceivedConfirmation()
+		{
+			
+		}
+	}
 
 	class cellEventArg : EventArgs
 	{

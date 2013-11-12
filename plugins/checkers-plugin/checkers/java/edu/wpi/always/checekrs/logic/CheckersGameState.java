@@ -1,6 +1,7 @@
 package edu.wpi.always.checekrs.logic;
 
 import java.util.*;
+import edu.wpi.always.checkers.CheckersClient;
 import edu.wpi.sgf.logic.*;
 
 /** 
@@ -262,17 +263,22 @@ public class CheckersGameState extends GameLogicState{
     * (Could also be checked to be legal here by canJump, etc
     * but is supposed to be checked from .Net)
     */
-   public void performUserMove(CheckersLegalMove move){
+   public boolean performUserMove(CheckersLegalMove move){
+      
+      //return false if user could jump but didn't
+      if(getLegalJumpsFrom(RED, move.fromRow, move.fromCol) != null
+            && !move.isJump())
+         return false;
       
       makeMove(move);
       
-     /* Keep jumping if you have to!*/
-     if (move.isJump()) {
-        if(getLegalJumpsFrom(RED, move.toRow, move.toCol) != null)
-           ; //new state?
-     }
-      
+      //also Keep jumping if you can
+      if (move.isJump()) CheckersClient.
+      userJumpedAtLeastOnceInThisTurn = true;
+
       possibleWinner();
+
+      return true;
       
    }
    
@@ -314,9 +320,7 @@ public class CheckersGameState extends GameLogicState{
    }
 
    public void resetGameStatus(){
-      userWins = false;
-      agentWins = false;
-      tie = false;
+      userWins = agentWins = tie = false;
    }
 
    public List<String> getGameSpecificCommentingTags(

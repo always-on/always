@@ -6,6 +6,7 @@ public interface CheckersUIListener {
    void agentPlayDelayOver();
    void nextState();
    void receivedHumanMove();
+   void shouldHaveJumped();
    void agentPlayingGazeDelayOver();
    //   void receivedNewState();
 
