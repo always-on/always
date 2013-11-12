@@ -25,6 +25,9 @@ namespace Checkers.UI
 	{
 		bool okToMove = false;
 
+		private int latestC = 0, latestR = 0;
+		private CheckerPiece LatestRedTryingToMove = null;
+
         private enum Turn
         {
             Red,
@@ -145,10 +148,17 @@ namespace Checkers.UI
                     currentTurn = Turn.Red;
             }
 
-            if (okToMove)
+            if (okToMove && checker is BlackChecker)
             {
 				MoveChecker(r, c, checker);
             }
+
+			//not doing the move until confirmed by Java side
+			if (okToMove && checker is RedChecker)
+			{
+				latestR = r; latestC = c;
+				LatestRedTryingToMove = checker;
+			}
         }
 
 		public void MoveChecker(int r, int c, CheckerPiece checker)
@@ -420,7 +430,7 @@ namespace Checkers.UI
 
 		public void ReceivedConfirmation()
 		{
-			
+			MoveChecker(latestR, latestC, LatestRedTryingToMove);
 		}
 	}
 
