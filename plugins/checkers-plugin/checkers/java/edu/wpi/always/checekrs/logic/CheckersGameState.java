@@ -6,7 +6,7 @@ import edu.wpi.sgf.logic.*;
 /** 
  * Class of the state of the Checkers game
  * @author Morteza Behrooz
- * @version 1.0
+ * @version 1.1
  */
 
 public class CheckersGameState extends GameLogicState{
@@ -21,10 +21,14 @@ public class CheckersGameState extends GameLogicState{
    
    public int[][] board = new int[8][8];
 
-   public void setUp(){
+   public CheckersGameState(){
+      setUpBoard();
+   }
+   
+   public void setUpBoard(){
       for (int row = 0; row < 8; row++) {
          for (int col = 0; col < 8; col++) {
-            if ( row % 2 == col % 2 ) {
+            if ( row % 2 != col % 2 ) {
                if (row < 3)
                   board[row][col] = RED;
                else if (row > 4)
@@ -304,12 +308,8 @@ public class CheckersGameState extends GameLogicState{
 
    }
 
-   public boolean isItATie(){
-      return false;
-   }
-
    public void resetGame(){
-     setUp();
+     setUpBoard();
      resetGameStatus();
    }
 
@@ -357,6 +357,23 @@ public class CheckersGameState extends GameLogicState{
       + String.valueOf(move.toRow) + "," 
       + String.valueOf(move.toCol);
 
+   }
+   
+   private void visualize () {
+      for(int i = 0; i < 8; i ++){
+         System.out.print(i+"|");
+         for(int j = 0; j < 8; j++){
+            System.out.print(board[i][j] + " ");
+         }
+         System.out.print("\n");
+      }
+   }
+   
+   //for testing
+   public static void main (String[] args) {
+      CheckersGameState cgs = new CheckersGameState();
+      cgs.setUpBoard();
+      cgs.visualize();
    }
 
 }

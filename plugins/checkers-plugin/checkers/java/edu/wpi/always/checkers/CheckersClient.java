@@ -12,7 +12,7 @@ import edu.wpi.sgf.logic.AnnotatedLegalMove;
 public class CheckersClient implements CheckersUI {
 
    private static final String PLUGIN_NAME = "checkers";
-   private static final String MSG_HUMAN_MOVE = "checkers.human_move";
+   private static final String MSG_HUMAN_MOVE = "checkers.human_played_move";
    private static final String MSG_AGENT_MOVE = "checkers.agent_move";
    private static final String MSG_BOARD_PLAYABILITY = "checkers.playability";
 
@@ -49,8 +49,8 @@ public class CheckersClient implements CheckersUI {
    private Timer agentPlayingGazeDelayTimer;
    private Timer nextStateTimer;
 
-   private CheckersAnnotatedLegalMove latestAgentMove;
-   private CheckersAnnotatedLegalMove latestHumanMove;
+   private AnnotatedLegalMove latestAgentMove;
+   private AnnotatedLegalMove latestHumanMove;
 
    public CheckersClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
       this.proxy = proxy;
@@ -67,8 +67,9 @@ public class CheckersClient implements CheckersUI {
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override
          public void handleMessage (JsonObject body) {
+            
             if ( listener != null ) {
-               String moveDesc = body.get("moveDesc").getAsString();
+               String moveDesc = body.get("humanMove").getAsString();
                
                CheckersLegalMove humanMove = new CheckersLegalMove(
                      Integer.parseInt(moveDesc.split("//")[0].split(",")[0]), 
@@ -78,8 +79,7 @@ public class CheckersClient implements CheckersUI {
                
                gameState.performUserMove(humanMove);
                
-               latestHumanMove = (CheckersAnnotatedLegalMove) moveAnnotator
-                     .annotate(humanMove, gameState);
+               latestHumanMove = moveAnnotator.annotate(humanMove, gameState);
                updateWin();
                if ( winOrTie > 0 )
                   makeBoardUnplayable();
@@ -99,8 +99,7 @@ public class CheckersClient implements CheckersUI {
          return;
 
       scenarioManager.tickAll();
-      latestAgentMove = 
-            (CheckersAnnotatedLegalMove) currentMove;
+      latestAgentMove = currentMove;
       gameState.performAgentMove(
             (CheckersLegalMove)currentMove.getMove());
       

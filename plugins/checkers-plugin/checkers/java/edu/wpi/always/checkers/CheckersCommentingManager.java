@@ -25,7 +25,7 @@ public class CheckersCommentingManager extends CommentingManager {
       File commentLibraryFile = null;
       try {
          commentLibraryFile = new File(
-               Utils.toURL("edu/wpi/always/Checkers/resources/"+
+               Utils.toURL("edu/wpi/always/checkers/resources/"+
                      CommentLibraryFilePath).toURI());
       } catch (MalformedURLException|URISyntaxException e) {
          System.out.println(

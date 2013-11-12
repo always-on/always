@@ -17,7 +17,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       choice("Ok", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {
-            return new Limbo(context);
+            return new AgentPlayDelay(getContext());
          }
       });
    }
@@ -31,14 +31,6 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          getContext().getCheckersUI().updatePlugin(this);
       }
 //      getContext().getCheckersUI().makeBoardPlayable();
-   }
-   @Override
-   public void humanMoveReceived() {
-      skipTo(new CreateCommentsAfterLimbo(getContext()));
-   }
-   @Override
-   public void agentMoveOptionsReceived (String chosenMoveType) {
-      
    }
 
    //Limbo as waiting for user move
@@ -113,7 +105,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          getContext().getCheckersUI().prepareAgentMove();
       }
       @Override
-      public void afterAgentPlayDelay() {
+      protected void afterAgentPlayDelay() {
          skipTo(new AgentPlays(getContext()));
       }
       @Override

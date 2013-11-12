@@ -1,6 +1,5 @@
 package edu.wpi.always.checkers;
 
-import java.awt.Point;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -22,11 +21,6 @@ public class CheckersSchema extends ActivityStateMachineSchema {
             resourceMonitor, menuPerceptor);
    }
 
-   private final static Point 
-   board = GazeRealizer.translateAgentTurn(-2, -1),
-   thinking = GazeRealizer.translateAgentTurn(-1, 1),
-   user = GazeRealizer.translateAgentTurn(0, 0);
-
    @Override
    public void run () {
 
@@ -35,14 +29,14 @@ public class CheckersSchema extends ActivityStateMachineSchema {
       if(CheckersClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
                "$ "+StartGamingSequence.getCurrentAgentComment()+" $",
-               new GazeBehavior(user))
+               GazeBehavior.USER)
          .build());
       }
       if(CheckersClient.gazeDirection.equals("sayandgazegameover")){
          propose(new SyncSayBuilder(
                "$ "+"Game over. "+
                      StartGamingSequence.getCurrentAgentComment()+" $",
-                     new GazeBehavior(user))
+                     GazeBehavior.USER)
          .build());
          CheckersClient.gazeDirection = "";
       }
@@ -53,19 +47,10 @@ public class CheckersSchema extends ActivityStateMachineSchema {
          CheckersClient.gazeDirection = "";
       }
       if(CheckersClient.gazeDirection.equals("board")){
-         propose(new GazeBehavior(board));
+         propose(GazeBehavior.PLUGIN);
       }
-      //>> these to be commented out for face track test
-      if(CheckersClient.gazeDirection.equals("user")){
-         propose(new GazeBehavior(user));
-      }
-      if(CheckersClient.gazeDirection.equals("useronce")){
-         propose(new GazeBehavior(user));
-         CheckersClient.gazeDirection = "";
-      }
-      //to here <<
       if(CheckersClient.gazeDirection.equals("thinking")){
-         propose(new GazeBehavior(thinking));
+         propose(GazeBehavior.THINKING);
       }
 
       if ( CheckersClient.nod ) {

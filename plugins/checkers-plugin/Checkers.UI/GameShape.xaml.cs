@@ -36,7 +36,7 @@ namespace Checkers.UI
         private Point _startPoint;
         private Point _endPoint;
         private CheckerPiece currentPiece;
-        private CheckerPiece capturedPiece; // this is messy, but I can't think of a better way to pass the captured piece to the Completed event handler.
+        private CheckerPiece capturedPiece;
         private Turn currentTurn;
 		private DragAdorner _dragAdorner;
         #endregion
@@ -44,7 +44,8 @@ namespace Checkers.UI
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
             this.grdBoard.Drop += new DragEventHandler(grdBoard_Drop);
-            this.grdBoard.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonUp);            
+            this.grdBoard.PreviewMouseLeftButtonUp += 
+				new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonUp);            
         }
         
         // Here, the source is the drop target which in this case is a Label. This is needed to get
@@ -53,14 +54,15 @@ namespace Checkers.UI
         void grdBoard_Drop(object sender, DragEventArgs e)
         {
 			// /red is user
-			string from = "", to = "", hit = "";
+			string from = "", to = ""; //hit = "";
 
             // use the label in the cell to get the current row and column
             EmptySpace l = e.Source as EmptySpace;
             int r = Grid.GetRow((EmptySpace)e.Source);
             int c = Grid.GetColumn((EmptySpace)e.Source);
             okToMove = false;
-			from = currentPiece.row + "/" + currentPiece.col;
+			from = currentPiece.row + "," + currentPiece.col;
+			to = r + "," + c;
 
             CheckerPiece checker;
             if (currentPiece is RedChecker)
@@ -73,31 +75,37 @@ namespace Checkers.UI
 
                 // It's red's turn...
                 checker = new RedChecker();
-				if (l.row == currentPiece.row + 1 && (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1))
+				if (l.row == currentPiece.row + 1 && (l.col == currentPiece.col + 1 
+					|| l.col == currentPiece.col - 1))
 				{
 					okToMove = true;
-					to = l.row + "/" + l.col;
 				}
                 
                 //now check to see if we captured anything
                 BlackChecker opponentPiece ;
                 if (c == currentPiece.col + 2)
                 {
-                    opponentPiece = grdBoard.Children.OfType<BlackChecker>().Where(p => p.row == currentPiece.row + 1 && (p.col == currentPiece.col + 1)).SingleOrDefault();
-					hit = opponentPiece.row + "/" + opponentPiece.col;
+                    opponentPiece = grdBoard.Children.OfType<BlackChecker>()
+						.Where(p => p.row == currentPiece.row + 1 
+							&& (p.col == currentPiece.col + 1)).SingleOrDefault();
+					//hit = opponentPiece.row + "/" + opponentPiece.col;
                 }
                 else
                 {
-                    opponentPiece = grdBoard.Children.OfType<BlackChecker>().Where(p => p.row == currentPiece.row + 1 && (p.col == currentPiece.col - 1)).SingleOrDefault();
-					hit = opponentPiece.row + "/" + opponentPiece.col;
+                    opponentPiece = grdBoard.Children.OfType<BlackChecker>()
+						.Where(p => p.row == currentPiece.row + 1 
+							&& (p.col == currentPiece.col - 1)).SingleOrDefault();
+					//hit = opponentPiece.row + "/" + opponentPiece.col;
 				}
 
                 if (opponentPiece != null && l.row - currentPiece.row == 2)
                 {
-                    int validCol = (opponentPiece.col > currentPiece.col) ? currentPiece.col + 2 : currentPiece.col - 2;
+                    int validCol = (opponentPiece.col > currentPiece.col) ? 
+						currentPiece.col + 2 : currentPiece.col - 2;
                     if (r == currentPiece.row + 2 && c == validCol)
                     {
-                        Storyboard PieceCaptured = opponentPiece.Resources["PieceCaptured"] as Storyboard;
+                        Storyboard PieceCaptured = 
+							opponentPiece.Resources["PieceCaptured"] as Storyboard;
                         capturedPiece = opponentPiece;
 
                         if (PieceCaptured != null)
@@ -111,9 +119,9 @@ namespace Checkers.UI
                 }
                 if (okToMove)
                 {                    
-                    currentTurn = Turn.Black;
+                    //currentTurn = Turn.Black;
 					this.Played(this, new cellEventArg
-					{moveDesc = from+"//"+to+"//"+hit}
+					{moveDesc = from+"//"+to}
 					);
                 }
             }
@@ -127,10 +135,11 @@ namespace Checkers.UI
 
                 // It's black's turn...
                 checker = new BlackChecker();
-                if (l.row == currentPiece.row - 1 && (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1))
+                if (l.row == currentPiece.row - 1 && 
+					(l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1))
                     okToMove = true;
 				
-				CaptureHumanCellInAgentMoveIfAny(currentPiece, r, c, l);
+				CaptureHumanCellInAgentMoveIfAny(r, c, l);
 				
                 if (okToMove)
                     currentTurn = Turn.Red;
@@ -148,8 +157,10 @@ namespace Checkers.UI
 			checker.row = r;
 
 			// bind the mouse events
-			checker.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
-			checker.PreviewMouseMove += new MouseEventHandler(grdBoard_PreviewMouseMove);
+			checker.PreviewMouseLeftButtonDown += 
+				new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
+			checker.PreviewMouseMove += 
+				new MouseEventHandler(grdBoard_PreviewMouseMove);
 			checker.Cursor = Cursors.Hand;
 			checker.AllowDrop = false;
 
@@ -165,26 +176,32 @@ namespace Checkers.UI
 			}
 		}
 
-		public void CaptureHumanCellInAgentMoveIfAny(CheckerPiece currentPiece, int r, int c, EmptySpace l)
+		public void CaptureHumanCellInAgentMoveIfAny(int r, int c, EmptySpace l)
 		{
 			RedChecker opponentPiece = null;
 			if (c == currentPiece.col + 2)
 			{
-				opponentPiece = grdBoard.Children.OfType<RedChecker>().Where(p => p.row == currentPiece.row - 1 && (p.col == currentPiece.col + 1)).SingleOrDefault();
+				opponentPiece = grdBoard.Children.OfType<RedChecker>()
+					.Where(p => p.row == currentPiece.row - 1 
+						&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 			}
 			else if (c == currentPiece.col - 2)
 			{
-				opponentPiece = grdBoard.Children.OfType<RedChecker>().Where(p => p.row == currentPiece.row - 1 && (p.col == currentPiece.col - 1)).SingleOrDefault();
+				opponentPiece = grdBoard.Children.OfType<RedChecker>()
+					.Where(p => p.row == currentPiece.row - 1 
+						&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 			}
 
 			//FIXME: capturing a piece to the left isn't working //isn't it??
 			if (opponentPiece != null && currentPiece.row - l.row == 2)
 			{
-				int validCol = (opponentPiece.col > currentPiece.col) ? currentPiece.col + 2 : currentPiece.col - 2;
+				int validCol = (opponentPiece.col > currentPiece.col) ? 
+					currentPiece.col + 2 : currentPiece.col - 2;
 				if (r == currentPiece.row - 2 && c == validCol)
 				{
 					capturedPiece = opponentPiece;
-					Storyboard PieceCaptured = opponentPiece.Resources["PieceCaptured"] as Storyboard;
+					Storyboard PieceCaptured = 
+						opponentPiece.Resources["PieceCaptured"] as Storyboard;
 					if (PieceCaptured != null)
 					{
 						PieceCaptured.Completed += new EventHandler(RemovePiece);
@@ -204,14 +221,16 @@ namespace Checkers.UI
                 if (capturedPiece is RedChecker)
                 {
                     RedChecker deadman = new RedChecker();
-                    Storyboard AddToGraveyard = deadman.Resources["AddToGraveyard"] as Storyboard;
+                    Storyboard AddToGraveyard = 
+						deadman.Resources["AddToGraveyard"] as Storyboard;
                     this.pnlBlackGraveyard.Children.Add(deadman);
                     AddToGraveyard.Begin();
                 }
                 else
                 {
                     BlackChecker deadman = new BlackChecker();
-                    Storyboard AddToGraveyard = deadman.Resources["AddToGraveyard"] as Storyboard;
+                    Storyboard AddToGraveyard = 
+						deadman.Resources["AddToGraveyard"] as Storyboard;
                     this.pnlRedGraveyard.Children.Add(deadman);
                     AddToGraveyard.Begin();
                 }
@@ -252,7 +271,8 @@ namespace Checkers.UI
             for (int row = 0; row < grdBoard.RowDefinitions.Count; row++)
             {
                 // put a piece in every other cell
-                for (col = (col % 2 != 0 ? 0 : 1); col < grdBoard.ColumnDefinitions.Count; col += 2)
+                for (col = (col % 2 != 0 ? 0 : 1); col < 
+					grdBoard.ColumnDefinitions.Count; col += 2)
                 {                    
                     EmptySpace l = new EmptySpace();
                     l.Margin = new Thickness(0, 0, 0, 0);
@@ -270,8 +290,10 @@ namespace Checkers.UI
                     if (row < 3)
                     {
                         RedChecker redChecker = new RedChecker();
-                        redChecker.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
-                        redChecker.PreviewMouseMove += new MouseEventHandler(grdBoard_PreviewMouseMove);
+                        redChecker.PreviewMouseLeftButtonDown += 
+							new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
+                        redChecker.PreviewMouseMove += 
+							new MouseEventHandler(grdBoard_PreviewMouseMove);
                         redChecker.Cursor = Cursors.Hand;
                         redChecker.AllowDrop = false;
                         redChecker.col = col;
@@ -284,8 +306,10 @@ namespace Checkers.UI
                     if (row >= grdBoard.RowDefinitions.Count - 3)
                     {
                         BlackChecker blackChecker = new BlackChecker();
-                        blackChecker.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
-                        blackChecker.PreviewMouseMove += new MouseEventHandler(grdBoard_PreviewMouseMove);
+                        blackChecker.PreviewMouseLeftButtonDown += 
+							new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
+                        blackChecker.PreviewMouseMove += 
+							new MouseEventHandler(grdBoard_PreviewMouseMove);
                         blackChecker.Cursor = Cursors.Hand;
                         blackChecker.AllowDrop = false;
                         blackChecker.col = col;
@@ -330,8 +354,10 @@ namespace Checkers.UI
 
 			this.CaptureMouse();
 
-            DataObject data = new DataObject(System.Windows.DataFormats.Text.ToString(), "abcd");
-            DragDropEffects de = DragDrop.DoDragDrop(this.grdBoard, data, DragDropEffects.All);                       
+            DataObject data = new DataObject(
+				System.Windows.DataFormats.Text.ToString(), "abcd");
+            DragDropEffects de = DragDrop.DoDragDrop(
+				this.grdBoard, data, DragDropEffects.All);                       
 
             IsDragging = false;
         }
@@ -342,8 +368,10 @@ namespace Checkers.UI
             {
                 Point position = e.GetPosition(null);
 
-                if (Math.Abs(position.X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
-                    Math.Abs(position.Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+                if (Math.Abs(position.X - _startPoint.X) 
+					> SystemParameters.MinimumHorizontalDragDistance ||
+                    Math.Abs(position.Y - _startPoint.Y) 
+					> SystemParameters.MinimumVerticalDragDistance)
                 {
                     StartDrag(e);
                 }
@@ -365,23 +393,28 @@ namespace Checkers.UI
 
 		public void PlayAgentMove(string moveDesc)
 		{
+			
 			this.Dispatcher.Invoke((Action)(() =>
 			{
-				char[] del = "//".ToArray();
-				List<string> descs = moveDesc.Split(del).ToList();
-				string from = descs[0];
-				string to = descs[1];
-				MoveChecker(int.Parse(to.Split(',')[0]), int.Parse(to.Split(',')[1]),
- 					grdBoard.Children.OfType<RedChecker>().Where(
-					p => (p.row == int.Parse(from.Split(',')[0])) 
-						&& (p.col == int.Parse(from.Split(',')[1]))).SingleOrDefault());
-				CaptureHumanCellInAgentMoveIfAny(grdBoard.Children.OfType<RedChecker>().Where(
-					p => (p.row == int.Parse(from.Split(',')[0]))
-						&& (p.col == int.Parse(from.Split(',')[1]))).SingleOrDefault(), 
-						int.Parse(to.Split(',')[0]), int.Parse(to.Split(',')[1]),
-						grdBoard.Children.OfType<EmptySpace>().Where(
-					p => (p.row == int.Parse(to.Split(',')[0]))
-						&& (p.col == int.Parse(to.Split(',')[1]))).SingleOrDefault());
+				currentTurn = Turn.Black;
+				List<string> descs = moveDesc.Split("//".ToArray()).ToList();
+				string from = descs[0], to = descs[2];
+				
+				int fromx = int.Parse(from.Split(',')[0]),
+					fromy = int.Parse(from.Split(',')[1]),
+					tox = int.Parse(to.Split(',')[0]),
+					toy = int.Parse(to.Split(',')[1]);
+
+				currentPiece = grdBoard.Children.OfType<BlackChecker>()
+					.Where(p => (p.row == fromx) && (p.col == fromy)).SingleOrDefault();
+				EmptySpace tempEmptySpace = grdBoard.Children.OfType<EmptySpace>()
+					.Where(p => (p.row == tox) && (p.col == toy)).SingleOrDefault();
+
+				CaptureHumanCellInAgentMoveIfAny(tox, toy, tempEmptySpace);
+				MoveChecker(tox, toy, currentPiece);
+
+				currentTurn = Turn.Red;
+
 			}));
 		}
 

@@ -50,16 +50,9 @@ implements CheckersUIListener {
    }
    protected void goToNextState(){}
 
-   @Override
-   public void receivedAgentMoveOptions(String moveType) {
-      agentMoveOptionsReceived(moveType);
-   }
-   protected void agentMoveOptionsReceived(String moveType){}
-
    //   @Override
    //   public void receivedNewState() {
    //   
    //   }
-
 
 }

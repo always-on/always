@@ -6,7 +6,6 @@ public interface CheckersUIListener {
    void agentPlayDelayOver();
    void nextState();
    void receivedHumanMove();
-   void receivedAgentMoveOptions(String chosenMoveType);
    void agentPlayingGazeDelayOver();
    //   void receivedNewState();
 
