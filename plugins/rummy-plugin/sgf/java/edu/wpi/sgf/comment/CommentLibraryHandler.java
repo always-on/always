@@ -273,10 +273,14 @@ public class CommentLibraryHandler {
          List<String> someGameSpecificTags, String someGameType){
 
       //b robust
-      for(String each : someGameSpecificTags)
-         each = each.toLowerCase().trim();
-      for(String each : someTags)
-         each = each.toLowerCase().trim();
+      if(someGameSpecificTags != null)
+         if(!someGameSpecificTags.isEmpty())
+            for(String each : someGameSpecificTags)
+               each = each.toLowerCase().trim();
+      if(someTags != null)
+         if(!someTags.isEmpty())
+            for(String each : someTags)
+               each = each.toLowerCase().trim();
       
       Map<Comment, Integer> genericCommentsTagCovering = 
             new HashMap<Comment, Integer>();
