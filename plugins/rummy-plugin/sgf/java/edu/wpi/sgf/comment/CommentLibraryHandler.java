@@ -272,6 +272,9 @@ public class CommentLibraryHandler {
          List<Comment> someComments, List<String> someTags, 
          List<String> someGameSpecificTags, String someGameType){
 
+      for(String each : someGameSpecificTags)
+         each = each.toLowerCase().trim();
+      
       Map<Comment, Integer> genericCommentsTagCovering = 
             new HashMap<Comment, Integer>();
       Map<Comment, Integer> sortedGenericCommentsTagCovering = 
