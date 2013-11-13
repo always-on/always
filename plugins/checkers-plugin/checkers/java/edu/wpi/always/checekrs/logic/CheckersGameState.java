@@ -7,7 +7,7 @@ import edu.wpi.sgf.logic.*;
 /** 
  * Class of the state of the Checkers game
  * @author Morteza Behrooz
- * @version 1.1
+ * @version 2.0
  */
 
 public class CheckersGameState extends GameLogicState{
@@ -125,7 +125,7 @@ public class CheckersGameState extends GameLogicState{
    /**
     * This is called by the getLegalMoves() method to determine whether
     * the player can legally move from (r1,c1) to (r2,c2).  It is
-    * assumed that (r1,r2) contains one of the player's pieces and
+    * assumed that (r1,c1) contains one of the player's pieces and
     * that (r2,c2) is a neighboring square.
     */
    private boolean canMove(int player, int r1, int c1, int r2, int c2) {
@@ -248,7 +248,7 @@ public class CheckersGameState extends GameLogicState{
       
       makeMove(move);
       
-      /* Keep jumping if you have to!*/
+      /* Keep jumping if you have to!*/ //FORAGENT
      if (move.isJump()) {
         if(getLegalJumpsFrom(RED, move.toRow, move.toCol) != null)
            ;//new state? 
@@ -258,30 +258,41 @@ public class CheckersGameState extends GameLogicState{
       
    }
    
-   /**
-    * Perform user's requested move
-    * (Could also be checked to be legal here by canJump, etc
-    * but is supposed to be checked from .Net)
-    */
+   /** Confirm and perform user's requested move.
+    * If not legal (not jumping while able to)
+    * agent will say an appropriate prompt.*/
    public boolean performUserMove(CheckersLegalMove move){
-      
-      //return false if user could jump but didn't
-      if(getLegalJumpsFrom(RED, move.fromRow, move.fromCol) != null
-            && !move.isJump())
+
+      boolean could = false;
+
+      // return false if user could jump but didn't
+      for (int row = 0; row < 8; row++)
+         for (int col = 0; col < 8; col++)
+            if (board[row][col] == RED || board[row][col] == RED_KING) {
+               if (canJump(RED, row, col, row+1, col+1, row+2, col+2)
+                     || canJump(RED, row, col, row-1, col+1, row-2, col+2)
+                     || canJump(RED, row, col, row+1, col-1, row+2, col-2)
+                     || canJump(RED, row, col, row-1, col-1, row-2, col-2))
+                  could = true;
+            }
+
+      if(could && !move.isJump())
          return false;
-      
+
+      // safe now
       makeMove(move);
-      
-      //also Keep jumping if you can
+
+      // also, agent should say a different thing if 
+      // you just did not "continue" to jump. 
+      // (further handled in adjacency pairs)
       if (move.isJump()) CheckersClient.
       userJumpedAtLeastOnceInThisTurn = true;
 
       possibleWinner();
 
       return true;
-      
+
    }
-   
    
    public int numberOfPiecesRemainingFor(int user){ 
 
@@ -329,16 +340,26 @@ public class CheckersGameState extends GameLogicState{
       List<String> gameSpecificTags = 
             new ArrayList<String>();
       
-      if(move.isJump()){
+      if(move.isJump()) {
          
          if(player == RED /*user*/) 
          { 
-            if(userJustJumped) gameSpecificTags.add("HumanCaptureALot");
-            else {userJustJumped = true; gameSpecificTags.add("HumanCapture"); }}
+            if(userJustJumped) 
+               gameSpecificTags.add("humanCaptureALot");
+            else {
+               userJustJumped = true; 
+               gameSpecificTags.add("humanCapture"); 
+            }
+         }
          if(player == BLACK /*agent*/) 
          {
-            if(agentJustJumped) gameSpecificTags.add("AgentCaptureALot");
-            else { agentJustJumped = true; gameSpecificTags.add("AgentCapture"); }}
+            if(agentJustJumped) 
+               gameSpecificTags.add("agentCaptureALot");
+            else { 
+               agentJustJumped = true; 
+               gameSpecificTags.add("agentCapture"); 
+            }
+         }
       }
       else {
          userJustJumped = false;
@@ -346,9 +367,9 @@ public class CheckersGameState extends GameLogicState{
       }
       
       if(player == RED /*user*/ && move.toRow == 7)
-         gameSpecificTags.add("HumanCrown");
+         gameSpecificTags.add("humanCrown");
       if(player == BLACK /*agent*/ && move.toRow == 0)
-         gameSpecificTags.add("AgentCrown");
+         gameSpecificTags.add("agentCrown");
       
       return gameSpecificTags;
    

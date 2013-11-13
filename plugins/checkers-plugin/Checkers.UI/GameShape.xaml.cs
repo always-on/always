@@ -24,6 +24,7 @@ namespace Checkers.UI
 	public partial class GameShape : UserControl
 	{
 		bool okToMove = false;
+		int illegalTouchCounter = 0;
 
 		private int latestC = 0, latestR = 0;
 		private CheckerPiece LatestRedTryingToMove = null;
@@ -73,8 +74,10 @@ namespace Checkers.UI
                 if (currentTurn != Turn.Red)
                 {
                     System.Windows.Forms.MessageBox.Show("It's not your turn");
-                    return; // it's not your turn.
+                    return; // Should never be here
                 }
+
+				illegalTouchCounter = 0;
 
                 // It's red's turn...
                 checker = new RedChecker();
@@ -123,17 +126,21 @@ namespace Checkers.UI
                 if (okToMove)
                 {                    
                     //currentTurn = Turn.Black;
-					this.Played(this, new cellEventArg
+					this.UserPlayed(this, new CheckerEventArg
 					{moveDesc = from+"//"+to}
 					);
                 }
             }
             else
             {
+				//when user touches agent stuff...
                 if (currentTurn != Turn.Black)
                 {
-                    System.Windows.Forms.MessageBox.Show("Wait, that's mine!");
-                    return; // it's not your turn.
+					this.UserTouchedAgentChecker(this,
+						new UserTouchedAgentStuffEventArg 
+						{howManyTimes = ++illegalTouchCounter});
+                    //System.Windows.Forms.MessageBox.Show("Wait, that's mine!");
+                    return;
                 }
 
                 // It's black's turn...
@@ -163,27 +170,30 @@ namespace Checkers.UI
 
 		public void MoveChecker(int r, int c, CheckerPiece checker)
 		{
-			checker.col = c;
-			checker.row = r;
-
-			// bind the mouse events
-			checker.PreviewMouseLeftButtonDown += 
-				new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
-			checker.PreviewMouseMove += 
-				new MouseEventHandler(grdBoard_PreviewMouseMove);
-			checker.Cursor = Cursors.Hand;
-			checker.AllowDrop = false;
-
-			// add the piece to the board
-			Grid.SetRow(checker, r);
-			Grid.SetColumn(checker, c);
-			this.grdBoard.Children.Remove(currentPiece);
-			grdBoard.Children.Add(checker);
-			Storyboard DropPiece = checker.Resources["DropPiece"] as Storyboard;
-			if (DropPiece != null)
+			this.Dispatcher.Invoke((Action)(() =>
 			{
-				DropPiece.Begin();
-			}
+				checker.col = c;
+				checker.row = r;
+
+				// bind the mouse events
+				checker.PreviewMouseLeftButtonDown +=
+					new MouseButtonEventHandler(grdBoard_PreviewMouseLeftButtonDown);
+				checker.PreviewMouseMove +=
+					new MouseEventHandler(grdBoard_PreviewMouseMove);
+				checker.Cursor = Cursors.Hand;
+				checker.AllowDrop = false;
+
+				// add the piece to the board
+				Grid.SetRow(checker, r);
+				Grid.SetColumn(checker, c);
+				this.grdBoard.Children.Remove(currentPiece);
+				grdBoard.Children.Add(checker);
+				Storyboard DropPiece = checker.Resources["DropPiece"] as Storyboard;
+				if (DropPiece != null)
+				{
+					DropPiece.Begin();
+				}
+			}));
 		}
 
 		public void CaptureHumanCellInAgentMoveIfAny(int r, int c, EmptySpace l)
@@ -398,7 +408,8 @@ namespace Checkers.UI
             this.Reset();
         }
 
-		public event EventHandler Played = delegate { };
+		public event EventHandler UserPlayed = delegate { };
+		public event EventHandler UserTouchedAgentChecker = delegate { };
 
 		public void PlayAgentMove(string moveDesc)
 		{
@@ -434,9 +445,14 @@ namespace Checkers.UI
 		}
 	}
 
-	class cellEventArg : EventArgs
+	class CheckerEventArg : EventArgs
 	{
 		public string moveDesc { get; set; }
-
 	}
+
+	class UserTouchedAgentStuffEventArg : EventArgs
+	{
+		public int howManyTimes { get; set; }
+	}
+
 }

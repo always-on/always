@@ -12,18 +12,23 @@ import edu.wpi.sgf.logic.AnnotatedLegalMove;
 public class CheckersClient implements CheckersUI {
 
    private static final String PLUGIN_NAME = "checkers";
-   private static final String MSG_HUMAN_MOVE = "checkers.human_played_move";
    private static final String MSG_AGENT_MOVE = "checkers.agent_move";
+   private static final String MSG_HUMAN_MOVE = "checkers.human_played_move";
    private static final String MSG_CONFIRM_HUMAN_MOVE = "checkers.confirm_human_move";
+   private static final String MSG_HUMAN_TOUCHED_AGENT_PIECE = "checkers.touched_agent_piece";
    private static final String MSG_BOARD_PLAYABILITY = "checkers.playability";
-   private static final String MSG_U_SHOULD_JUMP = "checkers.should_jump";
    private static final String MSG_RESET = "checkers.reset";
+   
    public static List<String> shouldHaveJumpedClarificationStringOptions =
          new ArrayList<String>();
    public static List<String> shouldJumpAgainClarificationStringOptions =
          new ArrayList<String>();
+   public static List<String> humantouchedAgentCheckerClarificationStringOptions =
+         new ArrayList<String>();
+   public static List<String> humantouchedTooMuchClarificationStringOptions =
+         new ArrayList<String>();
 
-   private static final int HUMAN_COMMENTING_TIMEOUT = 15;
+   private static final int HUMAN_COMMENTING_TIMEOUT = 30;
    private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
    private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 2;
 
@@ -33,8 +38,6 @@ public class CheckersClient implements CheckersUI {
    public static boolean nod = false;
    public static boolean gameOver = false;
    private static final int HUMAN_IDENTIFIER = 1;
-
-   // 1: userWins, 2: agentWins, 3: tie
 
    private String currentComment;
    private AnnotatedLegalMove currentMove;
@@ -62,30 +65,52 @@ public class CheckersClient implements CheckersUI {
    public CheckersClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
       this.proxy = proxy;
       this.dispatcher = dispatcher;
-      // startPlugin(dispatcher);
+      //startPlugin(dispatcher); 
+      
+      /* >> initializing special situation agent prompt feedback
+      options. These are NOT framework comments. */
+      //1. user does not jump when she/he can
       shouldHaveJumpedClarificationStringOptions.
       add("In checkers, if you can jump, you have to jump");
       shouldHaveJumpedClarificationStringOptions.
       add("You should jump whenever you can");
       shouldHaveJumpedClarificationStringOptions.
       add("You can jump, do it");
-      
+      //2. user does not "continue" to jump when she/he can
       shouldJumpAgainClarificationStringOptions
       .add("You can jump once more!");
       shouldJumpAgainClarificationStringOptions
       .add("Look, You can jump again!");
       shouldJumpAgainClarificationStringOptions
       .add("You should jump all the way!");
+      //3. user touches agent stuff!
+      humantouchedAgentCheckerClarificationStringOptions
+      .add("wait that is mine!");
+      humantouchedAgentCheckerClarificationStringOptions
+      .add("No. You cannot move mine!");
+      humantouchedAgentCheckerClarificationStringOptions
+      .add("You see, I am more intelligent than you think!");
+      humantouchedAgentCheckerClarificationStringOptions
+      .add("Come on, Let go of my stuff!");
+      humantouchedAgentCheckerClarificationStringOptions
+      .add("Nice try");
+      //4. user touches agent stuff too much!!
+      humantouchedTooMuchClarificationStringOptions
+      .add("really?!");
+      humantouchedTooMuchClarificationStringOptions
+      .add("Seriously?!");
+      humantouchedTooMuchClarificationStringOptions
+      .add("Oh, come on!");
+      // <<
       
       moveGenerator = new CheckersLegalMoveGenerator();
       moveAnnotator = new CheckersLegalMoveAnnotator();
       commentingManager = new CheckersCommentingManager();
-      // scenarioFilter = new ScenarioFilter();
+      //scenarioFilter = new ScenarioFilter();
       moveChooser = new MoveChooser();
       scenarioManager = new ScenarioManager();
       gameState = new CheckersGameState();
       
-
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override
          public void handleMessage (JsonObject body) {
@@ -102,24 +127,37 @@ public class CheckersClient implements CheckersUI {
                //false if user could have jumped but did not
                if(!gameState.performUserMove(humanMove))
                   listener.shouldHaveJumped();
-               else
+               else {
                   confirmHumanMove();
-               
-               latestHumanMove = moveAnnotator.annotate(humanMove, gameState);
-               updateWin();
-               if ( gameState.possibleWinner() > 0 )
-//                  makeBoardUnplayable();
-               listener.receivedHumanMove();
+                  latestHumanMove = moveAnnotator
+                        .annotate(humanMove, gameState);
+                  updateWin();
+//                  if (gameState.possibleWinner() > 0)
+//                     makeBoardUnplayable();
+                  listener.receivedHumanMove();
+               }
             }
          }
       });
-
+      
+      dispatcher.registerReceiveHandler(
+            MSG_HUMAN_TOUCHED_AGENT_PIECE, new MessageHandler() {
+               @Override
+               public void handleMessage (JsonObject body) {
+                  if ( listener != null ) {
+                     listener.humanTouchedAgentStuff(
+                           body.get("howMany").getAsInt());
+                  }
+               }
+            });
    }
 
+   /** Sends back confirmation that user move was 
+    * valid. Otherwise, agent says something.*/
    private void confirmHumanMove () {
       
       Message msg = Message
-            .builder(MSG_AGENT_MOVE)
+            .builder(MSG_CONFIRM_HUMAN_MOVE)
             .add("human_move",
                   ("confirmed"))
             .build();

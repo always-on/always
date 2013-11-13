@@ -11,7 +11,8 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
    private static List<String> humanCommentOptions;
    private static String currentAgentComment = "";
    private static String WhatAgentSaysIfHumanDoesNotChooseAComment = "";
-   private static String shouldHaveJumpedClarificationString = "";
+   private static String clarificationString = "";
+   private static String whichClarification = "";
    
    public StartGamingSequence(final CheckersStateContext context) {
       super("Let's play checkers", context);
@@ -57,45 +58,130 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          CheckersClient.gazeDirection = "board";
       }
       @Override
-      public void humanMoveReceived() {
+      public void humanMoveReceived () {
          currentAgentComment = "";
          skipTo(new CreateCommentsAfterLimbo(getContext()));
       }
       @Override
       public void shouldHaveJumped () {
-         
-         //over designed a little, but makes it more compelling.
-         
-         if(CheckersClient.userJumpedAtLeastOnceInThisTurn)
-            shouldHaveJumpedClarificationString = 
+         //perhaps over-designed a little, 
+         //but makes agent understanding image more compelling.
+         whichClarification = "jump";
+         if(!CheckersClient.userJumpedAtLeastOnceInThisTurn)
+            clarificationString = 
             CheckersClient.shouldHaveJumpedClarificationStringOptions
-            .get(new Random(CheckersClient
-                  .shouldHaveJumpedClarificationStringOptions.size()).nextInt());
+            .get(new Random().nextInt(CheckersClient
+                  .shouldHaveJumpedClarificationStringOptions.size()));
          else
-            shouldHaveJumpedClarificationString = 
+            clarificationString = 
             CheckersClient.shouldJumpAgainClarificationStringOptions
-            .get(new Random(CheckersClient
-                  .shouldJumpAgainClarificationStringOptions.size()).nextInt());
+            .get(new Random().nextInt(CheckersClient
+                  .shouldJumpAgainClarificationStringOptions.size()));
 
-         skipTo (new ExplainJumpNecessity(getContext()));
+         CheckersClient.gazeDirection = "";
+         skipTo (new Clarification(getContext()));
+      }
+      @Override
+      public void humanTouchedAgentStuff (int howManyTimes) {
+         CheckersClient.gazeDirection = "board";
+         whichClarification = "touch";
+         if(howManyTimes < 3)
+            clarificationString = 
+            CheckersClient.humantouchedAgentCheckerClarificationStringOptions
+            .get(new Random().nextInt(CheckersClient
+                  .humantouchedAgentCheckerClarificationStringOptions.size()));
+         else{
+            clarificationString = 
+                  CheckersClient.humantouchedTooMuchClarificationStringOptions
+                  .get(new Random().nextInt(CheckersClient
+                        .humantouchedTooMuchClarificationStringOptions.size()));
+            whichClarification += "toomuch";
+         }
+         skipTo (new Clarification(getContext()));
       }
    }
-   
-   public static class ExplainJumpNecessity extends CheckersAdjacencyPairImpl { 
-      
-      public ExplainJumpNecessity(final CheckersStateContext context){
-         super(shouldHaveJumpedClarificationString, context);
-         choice("Got it!", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               return new Limbo(getContext());
-            }
-         });
+   //the class below is used for a handful of situations, reused by cases.
+   public static class Clarification extends CheckersAdjacencyPairImpl { 
+      public Clarification(final CheckersStateContext context){
+         super(clarificationString, context);
+         if(whichClarification.equals("jump")){
+            choice("Got it!", new DialogStateTransition() {
+               @Override
+               public AdjacencyPair run () {
+                  return new Limbo(getContext());
+               }
+            });
+         }
+         else if(whichClarification.equals("touch")){
+            choice("Oh, ok", new DialogStateTransition() {
+               @Override
+               public AdjacencyPair run () {
+                  return new Limbo(getContext());
+               }
+            });
+         }
+         else if(whichClarification.equals("touchtoomuch")){
+            choice("I'm now ready to let go", new DialogStateTransition() {
+               @Override
+               public AdjacencyPair run () {
+                  return new Limbo(getContext());
+               }
+            });
+         }
+//         else if(whichClarification.equals("myturn")){
+//            choice("Oh, go ahead", new DialogStateTransition() {
+//               @Override
+//               public AdjacencyPair run () {
+//                  return new AgentPlayDelay(getContext());
+//               }
+//            });
+//         }
       }
       @Override
       public void enter() {
          getContext().getCheckersUI().updatePlugin(this);
-         CheckersClient.gazeDirection = "user";
+         CheckersClient.gazeDirection = "";
+      }
+      @Override
+      public void humanMoveReceived() {
+         currentAgentComment = "";
+         CheckersClient.gazeDirection = "board";
+         skipTo(new CreateCommentsAfterLimbo(getContext()));
+      }
+      @Override
+      public void shouldHaveJumped () {
+         //here again, to be robust
+         whichClarification = "jump";
+         if(!CheckersClient.userJumpedAtLeastOnceInThisTurn)
+            clarificationString = 
+            CheckersClient.shouldHaveJumpedClarificationStringOptions
+            .get(new Random().nextInt(CheckersClient
+                  .shouldHaveJumpedClarificationStringOptions.size()));
+         else
+            clarificationString = 
+            CheckersClient.shouldJumpAgainClarificationStringOptions
+            .get(new Random().nextInt(CheckersClient
+                  .shouldJumpAgainClarificationStringOptions.size()));
+         skipTo (new Clarification(getContext()));
+      }
+      @Override
+      public void humanTouchedAgentStuff (int howManyTimes) {
+       //here again, to be robust
+         CheckersClient.gazeDirection = "board";
+         whichClarification = "touch";
+         if(howManyTimes < 3)
+            clarificationString = 
+            CheckersClient.humantouchedAgentCheckerClarificationStringOptions
+            .get(new Random().nextInt(CheckersClient
+                  .humantouchedAgentCheckerClarificationStringOptions.size()));
+         else{
+            clarificationString = 
+                  CheckersClient.humantouchedTooMuchClarificationStringOptions
+                  .get(new Random().nextInt(CheckersClient
+                        .humantouchedTooMuchClarificationStringOptions.size()));
+            whichClarification += "toomuch";
+         }
+         skipTo (new Clarification(getContext()));
       }
    }
 
@@ -138,6 +224,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
             skipTo(new gameOverDialogue(getContext()));
          }
          CheckersClient.gazeDirection = "thinking";
+         CheckersClient.userJumpedAtLeastOnceInThisTurn = false;
 //         getContext().getCheckersUI().makeBoardUnplayable();
          getContext().getCheckersUI().updatePlugin(this);
          getContext().getCheckersUI().triggerAgentPlayTimer();
@@ -241,8 +328,67 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       }
       @Override 
       public void humanMoveReceived() {
-         CheckersClient.gazeDirection = "board";
-         skipTo(new CreateCommentsAfterLimbo(getContext()));
+         //allows skipping the comment by just playing
+         //only if it is user's turn, i.e. agent just played
+         if (playerIdentifier == AGENT_IDENTIFIER){
+            CheckersClient.gazeDirection = "board";
+            skipTo(new CreateCommentsAfterLimbo(getContext()));
+         }
+      }
+      @Override
+      public void shouldHaveJumped () {
+         //allows skipping the comment
+         //(refer to comments of same overridden method in Limbo)
+         if (playerIdentifier == AGENT_IDENTIFIER){
+            whichClarification = "jump";
+            if(!CheckersClient.userJumpedAtLeastOnceInThisTurn)
+               clarificationString = 
+               CheckersClient.shouldHaveJumpedClarificationStringOptions
+               .get(new Random().nextInt(CheckersClient
+                     .shouldHaveJumpedClarificationStringOptions.size()));
+            else
+               clarificationString = 
+               CheckersClient.shouldJumpAgainClarificationStringOptions
+               .get(new Random().nextInt(CheckersClient
+                     .shouldJumpAgainClarificationStringOptions.size()));
+
+            CheckersClient.gazeDirection = "";
+            skipTo (new Clarification(getContext()));
+         }
+         else {
+            //to clarify it is agent's turn?
+//            whichClarification = "myturn";
+//            CheckersClient.gazeDirection = "";
+//            clarificationString = "Wait, I think it's my turn";
+//            skipTo (new Clarification(getContext()));
+         }
+      }
+      @Override
+      public void humanTouchedAgentStuff (int howManyTimes) {
+         if (playerIdentifier == AGENT_IDENTIFIER){
+            CheckersClient.gazeDirection = "board";
+            whichClarification = "touch";
+            if(howManyTimes < 3)
+               clarificationString = 
+               CheckersClient.humantouchedAgentCheckerClarificationStringOptions
+               .get(new Random().nextInt(CheckersClient
+                     .humantouchedAgentCheckerClarificationStringOptions.size()));
+            else{
+               clarificationString = 
+                     CheckersClient.humantouchedTooMuchClarificationStringOptions
+                     .get(new Random().nextInt(CheckersClient
+                           .humantouchedTooMuchClarificationStringOptions.size()));
+               whichClarification += "toomuch";
+            }
+            skipTo (new Clarification(getContext()));
+         }
+         else{
+            //to clarify it is agent's turn?
+//            whichClarification = "myturn";
+//            clarificationString = "Wait, I think it's my turn";
+//            CheckersClient.gazeDirection = "";
+//            skipTo (new Clarification(getContext()));
+         }
       }
       @Override
       public void enter() {

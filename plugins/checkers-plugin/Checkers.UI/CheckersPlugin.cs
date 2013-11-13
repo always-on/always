@@ -20,22 +20,28 @@ namespace AgentApp
 
         public CheckersPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
-
-            this._remote = remote;
+			this._remote = remote;
             this._uiThreadDispatcher = uiThreadDispatcher;
 
-            uiThreadDispatcher.BlockingInvoke(() =>
-            {
-			  game = new GameShape();
-			  game.Played += (s, e) =>
-			  { 
-			      JObject body = new JObject();
-			      body["humanMove"] = ((cellEventArg)e).moveDesc;
-			      _remote.Send("checkers.human_played_move", body);
-			  };
-			  pluginContainer = new Viewbox();
-			  pluginContainer.Child = game;
-            });
+			uiThreadDispatcher.BlockingInvoke(() =>
+			{
+				game = new GameShape();
+				game.UserPlayed += (s, e) =>
+				{
+					JObject body = new JObject();
+					body["humanMove"] = ((CheckerEventArg)e).moveDesc;
+					_remote.Send("checkers.human_played_move", body);
+				};
+				game.UserTouchedAgentChecker += (s, e) =>
+				{
+					JObject body = new JObject();
+					body["howMany"] = 
+						((UserTouchedAgentStuffEventArg)e).howManyTimes;
+					_remote.Send("checkers.touched_agent_piece", body);
+				};
+				pluginContainer = new Viewbox();
+				pluginContainer.Child = game;
+			});
 
 			_remote.RegisterReceiveHandler("checkers.agent_move",
 			     new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
@@ -53,14 +59,13 @@ namespace AgentApp
 		public void Dispose()
 		{
 			_remote.RemoveReceiveHandler("checkers.agent_move");
-			//_remote.RemoveReceiveHandler("checkers.playability");
 			_remote.RemoveReceiveHandler("checkers.checkers.reset");
 			_remote.RemoveReceiveHandler("checkers.confirm_human_move");
+			//_remote.RemoveReceiveHandler("checkers.playability");
 		}
 
        	private void PlayAgentMove(JObject moveDescAsJObj)
 		{
-
 			string moveDesc = moveDescAsJObj["moveDesc"].ToString();
 			game.PlayAgentMove(moveDesc);
 		}
@@ -71,7 +76,6 @@ namespace AgentApp
 			//    game.MakeTheBoardPlayable();
 			//else if (playabilityAsJObj["value"].ToString().Trim().Contains("false"))
 			//    game.MakeTheBoardUnplayable();
-		
 		}
 
         public System.Windows.UIElement GetUIElement()

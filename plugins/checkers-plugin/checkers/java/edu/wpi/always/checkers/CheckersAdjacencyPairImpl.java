@@ -42,19 +42,25 @@ implements CheckersUIListener {
    public void agentPlayingGazeDelayOver () {
       afterAgentPlayingGazeDelay();
    }
-   protected void afterAgentPlayingGazeDelay(){}
+   protected void afterAgentPlayingGazeDelay (){}
 
    @Override
    public void nextState () {
       goToNextState();      
    }
-   protected void goToNextState(){}
+   protected void goToNextState (){}
 
    @Override
    public void shouldHaveJumped () {
       tellShouldHaveJumped();
    }
-   protected void tellShouldHaveJumped(){}
+   protected void tellShouldHaveJumped (){}
+
+   @Override
+   public void humanTouchedAgentStuff (int howManyTimes) {
+      agentStuffWasTouched(howManyTimes);
+   }
+   protected void agentStuffWasTouched (int howManyTimes){}
 
    //   @Override
    //   public void receivedNewState() {
