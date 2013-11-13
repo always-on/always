@@ -342,8 +342,7 @@ public class CheckersGameState extends GameLogicState{
       
       if(move.isJump()) {
          
-         if(player == RED /*user*/) 
-         { 
+         if(player == RED /*user*/){ 
             if(userJustJumped) 
                gameSpecificTags.add("humanCaptureALot");
             else {
@@ -351,8 +350,7 @@ public class CheckersGameState extends GameLogicState{
                gameSpecificTags.add("humanCapture"); 
             }
          }
-         if(player == BLACK /*agent*/) 
-         {
+         if(player == BLACK /*agent*/){
             if(agentJustJumped) 
                gameSpecificTags.add("agentCaptureALot");
             else { 

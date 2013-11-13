@@ -13,7 +13,7 @@ import edu.wpi.cetask.Utils;
  * Comment Library handler for Social Gameplay Framework.
  * Retrieves comments from library file.
  * @author Morteza Behrooz
- * @version 2.0
+ * @version 2.1
  */
 public class CommentLibraryHandler {
 
@@ -272,7 +272,10 @@ public class CommentLibraryHandler {
          List<Comment> someComments, List<String> someTags, 
          List<String> someGameSpecificTags, String someGameType){
 
+      //b robust
       for(String each : someGameSpecificTags)
+         each = each.toLowerCase().trim();
+      for(String each : someTags)
          each = each.toLowerCase().trim();
       
       Map<Comment, Integer> genericCommentsTagCovering = 
@@ -295,10 +298,10 @@ public class CommentLibraryHandler {
       for(Comment eachComment : someComments){
          for(String eachTag : eachComment.getTags()){
             if(someTags != null)
-               if(someTags.contains(eachTag))
+               if(someTags.equals(eachTag.toLowerCase().trim()))
                   genericCovering ++;
             if(someGameSpecificTags != null)
-               if(someGameSpecificTags.contains(eachTag))
+               if(someGameSpecificTags.equals(eachTag))
                   gameSpecificCovering ++;
          }
          if(eachComment.getGameName() != null 

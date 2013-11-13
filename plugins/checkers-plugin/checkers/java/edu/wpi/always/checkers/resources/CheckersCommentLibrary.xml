@@ -25,13 +25,13 @@
 <comments>
 
 	<agent>
-		<comment competitiveness='0.5' tags="AgentCrown" gameType="board" gameName="checkers" madeOn="agent">
+		<comment competitiveness='0.5' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
 			Crowned! Yes!
 		</comment>
-		<comment competitiveness='0.7' tags="AgentCrown" gameType="board" gameName="checkers" madeOn="agent">
+		<comment competitiveness='0.7' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
 			Pay respect to the crown!
 		</comment>
-		<comment competitiveness='0.7' tags="AgentCrown" gameType="board" gameName="checkers" madeOn="agent">
+		<comment competitiveness='0.7' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
 			Now coming back to get you!
 		</comment>
 		<comment competitiveness='0.1' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
@@ -79,7 +79,6 @@
 		<comment competitiveness='0.8' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
 			Haha, is jumping ceremony over yet?
 		</comment>
-		
 	</agent>
 	
 	<human>
