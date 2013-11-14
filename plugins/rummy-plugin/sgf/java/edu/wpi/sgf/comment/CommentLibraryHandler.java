@@ -275,12 +275,16 @@ public class CommentLibraryHandler {
       //b robust
       if(someGameSpecificTags != null)
          if(!someGameSpecificTags.isEmpty())
-            for(String each : someGameSpecificTags)
-               each = each.toLowerCase().trim();
+            for(String each : someGameSpecificTags){
+               someGameSpecificTags.add(each.toLowerCase().trim());
+               someGameSpecificTags.remove(each);
+            }
       if(someTags != null)
          if(!someTags.isEmpty())
-            for(String each : someTags)
-               each = each.toLowerCase().trim();
+            for(String each : someTags){
+               someTags.add(each.toLowerCase().trim());
+               someTags.remove(each);
+            }
       
       Map<Comment, Integer> genericCommentsTagCovering = 
             new HashMap<Comment, Integer>();
@@ -297,15 +301,15 @@ public class CommentLibraryHandler {
       new HashMap<Comment, Integer>();
 
       List<Comment> results = new ArrayList<Comment>();
-
       int genericCovering = 0, gameSpecificCovering = 0;
       for(Comment eachComment : someComments){
          for(String eachTag : eachComment.getTags()){
+            eachTag = eachTag.toLowerCase().trim();
             if(someTags != null)
-               if(someTags.equals(eachTag.toLowerCase().trim()))
+               if(someTags.contains(eachTag))
                   genericCovering ++;
             if(someGameSpecificTags != null)
-               if(someGameSpecificTags.equals(eachTag))
+               if(someGameSpecificTags.contains(eachTag))
                   gameSpecificCovering ++;
          }
          if(eachComment.getGameName() != null 

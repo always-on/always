@@ -17,6 +17,7 @@ public class CheckersGameState extends GameLogicState{
    private static final int BLACK = 2; //agent
    private static final int BLACK_KING = 4; //agent crown
    private static final int EMPTY = 0; //empty
+   private CheckersLegalMove latestMove = null;
    private boolean agentJustJumped = false;
    private boolean userJustJumped = false;
    
@@ -343,7 +344,7 @@ public class CheckersGameState extends GameLogicState{
       if(move.isJump()) {
          
          if(player == RED /*user*/){ 
-            if(userJustJumped) 
+            if(userJustJumped && !move.equals(latestMove)) 
                gameSpecificTags.add("humanCaptureALot");
             else {
                userJustJumped = true; 
@@ -351,7 +352,7 @@ public class CheckersGameState extends GameLogicState{
             }
          }
          if(player == BLACK /*agent*/){
-            if(agentJustJumped) 
+            if(agentJustJumped && !move.equals(latestMove)) 
                gameSpecificTags.add("agentCaptureALot");
             else { 
                agentJustJumped = true; 
@@ -359,15 +360,21 @@ public class CheckersGameState extends GameLogicState{
             }
          }
       }
-      else {
+      
+      if(userJustJumped && player == BLACK)
          userJustJumped = false;
+      if(agentJustJumped && player == RED)
          agentJustJumped = false;
-      }
+
       
       if(player == RED /*user*/ && move.toRow == 7)
          gameSpecificTags.add("humanCrown");
       if(player == BLACK /*agent*/ && move.toRow == 0)
          gameSpecificTags.add("agentCrown");
+      
+      //used to avoid mistaking tags if this fun 
+      //called more than once in same turn
+      latestMove = move;
       
       return gameSpecificTags;
    
