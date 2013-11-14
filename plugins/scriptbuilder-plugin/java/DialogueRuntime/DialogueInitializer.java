@@ -11,7 +11,7 @@ public abstract class DialogueInitializer {
 			Class scriptClass = Class.forName(className);
     		return (DialogueScript) scriptClass.newInstance();
     	} catch (Throwable t) {
-    		System.out.println("Error loading script: " + className + t.toString());
+    		//System.out.println("Error loading script: " + className + t.toString());
     		return new ErrorScript(className);
     	}
     }

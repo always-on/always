@@ -17,7 +17,7 @@ public class AnecdotesSchema extends ScriptbuilderSchema {
 			UIMessageDispatcher dispatcher, PlaceManager placeManager,
 			PeopleManager peopleManager,Always always) {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
-	               keyboard, dispatcher, placeManager, peopleManager, always)),
+	               keyboard, dispatcher, placeManager, peopleManager, always,"Anecdotes")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
 	}
 
