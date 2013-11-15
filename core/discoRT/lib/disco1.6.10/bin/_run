@@ -24,7 +24,11 @@ uname=`uname -s`
 for arg in "$@"
   do
     if [ "$cp" ]; then cp="$cp:"; fi
-    cp="$cp$dir/$arg"
+    if [[ $arg = /* ]]; then
+      cp="$cp$arg"
+    else
+      cp="$cp$dir/$arg"
+    fi
   done
 if [[ $uname == CYGWIN* ]]; then 
   cp="$(cygpath -wp "$cp")"
