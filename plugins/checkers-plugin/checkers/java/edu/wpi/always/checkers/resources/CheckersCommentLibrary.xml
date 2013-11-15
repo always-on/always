@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+
+<!--
+	THE GAME SPECIFIC (CHECKERS) COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
+	AUTHOR: MORTEZA BEHROOZ
+	WORCESTER POLYTECHNIC INSTITUTE 
+-->
+
+<!--
+	> Attributes brief description:
+	- strength: determines how much of a strong move should it be, 
+	the move which this comment is being made for, human's or agent's.
+	- competitiveness: how competitive the comment sounds.
+	- tags: the social tags which comment carries.
+	- gameType: if a specific type of game the comment is made for.
+	- gameName: if a specific game the comment is made for.
+	- madeOn: to be made on agent's move, human's or both.
+	
+	> agent and human sections contain comments which should 
+	be made by each of them.
+	
+	PLEASE REFER TO SOCIAL GAMEPLAY FRAMEWORK DOCUMENTS FOR FURTHER INFORMATION.
+	
+	NOTE: lower & UPPER cases in comment tags are dismissed.
+-->
+
+<comments>
+
+	<agent>
+		<comment competitiveness='0.5' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
+			Crowned! Yes!
+		</comment>
+		<comment competitiveness='0.7' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
+			Pay respect to the crown!
+		</comment>
+		<comment competitiveness='0.7' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
+			Now coming back to get you!
+		</comment>
+		<comment competitiveness='0.1' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			Had to hit you, sorry
+		</comment>
+		<comment competitiveness='0.8' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			One less checker for you 
+		</comment>
+		<comment competitiveness='0.1' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			And that checker is out!
+		</comment>
+		<comment competitiveness='0.1' tags="agentCaptureALot" gameType="board" gameName="checkers" madeOn="agent">
+			Haha, one more jump!
+		</comment>
+		<comment competitiveness='0.8' tags="agentCaptureALot" gameType="board" gameName="checkers" madeOn="agent">
+			Jumps were not finished!!!
+		</comment>
+		<comment competitiveness='0.1' tags="agentCaptureALot" gameType="board" gameName="checkers" madeOn="agent">
+			That is a killer move!
+		</comment>
+		<comment competitiveness='0.7' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			Crowning won't help you
+		</comment>
+		<comment competitiveness='0.2' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			Nice, you got to the last row
+		</comment>
+		<comment competitiveness='0.5' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			Oops! You move back with that now
+		</comment>
+		<comment competitiveness='0.1' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			You got me there
+		</comment>
+		<comment competitiveness='0.9' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			How dare you to hit me? 
+		</comment>
+		<comment competitiveness='0.5' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			Outch!
+		</comment>
+		<comment competitiveness='0.5' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			Keeps coming ha?!
+		</comment>
+		<comment competitiveness='0.4' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			one more jump? wow!
+		</comment>
+		<comment competitiveness='0.8' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			Haha, is jumping ceremony over yet?
+		</comment>
+	</agent>
+	
+	<human>
+		<comment competitiveness='0.5' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			Crowned! Yes!
+		</comment>
+		<comment competitiveness='0.7' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			Pay respect to the crowned checker
+		</comment>
+		<comment competitiveness='0.9' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			Now coming back to get you
+		</comment>
+		<comment competitiveness='0.1' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			Had to hit you, sorry
+		</comment>
+		<comment competitiveness='0.8' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			One less checker for you 
+		</comment>
+		<comment competitiveness='0.1' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			And that one is out
+		</comment>
+		<comment competitiveness='0.4' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			Not just one, haha!
+		</comment>
+		<comment competitiveness='0.5' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			More was on the way! 
+		</comment>
+		<comment competitiveness='0.6' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			I was not finish!
+		</comment>
+		<comment competitiveness='0.7' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
+			Crowning won't help you
+		</comment>
+		<comment competitiveness='0.2' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
+			Nice, you got to the last row
+		</comment>
+		<comment competitiveness='0.5' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
+			Oops! You can move back now
+		</comment>
+		<comment competitiveness='0.1' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			You got me there
+		</comment>
+		<comment competitiveness='0.9' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			How dare you to hit me?! 
+		</comment>
+		<comment competitiveness='0.5' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			Outch!
+		</comment>
+		<comment competitiveness='0.7' tags="agentCaptureAlot" gameType="board" gameName="checkers" madeOn="agent">
+			Wow enough already!
+		</comment>
+		<comment competitiveness='0.8' tags="agentCaptureAlot" gameType="board" gameName="checkers" madeOn="agent">
+			Too many jumps there! 
+		</comment>
+		<comment competitiveness='0.2' tags="agentCaptureAlot" gameType="board" gameName="checkers" madeOn="agent">
+			jumping and jumping, haha
+		</comment>
+	</human>
+	
+</comments>

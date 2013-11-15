@@ -1,0 +1,14 @@
+﻿<runtime:CheckerPiece
+    x:Class="Checkers.UI.EmptySpace"
+    xmlns:runtime="clr-namespace:Checkers.UI"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	d:DesignWidth="65" d:DesignHeight="65">
+
+    <Grid x:Name="LayoutRoot" Width="64" Height="64">
+        <Label Height="Auto" Width="Auto"></Label>
+    </Grid>
+</runtime:CheckerPiece>

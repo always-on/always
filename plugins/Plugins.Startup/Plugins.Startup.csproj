@@ -107,6 +107,10 @@
       <Project>{A14CC577-645D-475E-BED0-09F56E049E7A}</Project>
       <Name>Calendar.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\checkers-plugin\Checkers.UI\Checkers.UI.csproj">
+      <Project>{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}</Project>
+      <Name>Checkers.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\enroll-plugin\Enroll.UI\Enroll.UI.csproj">
       <Project>{1E33773D-EA6F-4AF0-B852-FBA2DB98E7E6}</Project>
       <Name>Enroll.UI</Name>

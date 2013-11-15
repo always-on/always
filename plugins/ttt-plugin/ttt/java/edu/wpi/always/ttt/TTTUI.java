@@ -18,5 +18,6 @@ public interface TTTUI {
    public List<String> getCurrentHumanCommentOptionsForAMoveBy(int player);
    public void startPluginForTheFirstTime(TTTUIListener listener);
    public void triggerNextStateTimer(TTTUIListener listener);
+   
 
 }

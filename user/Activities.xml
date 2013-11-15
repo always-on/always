@@ -22,6 +22,8 @@
   	
   <task id="PlayRummy"/>
   
+  <task id="PlayCheckers"/>
+  
   <task id="PlayTicTacToe"/>
 
   <task id="DiscussWeather"/>

@@ -20,7 +20,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.Startup", "Plugins.Startup\Plugins.Startup.csproj", "{2AF75B52-B93A-4108-9415-2F1840ED9E21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enroll.UI", "enroll-plugin\Enroll.UI\Enroll.UI.csproj", "{1E33773D-EA6F-4AF0-B852-FBA2DB98E7E6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTT.UI", "ttt-plugin\TTT.UI\TTT.UI.csproj", "{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.UI", "checkers-plugin\Checkers.UI\Checkers.UI.csproj", "{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -146,6 +149,16 @@ Global
 		{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}.Release|Mixed Platforms.Build.0 = Release|x86
 		{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}.Release|x86.ActiveCfg = Release|x86
 		{7E1DAD15-37AD-407E-90A9-AF14BF0B38A6}.Release|x86.Build.0 = Release|x86
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B6AF7F7C-05C4-426E-BAF2-CED0B1D64194}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
