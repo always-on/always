@@ -1,2 +1,2 @@
-# make sure bash scripts don't get changed
-* text=binary
+# make sure shell scripts don't get changed
+* -crlf
