@@ -45,3 +45,17 @@ For development machines only:
 
 * Go on to the "setup.txt" file for always development machines
 
+Restoring the webcam:
+
+For no apparent reason today, Windows could not find the builtin
+webcam on my ASUS.  After some web searching I found the diagosis and
+solution.  For some reason, the camera got disabled in the BIOS!
+
+To fix it, reboot the machine and when the ASUS splash screen comes
+up, press F2 to get into the BIOS.  Then under "devices", you will see
+the camera and it will say "Disabled" next it.  Click the button to
+enable it.  Exit from BIOS, saving settings, and let the restart
+finish.
+
+-CR
+

@@ -18,6 +18,7 @@ import edu.wpi.always.user.UserUtils;
 import edu.wpi.always.user.owl.OntologyRegistry;
 import edu.wpi.always.user.owl.OntologyRuleHelper;
 import edu.wpi.always.user.owl.OntologyUserRegistry;
+import edu.wpi.cetask.*;
 import edu.wpi.disco.Agent;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.User;
@@ -26,6 +27,7 @@ import edu.wpi.disco.rt.Registry;
 import edu.wpi.disco.rt.behavior.SpeechMarkupBehavior;
 import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public class Always {
 
@@ -85,6 +87,9 @@ public class Always {
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
          UserUtils.USER_FILE = "TestUser.owl";  // no way to change for now
+         // to get plugin classes 
+         for (TaskClass task : new TaskEngine().load("Activities.xml").getTaskClasses())
+            Plugin.getPlugin(task);
          // initialize duplicate interaction created above
          new Always(true, false).init(interaction); 
          interaction.start(true);  

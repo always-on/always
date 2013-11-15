@@ -32,12 +32,15 @@
 
     Activity.ALL = {
          PlanExercise : new Activity("PLAN_EXERCISE", "developing an exercise plan for me"), 
-         DiscussFamily : new Activity("DISCUSS_FAMILY", "talking together about my family and friends"),
+         TalkAbout : new Activity("TALK_ABOUT", "talking together about my family and friends"),
          UseCalendar : new Activity("USE_CALENDAR", "keeping my personal calendar"),
          PlayRummy : new Activity("PLAY_RUMMY", "playing a social game of cards"),
          TellStory : new Activity("TELL_STORY", "telling one of my life stories "),
-         DiscussWeather : new Activity("DISCUSS_WEATHER", "telling weather where my friends and family live")
-         // TODO: add the other activities
+         PlayTicTacToe : new Activity("PLAY_TICTACTOE", "playing a social game of TicTacToe "),
+         DiscussWeather : new Activity("DISCUSS_WEATHER", "telling weather where my friends and family live"),
+         HearAnecdotes : new Activity("HEAR_ANECDOTES", "hearing a short humorous story"),
+         AdviseNutrition : new Activity("ADVISE_NUTRITION", "getting advice on healthy foods to eat"),
+         UseSkype : new Activity("USE_SKYPE", "arranging videos calls with friends and family")
     }
 
     // dynamically construct enumeration based on flags
@@ -95,8 +98,8 @@
   <do id="MoreExplaining" actor="agent" task="_SetChoiceActivity">
     <do task="_ExplainPlanExercise" 
         applicable="$CHOICE == Activity.ENUM.PlanExercise"/>
-    <do task="_ExplainDiscussFamily"
-        applicable="$CHOICE == Activity.ENUM.DiscussFamily"/>
+    <do task="_ExplainTalkAbout"
+        applicable="$CHOICE == Activity.ENUM.TalkAbout"/>
     <do task="_ExplainDiscussWeather"
         applicable="$CHOICE == Activity.ENUM.DiscussWeather"/>
     <do task="_ExplainUseCalendar"
@@ -105,15 +108,14 @@
         applicable="$CHOICE == Activity.ENUM.PlayRummy"/>
     <do task="_ExplainTellStory"
         applicable="$CHOICE == Activity.ENUM.TellStory"/>
-
     <do task="_ExplainPlayTicTacToe"
         applicable="$CHOICE == Activity.ENUM.PlayTicTacToe"/>
     <do task="_ExplainFunnyStories"
-        applicable="$CHOICE == Activity.ENUM.FunnyStories"/>
+        applicable="$CHOICE == Activity.ENUM.HearAnecdotes"/>
     <do task="_ExplainHealthyEating"
-        applicable="$CHOICE == Activity.ENUM.HealthyEating"/>
+        applicable="$CHOICE == Activity.ENUM.AdviseNutrition"/>
     <do task="_ExplainSkypeBuddy"
-        applicable="$CHOICE == Activity.ENUM.SkypeBuddy"/>
+        applicable="$CHOICE == Activity.ENUM.UseSkype"/>
   </do>
 
   <t:task id="_SetChoiceActivity">
@@ -130,20 +132,24 @@
 
   <agent id="_ExplainPlayRummy" text="We can play cards together.  In particular we can play rummy" >
     <user text="go on" >
-    <agent text="Other computers can play cards, but they just make the moves, and then give you a turn.  When we play cards, we can talk about our hands and anything else you want while we play the game."
-         eval="Activity.ALL.PlayRummy.setFlag()">
-    </agent>
+      <agent text="Other computers can play cards, but they just make the moves, and then give you a turn."
+             eval="Activity.ALL.PlayRummy.setFlag()">
+        <user text="uh-huh">
+          <agent text="When we play cards, we can talk about our hands and anything else you want while we play the game" >
+            <user text="Ok" >
+              <agent text="so give it a try soon"/>
+            </user>
+            <user text="Oh, that sounds fun!">
+              <agent text="it will be fun to do together"/>
+            </user>
+            <user text="I see"/>
+          </agent>
+        </user>
+      </agent>
     </user>
-    <user text="Ok" >
-      <agent text="so give it a try soon"/>
-    </user>
-    <user text="Oh, that sounds fun!">
-      <agent text="it will be fun to do together"/>
-    </user>
-    <user text="I see"/>
   </agent>
 
-<agent id="_ExplainPlayTicTacToe" text="We can play TicTacToe together.  We can talk about who's winning the game, and make some funny comments as we play.  I won't let you win easily"
+  <agent id="_ExplainPlayTicTacToe" text="We can play TicTacToe together.  We can talk about who's winning the game, and make some funny comments as we play.  I won't let you win easily"
          eval="Activity.ALL.PlayTicTacToe.setFlag()">
     <user text="Ok"/>
     <user text="Oh, that sounds fun!">
@@ -153,36 +159,39 @@
   </agent>
 
   <agent id="_ExplainUseCalendar" 
-         text="I can keep track of your everyday calendar.  That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, go to an apppointment, or remember something important.">
-    <user text="Ok"
-          eval="Activity.ALL.UseCalendar.setFlag()"/>
-    <user text="I don't understand.  How do I tell you what I am doing and when?">
-      <agent text="well, I will ask you about some event you plan to do, like go to the doctor.  After you tell me the day and time, I'll show you the calendar with that event.  You can change it later if you want." 
-             eval="Activity.ALL.UseCalendar.setFlag()">
-        <user text="I see.  That sounds useful.">
-	  <agent text="yes, so give it a try"/>
-	</user>
-        <user text="okay" />
-        <user text="I still don't understand" >
-          <agent text="well, next time just try the calendar activity and you will see how it works" >
+         text="I can keep track of your everyday calendar" eval="Activity.ALL.UseCalendar.setFlag()">
+    <user text="Go on">
+      <agent text="That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, go to an apppointment, or remember something important.">
+        <user text="Ok"/>
+        <user text="I don't understand.  How do I tell you what I am doing and when?">
+          <agent text="well, I will ask you about some event you plan to do, like go to the doctor.  After you tell me the day and time, I'll show you the calendar with that event.  You can change it later if you want." 
+                 eval="Activity.ALL.UseCalendar.setFlag()">
+            <user text="I see.  That sounds useful.">
+              <agent text="yes, so give it a try"/>
+            </user>
             <user text="okay" />
-            <user text="Not sure I will "/>
+            <user text="I still don't understand" >
+              <agent text="well, next time just try the calendar activity and you will see how it works" >
+                <user text="okay" />
+                <user text="Not sure I will "/>
+              </agent>
+            </user>
           </agent>
         </user>
       </agent>
     </user>
   </agent>
 
-  <agent id="_ExplainDiscussWeather" text="We've already talked about the weather.  BUT I can do more!  I can get information from the internet about weather just about anywhere"
+  <agent id="_ExplainDiscussWeather" text="We've already talked about the weather.  BUT I can do more!  I can get information from the internet about the weather anywhere in the US"
          eval="Activity.ALL.DiscussWeather.setFlag()">
     <user text="Really? Tell me more">
       <agent text="You can tell me about your family and friends, and I will remember what you say.  You can also tell me if you want to know the weather for that person everyday or just once in a while">
         <user text="Ok, I will tell you about my family and friends">
-	  <agent text="great!" />
-	</user>
+          <agent text="great!" />
+        </user>
         <user text="I don't want to know the weather except here">
-	  <agent text="well, try it once and see" />
-	</user>
+          <agent text="well, try it once and see" />
+        </user>
       </agent>
     </user>
     <user text="I don't really need to know more about the weather "/>
@@ -192,24 +201,24 @@
          eval="Activity.ALL.DiscussWeather.setFlag()">
     <user text="Really? Tell me more">
       <agent text="You can talk to your family and friends and see them as you talk on your computer screen">
-	<user text="go on">
-	  <agent text="I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk and I'll remind you before the call">
-	    <user text="Ok, I definitely want to try that" />
-	    <user text="gee, most of my family doesn't have a computer">
-	      <agent text="well, if anyone does, you can try it" >
-		<user text="okay, I'll see if anyone does" />
-		<user text="I will probably not do this"/>
-		<user text="maybe I can do this"/>
-	      </agent>
-	    </user>
-	  </agent>
-	</user>
+        <user text="go on">
+          <agent text="I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk and I'll remind you before the call">
+            <user text="Ok, I definitely want to try that" />
+            <user text="gee, most of my family doesn't have a computer">
+              <agent text="well, if anyone does, you can try it" >
+                <user text="okay, I'll see if anyone does" />
+                <user text="I will probably not do this"/>
+                <user text="maybe I can do this"/>
+              </agent>
+            </user>
+          </agent>
+        </user>
       </agent>
     </user>
     <user text="no thanks.  I like using the phone just fine">
       <agent text="well, you could try it just once with one friend.  Think about it" >
-	<user text="okay, maybe I will"/>
-	<user text="no, no thanks" />
+        <user text="okay, maybe I will"/>
+        <user text="no, no thanks" />
       </agent>
     </user>
     <user text="this is definitely not for me">
@@ -217,10 +226,10 @@
     </user>
   </agent>
 
-  <agent id="_ExplainDiscussFamily" text="I'm interested in knowing about your friends and family.  The more I know about them, the more I can use this information">
+  <agent id="_ExplainTalkAbout" text="I'm interested in knowing about your friends and family.  The more I know about them, the more I can use this information">
     <user text="uh-huh">
       <agent text="When I know about your family, I can give you weather information where they live, and I can help you with your calendar."
-             eval="Activity.ALL.DiscussFamily.setFlag()">
+             eval="Activity.ALL.TalkAbout.setFlag()">
         <user text="Ok">
         </user>
         <user text="oh, that is good ">
@@ -229,8 +238,8 @@
               <agent text="great.  I'm looking forward to our chats" />
             </user>
             <user text="okay">
-	      <agent text="good" />
-	    </user>
+              <agent text="good" />
+            </user>
           </agent>
         </user>
         <user text="I see.  Maybe I'll tell you some time"/>
@@ -238,17 +247,22 @@
     </user>
   </agent>
 
-  <agent id="_ExplainTellStory" text="You can tell me a story about your life.  I will pay attention even though I won't understand most of what you say.  When you are done, you can save the story, and if you want, send it out to friends" 
+  <agent id="_ExplainTellStory" text="You can tell me a story about your life.  I will pay attention even though I won't understand most of what you say" 
          eval="Activity.ALL.TellStory.setFlag()">
-    <user text="ok"/>
-    <user text="I think I will try that">
-      <agent text="good.  We can do that soon" />
+    <user text="go on" >
+      <agent text="When you are done, you can save the story, and if you want, send it out to friends">
+
+        <user text="ok"/>
+        <user text="I think I will try that">
+          <agent text="good.  We can do that soon" />
+        </user>
+        <user text="I see.  Maybe I will do that some time " />
+      </agent>
     </user>
-    <user text="I see.  Maybe I will do that some time " />
   </agent>
 
   <agent id="_ExplainFunnyStories" text="I know a lot of short and funny stories.  I can tell you one or more whenever we talk" 
-         eval="Activity.ALL.TellStory.setFlag()">
+         eval="Activity.ALL.HearAnecdotes.setFlag()">
     <user text="ok"/>
     <user text="I think I will try that sometime">
       <agent text="good.  I like telling stories!" />
@@ -258,11 +272,10 @@
     </user>
   </agent>
 
-
   <agent id="_ExplainPlanExercise" text="Everyone can use more exercise.  Walking is a really good and easy type of exercise" > 
     <user text="uh-huh">
       <agent text="I can help you work out an exercise plan, including getting a walking buddy.  I can also follow up with you every day once you start walking."
-         eval="Activity.ALL.PlanExercise.setFlag()">
+             eval="Activity.ALL.PlanExercise.setFlag()">
         <user text="Ok"/>
         <user text="oh, that sounds fun!">
           <agent text="Good, we can have fun getting you started on exercise">
@@ -275,7 +288,8 @@
     </user>
   </agent>
 
-  <agent id="_ExplainHealthyEating" text="It's hard to make good choices in our meals.  Eating more fruits and veggies will make you feel better and improve your health"  eval="Activity.ALL.HealthyEating.setFlag()">
+  <agent id="_ExplainHealthyEating" text="It's hard to make good choices in our meals.  Eating more fruits and veggies will make you feel better and improve your health"  
+         eval="Activity.ALL.AdviseNutrition.setFlag()">
     <user text="uh-huh">
       <agent text="I can advise you on how to add better foods to your daily meals" >
         <user text="Ok"/>
@@ -284,8 +298,8 @@
           </agent>
         </user>
         <user text="no thanks.  I just want to eat what I eat now">
-	  <agent text="I see.  okay" />
-	</user>
+          <agent text="I see.  okay" />
+        </user>
         <user text="Maybe another time"/>
       </agent>
     </user>
