@@ -32,7 +32,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          getContext().getCheckersUI().resetGame();
          getContext().getCheckersUI().updatePlugin(this);
       }
-//      getContext().getCheckersUI().makeBoardPlayable();
+//      getContext().getCheckersUI().makeBoardPlayable(); //NOT YET. Only if user played first or given the option to play first
    }
 
    //Limbo as waiting for user move
@@ -53,7 +53,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                   .getCurrentAgentComment();
             skipTo(new gameOverDialogue(getContext()));
          }
-//         getContext().getCheckersUI().makeBoardPlayable();
+         getContext().getCheckersUI().makeBoardPlayable();
          getContext().getCheckersUI().updatePlugin(this);
          CheckersClient.gazeDirection = "board";
       }
@@ -191,7 +191,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       }
       @Override
       public void enter(){
-//         getContext().getCheckersUI().makeBoardUnplayable();
+         getContext().getCheckersUI().makeBoardUnplayable();
          getContext().getCheckersUI().prepareAgentCommentForAMoveBy(
                HUMAN_IDENTIFIER);
          currentAgentComment = getContext().getCheckersUI()
@@ -225,7 +225,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          }
          CheckersClient.gazeDirection = "thinking";
          CheckersClient.userJumpedAtLeastOnceInThisTurn = false;
-//         getContext().getCheckersUI().makeBoardUnplayable();
+         getContext().getCheckersUI().makeBoardUnplayable();
          getContext().getCheckersUI().updatePlugin(this);
          getContext().getCheckersUI().triggerAgentPlayTimer();
          getContext().getCheckersUI().prepareAgentMove();
@@ -404,7 +404,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          getContext().getCheckersUI().updatePlugin(this);
          //getContext().getCheckersUI().triggerHumanCommentingTimer();
 //         if(playerIdentifier == AGENT_IDENTIFIER)
-//            getContext().getCheckersUI().makeBoardPlayable();
+            getContext().getCheckersUI().makeBoardPlayable();
       }
    }
 
@@ -434,7 +434,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          CheckersClient.gazeDirection = "sayandgazegameover";
          humanCommentOptions = getContext().getCheckersUI()
                .getCurrentHumanCommentOptionsForAMoveBy(HUMAN_IDENTIFIER);
-//         getContext().getCheckersUI().makeBoardUnplayable();
+         getContext().getCheckersUI().makeBoardUnplayable();
          getContext().getCheckersUI().updatePlugin(this);
          //getContext().getCheckersUI().triggerHumanCommentingTimer();
       }
@@ -465,7 +465,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          CheckersClient.gazeDirection = "";
          //CheckersClient.gazeDirection = "user";
          CheckersClient.gameOver = true;
-//         getContext().getCheckersUI().makeBoardUnplayable();
+         getContext().getCheckersUI().makeBoardUnplayable();
          getContext().getCheckersUI().updatePlugin(this);
       }
    }

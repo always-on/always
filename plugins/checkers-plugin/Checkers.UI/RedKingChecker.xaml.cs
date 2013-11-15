@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace Checkers.UI
 {
 	/// <summary>
-	/// Interaction logic for RedChecker.xaml
+	/// Interaction logic for RedKingChecker.xaml
 	/// </summary>
-    public partial class RedChecker : CheckerPiece
+    public partial class RedKingChecker : CheckerPiece
 	{
-		public RedChecker()
+		public RedKingChecker()
 		{
 			this.InitializeComponent();
 		}

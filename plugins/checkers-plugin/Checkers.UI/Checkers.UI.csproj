@@ -64,6 +64,12 @@
       <DependentUpon>BlackChecker.xaml</DependentUpon>
     </Compile>
     <Compile Include="CheckerPiece.cs" />
+    <Compile Include="BlackKingChecker.xaml.cs">
+      <DependentUpon>BlackKingChecker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RedKingChecker.xaml.cs">
+      <DependentUpon>RedKingChecker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DragAdorner.cs" />
     <Compile Include="EmptySpace.xaml.cs">
       <DependentUpon>EmptySpace.xaml</DependentUpon>
@@ -83,6 +89,14 @@
     <Page Include="BlackChecker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BlackKingChecker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RedKingChecker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -138,6 +152,10 @@
       <Project>{47A8AF0B-EBB2-4825-8B0D-E0C06B5E2421}</Project>
       <Name>Client.UI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\grayking_checker50x50.gif" />
+    <Resource Include="Assets\redking_checker50x50.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

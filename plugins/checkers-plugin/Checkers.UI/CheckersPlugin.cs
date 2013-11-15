@@ -46,22 +46,22 @@ namespace AgentApp
 			_remote.RegisterReceiveHandler("checkers.agent_move",
 			     new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
 
-			_remote.RegisterReceiveHandler("checkers.checkers.reset",
-				new MessageHandlerDelegateWrapper(x => game.Reset()));
+			_remote.RegisterReceiveHandler("checkers.reset",
+				new MessageHandlerDelegateWrapper(x => game.ResetGame()));
 
 			_remote.RegisterReceiveHandler("checkers.confirm_human_move",
 				new MessageHandlerDelegateWrapper(x => game.ReceivedConfirmation()));
 
-			//_remote.RegisterReceiveHandler("checkers.playability",
-			//      new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
+			_remote.RegisterReceiveHandler("checkers.playability",
+			      new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
         }
 
 		public void Dispose()
 		{
 			_remote.RemoveReceiveHandler("checkers.agent_move");
-			_remote.RemoveReceiveHandler("checkers.checkers.reset");
+			_remote.RemoveReceiveHandler("checkers.reset");
 			_remote.RemoveReceiveHandler("checkers.confirm_human_move");
-			//_remote.RemoveReceiveHandler("checkers.playability");
+			_remote.RemoveReceiveHandler("checkers.playability");
 		}
 
        	private void PlayAgentMove(JObject moveDescAsJObj)
@@ -72,10 +72,10 @@ namespace AgentApp
 
 		private void SetPlayability(JObject playabilityAsJObj)
 		{
-			//if (playabilityAsJObj["value"].ToString().Trim().Contains("true"))
-			//    game.MakeTheBoardPlayable();
-			//else if (playabilityAsJObj["value"].ToString().Trim().Contains("false"))
-			//    game.MakeTheBoardUnplayable();
+			if (playabilityAsJObj["value"].ToString().Trim().Contains("true"))
+			    game.MakeTheBoardPlayable();
+			else if (playabilityAsJObj["value"].ToString().Trim().Contains("false"))
+			    game.MakeTheBoardUnplayable();
 		}
 
         public System.Windows.UIElement GetUIElement()

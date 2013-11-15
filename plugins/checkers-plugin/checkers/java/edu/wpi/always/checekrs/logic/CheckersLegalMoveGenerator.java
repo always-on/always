@@ -12,6 +12,5 @@ public class CheckersLegalMoveGenerator {
       return state.getLegalMoves(AGENT_IDENTIFIER);
       
    }
-
    
 }
