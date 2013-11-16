@@ -1,4 +1,4 @@
-package edu.wpi.always.checekrs.logic;
+package edu.wpi.always.checkers.logic;
 
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.logic.LegalMove;
