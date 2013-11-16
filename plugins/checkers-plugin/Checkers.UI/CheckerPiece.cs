@@ -19,15 +19,14 @@ namespace Checkers.UI
     public class CheckerPiece : UserControl
     {
 
-        public event Captured OnCaptured;
-
-        
         public int col { get; set; }
         public int row { get; set; }
-        public CheckerPiece()
-        {
-            this.OnCaptured += new Captured(CheckerPiece_OnCaptured);
-        }
+
+		//public event Captured OnCaptured;
+		//public CheckerPiece()
+        //{
+        //    this.OnCaptured += new Captured(CheckerPiece_OnCaptured);
+        //}
 
         void CheckerPiece_OnCaptured()
         {
