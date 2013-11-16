@@ -12,7 +12,7 @@ public class CheckersPlugin extends Plugin {
    }
 
    /**
-    * For testing TicTacToe by itself
+    * For testing Checkers by itself
     */
    public static void main (String[] args) {
       Plugin.main(args, CheckersPlugin.class, "PlayCheckers");

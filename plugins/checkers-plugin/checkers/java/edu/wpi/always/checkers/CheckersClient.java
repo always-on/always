@@ -2,7 +2,7 @@ package edu.wpi.always.checkers;
 
 import java.util.*;
 import com.google.gson.JsonObject;
-import edu.wpi.always.checekrs.logic.*;
+import edu.wpi.always.checkers.logic.*;
 import edu.wpi.always.client.*;
 import edu.wpi.sgf.scenario.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
