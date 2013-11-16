@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="java"/>
-	<classpathentry kind="lib" path="scripts/AAScripts.jar"/>
+	<classpathentry exported="true" kind="lib" path="scripts/AAScripts.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/agent"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>
