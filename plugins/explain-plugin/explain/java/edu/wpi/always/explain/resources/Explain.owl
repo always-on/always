@@ -12,10 +12,10 @@ Ontology(
   DataPropertyRange(<#ExplainPlanExercise> xsd:boolean)
   SubClassOf(<#User> DataExactCardinality(1 <#ExplainPlanExercise> xsd:boolean))
 
-  Declaration(DataProperty(<#ExplainDiscussFamily>))
-  DataPropertyDomain(<#ExplainDiscussFamily> <#User>)
-  DataPropertyRange(<#ExplainDiscussFamily> xsd:boolean)
-  SubClassOf(<#User> DataExactCardinality(1 <#ExplainDiscussFamily> xsd:boolean))
+  Declaration(DataProperty(<#ExplainTalkAbout>))
+  DataPropertyDomain(<#ExplainTalkAbout> <#User>)
+  DataPropertyRange(<#ExplainTalkAbout> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainTalkAbout> xsd:boolean))
 
   Declaration(DataProperty(<#ExplainUseCalendar>))
   DataPropertyDomain(<#ExplainUseCalendar> <#User>)
@@ -27,6 +27,11 @@ Ontology(
   DataPropertyRange(<#ExplainPlayRummy> xsd:boolean)
   SubClassOf(<#User> DataExactCardinality(1 <#ExplainPlayRummy> xsd:boolean))
 
+  Declaration(DataProperty(<#ExplainPlayTicTacToe>))
+  DataPropertyDomain(<#ExplainPlayTicTacToe> <#User>)
+  DataPropertyRange(<#ExplainPlayTicTacToe> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainPlayTicTacToe> xsd:boolean))
+
   Declaration(DataProperty(<#ExplainTellStory>))
   DataPropertyDomain(<#ExplainTellStory> <#User>)
   DataPropertyRange(<#ExplainTellStory> xsd:boolean)
@@ -36,5 +41,20 @@ Ontology(
   DataPropertyDomain(<#ExplainDiscussWeather> <#User>)
   DataPropertyRange(<#ExplainDiscussWeather> xsd:boolean)
   SubClassOf(<#User> DataExactCardinality(1 <#ExplainDiscussWeather> xsd:boolean))
+
+  Declaration(DataProperty(<#ExplainHearAnecdotes>))
+  DataPropertyDomain(<#ExplainHearAnecdotes> <#User>)
+  DataPropertyRange(<#ExplaiHearAnecdotes> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainHearAnecdotes> xsd:boolean))
+
+  Declaration(DataProperty(<#ExplainAdviseNutrition>))
+  DataPropertyDomain(<#ExplainAdviseNutrition> <#User>)
+  DataPropertyRange(<#ExplainAdviseNutrition> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainAdviseNutrition> xsd:boolean))
+
+  Declaration(DataProperty(<#ExplainUseSkype>))
+  DataPropertyDomain(<#ExplainUseSkype> <#User>)
+  DataPropertyRange(<#ExplainUseSkype> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainUseSkype> xsd:boolean))
 
 )

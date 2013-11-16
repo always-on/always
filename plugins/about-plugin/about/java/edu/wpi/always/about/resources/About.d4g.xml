@@ -50,7 +50,7 @@
 
   </t:script>
 
-  <t:task id="TalkAbout">
+  <t:task id="_TalkAbout">
     <t:subtasks id="main">
       <t:step name="start" task="_Holiday" minOccurs="0" maxOccurs="1"/>
       <t:step name="who" task="IteratePeople" maxOccurs="10"/>

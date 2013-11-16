@@ -20,5 +20,4 @@ public class EnrollPlugin extends Plugin{
       //always.processArgs(args);
       //always.start();
    }
-
 }
