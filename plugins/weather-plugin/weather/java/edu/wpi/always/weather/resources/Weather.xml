@@ -16,7 +16,7 @@
          <step name="_WeatherAlert_step" task="disco:Say"/>
          <step name="_WeatherAlert_ref" task="_WeatherAlert_tree"/>
          <binding slot="$_WeatherAlert_step.text"
-                  value="&#34;Let me check if there's a severe weather alert in your area.&#34;"/>
+                  value="&#34;Let me check to see if there's a severe weather alert in your area.&#34;"/>
          <binding slot="$_WeatherAlert_step.external" value="false"/>
       </subtasks>
    </task>
