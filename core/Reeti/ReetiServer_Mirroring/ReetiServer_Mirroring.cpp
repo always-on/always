@@ -1,12 +1,3 @@
-//============================================================================
-// Name        : HELLOWORLD.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
-
-//#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -19,15 +10,12 @@
 using namespace urbi;
 using namespace std;
 
-/********************ERROR MESSAGE HANDLER**********************/
 void error(const char *msg)
 {
 	perror(msg);
 
 }
-/*******************COMMUNICATION MODULE**************/
 
-/*********CLASS DEFINITION**********/
 class Communication
 {
 private:
@@ -38,14 +26,12 @@ private:
 	int n;
 public:
 
-	/*********CONSTRUCTOR*********/
 	Communication(int argc, char**argv)
 	{
 
 		initSocket(argc,argv);
 	}
 
-	/*********INITIALIZE SOCKET******/
 	void initSocket(int argc, char **argv)
 	{
 		if (argc < 2) {
@@ -68,7 +54,7 @@ public:
 			error("ERROR on accept");
 		bzero(buffer,256);
 	}
-	/**************SEND VIA SOCKET*********/
+	
 	void sendSocket(char * message, int size)
 	{
 		cout<<"\nwriting\n";
@@ -76,7 +62,7 @@ public:
 		if (n < 0)
 			error("ERROR writing to socket");
 	}
-	/*************RECEIVE VIA SOCKET**********/
+	
 	char* receiveSocket()
 	{
 		cout<<"\n receiving\n";
@@ -90,27 +76,24 @@ public:
 		printf("Here is the message: %s\n",buffer);
 		return buffer;
 	}
-	/**************CLOSE SOCKET************/
+	
 	void closeSocket()
 	{
 		close(newsockfd);
 		close(sockfd);
 	}
 };
-/*******************REETI COMMUNICATION MODULE******************/
 
-/**********CLASS DEFINITION*******/
 class ReetiCommunication
 {
 private:
 	UClient *client;
 public:
-	/********CONSTRUCTOR*******/
 	ReetiCommunication(string IPaddr, int Port)
 	{
 		client = new UClient(IPaddr,Port);//"130.215.28.4",54001);
 	}
-	/*********SEND COMMANDS TO REETI**********/
+	
 	void Send(string commands)
 	{
 		client->send("%s", commands.c_str());
@@ -124,9 +107,7 @@ int main(int argc, char** argv)
 	cout<<"connected";
 	while(1)
 	{
-
 		char *message = Com.receiveSocket();
-		//cout<<message;
 		string commands(message);
 		Reeti.Send(commands);
 	}

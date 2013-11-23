@@ -197,7 +197,7 @@ int main(int argc, char** argv)
 
 void sendingCommands(char* message)
 {
-	ReetiCommunication Reeti("130.215.28.4", 54001); // How are you gonna make this dynamic?
+	ReetiCommunication Reeti("130.215.28.4", 54001);
 	String commands(message);
 	Reeti.Send(commands);
 }
