@@ -6,7 +6,7 @@
 	mc:Ignorable="d"
 	x:Class="Checkers.UI.RedKingChecker"
     xmlns:runtime="clr-namespace:Checkers.UI"
-	Width="65" Height="65" OnCaptured="CheckerPiece_OnCaptured" x:Name="checkerPiece" RenderTransformOrigin="0.5,0.5">
+	Width="65" Height="65"  x:Name="checkerPiece" RenderTransformOrigin="0.5,0.5">
     <runtime:CheckerPiece.Resources>
         <!--<Storyboard x:Key="DropPiece">
         </Storyboard>-->

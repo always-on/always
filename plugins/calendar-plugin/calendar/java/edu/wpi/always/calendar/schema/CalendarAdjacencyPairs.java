@@ -169,7 +169,7 @@ abstract class CalendarAdjacencyPairs {
 
       public EventMonthDayAdjacencyPair (final EventDayAdjacencyPair pair,
             final CalendarStateContext context, final LocalDate month) {
-         super("touch the date on the calendar or next month", context);
+         super("please touch the date on the calendar or touch next month", context);
          this.pair = pair;
          this.month = month;
          choice("next month", new DialogStateTransition() {

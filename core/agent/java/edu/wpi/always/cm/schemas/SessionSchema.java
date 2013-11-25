@@ -5,7 +5,7 @@ import org.picocontainer.MutablePicoContainer;
 import edu.wpi.always.*;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.cetask.*;
-import edu.wpi.disco.Agenda;
+import edu.wpi.disco.*;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.*;
@@ -21,6 +21,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final Stop stop;
    private final ClientProxy proxy;
    private final SchemaManager schemaManager;
+   private final Interaction interaction;
    
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -30,14 +31,16 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
       this.proxy = proxy;
       this.schemaManager = schemaManager;
+      this.interaction = interaction;
       container = always.getContainer();
       stop = new Stop(interaction);
       DiscoDocument session = always.getRM().getSession();
-      if ( session != null ) {
+      Disco disco = interaction.getDisco();
+      if ( disco.getTaskClass("_Session") == null && session != null ) { // could be restart
          interaction.load("Relationship Manager", 
                session.getDocument(), session.getProperties(), session.getTranslate());
          interaction.push(interaction.addTop("_Session"));
-         always.getCM().setSchema(interaction.getDisco().getTaskClass("_Session"), SessionSchema.class);
+         always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
       }
       ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
                       .setInterrupt(false);
@@ -92,6 +95,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       super.dispose();
       // restart if fails for some reason
       Utils.lnprint(System.out, "Restarting SessionSchema...");
+      interaction.clear();
       schemaManager.start(getClass());
    }
    

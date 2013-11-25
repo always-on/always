@@ -69,17 +69,17 @@ public class WundergroundJSON {
    private Map<String, String> createCityMap () {
       Map<String, String> result = new HashMap<String, String>();
       result.put("Seattle", "98106");
-      comments.put("Seattle", "The emerald city, home of Mount Rainier");
+      comments.put("Seattle", "Seattle is the emerald city,and the home of Mount Rainier");
       result.put("Miami", "33125");
-      comments.put("Miami", "City of beaches.");
+      comments.put("Miami", "Miami is the known as the city of beaches.");
       result.put("San Francisco", "94105");
-      comments.put("San Francisco", "The Golden Gate city.");
+      comments.put("San Francisco", "San Francisco is the Golden Gate city.");
       result.put("Boston", "2101");
       comments.put("Boston", "Well, you could just look out the window!");
       result.put("New York", "10001");
-      comments.put("New York", "The big apple.");
+      comments.put("New York", "New York is the big apple.");
       result.put("New Orleans", "70112");
-      comments.put("New Orleans", "The big easy.");
+      comments.put("New Orleans", "They call New Orleans the big easy.");
       return Collections.unmodifiableMap(result);
    }
 

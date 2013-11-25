@@ -120,15 +120,20 @@ public class RAGStateContext {
 				outputOnly = false;
 			//getDSM output
 			output = DSM.getOutput().getOutput();
+			//System.out.println("outputraw:" + output);
+			output = output.replace("<speech>", "");
+			output = output.replace("</speech>", "");
+			Builder b;
+			String speechText = "";
 			output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<rag>" + output + "</rag>";
 			Document doc = documentBuilder.parse(new ByteArrayInputStream(output.getBytes("UTF-8")));
 			NodeList nodeList = doc.getChildNodes().item(0).getChildNodes();
-			Builder b;
-			String speechText = "";
 			for(int i = 0; i < nodeList.getLength(); i++){
 				Node tempNode = nodeList.item(i);
+				//System.out.println(tempNode.getNodeName());
 				switch(tempNode.getNodeName().toUpperCase()){
-					case "SPEECH":
+//					case "SPEECH":
+					case "#TEXT":
 						speechText += tempNode.getTextContent() + " ";
 						break;
 					case "PAGE":
