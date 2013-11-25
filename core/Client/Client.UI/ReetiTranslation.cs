@@ -8,10 +8,10 @@ namespace Agent.UI
     class ReetiTranslation
     {
         private ReetiCommunication reeti = new ReetiCommunication();
+
         private const String HORIZONTAL = "horizontal";
         private const String VERTICAL = "vertical";
-        private String Smooth = " smooth:";
-        private const String Head_Nod = "Global.HeadNod.play();";
+        private const String Head_Nod = "Global.SmallNod.play();";
         private const String Hor_Rotate = "Global.servo.neckRotat =";
         private const String Ver_Tilt = "Global.servo.neckTilt =";
         private String Neutral_Position = "Global.servo.neutralPosition();"; 
@@ -21,17 +21,16 @@ namespace Agent.UI
         private String ConstructMessage(double HorOutput, double VerOutput)
         {
             String cmd;
-            cmd = Hor_Rotate + HorOutput + Smooth + "1s" + ",";
-            cmd += Ver_Tilt;
-            cmd += VerOutput + Smooth + "1s" + ";";
+            cmd  = Hor_Rotate + HorOutput + " smooth:1s,";
+            cmd += Ver_Tilt   + VerOutput + " smooth:1s;";
             return cmd;
         }
 
-        private double findOutput(String HorOrVer, String cmd) // What does this method do?
+        private double findOutput(String HorOrVer, String cmd)
         {
             double output;
-            int start = 0;
-            int end = 0;
+            int start = 0, end = 0;
+
             if (HorOrVer.Equals(HORIZONTAL))
             {
                 start = cmd.IndexOf(HORIZONTAL) + 12;
@@ -39,7 +38,6 @@ namespace Agent.UI
             }
             else if (HorOrVer.Equals(VERTICAL))
             {
-
                 if (cmd.Contains("bookmark"))
                 {
                     start = cmd.IndexOf(VERTICAL) + 10;
@@ -61,17 +59,17 @@ namespace Agent.UI
             if (HorOrVer.Equals(HORIZONTAL))
             {
                 //Mirror the Agent 
-                if (output < 0)
+                if (output > 0)
                 {
-                    output *= -1;
+                    //output *= -1;
                     output = (output * 25) + 50;
                 }
-                else if (output > 0)
+                else if (output < 0)
                 {
                     output = (output * 25);
                 }
-                else // DO you mean output == 0?
-                    output = 50;    //Insert from JSOn File
+                else
+                    output = 50;
             }
             else if (HorOrVer.Equals(VERTICAL))
             {
@@ -82,21 +80,21 @@ namespace Agent.UI
                 }
                 else if (output > 0)
                 {
-                    output = (output * 25) + 50;
+                    output = (output * 25) + 60;
                 }
                 else
-                    output = 55.56; //Insert from json File
+                    output = 55.56;
             }
             return output;
         }
 
-        public void TranslateToReetiCommand(String task, String Command) // How about sad face?
+        public void TranslateToReetiCommand(String task, String Command)
         {
             if (Command.Contains("NOD") && task.Equals("perform"))
             {
                 SendCommand(Head_Nod);
             }
-            //TODO: check if face tracking
+            //TODO: check if face tracking!!!
             if (Command.Contains("GAZE")) //&& task.Equals("speech") )
             {
                 double HorOutput = mapOutput(HORIZONTAL, findOutput(HORIZONTAL, Command));
