@@ -43,20 +43,20 @@
 </agent>
 
  <agent id="_SleepWellSA" text="Did you sleep well?">
-    <user id="affirm" text="yes">
+    <user id="affirm" text="Yes">
       <agent text="Are you feeling okay today?">
 	<user text="yes">
 	  <agent text="good, glad to hear it"/>
 	</user>
-	<user text="no but it's nothing.">
+	<user text="No but it's nothing.">
 	  <agent text="glad to hear it."/>
 	</user>
-	<user text="no">
+	<user text="No, I am not feeling well">
 	  <do task="_CallDoc" />
 	</user>
       </agent>
     </user>
-    <user id="neg" text="No">
+    <user id="neg" text="No I did not sleep well">
       <agent id="feeling" text="oh, are you feeling sick?"
 	     eval="poorSleepreports=poorSleepreports + 1;
 		   print ('poorSleepreport is now' + poorSleepreports);
@@ -110,7 +110,7 @@
       <!-- note "poorSleep" in user model -->
       <agent 
 	  text="Oh, you aren't sleeping well.  Maybe you should consult your doctor" 
-	  applicable="poorSleepreports &gt; 7" >
+	  applicable="poorSleepreports &gt; 5" >
 	<user text="yes, I will next time I go to the doctor"/>
 	<user text="no I am just not a good sleeper" />
 	<user text="oh, it's not anything" >
@@ -122,7 +122,7 @@
       </agent>
       <agent 
 	    text="Gee, that's rare for you.  Are you feeling okay?"
-	    applicable="poorSleepreports &lt; 7">
+	    applicable="poorSleepreports &lt; 5">
 	<user text="yes" >
 	  <agent text="good!"/>
 	</user>
@@ -146,11 +146,11 @@
     <user text="fine">  
       <agent text="good, glad to hear it"/>
     </user>
-    <user text="oh not so great">
+    <user text="Oh not so great">
       <agent text="sorry to hear it. Maybe it will improve">
-	<user text="hope so" />
+	<user text="I hope so" />
 	<user text="I think it will!" />
-	<user text="may be so may be no" />
+	<user text="Maybe so, maybe no" />
       </agent>
     </user>
   </agent>
