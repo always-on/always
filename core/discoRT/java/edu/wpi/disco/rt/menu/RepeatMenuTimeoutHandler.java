@@ -9,13 +9,13 @@ public class RepeatMenuTimeoutHandler<C extends AdjacencyPair.Context> implement
    @Override
    public AdjacencyPair handle (AdjacencyPair original) {
       if ( original == null ) throw new NullArgumentException("original");
-      return original instanceof RepeatAdjacencyPairWrapper ? original :
-         new RepeatAdjacencyPairWrapper<C>(original);
+      return original instanceof RepeatMenuTimeoutAdjacencyPairWrapper ? original :
+         new RepeatMenuTimeoutAdjacencyPairWrapper<C>(original);
    }
    
-   private static class RepeatAdjacencyPairWrapper<C extends AdjacencyPair.Context> extends AdjacencyPairWrapper<C> {
+   private static class RepeatMenuTimeoutAdjacencyPairWrapper<C extends AdjacencyPair.Context> extends AdjacencyPairWrapper<C> {
       
-      public RepeatAdjacencyPairWrapper (AdjacencyPair inner) {
+      public RepeatMenuTimeoutAdjacencyPairWrapper (AdjacencyPair inner) {
          super(inner);
       }
 

@@ -2,7 +2,7 @@ package edu.wpi.disco.rt.menu;
 
 import java.util.List;
 
-public abstract class AdjacencyPairWrapper<C extends AdjacencyPair.Context> extends AdjacencyPairBase<C> {
+public class AdjacencyPairWrapper<C extends AdjacencyPair.Context> extends AdjacencyPairBase<C> {
 
    protected final AdjacencyPair inner;
 
@@ -12,7 +12,7 @@ public abstract class AdjacencyPairWrapper<C extends AdjacencyPair.Context> exte
    }
 
    @Override
-   public void enter () {}
+   public void enter () { inner.enter(); } 
 
    @Override
    public boolean prematureEnd () { return inner.prematureEnd(); }
@@ -20,6 +20,9 @@ public abstract class AdjacencyPairWrapper<C extends AdjacencyPair.Context> exte
    @Override
    public AdjacencyPair nextState (String text) { return inner.nextState(text); }
 
+   @Override
+   public String getMessage () { return inner.getMessage(); }
+   
    @Override
    public List<String> getChoices () { return inner.getChoices(); }
 

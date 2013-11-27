@@ -27,8 +27,7 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
    }
 
    protected void choice (String choice, DialogStateTransition transition) {
-      if ( choice == null )
-         throw new NullArgumentException("choice");
+      if ( choice == null ) throw new NullArgumentException("choice");
       choices.put(choice, transition);
    }
    
@@ -39,14 +38,16 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
 
    @Override
    public List<String> getChoices () {
-      return Lists.newArrayList(choices.keySet());
+      List<String> choices = Lists.newArrayList(this.choices.keySet());
+      choices.add(REPEAT);  // TODO check for two column?
+      return choices;
    }
 
    @Override
    public AdjacencyPair nextState (String text) {
-      if ( choices.containsKey(text) )
-         return choices.get(text).run();
-      return null;
+      return REPEAT.equals(text) ? this :
+         choices.containsKey(text) ? choices.get(text).run() :
+            null;
    }
 
    @Override

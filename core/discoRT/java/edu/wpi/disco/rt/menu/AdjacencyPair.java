@@ -5,8 +5,10 @@ import edu.wpi.disco.rt.schema.Schema;
 
 public interface AdjacencyPair {
 
+   static final String REPEAT = "What did you say?";
+   
    void enter ();
-
+   
    /**
     * Normally this should return false. When it returns true, it means that
     * nextState() is ready to return a next state now, without any text passed

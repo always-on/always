@@ -23,8 +23,7 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
    public void update () {
       Agent agent = (Agent) interaction.getSystem();
       update(agent.respond(interaction, false, true) ? agent.getLastUtterance() :
-         //new Say(interaction.getDisco(), false, "what do you want to do?"),
-         null, 
+         new Say(interaction.getDisco(), false, "What do you want to do?"),
          interaction.getExternal().generate(interaction));
    }
 
@@ -41,7 +40,7 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
    @Override
    public AdjacencyPair nextState (String text) {
       int i = current.choices.indexOf(text);
-      if ( i >= 0 ) {
+      if ( i >= 0 && !REPEAT.equals(text) ) {
          interaction.doneUtterance((Utterance) current.items.get(i).task, 
                current.items.get(i).contributes, text);
          update(); 
@@ -63,7 +62,9 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
    }
 
    @Override
-   public boolean isTwoColumnMenu () { return false; }
+   public boolean isTwoColumnMenu () { 
+      return current != null && current.choices.size() > 7; 
+   }
 
    @Override
    public boolean prematureEnd () { return false; }
@@ -77,10 +78,11 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
       public Cache (Utterance utterance, List<Plugin.Item> items) {
          this.message = utterance == null ? null : interaction.format(utterance, true);
          this.items = items;
-         choices = new ArrayList<String>(items.size());
+         choices = new ArrayList<String>(items.size()+1);
          for (Plugin.Item item : items) {
             choices.add(item.formatted != null ? item.formatted : interaction.format(item, false));
          }
+         choices.add(REPEAT);  //TODO check for two column?
       }
    }
 
