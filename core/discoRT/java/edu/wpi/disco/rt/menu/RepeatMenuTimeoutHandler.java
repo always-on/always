@@ -26,8 +26,9 @@ public class RepeatMenuTimeoutHandler<C extends AdjacencyPair.Context> implement
          String original = inner.getMessage();
          return( original == null || !pattern.matcher(original).find()
                  // TODO: provide more control over multiple wrappings
-                 || inner instanceof AdjacencyPairWrapper ) ?
-            original : "So, " + original;
+                 || inner instanceof AdjacencyPairWrapper 
+                 || original.startsWith("So,") || original.startsWith("So ") ) ?
+            original :  ("So, " + original);
       }
    }
 }

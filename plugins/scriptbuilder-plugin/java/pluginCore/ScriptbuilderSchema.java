@@ -7,7 +7,7 @@ import edu.wpi.disco.rt.menu.*;
 
 public class ScriptbuilderSchema extends ActivityStateMachineSchema<RAGStateContext> {
 	
-	RAGStateContext context;
+	private final RAGStateContext context;
 	
 	public ScriptbuilderSchema(ScriptbuilderCoreScript init,
 			BehaviorProposalReceiver behaviorReceiver,

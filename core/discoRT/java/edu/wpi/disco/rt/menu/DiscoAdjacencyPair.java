@@ -22,10 +22,8 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
    
    public void update () {
       Agent agent = (Agent) interaction.getSystem();
-      update(agent.respond(interaction, false, true) ? agent.getLastUtterance() :
-         // TODO: make this an utterance type
-         new Say(interaction.getDisco(), false, "What do you want to do?"),
-         interaction.getExternal().generate(interaction));
+      update(agent.respond(interaction, false, true) ? agent.getLastUtterance() : null,
+             interaction.getExternal().generate(interaction));
    }
 
    protected void update (Utterance utterance, List<Plugin.Item> menu) {
@@ -83,7 +81,7 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
          for (Plugin.Item item : items) {
             choices.add(item.formatted != null ? item.formatted : interaction.format(item, false));
          }
-         choices.add(REPEAT);  //TODO check for two column?
+         if ( utterance != null ) choices.add(REPEAT);  
       }
    }
 

@@ -12,7 +12,7 @@
  
   <task id="_Session">
     <subtasks id="_s1">
-      <step name="greet" task="_Greetings"/>
+      <step name="greet" task="a:GreetUser"/>
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
       <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
     </subtasks>
@@ -20,9 +20,5 @@
 
   <!--  when session "falls off the end" of this plan, it will
         default to toplevel activities. -->
-
-  <d:agent id="_Greetings" text="Hello">
-    <d:user text="Hi"/>
-  </d:agent>
 
 </d:model>

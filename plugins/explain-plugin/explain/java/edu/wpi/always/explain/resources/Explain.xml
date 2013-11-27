@@ -27,13 +27,13 @@
          <binding slot="$__EndExplaining_step.external" value="false"/>
       </subtasks>
    </task>
-   <task id="_ExplainPlayRummy">
-      <subtasks id="__ExplainPlayRummy_subtasks">
-         <step name="__ExplainPlayRummy_step" task="disco:Say"/>
-         <step name="__ExplainPlayRummy_ref" task="__ExplainPlayRummy_tree"/>
-         <binding slot="$__ExplainPlayRummy_step.text"
+   <task id="_ExplainPlayGames">
+      <subtasks id="__ExplainPlayGames_subtasks">
+         <step name="__ExplainPlayGames_step" task="disco:Say"/>
+         <step name="__ExplainPlayGames_ref" task="__ExplainPlayGames_tree"/>
+         <binding slot="$__ExplainPlayGames_step.text"
                   value="&#34;We can play games together.  In particular we can play rummy, checkers or TicTacToe&#34;"/>
-         <binding slot="$__ExplainPlayRummy_step.external" value="false"/>
+         <binding slot="$__ExplainPlayGames_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_ExplainUseCalendar">
@@ -52,7 +52,7 @@
          <step name="__ExplainDiscussWeather_step" task="disco:Say$Eval"/>
          <step name="__ExplainDiscussWeather_ref" task="__ExplainDiscussWeather_tree"/>
          <binding slot="$__ExplainDiscussWeather_step.text"
-                  value="&#34;We've already talked about the weather.  BUT I can do more!  I can get information from the internet about the weather anywhere in the US&#34;"/>
+                  value="&#34;We've already talked about the weather.  BUT I can do more!  I can get information from the internet about the weather for the whole US!&#34;"/>
          <binding slot="$__ExplainDiscussWeather_step.external" value="false"/>
          <binding slot="$__ExplainDiscussWeather_step.eval"
                   value="&#34;Activity.ALL.DiscussWeather.setFlag()&#34;"/>
@@ -83,7 +83,7 @@
          <step name="__ExplainTellStory_step" task="disco:Say$Eval"/>
          <step name="__ExplainTellStory_ref" task="__ExplainTellStory_tree"/>
          <binding slot="$__ExplainTellStory_step.text"
-                  value="&#34;You can tell me a story about your life.  I will pay attention even though I won't understand most of what you say&#34;"/>
+                  value="&#34;You can tell me a story about your life and I will record it.  I will pay attention even though I won't understand most of what you say&#34;"/>
          <binding slot="$__ExplainTellStory_step.external" value="false"/>
          <binding slot="$__ExplainTellStory_step.eval" value="&#34;Activity.ALL.TellStory.setFlag()&#34;"/>
       </subtasks>
@@ -113,7 +113,7 @@
          <step name="__ExplainHealthyEating_step" task="disco:Say$Eval"/>
          <step name="__ExplainHealthyEating_ref" task="__ExplainHealthyEating_tree"/>
          <binding slot="$__ExplainHealthyEating_step.text"
-                  value="&#34;It's hard to make good choices in our meals.  Eating more fruits and veggies will make you feel better and improve your health&#34;"/>
+                  value="&#34;It's hard to choose healthy foods for our meals.  Eating more fruits and veggies will make you feel better and improve your health&#34;"/>
          <binding slot="$__ExplainHealthyEating_step.external" value="false"/>
          <binding slot="$__ExplainHealthyEating_step.eval"
                   value="&#34;Activity.ALL.AdviseNutrition.setFlag()&#34;"/>
@@ -137,8 +137,8 @@
          <applicable>$CHOICE == Activity.ENUM.UseCalendar</applicable>
       </subtasks>
       <subtasks id="_d4e34_subtasks">
-         <step name="_d4e34_step" task="_ExplainPlayRummy"/>
-         <applicable>$CHOICE == Activity.ENUM.PlayRummy</applicable>
+         <step name="_d4e34_step" task="_ExplainPlayGames"/>
+         <applicable>$CHOICE == Activity.ENUM.PlayGames</applicable>
       </subtasks>
       <subtasks id="_d4e35_subtasks">
          <step name="_d4e35_step" task="_ExplainTellStory"/>
@@ -189,7 +189,7 @@
          <binding slot="$_d4e45_step.external" value="true"/>
       </subtasks>
    </task>
-   <task id="__ExplainPlayRummy_tree">
+   <task id="__ExplainPlayGames_tree">
       <subtasks id="_d4e47_subtasks">
          <step name="_d4e47_step" task="disco:Say"/>
          <step name="_d4e48_step" task="disco:Say$Eval"/>
@@ -201,7 +201,7 @@
          <binding slot="$_d4e48_step.text"
                   value="&#34;Other computers can play games, but they just make the moves, and then give you a turn.&#34;"/>
          <binding slot="$_d4e48_step.external" value="false"/>
-         <binding slot="$_d4e48_step.eval" value="&#34;Activity.ALL.PlayRummy.setFlag()&#34;"/>
+         <binding slot="$_d4e48_step.eval" value="&#34;Activity.ALL.PlayGames.setFlag()&#34;"/>
          <binding slot="$_d4e49_step.text" value="&#34;uh-huh&#34;"/>
          <binding slot="$_d4e49_step.external" value="true"/>
          <binding slot="$_d4e50_step.text"
@@ -357,7 +357,7 @@
          <binding slot="$_d4e82_step.text" value="&#34;go on&#34;"/>
          <binding slot="$_d4e82_step.external" value="true"/>
          <binding slot="$_d4e83_step.text"
-                  value="&#34;I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk and I'll remind you before the call&#34;"/>
+                  value="&#34;I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk.  I'll remind you before the call&#34;"/>
          <binding slot="$_d4e83_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e90_subtasks">
@@ -608,7 +608,7 @@
          <binding slot="$_d4e136_step.text" value="&#34;uh-huh&#34;"/>
          <binding slot="$_d4e136_step.external" value="true"/>
          <binding slot="$_d4e137_step.text"
-                  value="&#34;I can advise you on how to add better foods to your daily meals&#34;"/>
+                  value="&#34;I can advise you on how to add more fruits and veggies to your daily meals&#34;"/>
          <binding slot="$_d4e137_step.external" value="false"/>
       </subtasks>
    </task>
@@ -702,19 +702,16 @@
     // NB: All flags must be defined in Explain.owl
 
     Activity.ALL = {
-         PlanExercise : new Activity("PLAN_EXERCISE", "developing an exercise plan for me"), 
-         TalkAbout : new Activity("TALK_ABOUT", "talking together about my family and friends"),
-         UseCalendar : new Activity("USE_CALENDAR", "keeping my personal calendar"),
-         PlayRummy : new Activity("PLAY_RUMMY", "playing a social game of Rummy, checkers or TicTacToe"),
-         TellStory : new Activity("TELL_STORY", "telling one of my life stories "),
-         DiscussWeather : new Activity("DISCUSS_WEATHER", "telling weather where my friends and family live"),
-         HearAnecdotes : new Activity("HEAR_ANECDOTES", "hearing a short humorous story"),
-         AdviseNutrition : new Activity("ADVISE_NUTRITION", "getting advice on healthy foods to eat"),
-         UseSkype : new Activity("USE_SKYPE", "arranging videos calls with friends and family")
+         PlanExercise : new Activity("PLAN_EXERCISE", "Developing an exercise plan for me"), 
+         TalkAbout : new Activity("TALK_ABOUT", "Talking together about my family and friends"),
+         UseCalendar : new Activity("USE_CALENDAR", "Keeping my personal calendar"),
+         PlayGames : new Activity("PLAY_GAMES", "Playing a social game of Rummy, checkers or TicTacToe"),
+         TellStory : new Activity("TELL_STORY", "Telling one of my life stories "),
+         DiscussWeather : new Activity("DISCUSS_WEATHER", "Telling weather where my friends and family live"),
+         HearAnecdotes : new Activity("HEAR_ANECDOTES", "Hearing a short humorous story"),
+         AdviseNutrition : new Activity("ADVISE_NUTRITION", "Getting advice on healthy foods to eat"),
+         UseSkype : new Activity("USE_SKYPE", "Arranging videos calls with friends and family")
     }
-
-    // simplified game explanations so no: PlayTicTacToe : new Activity("PLAY_TICTACTOE", "playing a social game of TicTacToe "),
-
 
     // dynamically construct enumeration based on flags
 

@@ -16,9 +16,9 @@ public class GreetingsSchema extends DiscoActivitySchema {
       setSelfStop(true);
       interaction.load("edu/wpi/always/greetings/resources/Greetings.xml");
       int hour = LocalTime.now().getHourOfDay();
-      start( hour > 18 ? "_EveningGreetings" :
+      start( hour > 22 ? "_NightGreetings" : 
+             hour > 18 ? "_EveningGreetings" :
              hour > 12 ? "_AfternoonGreetings" :
              "_MorningGreetings" );
-              
    }
 }

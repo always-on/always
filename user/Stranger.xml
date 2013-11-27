@@ -3,25 +3,26 @@
            xmlns:disco="urn:disco.wpi.edu:Disco"
            xmlns:a="urn:always.wpi.edu:Activities"
            about="urn:always.wpi.edu:Stranger">
-   <task id="_Greetings">
-      <subtasks id="__Greetings_subtasks">
-         <step name="__Greetings_step" task="disco:Say"/>
-         <step name="__Greetings_ref" task="__Greetings_tree"/>
-         <binding slot="$__Greetings_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; &lt;HEADNOD/&gt; &lt;EYEBROWS DIR=UP/&gt; Hello &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; &lt;GAZE horizontal=\&#34;-1\&#34; vertical=\&#34;1\&#34;/&gt; &lt;DELAY MS=\&#34;2000\&#34;/&gt; &lt;GAZE horizontal=\&#34;0\&#34; vertical=\&#34;0\&#34;/&gt; &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &lt;EYEBROWS DIR=DOWN/&gt; &#34;"/>
-         <binding slot="$__Greetings_step.external" value="false"/>
+   <task id="_Demo">
+      <subtasks id="__Demo_subtasks">
+         <step name="__Demo_step" task="disco:Say"/>
+         <step name="__Demo_ref" task="__Demo_tree"/>
+         <binding slot="$__Demo_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; &lt;HEADNOD/&gt; &lt;EYEBROWS DIR=UP/&gt; I am demonstrating markups. &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; &lt;GAZE horizontal=\&#34;-1\&#34; vertical=\&#34;1\&#34;/&gt; &lt;DELAY MS=\&#34;2000\&#34;/&gt; &lt;GAZE horizontal=\&#34;0\&#34; vertical=\&#34;0\&#34;/&gt; &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &lt;EYEBROWS DIR=DOWN/&gt; &#34;"/>
+         <binding slot="$__Demo_step.external" value="false"/>
       </subtasks>
    </task>
-   <task id="__Greetings_tree">
-      <subtasks id="_d4e12_subtasks">
-         <step name="_d4e12_step" task="disco:Say"/>
-         <binding slot="$_d4e12_step.text" value="&#34;Hi&#34;"/>
-         <binding slot="$_d4e12_step.external" value="true"/>
+   <task id="__Demo_tree">
+      <subtasks id="_d4e13_subtasks">
+         <step name="_d4e13_step" task="disco:Say"/>
+         <binding slot="$_d4e13_step.text" value="&#34;Ok&#34;"/>
+         <binding slot="$_d4e13_step.external" value="true"/>
       </subtasks>
    </task>
    <task id="_Session">
       <subtasks id="_s1">
-         <step name="greet" task="_Greetings"/>
+         <step name="demo" task="_Demo"/>
+         <step name="greet" task="a:GreetUser"/>
          <step name="enroll" task="a:EnrollUser" minOccurs="0"/>
          <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
          <step name="explain" task="a:ExplainSelf" minOccurs="0"/>

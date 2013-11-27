@@ -39,7 +39,7 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
    @Override
    public List<String> getChoices () {
       List<String> choices = Lists.newArrayList(this.choices.keySet());
-      choices.add(REPEAT);  // TODO check for two column?
+      if ( message != null ) choices.add(REPEAT);  
       return choices;
    }
 

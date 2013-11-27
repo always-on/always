@@ -59,9 +59,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       if ( plan != null ) {
          if ( plan.getType().getId().equals("_Session") ) {
             // focus is on session, move it down to first live child
-            // (must have some or would be popped as exhausted)
-            interaction.push(plan.getLive().get(0));
-            plan = interaction.getFocusExhausted(true);
+            List<Plan> live = plan.getLive();
+            if ( !live.isEmpty() ) {
+               plan = live.get(0);
+               interaction.push(plan);
+            }
          }
          if ( plan.getGoal() instanceof Propose.Should ) 
             plan = plan.getParent();
