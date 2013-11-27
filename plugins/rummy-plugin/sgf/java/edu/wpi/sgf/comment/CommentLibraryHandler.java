@@ -13,13 +13,13 @@ import edu.wpi.cetask.Utils;
  * Comment Library handler for Social Gameplay Framework.
  * Retrieves comments from library file.
  * @author Morteza Behrooz
- * @version 2.1
+ * @version 3.0
  */
 public class CommentLibraryHandler {
 
 
    private final static String CommentLibraryFilePath =
-         "CommentLibrary.xml";
+         "CommentLibraryCoupled.xml";
    private File commentLibraryFile;
 
 
@@ -39,7 +39,7 @@ public class CommentLibraryHandler {
             new ArrayList<Element>();
      
       //uncomment for this.main
-     //importComments(); 
+      //importComments(); 
    }
 
    public void importComments(){
@@ -107,7 +107,19 @@ public class CommentLibraryHandler {
 
       for(Element eachCommentElement : playerCommentsElements){
 
-         String content = eachCommentElement.getTextTrim();
+         String content;
+         
+         try{
+         content= eachCommentElement.getChild("content").getTextTrim();
+         }catch(Exception e){
+            content = eachCommentElement.getTextTrim();
+         }
+         
+         List<Element> responsesElements = eachCommentElement.getChildren("response");
+         List<String> responses = new ArrayList<String>();
+         
+         for(Element el : responsesElements)
+            responses.add(el.getTextTrim());
 
          Attribute tagsAtt = eachCommentElement.getAttribute("tags");
          Attribute madeOnAtt = eachCommentElement.getAttribute("madeOn");
@@ -149,12 +161,12 @@ public class CommentLibraryHandler {
             agentComments.add( new Comment(
                   content, player, madeOn, tags, strength, 
                   competitiveness, gameType, gameName, 
-                  tempGameCmState));
+                  tempGameCmState, responses));
          else if(player.equals("human"))
             humanComments.add( new Comment(
                   content, player, madeOn, tags,strength, 
                   competitiveness, gameType, gameName, 
-                  tempGameCmState));
+                  tempGameCmState, responses));
       }
 
    }
@@ -447,7 +459,8 @@ public class CommentLibraryHandler {
    }
 
 
-   public List<String> getContentsOfTheseComments(List<Comment> someComments){
+   public static List<String> getContentsOfTheseComments(
+         List<Comment> someComments){
       List<String> contents = new ArrayList<String>();
       for(Comment eachComment: someComments)
          contents.add(eachComment.getContent());
@@ -467,6 +480,9 @@ public class CommentLibraryHandler {
                + cm.getGameName() + " - "
                + cm.getGameState() + " - "
                + cm.getMadeOn());
+         for(String each : cm.getPossibleResponses())
+            System.out.print(" >>> " + each);
+         System.out.println();
       }
       System.out.println("\n---\n");
       for(Comment cm : cmlibh.getHumanComments()){
@@ -478,6 +494,9 @@ public class CommentLibraryHandler {
                + cm.getGameName() + " - "
                + cm.getGameState() + " - "
                + cm.getMadeOn());
+         for(String each : cm.getPossibleResponses())
+            System.out.print(" >>> " + each);
+         System.out.println();
       }
    }
 

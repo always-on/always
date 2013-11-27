@@ -216,7 +216,7 @@ public class SrummyClient implements SrummyUI {
       updateWinOrTie();
 
       if ( player == HUMAN_IDENTIFIER )
-         return commentingManager.getHumanCommentingOptionsForHumanMove(
+         return commentingManager.getHumanCommentingOptionsAndAnAgentResponseForHumanMove(
                gameState, latestHumanMove,
                gameState.getGameSpecificCommentingTags());
       return commentingManager.getHumanCommentingOptionsForAgentMove(

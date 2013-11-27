@@ -208,7 +208,7 @@ public class CheckersClient implements CheckersUI {
       updateWin();
 
       if ( player == HUMAN_IDENTIFIER )
-         return commentingManager.getHumanCommentingOptionsForHumanMove(
+         return commentingManager.getHumanCommentingOptionsAndAnAgentResponseForHumanMove(
                gameState, latestHumanMove,
                gameState.getGameSpecificCommentingTags(
                      (CheckersLegalMove)latestHumanMove.getMove(), player));
