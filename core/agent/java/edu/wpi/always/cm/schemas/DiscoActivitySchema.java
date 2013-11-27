@@ -32,8 +32,8 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    }
    
    @Override
-   public void cancel () {
-      super.cancel();
+   public void stop() {
+      super.stop();
       dispose();
    }
    

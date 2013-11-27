@@ -33,7 +33,7 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<Adjacen
    
    @Override
    public void run () {
-      if ( interaction.getFocusExhausted(true) == null ) cancel(); 
+      if ( interaction.getFocusExhausted(true) == null ) stop(); 
       else propose(stateMachine);
    }
    

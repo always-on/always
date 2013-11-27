@@ -5,7 +5,6 @@ import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
-import edu.wpi.disco.rt.schema.Schema;
 
 // this is the schema for initiating a Skype call
 
@@ -19,7 +18,7 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
       super(null, behaviorReceiver, behaviorHistory, resourceMonitor,
 				menuPerceptor);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
-      stateMachine.setState(new Test(shore, this));
+      stateMachine.setState(new Test(shore));
    }
 
    @Override
@@ -34,13 +33,13 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
 
       private final ShoreFacePerceptor shore;
       
-      public Test (ShoreFacePerceptor shore, final Schema schema) {
+      public Test (ShoreFacePerceptor shore) {
          super("This is a test", null);
          this.shore = shore;
          choice("Ok", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () { 
-               schema.cancel();
+               getContext().getSchema().stop();
                return null;
             }
          });

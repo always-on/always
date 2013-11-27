@@ -28,7 +28,7 @@ public abstract class SchemaBase implements Schema {
    }
  
    @Override
-   public void cancel () { 
+   public void stop () { 
       // mayInterruptIfRunning is false, because might leave 
       // something in inconsistent state
       if ( future != null ) future.cancel(false);

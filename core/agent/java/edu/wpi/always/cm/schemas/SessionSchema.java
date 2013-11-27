@@ -149,7 +149,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       public AdjacencyPair nextState (String text) {
          super.nextState(text);
          Schema schema = started.get(plan);
-         if ( schema != null ) schema.cancel();
+         if ( schema != null ) schema.stop();
          stop(plan);
          return new StopAdjacencyPairWrapper(discoAdjacencyPair); // one shot
       }
