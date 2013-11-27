@@ -7,7 +7,7 @@ import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import java.util.*;
 
-public class DiscoAdjacencyPair implements AdjacencyPair {
+public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context> {
 
    private final DiscoRT.Interaction interaction;
    
@@ -16,6 +16,7 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
    private Cache current;
    
    public DiscoAdjacencyPair (DiscoRT.Interaction interaction) {
+      super(null, new AdjacencyPair.Context());
       this.interaction = interaction;
    }
    

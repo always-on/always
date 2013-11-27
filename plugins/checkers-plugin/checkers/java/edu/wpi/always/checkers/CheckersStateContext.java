@@ -3,8 +3,9 @@ package edu.wpi.always.checkers;
 import edu.wpi.always.client.*;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
 
-public class CheckersStateContext{
+public class CheckersStateContext extends AdjacencyPair.Context {
 
    private final Keyboard keyboard;
    private final CheckersUI srummyUIUI;

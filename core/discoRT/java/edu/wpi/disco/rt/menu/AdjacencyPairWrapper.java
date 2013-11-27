@@ -2,11 +2,12 @@ package edu.wpi.disco.rt.menu;
 
 import java.util.List;
 
-public abstract class AdjacencyPairWrapper implements AdjacencyPair {
+public abstract class AdjacencyPairWrapper<C extends AdjacencyPair.Context> extends AdjacencyPairBase<C> {
 
    protected final AdjacencyPair inner;
 
    public AdjacencyPairWrapper (AdjacencyPair inner) {
+      super(null, null);
       this.inner = inner;
    }
 
@@ -26,6 +27,9 @@ public abstract class AdjacencyPairWrapper implements AdjacencyPair {
    public double timeRemaining () { return inner.timeRemaining(); }
 
    @Override
-   public boolean isTwoColumnMenu () { return inner.isTwoColumnMenu();    }
+   public boolean isTwoColumnMenu () { return inner.isTwoColumnMenu(); }
+   
+   @Override
+   public C getContext () { return (C) inner.getContext(); }
 }
 

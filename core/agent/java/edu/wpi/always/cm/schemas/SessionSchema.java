@@ -6,6 +6,7 @@ import edu.wpi.always.*;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
+import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.lang.Propose;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.*;
@@ -54,6 +55,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    @Override
    public void run () {
       Plan plan = interaction.getFocusExhausted(true);
+      ActivitySchema schema = null;
       if ( plan != null ) {
          if ( plan.getType().getId().equals("_Session") ) {
             // focus is on session, move it down to first live child
@@ -63,31 +65,34 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          }
          if ( plan.getGoal() instanceof Propose.Should ) 
             plan = plan.getParent();
-         Schema schema = started.get(plan);
+         schema = started.get(plan);
          if ( schema != null ) {
             if ( schema.isDone() ) {
                stop(plan);
-               stateMachine.setState(discoAdjacencyPair);
-            } else yield(plan);
+               stateMachine.setState(schema.isSelfStop() ? 
+                  new StopAdjacencyPairWrapper(discoAdjacencyPair) : 
+                  discoAdjacencyPair);
+            } else yield(plan, schema);
          } else {
             TaskClass task = plan.getType();
             if ( Plugin.isPlugin(task) &&
                  plan.isLive() && !plan.isOptional() && !plan.isStarted() ) {
-               started.put(plan,
-                  Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)));
+               schema = Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)); 
+               started.put(plan, schema);
                plan.setStarted(true);
                Utils.lnprint(System.out, "Starting "+plan.getType()+"...");
                history();
-               yield(plan);
+               yield(plan, schema);
             }
          }
       }
-      // fall through when:
+      // above code does nothing when:
       //    -live plan is not a plugin
       //    -focused activity schema done
       //    -focused task stopped
       //    -session plan exhausted 
-      propose(stateMachine);
+      if ( schema != null && schema.isSelfStop() ) proposeNothing();
+      else propose(stateMachine);
    }
    
    @Override
@@ -99,11 +104,13 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       schemaManager.start(getClass());
    }
    
-   private void yield (Plan plan) {
-      stop.setPlan(plan);
-      stop.update();
-      stateMachine.setState(stop);
-      stateMachine.setExtension(true);
+   private void yield (Plan plan, ActivitySchema schema) {
+      if ( !schema.isSelfStop() ) {
+         stop.setPlan(plan);
+         stop.update();
+         stateMachine.setState(stop);
+         stateMachine.setExtension(true);
+      }
       stateMachine.setSpecificityMetadata(0.5);
       setNeedsFocusResource(false);
       Plugin.getPlugin(plan.getType(), container).show();
@@ -135,7 +142,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       @Override
       public void update () {
          update(null, Collections.singletonList(
-               Agenda.newItem(new Propose.Stop(interaction.getDisco(), true, plan.getGoal()), null)));
+                        Agenda.newItem(new Propose.Stop(interaction.getDisco(), true, plan.getGoal()), null)));
       }
       
       @Override
@@ -148,7 +155,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       }
    }
 
-   private static class StopAdjacencyPairWrapper extends AdjacencyPairWrapper {
+   private static class StopAdjacencyPairWrapper extends AdjacencyPairWrapper<AdjacencyPair.Context> {
       
       public StopAdjacencyPairWrapper (AdjacencyPair inner) {
          super(inner);

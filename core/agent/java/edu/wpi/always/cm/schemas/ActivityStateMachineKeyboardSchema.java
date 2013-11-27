@@ -11,7 +11,7 @@ import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
 import edu.wpi.disco.rt.menu.AdjacencyPair;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public abstract class ActivityStateMachineKeyboardSchema extends ActivityStateMachineSchema {
+public abstract class ActivityStateMachineKeyboardSchema<C extends AdjacencyPair.Context> extends ActivityStateMachineSchema<C> {
 
    private final Keyboard keyboard;
 

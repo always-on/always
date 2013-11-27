@@ -9,7 +9,7 @@ import edu.wpi.disco.rt.schema.Schema;
 
 // this is the schema for initiating a Skype call
 
-public class SkypeSchema extends ActivityStateMachineSchema {
+public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Context> {
 
    private final ShoreFacePerceptor shore;
    
@@ -30,7 +30,7 @@ public class SkypeSchema extends ActivityStateMachineSchema {
  
    // to test camera release and restart
    
-   public static class Test extends MultithreadAdjacencyPair<Void> {
+   public static class Test extends MultithreadAdjacencyPair<AdjacencyPair.Context> {
 
       private final ShoreFacePerceptor shore;
       

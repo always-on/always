@@ -89,8 +89,8 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
             @Override
             public AdjacencyPair run() {
-               return new InitialEnroll(getContext());
-               //CALL cancel?
+               context.getSchema().cancel();
+               return null;
             }
          });
       }

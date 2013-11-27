@@ -3,8 +3,9 @@ package edu.wpi.always.story.schema;
 import edu.wpi.always.client.*;
 import edu.wpi.always.story.StoryManager;
 import edu.wpi.always.user.people.PeopleManager;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
 
-public class StoryStateContext {
+public class StoryStateContext extends AdjacencyPair.Context {
 
    private final Keyboard keyboard;
    private final UIMessageDispatcher dispatcher;

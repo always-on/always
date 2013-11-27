@@ -6,7 +6,7 @@ import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
+public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<AdjacencyPair.Context> {
 
    protected final DiscoAdjacencyPair discoAdjacencyPair;
    protected final DiscoRT.Interaction interaction;

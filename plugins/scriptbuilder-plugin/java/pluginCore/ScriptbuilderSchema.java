@@ -5,7 +5,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class ScriptbuilderSchema extends ActivityStateMachineSchema {
+public class ScriptbuilderSchema extends ActivityStateMachineSchema<RAGStateContext> {
 	
 	RAGStateContext context;
 	
