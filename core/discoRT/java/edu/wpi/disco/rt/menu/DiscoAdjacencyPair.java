@@ -7,7 +7,7 @@ import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import java.util.*;
 
-public class DiscoAdjacencyPair implements AdjacencyPair {
+public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context> {
 
    private final DiscoRT.Interaction interaction;
    
@@ -16,14 +16,15 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
    private Cache current;
    
    public DiscoAdjacencyPair (DiscoRT.Interaction interaction) {
+      super(null, new AdjacencyPair.Context());
       this.interaction = interaction;
    }
    
    public void update () {
       Agent agent = (Agent) interaction.getSystem();
       update(agent.respond(interaction, false, true) ? agent.getLastUtterance() :
-         //new Say(interaction.getDisco(), false, "what do you want to do?"),
-         null, 
+         // TODO: make this an utterance type
+         new Say(interaction.getDisco(), false, "What do you want to do?"),
          interaction.getExternal().generate(interaction));
    }
 
@@ -40,7 +41,7 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
    @Override
    public AdjacencyPair nextState (String text) {
       int i = current.choices.indexOf(text);
-      if ( i >= 0 ) {
+      if ( i >= 0 && !REPEAT.equals(text) ) {
          interaction.doneUtterance((Utterance) current.items.get(i).task, 
                current.items.get(i).contributes, text);
          update(); 
@@ -62,7 +63,9 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
    }
 
    @Override
-   public boolean isTwoColumnMenu () { return false; }
+   public boolean isTwoColumnMenu () { 
+      return current != null && current.choices.size() > 7; 
+   }
 
    @Override
    public boolean prematureEnd () { return false; }
@@ -76,10 +79,11 @@ public class DiscoAdjacencyPair implements AdjacencyPair {
       public Cache (Utterance utterance, List<Plugin.Item> items) {
          this.message = utterance == null ? null : interaction.format(utterance, true);
          this.items = items;
-         choices = new ArrayList<String>(items.size());
+         choices = new ArrayList<String>(items.size()+1);
          for (Plugin.Item item : items) {
             choices.add(item.formatted != null ? item.formatted : interaction.format(item, false));
          }
+         choices.add(REPEAT);  //TODO check for two column?
       }
    }
 

@@ -2,7 +2,7 @@ package edu.wpi.disco.rt.menu;
 
 import edu.wpi.disco.rt.util.NullArgumentException;
 
-public class MultithreadAdjacencyPair<C> extends AdjacencyPairBase<C> {
+public class MultithreadAdjacencyPair<C extends AdjacencyPair.Context> extends AdjacencyPairBase<C> {
 
    public MultithreadAdjacencyPair (String message, C context) {
       super(message, context);

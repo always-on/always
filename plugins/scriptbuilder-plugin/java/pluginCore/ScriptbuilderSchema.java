@@ -5,7 +5,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class ScriptbuilderSchema extends ActivityStateMachineSchema {
+public class ScriptbuilderSchema extends ActivityStateMachineSchema<RAGStateContext> {
 	
 	RAGStateContext context;
 	
@@ -20,7 +20,7 @@ public class ScriptbuilderSchema extends ActivityStateMachineSchema {
 
 	@Override
 	public void run() {
-	   if( context.isDone ) cancel();
+	   if( context.isDone ) stop();
 		else super.run();
 	}
 }

@@ -84,13 +84,13 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
 
       public DialogEndEvent(final EnrollStateContext context) {
-         super("Okay, we can do this any other time if you want.", context);
+         super("Okay, we can do this again if you want.", context);
          choice("Sure.", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
-               return new InitialEnroll(getContext());
-               //CALL cancel?
+               context.getSchema().stop();
+               return null;
             }
          });
       }

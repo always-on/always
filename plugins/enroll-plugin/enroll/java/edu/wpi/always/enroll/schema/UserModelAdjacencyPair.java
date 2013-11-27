@@ -22,7 +22,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    private static String UserState;
 
    public UserModelAdjacencyPair(final EnrollStateContext context) {
-      super("What is the name you want me to use to talk with you", 
+      super("What is the name you want me to use to talk with you ?", 
             "Enter your name:", context, context.getKeyboard());
    }
 
@@ -43,7 +43,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserAgeAdjacencyPair(final EnrollStateContext context) {
-         super("How old are you", "Enter your age:", 
+         super("How old are you? ", "Please enter your age:", 
                context, context.getKeyboard(), true);
       }
 
@@ -70,7 +70,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserAgeInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("The age you enter is invalid please enter again", 
+         super("The age you entered is invalid.  Please enter your age again", 
                "Enter valid age:", context, context.getKeyboard(), true);
       }
 
@@ -97,7 +97,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    AdjacencyPairBase<EnrollStateContext> {
 
       public TellUserBirthdayAdjacencyPair(final EnrollStateContext context) {
-         super("Do you want to tell me your birthday", context);
+         super("Do you want to tell me your birthday ?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -133,7 +133,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    AdjacencyPairBase<EnrollStateContext> {
 
       public UserBirthdayMonthAdjacencyPair(final EnrollStateContext context) {
-         super("What is your birthday month", context, true);
+         super("What is your birthday month ?", context, true);
          for(int i = 0; i < 12; i++) {
             final int MonthNum = i;
             choice(Person.Month[i], new DialogStateTransition() {
@@ -157,7 +157,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserBirthdayDayAdjacencyPair(final EnrollStateContext context) {
-         super("What is the day of your Birthday", 
+         super("What is the date of your Birthday ?", 
                "Enter your Birthday:", 
                context, context.getKeyboard(), true);}
 
@@ -186,7 +186,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserBirthdayDayInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("The day you enter is invalid please enter again", 
+         super("The date you entered is invalid. please enter the date again", 
                "Enter valid birthday:", context, context.getKeyboard(), true);}
 
       @Override
@@ -283,7 +283,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserZipCodeAdjacencyPair(final EnrollStateContext context) {
-         super("What is the your zipcode?", "Enter your zipcode:",
+         super("What is your zipcode?", "Enter your zipcode:",
                context, context.getKeyboard(), true);
       }
 
@@ -311,7 +311,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserZipCodeInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("The zipcode entered is invalid. Please enter an valid zipcode.", 
+         super("The zipcode you entered is invalid. Please enter a valid zipcode.", 
                "Enter your zipcode again:", context, context.getKeyboard(), true);
       }
 
@@ -339,7 +339,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserStateAdjacencyPair(final EnrollStateContext context) {
-         super("Which state do you live", "Enter your state:",
+         super("Which state do you live in?", "Enter your state:",
                context, context.getKeyboard());
       }
 
@@ -390,7 +390,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserCityAdjacencyPair(final EnrollStateContext context) {
-         super("Which city do you live in", 
+         super("Which city do you live in ?", 
                "Enter your city:",
                context, context.getKeyboard());
       }
@@ -425,8 +425,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserCityInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("City name is not valid please enter it again", 
-               "Invalid city name. Plase re-enter your city:",
+         super("That city name is not valid.  Please enter it again", 
+               "Invalid city name. Please re-enter your city:",
                context, context.getKeyboard());
       }
 
@@ -464,7 +464,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    AdjacencyPairBase<EnrollStateContext> {
 
       public UserSpouseAdjacencyPair(final EnrollStateContext context){
-         super("Do you married?", context);
+         super("ok, Are you married?", context);
          choice("Yes", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -542,7 +542,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserPhoneNumberInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("That's not a valid phone number, please enter again", 
+         super("That's not a valid phone number. please enter your number again", 
                "Enter valid phone number: (XXX-XXX-XXXX)", 
                context, context.getKeyboard(),true);
       }

@@ -32,4 +32,11 @@ public abstract class ActivitySchema extends SchemaBase {
       propose(behavior, SPECIFICITY);
    }
    
+   private boolean selfStop;
+   
+   public boolean isSelfStop () { return selfStop; }
+   
+   public void setSelfStop (boolean selfStop) {
+      this.selfStop = selfStop;
+   }
 }

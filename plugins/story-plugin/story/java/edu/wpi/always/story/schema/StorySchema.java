@@ -9,7 +9,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class StorySchema extends ActivityStateMachineSchema {
+public class StorySchema extends ActivityStateMachineSchema<StoryStateContext> {
 
    public StorySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
