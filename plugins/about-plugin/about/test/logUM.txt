@@ -1,0 +1,80 @@
+eval edu.wpi.always.user.UserUtils.print($always.getUserModel(), java.lang.System.out)
+USER MODEL FOR Diane Ferguson
+Sessions: 1 Closeness: Companion
+StartTime: 2013-08-16T18:06:39.042+02:00
+Ed (Male)
+	Parent = Ellen Lewis, Mike
+	Father = Mike
+	Mother = Ellen Lewis
+	AboutStatus = Positive
+	AboutComment = had a new grandchild
+	AboutMentioned= true
+Ellen Lewis (Female)
+	Location = Oceanside, CA
+	PhoneNumber = 650-339-0221
+	SkypeNumber = ellenlewis
+	Spouse = Mike
+	Husband = Mike
+	Offspring = Ed, Diane Ferguson, Linda, Linda Jefferson
+	Son = Ed
+	Daughter = Diane Ferguson, Linda
+	AboutStatus = Positive
+	AboutComment = went shopping
+	AboutMentioned= true
+Marion Smith (Female)
+	Location = Boston, MA
+	PhoneNumber = 617-238-3779
+	SkypeNumber = null
+	Friend = Diane Ferguson
+	AboutStatus = Positive
+	AboutComment = was going on vacation
+	AboutMentioned= true
+Philip Morley (Male)
+	Location = Tampa, FL
+	PhoneNumber = 727-671-4536
+	SkypeNumber = null
+	Friend = Diane Ferguson
+	AboutStatus = Positive
+	AboutComment = got a new friend
+	AboutMentioned= true
+Diane Ferguson (Female)
+	Age = 62
+	Birthday = --01-01
+	Location = Boston, MA
+	Friend = Marion Smith, Philip Morley, Harriet Jones
+	Spouse = Bob Ferguson
+	Sibling = Linda Jefferson
+	AboutStatus = Positive
+	AboutComment = was coming to visit you
+	AboutMentioned= true
+Linda (Female)
+	Parent = Ellen Lewis, Mike
+	Father = Mike
+	Mother = Ellen Lewis
+	AboutStatus = Negative
+	AboutComment = was ill
+	AboutMentioned= true
+Mike (Male)
+	Spouse = Ellen Lewis
+	Wife = Ellen Lewis
+	Offspring = Ed, Linda
+	Son = Ed
+	Daughter = Linda
+Harriet Jones (Female)
+	Location = Boston, MA
+	PhoneNumber = 617-324-0997
+	SkypeNumber = null
+	Friend = Diane Ferguson
+Linda Jefferson
+	Location = Memphis, TN
+	PhoneNumber = 615-334-7889
+	SkypeNumber = null
+	Sibling = Diane Ferguson
+	Sister = Diane Ferguson
+Bob Ferguson
+	Spouse = Diane Ferguson
+	Wife = Diane Ferguson
+CALENDAR
+[<#ac62a3d0-51b6-46d7-9fab-dc9847340f05>, <#3058f830-4fe7-4536-9e66-227e01bfa5a7>]
+Calendar Entry [Medical Appointment @ null], [2014-01-01T10:00:00.000/2014-01-01T11:00:00.000] - ac62a3d0-51b6-46d7-9fab-dc9847340f05
+Calendar Entry [Diane Ferguson's Birthday @ null], [2013-01-01T00:00:00.000/2013-01-02T00:00:00.000] - 3058f830-4fe7-4536-9e66-227e01bfa5a7

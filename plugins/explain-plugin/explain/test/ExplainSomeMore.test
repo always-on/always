@@ -1,0 +1,193 @@
+    # Nov 18, 2013 7:10:05 PM - TaskEngine 1.5.1 / Disco 1.7.1
+    Welcome to Disco! (Type 'help' for command list)
+  > load java/edu/wpi/always/explain/resources/Explain.xml
+  > task _ExplainSelf
+    User says "Let's achieve _ExplainSelf."
+    Agent says "I have told you about some of the activities we can do together.  There are a few more.  Want to hear about them?"
+  > say
+[1] Yes, please do.
+[2] No thanks.
+[3] I would rather hear about all the activities again.
+  >> 1
+    User says "Yes, please do."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > history
+
+[ ] -accepted -live
+   User says "Let's achieve _ExplainSelf."
+   [ ] -done
+      Agent says "I have told you about some of the activities we can do together.  There are a few more.  Want to hear about them?"
+      [ ] -done
+         User says "Yes, please do."
+   [ ] -live
+      [Explain activities we can do together] -live
+         [ ] -live
+            [User says propose the _SetChoiceActivity choice] -live <-focus
+               [User accept] -live
+                  Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+         [ ]
+      [Explain activities we can do together] -optional
+      [Explain activities we can do together] -optional
+      [Explain activities we can do together] -optional
+      [Explain activities we can do together] -optional
+      [Explain activities we can do together] -optional
+      [Explain activities we can do together] -optional
+      [Explain activities we can do together] -optional
+      [Explain activities we can do together] -optional
+      [ ]
+
+  > say
+[1] Telling one of my life stories .
+[2] Telling weather where my friends and family live.
+[3] Hearing a short humorous story.
+[4] Getting advice on healthy foods to eat.
+[5] Arranging videos calls with friends and family.
+[6] No more activities.
+  >> 1
+    User says "Telling one of my life stories ."
+    Agent execute _SetChoiceActivity on telling one of my life stories .
+    Agent says "You can tell me a story about your life.  I will pay attention even though I won't understand most of what you say."
+  > say
+[1] Go on.
+  >> 1
+    User says "Go on."
+    Agent says "When you are done, you can save the story, and if you want, send it out to friends."
+  > say
+[1] Ok.
+[2] I think I will try that.
+[3] I see.  Maybe I will do that some time .
+  >> 1
+    User says "Ok."
+    Agent says "I think you may like it."
+  > say
+[1] Tell me about another activity.
+[2] No more activities.
+  >> 1
+    User says "Tell me about another activity."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > say
+[1] Telling one of my life stories .
+[2] Telling weather where my friends and family live.
+[3] Hearing a short humorous story.
+[4] Getting advice on healthy foods to eat.
+[5] Arranging videos calls with friends and family.
+[6] No more activities.
+  >> 2
+    User says "Telling weather where my friends and family live."
+    Agent execute _SetChoiceActivity on telling weather where my friends and family live.
+    Agent says "We've already talked about the weather.  BUT I can do more!  I can get information from the internet about the weather anywhere in the US."
+  > say
+[1] Really? Tell me more.
+[2] I don't really need to know more about the weather .
+  >> 1
+    User says "Really? Tell me more."
+    Agent says "You can tell me about your family and friends, and I will remember what you say.  You can also tell me if you want to know the weather for that person everyday or just once in a while."
+  > say
+[1] Ok, I will tell you about my family and friends.
+[2] I don't want to know the weather except here.
+  >> 1
+    User says "Ok, I will tell you about my family and friends."
+    Agent says "Great!"
+  > say
+[1] Tell me about another activity.
+[2] No more activities.
+  >> 1
+    User says "Tell me about another activity."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > say
+[1] Telling one of my life stories .
+[2] Telling weather where my friends and family live.
+[3] Hearing a short humorous story.
+[4] Getting advice on healthy foods to eat.
+[5] Arranging videos calls with friends and family.
+[6] No more activities.
+  >> 3
+    User says "Hearing a short humorous story."
+    Agent execute _SetChoiceActivity on hearing a short humorous story.
+    Agent says "I know a lot of short and funny stories.  I can tell you one or more whenever we talk."
+  > say
+[1] Ok.
+[2] I think I will try that sometime.
+[3] I see;  funny stories aren't for me, but maybe sometime I'll ask you.
+  >> 1
+    User says "Ok."
+    Agent says "Want to hear about another activity?"
+  > say
+[1] Yes.
+[2] No.
+  >> 1
+    User says "Yes."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > say
+[1] Telling one of my life stories .
+[2] Telling weather where my friends and family live.
+[3] Hearing a short humorous story.
+[4] Getting advice on healthy foods to eat.
+[5] Arranging videos calls with friends and family.
+[6] No more activities.
+  >> 4
+    User says "Getting advice on healthy foods to eat."
+    Agent execute _SetChoiceActivity on getting advice on healthy foods to eat.
+    Agent says "It's hard to make good choices in our meals.  Eating more fruits and veggies will make you feel better and improve your health."
+  > say
+[1] Uh-huh.
+  >> 1
+    User says "Uh-huh."
+    Agent says "I can advise you on how to add better foods to your daily meals."
+  > say
+[1] Ok.
+[2] Oh, that is a good thing to do.
+[3] No thanks.  I just want to eat what I eat now.
+[4] Maybe another time.
+  >> 1
+    User says "Ok."
+    Agent says "Want to hear about another activity?"
+  > say
+[1] Yes.
+[2] No.
+  >> 1
+    User says "Yes."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > say
+[1] Telling one of my life stories .
+[2] Telling weather where my friends and family live.
+[3] Hearing a short humorous story.
+[4] Getting advice on healthy foods to eat.
+[5] Arranging videos calls with friends and family.
+[6] No more activities.
+  >> 5
+    User says "Arranging videos calls with friends and family."
+    Agent execute _SetChoiceActivity on arranging videos calls with friends and family.
+    Agent says "Did you know you can talk for free to your friends and family and be able to see them while you talk?  I can help you do this for anyone who has a computer."
+  > say
+[1] Really? Tell me more.
+[2] No thanks.  I like using the phone just fine.
+[3] This is definitely not for me.
+  >> 1
+    User says "Really? Tell me more."
+    Agent says "You can talk to your family and friends and see them as you talk on your computer screen."
+  > say
+[1] Go on.
+  >> 1
+    User says "Go on."
+    Agent says "I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk and I'll remind you before the call."
+  > say
+[1] Ok, I definitely want to try that.
+[2] Gee, most of my family doesn't have a computer.
+  >> 1
+    User says "Ok, I definitely want to try that."
+    Agent says "Want to hear about another activity?"
+  > say
+[1] Yes.
+[2] No.
+  >> 2
+    User says "No."
+    Agent says "Well, any time you want more explanations, just ask!"
+  > say
+[1] Ok, thanks.
+[2] Thanks that was really interesting!
+  >> 1
+    User says "Ok, thanks."
+    Agent says "Ok."
+  > quit
+    

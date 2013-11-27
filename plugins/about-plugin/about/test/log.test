@@ -1,0 +1,202 @@
+    # Aug 16, 2013 5:18:52 PM - TaskEngine 1.4.8 / Disco 1.6.10
+    Welcome to Disco! (Type 'help' for command list)
+  > load java/edu/wpi/always/about/resources/TalkAbout.xml
+here is the list of family and friends = [Ledu.wpi.always.user.owl.OntologyPerson;@77b6981b  > 
+  > task TalkAbout
+    User says "Let's achieve TalkAbout."
+famFriend =Ed    Agent execute _GetPerson.
+    Agent says "How is Ed doing?"
+  > say
+[1] I don't want to talk about him today.
+[2] I'm done talking about my family and friends.
+[3] Overall pretty good.
+[4] Not so great.
+  >> 3
+    User says "Overall pretty good."
+    Agent says "Any news from him?"
+  > say
+[1] No news really.
+[2]  he has a new grandchild.
+[3]  he went shopping for new clothes.
+[4]  he is going on vacation.
+[5]  he has a new friend.
+[6]  he is coming to visit me.
+  >> 2
+    User says " he has a new grandchild."
+    Agent says "Oh that's great for her."
+  > say
+[1] Yes, she's very excited.
+[2] Yes, she has a lot of grandchildren.
+[3] Yes, she's waited a long time for a grandchild.
+[4] Yes, it's all she talks about!
+  >> 4
+    User says "Yes, it's all she talks about!"
+    Agent says "Well, I'm sure that will change in a month or so! ."
+  > say
+[1] I want to talk about some more of my friends and family.
+[2] I don't want to talk about friends and family anymore.
+  >> 1
+    User says "I want to talk about some more of my friends and family."
+famFriend =Ellen Lewis    Agent execute _GetPerson.
+    Agent says "How is Ellen Lewis doing?"
+  > say
+[1] I don't want to talk about her today.
+[2] I'm done talking about my family and friends.
+[3] Overall pretty good.
+[4] Not so great.
+  >> 3
+    User says "Overall pretty good."
+    Agent says "Any news from her?"
+  > say
+[1] No news really.
+[2]  she has a new grandchild.
+[3]  she went shopping for new clothes.
+[4]  she is going on vacation.
+[5]  she has a new friend.
+[6]  she is coming to visit me.
+  >> 3
+    User says " she went shopping for new clothes."
+    Agent says "How nice to get new clothes."
+  > say
+[1] I agree.
+[2] I'm not so interested in that sort of thing.
+  >> 1
+    User says "I agree."
+    Agent says "Want to talk about another friend?"
+  > say
+[1] Yes.
+[2] No.
+[3] Stop achieve TalkAbout.
+  >> 1
+    User says "Yes."
+famFriend =Marion Smith    Agent execute _GetPerson.
+    Agent says "How is Marion Smith doing?"
+  > say
+[1] I don't want to talk about her today.
+[2] I'm done talking about my family and friends.
+[3] Overall pretty good.
+[4] Not so great.
+  >> 3
+    User says "Overall pretty good."
+    Agent says "Any news from her?"
+  > say
+[1] No news really.
+[2]  she has a new grandchild.
+[3]  she went shopping for new clothes.
+[4]  she is going on vacation.
+[5]  she has a new friend.
+[6]  she is coming to visit me.
+  >> 4
+    User says " she is going on vacation."
+    Agent says "Oh really, where?  Want me to keep track in weather updates?"
+  > say
+[1] Yes, ask me when we talk about weather .
+  >> 1
+    User says "Yes, ask me when we talk about weather ."
+    Agent says "Do you wish you could go somewhere special?"
+  > say
+[1] No I don't like to travel.
+[2] Yes, that would be great.
+  >> 2
+    User says "Yes, that would be great."
+    Agent says "Want to talk about another friend?"
+  > say
+[1] Yes.
+[2] No.
+[3] Stop achieve TalkAbout.
+  >> 1
+    User says "Yes."
+famFriend =Philip Morley    Agent execute _GetPerson.
+    Agent says "How is Philip Morley doing?"
+  > say
+[1] I don't want to talk about him today.
+[2] I'm done talking about my family and friends.
+[3] Overall pretty good.
+[4] Not so great.
+  >> 3
+    User says "Overall pretty good."
+    Agent says "Any news from him?"
+  > say
+[1] No news really.
+[2]  he has a new grandchild.
+[3]  he went shopping for new clothes.
+[4]  he is going on vacation.
+[5]  he has a new friend.
+[6]  he is coming to visit me.
+  >> 5
+    User says " he has a new friend."
+    Agent says "Well, that's good."
+  > say
+[1] I want to talk about some more of my friends and family.
+[2] I don't want to talk about friends and family anymore.
+  >> 1
+    User says "I want to talk about some more of my friends and family."
+famFriend =Diane Ferguson    Agent execute _GetPerson.
+    Agent says "How is Diane Ferguson doing?"
+  > say
+[1] I don't want to talk about her today.
+[2] I'm done talking about my family and friends.
+[3] Overall pretty good.
+[4] Not so great.
+  >> 3
+    User says "Overall pretty good."
+    Agent says "Any news from her?"
+  > say
+[1] No news really.
+[2]  she has a new grandchild.
+[3]  she went shopping for new clothes.
+[4]  she is going on vacation.
+[5]  she has a new friend.
+[6]  she is coming to visit me.
+  >> 6
+    User says " she is coming to visit me."
+    Agent says "Great for you.  When we do your calendar, we can add the visit."
+  > say
+[1] Okay.
+[2] Okay if I remember!
+[3] Not sure yet when she is coming.
+  >> 2
+    User says "Okay if I remember!"
+    Agent says "Want to talk about another friend?"
+  > say
+[1] Yes.
+[2] No.
+[3] Stop achieve TalkAbout.
+  >> 1
+    User says "Yes."
+famFriend =Linda    Agent execute _GetPerson.
+    Agent says "How is Linda doing?"
+  > say
+[1] I don't want to talk about her today.
+[2] I'm done talking about my family and friends.
+[3] Overall pretty good.
+[4] Not so great.
+  >> 4
+    User says "Not so great."
+    Agent says "Oh, what's wrong?"
+  > say
+[1]  she is ill.
+[2]   she had an accident.
+[3]  she lost a family member .
+[4]  she is pretty lonely.
+[5]  she is postponing a visit to me.
+  >> 1
+    User says " she is ill."
+    Agent says "I hope it's not serious."
+  > say
+[1] Well, it is.  I'm worried.
+[2]  but she is getting better.
+[3] No, I think she'll be okay.
+  >> 1
+    User says "Well, it is.  I'm worried."
+    Agent says "If you haven't talked to her, why don't you give her a call?"
+  > say
+[1] I did just recently.
+[2] Yes I think I'll do that.
+  >> 2
+    User says "Yes I think I'll do that."
+    Agent says "Well, it was nice talking about your friends and family with you."
+  > say
+[1] Let's achieve TalkAbout.
+ 
+    
