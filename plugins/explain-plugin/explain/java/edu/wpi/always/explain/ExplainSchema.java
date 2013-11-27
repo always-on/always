@@ -12,6 +12,7 @@ public class ExplainSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
+      setSelfStop(true);
       interaction.load("edu/wpi/always/explain/resources/Explain.xml"); 
       start("_ExplainSelf");
    }

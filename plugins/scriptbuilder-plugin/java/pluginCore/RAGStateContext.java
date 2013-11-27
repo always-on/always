@@ -16,8 +16,9 @@ import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
 
-public class RAGStateContext {
+public class RAGStateContext extends AdjacencyPair.Context {
 	public static int menuChoice = -1;
 	private final Keyboard keyboard;
 	private final UIMessageDispatcher dispatcher;

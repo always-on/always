@@ -9,7 +9,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public class TTTSchema extends ActivityStateMachineSchema {
+public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
 
    public TTTSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,

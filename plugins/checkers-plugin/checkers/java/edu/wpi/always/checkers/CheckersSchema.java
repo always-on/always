@@ -9,7 +9,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public class CheckersSchema extends ActivityStateMachineSchema {
+public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateContext> {
 
    public CheckersSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,

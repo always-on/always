@@ -13,6 +13,7 @@ public class GreetingsSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
+      setSelfStop(true);
       interaction.load("edu/wpi/always/greetings/resources/Greetings.xml");
       int hour = LocalTime.now().getHourOfDay();
       start( hour > 18 ? "_EveningGreetings" :
