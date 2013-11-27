@@ -9,14 +9,16 @@ namespace Agent.UI
     {
         private ReetiCommunication reeti = new ReetiCommunication();
 
-        private const String HORIZONTAL = "horizontal";
-        private const String VERTICAL = "vertical";
-        private const String Head_Nod = "Global.SmallNod.play();";
-        private const String Hor_Rotate = "Global.servo.neckRotat =";
-        private const String Ver_Tilt = "Global.servo.neckTilt =";
-        private String Neutral_Position = "Global.servo.neutralPosition();"; 
-        private const String Smile = "Global.Happy.play();";
-        private const String Concern = "Global.Sad.play();";
+        private const String HORIZONTAL        = "horizontal";
+        private const String VERTICAL          = "vertical";
+        private const String Head_Nod          = "Global.SmallNod.play();";
+        private const String Hor_Rotate        = "Global.servo.neckRotat =";
+        private const String Ver_Tilt          = "Global.servo.neckTilt =";
+        private const String Neutral_Position  = "Global.servo.neutralPosition();"; 
+        private const String Smile             = "Global.Happy.play();";
+        private const String Concern           = "Global.Sad.play();";
+        private const String BeginSpeech       = "Global.Talk.play(1, 0.3);";
+        private const String EndSpeech         = "Global.Talk.play(0, 0.3);";
 
         private String ConstructMessage(double HorOutput, double VerOutput)
         {
@@ -114,6 +116,14 @@ namespace Agent.UI
             if (Command.Contains("WARM"))
             {
                 SendCommand(Neutral_Position);
+            }
+            if (Command.Contains("BEGINSPEECH"))
+            {
+                SendCommand(BeginSpeech);
+            }
+            if (Command.Contains("ENDSPEECH"))
+            {
+                SendCommand(EndSpeech);
             }
         }
 
