@@ -532,7 +532,6 @@
                     new java.lang.Integer(n));
     } 
     
-    var user = $always.getUserModel().getPeopleManager().getUser();
     var userName = $always.getUserModel().getUserFirstName();
     var poorSleepreports= getPoorSleepReports();
     
