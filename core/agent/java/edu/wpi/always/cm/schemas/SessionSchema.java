@@ -1,6 +1,7 @@
 package edu.wpi.always.cm.schemas;
 
 import java.util.*;
+import org.joda.time.LocalTime;
 import org.picocontainer.MutablePicoContainer;
 import edu.wpi.always.*;
 import edu.wpi.always.client.ClientProxy;
@@ -24,6 +25,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final SchemaManager schemaManager;
    private final Interaction interaction;
    
+   public static int HOUR = -1;  // for testing
+   
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, ClientProxy proxy,
@@ -34,10 +37,12 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       this.schemaManager = schemaManager;
       this.interaction = interaction;
       container = always.getContainer();
+      if ( HOUR < 0 ) HOUR = LocalTime.now().getHourOfDay();
       stop = new Stop(interaction);
       DiscoDocument session = always.getRM().getSession();
       Disco disco = interaction.getDisco();
       if ( disco.getTaskClass("_Session") == null && session != null ) { // could be restart
+         interaction.load("edu/wpi/always/greetings/resources/Greetings.xml");
          interaction.load("Relationship Manager", 
                session.getDocument(), session.getProperties(), session.getTranslate());
          interaction.push(interaction.addTop("_Session"));
