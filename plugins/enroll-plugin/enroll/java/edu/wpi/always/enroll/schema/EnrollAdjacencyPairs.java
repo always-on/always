@@ -166,13 +166,6 @@ public abstract class EnrollAdjacencyPairs{
                return new PersonGenderAdjacencyPair(getContext());
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new TellPersonBirthdayAdjacencyPair(getContext());
-            }
-         });
       }
    }
 
@@ -307,13 +300,6 @@ public abstract class EnrollAdjacencyPairs{
                return new KnowZipCodeAdjacencyPair(getContext());
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new PersonGenderAdjacencyPair(getContext());
-            }
-         });
          choice("Skip "+name, new DialogStateTransition() {
 
             @Override
@@ -342,13 +328,6 @@ public abstract class EnrollAdjacencyPairs{
             @Override
             public AdjacencyPair run() {
                return new PersonStateAdjacencyPair(getContext());
-            }
-         });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new KnowZipCodeAdjacencyPair(getContext());
             }
          });
          choice("Skip "+name, new DialogStateTransition() {
@@ -708,12 +687,6 @@ public abstract class EnrollAdjacencyPairs{
                return new PersonContactAdjacencyPair(getContext());
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               return new PersonSpouseAdjacencyPair(getContext());
-            }
-         });
          choice("Never Mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
@@ -778,12 +751,6 @@ public abstract class EnrollAdjacencyPairs{
                person = getContext().getPeopleManager().addPerson(name, relationship, gender, 
                      age, phone, skype, location, spouse, personBirthday);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
-            }
-         });
-         choice("Please repeat this question.", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               return new PersonContactAdjacencyPair(getContext());
             }
          });
          choice("Never Mind", new DialogStateTransition() {

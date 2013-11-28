@@ -143,13 +143,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new TellEditBirthdayAdjacencyPair(getContext());
-            }
-         });
+        
       }
    }
 
@@ -344,13 +338,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new EditStateAdjacencyPair(getContext());
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new DoKnowZipCodeAdjacencyPair(getContext());
-            }
-         });
+        
       }
    }
 
@@ -779,12 +767,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new PersonNameAdjacencyPair(getContext());
             }
          });
-         choice("Repeat the question", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               return new NextPersonAdjacencyPair(getContext());
-            }
-         });
       }
    }
 
@@ -797,7 +779,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          choice("Yes, I am finished", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new InitialEnroll(getContext());
+               return new InitialEnroll.DialogEndEvent(getContext());
             }
          });
          choice("I changed my mind and want to add another person",
@@ -807,12 +789,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                      return new PersonNameAdjacencyPair(getContext());
                   }
                });
-         choice("Repeat the question", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               return new DoneCurrentPersonAdjacencyPair(getContext());
-            }
-         });
       }
    }
 }
