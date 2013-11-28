@@ -20,7 +20,7 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
       this.interaction = interaction;
    }
    
-   public static final String TOPLEVEL = "What would you like to do?";
+   public static final String TOPLEVEL = "What would you like to do together?";
 
    public void update () {
       Agent agent = (Agent) interaction.getSystem();
