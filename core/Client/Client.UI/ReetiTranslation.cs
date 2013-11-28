@@ -18,7 +18,7 @@ namespace Agent.UI
         private const String Smile             = "Global.Happy.play();";
         private const String Concern           = "Global.Sad.play();";
         private const String BeginSpeech       = "Global.Talk.play(1, 0.3);";
-        private const String EndSpeech         = "Global.Talk.play(0, 0.3);";
+        private const String EndSpeech         = "Global.Talk.stop();";
 
         private String ConstructMessage(double HorOutput, double VerOutput)
         {
