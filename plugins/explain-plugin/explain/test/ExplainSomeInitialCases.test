@@ -1,0 +1,196 @@
+    # Nov 18, 2013 6:43:04 PM - TaskEngine 1.5.1 / Disco 1.7.1
+    Welcome to Disco! (Type 'help' for command list)
+  > load java/edu/wpi/always/explain/resources/Explain.xml
+  > task _ExplainSelf
+    User says "Let's achieve _ExplainSelf."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > say
+[1] Developing an exercise plan for me.
+[2] Talking together about my family and friends.
+[3] Keeping my personal calendar.
+[4] Playing a social game of Rummy, checkers or TicTacToe.
+[5] Telling one of my life stories .
+[6] Telling weather where my friends and family live.
+[7] Hearing a short humorous story.
+[8] Getting advice on healthy foods to eat.
+[9] Arranging videos calls with friends and family.
+[10] No more activities.
+  >> 1
+    User says "Developing an exercise plan for me."
+    Agent execute _SetChoiceActivity on developing an exercise plan for me.
+    Agent says "Everyone can use more exercise.  Walking is a really good and easy type of exercise."
+  > say
+[1] Uh-huh.
+  >> 1
+    User says "Uh-huh."
+    Agent says "I can help you work out an exercise plan, including getting a walking buddy.  I can also follow up with you every day once you start walking."
+  > say
+[1] Ok.
+[2] Oh, that sounds fun!
+[3] No thanks.
+[4] Maybe another time.
+  >> 1
+    User says "Ok."
+    Agent says "Want to hear about another activity?"
+  > say
+[1] Yes.
+[2] No.
+  >> 1
+    User says "Yes."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > say
+[1] Developing an exercise plan for me.
+[2] Talking together about my family and friends.
+[3] Keeping my personal calendar.
+[4] Playing a social game of Rummy, checkers or TicTacToe.
+[5] Telling one of my life stories .
+[6] Telling weather where my friends and family live.
+[7] Hearing a short humorous story.
+[8] Getting advice on healthy foods to eat.
+[9] Arranging videos calls with friends and family.
+[10] No more activities.
+  >> 2
+    User says "Talking together about my family and friends."
+    Agent execute _SetChoiceActivity on talking together about my family and friends.
+    Agent says "I'm interested in knowing about your friends and family.  The more I know about them, the more I can use this information."
+  > say
+[1] Uh-huh.
+  >> 1
+    User says "Uh-huh."
+    Agent says "When I know about your family, I can give you weather information where they live, and I can include them in your calendar events."
+  > say
+[1] Ok.
+[2] Oh, that is good .
+[3] I see.  Maybe I'll tell you some time.
+  >> 1
+    User says "Ok."
+    Agent says "I can also chat with you about your friends and family."
+  > say
+[1] Okay.
+[2] Well, may be I'll do that.
+  >> 1
+    User says "Okay."
+    Agent says "Want to hear about another activity?"
+  > say
+[1] Yes.
+[2] No.
+  >> 1
+    User says "Yes."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > say
+[1] Developing an exercise plan for me.
+[2] Talking together about my family and friends.
+[3] Keeping my personal calendar.
+[4] Playing a social game of Rummy, checkers or TicTacToe.
+[5] Telling one of my life stories .
+[6] Telling weather where my friends and family live.
+[7] Hearing a short humorous story.
+[8] Getting advice on healthy foods to eat.
+[9] Arranging videos calls with friends and family.
+[10] No more activities.
+  >> 3
+    User says "Keeping my personal calendar."
+    Agent execute _SetChoiceActivity on keeping my personal calendar.
+    Agent says "I can keep track of your everyday calendar."
+  > say
+[1] Go on.
+  >> 1
+    User says "Go on."
+    Agent says "That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, go to an apppointment, or remember something important."
+  > say
+[1] Ok.
+[2] I don't understand.  How do I tell you what I am doing and when?
+  >> 1
+    User says "Ok."
+    Agent says "Good.  Just give it a try."
+  > say
+[1] Tell me about another activity.
+[2] No more activities.
+  >> 1
+    User says "Tell me about another activity."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > say
+[1] Developing an exercise plan for me.
+[2] Talking together about my family and friends.
+[3] Keeping my personal calendar.
+[4] Playing a social game of Rummy, checkers or TicTacToe.
+[5] Telling one of my life stories .
+[6] Telling weather where my friends and family live.
+[7] Hearing a short humorous story.
+[8] Getting advice on healthy foods to eat.
+[9] Arranging videos calls with friends and family.
+[10] No more activities.
+  >> 3
+    User says "Keeping my personal calendar."
+    Agent execute _SetChoiceActivity on keeping my personal calendar.
+    Agent says "I can keep track of your everyday calendar."
+  > say
+[1] Go on.
+  >> 1
+    User says "Go on."
+    Agent says "That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, go to an apppointment, or remember something important."
+  > say
+[1] Ok.
+[2] I don't understand.  How do I tell you what I am doing and when?
+  >> 2
+    User says "I don't understand.  How do I tell you what I am doing and when?"
+    Agent says "Well, I will ask you about some event you plan to do, like go to the doctor.  After you tell me the day and time, I'll show you the calendar with that event.  You can change it later if you want."
+  > say
+[1] I see.  That sounds useful.
+[2] Okay.
+[3] I still don't understand.
+  >> 1
+    User says "I see.  That sounds useful."
+    Agent says "Yes, so give it a try."
+  > say
+[1] Tell me about another activity.
+[2] No more activities.
+  >> 1
+    User says "Tell me about another activity."
+    Agent says "Here are activities we can do together.  Which ones would you like to know about?"
+  > say
+[1] Developing an exercise plan for me.
+[2] Talking together about my family and friends.
+[3] Keeping my personal calendar.
+[4] Playing a social game of Rummy, checkers or TicTacToe.
+[5] Telling one of my life stories .
+[6] Telling weather where my friends and family live.
+[7] Hearing a short humorous story.
+[8] Getting advice on healthy foods to eat.
+[9] Arranging videos calls with friends and family.
+[10] No more activities.
+  >> 4
+    User says "Playing a social game of Rummy, checkers or TicTacToe."
+    Agent execute _SetChoiceActivity on playing a social game of Rummy, checkers or TicTacToe.
+    Agent says "We can play games together.  In particular we can play rummy, checkers or TicTacToe."
+  > say
+[1] Go on.
+  >> 1
+    User says "Go on."
+    Agent says "Other computers can play games, but they just make the moves, and then give you a turn."
+  > say
+[1] Uh-huh.
+  >> 1
+    User says "Uh-huh."
+    Agent says "When we play cards or checkers, we can talk about how the game is going."
+  > say
+[1] Ok.
+[2] Oh, that sounds fun!
+[3] I see.
+  >> 1
+    User says "Ok."
+    Agent says "So give it a try soon."
+  > say
+[1] Tell me about another activity.
+[2] No more activities.
+  >> 2
+    User says "No more activities."
+    Agent says "Well, any time you want more explanations, just ask!"
+  > say
+[1] Ok, thanks.
+[2] Thanks that was really interesting!
+  >> 1
+    User says "Ok, thanks."
+    Agent says "Ok."
+  > quit
+    

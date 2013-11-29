@@ -109,7 +109,7 @@ public class ArbitratorFixture {
          @Override
          public void run () {}
          @Override
-         public void cancel () {}
+         public void stop () {}
          @Override
          public void dispose () {}
          @Override

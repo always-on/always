@@ -1,7 +1,8 @@
 <d:model about="urn:always.wpi.edu:Companion"
        xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
        xmlns:d="http://www.cs.wpi.edu/~rich/d4g"
-       xmlns:a="urn:always.wpi.edu:Activities">
+       xmlns:a="urn:always.wpi.edu:Activities"
+       xmlns:g="urn:always.wpi.edu:models:Greetings">
 
   <!-- Session model for companions  **TODO** Same as Acquaitance for now
 
@@ -12,7 +13,7 @@
  
   <task id="_Session">
     <subtasks id="_s1">
-      <step name="greet" task="_Greetings"/>
+      <step name="greet" task="g:_Greetings"/>
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
       <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
     </subtasks>
@@ -20,9 +21,5 @@
 
   <!--  when session "falls off the end" of this plan, it will
         default to toplevel activities. -->
-
-  <d:agent id="_Greetings" text="Hello">
-    <d:user text="Hi"/>
-  </d:agent>
 
 </d:model>

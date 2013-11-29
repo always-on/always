@@ -4,7 +4,7 @@ import edu.wpi.disco.rt.menu.AdjacencyPair;
 import edu.wpi.disco.rt.menu.AdjacencyPairBase;
 import edu.wpi.disco.rt.menu.DialogStateTransition;
 
-public abstract class KeyboardAdjacencyPair<C> extends AdjacencyPairBase<C> {
+public abstract class KeyboardAdjacencyPair<C extends AdjacencyPair.Context> extends AdjacencyPairBase<C> {
 
    private String prompt;
    private final Keyboard keyboard;

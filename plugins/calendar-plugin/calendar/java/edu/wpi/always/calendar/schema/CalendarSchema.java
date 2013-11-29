@@ -10,7 +10,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public class CalendarSchema extends ActivityStateMachineKeyboardSchema {
+public class CalendarSchema extends ActivityStateMachineKeyboardSchema<CalendarStateContext> {
 
    public CalendarSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,

@@ -26,7 +26,7 @@
 [3] Ok, now I know the local weather!
   >> 3
     User says "Ok, now I know the local weather!"
-    Agent says "Let me check if there's a severe weather alert in your area."
+    Agent says "Let me check to see if there's a severe weather alert in your area."
   > say
 [1] That would be helpful.
 [2] No, I don't want to know.
@@ -113,6 +113,7 @@
 [1] Mary.
 [2] Bob.
 [3] Lucy.
+[4] No more weather for my friends.
   >> 1
     User says "Mary."
     Agent says "Mary is in Glendale, AZ. Right now it is 61.9 fahrenheit."
@@ -123,6 +124,7 @@
     Agent says "And the weather condition is Mostly Cloudy."
   > say
 [1] Show me the people again.
+[2] No more weather for my friends.
   >> 1
     User says "Show me the people again."
     Agent says "Pick a person and I'll tell you the weather where they live."
@@ -130,6 +132,7 @@
 [1] Mary.
 [2] Bob.
 [3] Lucy.
+[4] No more weather for my friends.
   >> 2
     User says "Bob."
     Agent says "Bob is in Boston, MA. Right now it is 66 fahrenheit."
