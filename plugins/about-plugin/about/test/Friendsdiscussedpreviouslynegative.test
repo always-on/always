@@ -1,0 +1,80 @@
+    # Jul 24, 2013 11:32:24 AM - TaskEngine 1.4.8 / Disco 1.6.10
+    Welcome to Disco! (Type 'help' for command list)
+  > load TalkAbout.xml
+  > task TalkAbout
+    User says "Let's achieve TalkAbout."
+    Agent execute _GetPerson.
+    Agent says "Last time we talked about Mary, I remember that she was ill."
+  > say
+[1] Yes, that's right .
+  >> 1
+    User says "Yes, that's right ."
+    Agent says "Is she recovering?"
+  > say
+[1] Yes, pretty well.
+[2] No, she is still ill.
+[3] Yes, but she's not completely better.
+  >> 1
+    User says "Yes, pretty well."
+    Agent says "That's good to hear."
+  > say
+[1] I want to talk about some more of my friends and family.
+[2] I don't want to talk about friends and family anymore.
+  >> 1
+    User says "I want to talk about some more of my friends and family."
+    Agent execute _GetPerson.
+    Agent says "Last time we talked about Bill, I remember that she was ill."
+  > say
+[1]  Uh-huh.
+  >> 1
+    User says " Uh-huh."
+    Agent says "Is she recovering?"
+  > say
+[1] Yes, pretty well.
+[2] No, she is still ill.
+[3] Yes, but she's not completely better.
+  >> 2
+    User says "No, she is still ill."
+    Agent says "Oh, that's tough.  Have you been to see her?"
+  > say
+[1] Yes, but I should give her a call again.
+[2] No, but I call her occasionally.
+  >> 2
+    User says "No, but I call her occasionally."
+    Agent says "I'm sure she appreciates that."
+  > say
+[1] Yes, I think so.
+[2] Not sure she does.
+  >> 2
+    User says "Not sure she does."
+    Agent says "Yes, it's hard not to complain when you are sick."
+  > say
+[1] I want to talk about some more of my friends and family.
+[2] I don't want to talk about friends and family anymore.
+  >> 1
+    User says "I want to talk about some more of my friends and family."
+    Agent execute _GetPerson.
+    Agent says "Last time we talked about Sally, I remember that she was ill."
+  > say
+[1] Yes, that's right .
+  >> 1
+    User says "Yes, that's right ."
+    Agent says "Is she recovering?"
+  > say
+[1] Yes, pretty well.
+[2] No, she is still ill.
+[3] Yes, but she's not completely better.
+  >> 3
+    User says "Yes, but she's not completely better."
+    Agent says "Sometimes recovery is slow, but it's good she's on the mend."
+  > say
+[1] Yes, I agree.
+[2] I'm hopeful.
+[3] We'll see.
+  >> 2
+    User says "I'm hopeful."
+    Agent says "Well, it was nice talking about your friends and family with you."
+  > say
+[1] Let's achieve TalkAbout.
+  >> 
+  > 

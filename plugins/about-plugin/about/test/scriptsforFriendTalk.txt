@@ -1,0 +1,129 @@
+task
+  for x in {list of family & friends not discussed in last 2 days + family & friends in acute state}
+
+<!--  Special cases:  If there is a holiday coming within 2 weeks (holidays: Thanksgiving, Christmas, Easter, Hanukah, Passover, 4th of July, Labor Day), ask the person if they have any plans for the holiday with family and friends:  -->
+
+You know, <holiday> is coming.  Have you got any plans for spending it with family or friends?
+
+    yes
+      Oh, nice.  Who are you spending it with? <list of names to choose from>
+    no
+      Oh, well, as least we can talk on that day.  And you can have a video call with someone.  Want to?
+	yes, sure
+              okay, who 
+		<list of names to choose from>
+	no, not really
+             ok
+ 
+
+
+<!--the main program is talk about a friend or family member -->
+
+     How's x doing
+     input x
+	if gender x = male, pronounObj==him; pronounSubj==he else pronounObj==her; pronounSubj==she
+	precond status (x)==nil  //this means the user has not talked about x before
+
+  I don't want to talk about {pronounObj} today
+  over all, pretty good
+       Any news from {pronounObj}?
+       	      no news really
+	      {pronounSubj} 	
+	      	     got new job
+		     	 oh really.  How nice! 
+		     got new clothes
+		     	 Wish I could get new clothes.  Good for {pronounObj}	 
+		     going on a vacation
+		     	   Oh, where?  Want me to keep track in the weather updates?
+			       yes, {pronounSubj} is going to <type in>
+			       no, no thanks.
+		     is coming to visit me
+		     	   Oh, that's nice.  When?
+			       next week
+			       next month
+			       tomorrow
+			       not sure yet.
+
+
+  Not so great
+      {pronounSubj} is ill
+      	     I hope it's not serious	
+	       well, it is.  I'm worried.
+	       	     if you haven't talked to {pronounObj}, why don't you give {pronounObj} a call?
+		     	yes I think I"ll do that.  
+			I did just recently.
+	       not it's not.   
+      {pronounSubj} had an accident
+      	     Is {pronounSubj} in the hospital?
+	     	 yes, for a long time
+		      oh dear.  Can you go visit?
+		      	 yes, {pronounSubj} is nearby.
+			 no, {pronounSubj} is too far away.
+			     how about a nice card?  ALways great to get those.
+			     	 yes, good idea.
+				 well, maybe
+		 yes, but not for long.
+		    oh dear.  Can you go visit?
+		      	 yes, {pronounSubj} is nearby.
+			 no, {pronounSubj} is too far away.
+			     how about a nice card?  ALways great to get those.
+			     	 yes, good idea.
+				 well, maybe
+		 no, but {pronounSubj} isn't getting around much.
+		     I'm sure a phone call will be much appreciated.
+		 no, but {pronounSubj} got kind of shook up by it.
+		     yes, that's natural.  
+      {pronounSubj} lost a family member 
+      	     oh, how sad.  
+      {pronounSubj} is postponing a visit to me 
+      	     oh, that's too bad.  Any chance of a visit later?
+	        yes
+		no
+		maybe.
+    {pronounSubj} is pretty lonely.
+	I see.  You could give {pronounObj} a call.
+	   yes, I think I will.
+	   no, not today.
+    getting better	   
+  	  That's good to hear.  
+
+Don't forget--you can have a video call with friends and family.  let me know if you want to do it.
+  okay, let's set that up.
+  okay, I'll remember.
+  okay, not now.
+ 
+----------------------------For all of these need to update user model with person and most recent state.
+
+for state: 
+   well and has new job, well and has new clothes, well and doing on vacation, well and coming to visit, ill, in accident and in hospital, in accident, missing a family member, lonely, getting better.-------------
+
+------------------When x has been talked about before, the user model will have a record of person's last state.  
+In that case, use the conversation below----------------
+
+How is x doing?  I remember that last we talked about {pronounObj}, {pronounSubj} was  {Status x}
+  yes, that's right.
+  uh-huh
+
+<For positive events, minor negative ones> What's the news?  <repeat as above>
+
+<For negative events/state> Is {pronounSubj}
+     <if ill, bad accident> recovering?
+     	 yes pretty well
+	 no, still in the hospital
+	 yes, but she's not completely better
+
+     <if lost family member> dealing with the loss
+     	 yes, pretty well
+	 no, it's a hard thing
+	     oh, that is too bad.  Hopefully things will improve.
+
+     <if postponed visit>  going to come to see you?
+     	  yes, he/she coming next week
+	  yes, he/she coming next month
+	  yes, he/she's coming tomorrow
+	  yes, but not sure when.
+	       (for all) terrific.  You can introduce me!
+	  no.
+		Oh, that's disappointing.
+
+end task

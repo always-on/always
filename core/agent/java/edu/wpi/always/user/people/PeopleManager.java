@@ -26,3 +26,4 @@ public interface PeopleManager {
    Person addPerson(String name, Relationship relationship, Gender gender, int age, String phone,
          String skype, Place place, Person spouse, MonthDay birthday);
 }
+

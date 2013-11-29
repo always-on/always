@@ -22,15 +22,10 @@ Ontology(
   DataPropertyRange(<#ExplainUseCalendar> xsd:boolean)
   SubClassOf(<#User> DataExactCardinality(1 <#ExplainUseCalendar> xsd:boolean))
 
-  Declaration(DataProperty(<#ExplainPlayRummy>))
-  DataPropertyDomain(<#ExplainPlayRummy> <#User>)
-  DataPropertyRange(<#ExplainPlayRummy> xsd:boolean)
-  SubClassOf(<#User> DataExactCardinality(1 <#ExplainPlayRummy> xsd:boolean))
-
-  Declaration(DataProperty(<#ExplainPlayTicTacToe>))
-  DataPropertyDomain(<#ExplainPlayTicTacToe> <#User>)
-  DataPropertyRange(<#ExplainPlayTicTacToe> xsd:boolean)
-  SubClassOf(<#User> DataExactCardinality(1 <#ExplainPlayTicTacToe> xsd:boolean))
+  Declaration(DataProperty(<#ExplainPlayGames>))
+  DataPropertyDomain(<#ExplainPlayGames> <#User>)
+  DataPropertyRange(<#ExplainPlayGames> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainPlayGames> xsd:boolean))
 
   Declaration(DataProperty(<#ExplainTellStory>))
   DataPropertyDomain(<#ExplainTellStory> <#User>)

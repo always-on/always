@@ -119,13 +119,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
                return new UserGenderAdjacencyPair(getContext());
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new TellUserBirthdayAdjacencyPair(getContext());
-            }
-         });
       }
    }
 
@@ -240,13 +233,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
                return new KnowUserZipCodeAdjacencyPair(getContext());
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new UserGenderAdjacencyPair(getContext());
-            }
-         });
       }
    }
 
@@ -267,13 +253,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             @Override
             public AdjacencyPair run() {
                return new UserStateAdjacencyPair(getContext());
-            }
-         });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new KnowUserZipCodeAdjacencyPair(getContext());
             }
          });
       }
@@ -475,12 +454,6 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
             @Override
             public AdjacencyPair run() {
                return new UserPhoneNumberAdjacencyPair(getContext());
-            }
-         });
-         choice("Please repeat this question.", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               return new UserSpouseAdjacencyPair(getContext());
             }
          });
          choice("Never Mind", new DialogStateTransition() {

@@ -11,7 +11,7 @@ public interface Schema extends Runnable {
    /**
     * Cause this schema to no longer be scheduled for execution.
     */
-   void cancel ();
+   void stop ();
    
    /**
     * Return true iff this schema is no longer scheduled for execution.  

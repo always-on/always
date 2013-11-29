@@ -4,7 +4,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public abstract class ActivityStateMachineSchema extends ActivitySchema {
+public abstract class ActivityStateMachineSchema<C extends AdjacencyPair.Context> extends ActivitySchema {
 
    protected final MenuTurnStateMachine stateMachine;
 
@@ -13,8 +13,9 @@ public abstract class ActivityStateMachineSchema extends ActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor) {
       super(behaviorReceiver, behaviorHistory);
+      initial.getContext().setSchema(this);
       stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
-            menuPerceptor, new RepeatMenuTimeoutHandler());
+            menuPerceptor, new RepeatMenuTimeoutHandler<C>());
       stateMachine.setSpecificityMetadata(SPECIFICITY);
       stateMachine.setState(initial);
       stateMachine.setNeedsFocusResource(true); // default value

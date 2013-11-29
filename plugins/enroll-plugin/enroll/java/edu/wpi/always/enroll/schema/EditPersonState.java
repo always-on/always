@@ -143,13 +143,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new TellChangeBirthdayAdjacencyPair(getContext(), person);
-            }
-         });
       }
    }
 
@@ -351,13 +344,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
             @Override
             public AdjacencyPair run() {
                return new ChangeStateAdjacencyPair(getContext(), person);
-            }
-         });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new IfKnowZipCodeAdjacencyPair(getContext(), person);
             }
          });
       }
