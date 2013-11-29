@@ -6,8 +6,9 @@ import edu.wpi.always.enroll.EnrollUI;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
 
-public class EnrollStateContext {
+public class EnrollStateContext extends AdjacencyPair.Context {
 
    private final Keyboard keyboard;
    private final EnrollUI enrollUI;

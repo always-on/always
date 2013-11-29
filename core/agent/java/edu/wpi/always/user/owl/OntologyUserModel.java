@@ -32,7 +32,7 @@ public class OntologyUserModel extends UserModelBase {
    
    @Override
    public void setUserName (String userName) {
-      if ( this.userName == null ) {
+      if ( this.userName.length() == 0 ) {
          this.userName = userName;
          int space = userName.indexOf(' ');
          userFirstName = space < 0 ? userName : userName.substring(0, space);

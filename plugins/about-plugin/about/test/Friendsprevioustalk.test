@@ -1,0 +1,159 @@
+    # Jul 23, 2013 5:22:09 PM - TaskEngine 1.4.8 / Disco 1.6.10
+    Welcome to Disco! (Type 'help' for command list)
+  > load TalkAbout.xml
+  > task TalkAbout
+    User says "Let's achieve TalkAbout."
+    Agent execute _GetPerson.
+    Agent says "Last time we talked about Mary, I remember that she was had a new grandchild."
+  > say
+[1] Yes, that's right .
+  >> 1
+    User says "Yes, that's right ."
+    Agent says "So is there anything else new with her ?"
+  > say
+[1] No not really.
+[2] Just more about the grandchild.
+[3]  she is fine.
+[4]  she isn't doing so well.
+  >> 2
+    User says "Just more about the grandchild."
+    Agent says "I see."
+  > say
+[1] I want to talk about some more of my friends and family.
+[2] I don't want to talk about friends and family anymore.
+  >> 1
+    User says "I want to talk about some more of my friends and family."
+    Agent execute _GetPerson.
+    Agent says "Last time we talked about Bill, I remember that she was had a new grandchild."
+  > say
+[1]  Uh-huh.
+  >> 1
+    User says " Uh-huh."
+    Agent says "So is there anything else new with her ?"
+  > say
+[1] No not really.
+[2] Just more about the grandchild.
+[3]  she is fine.
+[4]  she isn't doing so well.
+  >> 3
+    User says " she is fine."
+    Agent says "Want to talk about another friend?"
+  > say
+[1] Yes.
+[2] No.
+[3] Stop achieve TalkAbout.
+  >> 1
+    User says "Yes."
+    Agent execute _GetPerson.
+    Agent says "Last time we talked about Sally, I remember that she was had a new grandchild."
+  > say
+[1] Yes, that's right .
+  >> 1
+    User says "Yes, that's right ."
+    Agent says "So is there anything else new with her ?"
+  > say
+[1] No not really.
+[2] Just more about the grandchild.
+[3]  she is fine.
+[4]  she isn't doing so well.
+  >> 4
+    User says " she isn't doing so well."
+    Agent says "Oh, what's wrong?"
+  > say
+[1]  she is ill.
+[2]   she had an accident.
+[3]  she lost a family member .
+[4]  she is pretty lonely.
+[5]  she is postponing a visit to me.
+  >> 3
+    User says " she lost a family member ."
+    Agent says "That's very sad."
+  > say
+[1] I don't really want to talk about it.
+[2] Yes, it's too bad after so long .
+  >> 2
+    User says "Yes, it's too bad after so long ."
+    Agent says "Did you know her family member? ."
+  > say
+[1] Oh yes, we go back years.
+[2] Only a bit.
+[3] No, not really.
+  >> 1
+    User says "Oh yes, we go back years."
+    Agent says "Please accept my condolences."
+  > say
+[1] Thank you.
+  >> 1
+    User says "Thank you."
+    Agent says "Well, it was nice talking about your friends and family with you."
+  > say
+[1] Let's achieve TalkAbout.
+  >> say
+    Not a number!
+  >> 1
+    User says "Let's achieve TalkAbout."
+    Agent execute _GetPerson.
+    Agent says "Last time we talked about Mary, I remember that she was had a new grandchild."
+  > say
+[1]  Uh-huh.
+  >> 1
+    User says " Uh-huh."
+    Agent says "So is there anything else new with her ?"
+  > say
+[1] No not really.
+[2] Just more about the grandchild.
+[3]  she is fine.
+[4]  she isn't doing so well.
+  >> 3
+    User says " she is fine."
+    Agent says "Want to talk about another friend?"
+  > say
+[1] Yes.
+[2] No.
+[3] Stop achieve TalkAbout.
+  >> 1
+    User says "Yes."
+    Agent execute _GetPerson.
+    Agent says "Last time we talked about Bill, I remember that she was had a new grandchild."
+  > say
+[1] Yes, that's right .
+  >> 1
+    User says "Yes, that's right ."
+    Agent says "So is there anything else new with her ?"
+  > say
+[1] No not really.
+[2] Just more about the grandchild.
+[3]  she is fine.
+[4]  she isn't doing so well.
+  >> 2
+    User says "Just more about the grandchild."
+    Agent says "I see."
+  > say
+[1] I want to talk about some more of my friends and family.
+[2] I don't want to talk about friends and family anymore.
+  >> 1
+    User says "I want to talk about some more of my friends and family."
+    Agent execute _GetPerson.
+    Agent says "Last time we talked about Sally, I remember that she was had a new grandchild."
+  > say
+[1]  Uh-huh.
+  >> 1
+    User says " Uh-huh."
+    Agent says "So is there anything else new with her ?"
+  > say
+[1] No not really.
+[2] Just more about the grandchild.
+[3]  she is fine.
+[4]  she isn't doing so well.
+  >> 1
+    User says "No not really."
+    Agent says "Okay."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Well, it was nice talking about your friends and family with you."
+  > say
+[1] Let's achieve TalkAbout.
+  >> 
+  > 

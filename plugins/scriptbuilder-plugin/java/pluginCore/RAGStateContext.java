@@ -16,8 +16,9 @@ import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
 
-public class RAGStateContext {
+public class RAGStateContext extends AdjacencyPair.Context {
 	public static int menuChoice = -1;
 	private final Keyboard keyboard;
 	private final UIMessageDispatcher dispatcher;
@@ -120,15 +121,20 @@ public class RAGStateContext {
 				outputOnly = false;
 			//getDSM output
 			output = DSM.getOutput().getOutput();
+			//System.out.println("outputraw:" + output);
+			output = output.replace("<speech>", "");
+			output = output.replace("</speech>", "");
+			Builder b;
+			String speechText = "";
 			output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<rag>" + output + "</rag>";
 			Document doc = documentBuilder.parse(new ByteArrayInputStream(output.getBytes("UTF-8")));
 			NodeList nodeList = doc.getChildNodes().item(0).getChildNodes();
-			Builder b;
-			String speechText = "";
 			for(int i = 0; i < nodeList.getLength(); i++){
 				Node tempNode = nodeList.item(i);
+				//System.out.println(tempNode.getNodeName());
 				switch(tempNode.getNodeName().toUpperCase()){
-					case "SPEECH":
+//					case "SPEECH":
+					case "#TEXT":
 						speechText += tempNode.getTextContent() + " ";
 						break;
 					case "PAGE":

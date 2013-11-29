@@ -33,6 +33,7 @@ public class ECAClient extends Client implements Runnable {
 
     @Override
 	public void run() {
+    	/*
 		try {
             while(clientListener!=null) {
                 String line=bufr.readLine();
@@ -46,7 +47,7 @@ public class ECAClient extends Client implements Runnable {
 				ex.printStackTrace();
 			}
 		    return;
-		}
+		}*/
     }
 
     /* ----- OUTPUT METHODS ----- */

@@ -42,7 +42,7 @@ public class WhatDo extends CalendarAdjacencyPairImpl {
    public static class RepeatEvent extends CalendarAdjacencyPairImpl {
 
       public RepeatEvent (final CalendarStateContext context) {
-         super("Is the event going to repeat?", context);
+         super("ok, now, is the event going to repeat?", context);
          choice("Yes, the event will repeat", new DialogStateTransition() {
 
             @Override
