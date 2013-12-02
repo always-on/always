@@ -6,7 +6,7 @@ import edu.wpi.disco.rt.menu.*;
 import edu.wpi.always.user.calendar.CalendarEntry;
 
 public class EnrollAdjacencyPairImpl 
-extends MultithreadAdjacencyPair<EnrollStateContext>{
+       extends MultithreadAdjacencyPair<EnrollStateContext>{
 
    public EnrollAdjacencyPairImpl (String message,
          EnrollStateContext context) {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.joda.time.LocalTime;
 import org.picocontainer.Characteristics;
 import org.picocontainer.MutablePicoContainer;
 
@@ -46,6 +47,8 @@ public abstract class Plugin {
       container = cm.getContainer();      
       interaction = container.getComponent(Interaction.class);
       InputStream stream = getClass().getResourceAsStream("resources/"+name+".owl");
+      if ( stream == null )
+         stream = getClass().getResourceAsStream(name+".owl");
       if ( stream != null ) {
          System.out.println("Loading "+name+".owl");
          ((OntologyUserModel) userModel).addAxioms(stream);
@@ -71,6 +74,7 @@ public abstract class Plugin {
          model.setUserName("TestPluginUser");
          System.out.println("User name: "+model.getUserName());
       }
+      SessionSchema.HOUR = LocalTime.now().getHourOfDay();
       always.start();
       return always;
    }

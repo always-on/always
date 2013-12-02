@@ -9,9 +9,11 @@
 
   <!-- **TODO** add applicability conditions to these toplevel activities if
                 they are restricted to acquaintance or companion  -->
-                
+                                
   <task id="GreetUser"/>
 
+  <!-- these will be presented to user in final menu in the order listed here -->                
+  
   <task id="UseCalendar"/>
   
   <task id="UseSkype"/>
@@ -19,6 +21,8 @@
   <task id="TalkAbout"/>
   	
   <task id="PlayRummy"/>
+  
+  <task id="PlayCheckers"/>
   
   <task id="PlayTicTacToe"/>
 
@@ -28,7 +32,15 @@
 
   <task id="ExplainSelf"/>
   
-  <task id="TellAnecdotes"/>
+  <task id="HearAnecdotes"/>
+  
+  <task id="PlanExercise"/>
+  
+  <task id="GetHealthTips"/>
+  
+  <task id="AdviseNutrition"/>
+  
+  <task id="TellStory"/>
   
   <script init="true">
 

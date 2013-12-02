@@ -4,7 +4,6 @@
        xmlns:t="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext">
 
   <t:script init="true">
-    var hour = Packages.org.joda.time.LocalTime.now().getHourOfDay();
     
     function getPoorSleepReports () {
        return $always.getUserModel().getIntProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS);
@@ -12,25 +11,141 @@
     
     function setPoorSleepReports (n) {
        $always.getUserModel().setProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS,
-            new java.lang.Integer(n));    
-    }
-       
+                    new java.lang.Integer(n));
+    } 
+    
+    var userName = $always.getUserModel().getUserFirstName();
+    var poorSleepreports= getPoorSleepReports();
+    
   </t:script>
 
-  <!-- TODO: _MorningGreetings -->
-  <agent id="_MorningGreetings" text="Good morning.">
-	<user text="Good morning."/>
-  </agent> 
+  <t:task id="_MorningGreetings">
+    <t:subtasks id="simple">
+      <t:step name="greet" task="_Morning"/>
+      <t:step name="sleep" task="_SleepWell"/>
+    </t:subtasks>
+  </t:task>
+
+  <t:task id="_MorningGreetingsCompanion">
+    <t:subtasks id="base">
+      <t:step name="greet" task="_Morning"/>
+      <t:step name="sleep" task="_SleepWellCompanion"/>
+    </t:subtasks>
+  </t:task>
+
+  <agent id="_Morning" text="Good morning, {userName}.">
+    <user text="Good morning."/>
+    <user text="oh morning already!  Good morning!"/>
+  </agent>
+
+  <agent id="_SleepWell" text="Did you sleep well?">
+    <user id="affirm" text="Yes">
+      <agent text="Are you feeling okay today?">
+        <user text="yes">
+          <agent text="good, glad to hear it"/>
+        </user>
+        <user text="No but it's nothing.">
+          <agent text="glad to hear it."/>
+        </user>
+        <user text="No, I am not feeling well">
+          <do task="_CallDoc" />
+        </user>
+      </agent>
+    </user>
+    <user id="neg" text="No I did not sleep well">
+      <agent id="feeling" text="oh, are you feeling sick?"
+             eval="poorSleepreports=poorSleepreports+1;
+                   println('poorSleepreports is now ' + poorSleepreports);
+                   setPoorSleepReports(poorSleepreports);" >
+        <user text="no">
+          <agent text="I hope you sleep better tonight" >
+            <user text="me too"/>
+            <user text="I probably will. Nothing to worry about."/>
+          </agent>
+        </user>
+        <user text="yes"> 
+          <do task="_CallDoc" />
+        </user>
+      </agent>
+    </user>
+  </agent>
+
+  <agent id="_CallDoc" text="do you think you should call your doctor?">
+    <user text="yes">
+      <agent text="ok, might be a good idea">
+        <user text="yes, I'll call"/> 
+        <user text="well, I think I'll call the doc later if I still don't feel good.">
+          <agent text="okay"/>  
+        </user>
+      </agent>
+    </user>
+    <user text="no">
+      <agent text="well, you know best.  I'm sorry you aren't feeling so good."/>
+    </user>
+  </agent>
+
+  <agent id="_SleepWellCompanion" text="Did you sleep well?">
+    <user id="yup" text="yes">
+      <agent text="Are you feeling okay?">
+        <user text="yes">
+          <agent text="good"/>
+        </user>
+        <user text="no but it's nothing.">
+          <agent text="glad to hear it."/>
+        </user>
+        <user text="No I don't feel so great">
+          <do task="_CallDoc" />
+        </user>
+      </agent>
+    </user>
+    <user text="no"
+          eval="poorSleepreports=poorSleepreports+1;
+                println('poorSleepreports is now ' + poorSleepreports);
+                setPoorSleepReports(poorSleepreports);"> 
+      <agent 
+          text="Oh, you aren't sleeping well.  Maybe you should consult your doctor" 
+          applicable="poorSleepreports &gt; 5" >
+        <user text="yes, I will next time I go to the doctor"/>
+        <user text="no I am just not a good sleeper" />
+        <user text="oh, it's not anything" >
+          <agent text="well, the doctor won't mind if you ask.">
+            <user text="okay"/>
+            <user text="maybe later" />
+          </agent>
+        </user>
+      </agent>
+      <agent 
+          text="Gee, that's rare for you.  Are you feeling okay?"
+          applicable="poorSleepreports &lt; 5">
+        <user text="yes" >
+          <agent text="good!"/>
+        </user>
+        <user text="no, but it's nothing.">
+          <agent text="okay"/> 
+        </user>
+        <user text="no, not so much" >
+          <agent text="mm, maybe you should give the doc's office a call later today." >
+            <user text="yeh, I think I will.">
+              <agent text="okay."/> 
+            </user>
+            <user  text="No, I'll be okay." >
+              <agent text="okay, your call.  Pun intended!"/>
+            </user>
+          </agent>
+        </user>
+      </agent>
+    </user>
+  </agent>
 
   <agent id="_AfternoonGreetings" text="How's your day going?">
     <user text="fine">  
       <agent text="good, glad to hear it"/>
     </user>
-    <user text="oh not so great">
+    <user text="Oh not so great">
       <agent text="sorry to hear it. Maybe it will improve">
-	<user text="hope so" />
-	<user text="it has to!" />
-	<user text="we'll see" />
+        <user text="I hope so" />
+        <user text="I think it will!" />
+        <user text="Maybe so, maybe no" />
       </agent>
     </user>
   </agent>
@@ -41,18 +156,48 @@
     </user>
     <user text="no, not really">
       <agent text="sorry to hear it. Maybe this evening will be better">
-	<user text="hope so" />
-	<user text="maybe" />
-	<user text="we'll see" />
+        <user text="Hope so" />
+        <user text="Possibly" />
+        <user text="Definitely" />
       </agent>
     </user>
     <user text="nothing special">
-      <agent text="some days are like that. There's still the evening to come!">
-	<user text="yes, so there is"/>
-	<user text="not expecting much" />
-	<user text="I'm looking forward to it" />
+      <agent text="Some days are like that. There's still the evening to come!">
+        <user text="Yes, so there is"/>
+        <user text="Not expecting much" />
+        <user text="I'm looking forward to it" />
       </agent>
     </user>
   </agent>
 
+  <agent id="_NightGreetings" text="Guess it's time to say good night|It's about time to say good night">
+    <user id="affirmGoodNight" text="Yes, good night">  
+      <agent text="Thanks, sleep well."/>
+    </user>
+    <user text="No yet.  I got things to do.">
+      <agent text="Well, okay, sleep well when you get there">
+        <user text="Good night">
+          <agent text="Good night!" />
+        </user>
+        <user text="Will do. Good night" >
+          <agent text="Good night!" />
+        </user>
+        <user text="Hope so. Good night" >
+          <agent text="Good night!" />
+        </user>
+      </agent>
+    </user>
+    <user text="No.  I plan to read a bit yet">
+      <agent text="Oh, well good night for later!">
+        <user text="Thanks, Good night"/>
+        <user text="Sleep well">
+          <agent text="You know, I don't really go to sleep.  But good night" />
+        </user>
+        <user text="I'm hoping for a good night's rest in a bit." >
+          <agent text="Good night"/>
+        </user>
+      </agent>
+    </user>
+  </agent>
+  
 </model>

@@ -8,7 +8,7 @@ public abstract class UserModelBase implements UserModel {
       if ( !INHIBIT_SAVE ) Always.THIS.getUserModel().save(); 
    }
    
-   protected String userName, userFirstName;
+   protected String userName = "", userFirstName = "";
    
    @Override
    public String getUserName () {

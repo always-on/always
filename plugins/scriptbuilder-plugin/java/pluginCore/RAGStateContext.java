@@ -16,8 +16,9 @@ import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
 
-public class RAGStateContext {
+public class RAGStateContext extends AdjacencyPair.Context {
 	public static int menuChoice = -1;
 	private final Keyboard keyboard;
 	private final UIMessageDispatcher dispatcher;
@@ -37,13 +38,16 @@ public class RAGStateContext {
 	
 	public static boolean isDone = false;
 	
+	public static String module;
+	
 	public RAGStateContext(Keyboard keyboard, UIMessageDispatcher dispatcher,
-			PlaceManager placeManager, PeopleManager peopleManager,Always always) {
+			PlaceManager placeManager, PeopleManager peopleManager,Always always, String module) {
 		this.keyboard = keyboard;
 		this.dispatcher = dispatcher;
 		this.placeManager = placeManager;
 		this.peopleManager = peopleManager;
 		this.userModel = always.getUserModel();
+		this.module = module;
 	}
 
 	public Keyboard getKeyboard() {
@@ -62,6 +66,21 @@ public class RAGStateContext {
 		//FIXME CLEAN THIS!
 		
 		String topScript = "top";
+		switch(module){
+			case "Anecdotes":
+				topScript = "StoryTop";
+				break;
+			case "Exercise":
+				topScript = "ExerciseTop";
+				break;
+			case "Nutrition":
+				topScript = "NutritionTop";
+				break;
+			case "Education":
+				topScript = "EducationTop";
+				break;
+		}
+		
 		int user_id = 1;
 		try {
 			ecaServer = new AAECAServer(null, topScript, user_id,userModel);
@@ -102,59 +121,59 @@ public class RAGStateContext {
 				outputOnly = false;
 			//getDSM output
 			output = DSM.getOutput().getOutput();
+			//System.out.println("outputraw:" + output);
+			output = output.replace("<speech>", "");
+			output = output.replace("</speech>", "");
+			Builder b;
+			String speechText = "";
 			output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<rag>" + output + "</rag>";
 			Document doc = documentBuilder.parse(new ByteArrayInputStream(output.getBytes("UTF-8")));
 			NodeList nodeList = doc.getChildNodes().item(0).getChildNodes();
-			Builder b;
 			for(int i = 0; i < nodeList.getLength(); i++){
 				Node tempNode = nodeList.item(i);
+				//System.out.println(tempNode.getNodeName());
 				switch(tempNode.getNodeName().toUpperCase()){
-					case "SPEECH":
-						b = Message.builder(tempNode.getNodeName());
-						b.add("text",tempNode.getTextContent());
-						messageQue.add(b.build());
+//					case "SPEECH":
+					case "#TEXT":
+						speechText += tempNode.getTextContent() + " ";
 						break;
 					case "PAGE":
 						break;
 					case "POSTURE":
+						speechText += "<POSTURE/> ";
 						break;
 					case "CAMERA":
+						speechText += "<CAMERA " + tempNode.getAttributes().getNamedItem("zoom") + "/> ";
 						break;
 					case "FACE":
-						b = Message.builder("express");
-//						b.add("expression",tempNode.getAttributes().getNamedItem("EXPR").getNodeValue());
-						b.add("expression","Concern");
-						//messageQue.add(b.build());
+						speechText += "<FACE " + tempNode.getAttributes().getNamedItem("expr") + "/> ";
 						break;
 					case "EYEBROWS":
-						System.out.println("EYEBROWS Called");
+						speechText += "<EYEBROWS " + tempNode.getAttributes().getNamedItem("DIR") + "/> ";
 						break;
 					case "SHOW_MENU":
+						System.out.println("ERROR: GOT SHOW_MENU!");
 						break;
 					case "GESTURE":
+						speechText += "<GESTURE " + tempNode.getAttributes().getNamedItem("hand")
+								+ " " + tempNode.getAttributes().getNamedItem("cmd") + "/> ";
 						break;
 					case "DELAY":
+						speechText += "<DELAY " + tempNode.getAttributes().getNamedItem("ms") + "/> ";
 						break;
 					case "GAZE":
+						//TODO: SUPPORT BOTH VERSIONS OF GAZE
+						//speechText += "<GAZE " + tempNode.getAttributes().getNamedItem("dir") + "/> ";
 						break;
 					default:
 						System.out.println("Default triggered with:" + tempNode.getNodeName().toUpperCase());
-						/*
-						if(tempNode.hasAttributes()){
-							NamedNodeMap nodeMap = tempNode.getAttributes();
-							for(int j = 0; j < nodeMap.getLength(); j++){
-								Node node = nodeMap.item(j);
-								b.add(node.getNodeName(), node.getNodeValue());
-							}
-						}
-						messageQue.add(b.build());*/
 						break;
 				}
+				
 			}
-			/*if(DSM.getStateType() == DialogueState.OUTPUT_ONLY){
-				menuChoice = 0;
-				populateDialogue();
-			}*/
+			b = Message.builder("speech");
+			b.add("text",speechText);
+			messageQue.add(b.build());
 			
 		} catch(Exception e){
 			if(DSM.stack.empty()){

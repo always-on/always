@@ -1,7 +1,8 @@
 <d:model about="urn:always.wpi.edu:Stranger"
        xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
        xmlns:d="http://www.cs.wpi.edu/~rich/d4g"
-       xmlns:a="urn:always.wpi.edu:Activities">
+       xmlns:a="urn:always.wpi.edu:Activities"
+       xmlns:g="urn:always.wpi.edu:models:Greetings">
 
   <!-- Session model for strangers (temporary version)
 
@@ -12,7 +13,8 @@
 
   <task id="_Session">
     <subtasks id="_s1">
-      <step name="greet" task="_Greetings"/>
+      <step name="demo" task="_Demo"/>
+      <step name="greet" task="g:_Greetings"/>
       <step name="enroll" task="a:EnrollUser" minOccurs="0"/>	
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
       <step name="explain" task="a:ExplainSelf" minOccurs="0"/>	
@@ -23,8 +25,8 @@
   <!--  when session "falls off the end" of this plan, it will
         default to toplevel activities. -->
 
-  <d:agent id="_Greetings" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; &lt;HEADNOD/&gt; &lt;EYEBROWS DIR=UP/&gt; Hello &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; &lt;GAZE horizontal=\&quot;-1\&quot; vertical=\&quot;1\&quot;/&gt; &lt;DELAY MS=\&quot;2000\&quot;/&gt; &lt;GAZE horizontal=\&quot;0\&quot; vertical=\&quot;0\&quot;/&gt; &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; &lt;EYEBROWS DIR=DOWN/&gt; ">
-    <d:user text="Hi"/>
+  <d:agent id="_Demo" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; &lt;HEADNOD/&gt; &lt;EYEBROWS DIR=UP/&gt; I am testing markups. &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; &lt;GAZE horizontal=\&quot;-1\&quot; vertical=\&quot;1\&quot;/&gt; &lt;DELAY MS=\&quot;2000\&quot;/&gt; &lt;GAZE horizontal=\&quot;0\&quot; vertical=\&quot;0\&quot;/&gt; &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; &lt;EYEBROWS DIR=DOWN/&gt; ">
+    <d:user text="Ok"/>
   </d:agent>
 
 </d:model>

@@ -1,0 +1,468 @@
+    # Nov 19, 2013 3:17:07 PM - TaskEngine 1.5.1 / Disco 1.7.1
+    Welcome to Disco! (Type 'help' for command list)
+  > load java/edu/wpi/always/greetings/resources/Greetings.xml
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
+    Agent says "Good morning, Diane."
+  > say
+[1] Good morning.
+[2] Oh morning already!  Good morning!
+  >> 2
+    User says "Oh morning already!  Good morning!"
+    Agent says "Did you sleep well?"
+  > say
+[1] Yes.
+[2] No I did not sleep well.
+  >> 1
+    User says "Yes."
+    Agent says "Are you feeling okay today?"
+  > say
+[1] Yes.
+[2] No but it's nothing.
+[3] No, I am not feeling well.
+  >> 1
+    User says "Yes."
+    Agent says "Good, glad to hear it."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
+    Agent says "Good morning, Diane."
+  > say
+[1] Good morning.
+[2] Oh morning already!  Good morning!
+  >> 1
+    User says "Good morning."
+    Agent says "Did you sleep well?"
+  > say
+[1] Yes.
+[2] No I did not sleep well.
+  >> 2
+    User says "No I did not sleep well."
+poorSleepreports is now 1
+    Agent says "Oh, are you feeling sick?"
+  > say
+[1] No.
+[2] Yes.
+  >> 1
+    User says "No."
+    Agent says "I hope you sleep better tonight."
+  > say
+[1] Me too.
+[2] I probably will. Nothing to worry about.
+  >> 1
+    User says "Me too."
+    Agent says "Ok."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
+    Agent says "Good morning, Diane."
+  > say
+[1] Good morning.
+[2] Oh morning already!  Good morning!
+  >> 1
+    User says "Good morning."
+    Agent says "Did you sleep well?"
+  > say
+[1] Yes.
+[2] No I did not sleep well.
+  >> 2
+    User says "No I did not sleep well."
+poorSleepreports is now 2
+    Agent says "Oh, are you feeling sick?"
+  > say
+[1] No.
+[2] Yes.
+  >> 2
+    User says "Yes."
+    Agent says "Do you think you should call your doctor?"
+  > say
+[1] Yes.
+[2] No.
+  >> 1
+    User says "Yes."
+    Agent says "Ok, might be a good idea."
+  > say
+[1] Yes, I'll call.
+[2] Well, I think I'll call the doc later if I still don't feel good.
+  >> 1
+    User says "Yes, I'll call."
+    Agent says "Ok."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
+    Agent says "Good morning, Diane."
+  > say
+[1] Good morning.
+[2] Oh morning already!  Good morning!
+  >> 1
+    User says "Good morning."
+    Agent says "Did you sleep well?"
+  > sa
+    Invalid command. Type 'help' for commands.
+  > say
+[1] Yes.
+[2] No I did not sleep well.
+  >> 2
+    User says "No I did not sleep well."
+poorSleepreports is now 3
+    Agent says "Oh, are you feeling sick?"
+  > say
+[1] No.
+[2] Yes.
+  >> 1
+    User says "No."
+    Agent says "I hope you sleep better tonight."
+  > say
+[1] Me too.
+[2] I probably will. Nothing to worry about.
+  >> 2
+    User says "I probably will. Nothing to worry about."
+    Agent says "Ok."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
+    Agent says "Good morning, Diane."
+  > say
+[1] Good morning.
+[2] Oh morning already!  Good morning!
+  >> 1
+    User says "Good morning."
+    Agent says "Did you sleep well?"
+  > say
+[1] Yes.
+[2] No I did not sleep well.
+  >> 2
+    User says "No I did not sleep well."
+poorSleepreports is now 4
+    Agent says "Oh, are you feeling sick?"
+  > say
+[1] No.
+[2] Yes.
+  >> 2
+    User says "Yes."
+    Agent says "Do you think you should call your doctor?"
+  > say
+[1] Yes.
+[2] No.
+  >> 2
+    User says "No."
+    Agent says "Well, you know best.  I'm sorry you aren't feeling so good."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
+    Agent says "Good morning, Diane."
+  > say
+[1] Good morning.
+[2] Oh morning already!  Good morning!
+  >> 2
+    User says "Oh morning already!  Good morning!"
+    Agent says "Did you sleep well?"
+  > say
+[1] Yes.
+[2] No I did not sleep well.
+  >> 2
+    User says "No I did not sleep well."
+poorSleepreports is now 5
+    Agent says "Oh, are you feeling sick?"
+  > say
+[1] No.
+[2] Yes.
+  >> 2
+    User says "Yes."
+    Agent says "Do you think you should call your doctor?"
+  > say
+[1] Yes.
+[2] No.
+  >> 1
+    User says "Yes."
+    Agent says "Ok, might be a good idea."
+  > say
+[1] Yes, I'll call.
+[2] Well, I think I'll call the doc later if I still don't feel good.
+  >> 2
+    User says "Well, I think I'll call the doc later if I still don't feel good."
+    Agent says "Okay."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _AfternoonGreetings
+    User says "Let's achieve _AfternoonGreetings."
+    Agent says "How's your day going?"
+  > say
+[1] Fine.
+[2] Oh not so great.
+  >> 1
+    User says "Fine."
+    Agent says "Good, glad to hear it."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _AfternoonGreetings
+    User says "Let's achieve _AfternoonGreetings."
+    Agent says "How's your day going?"
+  > say
+[1] Fine.
+[2] Oh not so great.
+  >> 2
+    User says "Oh not so great."
+    Agent says "Sorry to hear it. Maybe it will improve."
+  > say
+[1] I hope so.
+[2] I think it will!
+[3] Maybe so, maybe no.
+  >> 1
+    User says "I hope so."
+    Agent says "Ok."
+  > task _EveningGreetings
+    User says "Let's achieve _EveningGreetings."
+    Agent says "So had a good day?"
+  > say
+[1] Yes, a good one.
+[2] No, not really.
+[3] Nothing special.
+  >> 1
+    User says "Yes, a good one."
+    Agent says "Good, glad to hear it."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _EveningGreetings
+    User says "Let's achieve _EveningGreetings."
+    Agent says "So had a good day?"
+  > say
+[1] Yes, a good one.
+[2] No, not really.
+[3] Nothing special.
+  >> 2
+    User says "No, not really."
+    Agent says "Sorry to hear it. Maybe this evening will be better."
+  > say
+[1] Hope so.
+[2] Possibly.
+[3] Definitely.
+  >> 2
+    User says "Possibly."
+    Agent says "Ok."
+  > say
+[1] Ok.
+  >> task _AfternoonGreetings
+    Not a number!
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _AfternoonGreetings
+    User says "Let's achieve _AfternoonGreetings."
+    Agent says "How's your day going?"
+  > say
+[1] Fine.
+[2] Oh not so great.
+  >> 2
+    User says "Oh not so great."
+    Agent says "Sorry to hear it. Maybe it will improve."
+  > say
+[1] I hope so.
+[2] I think it will!
+[3] Maybe so, maybe no.
+  >> 3
+    User says "Maybe so, maybe no."
+    Agent says "Ok."
+  > task _EveningGreetings
+    User says "Let's achieve _EveningGreetings."
+    Agent says "So had a good day?"
+  > say
+[1] Yes, a good one.
+[2] No, not really.
+[3] Nothing special.
+  >> 2
+    User says "No, not really."
+    Agent says "Sorry to hear it. Maybe this evening will be better."
+  > say
+[1] Hope so.
+[2] Possibly.
+[3] Definitely.
+  >> 3
+    User says "Definitely."
+    Agent says "Ok."
+  > task _NightGreetings
+    User says "Let's achieve _NightGreetings."
+    Agent says "Guess it's time to say good night."
+  > say
+[1] Yes, good night.
+[2] No yet.  I got things to do.
+[3] No.  I plan to read a bit yet.
+  >> 1
+    User says "Yes, good night."
+    Agent says "Thanks, sleep well."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _NightGreetings
+    User says "Let's achieve _NightGreetings."
+    Agent says "It's about time to say good night."
+  > say
+[1] Yes, good night.
+[2] No yet.  I got things to do.
+[3] No.  I plan to read a bit yet.
+  >> 2
+    User says "No yet.  I got things to do."
+    Agent says "Well, okay, sleep well when you get there."
+  > say
+[1] Good night.
+[2] Will do. Good night.
+[3] Hope so. Good night.
+  >> 1
+    User says "Good night."
+    Agent says "Good night!"
+  > task _NightGreetings
+    User says "Let's achieve _NightGreetings."
+    Agent says "Guess it's time to say good night."
+  > say
+[1] Yes, good night.
+[2] No yet.  I got things to do.
+[3] No.  I plan to read a bit yet.
+  >> 3
+    User says "No.  I plan to read a bit yet."
+    Agent says "Oh, well good night for later!"
+  > say
+[1] Thanks, Good night.
+[2] Sleep well.
+[3] I'm hoping for a good night's rest in a bit.
+  >> 2
+    User says "Sleep well."
+    Agent says "You know, I don't really go to sleep.  But good night."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _NightGreetings
+    User says "Let's achieve _NightGreetings."
+    Agent says "It's about time to say good night."
+  > say
+[1] Yes, good night.
+[2] No yet.  I got things to do.
+[3] No.  I plan to read a bit yet.
+  >> 3
+    User says "No.  I plan to read a bit yet."
+    Agent says "Oh, well good night for later!"
+  > say
+[1] Thanks, Good night.
+[2] Sleep well.
+[3] I'm hoping for a good night's rest in a bit.
+  >> 3
+    User says "I'm hoping for a good night's rest in a bit."
+    Agent says "Good night."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _MorningGreetingsCompanion
+    User says "Let's achieve _MorningGreetingsCompanion."
+    Agent says "Good morning, Diane."
+  > say
+[1] Good morning.
+[2] Oh morning already!  Good morning!
+  >> 1
+    User says "Good morning."
+    Agent says "Did you sleep well?"
+  > say
+[1] Yes.
+[2] No.
+  >> 1
+    User says "Yes."
+    Agent says "Are you feeling okay?"
+  > say
+[1] Yes.
+[2] No but it's nothing.
+[3] No I don't feel so great.
+  >> 1
+    User says "Yes."
+    Agent says "Good."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _MorningGreetingsCompanion
+    User says "Let's achieve _MorningGreetingsCompanion."
+    Agent says "Good morning, Diane."
+  > say
+[1] Good morning.
+[2] Oh morning already!  Good morning!
+  >> 1
+    User says "Good morning."
+    Agent says "Did you sleep well?"
+  > say
+[1] Yes.
+[2] No.
+  >> 2
+poorSleepreports is now 6
+    User says "No."
+    Agent says "Oh, you aren't sleeping well.  Maybe you should consult your doctor."
+  > say
+[1] Yes, I will next time I go to the doctor.
+[2] No I am just not a good sleeper.
+[3] Oh, it's not anything.
+  >> 2
+    User says "No I am just not a good sleeper."
+    Agent says "Ok."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > task _MorningGreetingsCompanion
+    User says "Let's achieve _MorningGreetingsCompanion."
+    Agent says "Good morning, Diane."
+  > say
+[1] Good morning.
+[2] Oh morning already!  Good morning!
+  >> 1
+    User says "Good morning."
+    Agent says "Did you sleep well?"
+  > say
+[1] Yes.
+[2] No.
+  >> 2
+poorSleepreports is now 7
+    User says "No."
+    Agent says "Oh, you aren't sleeping well.  Maybe you should consult your doctor."
+  > say
+[1] Yes, I will next time I go to the doctor.
+[2] No I am just not a good sleeper.
+[3] Oh, it's not anything.
+  >> 3
+    User says "Oh, it's not anything."
+    Agent says "Well, the doctor won't mind if you ask."
+  > say
+[1] Okay.
+[2] Maybe later.
+  >> 2
+    User says "Maybe later."
+    Agent says "Ok."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Ok."
+  > quit
+    

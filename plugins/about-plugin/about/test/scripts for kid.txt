@@ -1,0 +1,137 @@
+Scripts for talk about child
+
+  for x in {list of children in family & friends not discussed in last 2 days + family & friends in acute state}
+
+
+Def:  Want to talk about x
+        Precond: if not x=nil   
+
+   Do you want to talk about x
+	no, I don't want to talk about anyone  return 
+	no, for now I'm done talking about kids return 
+	yes  return true
+	I'd rather talk about another kid
+	  oh who?  Please type the name
+		x = <name>
+		return true
+
+Def: How's x doing
+     input x
+	if gender x = male, pronounObj==him; pronounSubj==he pronounPoss==his else pronounObj==her; pronounSubj==she; pronounPoss==her;
+	precond status (x)==nil  //this means the user has not talked about x before
+
+  over all, pretty good
+       What's the news from {pronounObj}
+       	      no news really
+	     {pronounSubj} 	
+	      	     good work in school
+		     	 oh really.  How nice! 
+		     {pronounPoss} sports team won a game
+		     	 Wow, that's great news. {pronounSubj} must be proud.
+			      yes, I'm happy.
+			      well, I don't know much about how {pronounSubj} feels, but I think it's a good thing.
+		     had a birthday
+		     	 oh, was there a party?
+			     yes.  How old is {pronounSubj} now?
+			        <fill in info with keyboard>
+			     yes, and I went.
+			       that's wonderful.  How old is {pronounSubj} now?
+			            <fill in info with keyboard>
+			     no.
+		     	       how old is {pronounSubj} now?
+			         <fill in info with keyboard>  
+
+		     got a pet
+		     	 What kind of pet?  What's its name?
+			   <fill in info with keyboard}
+			   I don't know.
+		     went on a trip
+		     	   Oh, where? 
+			    <user types in>
+			      did {pronounSubj} have a good time?
+			        yes, I think so.
+				no, I don't think so.
+				I'm not sure.
+				  why don't you call {pronounObj} and find out?
+		     is coming to visit me
+		     	   Oh, that's nice.  When?
+			       next week
+			       next month
+			       tomorrow
+			       not sure yet.
+		     other <type in>
+		     	   well, I'll keep that in mind.
+ //must store what has been learned in the OWL structures
+
+  Not so great
+      {pronounSubj} is ill
+      	     I hope it's not serious	
+	       well, it is.  I'm worried.
+	       	     if you haven't talked to {pronounObj}, why don't you give {pronounObj} a call?
+		     	yes I think I"ll do that.  
+			I did just recently.
+	       not it's not.   
+      {pronounSubj} broke a bone.
+      	     Is {pronounSubj} in the hospital?
+	     	 yes, for a long time
+		      oh dear.  Can you go visit?
+		      	 yes, {pronounSubj} is nearby.
+			 no, {pronounSubj} is too far away.
+			     how about a nice card?  ALways great to get those.
+			     	 yes, good idea.
+				 well, maybe
+		 yes, but not for long.
+		    oh dear.  Can you go visit?
+		      	 yes, {pronounSubj} is nearby.
+			 no, {pronounSubj} is too far away.
+			     how about a nice card?  ALways great to get those.
+			     	 yes, good idea.
+				 well, maybe
+		 no, but {pronounSubj} isn't getting around much.
+		     I'm sure a phone call will be much appreciated.
+		 no, but {pronounSubj} got kind of shook up by it.
+		     yes, that's natural.  
+      {pronounSubj} isn't getting along with {pronounPoss} parents
+      	     oh, dear, that's hard for everyone. I hope it will pass.
+	     	 yes, me too.
+		 that child is not easy to live with.
+      {pronounSubj} is postponing a visit to me 
+      	     oh, that's too bad.  Any chance of a visit later?
+	        yes
+		no
+		maybe.
+  getting better	   
+  	  That's good to hear.  
+
+-------------------
+For all of these need to update user model with person and most recent state.
+
+When x is already in user model:
+
+How is x doing?  I remember that last we talked about {pronounObj}, {pronounSubj} was  {Status x}
+  yes
+  uh-huh
+
+<For positive events, minor negative ones> What's the news?  <repeat as above>
+
+<For negative events/state> Is she/he 
+     <if ill, bad accident> recovering?
+     	 yes pretty well
+	 no, still in the hospital
+	 yes, but she's not completely better
+
+  <if school problems, family problems> 
+  	is {pronounSubj} still having {problem type}?
+		yes
+		  oh, that's too bad.  I hope it improves
+		no, {pronounSubj}  is doing better in school
+		no, the family seems to have solved their problems
+	
+     <if postponed visit>  going to come to see you?
+     	  yes, he/she coming next week
+	  yes, he/she coming next month
+	  yes, he/she's coming tomorrow
+	  yes, but not sure when.
+	       (for all) terrific.  You can introduce me!
+	  no.
+		Oh, that's disappointing.
