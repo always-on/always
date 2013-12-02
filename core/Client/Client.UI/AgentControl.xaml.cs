@@ -67,9 +67,7 @@ namespace Agent.UI
             switch (e.eventType)
             {
                 case "viseme":
-                    Console.WriteLine("Viseme happened: " + e.eventValue); // Put Reeti code here
-
-                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror)) //Temp
+                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
                         AgentTranslate.TranslateToReetiCommand("speech", "BEGINSPEECH");
                     break;
                 case "bookmark":
@@ -77,7 +75,7 @@ namespace Agent.UI
                         AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "end":
-                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror)) //Temp
+                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
                         AgentTranslate.TranslateToReetiCommand("speech", "ENDSPEECH");
 
                     ActionDone(this,new ActionDoneEventArgs("speech", e.sourceUtterance));
