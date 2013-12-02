@@ -6,13 +6,10 @@ import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
 public abstract class ShoreFacePerceptor implements FacePerceptor {
-<<<<<<< HEAD
-=======
 
    protected FaceInfo getFaceInfo (int debug) {
       return null;
    }
->>>>>>> upstream/develop
 
    public abstract void start ();
 
