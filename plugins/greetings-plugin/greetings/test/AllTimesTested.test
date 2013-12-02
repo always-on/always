@@ -1,14 +1,8 @@
     # Nov 19, 2013 3:17:07 PM - TaskEngine 1.5.1 / Disco 1.7.1
     Welcome to Disco! (Type 'help' for command list)
-  > task FirstThingStrangerAcq
-java.lang.IllegalArgumentException: Unknown task id FirstThingStrangerAcq
-at edu.wpi.cetask.Shell.processTask(Shell.java:525)
   > load java/edu/wpi/always/greetings/resources/Greetings.xml
-the user's name is =Diane    > task FirstThingStrangerAcq
-java.lang.IllegalArgumentException: Unknown task id FirstThingStrangerAcq
-at edu.wpi.cetask.Shell.processTask(Shell.java:525)
-  > task _FirstThingStrangerAcq
-    User says "Let's achieve _FirstThingStrangerAcq."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
     Agent says "Good morning, Diane."
   > say
 [1] Good morning.
@@ -34,8 +28,8 @@ at edu.wpi.cetask.Shell.processTask(Shell.java:525)
   >> 1
     User says "Ok."
     Agent says "Ok."
-  > task _FirstThingStrangerAcq
-    User says "Let's achieve _FirstThingStrangerAcq."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
     Agent says "Good morning, Diane."
   > say
 [1] Good morning.
@@ -48,7 +42,8 @@ at edu.wpi.cetask.Shell.processTask(Shell.java:525)
 [2] No I did not sleep well.
   >> 2
     User says "No I did not sleep well."
-poorSleepreport is now1    Agent says "Oh, are you feeling sick?"
+poorSleepreports is now 1
+    Agent says "Oh, are you feeling sick?"
   > say
 [1] No.
 [2] Yes.
@@ -61,8 +56,8 @@ poorSleepreport is now1    Agent says "Oh, are you feeling sick?"
   >> 1
     User says "Me too."
     Agent says "Ok."
-  > task _FirstThingStrangerAcq
-    User says "Let's achieve _FirstThingStrangerAcq."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
     Agent says "Good morning, Diane."
   > say
 [1] Good morning.
@@ -75,7 +70,8 @@ poorSleepreport is now1    Agent says "Oh, are you feeling sick?"
 [2] No I did not sleep well.
   >> 2
     User says "No I did not sleep well."
-poorSleepreport is now2    Agent says "Oh, are you feeling sick?"
+poorSleepreports is now 2
+    Agent says "Oh, are you feeling sick?"
   > say
 [1] No.
 [2] Yes.
@@ -94,8 +90,8 @@ poorSleepreport is now2    Agent says "Oh, are you feeling sick?"
   >> 1
     User says "Yes, I'll call."
     Agent says "Ok."
-  > task _FirstThingStrangerAcq
-    User says "Let's achieve _FirstThingStrangerAcq."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
     Agent says "Good morning, Diane."
   > say
 [1] Good morning.
@@ -110,7 +106,8 @@ poorSleepreport is now2    Agent says "Oh, are you feeling sick?"
 [2] No I did not sleep well.
   >> 2
     User says "No I did not sleep well."
-poorSleepreport is now3    Agent says "Oh, are you feeling sick?"
+poorSleepreports is now 3
+    Agent says "Oh, are you feeling sick?"
   > say
 [1] No.
 [2] Yes.
@@ -128,8 +125,8 @@ poorSleepreport is now3    Agent says "Oh, are you feeling sick?"
   >> 1
     User says "Ok."
     Agent says "Ok."
-  > task _FirstThingStrangerAcq
-    User says "Let's achieve _FirstThingStrangerAcq."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
     Agent says "Good morning, Diane."
   > say
 [1] Good morning.
@@ -142,7 +139,8 @@ poorSleepreport is now3    Agent says "Oh, are you feeling sick?"
 [2] No I did not sleep well.
   >> 2
     User says "No I did not sleep well."
-poorSleepreport is now4    Agent says "Oh, are you feeling sick?"
+poorSleepreports is now 4
+    Agent says "Oh, are you feeling sick?"
   > say
 [1] No.
 [2] Yes.
@@ -160,8 +158,8 @@ poorSleepreport is now4    Agent says "Oh, are you feeling sick?"
   >> 1
     User says "Ok."
     Agent says "Ok."
-  > task _FirstThingStrangerAcq
-    User says "Let's achieve _FirstThingStrangerAcq."
+  > task _MorningGreetings
+    User says "Let's achieve _MorningGreetings."
     Agent says "Good morning, Diane."
   > say
 [1] Good morning.
@@ -174,7 +172,8 @@ poorSleepreport is now4    Agent says "Oh, are you feeling sick?"
 [2] No I did not sleep well.
   >> 2
     User says "No I did not sleep well."
-poorSleepreport is now5    Agent says "Oh, are you feeling sick?"
+poorSleepreports is now 5
+    Agent says "Oh, are you feeling sick?"
   > say
 [1] No.
 [2] Yes.
@@ -300,8 +299,8 @@ poorSleepreport is now5    Agent says "Oh, are you feeling sick?"
   >> 3
     User says "Definitely."
     Agent says "Ok."
-  > task _GoodNight
-    User says "Let's achieve _GoodNight."
+  > task _NightGreetings
+    User says "Let's achieve _NightGreetings."
     Agent says "Guess it's time to say good night."
   > say
 [1] Yes, good night.
@@ -315,8 +314,8 @@ poorSleepreport is now5    Agent says "Oh, are you feeling sick?"
   >> 1
     User says "Ok."
     Agent says "Ok."
-  > task _GoodNight
-    User says "Let's achieve _GoodNight."
+  > task _NightGreetings
+    User says "Let's achieve _NightGreetings."
     Agent says "It's about time to say good night."
   > say
 [1] Yes, good night.
@@ -329,13 +328,11 @@ poorSleepreport is now5    Agent says "Oh, are you feeling sick?"
 [1] Good night.
 [2] Will do. Good night.
 [3] Hope so. Good night.
-[4] Good night.
   >> 1
-Ignoring ambiguity of 2
     User says "Good night."
     Agent says "Good night!"
-  > task _GoodNight
-    User says "Let's achieve _GoodNight."
+  > task _NightGreetings
+    User says "Let's achieve _NightGreetings."
     Agent says "Guess it's time to say good night."
   > say
 [1] Yes, good night.
@@ -356,8 +353,8 @@ Ignoring ambiguity of 2
   >> 1
     User says "Ok."
     Agent says "Ok."
-  > task _GoodNight
-    User says "Let's achieve _GoodNight."
+  > task _NightGreetings
+    User says "Let's achieve _NightGreetings."
     Agent says "It's about time to say good night."
   > say
 [1] Yes, good night.
@@ -378,8 +375,8 @@ Ignoring ambiguity of 2
   >> 1
     User says "Ok."
     Agent says "Ok."
-  > task _FirstThingCompanion
-    User says "Let's achieve _FirstThingCompanion."
+  > task _MorningGreetingsCompanion
+    User says "Let's achieve _MorningGreetingsCompanion."
     Agent says "Good morning, Diane."
   > say
 [1] Good morning.
@@ -405,8 +402,8 @@ Ignoring ambiguity of 2
   >> 1
     User says "Ok."
     Agent says "Ok."
-  > task _FirstThingCompanion
-    User says "Let's achieve _FirstThingCompanion."
+  > task _MorningGreetingsCompanion
+    User says "Let's achieve _MorningGreetingsCompanion."
     Agent says "Good morning, Diane."
   > say
 [1] Good morning.
@@ -418,7 +415,8 @@ Ignoring ambiguity of 2
 [1] Yes.
 [2] No.
   >> 2
-poorSleepreport is now6    User says "No."
+poorSleepreports is now 6
+    User says "No."
     Agent says "Oh, you aren't sleeping well.  Maybe you should consult your doctor."
   > say
 [1] Yes, I will next time I go to the doctor.
@@ -432,8 +430,8 @@ poorSleepreport is now6    User says "No."
   >> 1
     User says "Ok."
     Agent says "Ok."
-  > task _FirstThingCompanion
-    User says "Let's achieve _FirstThingCompanion."
+  > task _MorningGreetingsCompanion
+    User says "Let's achieve _MorningGreetingsCompanion."
     Agent says "Good morning, Diane."
   > say
 [1] Good morning.
@@ -445,7 +443,8 @@ poorSleepreport is now6    User says "No."
 [1] Yes.
 [2] No.
   >> 2
-poorSleepreport is now7    User says "No."
+poorSleepreports is now 7
+    User says "No."
     Agent says "Oh, you aren't sleeping well.  Maybe you should consult your doctor."
   > say
 [1] Yes, I will next time I go to the doctor.
