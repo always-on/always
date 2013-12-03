@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.joda.time.LocalTime;
 import org.picocontainer.Characteristics;
 import org.picocontainer.MutablePicoContainer;
 
 import edu.wpi.always.cm.CollaborationManager;
-import edu.wpi.always.cm.schemas.ActivitySchema;
+import edu.wpi.always.cm.schemas.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.TaskClass;
@@ -46,6 +47,8 @@ public abstract class Plugin {
       container = cm.getContainer();      
       interaction = container.getComponent(Interaction.class);
       InputStream stream = getClass().getResourceAsStream("resources/"+name+".owl");
+      if ( stream == null )
+         stream = getClass().getResourceAsStream(name+".owl");
       if ( stream != null ) {
          System.out.println("Loading "+name+".owl");
          ((OntologyUserModel) userModel).addAxioms(stream);
@@ -71,6 +74,7 @@ public abstract class Plugin {
          model.setUserName("TestPluginUser");
          System.out.println("User name: "+model.getUserName());
       }
+      SessionSchema.HOUR = LocalTime.now().getHourOfDay();
       always.start();
       return always;
    }
@@ -265,7 +269,8 @@ public abstract class Plugin {
       ActivitySchema activity = null;
       for (Class<? extends Schema> schema : schemas.get(name)) {
         Schema instance = cm.getContainer().getComponent(SchemaManager.class).start(schema);
-        if ( instance instanceof ActivitySchema ) activity = (ActivitySchema) instance;
+        if ( instance instanceof ActivitySchema ) 
+           activity = (ActivitySchema) instance;
       }
       if ( activity == null ) throw new IllegalStateException("No activity schema for: "+name);
       return activity;
@@ -338,13 +343,23 @@ public abstract class Plugin {
    }
 
    public static Plugin getPlugin (TaskClass task, MutablePicoContainer container) {
+      Class<? extends Plugin> plugin = getPlugin(task);
+      Plugin instance = (Plugin) container.getComponent(plugin);  
+      if ( instance != null ) return instance;
+      container.as(Characteristics.CACHE).addComponent(plugin);
+      return (Plugin) container.getComponent(plugin);  
+   }
+
+   private final static List<Class<? extends Plugin>> plugins = new ArrayList<Class<? extends Plugin>>();
+   
+   public static List<Class<? extends Plugin>> getPlugins () { return plugins; }
+   
+   public static Class<? extends Plugin> getPlugin (TaskClass task) {
       String plugin = task.getEngine().getProperty(getActivity(task)+"@plugin");
       try { 
-         Class<?> cls = Class.forName(plugin);
-         Plugin instance = (Plugin) container.getComponent(cls);  
-         if ( instance != null ) return instance;
-         container.as(Characteristics.CACHE).addComponent(cls);
-         return (Plugin) container.getComponent(cls);  
+         Class<? extends Plugin> cls = (Class<? extends Plugin>) Class.forName(plugin);
+         plugins.add(cls);
+         return cls;
       } catch (ClassNotFoundException e) {
          throw new RuntimeException("Plugin not found for task "+task, e);
       }

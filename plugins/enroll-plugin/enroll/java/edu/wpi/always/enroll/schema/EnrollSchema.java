@@ -10,7 +10,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public class EnrollSchema extends ActivityStateMachineKeyboardSchema {
+public class EnrollSchema extends ActivityStateMachineKeyboardSchema<EnrollStateContext> {
 
    public EnrollSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -23,5 +23,6 @@ public class EnrollSchema extends ActivityStateMachineKeyboardSchema {
          new InitialEnroll(new EnrollStateContext(
             keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)),
          behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard);
+      setSelfStop(true);
    }
 }

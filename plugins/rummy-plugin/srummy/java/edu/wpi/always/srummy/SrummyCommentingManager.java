@@ -38,7 +38,7 @@ public class SrummyCommentingManager extends CommentingManager {
 
       try{
 
-         Document xmldoc = (Document) builder.build(commentLibraryFile);
+         Document xmldoc = builder.build(commentLibraryFile);
          Element rootNode = xmldoc.getRootElement();
 
          libHandler.addTheseGameSpecificComments(rootNode);

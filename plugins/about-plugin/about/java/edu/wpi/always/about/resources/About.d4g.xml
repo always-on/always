@@ -10,20 +10,7 @@
     var holiday = false ;
     var holidayType = "July4th";
 
-    //for testing; need these variables but they will be set from UM in integrated system
-    //var familyFriendsList = new Array("Mary", "Bill", "Sally");
-    //var famFriend = "Jill";  //just set to indicate famFriend is string
-    //status comes from OWL DB from the person on the list.  It must be gotten during the run not set ahead as was done here
-   // var statusFamFriend = "ill";
-   // var statusType = "negative";
-   // var previousTalk = true;
-   //var genderFamFriend = "Female";
-   // var pronounObj = "her";
-   // var pronounSubj = "she";
-   //default is female; reset for when person of interest is male
-   // if (genderFamFriend == "Male") {pronounObj = "him";  pronounSubj = "he"}; 
 
-//for alwayson testing:
     var familyFriendsList = $always.getUserModel().getPeopleManager().getPeople(false);
     var famFriend ;
     var statusFamFriend;
@@ -33,24 +20,25 @@
     var famFriendName;
     var famFriendRelationship;
     var user = $always.getUserModel().getPeopleManager().getUser();
-    var userName = user.getName();
-    print ("the user's name is =" + userName);
+    var userName = $always.getUserModel().getUserFirstName();
+    print ("the user's name is =" + userName + "  ");
     var pronounObj = "her";
     var pronounSubj = "she";
-    print("here is the list of family and friends = " + familyFriendsList);
+    var pronounPossessive = "her";
+    
 
     // convenience functions
     function positive (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Positive); }
     function negative (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Negative); }
     function reset (person) {
         person.setAboutMentioned(false); 
-	person.setAboutStatus(null);
-	person.setAboutComment(null); 
+		person.setAboutStatus(null);
+		person.setAboutComment(null); 
     }
 
   </t:script>
 
-  <t:task id="TalkAbout">
+  <t:task id="_TalkAbout">
     <t:subtasks id="main">
       <t:step name="start" task="_Holiday" minOccurs="0" maxOccurs="1"/>
       <t:step name="who" task="IteratePeople" maxOccurs="10"/>
@@ -87,10 +75,12 @@
       statusType = famFriend.getAboutStatus();
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
-      famFriendRelationship = famFriend.getRelationship();
+      famFriendRelationship = 
+          (famFriend.getRelationship() == null ? " ": "your" + famFriend.getRelationship() );
       previousTalk = famFriend.isAboutMentioned();
-      if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"} 
-      else  {pronounObj = "her"; pronounSubj = "she"}; 
+      print("previous talk about =" + previousTalk);
+      if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"; pronounPossessive= "his" } 
+      else  {pronounObj = "her"; pronounSubj = "she"; pronounPossessive = "her" }; 
     </t:script>
   </t:task>
 
@@ -101,16 +91,16 @@
     </t:subtasks>
     <t:subtasks id="pasttalk">
       <t:step name="update" task="_MoreAboutX"/>
-      <t:applicable> previousTalk &amp;&amp; statusType=="positive" </t:applicable>  
+      <t:applicable> previousTalk &amp;&amp; statusType=="Positive" </t:applicable>  
     </t:subtasks>
     <t:subtasks id="pastneg">
       <t:step name="talk" task="_BetterYet"/>
-      <t:applicable> previousTalk &amp;&amp; statusType=="negative" </t:applicable>  
+      <t:applicable> ! (previousTalk==null) &amp;&amp; statusType=="Negative" </t:applicable>  
     </t:subtasks> 
   </t:task>
 
-  <agent id="_MoreAboutX" text="Last time we talked about your {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
-    <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was going on vacation'">
+  <agent id="_MoreAboutX" text="Last time we talked about {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
+    <user text="Yes, right" applicable="statusFamFriend =='was going on vacation'">
       <agent text="so how did it go?" 
 	     eval="reset(famFriend);" >
 	<!-- reset statusType to empty and previousTalk to null -->
@@ -120,17 +110,17 @@
 	</user>
 	<user text=" {pronounSubj} had a great time">
 	  <agent text="did you get to see any pictures?" >
-	    <user text="yes, they were great" />
-	    <user text="no, {pronounSubj} didn't send me any" >
+	    <user text="Yes, they were great" />
+	    <user text="No, {pronounSubj} didn't send me any" >
 	      <agent text="well, glad it was a good trip.  Got any plans yourself?" >
-		<user text="yes, but not right away"/>
-		<user text="yes, I do">
+		<user text="Yes, but not right away"/>
+		<user text="Yes, I do">
 		  <agent text="Really?  Make sure you tell me the dates when we use the calendar next">
 		    <user text="I will" />
-		    <user text="sure I'll try to remember" />
+		    <user text="Sure I'll try to remember" />
 		  </agent>
 		</user>
-		<user text="no, not really">
+		<user text="No, not really">
 		<agent text="I see"/>
 	      </user>
 	    </agent>
@@ -141,12 +131,12 @@
     </user>
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='had a new grandchild'">
       <agent text="so is there anything else new with {pronounObj} ?">
-	<user text="no not really" >
+	<user text="No not really" >
 	  <agent text="okay" 
 		 eval="reset(famFriend);"/>
 	  <!-- put previousTalk as null and reset status and statusType to empty in UM -->
 	</user>
-	<user text="just more about the grandchild" >
+	<user text="Just more about the grandchild" >
 	  <agent text="I see" eval="reset(famFriend);" />
 	  <!-- put previousTalk as null and reset status and statusType to empty in UM -->
 	</user>
@@ -159,43 +149,43 @@
 	</user>
       </agent>
     </user>
-    <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='got a new friend'"
+    <user text="Yes, that's true" applicable="statusFamFriend =='got a new friend'"
           eval="reset(famFriend);" > 
       <do task="_HowIsXDoing" />
     </user>
-    <user text="yes, {pronounSubj} did | yes, that's right" applicable="statusFamFriend =='went shopping'"
+    <user text="Yes, {pronounSubj} did" applicable="statusFamFriend =='went shopping'"
 	  eval="reset(famFriend);" >
       <do task="_HowIsXDoing" />
     </user>
-    <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was coming to visit you'">
+    <user text="Yes, that's right " applicable="statusFamFriend =='was coming to visit you'">
       <agent text="is {pronounSubj} still coming?" >
 	<user text=" {pronounSubj} came already" 
 	   eval="reset(famFriend);" >  
 	  <!-- put previousTalk as null and reset status and statusType to empty in UM -->
 	  <agent text="was it a good visit?" >
-	    <user text="yes, I really enjoyed it "/>
-	    <user text="well sort of" >
+	    <user text="Yes, I really enjoyed it "/>
+	    <user text="Well sort of" >
 	      <agent text="really, maybe it will be better next time" />
 	    </user>
-	    <user text="no, it really didn't work out well">
+	    <user text="No, it really didn't work out well">
 	      <agent text="that's too bad.  I guess not all visits are great" />
 	    </user>
 	  </agent>
 	</user>
-	<user text="yes, soon" >
+	<user text="Yes, soon" >
 	  <agent text="I'll look forward to hearing about the visit" />
 	</user>
-	<user text="no {pronounSubj} had to cancel" >
+	<user text="No, {pronounSubj} had to cancel" >
 	  <agent text="oh that's a shame.  Remember to tell me when we talk about the calendar next" >
 	    <user text="I will" />
-	    <user text="sure I'll try to remember" />	    
+	    <user text="Sure I'll try to remember" />	    
 	  </agent>
 	</user>
       </agent>
     </user>
   </agent>
 
-  <agent id="_BetterYet" text="Last time we talked about your {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
+  <agent id="_BetterYet" text="Last time we talked about {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was ill'">
       <agent text="Is {pronounSubj} recovering?" >
 	<user text="Yes, pretty well">
@@ -208,10 +198,10 @@
 	      <agent text="Yeh, good idea" />
 	      <!-- leave status as is and ask again  -->
 	    </user>
-	    <user text="no, but I call {pronounObj} occasionally" >
+	    <user text="No, but I call {pronounObj} occasionally" >
 	      <agent text="I'm sure {pronounSubj} appreciates that" >
-		<user text="yes, I think so" />
-		<user text="not sure {pronounSubj} does" >
+		<user text="Yes, I think so" />
+		<user text="Not sure {pronounSubj} does" >
 		  <agent text="yes, it's hard not to complain when you are sick" />
 		  <!-- leave status as is and ask again  -->
 		</user>
@@ -219,23 +209,23 @@
 	    </user>
 	  </agent>
 	</user>
-	<user text="Yes, but she's not completely better" >
-	  <agent text="Sometimes recovery is slow, but it's good she's on the mend" >
-	    <user text="yes, I agree" />
+	<user text="Yes, but {pronounSubj}'s not completely better" >
+	  <agent text="Sometimes recovery is slow, but it's good {pronounSubj}'s on the mend" >
+	    <user text="Yes, I agree" />
 	    <user text="I'm hopeful" />
-	    <user text="we'll see" />
+	    <user text="We'll see" />
 	    <!-- leave status as is and ask again  -->
 	  </agent>
 	</user>
       </agent>
     </user>
-    <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was lonely'">
+    <user text="Yes, that's right" applicable="statusFamFriend =='was lonely'">
       <agent text="Is that still the case?"  eval="reset(famFriend);" >
-	<user text="yes, no change" >
+	<user text="Yes, no change" >
 	  <agent text="Loneliness is hard.  Maybe you should give {pronounObj} a call" >
-	    <user text="yes.  I think I will" />
-	    <user text="maybe later" />
-	    <user text="not today" />
+	    <user text="Yes.  I think I will" />
+	    <user text="Maybe later" />
+	    <user text="Not today" />
 	  </agent>
 	</user>
 	<user text="no {pronounSubj} seems better" >
@@ -243,14 +233,14 @@
 	</user>
       </agent>
     </user>
-    <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='lost a family member'">
+    <user text="Yes, that's right " applicable="statusFamFriend =='lost a family member'">
       <agent text="That takes a long time to recover from"  eval="reset(famFriend);" >
-	<user text= "yes it does">
+	<user text= "Yes it does">
 	  <agent text="have you visited {pronounObj} recently?">
-	    <user text="no but I will" />
-	    <user text="yes, it was good to see {pronounObj}" />
-	    <user text="yes I did" />
-	    <user text="no I can't really" />
+	    <user text="No, but I will" />
+	    <user text="Yes, it was good to see {pronounObj}" />
+	    <user text="Yes, I did" />
+	    <user text="No, I can't really" />
 	  </agent>
 	</user>
 	<user text="I don't want to talk about this anymore" >
@@ -263,16 +253,16 @@
     </user>
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='had an accident'">
       <agent text=" is the recovery going well? " >
-	<user text="yes {pronounSubj} is up and around" eval="reset(famFriend);" >
-	  <agent text="Oh that's good to know | That is good news! | I bet you are glad for {pronounObj}" />
+	<user text="Yes, {pronounSubj} is up and around" eval="reset(famFriend);" >
+	  <agent text="Oh, that's good to know | That is good news! | I bet you are glad for {pronounObj}" />
 	</user>
 	<!-- for these two answers leave UM unchanged so can ask again -->
-	<user text="no, it's going to be a long time yet">
+	<user text="No, it's going to be a long time yet">
 	  <agent text="that's tough | gee, that's too bad | sorry to hear that" />
 	</user>
-	<user text="I'm not sure.  Haven't talk to {pronounObj} for a while">
+	<user text="I'm not sure.  I haven't talked to {pronounObj} for a while">
 	  <agent text="well, keep me posted on {pronounObj} recovery | I'd like to hear how {pronounSubj} progresses" >
-	    <user text="okay" />
+	    <user text="Okay" />
 	    <user text="I'll tell you again" />
 	  </agent>
 	</user>
@@ -281,7 +271,7 @@
   </agent>
    
   <agent id="_HowIsXDoing"
-	 text=" {userName} , How is your {famFriendRelationship} {famFriendName} doing?" >
+	 text=" {userName} , How is {famFriendRelationship} {famFriendName} doing?" >
     <user text="I don't want to talk about {pronounObj} today">
       <agent text="okay." />
     </user>
@@ -289,7 +279,8 @@
       <do task="_CloseFamilyFriends" />
     </user>
     <user text="Overall pretty good">
-      <agent text="Any news from {pronounObj}?" >
+      <agent text=
+	     "Any news from {pronounObj}? | what's new with {pronounObj}?" >
 	<user text="No news really"/>
 	<user text=" {pronounSubj} has a new grandchild"
 	      eval="famFriend.setAboutMentioned(true); 
@@ -298,7 +289,7 @@
 	  <!-- UM GETS "had a new grandchild" for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="oh that's great for {pronounObj}" >
-	    <user text="Yes, she's very excited" >
+	    <user text="Yes, {pronounSubj}'s very excited" >
 	      <agent text="uh-huh.  I can understand." />
 	    </user>
 	    <user text="Yes, {pronounSubj} has a lot of grandchildren" >
@@ -332,12 +323,15 @@
 	  <!-- UM gets "was going on vacation" status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="oh really, where?  Want me to keep track in weather updates?" >
-	    <user text="Yes, ask me when we talk about weather | no, no thanks" >
+	    <user text="Yes, ask me when we talk about weather" >
 	      <agent text="do you wish you could go somewhere special?" >
 		<!--store below in UM user likes/does not like travel -->
-		<user text="No I don't like to travel"/>
+		<user text="No, I don't like to travel"/>
 		<user text="Yes, that would be great"/>
 	      </agent>
+	    </user>
+	    <user text="No, no thanks" >
+	      <agent text="well, I hope {pronounSubj} has a good trip!"/>
 	    </user>
 	  </agent>
 	</user>
@@ -356,9 +350,9 @@
 	  <!-- UM gets "was going to visit you" status and statusType positive  for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="great for you.  When we do your calendar, we can add the visit" >
-	    <user text="okay"/>
-	    <user text="okay if I remember!"/>
-	    <user text="not sure yet when {pronounSubj} is coming">
+	    <user text="Okay"/>
+	    <user text="Okay if I remember!"/>
+	    <user text="I'm not sure yet when {pronounSubj} is coming">
 	      <agent text="Let me know when you settle it then we can put it in your calendar" >
 		<user text="Sure, I will do that" />
 	      </agent>
@@ -367,30 +361,30 @@
 	</user>
       </agent>
     </user>
-    <user text="not so great">
+    <user text="Not so great">
       <do task="NotGoingWell" />
     </user>
   </agent>
 
 
   <agent id="NotGoingWell" text="oh, what's wrong?">
-    <user text=" {pronounSubj} is ill | {famFriendName} is ill" 
+    <user text=" {pronounSubj} is ill" 
 	  eval="famFriend.setAboutMentioned(true); 
 		negative(famFriend);
 		famFriend.setAboutComment('was ill');">
       <!-- put in UM status as ill, statusType as negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
       <agent text="I hope it's not serious" >
-	<user text="well, it is.  I'm worried" >
+	<user text="Well, it is.  I'm worried" >
 	      <agent text="if you haven't talked to {pronounObj}, why don't you give {pronounObj} a call?" >
 		<user text="I did just recently" />
-		<user text="yes I think I'll do that" />  
+		<user text="Yes, I think I'll do that" />  
 	      </agent>
 	    </user>
 	    <user text=" But {pronounSubj} is getting better" >
-	      <agent text=" that's good to hear" />
+	      <agent text="that's good to hear" />
 	    </user>
-	    <user text="no, I think {pronounSubj}'ll be okay" >
+	    <user text="No, I think {pronounSubj}'ll be okay" >
 	      <agent text="that's good to hear" />
 	    </user>
       </agent>
@@ -402,7 +396,7 @@
 	  <!-- put in UM status as had accident and statusType as negative for {famFriend}  -->
 	  <!-- <eval set previousTalk in UM to negative> -->
 	  <agent text=" Is {pronounSubj} in the hospital?" >
-	    <user text=" Yes, for a long time" >
+	    <user text="Yes, for a long time" >
 	      <agent text="oh dear.  Can you go visit?" >
 		<user text="Yes, {pronounSubj} is nearby" >
 		  <agent text="sounds like a good thing to do" />
@@ -424,7 +418,7 @@
 		</user>
 		<user text="No, {pronounSubj} is too far away">
 		  <agent text="how about a nice card?  You can pick one up when you go out">
-		    <user text=" Yes, good idea"/>
+		    <user text="Yes, good idea"/>
 		    <user text="Well, maybe" />
 		  </agent>
 		</user>
@@ -449,13 +443,13 @@
 	      <agent text="I understand" />
 	    </user>
 	    <user text="Yes, it's too bad after so long | I'm going to the funeral | I am going to send my condolences" >
-	      <agent text="did you know {pronounObj} family member? ">
+	      <agent text="did you know {pronounPossessive} family member? ">
 		<user text="Oh yes, we go back years" >
 		  <agent text="Please accept my condolences" >
 		    <user text="Thank you" />
 		  </agent>
 		</user>
-		<user text="only a bit" >
+		<user text="Only a bit" >
 		  <agent text="well, I'm sure {famFriendName} would like hearing from you" />
 		</user>
 		<user text="No, not really" >
@@ -476,9 +470,9 @@
 	        <!-- <eval set previousTalk in UM to negative> -->
 	  <agent text="I see.  You could give {pronounObj} a call or talk to {pronounObj} by SKYPE">
 	    <user text="Yes, I think I will">
-	      <agent text="I'll remember for next time we talk" />
+	      <agent text="good thing to do" />
 	    </user>
-	    <user text="No not today" />
+	    <user text="No, not today" />
 	    <user text="I just talked to {pronounObj}"/>
 	  </agent>
 	</user>
@@ -487,7 +481,9 @@
 	    <user text="Yes" >
 	      <agent text="tell me the next time we update your calendar." />
 	    </user>
-	    <user text="No" />
+	    <user text="No" >
+	      <agent text="how disappointing!" />
+	    </user>
 	    <user text="Maybe" >
 	      <agent text="Remind me the next time we work on your calendar" />
 	    </user>
@@ -511,7 +507,7 @@
     <user text="Yes">
       <agent text="Nice.  Who are you spending it with?" >
 	<!-- how do I get a list of F&F names to appear here? -->
-	<user text="none of those people.  Someone I haven't told you about" >
+	<user text="None of those people.  Someone I haven't told you about" >
 	  <agent text="well have a good time"/>
 	</user>
       </agent>

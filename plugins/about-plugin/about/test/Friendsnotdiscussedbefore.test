@@ -1,0 +1,131 @@
+    # Jul 23, 2013 5:43:05 PM - TaskEngine 1.4.8 / Disco 1.6.10
+    Welcome to Disco! (Type 'help' for command list)
+  > load TalkAbout.xml
+  > task TalkAbout
+    User says "Let's achieve TalkAbout."
+    Agent execute _GetPerson.
+    Agent says "How is Mary doing?"
+  > say
+[1] I don't want to talk about her today.
+[2] I'm done talking about my family and friends.
+[3] Overall pretty good.
+[4] Not so great.
+  >> 4
+    User says "Not so great."
+    Agent says "Oh, what's wrong?"
+  > say
+[1]  she is ill.
+[2]   she had an accident.
+[3]  she lost a family member .
+[4]  she is pretty lonely.
+[5]  she is postponing a visit to me.
+  >> 3
+    User says " she lost a family member ."
+    Agent says "That's very sad."
+  > say
+[1] I don't really want to talk about it.
+[2] Yes, it's too bad after so long .
+  >> 2
+    User says "Yes, it's too bad after so long ."
+    Agent says "Did you know her family member? ."
+  > say
+[1] Oh yes, we go back years.
+[2] Only a bit.
+[3] No, not really.
+  >> 3
+    User says "No, not really."
+    Agent says "I think you should get in touch with her."
+  > say
+[1] I think I will.
+[2] Perhaps tomorrow.
+  >> 1
+    User says "I think I will."
+    Agent says "Want to talk about another friend?"
+  > say
+[1] Yes.
+[2] No.
+[3] Stop achieve TalkAbout.
+  >> 1
+    User says "Yes."
+    Agent execute _GetPerson.
+    Agent says "How is Bill doing?"
+  > say
+[1] I don't want to talk about her today.
+[2] I'm done talking about my family and friends.
+[3] Overall pretty good.
+[4] Not so great.
+  >> 4
+    User says "Not so great."
+    Agent says "Oh, what's wrong?"
+  > say
+[1]  she is ill.
+[2]   she had an accident.
+[3]  she lost a family member .
+[4]  she is pretty lonely.
+[5]  she is postponing a visit to me.
+  >> 2
+    User says "  she had an accident."
+    Agent says " Is she in the hospital?"
+  > say
+[1]  Yes, for a long time.
+[2] Yes, but not for long.
+[3] No, but she isn't getting around much.
+[4] No, but she got kind of shook up by it.
+  >> 2
+    User says "Yes, but not for long."
+    Agent says "Well that's tough.  Can you go visit?"
+  > say
+[1] Yes, she is nearby.
+[2] No, she is too far away.
+  >> 2
+    User says "No, she is too far away."
+    Agent says "How about a nice card?  You can pick one up when you go out."
+  > say
+[1]  Yes, good idea.
+[2] Well, maybe.
+  >> 2
+    User says "Well, maybe."
+    Agent says "Want to talk about another friend?"
+  > say
+[1] Yes.
+[2] No.
+[3] Stop achieve TalkAbout.
+  >> 1
+    User says "Yes."
+    Agent execute _GetPerson.
+    Agent says "How is Sally doing?"
+  > say
+[1] I don't want to talk about her today.
+[2] I'm done talking about my family and friends.
+[3] Overall pretty good.
+[4] Not so great.
+  >> 3
+    User says "Overall pretty good."
+    Agent says "Any news from her?"
+  > say
+[1] No news really.
+[2]  she has a new grandchild.
+[3]  she went shopping for new clothes.
+[4]  she is going on vacation.
+[5]  she has a new friend.
+[6]  she is coming to visit me.
+  >> 2
+    User says " she has a new grandchild."
+    Agent says "Oh that's great for her."
+  > say
+[1] Yes, she's very excited.
+[2] Yes, she has a lot of grandchildren.
+[3] Yes, she's waited a long time for a grandchild.
+[4] Yes, it's all she talks about!
+  >> 4
+    User says "Yes, it's all she talks about!"
+    Agent says "Well, I'm sure that will change in a month or so! ."
+  > say
+[1] Ok.
+  >> 1
+    User says "Ok."
+    Agent says "Well, it was nice talking about your friends and family with you."
+  > say
+[1] Let's achieve TalkAbout.
+  >> 
+  > 

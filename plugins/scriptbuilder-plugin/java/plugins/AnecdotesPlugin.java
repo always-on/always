@@ -8,14 +8,14 @@ public class AnecdotesPlugin extends Plugin {
 
    public AnecdotesPlugin (UserModel userModel, CollaborationManager cm) {
       super("Anecdotes", userModel, cm);
-      addActivity("TellAnecdotes", 0, 0, 0, 0, AnecdotesSchema.class);
+      addActivity("HearAnecdotes", 0, 0, 0, 0, AnecdotesSchema.class);
    }
 
    /**
     * For testing plugin by itself
     */
    public static void main (String[] args) {
-      Plugin.main(args, AnecdotesPlugin.class, "TellAnecdotes");
+      Plugin.main(args, AnecdotesPlugin.class, "HearAnecdotes");
    }
 
 }

@@ -1,6 +1,5 @@
 package edu.wpi.always.srummy;
 
-import java.awt.Point;
 import java.util.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
@@ -11,7 +10,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public class SrummySchema extends ActivityStateMachineSchema {
+public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext> {
 
    private String randomStmnt = "";
    private boolean saidFirstYourTurn = false;

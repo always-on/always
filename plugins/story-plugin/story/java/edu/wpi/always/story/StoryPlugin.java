@@ -11,7 +11,7 @@ public class StoryPlugin extends Plugin {
    
    public StoryPlugin (UserModel userModel, CollaborationManager cm) {
       super("Story", userModel, cm);
-      addActivity("RecordStory", 0, 0, 0, 0,
+      addActivity("TellStory", 0, 0, 0, 0,
             StorySchema.class, 
             new SchemaConfig(BackChannelSchema.class, 100, false),
             StoryManager.class,
@@ -22,7 +22,7 @@ public class StoryPlugin extends Plugin {
     * For testing Story by itself
     */
    public static void main (String[] args) {
-      Plugin.main(args, StoryPlugin.class, "RecordStory");
+      Plugin.main(args, StoryPlugin.class, "TellStory");
    }
 
 }

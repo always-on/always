@@ -10,7 +10,7 @@ import edu.wpi.disco.rt.menu.*;
 /**
  * Note: This schema will automatically stop (cancel) when
  * there is nothing left for the user or agent to say.
- * It can also be ended abrubtly by calling '$schema.cancel()'
+ * It can also be ended abruptly by calling '$schema.cancel()'
  * in the 'eval' attribute of a D4g element.
  */
 public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
@@ -32,8 +32,8 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    }
    
    @Override
-   public void cancel () {
-      super.cancel();
+   public void stop() {
+      super.stop();
       dispose();
    }
    

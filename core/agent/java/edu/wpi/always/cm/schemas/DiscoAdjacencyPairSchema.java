@@ -6,10 +6,12 @@ import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
+public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<AdjacencyPair.Context> {
 
    protected final DiscoAdjacencyPair discoAdjacencyPair;
    protected final DiscoRT.Interaction interaction;
+   
+   public Interaction getInteraction () { return interaction; }
 
    public DiscoAdjacencyPairSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -31,7 +33,7 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema {
    
    @Override
    public void run () {
-      if ( interaction.getFocusExhausted(true) == null ) cancel(); 
+      if ( interaction.getFocusExhausted(true) == null ) stop(); 
       else propose(stateMachine);
    }
    

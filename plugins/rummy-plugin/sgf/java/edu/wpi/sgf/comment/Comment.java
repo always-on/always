@@ -102,10 +102,9 @@ public class Comment implements Comparable<Comment> {
    @Override
    public int compareTo(Comment other) {
       if(this.tags.size() 
-            > ((Comment)other).tags.size())
+            > other.tags.size())
          return -1;
-      else
-         return 1;
+      return 1;
    }
    
 }
