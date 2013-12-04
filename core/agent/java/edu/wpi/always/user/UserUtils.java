@@ -71,10 +71,8 @@ public abstract class UserUtils {
          if ( birthday != null ) stream.println("\tBirthday = " + birthday);
          Place location = person.getLocation();
          if ( location != null ) stream.println("\tLocation = " + location);
-         String phone = person.getPhoneNumber();
-         if ( phone != null ) stream.println("\tPhoneNumber = " + phone);
          String skype = person.getSkypeNumber();
-         if ( phone != null ) stream.println("\tSkypeNumber = " + skype);
+         if ( skype != null ) stream.println("\tSkypeNumber = " + skype);
          for (Relationship relationship : Relationship.values()) {
             Person[] related = person.getRelated(relationship);
             if ( related != null ) {
