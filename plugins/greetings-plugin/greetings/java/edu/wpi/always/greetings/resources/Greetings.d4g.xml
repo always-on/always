@@ -16,40 +16,20 @@
     
     var userName = $always.getUserModel().getUserFirstName();
     var poorSleepreports= getPoorSleepReports();
-
-    function between (hour1, hour2) {
-      return edu.wpi.always.cm.schemas.SessionSchema.HOUR &gt;= hour1 &amp;&amp;
-             edu.wpi.always.cm.schemas.SessionSchema.HOUR &lt; hour2;
-    }
     
   </t:script>
 
-  <t:task id="_Greetings">
-    <t:subtasks id="morning">
+  <t:task id="_MorningGreetings">
+    <t:subtasks id="simple">
       <t:step name="greet" task="_Morning"/>
       <t:step name="sleep" task="_SleepWell"/>
-      <t:applicable> between(2, 12) &amp;&amp;
-       !$always.getUserModel().getCloseness().equals(edu.wpi.always.Closeness.Companion)
-      </t:applicable>
     </t:subtasks>
-    <t:subtasks id="morningCompanion">
+  </t:task>
+
+  <t:task id="_MorningGreetingsCompanion">
+    <t:subtasks id="base">
       <t:step name="greet" task="_Morning"/>
       <t:step name="sleep" task="_SleepWellCompanion"/>
-      <t:applicable> between(2, 12) &amp;&amp;
-       $always.getUserModel().getCloseness().equals(edu.wpi.always.Closeness.Companion)
-      </t:applicable>
-    </t:subtasks>
-    <t:subtasks id="afternoon">
-      <t:step name="greet" task="_AfternoonGreetings"/>
-      <t:applicable> between(12, 18) </t:applicable>
-    </t:subtasks>
-    <t:subtasks id="evening">
-      <t:step name="greet" task="_EveningGreetings"/>
-      <t:applicable> between(18, 22) </t:applicable>
-    </t:subtasks>
-    <t:subtasks id="night">
-      <t:step name="greet" task="_NightGreetings"/>
-      <t:applicable> between(22, 24) || between(0, 2) </t:applicable>
     </t:subtasks>
   </t:task>
 
@@ -203,9 +183,6 @@
           <agent text="Good night!" />
         </user>
         <user text="Hope so. Good night" >
-          <agent text="Good night!" />
-        </user>
-        <user text="Good night" >
           <agent text="Good night!" />
         </user>
       </agent>

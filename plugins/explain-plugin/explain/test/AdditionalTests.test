@@ -17,7 +17,7 @@
 [10] No more activities.
   >> 1
     User says "Developing an exercise plan for me."
-    Agent execute _SetChoiceActivity on developing an exercise plan for me.
+    Agent execute _SetChoiceActivity on Developing an exercise plan for me.
     Agent says "Everyone can use more exercise.  Walking is a really good and easy type of exercise."
   > say
 [1] Uh-huh.
@@ -36,7 +36,7 @@
 [1] Ok.
   >> 1
     User says "Ok."
-    Agent says "Want to hear about another activity?"
+    Agent says "Do you want to hear about another activity?"
   > say
 [1] Yes.
 [2] No.
@@ -56,7 +56,7 @@
 [10] No more activities.
   >> 2
     User says "Talking together about my family and friends."
-    Agent execute _SetChoiceActivity on talking together about my family and friends.
+    Agent execute _SetChoiceActivity on Talking together about my family and friends.
     Agent says "I'm interested in knowing about your friends and family.  The more I know about them, the more I can use this information."
   > say
 [1] Uh-huh.
@@ -95,7 +95,7 @@
 [10] No more activities.
   >> 3
     User says "Keeping my personal calendar."
-    Agent execute _SetChoiceActivity on keeping my personal calendar.
+    Agent execute _SetChoiceActivity on Keeping my personal calendar.
     Agent says "I can keep track of your everyday calendar."
   > say
 [1] Go on.
@@ -134,7 +134,7 @@
 [10] No more activities.
   >> 4
     User says "Playing a social game of Rummy, checkers or TicTacToe."
-    Agent execute _SetChoiceActivity on playing a social game of Rummy, checkers or TicTacToe.
+    Agent execute _SetChoiceActivity on Playing a social game of Rummy, checkers or TicTacToe.
     Agent says "We can play games together.  In particular we can play rummy, checkers or TicTacToe."
   > say
 [1] Go on.
@@ -172,8 +172,8 @@
 [10] No more activities.
   >> 5
     User says "Telling one of my life stories ."
-    Agent execute _SetChoiceActivity on telling one of my life stories .
-    Agent says "You can tell me a story about your life.  I will pay attention even though I won't understand most of what you say."
+    Agent execute _SetChoiceActivity on Telling one of my life stories .
+    Agent says "You can tell me a story about your life and I will record it.  I will pay attention even though I won't understand most of what you say."
   > say
 [1] Go on.
   >> 1
@@ -205,14 +205,14 @@
 [10] No more activities.
   >> 6
     User says "Telling weather where my friends and family live."
-    Agent execute _SetChoiceActivity on telling weather where my friends and family live.
-    Agent says "We've already talked about the weather.  BUT I can do more!  I can get information from the internet about the weather anywhere in the US."
+    Agent execute _SetChoiceActivity on Telling weather where my friends and family live.
+    Agent says "We've already talked about the weather.  BUT I can do more!  I can get information from the internet about the weather for the whole US!"
   > say
 [1] Really? Tell me more.
 [2] I don't really need to know more about the weather .
   >> 2
     User says "I don't really need to know more about the weather ."
-    Agent says "Want to hear about another activity?"
+    Agent says "Do you want to hear about another activity?"
   > say
 [1] Yes.
 [2] No.
@@ -232,7 +232,7 @@
 [10] No more activities.
   >> 7
     User says "Hearing a short humorous story."
-    Agent execute _SetChoiceActivity on hearing a short humorous story.
+    Agent execute _SetChoiceActivity on Hearing a short humorous story.
     Agent says "I know a lot of short and funny stories.  I can tell you one or more whenever we talk."
   > say
 [1] Ok.
@@ -260,13 +260,13 @@
 [10] No more activities.
   >> 8
     User says "Getting advice on healthy foods to eat."
-    Agent execute _SetChoiceActivity on getting advice on healthy foods to eat.
-    Agent says "It's hard to make good choices in our meals.  Eating more fruits and veggies will make you feel better and improve your health."
+    Agent execute _SetChoiceActivity on Getting advice on healthy foods to eat.
+    Agent says "It's hard to choose healthy foods for our meals.  Eating more fruits and veggies will make you feel better and improve your health."
   > say
 [1] Uh-huh.
   >> 1
     User says "Uh-huh."
-    Agent says "I can advise you on how to add better foods to your daily meals."
+    Agent says "I can advise you on how to add more fruits and veggies to your daily meals."
   > say
 [1] Ok.
 [2] Oh, that is a good thing to do.
@@ -294,7 +294,7 @@
 [10] No more activities.
   >> 9
     User says "Arranging videos calls with friends and family."
-    Agent execute _SetChoiceActivity on arranging videos calls with friends and family.
+    Agent execute _SetChoiceActivity on Arranging videos calls with friends and family.
     Agent says "Did you know you can talk for free to your friends and family and be able to see them while you talk?  I can help you do this for anyone who has a computer."
   > say
 [1] Really? Tell me more.
@@ -308,7 +308,7 @@
 [2] No, no thanks.
   >> 1
     User says "Okay, maybe I will."
-    Agent says "Want to hear about another activity?"
+    Agent says "Do you want to hear about another activity?"
   > say
 [1] Yes.
 [2] No.

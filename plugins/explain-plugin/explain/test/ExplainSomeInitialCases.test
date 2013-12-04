@@ -17,7 +17,7 @@
 [10] No more activities.
   >> 1
     User says "Developing an exercise plan for me."
-    Agent execute _SetChoiceActivity on developing an exercise plan for me.
+    Agent execute _SetChoiceActivity on Developing an exercise plan for me.
     Agent says "Everyone can use more exercise.  Walking is a really good and easy type of exercise."
   > say
 [1] Uh-huh.
@@ -31,7 +31,7 @@
 [4] Maybe another time.
   >> 1
     User says "Ok."
-    Agent says "Want to hear about another activity?"
+    Agent says "Do you want to hear about another activity?"
   > say
 [1] Yes.
 [2] No.
@@ -51,7 +51,7 @@
 [10] No more activities.
   >> 2
     User says "Talking together about my family and friends."
-    Agent execute _SetChoiceActivity on talking together about my family and friends.
+    Agent execute _SetChoiceActivity on Talking together about my family and friends.
     Agent says "I'm interested in knowing about your friends and family.  The more I know about them, the more I can use this information."
   > say
 [1] Uh-huh.
@@ -70,7 +70,7 @@
 [2] Well, may be I'll do that.
   >> 1
     User says "Okay."
-    Agent says "Want to hear about another activity?"
+    Agent says "Do you want to hear about another activity?"
   > say
 [1] Yes.
 [2] No.
@@ -90,7 +90,7 @@
 [10] No more activities.
   >> 3
     User says "Keeping my personal calendar."
-    Agent execute _SetChoiceActivity on keeping my personal calendar.
+    Agent execute _SetChoiceActivity on Keeping my personal calendar.
     Agent says "I can keep track of your everyday calendar."
   > say
 [1] Go on.
@@ -122,7 +122,7 @@
 [10] No more activities.
   >> 3
     User says "Keeping my personal calendar."
-    Agent execute _SetChoiceActivity on keeping my personal calendar.
+    Agent execute _SetChoiceActivity on Keeping my personal calendar.
     Agent says "I can keep track of your everyday calendar."
   > say
 [1] Go on.
@@ -161,7 +161,7 @@
 [10] No more activities.
   >> 4
     User says "Playing a social game of Rummy, checkers or TicTacToe."
-    Agent execute _SetChoiceActivity on playing a social game of Rummy, checkers or TicTacToe.
+    Agent execute _SetChoiceActivity on Playing a social game of Rummy, checkers or TicTacToe.
     Agent says "We can play games together.  In particular we can play rummy, checkers or TicTacToe."
   > say
 [1] Go on.
