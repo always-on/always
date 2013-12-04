@@ -265,23 +265,21 @@ public class CommentLibraryHandler {
     * @return
     */
    public List<Comment> prioritizeByTags(
-         List<Comment> someComments, List<String> someTags, 
-         List<String> someGameSpecificTags, String someGameType){
+         List<Comment> someComments, List<String> someTagsTemp, 
+         List<String> someGameSpecificTagsTemp, String someGameType){
 
-      //b robust
-      if(someGameSpecificTags != null)
-         if(!someGameSpecificTags.isEmpty())
-            for(String each : someGameSpecificTags){
-               someGameSpecificTags.add(each.toLowerCase().trim());
-               someGameSpecificTags.remove(each);
-            }
-      if(someTags != null)
-         if(!someTags.isEmpty())
-            for(String each : someTags){
-               someTags.add(each.toLowerCase().trim());
-               someTags.remove(each);
-            }
-      
+      List<String> someTags = new ArrayList<String>(), 
+            someGameSpecificTags = new ArrayList<String>();
+      if(someGameSpecificTagsTemp != null
+            && !someGameSpecificTagsTemp.isEmpty())
+         for(String each : someGameSpecificTagsTemp)
+            someGameSpecificTags.add(
+                  each.toLowerCase().trim());
+      if(someTagsTemp != null
+            && !someTagsTemp.isEmpty())
+         for(String each : someTagsTemp)
+            someTags.add(each.toLowerCase().trim());
+
       Map<Comment, Integer> genericCommentsTagCovering = 
             new HashMap<Comment, Integer>();
       Map<Comment, Integer> sortedGenericCommentsTagCovering = 
