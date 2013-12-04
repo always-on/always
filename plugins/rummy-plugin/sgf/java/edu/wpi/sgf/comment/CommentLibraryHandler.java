@@ -1,27 +1,21 @@
 package edu.wpi.sgf.comment;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.Map.Entry;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
-import edu.wpi.cetask.Utils;
 
 /**
  * Comment Library handler for Social Gameplay Framework.
  * Retrieves comments from library file.
  * @author Morteza Behrooz
- * @version 2.1
+ * @version 2.2
  */
 public class CommentLibraryHandler {
 
-
    private final static String CommentLibraryFilePath =
          "CommentLibrary.xml";
-   private File commentLibraryFile;
-
 
    private List<Element> 
    retrievedAgentCommentsRootNode
@@ -45,21 +39,23 @@ public class CommentLibraryHandler {
    public void importComments(){
 
       SAXBuilder builder = new SAXBuilder();
+      InputStreamReader is = null;
       try {
-         commentLibraryFile = new File(
-               Utils.toURL("edu/wpi/sgf/resources/"+
-                     CommentLibraryFilePath).toURI());
-      } catch (MalformedURLException|URISyntaxException e) {
+         is = new InputStreamReader(
+               CommentLibraryHandler.class.getResourceAsStream(
+                     "/edu/wpi/sgf/resources/" 
+                           + CommentLibraryFilePath), "UTF-8");
+      } catch (UnsupportedEncodingException e) {
          System.out.println(
                "Resource loading error in loading Comment Library."
                      + "The .xml file(s) should be in edu/wpi/sgf/resources/ "
-                     + "package which should be in the sgf classpath.");
+                     + "package.");
          e.printStackTrace();
       }
 
       try{
          
-         Document xmldoc = builder.build(commentLibraryFile);
+         Document xmldoc = builder.build(is);
          Element rootNode = xmldoc.getRootElement();
 
          retrievedAgentCommentsRootNode.addAll( 
@@ -455,6 +451,7 @@ public class CommentLibraryHandler {
    }
 
    //A main method for testing only
+   //uncomment importComments(); in constructor to run this main
    public static void main(String[] args) {
       CommentLibraryHandler cmlibh = 
             new CommentLibraryHandler();
