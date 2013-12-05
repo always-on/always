@@ -1,27 +1,22 @@
 package edu.wpi.sgf.comment;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.Map.Entry;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
-import edu.wpi.cetask.Utils;
 
 /**
  * Comment Library handler for Social Gameplay Framework.
  * Retrieves comments from library file.
  * @author Morteza Behrooz
- * @version 3.0
+ * @version 4.0
  */
 public class CommentLibraryHandler {
 
-
    private final static String CommentLibraryFilePath =
          "CommentLibraryCoupled.xml";
-   private File commentLibraryFile;
-
+//         "CommentLibrary.xml";
 
    private List<Element> 
    retrievedAgentCommentsRootNode
@@ -45,21 +40,23 @@ public class CommentLibraryHandler {
    public void importComments(){
 
       SAXBuilder builder = new SAXBuilder();
+      InputStreamReader is = null;
       try {
-         commentLibraryFile = new File(
-               Utils.toURL("edu/wpi/sgf/resources/"+
-                     CommentLibraryFilePath).toURI());
-      } catch (MalformedURLException|URISyntaxException e) {
+         is = new InputStreamReader(
+               CommentLibraryHandler.class.getResourceAsStream(
+                     "/edu/wpi/sgf/resources/" 
+                           + CommentLibraryFilePath), "UTF-8");
+      } catch (UnsupportedEncodingException e) {
          System.out.println(
                "Resource loading error in loading Comment Library."
                      + "The .xml file(s) should be in edu/wpi/sgf/resources/ "
-                     + "package which should be in the sgf classpath.");
+                     + "package.");
          e.printStackTrace();
       }
 
       try{
          
-         Document xmldoc = builder.build(commentLibraryFile);
+         Document xmldoc = builder.build(is);
          Element rootNode = xmldoc.getRootElement();
 
          retrievedAgentCommentsRootNode.addAll( 
@@ -281,23 +278,21 @@ public class CommentLibraryHandler {
     * @return
     */
    public List<Comment> prioritizeByTags(
-         List<Comment> someComments, List<String> someTags, 
-         List<String> someGameSpecificTags, String someGameType){
+         List<Comment> someComments, List<String> someTagsTemp, 
+         List<String> someGameSpecificTagsTemp, String someGameType){
 
-      //b robust
-      if(someGameSpecificTags != null)
-         if(!someGameSpecificTags.isEmpty())
-            for(String each : someGameSpecificTags){
-               someGameSpecificTags.add(each.toLowerCase().trim());
-               someGameSpecificTags.remove(each);
-            }
-      if(someTags != null)
-         if(!someTags.isEmpty())
-            for(String each : someTags){
-               someTags.add(each.toLowerCase().trim());
-               someTags.remove(each);
-            }
-      
+      List<String> someTags = new ArrayList<String>(), 
+            someGameSpecificTags = new ArrayList<String>();
+      if(someGameSpecificTagsTemp != null
+            && !someGameSpecificTagsTemp.isEmpty())
+         for(String each : someGameSpecificTagsTemp)
+            someGameSpecificTags.add(
+                  each.toLowerCase().trim());
+      if(someTagsTemp != null
+            && !someTagsTemp.isEmpty())
+         for(String each : someTagsTemp)
+            someTags.add(each.toLowerCase().trim());
+
       Map<Comment, Integer> genericCommentsTagCovering = 
             new HashMap<Comment, Integer>();
       Map<Comment, Integer> sortedGenericCommentsTagCovering = 
@@ -468,6 +463,7 @@ public class CommentLibraryHandler {
    }
 
    //A main method for testing only
+   //uncomment importComments(); in constructor to run this main
    public static void main(String[] args) {
       CommentLibraryHandler cmlibh = 
             new CommentLibraryHandler();
