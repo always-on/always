@@ -11,20 +11,24 @@ namespace Agent.UI
 
         private const String HORIZONTAL        = "horizontal";
         private const String VERTICAL          = "vertical";
-        private const String Head_Nod          = "Global.SmallNod.play();";
-        private const String Hor_Rotate        = "Global.servo.neckRotat =";
-        private const String Ver_Tilt          = "Global.servo.neckTilt =";
-        private const String Neutral_Position  = "Global.servo.neutralPosition();"; 
-        private const String Smile             = "Global.Happy.play();";
-        private const String Concern           = "Global.Sad.play();";
-        private const String BeginSpeech       = "Global.Talk.play(0.3);";
-        private const String EndSpeech         = "Global.Talk.play(0.3);";
+        private const String headNod           = "Global.SmallNod.play();";
+        private const String neckRotate        = "Global.servo.neckRotat =";
+        private const String neckTilt          = "Global.servo.neckTilt =";
+        private const String leftEyePan        = "Global.servo.leftEyePan =";
+        private const String leftEyeTilt       = "Global.servo.leftEyeTilt =";
+        private const String rightEyePan       = "Global.servo.rightEyePan =";
+        private const String rightEyeTilt      = "Global.servo.rightEyeTilt =";
+        private const String neutralPosition   = "Global.servo.neutralPosition();"; 
+        private const String smileFace         = "Global.Happy.play();";
+        private const String concernFace       = "Global.Sad.play();";
+        private const String beginSpeech       = "Global.Talk.play(0.3);";
+        private const String endSpeech         = "Global.Talk.play(0.3);";
 
         private String ConstructMessage(double HorOutput, double VerOutput)
         {
             String cmd;
-            cmd  = Hor_Rotate + HorOutput + " smooth:1s,";
-            cmd += Ver_Tilt   + VerOutput + " smooth:1s;";
+            cmd  = neckRotate + HorOutput + " smooth:1s,";
+            cmd += neckTilt   + VerOutput + " smooth:1s,";
             return cmd;
         }
 
@@ -94,7 +98,7 @@ namespace Agent.UI
         {
             if (Command.Contains("NOD") && task.Equals("perform"))
             {
-                SendCommand(Head_Nod);
+                SendCommand(headNod);
             }
             //TODO: check if face tracking!!!
             if (Command.Contains("GAZE")) //&& task.Equals("speech") )
@@ -103,27 +107,37 @@ namespace Agent.UI
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
 
                 String command = ConstructMessage(HorOutput, VerOutput);
+
+                if(HorOutput > 50) {
+                    command += rightEyePan + "80 smooth:0.5s, " + rightEyeTilt + "60 smooth:0.5s, ";
+                    command += leftEyePan + "60 smooth:0.5s, " + leftEyeTilt + "60 smooth:0.5s;";
+                }
+                else {
+                    command += rightEyePan + "60 smooth:0.5s, " + rightEyeTilt + "40 smooth:0.5s, ";
+                    command += leftEyePan + "40 smooth:0.5s, " + leftEyeTilt + "42.55 smooth:0.5s;";
+                }
+
                 SendCommand(command);
             }
             if (Command.Contains("CONCERN"))
             {
-                SendCommand(Concern);
+                SendCommand(concernFace);
             }
             if (Command.Contains("SMILE"))
             {
-                SendCommand(Smile);
+                SendCommand(smileFace);
             }
             if (Command.Contains("WARM"))
             {
-                SendCommand(Neutral_Position);
+                SendCommand(neutralPosition);
             }
             if (Command.Contains("BEGINSPEECH"))
             {
-                SendCommand(BeginSpeech);
+                SendCommand(beginSpeech);
             }
             if (Command.Contains("ENDSPEECH"))
             {
-                SendCommand(EndSpeech);
+                SendCommand(endSpeech);
             }
         }
 
