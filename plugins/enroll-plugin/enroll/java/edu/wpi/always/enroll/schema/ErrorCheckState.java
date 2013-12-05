@@ -72,12 +72,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new EditSkypeAdjacencyPair(getContext());
             }
          });
-         choice("Edit Phone", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               return new EditPhoneAdjacencyPair(getContext());
-            }
-         });
          choice("All Correct", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
@@ -668,60 +662,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       @Override
       public AdjacencyPair cancel () {
-         getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
-      }
-   }
-
-   public static class EditPhoneAdjacencyPair extends
-         KeyboardAdjacencyPair<EnrollStateContext> {
-
-      public EditPhoneAdjacencyPair (final EnrollStateContext context) {
-         super("What is" + name + "s phone number?", "Enter " + name
-            + "'s phone number: (XXX-XXX-XXXX)", context,
-               context.getKeyboard(), true);
-      }
-
-      @Override
-      public AdjacencyPair success (String text) {
-         if ( UserUtils.isPhoneNumberValid(text) ) {
-            getContext().hideKeyboard();
-            person.setPhoneNumber(text);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
-         }
-         return new EditPhoneInvalidAdjacencyPair(getContext());
-      }
-
-      @Override
-      public AdjacencyPair cancel () {
-         person.setPhoneNumber(null);
-         getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
-      }
-   }
-
-   public static class EditPhoneInvalidAdjacencyPair extends
-         KeyboardAdjacencyPair<EnrollStateContext> {
-
-      public EditPhoneInvalidAdjacencyPair (final EnrollStateContext context) {
-         super("That's not a valid phone number. Please enter again",
-               "Enter valid " + name + "'s phone number: (XXX-XXX-XXXX)",
-               context, context.getKeyboard(), true);
-      }
-
-      @Override
-      public AdjacencyPair success (String text) {
-         if ( UserUtils.isPhoneNumberValid(text) ) {
-            getContext().hideKeyboard();
-            person.setPhoneNumber(text);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
-         }
-         return new EditPhoneInvalidAdjacencyPair(getContext());
-      }
-
-      @Override
-      public AdjacencyPair cancel () {
-         person.setPhoneNumber(null);
          getContext().hideKeyboard();
          return new CheckCorrectionAdjacencyPair(getContext(), person);
       }

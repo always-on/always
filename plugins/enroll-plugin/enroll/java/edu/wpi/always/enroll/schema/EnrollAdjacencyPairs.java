@@ -742,14 +742,14 @@ public abstract class EnrollAdjacencyPairs{
          choice("Yes", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new PhoneNumberAdjacencyPair(getContext());
+               return new SkypeNameAdjacencyPair(getContext());
             }
          });
          choice("No", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                person = getContext().getPeopleManager().addPerson(name, relationship, gender, 
-                     age, phone, skype, location, spouse, personBirthday);
+                     age, skype, location, spouse, personBirthday);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
@@ -757,7 +757,7 @@ public abstract class EnrollAdjacencyPairs{
             @Override
             public AdjacencyPair run () {
                person = getContext().getPeopleManager().addPerson(name, relationship, gender, 
-                     age, phone, skype, location, spouse, personBirthday);
+                     age, skype, location, spouse, personBirthday);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
@@ -771,73 +771,10 @@ public abstract class EnrollAdjacencyPairs{
       }
    }
 
-   public static class PhoneNumberAdjacencyPair extends
+   public static class SkypeNameAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
-      public PhoneNumberAdjacencyPair(final EnrollStateContext context) {
-         super("What is" + name + "s phone number ?", "Enter " + name +"'s phone number: (XXX-XXX-XXXX)", 
-               context, context.getKeyboard(),true);
-         choice("Skip "+name, new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run() {
-               getContext().hideKeyboard();
-               return new InitialEnroll(getContext());
-            }
-         });
-      }
-
-      @Override
-      public AdjacencyPair success(String text) {
-         if(UserUtils.isPhoneNumberValid(text)){
-            phone = text;
-            return new SkypeNumberAdjacencyPair(getContext());
-         }
-         return new PhoneNumberInvalidAdjacencyPair(getContext());
-      }
-
-      @Override
-      public AdjacencyPair cancel() {
-         return new SkypeNumberAdjacencyPair(getContext());
-      }
-   }
-
-   public static class PhoneNumberInvalidAdjacencyPair extends
-   KeyboardAdjacencyPair<EnrollStateContext> {
-
-      public PhoneNumberInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("That's not a valid phone number. Please enter it again", 
-               "Enter valid " + name +"'s phone number: (XXX-XXX-XXXX)", 
-               context, context.getKeyboard(),true);
-         choice("Skip "+name, new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run() {
-               getContext().hideKeyboard();
-               return new InitialEnroll(getContext());
-            }
-         });
-      }
-
-      @Override
-      public AdjacencyPair success(String text) {
-         if(UserUtils.isPhoneNumberValid(text)){
-            phone = text;
-            return new SkypeNumberAdjacencyPair(getContext());
-         }
-         return new PhoneNumberInvalidAdjacencyPair(getContext());
-      }
-
-      @Override
-      public AdjacencyPair cancel() {
-         return new SkypeNumberAdjacencyPair(getContext());
-      }
-   }
-
-   public static class SkypeNumberAdjacencyPair extends
-   KeyboardAdjacencyPair<EnrollStateContext> {
-
-      public SkypeNumberAdjacencyPair(final EnrollStateContext context) {
+      public SkypeNameAdjacencyPair(final EnrollStateContext context) {
          super("What is" + name + "s SKYPE name ?", "Enter " + name + "'s skype name:", 
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
@@ -855,7 +792,7 @@ public abstract class EnrollAdjacencyPairs{
          getContext().hideKeyboard();
          skype = text;
          person = getContext().getPeopleManager().addPerson(name, relationship, gender, 
-               age, phone, skype, location, spouse, personBirthday);
+               age, skype, location, spouse, personBirthday);
          return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
 
@@ -863,7 +800,7 @@ public abstract class EnrollAdjacencyPairs{
       public AdjacencyPair cancel() {
          getContext().hideKeyboard();
          person = getContext().getPeopleManager().addPerson(name, relationship, gender, 
-               age, phone, skype, location, spouse, personBirthday);
+               age, skype, location, spouse, personBirthday);
          return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
    }
