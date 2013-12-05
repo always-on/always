@@ -1,12 +1,9 @@
 package edu.wpi.sgf.scenario;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +16,6 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import com.google.gson.Gson;
-import edu.wpi.cetask.Utils;
 
 /**
  * ScenarioManager class manages importing of social 
@@ -29,7 +25,7 @@ import edu.wpi.cetask.Utils;
  * updating it if necessary. It determines scenario 
  * failure and updates the scenario if necessary. 
  * @author Morteza Behrooz
- * @version 2.3
+ * @version 2.5
  */
 public class ScenarioManager {
 
@@ -43,7 +39,6 @@ public class ScenarioManager {
          "socialAttributes.json";
    private static final String ScenarioNamesFile = 
          "Scenario.xml";
-   private File AttributesFile;
 
    //if scenario fails, ++, changes after
    //getting to scenarioFailingBear
@@ -115,20 +110,19 @@ public class ScenarioManager {
       Gson gson = new Gson();
 
       try{
-         AttributesFile = new File(
-               Utils.toURL("edu/wpi/sgf/resources/"+AttributesFileName).toURI());
-         BufferedReader bufferedReader = new BufferedReader(
-               new FileReader(AttributesFile));
+         BufferedReader bufferedReader = 
+               new BufferedReader(new InputStreamReader(
+                     ScenarioManager.class.getResourceAsStream(
+                           "/edu/wpi/sgf/resources/"+AttributesFileName), "UTF-8"));
          GsonBridge gsonBridge = gson.fromJson(
                bufferedReader, GsonBridge.class);
          ScenarioManager.importedSocialAttributes
          .addAll((gsonBridge.list));
-      } catch (MalformedURLException|
-            URISyntaxException|FileNotFoundException e) {
+      } catch (UnsupportedEncodingException e) {
          System.out.println(
                "Resource loading error in loading Scenario attributes."
-                     + "The .json file(s) should be in sgf/resources "
-                     + "which should be in the sgf classpath (exported)");
+                     + "The .json file(s) should be in edu.wpi.sgf.resources "
+                     + "package.");
          e.printStackTrace();
       }
 
@@ -288,20 +282,21 @@ public class ScenarioManager {
       List<String> scenarioNames = new ArrayList<String>();
       SAXBuilder builder = new SAXBuilder();
 
-      File scenariosFile = null;
+      InputStreamReader is = null;
       try {
-         scenariosFile = new File(
-               Utils.toURL("edu/wpi/sgf/resources/"+ScenarioNamesFile).toURI());
-      } catch (MalformedURLException | URISyntaxException e) {
+         is = new InputStreamReader(
+                     ScenarioManager.class.getResourceAsStream(
+                           "/edu/wpi/sgf/resources/"+ScenarioNamesFile), "UTF-8");
+      } catch (UnsupportedEncodingException e) {
          System.out.println(
                "Resource loading error in loading Scenario names."
-                     + "The .json file(s) should be in sgf/resources "
-                     + "which should be in the sgf classpath (exported)");
+                     + "The .json file(s) should be in edu.wpi.sgf.resources "
+                     + "package.");
          e.printStackTrace();
       }
       try {
          Document xmldoc = builder
-               .build(scenariosFile);
+               .build(is);
          Element rootNode = xmldoc.getRootElement();
          List<Element> retrievedScenarioNamesFromFile = 
                rootNode.getChildren("scenario");
