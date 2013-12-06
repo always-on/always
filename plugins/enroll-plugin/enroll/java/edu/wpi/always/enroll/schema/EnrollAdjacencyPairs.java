@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class EnrollAdjacencyPairs{
 
-   protected static String name, phone, skype;
+   protected static String name, skype;
    protected static int age;
    protected static Relationship relationship;
    protected static MonthDay personBirthday;
