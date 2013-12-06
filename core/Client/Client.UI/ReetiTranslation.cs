@@ -68,7 +68,7 @@ namespace Agent.UI
                 if (output > 0)
                 {
                     //output *= -1;
-                    output = (output * 25) + 50;
+                    output = (output * 25) + 45;
                 }
                 else if (output < 0)
                 {
@@ -86,7 +86,7 @@ namespace Agent.UI
                 }
                 else if (output > 0)
                 {
-                    output = (output * 25) + 60;
+                    output = (output * 25) + 55;
                 }
                 else
                     output = 55.56;
@@ -109,8 +109,8 @@ namespace Agent.UI
                 String command = ConstructMessage(HorOutput, VerOutput);
 
                 if(HorOutput > 50) {
-                    command += rightEyePan + "80 smooth:0.5s, " + rightEyeTilt + "60 smooth:0.5s, ";
-                    command += leftEyePan + "60 smooth:0.5s, " + leftEyeTilt + "60 smooth:0.5s;";
+                    command += rightEyePan + "80 smooth:0.5s, " + rightEyeTilt + "70 smooth:0.5s, ";
+                    command += leftEyePan + "60 smooth:0.5s, " + leftEyeTilt + "70 smooth:0.5s;";
                 }
                 else {
                     command += rightEyePan + "60 smooth:0.5s, " + rightEyeTilt + "40 smooth:0.5s, ";
