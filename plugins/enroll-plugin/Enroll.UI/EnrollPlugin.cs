@@ -53,7 +53,6 @@ namespace Enroll.UI
 					enrollEntryPanel.label13.Content = m["relationship"];
 					enrollEntryPanel.label15.Content = m["zipcode"];
 					enrollEntryPanel.label16.Content = m["spouse"];
-					enrollEntryPanel.label17.Content = m["phoneNumber"];
 					enrollEntryPanel.label18.Content = m["skypeAccount"];
 					enrollEntryPanel.label14.Content = m["birthday"];
 				});

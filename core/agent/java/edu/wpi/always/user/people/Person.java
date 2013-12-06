@@ -43,10 +43,6 @@ public interface Person {
 
    void setBirthday (MonthDay day);
 
-   String getPhoneNumber ();
-
-   void setPhoneNumber (String number);
-
    String getSkypeNumber ();
 
    void setSkypeNumber (String number);
