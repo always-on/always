@@ -8,7 +8,7 @@
          <step name="__Demo_step" task="disco:Say"/>
          <step name="__Demo_ref" task="__Demo_tree"/>
          <binding slot="$__Demo_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; &lt;DELAY MS=\&#34;4000\&#34;/&gt; &lt;HEADNOD/&gt; &lt;EYEBROWS DIR=UP/&gt; I am testing markups. &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; &lt;GAZE horizontal=\&#34;-1\&#34; vertical=\&#34;1\&#34;/&gt; &lt;DELAY MS=\&#34;2000\&#34;/&gt; &lt;GAZE horizontal=\&#34;0\&#34; vertical=\&#34;0\&#34;/&gt; &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &lt;EYEBROWS DIR=DOWN/&gt; &#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; &lt;DELAY MS=\&#34;10000\&#34;/&gt; &lt;HEADNOD/&gt; &lt;EYEBROWS DIR=UP/&gt; I am testing delay markups. &lt;DELAY MS=\&#34;3000\&#34;/&gt; &lt;BREAK TIME=\&#34;15S\&#34; /&gt; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; &lt;GAZE horizontal=\&#34;-1\&#34; vertical=\&#34;1\&#34;/&gt; &lt;DELAY MS=\&#34;2000\&#34;/&gt; &lt;GAZE horizontal=\&#34;0\&#34; vertical=\&#34;0\&#34;/&gt; &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &lt;EYEBROWS DIR=DOWN/&gt; &#34;"/>
          <binding slot="$__Demo_step.external" value="false"/>
       </subtasks>
    </task>
