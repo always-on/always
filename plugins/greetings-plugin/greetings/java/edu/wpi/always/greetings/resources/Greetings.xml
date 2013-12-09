@@ -6,16 +6,18 @@
       <subtasks id="__Morning_subtasks">
          <step name="__Morning_step" task="disco:Say$Expression"/>
          <step name="__Morning_ref" task="__Morning_tree"/>
-         <binding slot="$__Morning_step.text" value="&#34;\&#34;Good morning, \&#34;+(userName)+\&#34;.\&#34;&#34;"/>
+         <binding slot="$__Morning_step.text" value="&#34;\&#34;Good morning, \&#34;+(getUserName())+\&#34;.\&#34;&#34;"/>
          <binding slot="$__Morning_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_SleepWell">
       <subtasks id="__SleepWell_subtasks">
-         <step name="__SleepWell_step" task="disco:Say"/>
+         <step name="__SleepWell_step" task="disco:Say$Eval"/>
          <step name="__SleepWell_ref" task="__SleepWell_tree"/>
          <binding slot="$__SleepWell_step.text" value="&#34;Did you sleep well?&#34;"/>
          <binding slot="$__SleepWell_step.external" value="false"/>
+         <binding slot="$__SleepWell_step.eval"
+                  value="&#34;poorSleepReports = getPoorSleepReports();&#34;"/>
       </subtasks>
    </task>
    <task id="_CallDoc">
@@ -524,8 +526,11 @@
                     new java.lang.Integer(n));
     } 
     
-    var userName = $always.getUserModel().getUserFirstName();
-    var poorSleepreports= getPoorSleepReports();
+    function getUserName () {
+       return $always.getUserModel().getUserFirstName();
+    }
+    
+    var poorSleepreports;
     
   </script>
 </taskModel>

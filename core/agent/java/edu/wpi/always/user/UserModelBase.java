@@ -35,14 +35,14 @@ public abstract class UserModelBase implements UserModel {
 
    @Override
    public Closeness getCloseness () {
-      if ( userName == null ) return Closeness.Stranger;  // for uninitialized model
+      if ( userName.isEmpty() ) return Closeness.Stranger;  // for uninitialized model
       String closeness = getProperty(CLOSENESS);
       return closeness == null ? Closeness.Stranger : Closeness.valueOf(closeness);
    }
 
    @Override
    public void setCloseness (Closeness closeness) { 
-      if ( userName != null ) setProperty(CLOSENESS, closeness.name()); 
+      if ( !userName.isEmpty() ) setProperty(CLOSENESS, closeness.name()); 
    }
   
 }

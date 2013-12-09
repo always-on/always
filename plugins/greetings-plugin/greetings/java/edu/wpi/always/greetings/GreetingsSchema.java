@@ -10,13 +10,24 @@ import edu.wpi.disco.rt.menu.MenuPerceptor;
 public class GreetingsSchema extends DiscoActivitySchema {
 
    public static int HOUR = -1;  // for testing
-         
+   
+   private static boolean running;
+
+   @Override
+   public void dispose () { 
+      super.dispose();
+      running = false; 
+   } 
+   
    public GreetingsSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
+      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
+            GreetingsPlugin.greetingsInteraction);
+      if ( running ) throw new IllegalStateException("GreetingsSchema already running!");
+      running = true;
       setSelfStop(true);
-      interaction.load("edu/wpi/always/greetings/resources/Greetings.xml");
+      interaction.clear();
       if ( HOUR < 0 ) HOUR = LocalTime.now().getHourOfDay();
       if ( HOUR > 4 && HOUR < 12 )
          switch (Always.THIS.getUserModel().getCloseness()) {

@@ -14,8 +14,11 @@
                     new java.lang.Integer(n));
     } 
     
-    var userName = $always.getUserModel().getUserFirstName();
-    var poorSleepreports= getPoorSleepReports();
+    function getUserName () {
+       return $always.getUserModel().getUserFirstName();
+    }
+    
+    var poorSleepreports;
     
   </t:script>
 
@@ -33,12 +36,13 @@
     </t:subtasks>
   </t:task>
 
-  <agent id="_Morning" text="Good morning, {userName}.">
+  <agent id="_Morning" text="Good morning, {getUserName()}.">
     <user text="Good morning."/>
     <user text="oh morning already!  Good morning!"/>
   </agent>
 
-  <agent id="_SleepWell" text="Did you sleep well?">
+  <agent id="_SleepWell" text="Did you sleep well?"
+         eval="poorSleepReports = getPoorSleepReports();">
     <user id="affirm" text="Yes">
       <agent text="Are you feeling okay today?">
         <user text="yes">
