@@ -3,6 +3,8 @@ package edu.wpi.always.greetings;
 import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.user.UserModel;
+import edu.wpi.disco.*;
+import edu.wpi.disco.rt.DiscoRT;
 
 public class GreetingsPlugin extends Plugin {
    
@@ -18,6 +20,11 @@ public class GreetingsPlugin extends Plugin {
       Plugin.main(args, GreetingsPlugin.class, "GreetUser");
    }
   
+   // preload task model
+   final static DiscoRT.Interaction greetingsInteraction = 
+         new DiscoRT.Interaction(new Agent("agent"), new User("user"));
+   static { greetingsInteraction.load("edu/wpi/always/greetings/resources/Greetings.xml"); }
+
    // plugin-specific properties
    
    public static final String POOR_SLEEP_REPORTS = "GreetingsPoorSleepReports";
