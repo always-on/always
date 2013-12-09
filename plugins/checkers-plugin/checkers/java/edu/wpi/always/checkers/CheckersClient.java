@@ -29,8 +29,8 @@ public class CheckersClient implements CheckersUI {
          new ArrayList<String>();
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 30;
-   private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
-   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 2;
+   private static final int AGENT_PLAY_DELAY_AMOUNT = 4;
+   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 3;
 
    public static String gazeDirection = "";
    public static boolean userJumpedAtLeastOnceInThisTurn = false;

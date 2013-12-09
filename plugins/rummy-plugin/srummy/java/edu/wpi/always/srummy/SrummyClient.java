@@ -23,8 +23,8 @@ public class SrummyClient implements SrummyUI {
    private static final String MSG_GAME_OVER = "rummy.gameover"; //sends
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;//not currently used
-   private static final int AGENT_PLAY_DELAY_AMOUNT = 5;
-   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 2;
+   private static final int AGENT_PLAY_DELAY_AMOUNT = 6;
+   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 3;
    private static final int AGENT_DRAWING_DISCARDING_DELAY = 1;
 
    public static String gazeDirection = "";

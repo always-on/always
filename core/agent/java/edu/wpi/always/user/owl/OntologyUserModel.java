@@ -32,7 +32,7 @@ public class OntologyUserModel extends UserModelBase {
    
    @Override
    public void setUserName (String userName) {
-      if ( this.userName.length() == 0 ) {
+      if ( this.userName.isEmpty() ) {
          this.userName = userName;
          int space = userName.indexOf(' ');
          userFirstName = space < 0 ? userName : userName.substring(0, space);
@@ -136,6 +136,7 @@ public class OntologyUserModel extends UserModelBase {
 
    @Override
    public synchronized void save () {
+      if ( userName.isEmpty() ) return; // don't write out bad file
       try {
          OWLOntologyManager manager = ontology.getManager();
          OWLOntology userOntology = manager.createOntology(IRI.create("UserModel"));
