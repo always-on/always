@@ -12,7 +12,7 @@
 
   <task id="_Session">
     <subtasks id="_s1">
-      <step name="demo" task="_Demo"/>
+      <step name="test" task="_test"/>
       <step name="greet" task="a:GreetUser"/>
       <step name="enroll" task="a:EnrollUser" minOccurs="0"/>	
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
@@ -23,8 +23,7 @@
 
   <!--  when session "falls off the end" of this plan, it will
         default to toplevel activities. -->
-
-  <d:agent id="_Demo" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; &lt;HEADNOD/&gt; &lt;EYEBROWS DIR=UP/&gt; I am testing markups. &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; &lt;GAZE horizontal=\&quot;-1\&quot; vertical=\&quot;1\&quot;/&gt; &lt;DELAY MS=\&quot;2000\&quot;/&gt; &lt;GAZE horizontal=\&quot;0\&quot; vertical=\&quot;0\&quot;/&gt; &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; &lt;EYEBROWS DIR=DOWN/&gt; ">
+  <d:agent id="_test" text="I am testing mark-ups with two-second durations. &lt;break time=\&quot;3s\&quot;/&gt; Smile. &lt;break time=\&quot;3s\&quot;/&gt; &lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; &lt;DELAY MS=\&quot;2000\&quot;/&gt; &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; &lt;break time=\&quot;3s\&quot;/&gt; Eyebrows. &lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt;&lt;DELAY MS=\&quot;2000\&quot;/&gt; &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt; &lt;break time=\&quot;3s\&quot;/&gt; Concern. &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; &lt;DELAY MS=\&quot;2000\&quot;/&gt; &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; &lt;break time=\&quot;3s\&quot;/&gt; Gaze. &lt;GAZE horizontal=\&quot;-1\&quot; vertical=\&quot;1\&quot;/&gt; &lt;DELAY MS=\&quot;2000\&quot;/&gt; &lt;GAZE horizontal=\&quot;0\&quot; vertical=\&quot;0\&quot;/&gt; &lt;break time=\&quot;3s\&quot;/&gt; Head nod. &lt;HEADNOD/&gt; ">
     <d:user text="Ok"/>
   </d:agent>
 
