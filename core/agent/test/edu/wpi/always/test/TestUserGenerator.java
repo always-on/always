@@ -33,7 +33,6 @@ public class TestUserGenerator {
       peopleMgr.getUser().setBirthday(new MonthDay(1,1));
       Person spouse = addPerson(peopleMgr, "Bob Ferguson", Relationship.Spouse, Gender.Male);
       Person daughter = addPerson(peopleMgr, "Ellen Lewis", Relationship.Daughter, null);
-      daughter.setPhoneNumber("650-339-0221");
       daughter.setSkypeNumber("ellenlewis");
       daughter.setLocation(placeMgr.getPlace("92049"));
       Person daughterHusband = addPerson(peopleMgr, "Mike", null, Gender.Male);
@@ -45,19 +44,15 @@ public class TestUserGenerator {
       Person sister = addPerson(peopleMgr, "Linda Jefferson",
             Relationship.Sister, Gender.Female);
       sister.setLocation(placeMgr.getPlace("38120"));
-      sister.setPhoneNumber("615-334-7889");
       Person friend1 = addPerson(peopleMgr, "Harriet Jones",
             Relationship.Friend, Gender.Female);
       friend1.setLocation(placeMgr.getPlace("02118"));
-      friend1.setPhoneNumber("617-324-0997");
       Person friend2 = addPerson(peopleMgr, "Marion Smith",
             Relationship.Friend, Gender.Female);
       friend2.setLocation(placeMgr.getPlace("02124"));
-      friend2.setPhoneNumber("617-238-3779");
       Person friend3 = addPerson(peopleMgr, "Philip Morley",
             Relationship.Friend, Gender.Male);
       friend3.setLocation(placeMgr.getPlace("33604"));
-      friend3.setPhoneNumber("727-671-4536");      
       calendar.create(new CalendarEntryImpl(null,
                CalendarEntryTypeManager.Types.MedicalAppointment,
                null, null,
