@@ -25,6 +25,7 @@ public class FaceTrackerRealizer extends
       super(params);
       this.proxy = proxy;
       this.perceptor = perceptor;
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>FaceTrackerRealizer...");
    }
 
    public void AgentFaceTracking () {
@@ -33,10 +34,14 @@ public class FaceTrackerRealizer extends
 
       perception = perceptor.getLatest();
 
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Perceptoin: " + perception);
+      
       if ( perception != null ) {
 
          Point point = perception.getPoint();
 
+         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Point: " + point);
+         
          if ( point != null ) {
 
             // following is useful for debugging
@@ -45,6 +50,7 @@ public class FaceTrackerRealizer extends
             currentTime = System.currentTimeMillis();
             float hor = GazeRealizer.translateToAgentTurnHor(point);
             float ver = GazeRealizer.translateToAgentTurnVer(point);
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>hor: " + hor + " ... ver: " + ver);
             proxy.gaze(hor, ver);
             fireDoneMessage();
 
