@@ -17,7 +17,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    protected volatile FacePerception latest;
 
-   protected volatile FaceInfo info, prevInfo;
+   protected volatile FaceInfo info = null, prevInfo = null;
 
    private final int faceHorizontalDisplacementThreshold,
          faceVerticalDisplacementThreshold, faceAreaThreshold;
@@ -37,15 +37,17 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    public void run () {
 
       info = getFaceInfo(0);
-      prevInfo = info;
 
       if ( info != null ) {
-         if ( isRealFace() ) {
-            latest = new FacePerception(DateTime.now(), info.intTop,
-                  info.intBottom, info.intLeft, info.intRight, info.intArea,
-                  info.intCenter, info.intTiltCenter);
+         if (prevInfo != null)
+         {
+            if ( isRealFace() ) {
+               System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> AREA: " + (info.intArea-prevInfo.intArea));
+               latest = new FacePerception(DateTime.now(), info.intTop,
+                     info.intBottom, info.intLeft, info.intRight, info.intArea,
+                     info.intCenter, info.intTiltCenter);
+            }
          }
-
          prevInfo = info;
       }
    }
