@@ -42,7 +42,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
          if (prevInfo != null)
          {
             if ( isRealFace() ) {
-               System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> AREA: " + (info.intArea-prevInfo.intArea));
                latest = new FacePerception(DateTime.now(), info.intTop,
                      info.intBottom, info.intLeft, info.intRight, info.intArea,
                      info.intCenter, info.intTiltCenter);
