@@ -281,7 +281,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          choice("Not really", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new gameOver(context);
+               return new endingPlugin(context);
             }
          });
       }
@@ -292,6 +292,16 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          TTTClient.gameOver = true;
          getContext().getTTTUI().makeBoardUnplayable();
          getContext().getTTTUI().updatePlugin(this);
+      }
+   }
+   
+   public static class endingPlugin extends TTTAdjacencyPairImpl {
+      public endingPlugin(final TTTStateContext context){
+         super("", context);
+      }
+      @Override 
+      public void enter(){
+         getContext().getSchema().stop();
       }
    }
 
