@@ -79,7 +79,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonAgeAdjacencyPair(final EnrollStateContext context) {
-         super("What is" + name + "s age", "Enter "+ name+ "'s age:", 
+         super("What is" + name + "'s age", "Enter "+ name+ "'s age:", 
                context, context.getKeyboard(), true);
          choice("Skip "+ name, new DialogStateTransition() {
             @Override
@@ -144,7 +144,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public TellPersonBirthdayAdjacencyPair(final EnrollStateContext context) {
-         super("Do you want to tell " + name + "s birthday ?", context);
+         super("Do you want to tell " + name + "'s birthday ?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -276,7 +276,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonGenderAdjacencyPair(final EnrollStateContext context) {
-         super("What is" + name + "s gender ?", context);
+         super("What is" + name + "'s gender ?", context);
          choice("Male", new DialogStateTransition() {
 
             @Override
@@ -344,7 +344,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonZipCodeAdjacencyPair(final EnrollStateContext context) {
-         super("What is" + name + "s zipcode ?", "Enter " +name+ "'s zipcode:",
+         super("What is" + name + "'s zipcode ?", "Enter " +name+ "'s zipcode:",
                context, context.getKeyboard(), true);
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -568,7 +568,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonRelationshipAdjacencyPair(final EnrollStateContext context) {
-         super("What is your relationship with" + name +  " For example, is this person your parent or your child?", context, true);
+         super("What is your relationship with" + name +  "? For example, is this person your parent or your child?", context, true);
          choice("Friend", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -708,7 +708,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EnterSpouseAdjacencyPair(final EnrollStateContext context){
-         super("What is" + name + "s spouse's name ?", "Enter " +name +"'s spouse name:", 
+         super("What is" + name + "'s spouse's name ?", "Enter " +name +"'s spouse name:", 
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -775,7 +775,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public SkypeNameAdjacencyPair(final EnrollStateContext context) {
-         super("What is" + name + "s SKYPE name ?", "Enter " + name + "'s skype name:", 
+         super("What is" + name + "'s SKYPE name ?", "Enter " + name + "'s skype name:", 
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
 
