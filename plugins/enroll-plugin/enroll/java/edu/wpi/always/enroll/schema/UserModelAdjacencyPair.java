@@ -150,7 +150,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserBirthdayDayAdjacencyPair(final EnrollStateContext context) {
-         super("What is the date of your Birthday ?", 
+         super("What is the day of your Birthday ?", 
                "Enter your Birthday:", 
                context, context.getKeyboard(), true);}
 

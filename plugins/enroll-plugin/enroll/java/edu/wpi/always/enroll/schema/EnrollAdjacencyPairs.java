@@ -19,8 +19,7 @@ public abstract class EnrollAdjacencyPairs{
    protected static int age;
    protected static Relationship relationship;
    protected static MonthDay personBirthday;
-   protected static int Month;
-   protected static int Day;
+   protected static int Month, Day;
    protected static Gender gender;
    protected static Place location;
    protected static Person person, spouse;
@@ -32,6 +31,13 @@ public abstract class EnrollAdjacencyPairs{
       public PersonNameAdjacencyPair(final EnrollStateContext context) {
          super("What is the person's name", 
                "Enter name:", context, context.getKeyboard());
+         age = Month = Day = 0;
+         name = skype = personState = null;
+         relationship = null;
+         personBirthday = null;
+         gender = null; 
+         location = null;
+         person = spouse = null;
       }
 
       @Override
@@ -79,7 +85,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonAgeAdjacencyPair(final EnrollStateContext context) {
-         super("What is" + name + "'s age", "Enter "+ name+ "'s age:", 
+         super("What is " + name + "'s age", "Enter "+ name+ "'s age:", 
                context, context.getKeyboard(), true);
          choice("Skip "+ name, new DialogStateTransition() {
             @Override
@@ -205,7 +211,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonBirthdayDayAdjacencyPair(final EnrollStateContext context) {
-         super("What is the date of " + name + "'s Birthday ? ", 
+         super("What is " + name + "'s day of Birthday ? ", 
                "Enter "+ name+ "'s Birthday:", 
                context, context.getKeyboard(), true);
          choice("Skip "+name, new DialogStateTransition() {
@@ -241,7 +247,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonBirthdayDayInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("The date you entered is invalid.  Please enter the date again", 
+         super("The date you entered is invalid. Please enter the date again", 
                "Enter valid "+ name+ "'s birthday:", context, context.getKeyboard(), true);
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -276,7 +282,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonGenderAdjacencyPair(final EnrollStateContext context) {
-         super("What is" + name + "'s gender ?", context);
+         super("What is " + name + "'s gender ?", context);
          choice("Male", new DialogStateTransition() {
 
             @Override
@@ -344,7 +350,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonZipCodeAdjacencyPair(final EnrollStateContext context) {
-         super("What is" + name + "'s zipcode ?", "Enter " +name+ "'s zipcode:",
+         super("What is " + name + "'s zipcode ?", "Enter " +name+ "'s zipcode:",
                context, context.getKeyboard(), true);
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -414,7 +420,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonStateAdjacencyPair(final EnrollStateContext context) {
-         super("Which state does" + name + " live in ?", "Enter " +name+ "'s state:",
+         super("Which state does " + name + " live in ?", "Enter " +name+ "'s state:",
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -481,7 +487,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonCityAdjacencyPair(final EnrollStateContext context) {
-         super("Which city does" + name + "live in?", 
+         super("Which city does " + name + " live in?", 
                "Enter " + name + "'s city:",
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
@@ -568,7 +574,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonRelationshipAdjacencyPair(final EnrollStateContext context) {
-         super("What is your relationship with" + name +  "? For example, is this person your parent or your child?", context, true);
+         super("What is your relationship with " + name +  "? For example, is this person your parent or your child?", context, true);
          choice("Friend", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -674,7 +680,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonSpouseAdjacencyPair(final EnrollStateContext context){
-         super("Is " + name + "married ?", context);
+         super("Is " + name + " married?", context);
          choice("Yes", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -708,7 +714,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EnterSpouseAdjacencyPair(final EnrollStateContext context){
-         super("What is" + name + "'s spouse's name ?", "Enter " +name +"'s spouse name:", 
+         super("What is " + name + "'s spouse's name ?", "Enter " +name +"'s spouse name:", 
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -775,7 +781,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public SkypeNameAdjacencyPair(final EnrollStateContext context) {
-         super("What is" + name + "'s SKYPE name ?", "Enter " + name + "'s skype name:", 
+         super("What is " + name + "'s SKYPE name ?", "Enter " + name + "'s skype name:", 
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
 
