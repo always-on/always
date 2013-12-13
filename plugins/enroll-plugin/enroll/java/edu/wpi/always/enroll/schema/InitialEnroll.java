@@ -1,6 +1,7 @@
 package edu.wpi.always.enroll.schema;
 
 
+import java.lang.reflect.Array;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.enroll.schema.EditPersonState.*;
@@ -28,7 +29,9 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
          @Override
          public AdjacencyPair run () {
-            return new PeopleSelectEvent(context);
+            if(getContext().getPeopleManager().getPeople(false).length > 0)
+               return new PeopleSelectEvent(context);
+            return new ClarifyNoFriendsToEdit(context);
          }
       });
       choice("I want to edit my own profile.", new DialogStateTransition() {
@@ -38,18 +41,33 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
             Person person = getContext()
                   .getUserModel().getPeopleManager().getUser();
             if(person == null)
-               return new NoOwnProfile(getContext());
+               return new ClarifyNoOwnProfile(getContext());
             return new EditPersonAdjacencyPair(getContext(), person);
          }
       });
    }
    
-   public static class NoOwnProfile extends EnrollAdjacencyPairImpl{
+   public static class ClarifyNoOwnProfile extends EnrollAdjacencyPairImpl{
 
-      public NoOwnProfile(final EnrollStateContext context) {
+      public ClarifyNoOwnProfile(final EnrollStateContext context) {
          super("Oh! I forgot to ask you to enter your profile first."
             + " After you do, you can edit it.", context);
-         choice("Oh! Okay", new DialogStateTransition() {
+         choice("Oh, ok", new DialogStateTransition() {
+
+            @Override
+            public AdjacencyPair run() {
+               return new InitialEnroll(context);
+            }
+         });
+      }
+   }
+   
+   public static class ClarifyNoFriendsToEdit extends EnrollAdjacencyPairImpl{
+
+      public ClarifyNoFriendsToEdit(final EnrollStateContext context) {
+         super("Well, I still do not know about any of your friends or family,"
+            + " After you tell me about some people, you can edit their profile here", context);
+         choice("Oh, ok", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -82,7 +100,6 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
    public static class DialogEndEvent extends EnrollAdjacencyPairImpl{
 
-
       public DialogEndEvent(final EnrollStateContext context) {
          super("Okay, we can do this again if you want.", context);
          choice("Sure.", new DialogStateTransition() {
@@ -100,13 +117,18 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
       public PeopleSelectEvent (final EnrollStateContext context) {
          super("Tell me whose profile do you want to edit.", context);
-         Person[] people = getContext().getPeopleManager().getPeople(true);
+         Person[] people = getContext().getPeopleManager().getPeople(false);
          for(final Person person : people){
             choice(person.getName(), new DialogStateTransition() {
-
                @Override
                public AdjacencyPair run() {
                   return new EditPersonAdjacencyPair(getContext(), person);
+               }
+            });
+            choice("All done", new DialogStateTransition() {
+               @Override
+               public AdjacencyPair run() {
+                  return new InitialEnroll(getContext());
                }
             });
          }
