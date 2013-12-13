@@ -19,9 +19,8 @@
         <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,1273,0,0" Name="label13" VerticalAlignment="Top" Width="4593" />
         <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,1639,0,0" Name="label15" VerticalAlignment="Top" Width="4593" />
         <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2005,0,0" Name="label16" VerticalAlignment="Top" Width="4593" />
-        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2371,0,0" Name="label17" VerticalAlignment="Top" Width="4593" />
-        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2737,0,0" Name="label18" VerticalAlignment="Top" Width="4593" />
-        <Label Content="Birthday:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,3103,0,0" Name="label5" VerticalAlignment="Top" Width="1295" />
-        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,3103,0,0" Name="label14" VerticalAlignment="Top" Width="4593" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2371,0,0" Name="label18" VerticalAlignment="Top" Width="4593" />
+        <Label Content="Birthday:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,2737,0,0" Name="label5" VerticalAlignment="Top" Width="1295" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2737,0,0" Name="label14" VerticalAlignment="Top" Width="4593" />
     </Grid>
 </UserControl>
