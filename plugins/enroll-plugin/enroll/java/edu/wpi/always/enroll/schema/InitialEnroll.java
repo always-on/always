@@ -10,6 +10,8 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    @Override
    public void enter () {
       EditPersonState.editingSelf = false;
+      ErrorCheckState.firstTimeHere = true;
+      ErrorCheckState.resetErrorCheckingMainPrompt();
    }
    
    public InitialEnroll (final EnrollStateContext context) {
@@ -131,13 +133,13 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
                   return new EditPersonAdjacencyPair(getContext(), person);
                }
             });
-            choice("All done", new DialogStateTransition() {
-               @Override
-               public AdjacencyPair run() {
-                  return new InitialEnroll(getContext());
-               }
-            });
          }
+         choice("All done", new DialogStateTransition() {
+            @Override
+            public AdjacencyPair run() {
+               return new InitialEnroll(getContext());
+            }
+         });
       }
    }
 }

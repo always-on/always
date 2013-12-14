@@ -29,7 +29,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonNameAdjacencyPair(final EnrollStateContext context) {
-         super("What is the person's name", 
+         super("Tell me the person's name", 
                "Enter name:", context, context.getKeyboard());
          age = Month = Day = 0;
          name = skype = personState = null;
@@ -85,7 +85,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonAgeAdjacencyPair(final EnrollStateContext context) {
-         super("What is " + name + "'s age", "Enter "+ name+ "'s age:", 
+         super("Can you tell me" + name + "'s age", "Enter "+ name+ "'s age:", 
                context, context.getKeyboard(), true);
          choice("Skip "+ name, new DialogStateTransition() {
             @Override
@@ -214,8 +214,8 @@ public abstract class EnrollAdjacencyPairs{
          super("What is " + name + "'s day of Birthday ? ", 
                "Enter "+ name+ "'s Birthday:", 
                context, context.getKeyboard(), true);
+         
          choice("Skip "+name, new DialogStateTransition() {
-
             @Override
             public AdjacencyPair run() {
                getContext().hideKeyboard();
@@ -282,7 +282,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonGenderAdjacencyPair(final EnrollStateContext context) {
-         super("What is " + name + "'s gender ?", context);
+         super("May I ask " + name + "'s gender ?", context);
          choice("Male", new DialogStateTransition() {
 
             @Override
@@ -321,7 +321,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public KnowZipCodeAdjacencyPair(final EnrollStateContext context) {
-         super("Do you know " + name + "'s ZipCode ?", context);
+         super("Do you happen to know " + name + "'s ZipCode ?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -350,7 +350,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonZipCodeAdjacencyPair(final EnrollStateContext context) {
-         super("What is " + name + "'s zipcode ?", "Enter " +name+ "'s zipcode:",
+         super("Please tell me " + name + "'s zipcode ?", "Enter " +name+ "'s zipcode:",
                context, context.getKeyboard(), true);
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -385,7 +385,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public ZipCodeInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("The zipcode you entered is invalid. Please enter a valid zipcode.", 
+         super("I think that zipcode seems invalid. Can you please try again?", 
                "Enter " +name +"'s zipcode again:", context, context.getKeyboard(), true);
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -453,8 +453,8 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public StateInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("Sorry, but you must enter a valid state name here", 
-               "Please Enter valid state name:",
+         super("Sorry, but that state does not sound right,", 
+               "Please give it another try:",
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -528,7 +528,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public CityInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("That city name is not valid.  Please enter it again", 
+         super("That city name seems invalid.  Please enter it again here", 
                
                "Invalid city name. Plase re-enter " + name + "'s city:",
                context, context.getKeyboard());
@@ -744,7 +744,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonContactAdjacencyPair(final EnrollStateContext context) {
-         super("Do you want to plan to talk to this person by SKYPE video calls ?", context);
+         super("Do you plan to talk to this person by SKYPE video calls ?", context);
          choice("Yes", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
