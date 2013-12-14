@@ -574,7 +574,8 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonRelationshipAdjacencyPair(final EnrollStateContext context) {
-         super("What is your relationship with " + name +  "? For example, is this person your parent or your child?", context, true);
+         super("What is your relationship with " + name +  "? "
+            + "For example, is this person your cousin or your friend?", context, true);
          choice("Friend", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -666,7 +667,6 @@ public abstract class EnrollAdjacencyPairs{
             }
          });
          choice("Skip "+name, new DialogStateTransition() {
-
             @Override
             public AdjacencyPair run() {
                getContext().hideKeyboard();

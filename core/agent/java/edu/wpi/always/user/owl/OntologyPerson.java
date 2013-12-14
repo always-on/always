@@ -125,7 +125,8 @@ public class OntologyPerson implements Person {
          // Note order of Relationship values start with most specific
          Set<OWLNamedIndividual> values = owlPerson.getObjectPropertyValues(r.name());
          for (OWLNamedIndividual related : values) 
-            if ( related == user ) return r;
+            if ( related == user.getOWLIndividual() ) 
+               return r;
       }
       return null;
    }

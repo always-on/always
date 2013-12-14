@@ -50,7 +50,7 @@ public class EnrollClient implements EnrollUI {
       
       String relationshipName = "";
       if( person.getRelationship() != null )
-         relationshipName =person.getRelationship().name();
+         relationshipName = person.getRelationship().name();
       
       Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "personInfo")
             .add("name", person.getName())
