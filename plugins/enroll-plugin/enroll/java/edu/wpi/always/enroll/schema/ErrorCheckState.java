@@ -113,7 +113,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          AdjacencyPairBase<EnrollStateContext> {
 
       public TellEditBirthdayAdjacencyPair (final EnrollStateContext context) {
-         super("Do you want to tell " + name + "'s birthday ?", context);
+         super("Do you want to remove birthday or to enter a new one?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -133,7 +133,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
             @Override
             public AdjacencyPair run () {
-               person.setBirthday(null);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
@@ -160,7 +159,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          choice("Never Mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               person.setBirthday(null);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
@@ -192,7 +190,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
       @Override
       public AdjacencyPair cancel () {
          getContext().hideKeyboard();
-         person.setBirthday(null);
          return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
    }

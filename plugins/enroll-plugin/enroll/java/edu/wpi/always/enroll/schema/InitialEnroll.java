@@ -14,31 +14,21 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    
    public InitialEnroll (final EnrollStateContext context) {
       super("I'm ready for you to tell me about your family and friends", context);
-      choice("Okay", new DialogStateTransition() {
+      choice("Sounds good", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
             return new ReadyForStartEvent(context);
          }
       });
-      choice("No, not right now", new DialogStateTransition() {
+      choice("Not now, maybe later", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
             return new DialogEndEvent(context);
          }
       });
-      choice("I want to edit someones's profile", new DialogStateTransition() {
-
-         @Override
-         public AdjacencyPair run () {
-            if(getContext().getPeopleManager().getPeople(false).length > 0)
-               return new PeopleSelectEvent(context);
-            EditPersonState.prompt = "Here is what I know about this person";
-            return new ClarifyNoFriendsToEdit(context);
-         }
-      });
-      choice("I want to edit my own profile", new DialogStateTransition() {
+      choice("I want to edit my own information", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
@@ -49,6 +39,16 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
             EditPersonState.editingSelf = true;
             EditPersonState.prompt = "Ok, Here is what I know about you";
             return new EditPersonAdjacencyPair(getContext(), person);
+         }
+      });
+      choice("I want to edit someone else's information", new DialogStateTransition() {
+
+         @Override
+         public AdjacencyPair run () {
+            if(getContext().getPeopleManager().getPeople(false).length > 0)
+               return new PeopleSelectEvent(context);
+            EditPersonState.prompt = "Here is what I know about this person";
+            return new ClarifyNoFriendsToEdit(context);
          }
       });
    }
@@ -87,14 +87,14 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
       public ReadyForStartEvent(final EnrollStateContext context) {
          super("Good. Let's start", context);
-         choice("Yes, let's start.", new DialogStateTransition() {
+         choice("Yes, let's start", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
                return new PersonNameAdjacencyPair(context);
             }
          });
-         choice("No, I changed my mind.", new DialogStateTransition() {
+         choice("No, I changed my mind", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -107,8 +107,8 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    public static class DialogEndEvent extends EnrollAdjacencyPairImpl{
 
       public DialogEndEvent(final EnrollStateContext context) {
-         super("Okay, we can do this again if you want.", context);
-         choice("Sure.", new DialogStateTransition() {
+         super("Okay, we can do this again if you want", context);
+         choice("Sure", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -122,7 +122,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    public static class PeopleSelectEvent extends EnrollAdjacencyPairImpl {
 
       public PeopleSelectEvent (final EnrollStateContext context) {
-         super("Tell me whose profile do you want to edit.", context);
+         super("Tell me whose profile do you want to edit", context);
          Person[] people = getContext().getPeopleManager().getPeople(false);
          for(final Person person : people){
             choice(person.getName(), new DialogStateTransition() {
