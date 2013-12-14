@@ -22,7 +22,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       public EditPersonAdjacencyPair(final EnrollStateContext context, final Person person){
          super("Here is the previous information about this person", context, true);
          this.person = person;
-         choice("Edit name", new DialogStateTransition() {
+         choice("Edit Name", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new ChangeNameAdjacencyPair(getContext(), person);
@@ -70,7 +70,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new ChangeSkypeAdjacencyPair(getContext(), person);
             }
          });
-         choice("Done Edit", new DialogStateTransition() {
+         choice("Done editing", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                getContext().hideEnrollUI();

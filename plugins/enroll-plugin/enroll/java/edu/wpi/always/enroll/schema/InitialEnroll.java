@@ -1,7 +1,5 @@
 package edu.wpi.always.enroll.schema;
 
-
-import java.lang.reflect.Array;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.enroll.schema.EditPersonState.*;
