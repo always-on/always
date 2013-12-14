@@ -21,14 +21,14 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
             return new ReadyForStartEvent(context);
          }
       });
-      choice("No, not right now.", new DialogStateTransition() {
+      choice("No, not right now", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
             return new DialogEndEvent(context);
          }
       });
-      choice("I want to edit someones's profile.", new DialogStateTransition() {
+      choice("I want to edit someones's profile", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
@@ -38,7 +38,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
             return new ClarifyNoFriendsToEdit(context);
          }
       });
-      choice("I want to edit my own profile.", new DialogStateTransition() {
+      choice("I want to edit my own profile", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
@@ -46,6 +46,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
                   .getUserModel().getPeopleManager().getUser();
             if(person == null)
                return new ClarifyNoOwnProfile(getContext());
+            EditPersonState.editingSelf = true;
             EditPersonState.prompt = "Ok, Here is what I know about you";
             return new EditPersonAdjacencyPair(getContext(), person);
          }
@@ -55,7 +56,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    public static class ClarifyNoOwnProfile extends EnrollAdjacencyPairImpl{
 
       public ClarifyNoOwnProfile(final EnrollStateContext context) {
-         super("Oh! I forgot to ask you to enter your profile first."
+         super("Oh! I forgot to ask you to enter your profile first"
             + " After you do, you can edit it.", context);
          choice("Oh, ok", new DialogStateTransition() {
 
