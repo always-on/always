@@ -40,12 +40,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new IfKnowZipCodeAdjacencyPair(getContext(), person);
             }
          });
-         choice("Edit Relation", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run() {
-               return new ChangeRelationAdjacencyPair(getContext(), person);
-            }
-         });
          choice("Edit Age", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
