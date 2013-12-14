@@ -7,6 +7,11 @@ import edu.wpi.always.enroll.schema.EnrollAdjacencyPairs.*;
 
 public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
+   @Override
+   public void enter () {
+      EditPersonState.editingSelf = false;
+   }
+   
    public InitialEnroll (final EnrollStateContext context) {
       super("I'm ready for you to tell me about your family and friends", context);
       choice("Okay", new DialogStateTransition() {
@@ -29,6 +34,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
          public AdjacencyPair run () {
             if(getContext().getPeopleManager().getPeople(false).length > 0)
                return new PeopleSelectEvent(context);
+            EditPersonState.prompt = "Here is what I know about this person";
             return new ClarifyNoFriendsToEdit(context);
          }
       });
@@ -40,6 +46,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
                   .getUserModel().getPeopleManager().getUser();
             if(person == null)
                return new ClarifyNoOwnProfile(getContext());
+            EditPersonState.prompt = "Ok, Here is what I know about you";
             return new EditPersonAdjacencyPair(getContext(), person);
          }
       });
@@ -78,7 +85,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    public static class ReadyForStartEvent extends EnrollAdjacencyPairImpl{
 
       public ReadyForStartEvent(final EnrollStateContext context) {
-         super("That's good. Let's start", context);
+         super("Good. Let's start", context);
          choice("Yes, let's start.", new DialogStateTransition() {
 
             @Override

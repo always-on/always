@@ -14,14 +14,18 @@ import java.util.List;
 
 public class EditPersonState extends EnrollAdjacencyPairs{
 
+   public static String prompt;
+   public static boolean editingSelf = false;
+   
    public static class EditPersonAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> { 
      
       Person person;
      
       public EditPersonAdjacencyPair(final EnrollStateContext context, final Person person){
-         super("Here is the previous information about this person", context, true);
+         super(prompt, context, true);
          this.person = person;
+         
          choice("Edit Name", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -40,6 +44,13 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new IfKnowZipCodeAdjacencyPair(getContext(), person);
             }
          });
+         if(!editingSelf)
+            choice("Edit Relation", new DialogStateTransition() {
+               @Override
+               public AdjacencyPair run() {
+                  return new ChangeRelationAdjacencyPair(getContext(), person);
+               }
+            });
          choice("Edit Age", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
