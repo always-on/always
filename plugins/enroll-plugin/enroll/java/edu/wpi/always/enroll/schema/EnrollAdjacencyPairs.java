@@ -85,7 +85,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonAgeAdjacencyPair(final EnrollStateContext context) {
-         super("Can you tell me" + name + "'s age", "Enter "+ name+ "'s age:", 
+         super("Can you tell me " + name + "'s age", "Enter "+ name+ "'s age:", 
                context, context.getKeyboard(), true);
          choice("Skip "+ name, new DialogStateTransition() {
             @Override
@@ -453,8 +453,8 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public StateInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("Sorry, but that state does not sound right,", 
-               "Please give it another try:",
+         super("Sorry, but that state name does not sound right, "
+            + "Could you please try again?", "Please enter valid state name:",
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
 

@@ -37,7 +37,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          if(firstTimeHere){
             nameForLastState = 
                   EditPersonState.editingSelf ? "you better": name;
-            name = EditPersonState.editingSelf ? "yours" : name + "'s";
+            name = EditPersonState.editingSelf ? "your" : name + "'s";
          }
          firstTimeHere = false;
          mainPromptForCheckCorrection = 
