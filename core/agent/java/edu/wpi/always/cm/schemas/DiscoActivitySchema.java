@@ -19,14 +19,6 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    
    public DiscoActivitySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Always always) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
-      // note activities append to session log
-      console = new DiscoRT.ConsoleWindow(interaction, getClass().getSimpleName(), true);
-   }
-   
-   public DiscoActivitySchema (BehaviorProposalReceiver behaviorReceiver,
-         BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always, DiscoRT.Interaction interaction) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
       // note activities append to session log

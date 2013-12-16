@@ -418,7 +418,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeStateAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("Which state does" + person.getName() +  "live in ? ", "Enter " + person.getName() + "'s state:",
+         super("Which state does" + person.getName() +  "reside in ? ", "Enter " + person.getName() + "'s state:",
                context, context.getKeyboard());
          this.person = person;
       }

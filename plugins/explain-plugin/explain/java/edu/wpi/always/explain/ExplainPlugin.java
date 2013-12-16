@@ -3,6 +3,8 @@ package edu.wpi.always.explain;
 import edu.wpi.always.Plugin;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.user.UserModel;
+import edu.wpi.disco.*;
+import edu.wpi.disco.rt.DiscoRT;
 
 public class ExplainPlugin extends Plugin {
    
@@ -18,6 +20,11 @@ public class ExplainPlugin extends Plugin {
       Plugin.main(args, ExplainPlugin.class, "ExplainSelf");
    }
 
+   // preload task model
+   final static DiscoRT.Interaction explainInteraction = 
+         new DiscoRT.Interaction(new Agent("agent"), new User("user"));
+   static { explainInteraction.load("edu/wpi/always/explain/resources/Explain.xml"); }
+   
    // plugin-specific properties
    
    public static final String

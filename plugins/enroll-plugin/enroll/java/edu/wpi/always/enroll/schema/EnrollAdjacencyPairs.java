@@ -481,7 +481,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonCityAdjacencyPair(final EnrollStateContext context) {
-         super("Which city does" + name + "live in?", 
+         super("Which city does" + name + "reside in?", 
                "Enter " + name + "'s city:",
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {

@@ -6,6 +6,8 @@ import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.weather.wunderground.WundergroundWeatherProvider;
+import edu.wpi.disco.*;
+import edu.wpi.disco.rt.DiscoRT;
 
 // TODO Make this work with live daily data
 
@@ -50,5 +52,10 @@ public class WeatherPlugin extends Plugin {
                +" my #"+plugin.getIntProperty(RANK)
                +" favorite weather is "+plugin.getProperty(FAVORITE));
    }
+   
+   // preload task model
+   final static DiscoRT.Interaction weatherInteraction = 
+         new DiscoRT.Interaction(new Agent("agent"), new User("user"));
+   static { weatherInteraction.load("edu/wpi/always/weather/resources/Weather.xml"); }
  
 }

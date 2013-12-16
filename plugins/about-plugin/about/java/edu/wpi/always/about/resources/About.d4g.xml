@@ -4,14 +4,7 @@
        xmlns:t="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext">
 
   <t:script init="true">
-
-    // how to say this?  if (todaydate = holidaydate )
-    //   var holidayType = getHoliday;
-    var holiday = false ;
-    var holidayType = "July4th";
-
-
-    var familyFriendsList = $always.getUserModel().getPeopleManager().getPeople(false);
+  
     var famFriend ;
     var statusFamFriend;
     var statusType ;
@@ -19,17 +12,21 @@
     var genderFamFriend;
     var famFriendName;
     var famFriendRelationship;
-    var user = $always.getUserModel().getPeopleManager().getUser();
-    var userName = $always.getUserModel().getUserFirstName();
-    print ("the user's name is =" + userName + "  ");
     var pronounObj = "her";
     var pronounSubj = "she";
     var pronounPossessive = "her";
-    
+
+    var familyFriendsList;
+
+    function getUserName () {
+      return $always.getUserModel().getUserFirstName();
+    }
 
     // convenience functions
     function positive (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Positive); }
+
     function negative (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Negative); }
+
     function reset (person) {
         person.setAboutMentioned(false); 
 		person.setAboutStatus(null);
@@ -40,25 +37,24 @@
 
   <t:task id="_TalkAbout">
     <t:subtasks id="main">
-      <t:step name="start" task="_Holiday" minOccurs="0" maxOccurs="1"/>
+      <t:step name="init" task="_Init"/>
       <t:step name="who" task="IteratePeople" maxOccurs="10"/>
       <t:step name="end" task="_End"/>
     </t:subtasks>
   </t:task>
 
-  <t:task id="_Holiday">
-    <t:precondition> holiday </t:precondition>
-    <t:subtasks id="first">
-      <t:step name="discuss" task="_WhatDoingOnHoliday"/>
-    </t:subtasks>
+  <t:task id="_Init">
+    <t:script>  
+      familyFriendsList = $always.getUserModel().getPeopleManager().getPeople(false);
+    </t:script>
   </t:task>
 
- 
+
   <!-- this task has to iterate over the familyFriendsList -->
   <!-- in OWL db, a person has an AboutStatus (positive, negative or null), may have been mentioned before isAboutMentioned, with values true, false, null.  AboutMentioned is from previous conversations.  What has been said about a family or friend is stored in AboutComment and is particular to this app  -->
 
   <t:task id="IteratePeople">
-    <t:precondition> $plan.getRepeatStep() &lt; familyFriendsList.length ? undefined : false </t:precondition>
+    <t:precondition> familyFriendsList != undefined &amp;&amp; ( $plan.getRepeatStep() &lt; familyFriendsList.length ? undefined : false )</t:precondition>
     <t:subtasks id="_iteratedTask">
       <t:step name="get" task="_GetPerson"/>
       <t:step name="how" task="_HowIsSoAndSo" />
@@ -193,7 +189,7 @@
 	  <!-- reset statusType to empty and previousTalk to null -->
 	</user>
 	<user text="No, {pronounSubj} is still ill" >
-	  <agent text="Oh, that's tough.  Have you been to see {pronounObj}?">
+	  <agent text="Oh, that's too bad.  Have you been to see {pronounObj}?">
 	    <user text="Yes, but I should give {pronounObj} a call again" >
 	      <agent text="Yeh, good idea" />
 	      <!-- leave status as is and ask again  -->
@@ -271,13 +267,10 @@
   </agent>
    
   <agent id="_HowIsXDoing"
-	 text=" {userName} , How is {famFriendRelationship} {famFriendName} doing?" >
+	 text=" {getUserName()} , How is {famFriendRelationship} {famFriendName} doing?" >
     <user text="I don't want to talk about {pronounObj} today">
       <agent text="okay." />
-    </user>
-    <user text="I'm done talking about my family and friends" >
-      <do task="_CloseFamilyFriends" />
-    </user>
+	</user>
     <user text="Overall pretty good">
       <agent text=
 	     "Any news from {pronounObj}? | what's new with {pronounObj}?" >
@@ -312,7 +305,11 @@
 	  <agent text="how nice to get new clothes" >
 	    <user text="I agree"/>
 	    <user text="I'm not so interested in that sort of thing">
-	      <agent text="Oh, really?  well, that means you don't have to go shopping!" />
+	      <agent text="Oh, really?  well, that means you don't have to go shopping!" >
+	      	<user text="Yes, exactly. No shopping"/>
+	      	<user text="But I sometimes go with {famFriend}"/>
+	      	<user text="I like to do other things more"/>
+	      </agent>
 	    </user>
 	  </agent>
 	</user>
@@ -323,11 +320,11 @@
 	  <!-- UM gets "was going on vacation" status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="oh really, where?  Want me to keep track in weather updates?" >
-	    <user text="Yes, ask me when we talk about weather" >
+	    <user text="Yes, I'll tell you when we talk about weather" >
 	      <agent text="do you wish you could go somewhere special?" >
-		<!--store below in UM user likes/does not like travel -->
-		<user text="No, I don't like to travel"/>
-		<user text="Yes, that would be great"/>
+			<!--store below in UM user likes/does not like travel -->
+			<user text="No, I don't like to travel"/>
+			<user text="Yes, that would be great"/>
 	      </agent>
 	    </user>
 	    <user text="No, no thanks" >
@@ -341,7 +338,17 @@
 		    famFriend.setAboutComment('got a new friend');">
 	  <!-- UM gets "got a new friend" status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
-	  <agent text="well, that's good."/>
+	  <agent text="well, that's good.">
+	  	<user text="I wish I had some new friends">
+	  		<agent text="Try meeting someone when you go walking!">
+	  			<user text="Good idea"/>
+	  			<user text="I'll think of another way!"/>
+	  			<user text="Maybe I will call up someone I already know"/>
+	  		</agent>
+	    </user>
+	  	<user text="Yes {pronounSubj} is very pleased"/>
+	  	<user text="Yes, {pronounSubj} told me all about it"/>
+	  </agent>
 	</user>
 	<user text=" {pronounSubj} is coming to visit me"
 	      eval="famFriend.setAboutMentioned(true); 
@@ -374,14 +381,14 @@
 		famFriend.setAboutComment('was ill');">
       <!-- put in UM status as ill, statusType as negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
-      <agent text="I hope it's not serious" >
-	<user text="Well, it is.  I'm worried" >
+      <agent text="I hope the illness is not serious" >
+		<user text="Well, it is.  I'm worried" >
 	      <agent text="if you haven't talked to {pronounObj}, why don't you give {pronounObj} a call?" >
-		<user text="I did just recently" />
-		<user text="Yes, I think I'll do that" />  
-	      </agent>
+			<user text="I did just recently" />
+			<user text="Yes, I think I'll do that" />  
+	      	</agent>
 	    </user>
-	    <user text=" But {pronounSubj} is getting better" >
+	    <user text="But {pronounSubj} is getting better" >
 	      <agent text="that's good to hear" />
 	    </user>
 	    <user text="No, I think {pronounSubj}'ll be okay" >
@@ -453,7 +460,7 @@
 		  <agent text="well, I'm sure {famFriendName} would like hearing from you" />
 		</user>
 		<user text="No, not really" >
-		  <agent text="Perhaps should get in touch with {pronounObj}" >
+		  <agent text="Perhaps you should get in touch with {pronounObj}" >
 		    <user text="I think I will"/>
 		    <user text="Maybe tomorrow" />
 		  </agent>
@@ -491,6 +498,7 @@
 	</user>
       </agent>
 
+  <agent id="_End" text="well, {getUserName()}, it was nice talking about your friends and family with you" />
 
   <agent id="_CloseFamilyFriends"
 	 text="Remember. You can have a video call with friends and family.  If you want to do that, let me know." >
@@ -499,8 +507,6 @@
     <user text="Okay, I'll remember" />
     <user text="Okay, not now" />
   </agent>
-
-  <agent id="_End" text="well, {userName}, it was nice talking about your friends and family with you" />
 
  <agent id="_WhatDoingOnHoliday"
 	 text="You know {holidayType} is coming.  Have you got any plans for spending it with family or friends?" >

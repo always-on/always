@@ -13,18 +13,29 @@ import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
 public class WeatherSchema extends DiscoActivitySchema {
+   
+   private static boolean running;
 
+   @Override
+   public void dispose () { 
+      super.dispose();
+      running = false; 
+   } 
+   
    public WeatherSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always,
          // these will be needed later
          PeopleManager peopleManager,
          PlaceManager placeManager) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
+      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always,
+            WeatherPlugin.weatherInteraction);
+      if ( running ) throw new IllegalStateException("WeatherSchema already running!");
+      running = true;
       interaction.eval("date = "+ "\"" +
            (WeatherPlugin.date == null ? getTodayDate(): WeatherPlugin.date)+ "\"" + ";",
           "Weather data");
-      interaction.load("edu/wpi/always/weather/resources/Weather.xml"); 
+      interaction.clear();
       switch (Always.THIS.getUserModel().getCloseness()) {
          case Stranger: start("_WeatherStranger"); break;
          case Acquaintance: start("_WeatherAcquaintance"); break;

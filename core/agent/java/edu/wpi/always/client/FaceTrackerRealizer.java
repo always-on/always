@@ -27,11 +27,10 @@ public class FaceTrackerRealizer extends
       this.perceptor = perceptor;
    }
 
-   public void AgentFaceTracking () {
-
-      FacePerception perception;
-
-      perception = perceptor.getLatest();
+   @Override
+   public void run () {
+      
+      FacePerception perception = perceptor.getLatest();
 
       if ( perception != null ) {
 
@@ -58,10 +57,5 @@ public class FaceTrackerRealizer extends
             }
          }
       }
-   }
-
-   @Override
-   public void run () {
-      AgentFaceTracking();
    }
 }

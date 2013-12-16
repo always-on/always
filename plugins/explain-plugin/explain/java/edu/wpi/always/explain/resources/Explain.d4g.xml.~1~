@@ -44,40 +44,32 @@
 
     // dynamically construct enumeration based on flags
 
-    Activity.ENUM = {};
+    Activity.ENUM = {}
+
+    for (var a in Activity.ALL) 
+      if ( !Activity.ALL[a].checkFlag() ) 
+        Activity.ENUM[a] = Activity.ALL[a];
 
     // dialogue control variables
-    var noThanks;
+
+    var noThanks = false;
     var $CHOICE;
 
-    function isPreviousTalk () {
-       return $always.getUserModel().isProperty(edu.wpi.always.explain.ExplainPlugin.PREVIOUS_TALK);
-    }
+    var previousTalk = $always.getUserModel().isProperty(edu.wpi.always.explain.ExplainPlugin.PREVIOUS_TALK);
 
   </t:script>
 
   <t:task id="_ExplainSelf">
     <t:subtasks id="_basic">
-      <t:step name="init" task="_Init"/>
       <t:step name="start" task="MoreExplaining" minOccurs="1" maxOccurs="10"/>
       <t:step name="end" task="_EndExplaining"/>
-      <t:applicable> !isPreviousTalk() </t:applicable>
+      <t:applicable> !previousTalk </t:applicable>
     </t:subtasks>
     <t:subtasks id="_knowssome">
-      <t:step name="init" task="_Init"/>
       <t:step name="start" task="_StartRest" />
       <t:step name="double" task="_Double" />
-      <t:applicable> isPreviousTalk() </t:applicable>
+      <t:applicable> previousTalk </t:applicable>
     </t:subtasks>
-  </t:task>
-
-  <t:task id="_Init">
-    <t:script>
-     noThanks = false;
-     for (var a in Activity.ALL) 
-       if ( !Activity.ALL[a].checkFlag() ) 
-         Activity.ENUM[a] = Activity.ALL[a];
-    </t:script>
   </t:task>
 
   <agent id="_StartRest" 
@@ -206,9 +198,9 @@
         <user text="go on">
           <agent text="I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk.  I'll remind you before the call">
             <user text="Ok, I definitely want to try that" />
-            <user text="Gee, most of my family doesn't have a computer">
+            <user text="gee, most of my family doesn't have a computer">
               <agent text="well, if anyone does, you can try it" >
-                <user text="Okay, I'll see if anyone does" />
+                <user text="okay, I'll see if anyone does" />
                 <user text="I will probably not do this"/>
                 <user text="maybe I can do this"/>
               </agent>
@@ -219,8 +211,8 @@
     </user>
     <user text="no thanks.  I like using the phone just fine">
       <agent text="well, you could try it just once with one friend.  Think about it" >
-        <user text="Okay, maybe I will"/>
-        <user text="No, no thanks" />
+        <user text="okay, maybe I will"/>
+        <user text="no, no thanks" />
       </agent>
     </user>
     <user text="this is definitely not for me">
@@ -301,7 +293,7 @@
   <agent id="_ExplainHealthyEating" text="It's hard to choose healthy foods for our meals.  Eating more fruits and veggies will make you feel better and improve your health"  
          eval="Activity.ALL.AdviseNutrition.setFlag()">
     <user text="uh-huh">
-      <agent text="I can suggest ways to add more fruits and veggies to your daily meals" >
+      <agent text="I can advise you on how to add more fruits and veggies to your daily meals" >
         <user text="Ok"/>
         <user text="oh, that is a good thing to do">
           <agent text="Good, I can give you some good ideas on healthy eating">

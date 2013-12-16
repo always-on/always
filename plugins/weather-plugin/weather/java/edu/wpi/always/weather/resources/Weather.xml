@@ -42,7 +42,8 @@
       <subtasks id="__Ending_subtasks">
          <step name="__Ending_step" task="disco:Say"/>
          <step name="__Ending_ref" task="__Ending_tree"/>
-         <binding slot="$__Ending_step.text" value="&#34;well, weather sure is interesting.&#34;"/>
+         <binding slot="$__Ending_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__Ending_step.external" value="false"/>
       </subtasks>
    </task>
