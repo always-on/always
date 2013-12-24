@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace Agent.UI
 {
@@ -96,28 +97,62 @@ namespace Agent.UI
 
         public void TranslateToReetiCommand(String task, String Command)
         {
-            if (Command.Contains("NOD") && task.Equals("perform"))
+            if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
                 SendCommand(headNod);
             }
             //TODO: check if face tracking!!!
             if (Command.Contains("GAZE")) //&& task.Equals("speech") )
             {
+                StreamWriter log;
+
+                if (!File.Exists(@"C:\Users\mel\Documents\logfile.txt"))
+                {
+                    log = new StreamWriter(@"C:\Users\mel\Documents\logfile.txt");
+                }
+                else
+                {
+                    log = File.AppendText(@"C:\Users\mel\Documents\logfile.txt");
+                }
+
+                log.WriteLine(DateTime.Now);
+
+
                 double HorOutput = mapOutput(HORIZONTAL, findOutput(HORIZONTAL, Command));
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
 
-                String command = ConstructMessage(HorOutput, VerOutput);
+                //String command = ConstructMessage(HorOutput, VerOutput);
 
-                if(HorOutput > 50) {
-                    command += rightEyePan + "80 smooth:0.5s, " + rightEyeTilt + "70 smooth:0.5s, ";
-                    command += leftEyePan + "60 smooth:0.5s, " + leftEyeTilt + "70 smooth:0.5s;";
+                if( (VerOutput < 75) && (VerOutput > 60) ) {
+                    /*command += rightEyePan + "80 smooth:0.5s, " + rightEyeTilt + "70 smooth:0.5s, ";
+                    command += leftEyePan + "60 smooth:0.5s, " + leftEyeTilt + "70 smooth:0.5s;";*/
+
+                    SendCommand("Global.LookAway.lookAwayThink();");
                 }
-                else {
-                    command += rightEyePan + "60 smooth:0.5s, " + rightEyeTilt + "40 smooth:0.5s, ";
-                    command += leftEyePan + "40 smooth:0.5s, " + leftEyeTilt + "42.55 smooth:0.5s;";
+                else if ( (VerOutput < 60) && (VerOutput > 20) )
+                {
+                    /*command += rightEyePan + "60 smooth:0.5s, " + rightEyeTilt + "40 smooth:0.5s, ";
+                    command += leftEyePan + "40 smooth:0.5s, " + leftEyeTilt + "42.55 smooth:0.5s;";*/
+
+                    SendCommand("Global.LookAway.lookBack();");
+                }
+                else if (VerOutput < 20)
+                {
+                    SendCommand("Global.LookAway.lookAtBoard();");
+                }
+                else if (VerOutput >= 75)
+                {
+                    SendCommand("Global.LookAway.lookAwayAtRight();");
                 }
 
-                SendCommand(command);
+                //SendCommand(command);
+
+                
+                /*log.WriteLine("Task: " + task);
+                log.WriteLine("Command: " + Command);*/
+                log.WriteLine();
+
+                log.Close();
             }
             if (Command.Contains("CONCERN"))
             {

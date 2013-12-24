@@ -12,7 +12,7 @@ public class ReetiCommandSocketConnection {
    private final PrintWriter writer;
 
    public ReetiCommandSocketConnection () {
-      try {
+      try {;
          // TODO: The IP address needs to come from profile file
          socket = new Socket("130.215.28.4", 12045);
          writer = new PrintWriter(socket.getOutputStream(), true);
