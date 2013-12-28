@@ -95,14 +95,25 @@ namespace Agent.UI
             return output;
         }
 
+        private int getDelayAmount(String command)
+        {
+            int output = -1, begin = 0, end = 0;
+
+            begin = command.IndexOf("MS=\"") + 4;
+            end = command.IndexOf("\"</bookmark>");
+
+            output = Convert.ToInt32(command.Substring(begin, end - begin));
+
+            return output;
+        }
+
         public void TranslateToReetiCommand(String task, String Command)
         {
             if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
                 SendCommand(headNod);
             }
-            //TODO: check if face tracking!!!
-            if (Command.Contains("GAZE")) //&& task.Equals("speech") )
+            if (Command.Contains("DELAY"))
             {
                 StreamWriter log;
 
@@ -117,7 +128,15 @@ namespace Agent.UI
 
                 log.WriteLine(DateTime.Now);
 
+                log.WriteLine("Delay Amount: " + getDelayAmount(Command));
+                log.WriteLine();
 
+                log.Close();
+            }
+
+            //TODO: check if face tracking!!!
+            if (Command.Contains("GAZE")) //&& task.Equals("speech") )
+            {
                 double HorOutput = mapOutput(HORIZONTAL, findOutput(HORIZONTAL, Command));
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
 
@@ -147,12 +166,6 @@ namespace Agent.UI
 
                 //SendCommand(command);
 
-                
-                /*log.WriteLine("Task: " + task);
-                log.WriteLine("Command: " + Command);*/
-                log.WriteLine();
-
-                log.Close();
             }
             if (Command.Contains("CONCERN"))
             {
