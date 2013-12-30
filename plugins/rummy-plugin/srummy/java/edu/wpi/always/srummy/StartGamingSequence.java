@@ -343,8 +343,6 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                   @Override
                   public AdjacencyPair run () {
                      //getContext().getSrummyUI().cancelHumanCommentingTimer();
-                     if (playerIdentifier == AGENT_IDENTIFIER)
-                        return new Limbo(getContext());
                      return new AgentResponse(
                            getContext(), playerIdentifier, eachCommentOption);
                   }
@@ -418,14 +416,16 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                   playerIdentifier);
             currentAgentComment = getContext().getSrummyUI()
                   .getCurrentAgentComment();
-            skipTo(new gameOverDialogue(getContext()));
             SrummyClient.gazeDirection = "board";
+            skipTo(new gameOverDialogue(getContext()));
          }
       }
       @Override
       public void goToNextState () {
-         skipTo(new HumanResponse(
-               getContext(), playerIdentifier));
+         if (playerIdentifier == AGENT_IDENTIFIER)
+            skipTo(new Limbo(getContext()));
+         else 
+            skipTo(new AgentPlayDelay(getContext()));
       }
    }
 
