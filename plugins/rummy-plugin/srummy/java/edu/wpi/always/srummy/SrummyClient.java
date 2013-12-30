@@ -47,7 +47,9 @@ public class SrummyClient implements SrummyUI {
    // 1: userWins, 2: agentWins, 3: tie
    private int winOrTie = 0;
 
-   private String currentComment;
+   private String currentAgentComment;
+   private Map<String, String> currentAgentResponseOptions;
+   private List<String> currentHumanResponseOptions;
    //private AnnotatedLegalMove currentMove;
 
    private final UIMessageDispatcher dispatcher;
@@ -207,41 +209,88 @@ public class SrummyClient implements SrummyUI {
 
    @Override
    public String getCurrentAgentComment () {
-      return currentComment;
+      return currentAgentComment;
    }
 
    @Override
-   public List<String> getCurrentHumanCommentOptionsForAMoveBy (int player) {
+   public String getCurrentAgentResponse(
+         String humanChoosenComment) {
+      return currentAgentResponseOptions
+            .get(humanChoosenComment.trim());
+   }
+   
+   @Override
+   public List<String> 
+   getCurrentHumanCommentOptionsAgentResponseForAMoveBy (int player) {
 
       updateWinOrTie();
 
+      List<Comment> humanCommentingOptions = 
+            new ArrayList<Comment>();
+      
       if ( player == HUMAN_IDENTIFIER )
-         return commentingManager.getHumanCommentingOptionsAndAnAgentResponseForHumanMove(
+         humanCommentingOptions.addAll(commentingManager.
+               getHumanCommentingOptionsAndAnAgentResponseForHumanMove(
                gameState, latestHumanMove,
-               gameState.getGameSpecificCommentingTags());
-      return commentingManager.getHumanCommentingOptionsForAgentMove(
+               gameState.getGameSpecificCommentingTags()));
+      else
+         humanCommentingOptions.addAll(commentingManager.
+               getHumanCommentingOptionsForAgentMove(
             gameState, latestAgentMove,
-            gameState.getGameSpecificCommentingTags());
+            gameState.getGameSpecificCommentingTags()));
+      
+      currentAgentResponseOptions.clear();
+      for(Comment each : humanCommentingOptions)
+         currentAgentResponseOptions.put(
+               each.getContent().trim(), each.getOneResponseOption());
+      
+      return CommentLibraryHandler
+            .getContentsOfTheseComments(humanCommentingOptions);
+      
    }
 
    @Override
-   public void prepareAgentCommentForAMoveBy (int player) {
+   public void prepareAgentCommentUserResponseForAMoveBy (int player) {
 
       updateWinOrTie();
 
+      Comment currentAgentCommentAsComment;
+      
       // null passed for scenarios here
       if ( player == HUMAN_IDENTIFIER )
-         currentComment = commentingManager.getAgentCommentForHumanMove(
+         currentAgentCommentAsComment = 
+         commentingManager.getAgentCommentForHumanMove(
                gameState, latestHumanMove, null,
                gameState.getGameSpecificCommentingTags());
       else
-         currentComment = commentingManager.getAgentCommentForAgentMove(
+         currentAgentCommentAsComment = 
+         commentingManager.getAgentCommentForAgentMove(
                gameState, latestAgentMove, null,
                gameState.getGameSpecificCommentingTags());
 
-      if ( currentComment == null )
-         currentComment = "";
+      if ( currentAgentCommentAsComment == null )
+         currentAgentComment = "";
 
+      else
+         currentAgentComment = 
+         currentAgentCommentAsComment.getContent();
+
+      currentHumanResponseOptions.clear();
+
+      try{
+         currentHumanResponseOptions.addAll(
+               currentAgentCommentAsComment
+               .getMultipleResponseOptions());
+      }catch(Exception e){
+         // in case no responses exists
+      }
+
+   }
+   
+   @Override
+   public List<String> getCurrentHumanResponseOptions () {
+      return CommentingManager.
+            shuffleAndGetMax3(currentHumanResponseOptions);
    }
 
    // user commenting timer

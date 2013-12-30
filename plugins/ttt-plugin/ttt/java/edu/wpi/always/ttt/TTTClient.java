@@ -158,8 +158,8 @@ public class TTTClient implements TTTUI {
       
       currentAgentResponseOptions.clear();
       for(Comment each : humanCommentingOptions)
-      currentAgentResponseOptions.put(
-            each.getContent().trim(), each.getOneResponseOption());
+         currentAgentResponseOptions.put(
+               each.getContent().trim(), each.getOneResponseOption());
       
       return CommentLibraryHandler
             .getContentsOfTheseComments(humanCommentingOptions);
@@ -197,19 +197,19 @@ public class TTTClient implements TTTUI {
          commentingManager.getAgentCommentForAgentMove(
                gameState, latestAgentMove, null,
                gameState.getGameSpecificCommentingTags());
-      
+
       if ( currentAgentCommentAsComment == null )
          currentAgentComment = "";
       else
          currentAgentComment = 
          currentAgentCommentAsComment.getContent();
-      
+
       currentHumanResponseOptions.clear();
-      
+
       try{
-      currentHumanResponseOptions.addAll(
-            currentAgentCommentAsComment
-            .getMultipleResponseOptions());
+         currentHumanResponseOptions.addAll(
+               currentAgentCommentAsComment
+               .getMultipleResponseOptions());
       }catch(Exception e){
          // in case no responses exists
       }

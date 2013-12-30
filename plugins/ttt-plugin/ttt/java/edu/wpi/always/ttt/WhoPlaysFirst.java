@@ -174,8 +174,8 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override
       public void goToNextState () {
-            skipTo(new HumanResponse(
-                  getContext(), playerIdentifier));
+         skipTo(new HumanResponse(
+               getContext(), playerIdentifier));
       }
    }
    
