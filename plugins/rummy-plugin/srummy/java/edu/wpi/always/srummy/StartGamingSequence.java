@@ -3,6 +3,9 @@ package edu.wpi.always.srummy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import edu.wpi.always.ttt.WhoPlaysFirst.AgentComments;
+import edu.wpi.always.ttt.WhoPlaysFirst.AgentPlayDelay;
+import edu.wpi.always.ttt.WhoPlaysFirst.HumanComments;
 import edu.wpi.disco.rt.menu.*;
 
 public class StartGamingSequence extends SrummyAdjacencyPairImpl {
@@ -102,10 +105,18 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getSrummyUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
-         if(new Random().nextBoolean())
-            skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
-         else
-            skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
+         Random rnd = new Random();
+         if(rnd.nextBoolean() || rnd.nextBoolean()){
+            //by 75% chance here: full comment exchange
+            if(new Random().nextBoolean())
+               skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
+            else
+               skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
+         }
+         else{
+            //by 25% chance here: no comment exchange
+            skipTo(new AgentPlayDelay(getContext()));
+         }
       }
    }
 
@@ -192,10 +203,18 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                   .getCurrentAgentComment();
             humanCommentOptions = getContext().getSrummyUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
-            if(new Random().nextBoolean())
-               skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
-            else
-               skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+            Random rnd = new Random();
+            if(rnd.nextBoolean() || rnd.nextBoolean()){
+               //by 75% chance here: full comment exchange
+               if(new Random().nextBoolean())
+                  skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
+               else
+                  skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+            }
+            else{
+               //by 25% chance here: no comment exchange
+               skipTo(new Limbo(getContext()));
+            }
          }
          if(receivedAgentMeldOptions){
             receivedAgentMeldOptions = false;
@@ -219,10 +238,19 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             SrummyClient.meldedAlready = false;
             SrummyClient.agentDrawn = false;
             SrummyClient.twoMeldsInARowByAgent = false;
-            if(new Random().nextBoolean())//only discard can conclude a turn
-               skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
-            else
-               skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+            //only discard can conclude a turn
+            Random rnd = new Random();
+            if(rnd.nextBoolean() || rnd.nextBoolean()){
+               //by 75% chance here: full comment exchange
+               if(new Random().nextBoolean())
+                  skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
+               else
+                  skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+            }
+            else{
+               //by 25% chance here: no comment exchange
+               skipTo(new Limbo(getContext()));
+            }
          }
          else if (moveType.equals("layoff")){
             getContext().getSrummyUI().sendBackAgentMove();//lay off
@@ -402,23 +430,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         if(!SrummyClient.gameOver){
-            getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
-                  playerIdentifier);
-            currentAgentResponse = getContext().getSrummyUI()
-                  .getCurrentAgentResponse(humanChoosenComment);
-            getContext().getSrummyUI().updatePlugin(this);
-            getContext().getSrummyUI().triggerNextStateTimer();
-            SrummyClient.gazeDirection = "sayandgazeresp";
-         }
-         else{
-            getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
-                  playerIdentifier);
-            currentAgentComment = getContext().getSrummyUI()
-                  .getCurrentAgentComment();
-            SrummyClient.gazeDirection = "board";
-            skipTo(new gameOverDialogue(getContext()));
-         }
+         getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
+               playerIdentifier);
+         currentAgentResponse = getContext().getSrummyUI()
+               .getCurrentAgentResponse(humanChoosenComment);
+         getContext().getSrummyUI().updatePlugin(this);
+         getContext().getSrummyUI().triggerNextStateTimer();
+         SrummyClient.gazeDirection = "sayandgazeresp";
       }
       @Override
       public void goToNextState () {

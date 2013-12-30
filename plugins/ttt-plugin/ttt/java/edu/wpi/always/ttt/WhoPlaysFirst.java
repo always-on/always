@@ -89,10 +89,19 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
-         if(new Random().nextBoolean())
-            skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
-         else
-            skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
+         Random rnd = new Random();
+         if(rnd.nextBoolean() || rnd.nextBoolean()){
+            //by 75% chance here: full comment exchange
+            if(new Random().nextBoolean())
+               skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
+            else
+               skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
+         }
+         else{
+            //by 25% chance here: no comment exchange
+            skipTo(new AgentPlayDelay(getContext()));
+         }
+            
       }
    }
 
@@ -142,10 +151,18 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
-         if(new Random().nextBoolean())
-            skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
-         else
-            skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+         Random rnd = new Random();
+         if(rnd.nextBoolean() || rnd.nextBoolean()){
+            //by 75% chance here: full comment exchange
+            if(new Random().nextBoolean())
+               skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
+            else
+               skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+         }
+         else{
+            //by 25% chance here: no comment exchange
+            skipTo(new Limbo(getContext()));
+         }
       }
    }
 
