@@ -445,7 +445,7 @@ public abstract class EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair cancel() {
-         return new StateInvalidAdjacencyPair(getContext());
+         return new PersonRelationshipAdjacencyPair(getContext());
       }
    }
 
