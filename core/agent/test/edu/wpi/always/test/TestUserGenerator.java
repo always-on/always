@@ -61,7 +61,7 @@ public class TestUserGenerator {
    
    private static Person addPerson (PeopleManager peopleMgr, String name, 
          Relationship relationship, Gender gender) {
-      return peopleMgr.addPerson(name, relationship, gender, 0, null, null, null, null, null);
+      return peopleMgr.addPerson(name, relationship, gender, 0, null, null, null, null);
    }
 }
 

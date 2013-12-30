@@ -12,17 +12,15 @@
         <Label Content="Relationship:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,1273,0,0" Name="label4" VerticalAlignment="Top" Width="1295" />
         <Label Content="ZipCode:" FontSize="200" FontWeight = "Bold" HorizontalAlignment="Left" Margin="143,1639,0,0" Name="label6" Width="1295" Height="360" VerticalAlignment="Top" />
         <Label Content="Spouse:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,2005,0,0" Name="label7" VerticalAlignment="Top" Width="1295" />
-        <Label Content="Phone:" FontSize="200" FontWeight = "Bold" Height ="360" HorizontalAlignment="Left" Margin="143,2371,0,959" Name="label8" Width="1295" />
-        <Label Content="Skype:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,2737,0,0" Name="label9" VerticalAlignment="Top" Width="1295" />
+        <Label Content="Skype:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,2371,0,0" Name="label9" VerticalAlignment="Top" Width="1295" />
         <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Right" Margin="0,175,543,0" Name="label10" VerticalAlignment="Top" Width="4593" />
         <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,541,0,0" Name="label11" VerticalAlignment="Top" Width="4593" />
         <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,907,0,0" Name="label12" VerticalAlignment="Top" Width="4593" />
         <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,1273,0,0" Name="label13" VerticalAlignment="Top" Width="4593" />
         <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,1639,0,0" Name="label15" VerticalAlignment="Top" Width="4593" />
         <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2005,0,0" Name="label16" VerticalAlignment="Top" Width="4593" />
-        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2371,0,0" Name="label17" VerticalAlignment="Top" Width="4593" />
-        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2737,0,0" Name="label18" VerticalAlignment="Top" Width="4593" />
-        <Label Content="Birthday:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,3103,0,0" Name="label5" VerticalAlignment="Top" Width="1295" />
-        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,3103,0,0" Name="label14" VerticalAlignment="Top" Width="4593" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2371,0,0" Name="label18" VerticalAlignment="Top" Width="4593" />
+        <Label Content="Birthday:" FontSize="200" FontWeight = "Bold" Height="360" HorizontalAlignment="Left" Margin="143,2737,0,0" Name="label5" VerticalAlignment="Top" Width="1295" />
+        <Label Content="" FontSize="200" Height="360" HorizontalAlignment="Left" Margin="1444,2737,0,0" Name="label14" VerticalAlignment="Top" Width="4593" />
     </Grid>
 </UserControl>
