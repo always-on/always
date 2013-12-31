@@ -10,11 +10,16 @@ public class ReetiCommandSocketConnection {
 
    private final Socket socket;
    private final PrintWriter writer;
+   
+   public final ReetiJsonConfiguration reetiJsonConfig;
 
    public ReetiCommandSocketConnection () {
+      
+      reetiJsonConfig = new ReetiJsonConfiguration();
+      
       try {;
-         // TODO: The IP address needs to come from profile file
-         socket = new Socket("130.215.28.4", 12045);
+      String test = reetiJsonConfig.getIP();
+         socket = new Socket(reetiJsonConfig.getIP(), 12045); // Was 130.215.28.4
          writer = new PrintWriter(socket.getOutputStream(), true);
       } catch (IOException e) {
          throw new RuntimeException("Error opening socket to Reeti", e);
@@ -32,5 +37,9 @@ public class ReetiCommandSocketConnection {
       } catch (IOException e) {
          throw new RuntimeException("Error closing socket to Reeti", e);
       }
+   }
+   
+   public ReetiJsonConfiguration getConfigInfo () {
+      return this.reetiJsonConfig;
    }
 }

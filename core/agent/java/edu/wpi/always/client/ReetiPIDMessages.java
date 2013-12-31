@@ -2,11 +2,13 @@ package edu.wpi.always.client;
 
 import edu.wpi.always.client.*;
 
-public class ReetiPIDMessages {
+public class ReetiPIDMessages extends ReetiJsonConfiguration {
    private ReetiPIDController XPID;
 
    private ReetiPIDController YPID;
 
+   private ReetiJsonConfiguration reetiJsonConfig;
+   
    public ReetiPIDMessages () {
       XPID = new ReetiPIDController();
       YPID = new ReetiPIDController();
@@ -114,20 +116,18 @@ public class ReetiPIDMessages {
       String command;
 
       // TODO: This actual values should come from reading the json file.
-      command = "Global.servo.color=\"red\",Global.servo.neckRotat=50 smooth:0.50s; "
-         + "Global.servo.leftEyePan=40, Global.servo.rightEyePan=60 smooth:0.50s, "
-         + "Global.servo.neckTilt=55.56 smooth:0.50s, Global.servo.leftEyeTilt=42.55 "
-         + "smooth:0.50s, Global.servo.rightEyeTilt=42.55 smooth:0.50s;";
+      command = "Global.servo.color=\"red\",Global.servo.neckRotat=" + reetiJsonConfig.getNeckRotat() + " smooth:0.50s; " //Was 50
+         + "Global.servo.leftEyePan=" + reetiJsonConfig.getLeftEyePan() + ", Global.servo.rightEyePan=" + reetiJsonConfig.getRightEyePan() + " smooth:0.50s, "  //Was 40 and 60
+         + "Global.servo.neckTilt=" + reetiJsonConfig.getNeckTilt() + " smooth:0.50s, " // Was 55.56 
+         + "Global.servo.leftEyeTilt=" + reetiJsonConfig.getLeftEyeTilt() + " smooth:0.50s, Global.servo.rightEyeTilt=" + reetiJsonConfig.getRightEyeTilt() + " smooth:0.50s;"; // Were 42.55
+      
+      XPID.setNeckXPIDoutput(reetiJsonConfig.getNeckRotat());   //Old value: 50
+      
+      YPID.setNeckYPIDoutput(reetiJsonConfig.getNeckTilt());    //Old value: 55.56
 
-      XPID.setNeckXPIDoutput(50); // TODO: This value should come from reading
-                                  // the json file.
-      YPID.setNeckYPIDoutput(55.56); // TODO: This value should come from
-                                     // reading the json file.
-
-      XPID.setEyeXPIDoutput(50); // TODO: This value should come from reading
-                                 // the json file.
-      YPID.setEyeYPIDoutput(42.55); // TODO: This value should come from reading
-                                    // the json file.
+      XPID.setEyeXPIDoutput(reetiJsonConfig.getLeftEyePan());   //Old value: 50
+      
+      YPID.setEyeYPIDoutput(reetiJsonConfig.getLeftEyeTilt());  //Old value: 42.55
 
       System.out.println("Search command sent...");
 
