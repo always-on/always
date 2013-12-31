@@ -10,20 +10,14 @@ namespace Agent.UI
     {
         private ReetiCommunication reeti = new ReetiCommunication();
 
-        private const String HORIZONTAL = "horizontal";
-        private const String VERTICAL = "vertical";
-        //private const String neckRotate        = "Global.servo.neckRotat =";
-        //private const String neckTilt          = "Global.servo.neckTilt =";
-        //private const String leftEyePan        = "Global.servo.leftEyePan =";
-        //private const String leftEyeTilt       = "Global.servo.leftEyeTilt =";
-        //private const String rightEyePan       = "Global.servo.rightEyePan =";
-        //private const String rightEyeTilt      = "Global.servo.rightEyeTilt =";
-        private const String headNod = "Global.SmallNod.play();";
+        private const String HORIZONTAL      = "horizontal";
+        private const String VERTICAL        = "vertical";
+        private const String headNod         = "Global.SmallNod.play();";
         private const String neutralPosition = "Global.servo.neutralPosition();";
-        private const String smileFace = "Global.Happy.play();";
-        private const String concernFace = "Global.Sad.play();";
-        private const String beginSpeech = "Global.Talk.play(0.3);";
-        private const String endSpeech = "Global.Talk.play(0.3);";
+        private const String smileFace       = "Global.Happy.play();";
+        private const String concernFace     = "Global.Sad.play();";
+        private const String beginSpeech     = "Global.Talk.play(0.3);";
+        private const String endSpeech       = "Global.Talk.play(0.3);";
 
         private double findOutput(String HorOrVer, String cmd)
         {
