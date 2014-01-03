@@ -17,8 +17,7 @@ public class ReetiCommandSocketConnection {
       
       reetiJsonConfig = new ReetiJsonConfiguration();
       
-      try {;
-      String test = reetiJsonConfig.getIP();
+      try {
          socket = new Socket(reetiJsonConfig.getIP(), 12045); // Was 130.215.28.4
          writer = new PrintWriter(socket.getOutputStream(), true);
       } catch (IOException e) {
