@@ -133,7 +133,7 @@
       </user>
   </agent>  
      
-  <agent id="WeatherAlmanac"  text="Are you interested in knowing the record weather for today in the history?">
+  <agent id="WeatherAlmanac"  text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Are you interested in knowing the record weather for today in the history? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;">
       <user id="talk_stats_bad_option" text="No, I don't want to">
 	<agent text="Come on.  It is interesting to know those things!">
 	  <user text="Alright. What's the record weather?">

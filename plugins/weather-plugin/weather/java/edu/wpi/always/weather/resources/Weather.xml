@@ -25,7 +25,7 @@
          <step name="_WeatherAlmanac_step" task="disco:Say"/>
          <step name="_WeatherAlmanac_ref" task="_WeatherAlmanac_tree"/>
          <binding slot="$_WeatherAlmanac_step.text"
-                  value="&#34;Are you interested in knowing the record weather for today in the history?&#34;"/>
+                  value="&#34;&lt;EYEBROWS DIR=\&#34;UP\&#34;/&gt; Are you interested in knowing the record weather for today in the history? &lt;EYEBROWS DIR=\&#34;DOWN\&#34;/&gt;&#34;"/>
          <binding slot="$_WeatherAlmanac_step.external" value="false"/>
       </subtasks>
    </task>

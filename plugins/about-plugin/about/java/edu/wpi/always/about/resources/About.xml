@@ -33,7 +33,8 @@
       <subtasks id="_NotGoingWell_subtasks">
          <step name="_NotGoingWell_step" task="disco:Say"/>
          <step name="_NotGoingWell_ref" task="_NotGoingWell_tree"/>
-         <binding slot="$_NotGoingWell_step.text" value="&#34;oh, what's wrong?&#34;"/>
+         <binding slot="$_NotGoingWell_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; oh, what's wrong? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_NotGoingWell_step.external" value="false"/>
       </subtasks>
    </task>
@@ -41,7 +42,7 @@
       <subtasks id="__End_subtasks">
          <step name="__End_step" task="disco:Say$Expression"/>
          <binding slot="$__End_step.text"
-                  value="&#34;\&#34;well, \&#34;+(getUserName())+\&#34;, it was nice talking about your friends and family with you\&#34;&#34;"/>
+                  value="&#34;\&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; well, \&#34;+(getUserName())+\&#34;, it was nice talking about your friends and family with you &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;\&#34;&#34;"/>
          <binding slot="$__End_step.external" value="false"/>
       </subtasks>
    </task>
@@ -148,7 +149,7 @@
                   value="&#34;\&#34;No, \&#34;+(pronounSubj)+\&#34; didn't send me any\&#34;&#34;"/>
          <binding slot="$_d4e45_step.external" value="true"/>
          <binding slot="$_d4e46_step.text"
-                  value="&#34;well, glad it was a good trip.  Got any plans yourself?&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; well, glad it was a good trip.  &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; Got any plans yourself?&#34;"/>
          <binding slot="$_d4e46_step.external" value="false"/>
       </subtasks>
    </task>
@@ -274,7 +275,7 @@
          <binding slot="$_d4e79_step.text" value="&#34;No, it really didn't work out well&#34;"/>
          <binding slot="$_d4e79_step.external" value="true"/>
          <binding slot="$_d4e80_step.text"
-                  value="&#34;that's too bad.  I guess not all visits are great&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt;that's too bad.  I guess not all visits are great &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e80_step.external" value="false"/>
       </subtasks>
    </task>
@@ -330,7 +331,8 @@
          <applicable>statusFamFriend =='had an accident'</applicable>
          <binding slot="$_d4e129_step.text" value="&#34;Yes, that's right | Uh-huh&#34;"/>
          <binding slot="$_d4e129_step.external" value="true"/>
-         <binding slot="$_d4e130_step.text" value="&#34; is the recovery going well? &#34;"/>
+         <binding slot="$_d4e130_step.text"
+                  value="&#34; &lt;EYEBROWS DIR=\&#34;UP\&#34;/&gt; is the recovery going well? &lt;EYEBROWS DIR=\&#34;DOWN\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e130_step.external" value="false"/>
       </subtasks>
    </task>
@@ -351,7 +353,7 @@
          <binding slot="$_d4e93_step.text" value="&#34;\&#34;No, \&#34;+(pronounSubj)+\&#34; is still ill\&#34;&#34;"/>
          <binding slot="$_d4e93_step.external" value="true"/>
          <binding slot="$_d4e94_step.text"
-                  value="&#34;\&#34;Oh, that's too bad.  Have you been to see \&#34;+(pronounObj)+\&#34;?\&#34;&#34;"/>
+                  value="&#34;\&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, that's too bad.  Have you been to see \&#34;+(pronounObj)+\&#34;? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;\&#34;&#34;"/>
          <binding slot="$_d4e94_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e104_subtasks">
@@ -400,7 +402,7 @@
          <binding slot="$_d4e101_step.text" value="&#34;\&#34;Not sure \&#34;+(pronounSubj)+\&#34; does\&#34;&#34;"/>
          <binding slot="$_d4e101_step.external" value="true"/>
          <binding slot="$_d4e102_step.text"
-                  value="&#34;yes, it's hard not to complain when you are sick&#34;"/>
+                  value="&#34;yes, &lt;HEADNOD/&gt; it's hard not to complain when you are sick&#34;"/>
          <binding slot="$_d4e102_step.external" value="false"/>
       </subtasks>
    </task>
@@ -429,7 +431,7 @@
          <binding slot="$_d4e112_step.text" value="&#34;Yes, no change&#34;"/>
          <binding slot="$_d4e112_step.external" value="true"/>
          <binding slot="$_d4e113_step.text"
-                  value="&#34;\&#34;Loneliness is hard.  Maybe you should give \&#34;+(pronounObj)+\&#34; a call\&#34;&#34;"/>
+                  value="&#34;\&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt;Loneliness is hard.  Maybe you should give \&#34;+(pronounObj)+\&#34; a call &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;\&#34;&#34;"/>
          <binding slot="$_d4e113_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e117_subtasks">
@@ -521,7 +523,7 @@
          <binding slot="$_d4e134_step.text" value="&#34;No, it's going to be a long time yet&#34;"/>
          <binding slot="$_d4e134_step.external" value="true"/>
          <binding slot="$_d4e135_step.text"
-                  value="&#34;that's tough | gee, that's too bad | sorry to hear that&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; that's tough &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;      | &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; gee, that's too bad &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;      | &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; sorry to hear that &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e135_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e136_subtasks">
@@ -590,7 +592,8 @@
          <binding slot="$_d4e146_step.external" value="true"/>
          <binding slot="$_d4e146_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);        positive(famFriend);       famFriend.setAboutComment('had a new grandchild');&#34;"/>
-         <binding slot="$_d4e148_step.text" value="&#34;\&#34;oh that's great for \&#34;+(pronounObj)&#34;"/>
+         <binding slot="$_d4e148_step.text"
+                  value="&#34;\&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; oh that's great for \&#34;+(pronounObj)+\&#34; &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;\&#34;&#34;"/>
          <binding slot="$_d4e148_step.external" value="false"/>
       </subtasks>
       <subtasks id="_clothes_subtasks">
@@ -602,7 +605,8 @@
          <binding slot="$_clothes_step.external" value="true"/>
          <binding slot="$_clothes_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);         positive(famFriend);        famFriend.setAboutComment('went shopping');&#34;"/>
-         <binding slot="$_d4e159_step.text" value="&#34;how nice to get new clothes&#34;"/>
+         <binding slot="$_d4e159_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; how nice to get new clothes &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e159_step.external" value="false"/>
       </subtasks>
       <subtasks id="_vacation_subtasks">
@@ -615,7 +619,7 @@
          <binding slot="$_vacation_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);       positive(famFriend);       famFriend.setAboutComment('was going on vacation');&#34;"/>
          <binding slot="$_d4e168_step.text"
-                  value="&#34;oh really, where?  Want me to keep track in weather updates?&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; oh really, where?  Want me to keep track in weather updates? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e168_step.external" value="false"/>
       </subtasks>
       <subtasks id="_newfriend_subtasks">
@@ -640,7 +644,7 @@
          <binding slot="$_d4e186_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);        positive(famFriend);       famFriend.setAboutComment('was coming to visit you');&#34;"/>
          <binding slot="$_d4e188_step.text"
-                  value="&#34;great for you.  When we do your calendar, we can add the visit&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; great for you.  When we do your calendar, we can add the visit &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e188_step.external" value="false"/>
       </subtasks>
    </task>
@@ -659,7 +663,8 @@
          <binding slot="$_d4e151_step.text"
                   value="&#34;\&#34;Yes, \&#34;+(pronounSubj)+\&#34; has a lot of grandchildren\&#34;&#34;"/>
          <binding slot="$_d4e151_step.external" value="true"/>
-         <binding slot="$_d4e152_step.text" value="&#34;really, well, that's a nice part of life!&#34;"/>
+         <binding slot="$_d4e152_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; really, well, that's a nice part of life! &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e152_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e153_subtasks">
@@ -757,7 +762,8 @@
          <step name="_d4e180_ref" task="_d4e180_tree"/>
          <binding slot="$_d4e179_step.text" value="&#34;I wish I had some new friends&#34;"/>
          <binding slot="$_d4e179_step.external" value="true"/>
-         <binding slot="$_d4e180_step.text" value="&#34;Try meeting someone when you go walking!&#34;"/>
+         <binding slot="$_d4e180_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Try meeting someone when you go walking! &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e180_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e184_subtasks">
@@ -823,7 +829,8 @@
          <binding slot="$_d4e198_step.external" value="true"/>
          <binding slot="$_d4e198_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);    negative(famFriend);   famFriend.setAboutComment('was ill');&#34;"/>
-         <binding slot="$_d4e201_step.text" value="&#34;I hope the illness is not serious&#34;"/>
+         <binding slot="$_d4e201_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; I hope the illness is not serious &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e201_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e210_subtasks">
@@ -835,7 +842,7 @@
          <binding slot="$_d4e210_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);    negative(famFriend);   famFriend.setAboutComment('had an accident');&#34;"/>
          <binding slot="$_d4e213_step.text"
-                  value="&#34;\&#34; Is \&#34;+(pronounSubj)+\&#34; in the hospital?\&#34;&#34;"/>
+                  value="&#34;\&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Is \&#34;+(pronounSubj)+\&#34; in the hospital? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;\&#34;&#34;"/>
          <binding slot="$_d4e213_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e235_subtasks">
@@ -847,7 +854,8 @@
          <binding slot="$_d4e235_step.external" value="true"/>
          <binding slot="$_d4e235_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);       negative(famFriend);       famFriend.setAboutComment('lost a family member');&#34;"/>
-         <binding slot="$_d4e238_step.text" value="&#34;that's very sad&#34;"/>
+         <binding slot="$_d4e238_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; that's very sad &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e238_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e252_subtasks">
@@ -859,7 +867,7 @@
          <binding slot="$_d4e252_step.eval"
                   value="&#34;famFriend.setAboutMentioned(true);        negative(famFriend);       famFriend.setAboutComment('was lonely');&#34;"/>
          <binding slot="$_d4e255_step.text"
-                  value="&#34;\&#34;I see.  You could give \&#34;+(pronounObj)+\&#34; a call or talk to \&#34;+(pronounObj)+\&#34; by SKYPE\&#34;&#34;"/>
+                  value="&#34;\&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; I see.  You could give \&#34;+(pronounObj)+\&#34; a call or talk to \&#34;+(pronounObj)+\&#34; by SKYPE &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;\&#34;&#34;"/>
          <binding slot="$_d4e255_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e260_subtasks">
@@ -870,7 +878,7 @@
                   value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; is postponing a visit to me\&#34;&#34;"/>
          <binding slot="$_d4e260_step.external" value="true"/>
          <binding slot="$_d4e261_step.text"
-                  value="&#34; Oh, that's too a shame.  Any chance of a visit later?&#34;"/>
+                  value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, that's too a shame.  Any chance of a visit later? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e261_step.external" value="false"/>
       </subtasks>
    </task>
@@ -923,7 +931,8 @@
          <step name="_d4e215_ref" task="_d4e215_tree"/>
          <binding slot="$_d4e214_step.text" value="&#34;Yes, for a long time&#34;"/>
          <binding slot="$_d4e214_step.external" value="true"/>
-         <binding slot="$_d4e215_step.text" value="&#34;oh dear.  Can you go visit?&#34;"/>
+         <binding slot="$_d4e215_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; oh dear.  Can you go visit? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e215_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e223_subtasks">
@@ -932,7 +941,8 @@
          <step name="_d4e224_ref" task="_d4e224_tree"/>
          <binding slot="$_d4e223_step.text" value="&#34;Yes, but not for long&#34;"/>
          <binding slot="$_d4e223_step.external" value="true"/>
-         <binding slot="$_d4e224_step.text" value="&#34;well that's tough.  Can you go visit?&#34;"/>
+         <binding slot="$_d4e224_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; well that's tough.  Can you go visit? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e224_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e231_subtasks">
@@ -1052,7 +1062,8 @@
          <step name="_d4e245_step" task="disco:Say"/>
          <binding slot="$_d4e243_step.text" value="&#34;Oh yes, we go back years&#34;"/>
          <binding slot="$_d4e243_step.external" value="true"/>
-         <binding slot="$_d4e244_step.text" value="&#34;Please accept my condolences&#34;"/>
+         <binding slot="$_d4e244_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Please accept my condolences &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e244_step.external" value="false"/>
          <binding slot="$_d4e245_step.text" value="&#34;Thank you&#34;"/>
          <binding slot="$_d4e245_step.external" value="true"/>

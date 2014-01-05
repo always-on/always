@@ -36,7 +36,7 @@
     </t:subtasks>
   </t:task>
 
-  <agent id="_Morning" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt;Good morning, {getUserName()}. &lt;FACEEXPR=\&quot;WARM\&quot;&gt;">
+  <agent id="_Morning" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Good morning, {getUserName()}. &lt;FACE EXPR=\&quot;WARM\&quot;&gt;">
     <user text="Good morning."/>
     <user text="oh morning already!  Good morning!"/>
   </agent>
@@ -148,7 +148,7 @@
       <agent text="good, glad to hear it"/>
     </user>
     <user text="Oh not so great">
-      <agent text="sorry to hear it. Maybe it will improve">
+      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear it. Maybe it will improve&lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
         <user text="I hope so" />
         <user text="I think it will!" />
         <user text="Maybe so, maybe no" />
@@ -161,7 +161,7 @@
       <agent text="good, glad to hear it"/>
     </user>
     <user text="no, not really">
-      <agent text="sorry to hear it. Maybe this evening will be better">
+      <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear it. Maybe this evening will be better &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
         <user text="Hope so" />
         <user text="Possibly" />
         <user text="Definitely" />

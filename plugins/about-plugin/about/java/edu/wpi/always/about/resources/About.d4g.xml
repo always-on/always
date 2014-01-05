@@ -108,7 +108,7 @@
 	  <agent text="did you get to see any pictures?" >
 	    <user text="Yes, they were great" />
 	    <user text="No, {pronounSubj} didn't send me any" >
-	      <agent text="well, glad it was a good trip.  Got any plans yourself?" >
+	      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, glad it was a good trip.  &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; Got any plans yourself?" >
 		<user text="Yes, but not right away"/>
 		<user text="Yes, I do">
 		  <agent text="Really?  Make sure you tell me the dates when we use the calendar next">
@@ -164,7 +164,7 @@
 	      <agent text="really, maybe it will be better next time" />
 	    </user>
 	    <user text="No, it really didn't work out well">
-	      <agent text="that's too bad.  I guess not all visits are great" />
+	      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt;that's too bad.  I guess not all visits are great &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
 	    </user>
 	  </agent>
 	</user>
@@ -189,7 +189,7 @@
 	  <!-- reset statusType to empty and previousTalk to null -->
 	</user>
 	<user text="No, {pronounSubj} is still ill" >
-	  <agent text="Oh, that's too bad.  Have you been to see {pronounObj}?">
+	  <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Oh, that's too bad.  Have you been to see {pronounObj}? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
 	    <user text="Yes, but I should give {pronounObj} a call again" >
 	      <agent text="Yeh, good idea" />
 	      <!-- leave status as is and ask again  -->
@@ -198,7 +198,7 @@
 	      <agent text="I'm sure {pronounSubj} appreciates that" >
 		<user text="Yes, I think so" />
 		<user text="Not sure {pronounSubj} does" >
-		  <agent text="yes, it's hard not to complain when you are sick" />
+		  <agent text="yes, &lt;HEADNOD/&gt; it's hard not to complain when you are sick" />
 		  <!-- leave status as is and ask again  -->
 		</user>
 	      </agent>
@@ -218,7 +218,7 @@
     <user text="Yes, that's right" applicable="statusFamFriend =='was lonely'">
       <agent text="Is that still the case?"  eval="reset(famFriend);" >
 	<user text="Yes, no change" >
-	  <agent text="Loneliness is hard.  Maybe you should give {pronounObj} a call" >
+	  <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt;Loneliness is hard.  Maybe you should give {pronounObj} a call &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 	    <user text="Yes.  I think I will" />
 	    <user text="Maybe later" />
 	    <user text="Not today" />
@@ -248,13 +248,15 @@
       </agent>
     </user>
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='had an accident'">
-      <agent text=" is the recovery going well? " >
+      <agent text=" &lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; is the recovery going well? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;" >
 	<user text="Yes, {pronounSubj} is up and around" eval="reset(famFriend);" >
 	  <agent text="Oh, that's good to know | That is good news! | I bet you are glad for {pronounObj}" />
 	</user>
 	<!-- for these two answers leave UM unchanged so can ask again -->
 	<user text="No, it's going to be a long time yet">
-	  <agent text="that's tough | gee, that's too bad | sorry to hear that" />
+	  <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; that's tough &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; 
+	  	| &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; gee, that's too bad &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; 
+	  	| &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear that &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
 	</user>
 	<user text="I'm not sure.  I haven't talked to {pronounObj} for a while">
 	  <agent text="well, keep me posted on {pronounObj} recovery | I'd like to hear how {pronounSubj} progresses" >
@@ -281,12 +283,12 @@
 		    famFriend.setAboutComment('had a new grandchild');" >
 	  <!-- UM GETS "had a new grandchild" for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
-	  <agent text="oh that's great for {pronounObj}" >
+	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; oh that's great for {pronounObj} &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 	    <user text="Yes, {pronounSubj}'s very excited" >
 	      <agent text="uh-huh.  I can understand." />
 	    </user>
 	    <user text="Yes, {pronounSubj} has a lot of grandchildren" >
-	      <agent text="really, well, that's a nice part of life!" />
+	      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; really, well, that's a nice part of life! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
 	    </user>
 	    <user text="Yes, {pronounSubj}'s waited a long time for a grandchild" >
 	      <agent text="people say that grandchildren are a real treat"/>
@@ -302,7 +304,7 @@
 			    famFriend.setAboutComment('went shopping');">
 	  <!-- UM gets "went shopping" for status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
-	  <agent text="how nice to get new clothes" >
+	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; how nice to get new clothes &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 	    <user text="I agree"/>
 	    <user text="I'm not so interested in that sort of thing">
 	      <agent text="Oh, really?  well, that means you don't have to go shopping!" >
@@ -319,7 +321,7 @@
 		    famFriend.setAboutComment('was going on vacation');">
 	  <!-- UM gets "was going on vacation" status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
-	  <agent text="oh really, where?  Want me to keep track in weather updates?" >
+	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; oh really, where?  Want me to keep track in weather updates? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 	    <user text="Yes, I'll tell you when we talk about weather" >
 	      <agent text="do you wish you could go somewhere special?" >
 			<!--store below in UM user likes/does not like travel -->
@@ -340,7 +342,7 @@
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="well, that's good.">
 	  	<user text="I wish I had some new friends">
-	  		<agent text="Try meeting someone when you go walking!">
+	  		<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Try meeting someone when you go walking! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
 	  			<user text="Good idea"/>
 	  			<user text="I'll think of another way!"/>
 	  			<user text="Maybe I will call up someone I already know"/>
@@ -356,7 +358,7 @@
 		    famFriend.setAboutComment('was coming to visit you');">
 	  <!-- UM gets "was going to visit you" status and statusType positive  for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
-	  <agent text="great for you.  When we do your calendar, we can add the visit" >
+	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; great for you.  When we do your calendar, we can add the visit &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 	    <user text="Okay"/>
 	    <user text="Okay if I remember!"/>
 	    <user text="I'm not sure yet when {pronounSubj} is coming">
@@ -374,14 +376,14 @@
   </agent>
 
 
-  <agent id="NotGoingWell" text="oh, what's wrong?">
+  <agent id="NotGoingWell" text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; oh, what's wrong? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text=" {pronounSubj} is ill" 
 	  eval="famFriend.setAboutMentioned(true); 
 		negative(famFriend);
 		famFriend.setAboutComment('was ill');">
       <!-- put in UM status as ill, statusType as negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
-      <agent text="I hope the illness is not serious" >
+      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; I hope the illness is not serious &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 		<user text="Well, it is.  I'm worried" >
 	      <agent text="if you haven't talked to {pronounObj}, why don't you give {pronounObj} a call?" >
 			<user text="I did just recently" />
@@ -402,9 +404,9 @@
 		famFriend.setAboutComment('had an accident');">
 	  <!-- put in UM status as had accident and statusType as negative for {famFriend}  -->
 	  <!-- <eval set previousTalk in UM to negative> -->
-	  <agent text=" Is {pronounSubj} in the hospital?" >
+	  <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Is {pronounSubj} in the hospital? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 	    <user text="Yes, for a long time" >
-	      <agent text="oh dear.  Can you go visit?" >
+	      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; oh dear.  Can you go visit? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 		<user text="Yes, {pronounSubj} is nearby" >
 		  <agent text="sounds like a good thing to do" />
 		</user>
@@ -419,7 +421,7 @@
 	      </agent>
 	    </user>
 	    <user text="Yes, but not for long">
-	      <agent text="well that's tough.  Can you go visit?" >
+	      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; well that's tough.  Can you go visit? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 		<user text="Yes, {pronounSubj} is nearby" >
 		  <agent text="well, sounds like an trip for you" />
 		</user>
@@ -445,14 +447,14 @@
 		    famFriend.setAboutComment('lost a family member');">
 	  <!-- put in UM as status lost a family member and statusType as negative for {famFriend}  -->
 	        <!-- <eval set previousTalk in UM to negative> -->
-	  <agent text="that's very sad" >
+	  <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; that's very sad &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 	    <user text="I don't really want to talk about it">
 	      <agent text="I understand" />
 	    </user>
 	    <user text="Yes, it's too bad after so long | I'm going to the funeral | I am going to send my condolences" >
 	      <agent text="did you know {pronounPossessive} family member? ">
 		<user text="Oh yes, we go back years" >
-		  <agent text="Please accept my condolences" >
+		  <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Please accept my condolences &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 		    <user text="Thank you" />
 		  </agent>
 		</user>
@@ -475,7 +477,7 @@
 		    famFriend.setAboutComment('was lonely');">
 	  <!-- put in UM  status as was lonely and statusType negative for {famFriend}  -->
 	        <!-- <eval set previousTalk in UM to negative> -->
-	  <agent text="I see.  You could give {pronounObj} a call or talk to {pronounObj} by SKYPE">
+	  <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; I see.  You could give {pronounObj} a call or talk to {pronounObj} by SKYPE &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
 	    <user text="Yes, I think I will">
 	      <agent text="good thing to do" />
 	    </user>
@@ -484,7 +486,7 @@
 	  </agent>
 	</user>
 	<user text=" {pronounSubj} is postponing a visit to me" >
-	  <agent text=" Oh, that's too a shame.  Any chance of a visit later?">
+	  <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Oh, that's too a shame.  Any chance of a visit later? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
 	    <user text="Yes" >
 	      <agent text="tell me the next time we update your calendar." />
 	    </user>
@@ -498,7 +500,7 @@
 	</user>
       </agent>
 
-  <agent id="_End" text="well, {getUserName()}, it was nice talking about your friends and family with you" />
+  <agent id="_End" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, {getUserName()}, it was nice talking about your friends and family with you &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
 
   <agent id="_CloseFamilyFriends"
 	 text="Remember. You can have a video call with friends and family.  If you want to do that, let me know." >

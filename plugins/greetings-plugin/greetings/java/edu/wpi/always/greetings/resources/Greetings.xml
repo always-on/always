@@ -7,7 +7,7 @@
          <step name="__Morning_step" task="disco:Say$Expression"/>
          <step name="__Morning_ref" task="__Morning_tree"/>
          <binding slot="$__Morning_step.text"
-                  value="&#34;\&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt;Good morning, \&#34;+(getUserName())+\&#34;. &lt;FACEEXPR=\&#34;WARM\&#34;&gt;\&#34;&#34;"/>
+                  value="&#34;\&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Good morning, \&#34;+(getUserName())+\&#34;. &lt;FACE EXPR=\&#34;WARM\&#34;&gt;\&#34;&#34;"/>
          <binding slot="$__Morning_step.external" value="false"/>
       </subtasks>
    </task>
@@ -344,7 +344,8 @@
          <step name="_d4e72_ref" task="_d4e72_tree"/>
          <binding slot="$_d4e71_step.text" value="&#34;Oh not so great&#34;"/>
          <binding slot="$_d4e71_step.external" value="true"/>
-         <binding slot="$_d4e72_step.text" value="&#34;sorry to hear it. Maybe it will improve&#34;"/>
+         <binding slot="$_d4e72_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; sorry to hear it. Maybe it will improve&lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e72_step.external" value="false"/>
       </subtasks>
    </task>
@@ -381,7 +382,7 @@
          <binding slot="$_d4e79_step.text" value="&#34;no, not really&#34;"/>
          <binding slot="$_d4e79_step.external" value="true"/>
          <binding slot="$_d4e80_step.text"
-                  value="&#34;sorry to hear it. Maybe this evening will be better&#34;"/>
+                  value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; sorry to hear it. Maybe this evening will be better &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e80_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e84_subtasks">
