@@ -43,6 +43,7 @@ public abstract class UserModelBase implements UserModel {
    @Override
    public void setCloseness (Closeness closeness) { 
       if ( !userName.isEmpty() ) setProperty(CLOSENESS, closeness.name()); 
+      else throw new IllegalStateException("Cannot set closeness for empty user name!");
    }
   
 }

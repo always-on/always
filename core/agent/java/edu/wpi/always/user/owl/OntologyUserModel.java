@@ -25,7 +25,7 @@ public class OntologyUserModel extends UserModelBase {
       this.peopleManager = peopleManager;
       this.placeManager = placeManager;
       peopleManager.setUserModel(this);
-      System.out.println("Saving user ontology to: "+userDataFile);
+      System.out.println("User ontology file: "+userDataFile);
       // partially set for testing
       user = ontology.getNamedIndividual("User");
    }
