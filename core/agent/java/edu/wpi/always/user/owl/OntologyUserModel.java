@@ -36,7 +36,7 @@ public class OntologyUserModel extends UserModelBase {
          this.userName = userName;
          int space = userName.indexOf(' ');
          userFirstName = space < 0 ? userName : userName.substring(0, space);
-         this.user = ontology.getNamedIndividual(userName);
+         user = ontology.getNamedIndividual(userName);
          if ( !user.hasSuperclass(OntologyPerson.USER_CLASS) ) {
             user.addSuperclass(OntologyPerson.USER_CLASS);
             peopleManager.addPerson(userName);
