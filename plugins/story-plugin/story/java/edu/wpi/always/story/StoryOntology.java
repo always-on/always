@@ -22,7 +22,7 @@ public class StoryOntology {
    }
 
    public void setAttitude (String attitude) {
-      //owlPlace.setDataProperty(ATTITUDE_PROPERTY, helper.getLiteral(attitude));
+      owlPlace.setDataProperty(ATTITUDE_PROPERTY, helper.getLiteral(attitude));
    }
 
    public OntologyIndividual getIndividual () {
@@ -34,7 +34,7 @@ public class StoryOntology {
    }
 
    public void setTime (String time) {
-     // owlPlace.setDataProperty(TIME_PROPERTY, helper.getLiteral(time));
+      owlPlace.setDataProperty(TIME_PROPERTY, helper.getLiteral(time));
    }
 
    public String getName () {
@@ -42,7 +42,7 @@ public class StoryOntology {
    }
 
    public void setName (String name) {
-      //owlPlace.setDataProperty(NAME_PROPERTY, helper.getLiteral(name));
+      owlPlace.setDataProperty(NAME_PROPERTY, helper.getLiteral(name));
    }
 
    public String getAudience () {
@@ -50,6 +50,6 @@ public class StoryOntology {
    }
 
    public void setAudience (String audience) {
-      //owlPlace.setDataProperty(AUDIENCE_PROPERTY, helper.getLiteral(audience));
+      owlPlace.setDataProperty(AUDIENCE_PROPERTY, helper.getLiteral(audience));
    }
 }
