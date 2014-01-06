@@ -3,9 +3,6 @@ package edu.wpi.always.srummy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import edu.wpi.always.ttt.WhoPlaysFirst.AgentComments;
-import edu.wpi.always.ttt.WhoPlaysFirst.AgentPlayDelay;
-import edu.wpi.always.ttt.WhoPlaysFirst.HumanComments;
 import edu.wpi.disco.rt.menu.*;
 
 public class StartGamingSequence extends SrummyAdjacencyPairImpl {
