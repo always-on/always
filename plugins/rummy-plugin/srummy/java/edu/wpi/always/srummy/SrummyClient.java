@@ -108,6 +108,8 @@ public class SrummyClient implements SrummyUI {
       moveChooser = new MoveChooser();
       humanPlayedMoves = new ArrayList<SrummyLegalMove>();
       hashCodeOfTheSelectedMove = 0;
+      currentHumanResponseOptions = new ArrayList<String>();
+      currentAgentResponseOptions = new HashMap<String, String>();
       //scenarioManager.chooseOrUpdateScenario();
 
    }

@@ -114,6 +114,8 @@ public class CheckersClient implements CheckersUI {
       moveChooser = new MoveChooser();
       scenarioManager = new ScenarioManager();
       gameState = new CheckersGameState();
+      currentHumanResponseOptions = new ArrayList<String>();
+      currentAgentResponseOptions = new HashMap<String, String>();
       
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override
