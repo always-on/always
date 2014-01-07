@@ -1,6 +1,6 @@
 package edu.wpi.always.explain;
 
-import edu.wpi.always.Plugin;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.disco.*;
@@ -17,13 +17,14 @@ public class ExplainPlugin extends Plugin {
     * For testing Explain by itself
     */
    public static void main (String[] args) {
+      explainInteraction.load("edu/wpi/always/explain/resources/Explain.xml");
       Plugin.main(args, ExplainPlugin.class, "ExplainSelf");
    }
 
    // preload task model
    final static DiscoRT.Interaction explainInteraction = 
          new DiscoRT.Interaction(new Agent("agent"), new User("user"));
-   static { explainInteraction.load("edu/wpi/always/explain/resources/Explain.xml"); }
+   static { if ( Always.ALL_PLUGINS ) explainInteraction.load("edu/wpi/always/explain/resources/Explain.xml"); }
    
    // plugin-specific properties
    

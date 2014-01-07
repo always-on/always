@@ -38,6 +38,7 @@ public class WeatherPlugin extends Plugin {
     */
    public static void main (String[] args) {
       if ( args != null && args.length > 3 ) date = args[3];
+      weatherInteraction.load("edu/wpi/always/weather/resources/Weather.xml"); 
       Always always = Plugin.main(args, WeatherPlugin.class, "DiscussWeather");
       // code below is temporary to demonstrate how to define and use a new user 
       // property extensions (see Weather.owl)
@@ -56,6 +57,6 @@ public class WeatherPlugin extends Plugin {
    // preload task model
    final static DiscoRT.Interaction weatherInteraction = 
          new DiscoRT.Interaction(new Agent("agent"), new User("user"));
-   static { weatherInteraction.load("edu/wpi/always/weather/resources/Weather.xml"); }
+   static { if ( Always.ALL_PLUGINS ) weatherInteraction.load("edu/wpi/always/weather/resources/Weather.xml"); }
  
 }
