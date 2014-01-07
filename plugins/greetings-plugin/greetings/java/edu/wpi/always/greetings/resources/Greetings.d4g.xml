@@ -18,7 +18,7 @@
        return $always.getUserModel().getUserFirstName();
     }
     
-    var poorSleepreports;
+    var poorSleepreports = 0;
     
   </t:script>
 
@@ -36,7 +36,7 @@
     </t:subtasks>
   </t:task>
 
-  <agent id="_Morning" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Good morning, {getUserName()}. &lt;FACE EXPR=\&quot;WARM\&quot;&gt;">
+  <agent id="_Morning" text="Good morning, {getUserName()}.">
     <user text="Good morning."/>
     <user text="oh morning already!  Good morning!"/>
   </agent>

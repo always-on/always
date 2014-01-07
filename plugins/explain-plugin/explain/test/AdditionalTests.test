@@ -3,6 +3,7 @@
   > load java/edu/wpi/always/explain/resources/Explain.xml
   > task _ExplainSelf
     User says "Let's achieve _ExplainSelf."
+    Agent execute _Init.
     Agent says "Here are activities we can do together.  Which ones would you like to know about?"
   > say
 [1] Developing an exercise plan for me.
@@ -31,7 +32,7 @@
 [4] Maybe another time.
   >> 2
     User says "Oh, that sounds fun!"
-    Agent says "Good, we can have fun getting you started on exercise."
+    Agent says "<FACE EXPR="SMILE"/> Good, we can have fun getting you started on exercise <FACE EXPR="WARM"/>."
   > say
 [1] Ok.
   >> 1
@@ -75,7 +76,7 @@
 [2] Okay.
   >> 1
     User says "Sounds good."
-    Agent says "Great.  I'm looking forward to our chats."
+    Agent says "<FACE EXPR="SMILE"/> great.  I'm looking forward to our chats <FACE EXPR="WARM"/>."
   > say
 [1] Tell me about another activity.
 [2] No more activities.
@@ -114,7 +115,7 @@
 [3] I still don't understand.
   >> 1
     User says "I see.  That sounds useful."
-    Agent says "Yes, so give it a try."
+    Agent says "<FACE EXPR="SMILE"/> yes, so give it a try <FACE EXPR="WARM"/> ."
   > say
 [1] Tell me about another activity.
 [2] No more activities.
@@ -152,7 +153,7 @@
 [3] I see.
   >> 2
     User says "Oh, that sounds fun!"
-    Agent says "It will be fun to do together."
+    Agent says "<FACE EXPR="SMILE"/> it will be fun to do together <FACE EXPR="WARM"/>."
   > say
 [1] Tell me about another activity.
 [2] No more activities.
@@ -240,7 +241,7 @@
 [3] I see;  funny stories aren't for me, but maybe sometime I'll ask you.
   >> 2
     User says "I think I will try that sometime."
-    Agent says "Good.  I like telling stories!"
+    Agent says "<FACE EXPR="SMILE"/> good.  I like telling stories! <FACE EXPR="WARM"/>."
   > say
 [1] Tell me about another activity.
 [2] No more activities.
@@ -266,7 +267,7 @@
 [1] Uh-huh.
   >> 1
     User says "Uh-huh."
-    Agent says "I can advise you on how to add more fruits and veggies to your daily meals."
+    Agent says "I can suggest ways to add more fruits and veggies to your daily meals."
   > say
 [1] Ok.
 [2] Oh, that is a good thing to do.
@@ -274,7 +275,7 @@
 [4] Maybe another time.
   >> 2
     User says "Oh, that is a good thing to do."
-    Agent says "Good, I can give you some good ideas on healthy eating."
+    Agent says "<FACE EXPR="SMILE"/> Good, I can give you some good ideas on healthy eating <FACE EXPR="WARM"/>."
   > say
 [1] Tell me about another activity.
 [2] No more activities.
@@ -302,7 +303,7 @@
 [3] This is definitely not for me.
   >> 2
     User says "No thanks.  I like using the phone just fine."
-    Agent says "Well, you could try it just once with one friend.  Think about it."
+    Agent says "<FACE EXPR="SMILE"/> well, you could try it just once with one friend.  Think about it <FACE EXPR="WARM"/>."
   > say
 [1] Okay, maybe I will.
 [2] No, no thanks.
@@ -314,7 +315,7 @@
 [2] No.
   >> 2
     User says "No."
-    Agent says "Well, any time you want more explanations, just ask!"
+    Agent says "<FACE EXPR="SMILE"/> Well, any time you want more explanations, just ask! <FACE EXPR="WARM">."
   > say
 [1] Ok, thanks.
 [2] Thanks that was really interesting!

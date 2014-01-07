@@ -3,5 +3,5 @@
 # restore TestUser file from test folder
 #
 dir="`dirname $0`"
-cp -f "$dir/../test/TestUser.owl" "$dir/../../../user/TestUser.owl"
-echo "Restored TestUser.owl"
+cp -f "$dir/../test/TestUser.owl" "$dir/../../../user/User.owl"
+echo "Restored User.owl from agent/test/TestUser.owl"

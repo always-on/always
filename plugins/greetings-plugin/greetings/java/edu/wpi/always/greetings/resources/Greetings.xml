@@ -6,8 +6,7 @@
       <subtasks id="__Morning_subtasks">
          <step name="__Morning_step" task="disco:Say$Expression"/>
          <step name="__Morning_ref" task="__Morning_tree"/>
-         <binding slot="$__Morning_step.text"
-                  value="&#34;\&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Good morning, \&#34;+(getUserName())+\&#34;. &lt;FACE EXPR=\&#34;WARM\&#34;&gt;\&#34;&#34;"/>
+         <binding slot="$__Morning_step.text" value="&#34;\&#34;Good morning, \&#34;+(getUserName())+\&#34;.\&#34;&#34;"/>
          <binding slot="$__Morning_step.external" value="false"/>
       </subtasks>
    </task>
@@ -538,7 +537,7 @@
        return $always.getUserModel().getUserFirstName();
     }
     
-    var poorSleepreports;
+    var poorSleepreports = 0;
     
   </script>
 </taskModel>

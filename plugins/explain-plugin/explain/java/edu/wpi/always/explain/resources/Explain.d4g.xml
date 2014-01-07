@@ -31,6 +31,7 @@
     // NB: All flags must be defined in Explain.owl
 
     Activity.ALL = {
+         AboutAgent : new Activity("ABOUT_AGENT", "Learning about agent"), 
          PlanExercise : new Activity("PLAN_EXERCISE", "Developing an exercise plan for me"), 
          TalkAbout : new Activity("TALK_ABOUT", "Talking together about my family and friends"),
          UseCalendar : new Activity("USE_CALENDAR", "Keeping my personal calendar"),
@@ -103,6 +104,8 @@
   </t:task>
 
   <do id="MoreExplaining" actor="agent" task="_SetChoiceActivity">
+    <do task="_ExplainAboutAgent" 
+        applicable="$CHOICE == Activity.ENUM.AboutAgent"/>
     <do task="_ExplainPlanExercise" 
         applicable="$CHOICE == Activity.ENUM.PlanExercise"/>
     <do task="_ExplainTalkAbout"
@@ -137,6 +140,10 @@
     </user>
   </agent>
 
+  <agent id="_ExplainAboutAgent" text="I am explaining about agent.">
+    <user text="Ok, thanks"/>
+  </agent>
+  
   <agent id="_ExplainPlayGames" text="We can play games together.  In particular we can play rummy, checkers or TicTacToe" >
     <user text="go on" >
       <agent text="Other computers can play games, but they just make the moves, and then give you a turn."

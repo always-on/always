@@ -29,6 +29,7 @@ public class ExplainPlugin extends Plugin {
    // plugin-specific properties
    
    public static final String
+      ABOUT_AGENT = "ExplainAboutAgent",
       PREVIOUS_TALK = "ExplainPreviousTalk",
       PLAN_EXERCISE = "ExplainPlanExercise",
       TALK_ABOUT = "ExplainTalkAbout",
@@ -41,7 +42,7 @@ public class ExplainPlugin extends Plugin {
       USE_SKYPE = "ExplainUseSkype";
             
    public static String[] getProperties () {
-      return new String[] { PREVIOUS_TALK, PLAN_EXERCISE, TALK_ABOUT, USE_CALENDAR,
+      return new String[] { ABOUT_AGENT, PREVIOUS_TALK, PLAN_EXERCISE, TALK_ABOUT, USE_CALENDAR,
                             PLAY_GAMES, TELL_STORY, DISCUSS_WEATHER,
                             HEAR_ANECDOTES, ADVISE_NUTRITION, USE_SKYPE};
    }

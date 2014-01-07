@@ -67,14 +67,14 @@
       famFriend = familyFriendsList[$plan.getParent().getRepeatStep()]; 
       print("famFriend =" + famFriend);
       statusFamFriend = famFriend.getAboutComment();
-      print("status =" + statusFamFriend);
+      print(" status =" + statusFamFriend);
       statusType = famFriend.getAboutStatus();
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
       famFriendRelationship = 
           (famFriend.getRelationship() == null ? " ": "your" + famFriend.getRelationship() );
       previousTalk = famFriend.isAboutMentioned();
-      print("previous talk about =" + previousTalk);
+      println(" previous talk about =" + previousTalk);
       if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"; pronounPossessive= "his" } 
       else  {pronounObj = "her"; pronounSubj = "she"; pronounPossessive = "her" }; 
     </t:script>
@@ -189,7 +189,7 @@
 	  <!-- reset statusType to empty and previousTalk to null -->
 	</user>
 	<user text="No, {pronounSubj} is still ill" >
-	  <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Oh, that's too bad.  Have you been to see {pronounObj}? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+	  <agent text="Oh, that's too bad.  Have you been to see {pronounObj}?">
 	    <user text="Yes, but I should give {pronounObj} a call again" >
 	      <agent text="Yeh, good idea" />
 	      <!-- leave status as is and ask again  -->
@@ -218,7 +218,7 @@
     <user text="Yes, that's right" applicable="statusFamFriend =='was lonely'">
       <agent text="Is that still the case?"  eval="reset(famFriend);" >
 	<user text="Yes, no change" >
-	  <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt;Loneliness is hard.  Maybe you should give {pronounObj} a call &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
+	  <agent text="Loneliness is hard.  Maybe you should give {pronounObj} a call." >
 	    <user text="Yes.  I think I will" />
 	    <user text="Maybe later" />
 	    <user text="Not today" />
@@ -283,7 +283,7 @@
 		    famFriend.setAboutComment('had a new grandchild');" >
 	  <!-- UM GETS "had a new grandchild" for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
-	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; oh that's great for {pronounObj} &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
+	  <agent text="Oh that's great for {pronounObj}" >
 	    <user text="Yes, {pronounSubj}'s very excited" >
 	      <agent text="uh-huh.  I can understand." />
 	    </user>
@@ -404,7 +404,7 @@
 		famFriend.setAboutComment('had an accident');">
 	  <!-- put in UM status as had accident and statusType as negative for {famFriend}  -->
 	  <!-- <eval set previousTalk in UM to negative> -->
-	  <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Is {pronounSubj} in the hospital? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
+	  <agent text="Is {pronounSubj} in the hospital?" >
 	    <user text="Yes, for a long time" >
 	      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; oh dear.  Can you go visit? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 		<user text="Yes, {pronounSubj} is nearby" >
@@ -477,7 +477,7 @@
 		    famFriend.setAboutComment('was lonely');">
 	  <!-- put in UM  status as was lonely and statusType negative for {famFriend}  -->
 	        <!-- <eval set previousTalk in UM to negative> -->
-	  <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; I see.  You could give {pronounObj} a call or talk to {pronounObj} by SKYPE &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+	  <agent text="I see.  You could give {pronounObj} a call or talk to {pronounObj} by SKYPE">
 	    <user text="Yes, I think I will">
 	      <agent text="good thing to do" />
 	    </user>
@@ -500,7 +500,7 @@
 	</user>
       </agent>
 
-  <agent id="_End" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, {getUserName()}, it was nice talking about your friends and family with you &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
+  <agent id="_End" text="Well, {getUserName()}, it was nice talking about your friends and family with you." />
 
   <agent id="_CloseFamilyFriends"
 	 text="Remember. You can have a video call with friends and family.  If you want to do that, let me know." >
