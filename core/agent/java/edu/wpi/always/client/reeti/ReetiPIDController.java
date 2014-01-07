@@ -1,4 +1,4 @@
-package edu.wpi.always.client;
+package edu.wpi.always.client.reeti;
 
 public class ReetiPIDController extends ReetiJsonConfiguration{
 

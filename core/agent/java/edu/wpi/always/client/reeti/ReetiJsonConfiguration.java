@@ -1,4 +1,5 @@
-package edu.wpi.always.client;
+package edu.wpi.always.client.reeti;
+
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import java.io.*;
 import org.json.simple.JSONObject;

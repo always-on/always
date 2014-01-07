@@ -3,7 +3,7 @@ package edu.wpi.always.cm;
 import java.io.File;
 import org.picocontainer.*;
 import edu.wpi.always.*;
-import edu.wpi.always.client.ReetiCommandSocketConnection;
+import edu.wpi.always.client.reeti.ReetiCommandSocketConnection;
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.perceptors.sensor.face.*;
 import edu.wpi.always.cm.primitives.*;

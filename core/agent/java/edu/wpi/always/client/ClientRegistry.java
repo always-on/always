@@ -2,6 +2,7 @@ package edu.wpi.always.client;
 
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
+import edu.wpi.always.client.reeti.ReetiFaceTrackerRealizer;
 import edu.wpi.always.cm.primitives.AudioFileRealizer;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
