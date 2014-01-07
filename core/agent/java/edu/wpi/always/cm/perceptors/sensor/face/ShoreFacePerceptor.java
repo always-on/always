@@ -2,6 +2,7 @@ package edu.wpi.always.cm.perceptors.sensor.face;
 
 import org.joda.time.DateTime;
 import edu.wpi.always.Always;
+import edu.wpi.always.client.reeti.ReetiCommandSocketConnection;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
@@ -118,9 +119,11 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    public static class Reeti extends ShoreFacePerceptor {
 
       public Reeti () {
-         // TODO: This should come by reading user/Reeti.json
          super(50, 50, 1700);
-         String[] ptr = new String[] { "130.215.28.4" };
+
+         String[] ptr = new String[] { new ReetiCommandSocketConnection()
+               .getConfigInfo().getIP() }; // Was "130.215.28.4"
+
          CPPinterface.INSTANCE.initReetiShoreEngine(ptr, 0);
       }
 
