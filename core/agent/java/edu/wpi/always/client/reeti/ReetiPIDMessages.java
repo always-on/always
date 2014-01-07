@@ -8,7 +8,7 @@ public class ReetiPIDMessages extends ReetiJsonConfiguration {
    private ReetiPIDController YPID;
 
    private ReetiJsonConfiguration reetiJsonConfig;
-   
+
    public ReetiPIDMessages () {
       XPID = new ReetiPIDController();
       YPID = new ReetiPIDController();
@@ -116,18 +116,29 @@ public class ReetiPIDMessages extends ReetiJsonConfiguration {
       String command;
 
       // TODO: This actual values should come from reading the json file.
-      command = "Global.servo.color=\"red\",Global.servo.neckRotat=" + reetiJsonConfig.getNeckRotat() + " smooth:0.50s; " //Was 50
-         + "Global.servo.leftEyePan=" + reetiJsonConfig.getLeftEyePan() + ", Global.servo.rightEyePan=" + reetiJsonConfig.getRightEyePan() + " smooth:0.50s, "  //Was 40 and 60
-         + "Global.servo.neckTilt=" + reetiJsonConfig.getNeckTilt() + " smooth:0.50s, " // Was 55.56 
-         + "Global.servo.leftEyeTilt=" + reetiJsonConfig.getLeftEyeTilt() + " smooth:0.50s, Global.servo.rightEyeTilt=" + reetiJsonConfig.getRightEyeTilt() + " smooth:0.50s;"; // Were 42.55
-      
-      XPID.setNeckXPIDoutput(reetiJsonConfig.getNeckRotat());   //Old value: 50
-      
-      YPID.setNeckYPIDoutput(reetiJsonConfig.getNeckTilt());    //Old value: 55.56
+      command = "Global.servo.color=\"red\",Global.servo.neckRotat="
+         + reetiJsonConfig.getNeckRotat()
+         + " smooth:0.50s; " // Was 50
+         + "Global.servo.leftEyePan="
+         + reetiJsonConfig.getLeftEyePan()
+         + ", Global.servo.rightEyePan="
+         + reetiJsonConfig.getRightEyePan()
+         + " smooth:0.50s, " // Was 40 and 60
+         + "Global.servo.neckTilt="
+         + reetiJsonConfig.getNeckTilt()
+         + " smooth:0.50s, " // Was 55.56
+         + "Global.servo.leftEyeTilt=" + reetiJsonConfig.getLeftEyeTilt()
+         + " smooth:0.50s, Global.servo.rightEyeTilt="
+         + reetiJsonConfig.getRightEyeTilt() + " smooth:0.50s;"; // Were 42.55
 
-      XPID.setEyeXPIDoutput(reetiJsonConfig.getLeftEyePan());   //Old value: 50
-      
-      YPID.setEyeYPIDoutput(reetiJsonConfig.getLeftEyeTilt());  //Old value: 42.55
+      XPID.setNeckXPIDoutput(reetiJsonConfig.getNeckRotat()); // Old value: 50
+
+      YPID.setNeckYPIDoutput(reetiJsonConfig.getNeckTilt()); // Old value: 55.56
+
+      XPID.setEyeXPIDoutput(reetiJsonConfig.getLeftEyePan()); // Old value: 50
+
+      YPID.setEyeYPIDoutput(reetiJsonConfig.getLeftEyeTilt()); // Old value:
+                                                               // 42.55
 
       System.out.println("Search command sent...");
 
