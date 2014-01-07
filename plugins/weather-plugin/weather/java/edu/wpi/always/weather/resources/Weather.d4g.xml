@@ -154,9 +154,9 @@
       </user>
   </agent>
     
-  <agent id="DoAlmanac" text="The record high is {$W.almanac.recordHigh.extremeTemp} F. It happened in {$W.almanac.recordHigh.year}.">
+  <agent id="DoAlmanac" text="The record high is {$W.almanac.recordHigh.extremeTemp} fahrenheit. It happened in {$W.almanac.recordHigh.year}.">
     	<user text="Wow, go on.">
-	  <agent text="The record low is {$W.almanac.recordLow.extremeTemp} F. It happened in  {$W.almanac.recordLow.year}.">
+	  <agent text="The record low is {$W.almanac.recordLow.extremeTemp} fahrenheit. It happened in  {$W.almanac.recordLow.year}.">
 	    <user text="That's pretty cold.">
 	      <agent text="Yeah.  Compared to the average temperatures of {$W.almanac.recordLow.averageTemp} (low) and {$W.almanac.recordHigh.averageTemp} (high), you can judge the difference.">
 		<user text="yeh, thanks for telling me." />

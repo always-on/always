@@ -34,7 +34,7 @@
          <step name="_DoAlmanac_step" task="disco:Say$Expression"/>
          <step name="_DoAlmanac_ref" task="_DoAlmanac_tree"/>
          <binding slot="$_DoAlmanac_step.text"
-                  value="&#34;\&#34;The record high is \&#34;+($W.almanac.recordHigh.extremeTemp)+\&#34; F. It happened in \&#34;+($W.almanac.recordHigh.year)+\&#34;.\&#34;&#34;"/>
+                  value="&#34;\&#34;The record high is \&#34;+($W.almanac.recordHigh.extremeTemp)+\&#34; fahrenheit. It happened in \&#34;+($W.almanac.recordHigh.year)+\&#34;.\&#34;&#34;"/>
          <binding slot="$_DoAlmanac_step.external" value="false"/>
       </subtasks>
    </task>
@@ -139,7 +139,7 @@
          <binding slot="$_d4e57_step.text" value="&#34;Wow, go on.&#34;"/>
          <binding slot="$_d4e57_step.external" value="true"/>
          <binding slot="$_d4e58_step.text"
-                  value="&#34;\&#34;The record low is \&#34;+($W.almanac.recordLow.extremeTemp)+\&#34; F. It happened in  \&#34;+($W.almanac.recordLow.year)+\&#34;.\&#34;&#34;"/>
+                  value="&#34;\&#34;The record low is \&#34;+($W.almanac.recordLow.extremeTemp)+\&#34; fahrenheit. It happened in  \&#34;+($W.almanac.recordLow.year)+\&#34;.\&#34;&#34;"/>
          <binding slot="$_d4e58_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e64_subtasks">

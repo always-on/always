@@ -16,7 +16,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    
    public InitialEnroll (final EnrollStateContext context) {
       
-      super("I'm ready for you to tell me about your family and friends", context);
+      super("<FACE EXPR=\"SMILE\"> I'm ready for you to tell me about your family and friends <FACE EXPR=\"WARM\">", context);
       
       choice("Sounds good", new DialogStateTransition() {
 
@@ -89,7 +89,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    public static class ReadyForStartEvent extends EnrollAdjacencyPairImpl{
 
       public ReadyForStartEvent(final EnrollStateContext context) {
-         super("Good. Let's start", context);
+         super("<FACE EXPR=\"SMILE\"> Good. Let's start <FACE EXPR=\"SMILE\">", context);
          choice("Yes, let's start", new DialogStateTransition() {
 
             @Override
@@ -110,7 +110,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    public static class DialogEndEvent extends EnrollAdjacencyPairImpl{
 
       public DialogEndEvent(final EnrollStateContext context) {
-         super("Okay, we can do this again if you want", context);
+         super("<FACE EXPR=\"SMILE\"> Okay, we can do this again if you want <FACE EXPR=\"WARM\">", context);
          choice("Sure", new DialogStateTransition() {
 
             @Override
