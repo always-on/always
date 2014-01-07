@@ -1,9 +1,8 @@
 package edu.wpi.always.client.reeti;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-import java.io.*;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.simple.*;
+import java.io.InputStreamReader;
 
 public class ReetiJsonConfiguration {
 
@@ -95,16 +94,10 @@ public class ReetiJsonConfiguration {
 
    public ReetiJsonConfiguration () {
       
-      JSONParser parser = new JSONParser();
-      
       try {
     
-         Object obj;
+         JSONObject jsonObject = (JSONObject) JSONValue.parse(new InputStreamReader(getClass().getResourceAsStream("/Reeti.json")));
          
-         obj = parser.parse(new FileReader("lib/reeti/Fili.json"));
-         
-         JSONObject jsonObject = (JSONObject) obj;
-    
          this.IP = (String) jsonObject.get("IP");
     
          this.name = (String) jsonObject.get("name");
@@ -139,16 +132,14 @@ public class ReetiJsonConfiguration {
          
          this.neckPan = Double.valueOf((String) jsonObject.get("neckPan"));
     
-      } catch (FileNotFoundException e) {
-         e.printStackTrace();
-      } catch (IOException e) {
-         e.printStackTrace();
       } catch (ParseException e) {
-         e.printStackTrace();
-      } catch (org.json.simple.parser.ParseException e) {
          e.printStackTrace();
       }
 
+   }
+   
+   public static void main (String[] args) {
+      new ReetiJsonConfiguration();
    }
 
 }
