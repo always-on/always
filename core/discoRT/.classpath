@@ -21,6 +21,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jFuzzyLogic_v2.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/disco"/>
+	<classpathentry exported="true" kind="lib" path="lib/disco1.6.10/lib/disco.jar"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>
