@@ -1,0 +1,121 @@
+// \author msh
+// \date 21/11/2013
+// \version 1.0
+
+//personal modules to load
+if(isTalkLoaded == false)
+{
+        try{
+                loadModule("/home/reeti/reetiPrograms/UModules/talk.so");
+		var Global.Talk = uobjects.Talk.new();
+                isTalkLoaded=true;
+		cout<<"loaded";
+		outErr << "WARNING:";
+        }
+        catch{
+                outErr << "WARNING: Load module UGreetings FAIL\n";
+                isTalkLoaded=false;
+        }
+};
+
+if(isSmallNodLoaded == false)
+{
+        try{
+                loadModule("/home/reeti/reetiPrograms/UModules/smallnod.so");
+		var Global.SmallNod = uobjects.SmallNod.new();
+                isSmallNodLoaded=true;
+		cout<<"loaded";
+		outErr << "WARNING:";
+        }
+        catch{
+                outErr << "WARNING: Load module UGreetings FAIL\n";
+                isSmallNodLoaded=false;
+        }
+};
+
+if(isBigNodLoaded == false)
+{
+        try{
+                loadModule("/home/reeti/reetiPrograms/UModules/bignod.so");
+		var Global.BigNod = uobjects.BigNod.new();
+                isBigNodLoaded=true;
+		cout<<"loaded";
+		outErr << "WARNING:";
+        }
+        catch{
+                outErr << "WARNING: Load module UGreetings FAIL\n";
+                isBigNodLoaded=false;
+        }
+};
+
+if(isGreetingsLoaded == false)
+{
+        try{
+                loadModule("/home/reeti/reetiPrograms/UModules/greetings.so");
+		var Global.GreetTime = uobjects.Greetings.new();
+                isGreetingsLoaded=true;
+		cout<<"loaded";
+		outErr << "WARNING:";
+        }
+        catch{
+                outErr << "WARNING: Load module UGreetings FAIL\n";
+                isGreetingsLoaded=false;
+        }
+};
+
+if(isSadLoaded == false)
+{
+        try{
+                loadModule("/home/reeti/reetiPrograms/UModules/sad.so");
+		var Global.Sad = uobjects.Sad.new();
+                isSadLoaded=true;
+		cout<<"loaded";
+		outErr << "WARNING:";
+        }
+        catch{
+                outErr << "WARNING: Load module USad FAIL\n";
+                isSadLoaded=false;
+        }
+};
+if(isHappyLoaded == false)
+{
+	try{
+                loadModule("/home/reeti/reetiPrograms/UModules/happy.so");
+		var Global.Happy = uobjects.Happy.new();
+                isHappyLoaded=true;
+		cout<<"loaded";
+		outErr << "WARNING:";
+        }
+        catch{
+                outErr << "WARNING: Load module UHappy FAIL\n";
+                isHappyLoaded=false;
+        }
+};
+
+if(isSurpriseLoaded == false)
+{
+        try{
+                loadModule("/home/reeti/reetiPrograms/UModules/surprise.so");
+		var Global.Surprise = uobjects.Surprise.new();
+                isSurpriseLoaded=true;
+		cout<<"loaded";
+		outErr << "WARNING:";
+        }
+        catch{
+                outErr << "WARNING: Load module USad FAIL\n";
+                isSurpriseLoaded=false;
+        }
+};
+
+if(isUExhibitorLoaded == false)
+{
+        try{
+                loadModule("/home/reeti/reetiPrograms/UModules/libUExhibitor.so");
+                var Global.exhibitor = uobjects.UExhibitor.new(2);
+                isUExhibitorLoaded=true;
+        }
+        catch{
+                outErr << "WARNING: Load module UExhibitor FAIL\n";
+                isUExhibitorLoaded=false;
+        }
+};

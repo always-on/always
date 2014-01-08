@@ -1,19 +1,31 @@
-package edu.wpi.always.client;
+package edu.wpi.always.client.reeti;
 
 //a Java socket client
 
 import java.io.*;
 import java.net.*;
 
-
 public class ReetiCommandSocketConnection {
 
    private final Socket socket;
+
    private final PrintWriter writer;
 
+<<<<<<< HEAD
    public ReetiCommandSocketConnection (String host) {
       try {
          socket = new Socket(host, 12045);
+=======
+   public final ReetiJsonConfiguration reetiJsonConfig;
+
+   public ReetiCommandSocketConnection () {
+
+      reetiJsonConfig = new ReetiJsonConfiguration();
+
+      try {
+         socket = new Socket(reetiJsonConfig.getIP(), 12045); // Was
+                                                              // 130.215.28.4
+>>>>>>> d66048f927dcc5743bf465359f60991ccd83ec2b
          writer = new PrintWriter(socket.getOutputStream(), true);
       } catch (IOException e) {
          throw new RuntimeException("Error opening socket to Reeti", e);
@@ -31,5 +43,9 @@ public class ReetiCommandSocketConnection {
       } catch (IOException e) {
          throw new RuntimeException("Error closing socket to Reeti", e);
       }
+   }
+
+   public ReetiJsonConfiguration getConfigInfo () {
+      return this.reetiJsonConfig;
    }
 }

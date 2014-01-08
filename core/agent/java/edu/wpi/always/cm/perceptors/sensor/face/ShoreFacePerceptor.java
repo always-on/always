@@ -2,7 +2,11 @@ package edu.wpi.always.cm.perceptors.sensor.face;
 
 import org.joda.time.DateTime;
 import edu.wpi.always.Always;
+<<<<<<< HEAD
 import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
+=======
+import edu.wpi.always.client.reeti.ReetiCommandSocketConnection;
+>>>>>>> d66048f927dcc5743bf465359f60991ccd83ec2b
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
@@ -18,7 +22,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    protected volatile FacePerception latest;
 
-   protected volatile FaceInfo info, prevInfo;
+   protected volatile FaceInfo info = null, prevInfo = null;
 
    private final int faceHorizontalDisplacementThreshold,
          faceVerticalDisplacementThreshold, faceAreaThreshold;
@@ -38,15 +42,15 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    public void run () {
 
       info = getFaceInfo(0);
-      prevInfo = info;
 
       if ( info != null ) {
-         if ( isRealFace() ) {
-            latest = new FacePerception(DateTime.now(), info.intTop,
-                  info.intBottom, info.intLeft, info.intRight, info.intArea,
-                  info.intCenter, info.intTiltCenter);
+         if ( prevInfo != null ) {
+            if ( isRealFace() ) {
+               latest = new FacePerception(DateTime.now(), info.intTop,
+                     info.intBottom, info.intLeft, info.intRight, info.intArea,
+                     info.intCenter, info.intTiltCenter);
+            }
          }
-
          prevInfo = info;
       }
    }
@@ -118,10 +122,20 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    public static class Reeti extends ShoreFacePerceptor {
 
+<<<<<<< HEAD
       public Reeti (ReetiJsonConfiguration config) {
          super(50, 50, 1700);
          CPPinterface.INSTANCE.initReetiShoreEngine(
                new String[] {config.getIP()}, 0);
+=======
+      public Reeti () {
+         super(50, 50, 1700);
+
+         String[] ptr = new String[] { new ReetiCommandSocketConnection()
+               .getConfigInfo().getIP() }; // Was "130.215.28.4"
+
+         CPPinterface.INSTANCE.initReetiShoreEngine(ptr, 0);
+>>>>>>> d66048f927dcc5743bf465359f60991ccd83ec2b
       }
 
       @Override

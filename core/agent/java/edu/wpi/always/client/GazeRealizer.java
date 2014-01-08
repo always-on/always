@@ -19,9 +19,9 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
             translateToAgentTurnVer(getParams().getPoint()));
       fireDoneMessage();
    }
-  
+
    /**
-    * Inverse of {@link #translateToAgentTurnHor} and 
+    * Inverse of {@link #translateToAgentTurnHor} and
     * {@link #translateToAgentTurnVer}.
     */
    public static Point translateAgentTurn (float hor, float ver) {
@@ -30,19 +30,23 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
    }
 
    /**
-    * Convert camera image coordinates to horizontal
-    * component of agent coordinates.
+    * Convert camera image coordinates to horizontal component of agent
+    * coordinates.
     * 
     * @return between (inclusive) -1 (agent's right) and +1 (agent's left)
     */
-    public static float translateToAgentTurnHor (Point p) {
-       // NB: Make sure to change translateAgentTurn if change this
-       return (160f - p.x) * 0.4f / 160f;
+   public static float translateToAgentTurnHor (Point p) {
+      // NB: Make sure to change translateAgentTurn if change this
+      return (((160f - p.x) * 0.4f / 160f) < -0.175)
+         ? (((160f - p.x) * 0.4f / 160f) + 0.165f)
+         : ((((160f - p.x) * 0.4f / 160f) < 0.15)
+            ? (((160f - p.x) * 0.4f / 160f) - 0.005f)
+            : ((160f - p.x) * 0.4f / 160f) - 0.12f);
    }
 
    /**
-    * Convert camera image coordinates to vertical component
-    * of agent coordinates.
+    * Convert camera image coordinates to vertical component of agent
+    * coordinates.
     * 
     * @return between (inclusive) -1 (down) and +1 (up)
     */

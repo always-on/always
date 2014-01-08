@@ -3,9 +3,13 @@ package edu.wpi.always.cm;
 import java.io.File;
 import org.picocontainer.*;
 import edu.wpi.always.*;
+<<<<<<< HEAD
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.*;
 import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
+=======
+import edu.wpi.always.client.reeti.ReetiCommandSocketConnection;
+>>>>>>> d66048f927dcc5743bf465359f60991ccd83ec2b
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.perceptors.sensor.face.*;
 import edu.wpi.always.cm.primitives.*;
