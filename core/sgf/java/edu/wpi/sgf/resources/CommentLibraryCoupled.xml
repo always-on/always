@@ -25,10 +25,16 @@
 <comments>
 
 	<agent>
-		<comment strength='0.5' competitiveness='0.5' tags="first" gameType="generic" madeOn="both">
+		<comment strength='0.6' competitiveness='0.5' tags="first" gameType="generic" madeOn="human">
 			<content>Now watch me play</content>
-			<response>I'm watching</response>
-			<response>Just play.</response>
+			<response>Ok! I'm watching</response>
+			<response>Just play!</response>
+		</comment>
+		<comment strength='0.5' competitiveness='0.5' tags="first" gameType="generic" madeOn="agent">
+			<content>That was the best I could do</content>
+			<response>It was pretty good</response>
+			<response>I know, you are bad!</response>
+			<response>But watch me!</response>
 		</comment>
 		<comment competitiveness='0.1' tags="compliment" gameType="generic" gameState="agentWon">
 			<content>So the agent wins! I am the best</content>
@@ -84,7 +90,7 @@
 			<response>Masters are winners like me!</response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.8' tags="brag" gameType="generic" madeOn="agent">
-			<content>You think that was good?! Watch my nest move.</content>
+			<content>You think that was good?! Watch my next move.</content>
 			<response>Fine, I am waiting</response>
 			<response>Bragging won't get you anywhere.</response>
 			<response>well, let's see</response>
@@ -98,7 +104,7 @@
 		</comment>
 		<comment strength='0.8' competitiveness='0.6' tags="offense" gameType="generic" madeOn="human">
 			<content>Now did you see that?</content>
-			<response>yes.  it was good</response>
+			<response>yes. it was good</response>
 			<response>Don't get so impressed with yourself. I can do better than that!</response>
 			<response>Not bad, not bad at all.</response>
 		</comment>
