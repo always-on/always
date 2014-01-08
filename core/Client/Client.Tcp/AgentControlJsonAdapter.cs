@@ -28,6 +28,7 @@ namespace Agent.Tcp
 			dispatcher.RegisterReceiveHandler("gaze", new MessageHandlerDelegateWrapper(Gaze));
 			dispatcher.RegisterReceiveHandler("express", new MessageHandlerDelegateWrapper(Express));
 			dispatcher.RegisterReceiveHandler("idle", new MessageHandlerDelegateWrapper(Idle));
+            dispatcher.RegisterReceiveHandler("toggleAgent", new MessageHandlerDelegateWrapper(ToggleAgent));
 		}
 
 		void Agent_UserSelectedButton(object sender, UserSelectedButtonEventArgs e)
@@ -126,6 +127,11 @@ namespace Agent.Tcp
 			if (args["text"] != null)
 				_agent.Say(args["text"].Value<string>());
 		}
+
+        private void ToggleAgent(JObject args)
+        {
+           _agent.ToggleAgent();
+        }
 
 		private void StopSpeech(JObject args)
 		{
