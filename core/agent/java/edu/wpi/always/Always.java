@@ -64,6 +64,7 @@ public class Always {
          if ( args.length > 1 ) UserUtils.USER_FILE = args[1];
          if ( args.length > 2 ) agentType = AgentType.valueOf(args[2]);
       }
+      System.out.println("Agent type = "+agentType);
       Always always = new Always(true, plugin == null);
       if ( args != null && args.length > 0 ) {
          Closeness closeness = Closeness.valueOf(args[0]);
