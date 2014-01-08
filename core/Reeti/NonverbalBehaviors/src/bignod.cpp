@@ -12,7 +12,6 @@ BigNod::BigNod(const string &n):UObject(n)
 //Init function
 int BigNod::init()
 {
-
 	//Declaring play to URBI
 	UBindFunction(BigNod, play) ;
 

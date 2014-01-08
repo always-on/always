@@ -2,6 +2,8 @@
 #include<sstream>
 #include<iostream>
 
+bool mouthStateFlag = false;
+
 //Declaring our class to URBI
 UStart(Talk);
 
@@ -17,24 +19,31 @@ int Talk::init()
 	//Declaring play to URBI
 	UBindFunction(Talk, play);
 
+	//Declaring stop to URBI
+	//UBindFunction(Talk, stop);
+
 	return 0;
 }
 
 // play function binded to URBI
-int Talk::play(int iterations, double time)
+int Talk::play(double time)
 {
 	stringstream strBottomoLipOpen, strBottomoLipClose;
 
 	strBottomoLipOpen << "Global.servo.bottomLip=10 smooth:" << time << "s;";
 	strBottomoLipClose << "Global.servo.bottomLip=80 smooth:" << time << "s;";
 
-	int cnt = 0;
-
-	while(cnt < iterations)
+	if(mouthStateFlag == false)
 	{
-		send( strBottomoLipOpen.str() );
-		send( strBottomoLipClose.str() );
-		cnt++;
+		//send( strBottomoLipOpen.str() );
+		send( "Global.servo.color=\"red\";" );
+		mouthStateFlag = true;
+	}
+	else
+	{
+		//send( strBottomoLipClose.str() );
+		send( "Global.servo.color=\"green\";" );
+		mouthStateFlag = false;
 	}
 
 	strBottomoLipOpen.clear();
@@ -43,3 +52,9 @@ int Talk::play(int iterations, double time)
 	return 1;
 }
 
+/*int Talk::stop()
+{
+	send( "Global.servo.color=\"green\";" );
+
+	return 1;
+}*/

@@ -27,8 +27,8 @@ int SmallNod::init()
 // play function binded to URBI
 int SmallNod ::play()
 {
-	send("Global.servo.neckTilt=20 smooth:0.25s,");
-	send("Global.servo.neckTilt=55.56 smooth:0.25s;");
+	send("Global.servo.neckTilt=20 smooth:0.5s;");
+	send("Global.servo.neckTilt=55.56 smooth:0.5s;");
 
 	return 1;
 }

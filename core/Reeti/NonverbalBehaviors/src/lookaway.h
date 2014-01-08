@@ -1,5 +1,5 @@
-#ifndef TALK_H
-#define TALK_H
+#ifndef LOOKAWAY_H
+#define LOOKAWAY_H
 
 #include<string.h>
 #include<iostream>
@@ -15,19 +15,19 @@ using namespace std;
 using namespace urbi;
 
 //our class inherits from UObject
-class Talk:public UObject{
+class LookAway:public UObject{
 	public:
 	//default constructor, always with an argument : const string&
-	Talk(const string &n);
+	LookAway(const string &n);
 
 	// ‘‘Real’’ constructor URBI taking an int and a string
 	int init();
 
-	//A declared function to URBI
-	int play(double t);
-
-	//A declared function to URBI
-	//int stop();
+	//Declared function to URBI
+	int lookAwayThink();
+	int lookAtBoard();
+	int lookAwayAtRight();
+	int lookBack();
 
 	private:
 	// client to send orders to URBI

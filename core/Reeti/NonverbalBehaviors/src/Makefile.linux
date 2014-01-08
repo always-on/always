@@ -1,0 +1,59 @@
+LIBRARYSAD = sad.so
+LIBRARYHAPPY = happy.so
+LIBRARYSMALLNOD = smallnod.so
+LIBRARYBIGNOD = bignod.so
+LIBRARYTALK = talk.so
+LIBRARYLOOKAWAY = lookaway.so
+
+SOURCESAD =					\
+  sad.cpp				\
+  sad.h
+
+SOURCEHAPPY = 					\
+  happy.cpp				\
+  happy.h
+
+SOURCESMALLNOD =				\
+  smallnod.cpp				\
+  smallnod.h
+
+SOURCEBIGNOD = 					\
+  bignod.cpp				\
+  bignod.h
+
+SOURCETALK = 					\
+  talk.cpp				\
+  talk.h
+
+SOURCELOOKAWAY = 				\
+  lookaway.cpp				\
+  lookaway.h
+
+LDFLAGS = $$(pkg-config opencv --libs)
+CXXFLAGS = $$(pkg-config opencv --cflags)
+
+all: $(LIBRARYSAD) $(LIBRARYHAPPY) $(LIBRARYSMALLNOD) $(LIBRARYBIGNOD) $(LIBRARYTALK) $(LIBRARYLOOKAWAY)
+	@echo "Compilation done."
+
+$(LIBRARYSAD): $(SOURCESAD)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCESAD) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYHAPPY): $(SOURCEHAPPY)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCEHAPPY) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYSMALLNOD): $(SOURCESMALLNOD)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCESMALLNOD) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYBIGNOD): $(SOURCEBIGNOD)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCEBIGNOD) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYTALK): $(SOURCETALK)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCETALK) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYLOOKAWAY): $(SOURCELOOKAWAY)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCELOOKAWAY) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+clean:
+	rm -rf $(LIBRARYSAD) _ubuild-$(LIBRARYSAD) .libs $(LIBRARYHAPPY) _ubuild-$(LIBRARYHAPPY) _ubuild-$(LIBRARYSMALLNOD) $(LIBRARYSMALLNOD) _ubuild-$(LIBRARYBIGNOD) $(LIBRARYBIGNOD) _ubuild-$(LIBRARYTALK) $(LIBRARYTALK) _ubuild-$(LIBRARYLOOKAWAY) $(LIBRARYLOOKAWAY)
+
+
