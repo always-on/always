@@ -13,17 +13,6 @@
       </subtasks>
    </task>
    <task id="__test_tree">
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <subtasks id="_d4e13_subtasks">
-         <step name="_d4e13_step" task="disco:Say"/>
-         <binding slot="$_d4e13_step.text" value="&#34;Ok&#34;"/>
-         <binding slot="$_d4e13_step.external" value="true"/>
-      </subtasks>
-   </task>
-   <task id="_Session">
-      <subtasks id="_s1">
-=======
       <subtasks id="_d4e25_subtasks">
          <step name="_d4e25_step" task="disco:Say"/>
          <binding slot="$_d4e25_step.text" value="&#34;Ok&#34;"/>
@@ -31,15 +20,6 @@
       </subtasks>
    </task>
    <task id="_Session">
-=======
-      <subtasks id="_d4e25_subtasks">
-         <step name="_d4e25_step" task="disco:Say"/>
-         <binding slot="$_d4e25_step.text" value="&#34;Ok&#34;"/>
-         <binding slot="$_d4e25_step.external" value="true"/>
-      </subtasks>
-   </task>
-   <task id="_Session">
->>>>>>> develop
       <subtasks id="_initial">
          <step name="test" task="_test"/>
          <step name="enroll" task="a:EnrollUser"/>
@@ -50,10 +30,6 @@
          <applicable> $always.getUserModel().getUserName().isEmpty() </applicable>
       </subtasks>
       <subtasks id="_later">
-<<<<<<< HEAD
->>>>>>> develop
-=======
->>>>>>> develop
          <step name="test" task="_test"/>
          <step name="greet" task="a:GreetUser"/>
          <step name="enroll" task="a:EnrollUser" minOccurs="0"/>
