@@ -12,8 +12,11 @@
 
   <task id="_Session">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <subtasks id="_s1">
 =======
+=======
+>>>>>>> develop
 
     <subtasks id="_initial">
       <step name="test" task="_test"/>
@@ -27,6 +30,9 @@
     </subtasks>
 
     <subtasks id="_later">
+<<<<<<< HEAD
+>>>>>>> develop
+=======
 >>>>>>> develop
       <step name="test" task="_test"/>
       <step name="greet" task="a:GreetUser"/>

@@ -10,17 +10,12 @@ import org.jdom2.input.SAXBuilder;
  * Comment Library handler for Social Gameplay Framework.
  * Retrieves comments from library file.
  * @author Morteza Behrooz
-<<<<<<< HEAD:core/sgf/java/edu/wpi/sgf/comment/CommentLibraryHandler.java
- * @version 4.0
-=======
  * @version 2.2
->>>>>>> develop:core/sgf/java/edu/wpi/sgf/comment/CommentLibraryHandler.java
  */
 public class CommentLibraryHandler {
 
    private final static String CommentLibraryFilePath =
-         "CommentLibraryCoupled.xml";
-//         "CommentLibrary.xml";
+         "CommentLibrary.xml";
 
    private List<Element> 
    retrievedAgentCommentsRootNode
