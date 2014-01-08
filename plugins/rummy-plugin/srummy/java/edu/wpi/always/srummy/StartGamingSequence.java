@@ -308,6 +308,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          SrummyClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!SrummyClient.gameOver){
+            if(humanResponseOptions.isEmpty() 
+                  && playerIdentifier == AGENT_IDENTIFIER){
+               //in case no response for this comment and response was 
+               //for a comment by agent on agent move and so it is 
+               //user turn (no "Your Turn" button) >> Just go to Limbo
+               skipTo(new Limbo(getContext()));
+            }
             for(String eachCommentOption : humanResponseOptions){
                choice(eachCommentOption, new DialogStateTransition() {
                   @Override

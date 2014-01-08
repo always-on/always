@@ -77,11 +77,17 @@
 	</agent>
 	
 	<human>
-		<comment strength='0.5' competitiveness='0.5' tags="brag" gameType="generic" madeOn="both">
+		<comment strength='0.5' competitiveness='0.6' tags="brag" gameType="generic" madeOn="human">
 			<content>Now you can tell you are dealing with a master!</content>
-			<response>oh, really, well it's my turn, so pay attention</response>
+			<response>Oh, really, well it's my turn, so pay attention</response>
 			<response>Some master you are</response>
 			<response>Masters are winners like me!</response>
+		</comment>
+		<comment strength='0.5' competitiveness='0.8' tags="brag" gameType="generic" madeOn="agent">
+			<content>You think that was good?! Watch my nest move.</content>
+			<response>Fine, I am waiting</response>
+			<response>Bragging won't get you anywhere.</response>
+			<response>well, let's see</response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.8' tags="brag/offense" gameType="generic" madeOn="human">
 			<content>Can you do better than that?</content>

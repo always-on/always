@@ -325,6 +325,13 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          CheckersClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!CheckersClient.gameOver){
+            if(humanResponseOptions.isEmpty() 
+                  && playerIdentifier == AGENT_IDENTIFIER){
+               //in case no response for this comment and response was 
+               //for a comment by agent on agent move and so it is 
+               //user turn (no "Your Turn" button) >> Just goto Limbo
+               skipTo(new Limbo(getContext()));
+            }
             for(String eachCommentOption : humanResponseOptions){
                choice(eachCommentOption, new DialogStateTransition() {
                   @Override
