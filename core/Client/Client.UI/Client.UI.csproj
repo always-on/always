@@ -78,7 +78,6 @@
     </Page>
     <Compile Include="AgentControl.xaml.cs">
       <DependentUpon>AgentControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Page Include="ChoiceButtons.xaml">
       <SubType>Designer</SubType>
