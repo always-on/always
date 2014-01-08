@@ -15,10 +15,10 @@
     <subtasks id="_initial">
       <step name="test" task="_test"/>
       <!-- enroll not optional if user name is empty -->
-      <step name="enroll" task="a:EnrollUser"/>        
+      <step name="enroll" task="a:EnrollUser"/>	
       <step name="greet" task="a:GreetUser"/>
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
-      <step name="explain" task="a:ExplainSelf" minOccurs="0"/>        
+      <step name="explain" task="a:ExplainSelf" minOccurs="0"/>	
       <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
       <applicable> $always.getUserModel().getUserName().isEmpty() </applicable>
     </subtasks>
