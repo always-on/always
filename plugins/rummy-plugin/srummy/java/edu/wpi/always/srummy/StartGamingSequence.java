@@ -379,7 +379,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          choice("Not really", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new gameOver(context);
+               return new endingPlugin(context);
             }
          });
       }
@@ -390,6 +390,16 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          SrummyClient.gameOver = true;
          //getContext().getSrummyUI().makeBoardUnplayable();
          getContext().getSrummyUI().updatePlugin(this);
+      }
+   }
+   
+   public static class endingPlugin extends SrummyAdjacencyPairImpl {
+      public endingPlugin(final SrummyStateContext context){
+         super("", context);
+      }
+      @Override 
+      public void enter(){
+         getContext().getSchema().stop();
       }
    }
 

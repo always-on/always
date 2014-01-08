@@ -17,13 +17,14 @@ public class GreetingsPlugin extends Plugin {
     * For testing Greetings by itself
     */
    public static void main (String[] args) {
+      greetingsInteraction.load("edu/wpi/always/greetings/resources/Greetings.xml"); 
       Plugin.main(args, GreetingsPlugin.class, "GreetUser");
    }
   
    // preload task model
    final static DiscoRT.Interaction greetingsInteraction = 
          new DiscoRT.Interaction(new Agent("agent"), new User("user"));
-   static { greetingsInteraction.load("edu/wpi/always/greetings/resources/Greetings.xml"); }
+   static { if ( Always.ALL_PLUGINS) greetingsInteraction.load("edu/wpi/always/greetings/resources/Greetings.xml"); }
 
    // plugin-specific properties
    

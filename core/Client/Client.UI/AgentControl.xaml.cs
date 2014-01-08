@@ -124,6 +124,16 @@ namespace Agent.UI
             t.Start();
         }*/
 
+        bool agentVisible = true;
+        public void ToggleAgent()
+        {
+            agent.Invoke((System.Windows.Forms.MethodInvoker)delegate
+            {
+                agentVisible = !agentVisible;
+                agent.Visible = agentVisible;
+            });
+        }
+
         private void Perform(string xmlCommand)
         {
             xmlMessage.LoadXml(xmlCommand);

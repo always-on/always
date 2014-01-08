@@ -28,6 +28,8 @@ namespace Agent.Tcp
 			dispatcher.RegisterReceiveHandler("gaze", new MessageHandlerDelegateWrapper(Gaze));
 			dispatcher.RegisterReceiveHandler("express", new MessageHandlerDelegateWrapper(Express));
 			dispatcher.RegisterReceiveHandler("idle", new MessageHandlerDelegateWrapper(Idle));
+            dispatcher.RegisterReceiveHandler("toggleAgent", new MessageHandlerDelegateWrapper(ToggleAgent));
+            dispatcher.RegisterReceiveHandler("reetiIP", new MessageHandlerDelegateWrapper(ReetiIP));
 		}
 
 		void Agent_UserSelectedButton(object sender, UserSelectedButtonEventArgs e)
@@ -127,6 +129,18 @@ namespace Agent.Tcp
 				_agent.Say(args["text"].Value<string>());
 		}
 
+        private void ToggleAgent(JObject args)
+        {
+           _agent.ToggleAgent();
+        }
+
+		public static string REETI_IP;
+
+		private void ReetiIP(JObject args)
+        {
+			if (args["address"] != null)
+				REETI_IP = args["address"].Value<string>();
+        }
 		private void StopSpeech(JObject args)
 		{
 			_agent.StopSpeech();

@@ -3,6 +3,7 @@
   > load java/edu/wpi/always/explain/resources/Explain.xml
   > task _ExplainSelf
     User says "Let's achieve _ExplainSelf."
+    Agent execute _Init.
     Agent says "I have told you about some of the activities we can do together.  There are a few more.  Want to hear about them?"
   > say
 [1] Yes, please do.
@@ -15,6 +16,7 @@
 
 [ ] -accepted -live
    User says "Let's achieve _ExplainSelf."
+   Agent execute _Init.
    [ ] -done
       Agent says "I have told you about some of the activities we can do together.  There are a few more.  Want to hear about them?"
       [ ] -done
@@ -58,7 +60,7 @@
 [3] I see.  Maybe I will do that some time .
   >> 1
     User says "Ok."
-    Agent says "I think you may like it."
+    Agent says "<FACE EXPR="SMILE"/> I think you may like it <FACE EXPR="WARM"/>."
   > say
 [1] Tell me about another activity.
 [2] No more activities.
@@ -133,7 +135,7 @@
 [1] Uh-huh.
   >> 1
     User says "Uh-huh."
-    Agent says "I can advise you on how to add more fruits and veggies to your daily meals."
+    Agent says "I can suggest ways to add more fruits and veggies to your daily meals."
   > say
 [1] Ok.
 [2] Oh, that is a good thing to do.
@@ -182,7 +184,7 @@
 [2] No.
   >> 2
     User says "No."
-    Agent says "Well, any time you want more explanations, just ask!"
+    Agent says "<FACE EXPR="SMILE"/> Well, any time you want more explanations, just ask! <FACE EXPR="WARM">."
   > say
 [1] Ok, thanks.
 [2] Thanks that was really interesting!

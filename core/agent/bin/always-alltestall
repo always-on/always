@@ -1,0 +1,47 @@
+#!/bin/bash
+this=`dirname $0`
+all_start=`date +%s`
+result=0
+cd $this/../../../plugins
+#
+if [ -e weather-plugin/weather ]; then
+  echo ">> always/weather"
+  cd weather-plugin/weather
+  testall test ../../../core/agent/bin/always-disco
+  result=`expr $result + $?`
+  cd ../..
+fi
+if [ -e explain-plugin ]; then
+  echo ">> always/explain"
+  cd explain-plugin/explain
+  ../../../core/agent/bin/always-disco test/ExplainSomeInitialCases
+  result=`expr $result + $?`
+  ../../../core/agent/bin/always-disco-continue test/ExplainSomeMore
+  result=`expr $result + $?`
+  ../../../core/agent/bin/always-disco test/AdditionalTests
+  result=`expr $result + $?`
+  cd ../..
+fi
+if [ -e greetings-plugin ]; then
+  echo ">> always/greetings"
+  cd greetings-plugin/greetings
+  testall test ../../../core/agent/bin/always-disco
+  result=`expr $result + $?`
+  cd ../..
+fi
+if [ -e about-plugin ]; then
+  echo ">> always/about"
+  cd about-plugin/about
+  testall test ../../../core/agent/bin/always-disco
+  result=`expr $result + $?`
+  cd ../..
+fi
+#
+all_end=`date +%s`
+echo ">>"
+if [ $result = 0 ]; then
+  echo "Always all testall successful ("`expr $all_end - $all_start` "sec)"
+else
+  echo "Failed $result always testall(s)!"
+fi
+exit $result

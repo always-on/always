@@ -87,7 +87,7 @@ public class OntologyPeopleManager implements PeopleManager {
       Set<OWLNamedIndividual> owlPeople = helper
             .getAllOfClass(OntologyPerson.PERSON_CLASS);
       int size = owlPeople.size();
-      if ( !includeUser ) size--;
+      if ( !includeUser && !model.getUserName().isEmpty() ) size--;
       OntologyPerson[] people = new OntologyPerson[size];
       int i = 0;
       Person user = getUser();

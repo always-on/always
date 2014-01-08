@@ -3,6 +3,7 @@
   > load java/edu/wpi/always/explain/resources/Explain.xml
   > task _ExplainSelf
     User says "Let's achieve _ExplainSelf."
+    Agent execute _Init.
     Agent says "Here are activities we can do together.  Which ones would you like to know about?"
   > say
 [1] Developing an exercise plan for me.
@@ -102,7 +103,7 @@
 [2] I don't understand.  How do I tell you what I am doing and when?
   >> 1
     User says "Ok."
-    Agent says "Good.  Just give it a try."
+    Agent says "<FACE EXPR="SMILE"/> Good.  Just give it a try <FACE EXPR="WARM"> ."
   > say
 [1] Tell me about another activity.
 [2] No more activities.
@@ -141,7 +142,7 @@
 [3] I still don't understand.
   >> 1
     User says "I see.  That sounds useful."
-    Agent says "Yes, so give it a try."
+    Agent says "<FACE EXPR="SMILE"/> yes, so give it a try <FACE EXPR="WARM"/> ."
   > say
 [1] Tell me about another activity.
 [2] No more activities.
@@ -179,13 +180,13 @@
 [3] I see.
   >> 1
     User says "Ok."
-    Agent says "So give it a try soon."
+    Agent says "<FACE EXPR="SMILE"/> so give it a try soon <FACE EXPR="WARM"/>."
   > say
 [1] Tell me about another activity.
 [2] No more activities.
   >> 2
     User says "No more activities."
-    Agent says "Well, any time you want more explanations, just ask!"
+    Agent says "<FACE EXPR="SMILE"/> Well, any time you want more explanations, just ask! <FACE EXPR="WARM">."
   > say
 [1] Ok, thanks.
 [2] Thanks that was really interesting!
