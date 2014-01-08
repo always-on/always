@@ -16,6 +16,9 @@ using System.Data;
 using System.Resources;
 using System.Windows.Media.Animation;
 using Agent.Tcp;
+using System.Media;
+using System.IO;
+using System.Reflection;
 
 namespace Checkers.UI
 {
@@ -31,6 +34,7 @@ namespace Checkers.UI
 
 		private int latestC = 0, latestR = 0;
 		private CheckerPiece LatestRedTryingToMove = null;
+		SoundPlayer sound;
 
         private enum Turn
         {
@@ -401,6 +405,7 @@ namespace Checkers.UI
 
 		public GameShape()
 		{
+			sound = new SoundPlayer(GetResourceStream("Assets/playingSound.wav"));
 			this.InitializeComponent();
             this.grdBoard.AllowDrop = true;
             Reset();
@@ -521,7 +526,7 @@ namespace Checkers.UI
 			
 			currentPiece = src;
 
-			//drag adroner stuff, Not finish>>
+			//drag adroner (Not currently used)>>
 			_dragAdorner = new DragAdorner(currentPiece, currentPiece, true, 1);
 			//currentPiece.Visibility = System.Windows.Visibility.Hidden;
 			AdornerLayerForDrag().Add(_dragAdorner);
@@ -600,8 +605,8 @@ namespace Checkers.UI
 
 				CaptureHumanCellInAgentMoveIfAny(tox, toy, tempEmptySpace);
 				
+				sound.Play();
 				MoveChecker(tox, toy, checker);
-
 				currentTurn = Turn.Red;
 
 			}));
@@ -610,6 +615,7 @@ namespace Checkers.UI
 
 		public void ReceivedConfirmation()
 		{
+			sound.Play();
 			MoveChecker(latestR, latestC, LatestRedTryingToMove);
 		}
 
@@ -629,7 +635,16 @@ namespace Checkers.UI
 			}));
 		}
 
-
+		private static UnmanagedMemoryStream GetResourceStream(string resName)
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var strResources = assembly.GetName().Name + ".g.resources";
+			var rStream = assembly.GetManifestResourceStream(strResources);
+			var resourceReader = new ResourceReader(rStream);
+			var items = resourceReader.OfType<DictionaryEntry>();
+			var stream = items.First(x => (x.Key as string) == resName.ToLower()).Value;
+			return (UnmanagedMemoryStream)stream;
+		}
 	}
 
 	class CheckerEventArg : EventArgs

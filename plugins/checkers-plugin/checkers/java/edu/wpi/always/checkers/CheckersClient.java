@@ -138,8 +138,8 @@ public class CheckersClient implements CheckersUI {
                   latestHumanMove = moveAnnotator
                         .annotate(humanMove, gameState);
                   updateWin();
-//                  if (gameState.possibleWinner() > 0)
-//                     makeBoardUnplayable();
+                  if (gameState.possibleWinner() > 0)
+                     makeBoardUnplayable();
                   listener.receivedHumanMove();
                }
             }
@@ -368,10 +368,8 @@ public class CheckersClient implements CheckersUI {
    }
    
    private void updateWin () {
-
       if ( gameState.possibleWinner() != 0 )
          CheckersClient.gameOver = true;
-      
    }
 
    public void show () {
