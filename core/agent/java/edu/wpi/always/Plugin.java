@@ -51,7 +51,7 @@ public abstract class Plugin {
          stream = getClass().getResourceAsStream(name+".owl");
       if ( stream != null ) {
          System.out.println("Loading "+name+".owl");
-         ((OntologyUserModel) userModel).addAxioms(stream);
+         ((OntologyUserModel) userModel).addAxioms(stream, true);
       }
    }
    

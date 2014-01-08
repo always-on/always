@@ -43,7 +43,7 @@
   >> 2
     User says "No I did not sleep well."
 poorSleepreports is now 1
-    Agent says "Oh, are you feeling sick?"
+    Agent says "<FACE EXPR="CONCERN"/> oh, are you feeling sick? <FACE EXPR="WARM"/>."
   > say
 [1] No.
 [2] Yes.
@@ -71,13 +71,13 @@ poorSleepreports is now 1
   >> 2
     User says "No I did not sleep well."
 poorSleepreports is now 2
-    Agent says "Oh, are you feeling sick?"
+    Agent says "<FACE EXPR="CONCERN"/> oh, are you feeling sick? <FACE EXPR="WARM"/>."
   > say
 [1] No.
 [2] Yes.
   >> 2
     User says "Yes."
-    Agent says "Do you think you should call your doctor?"
+    Agent says "<FACE EXPR="CONCERN"/> do you think you should call your doctor? <FACE EXPR="WARM"/>."
   > say
 [1] Yes.
 [2] No.
@@ -107,7 +107,7 @@ poorSleepreports is now 2
   >> 2
     User says "No I did not sleep well."
 poorSleepreports is now 3
-    Agent says "Oh, are you feeling sick?"
+    Agent says "<FACE EXPR="CONCERN"/> oh, are you feeling sick? <FACE EXPR="WARM"/>."
   > say
 [1] No.
 [2] Yes.
@@ -140,13 +140,13 @@ poorSleepreports is now 3
   >> 2
     User says "No I did not sleep well."
 poorSleepreports is now 4
-    Agent says "Oh, are you feeling sick?"
+    Agent says "<FACE EXPR="CONCERN"/> oh, are you feeling sick? <FACE EXPR="WARM"/>."
   > say
 [1] No.
 [2] Yes.
   >> 2
     User says "Yes."
-    Agent says "Do you think you should call your doctor?"
+    Agent says "<FACE EXPR="CONCERN"/> do you think you should call your doctor? <FACE EXPR="WARM"/>."
   > say
 [1] Yes.
 [2] No.
@@ -173,13 +173,13 @@ poorSleepreports is now 4
   >> 2
     User says "No I did not sleep well."
 poorSleepreports is now 5
-    Agent says "Oh, are you feeling sick?"
+    Agent says "<FACE EXPR="CONCERN"/> oh, are you feeling sick? <FACE EXPR="WARM"/>."
   > say
 [1] No.
 [2] Yes.
   >> 2
     User says "Yes."
-    Agent says "Do you think you should call your doctor?"
+    Agent says "<FACE EXPR="CONCERN"/> do you think you should call your doctor? <FACE EXPR="WARM"/>."
   > say
 [1] Yes.
 [2] No.
@@ -199,7 +199,7 @@ poorSleepreports is now 5
     Agent says "Ok."
   > task _AfternoonGreetings
     User says "Let's achieve _AfternoonGreetings."
-    Agent says "How's your day going?"
+    Agent says "<FACE EXPR="SMILE"/> How's your day going? <FACE EXPR="WARM"/>."
   > say
 [1] Fine.
 [2] Oh not so great.
@@ -213,13 +213,13 @@ poorSleepreports is now 5
     Agent says "Ok."
   > task _AfternoonGreetings
     User says "Let's achieve _AfternoonGreetings."
-    Agent says "How's your day going?"
+    Agent says "<FACE EXPR="SMILE"/> How's your day going? <FACE EXPR="WARM"/>."
   > say
 [1] Fine.
 [2] Oh not so great.
   >> 2
     User says "Oh not so great."
-    Agent says "Sorry to hear it. Maybe it will improve."
+    Agent says "<FACE EXPR="CONCERN"/> sorry to hear it. Maybe it will improve<FACE EXPR="WARM"/>."
   > say
 [1] I hope so.
 [2] I think it will!
@@ -229,7 +229,7 @@ poorSleepreports is now 5
     Agent says "Ok."
   > task _EveningGreetings
     User says "Let's achieve _EveningGreetings."
-    Agent says "So had a good day?"
+    Agent says "<FACE EXPR="SMILE"/> So had a good day? <FACE EXPR="WARM"/>."
   > say
 [1] Yes, a good one.
 [2] No, not really.
@@ -244,14 +244,14 @@ poorSleepreports is now 5
     Agent says "Ok."
   > task _EveningGreetings
     User says "Let's achieve _EveningGreetings."
-    Agent says "So had a good day?"
+    Agent says "<FACE EXPR="SMILE"/> So had a good day? <FACE EXPR="WARM"/>."
   > say
 [1] Yes, a good one.
 [2] No, not really.
 [3] Nothing special.
   >> 2
     User says "No, not really."
-    Agent says "Sorry to hear it. Maybe this evening will be better."
+    Agent says " <FACE EXPR="CONCERN"/> sorry to hear it. Maybe this evening will be better <FACE EXPR="WARM"/>."
   > say
 [1] Hope so.
 [2] Possibly.
@@ -268,13 +268,13 @@ poorSleepreports is now 5
     Agent says "Ok."
   > task _AfternoonGreetings
     User says "Let's achieve _AfternoonGreetings."
-    Agent says "How's your day going?"
+    Agent says "<FACE EXPR="SMILE"/> How's your day going? <FACE EXPR="WARM"/>."
   > say
 [1] Fine.
 [2] Oh not so great.
   >> 2
     User says "Oh not so great."
-    Agent says "Sorry to hear it. Maybe it will improve."
+    Agent says "<FACE EXPR="CONCERN"/> sorry to hear it. Maybe it will improve<FACE EXPR="WARM"/>."
   > say
 [1] I hope so.
 [2] I think it will!
@@ -284,14 +284,14 @@ poorSleepreports is now 5
     Agent says "Ok."
   > task _EveningGreetings
     User says "Let's achieve _EveningGreetings."
-    Agent says "So had a good day?"
+    Agent says "<FACE EXPR="SMILE"/> So had a good day? <FACE EXPR="WARM"/>."
   > say
 [1] Yes, a good one.
 [2] No, not really.
 [3] Nothing special.
   >> 2
     User says "No, not really."
-    Agent says "Sorry to hear it. Maybe this evening will be better."
+    Agent says " <FACE EXPR="CONCERN"/> sorry to hear it. Maybe this evening will be better <FACE EXPR="WARM"/>."
   > say
 [1] Hope so.
 [2] Possibly.
@@ -308,7 +308,7 @@ poorSleepreports is now 5
 [3] No.  I plan to read a bit yet.
   >> 1
     User says "Yes, good night."
-    Agent says "Thanks, sleep well."
+    Agent says "<FACE EXPR="SMILE"/> Thanks, sleep well. <FACE EXPR="WARM"/>."
   > say
 [1] Ok.
   >> 1
@@ -323,7 +323,7 @@ poorSleepreports is now 5
 [3] No.  I plan to read a bit yet.
   >> 2
     User says "No yet.  I got things to do."
-    Agent says "Well, okay, sleep well when you get there."
+    Agent says "<FACE EXPR="SMILE"/>Well, okay, sleep well when you get there <FACE EXPR="WARM"/>."
   > say
 [1] Good night.
 [2] Will do. Good night.
@@ -417,7 +417,7 @@ poorSleepreports is now 5
   >> 2
 poorSleepreports is now 6
     User says "No."
-    Agent says "Oh, you aren't sleeping well.  Maybe you should consult your doctor."
+    Agent says "<FACE EXPR="CONCERN"/> Oh, you aren't sleeping well.  Maybe you should consult your doctor <FACE EXPR="WARM"/>."
   > say
 [1] Yes, I will next time I go to the doctor.
 [2] No I am just not a good sleeper.
@@ -445,7 +445,7 @@ poorSleepreports is now 6
   >> 2
 poorSleepreports is now 7
     User says "No."
-    Agent says "Oh, you aren't sleeping well.  Maybe you should consult your doctor."
+    Agent says "<FACE EXPR="CONCERN"/> Oh, you aren't sleeping well.  Maybe you should consult your doctor <FACE EXPR="WARM"/>."
   > say
 [1] Yes, I will next time I go to the doctor.
 [2] No I am just not a good sleeper.

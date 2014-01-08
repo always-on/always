@@ -1,8 +1,8 @@
     # Jul 23, 2013 5:43:05 PM - TaskEngine 1.4.8 / Disco 1.6.10
     Welcome to Disco! (Type 'help' for command list)
-  > load TalkAbout.xml
-  > task TalkAbout
-    User says "Let's achieve TalkAbout."
+  > load java/edu/wpi/always/about/resources/About.xml
+  > task _TalkAbout
+    User says "Let's achieve _TalkAbout."
     Agent execute _GetPerson.
     Agent says "How is Mary doing?"
   > say
@@ -44,7 +44,7 @@
   > say
 [1] Yes.
 [2] No.
-[3] Stop achieve TalkAbout.
+[3] Stop achieve _TalkAbout.
   >> 1
     User says "Yes."
     Agent execute _GetPerson.
@@ -89,7 +89,7 @@
   > say
 [1] Yes.
 [2] No.
-[3] Stop achieve TalkAbout.
+[3] Stop achieve _TalkAbout.
   >> 1
     User says "Yes."
     Agent execute _GetPerson.
@@ -126,6 +126,7 @@
     User says "Ok."
     Agent says "Well, it was nice talking about your friends and family with you."
   > say
-[1] Let's achieve TalkAbout.
+[1] Let's achieve _TalkAbout.
   >> 
-  > 
+  > quit
+

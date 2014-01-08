@@ -47,15 +47,26 @@ namespace Enroll.UI
 			{
 				_uiThreadDispatcher.BlockingInvoke(() =>
 				{
-					enrollEntryPanel.label10.Content = m["name"];
-					enrollEntryPanel.label11.Content = m["age"];
-					enrollEntryPanel.label12.Content = m["gender"];
-					enrollEntryPanel.label13.Content = m["relationship"];
-					enrollEntryPanel.label15.Content = m["zipcode"];
-					enrollEntryPanel.label16.Content = m["spouse"];
-					enrollEntryPanel.label17.Content = m["phoneNumber"];
-					enrollEntryPanel.label18.Content = m["skypeAccount"];
-					enrollEntryPanel.label14.Content = m["birthday"];
+					string name = "", age = "", gender = "", relationship = "",
+						zipcode = "", spouse = "", skype = "", bd = "";
+					if (m["name"] != null) name = m["name"].ToString().Trim();
+					if (m["age"] != null) if(m["age"].ToString() != "0") 
+							age = m["age"].ToString().Trim();
+					if (m["gender"] != null) gender = m["gender"].ToString().Trim();
+					if (m["relationship"] != null) relationship = m["relationship"].ToString().Trim();
+					if (m["zipcode"] != null) if(m["zipcode"].ToString() != "0")
+							zipcode = m["zipcode"].ToString().Trim();
+					if (m["spouse"] != null) spouse = m["spouse"].ToString().Trim();
+					if (m["skypeAccount"] != null) skype = m["skypeAccount"].ToString().Trim();
+					if (m["birthday"] != null) bd = m["birthday"].ToString().Trim();
+					enrollEntryPanel.label10.Content = name;
+					enrollEntryPanel.label11.Content = age;
+					enrollEntryPanel.label12.Content = gender;
+					enrollEntryPanel.label13.Content = relationship;
+					enrollEntryPanel.label15.Content = zipcode;
+					enrollEntryPanel.label16.Content = spouse;
+					enrollEntryPanel.label18.Content = skype;
+					enrollEntryPanel.label14.Content = bd;
 				});
 			}
 		}

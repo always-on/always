@@ -17,7 +17,7 @@ public class EnrollSchema extends ActivityStateMachineKeyboardSchema<EnrollState
          MenuPerceptor menuPerceptor, Keyboard keyboard, EnrollUI enrollUI, 
          UIMessageDispatcher dispatcher, UserModel model, PlaceManager placeManager, 
          PeopleManager peopleManager) {
-      super(model.getUserName() == null ? 
+      super(model.getUserName().isEmpty() ? 
          new UserModelAdjacencyPair(new EnrollStateContext(
             keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)) :
          new InitialEnroll(new EnrollStateContext(

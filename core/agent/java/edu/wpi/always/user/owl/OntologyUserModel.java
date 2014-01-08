@@ -25,7 +25,7 @@ public class OntologyUserModel extends UserModelBase {
       this.peopleManager = peopleManager;
       this.placeManager = placeManager;
       peopleManager.setUserModel(this);
-      System.out.println("Saving user ontology to: "+userDataFile);
+      System.out.println("User ontology file: "+userDataFile);
       // partially set for testing
       user = ontology.getNamedIndividual("User");
    }
@@ -36,7 +36,8 @@ public class OntologyUserModel extends UserModelBase {
          this.userName = userName;
          int space = userName.indexOf(' ');
          userFirstName = space < 0 ? userName : userName.substring(0, space);
-         this.user = ontology.getNamedIndividual(userName);
+         user = ontology.getNamedIndividual(userName);
+         user.setDataProperty(OntologyPerson.NAME_PROPERTY, ontology.getLiteral(userName));
          if ( !user.hasSuperclass(OntologyPerson.USER_CLASS) ) {
             user.addSuperclass(OntologyPerson.USER_CLASS);
             peopleManager.addPerson(userName);
@@ -117,8 +118,12 @@ public class OntologyUserModel extends UserModelBase {
    }
    
    public void addAxioms (InputStream stream) { 
+      addAxioms(stream, false);
+   }
+   
+   public void addAxioms (InputStream stream, boolean inhibitSave) { 
       ontology.addAxioms(stream);
-      saveIf();
+      if ( !inhibitSave) saveIf();
    }
    
    public void addAxioms (File file) { 

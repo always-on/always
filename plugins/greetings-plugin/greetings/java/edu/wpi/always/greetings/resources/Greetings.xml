@@ -24,7 +24,8 @@
       <subtasks id="__CallDoc_subtasks">
          <step name="__CallDoc_step" task="disco:Say"/>
          <step name="__CallDoc_ref" task="__CallDoc_tree"/>
-         <binding slot="$__CallDoc_step.text" value="&#34;do you think you should call your doctor?&#34;"/>
+         <binding slot="$__CallDoc_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; do you think you should call your doctor? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__CallDoc_step.external" value="false"/>
       </subtasks>
    </task>
@@ -40,7 +41,8 @@
       <subtasks id="__AfternoonGreetings_subtasks">
          <step name="__AfternoonGreetings_step" task="disco:Say"/>
          <step name="__AfternoonGreetings_ref" task="__AfternoonGreetings_tree"/>
-         <binding slot="$__AfternoonGreetings_step.text" value="&#34;How's your day going?&#34;"/>
+         <binding slot="$__AfternoonGreetings_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; How's your day going? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__AfternoonGreetings_step.external" value="false"/>
       </subtasks>
    </task>
@@ -48,7 +50,8 @@
       <subtasks id="__EveningGreetings_subtasks">
          <step name="__EveningGreetings_step" task="disco:Say"/>
          <step name="__EveningGreetings_ref" task="__EveningGreetings_tree"/>
-         <binding slot="$__EveningGreetings_step.text" value="&#34;So had a good day?&#34;"/>
+         <binding slot="$__EveningGreetings_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; So had a good day? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__EveningGreetings_step.external" value="false"/>
       </subtasks>
    </task>
@@ -89,7 +92,8 @@
          <step name="_feeling_ref" task="_feeling_tree"/>
          <binding slot="$_neg_step.text" value="&#34;No I did not sleep well&#34;"/>
          <binding slot="$_neg_step.external" value="true"/>
-         <binding slot="$_feeling_step.text" value="&#34;oh, are you feeling sick?&#34;"/>
+         <binding slot="$_feeling_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; oh, are you feeling sick? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_feeling_step.external" value="false"/>
          <binding slot="$_feeling_step.eval"
                   value="&#34;poorSleepreports=poorSleepreports+1;                    println('poorSleepreports is now ' + poorSleepreports);                    setPoorSleepReports(poorSleepreports);&#34;"/>
@@ -233,7 +237,7 @@
          <step name="_d4e50_ref" task="_d4e50_tree"/>
          <applicable>poorSleepreports &gt; 5</applicable>
          <binding slot="$_d4e50_step.text"
-                  value="&#34;Oh, you aren't sleeping well.  Maybe you should consult your doctor&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, you aren't sleeping well.  Maybe you should consult your doctor &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e50_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e57_subtasks">
@@ -241,7 +245,7 @@
          <step name="_d4e57_ref" task="_d4e57_tree"/>
          <applicable>poorSleepreports &lt; 5</applicable>
          <binding slot="$_d4e57_step.text"
-                  value="&#34;Gee, that's rare for you.  Are you feeling okay?&#34;"/>
+                  value="&#34;&lt;EYEBROWS DIR=\&#34;UP\&#34;/&gt; Gee, that's rare for you.   Are you feeling okay? &lt;EYEBROWS DIR=\&#34;DOWN\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e57_step.external" value="false"/>
       </subtasks>
    </task>
@@ -339,7 +343,8 @@
          <step name="_d4e72_ref" task="_d4e72_tree"/>
          <binding slot="$_d4e71_step.text" value="&#34;Oh not so great&#34;"/>
          <binding slot="$_d4e71_step.external" value="true"/>
-         <binding slot="$_d4e72_step.text" value="&#34;sorry to hear it. Maybe it will improve&#34;"/>
+         <binding slot="$_d4e72_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; sorry to hear it. Maybe it will improve&lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e72_step.external" value="false"/>
       </subtasks>
    </task>
@@ -376,7 +381,7 @@
          <binding slot="$_d4e79_step.text" value="&#34;no, not really&#34;"/>
          <binding slot="$_d4e79_step.external" value="true"/>
          <binding slot="$_d4e80_step.text"
-                  value="&#34;sorry to hear it. Maybe this evening will be better&#34;"/>
+                  value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; sorry to hear it. Maybe this evening will be better &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e80_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e84_subtasks">
@@ -430,7 +435,8 @@
          <step name="_d4e91_step" task="disco:Say"/>
          <binding slot="$_affirmGoodNight_step.text" value="&#34;Yes, good night&#34;"/>
          <binding slot="$_affirmGoodNight_step.external" value="true"/>
-         <binding slot="$_d4e91_step.text" value="&#34;Thanks, sleep well.&#34;"/>
+         <binding slot="$_d4e91_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e91_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e92_subtasks">
@@ -439,7 +445,8 @@
          <step name="_d4e93_ref" task="_d4e93_tree"/>
          <binding slot="$_d4e92_step.text" value="&#34;No yet.  I got things to do.&#34;"/>
          <binding slot="$_d4e92_step.external" value="true"/>
-         <binding slot="$_d4e93_step.text" value="&#34;Well, okay, sleep well when you get there&#34;"/>
+         <binding slot="$_d4e93_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt;Well, okay, sleep well when you get there &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e93_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e100_subtasks">
@@ -530,7 +537,7 @@
        return $always.getUserModel().getUserFirstName();
     }
     
-    var poorSleepreports;
+    var poorSleepreports = 0;
     
   </script>
 </taskModel>

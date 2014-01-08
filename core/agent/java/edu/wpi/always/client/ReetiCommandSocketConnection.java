@@ -11,10 +11,9 @@ public class ReetiCommandSocketConnection {
    private final Socket socket;
    private final PrintWriter writer;
 
-   public ReetiCommandSocketConnection () {
+   public ReetiCommandSocketConnection (String host) {
       try {
-         // TODO: The IP address needs to come from profile file
-         socket = new Socket("130.215.28.4", 12045);
+         socket = new Socket(host, 12045);
          writer = new PrintWriter(socket.getOutputStream(), true);
       } catch (IOException e) {
          throw new RuntimeException("Error opening socket to Reeti", e);

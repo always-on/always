@@ -2,6 +2,11 @@ Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
 
 Ontology(
 
+  Declaration(DataProperty(<#ExplainAboutAgent>))
+  DataPropertyDomain(<#ExplainAboutAgent> <#User>)
+  DataPropertyRange(<#ExplainAboutAgent> xsd:boolean)
+  SubClassOf(<#User> DataExactCardinality(1 <#ExplainAboutAgent> xsd:boolean))
+
   Declaration(DataProperty(<#ExplainPreviousTalk>))
   DataPropertyDomain(<#ExplainPreviousTalk> <#User>)
   DataPropertyRange(<#ExplainPreviousTalk> xsd:boolean)

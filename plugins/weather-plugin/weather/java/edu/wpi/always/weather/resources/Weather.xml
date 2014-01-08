@@ -25,7 +25,7 @@
          <step name="_WeatherAlmanac_step" task="disco:Say"/>
          <step name="_WeatherAlmanac_ref" task="_WeatherAlmanac_tree"/>
          <binding slot="$_WeatherAlmanac_step.text"
-                  value="&#34;Are you interested in knowing the record weather for today in the history?&#34;"/>
+                  value="&#34;&lt;EYEBROWS DIR=\&#34;UP\&#34;/&gt; Are you interested in knowing the record weather for today in the history? &lt;EYEBROWS DIR=\&#34;DOWN\&#34;/&gt;&#34;"/>
          <binding slot="$_WeatherAlmanac_step.external" value="false"/>
       </subtasks>
    </task>
@@ -34,7 +34,7 @@
          <step name="_DoAlmanac_step" task="disco:Say$Expression"/>
          <step name="_DoAlmanac_ref" task="_DoAlmanac_tree"/>
          <binding slot="$_DoAlmanac_step.text"
-                  value="&#34;\&#34;The record high is \&#34;+($W.almanac.recordHigh.extremeTemp)+\&#34; F. It happened in \&#34;+($W.almanac.recordHigh.year)+\&#34;.\&#34;&#34;"/>
+                  value="&#34;\&#34;The record high is \&#34;+($W.almanac.recordHigh.extremeTemp)+\&#34; fahrenheit. It happened in \&#34;+($W.almanac.recordHigh.year)+\&#34;.\&#34;&#34;"/>
          <binding slot="$_DoAlmanac_step.external" value="false"/>
       </subtasks>
    </task>
@@ -42,7 +42,8 @@
       <subtasks id="__Ending_subtasks">
          <step name="__Ending_step" task="disco:Say"/>
          <step name="__Ending_ref" task="__Ending_tree"/>
-         <binding slot="$__Ending_step.text" value="&#34;well, weather sure is interesting.&#34;"/>
+         <binding slot="$__Ending_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__Ending_step.external" value="false"/>
       </subtasks>
    </task>
@@ -138,7 +139,7 @@
          <binding slot="$_d4e57_step.text" value="&#34;Wow, go on.&#34;"/>
          <binding slot="$_d4e57_step.external" value="true"/>
          <binding slot="$_d4e58_step.text"
-                  value="&#34;\&#34;The record low is \&#34;+($W.almanac.recordLow.extremeTemp)+\&#34; F. It happened in  \&#34;+($W.almanac.recordLow.year)+\&#34;.\&#34;&#34;"/>
+                  value="&#34;\&#34;The record low is \&#34;+($W.almanac.recordLow.extremeTemp)+\&#34; fahrenheit. It happened in  \&#34;+($W.almanac.recordLow.year)+\&#34;.\&#34;&#34;"/>
          <binding slot="$_d4e58_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e64_subtasks">

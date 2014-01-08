@@ -45,6 +45,7 @@ namespace Agent.Core
 		void NormalExpression();
 		void ShowConcern(int mseconds);
 		void Smile(int mseconds);
+        void ToggleAgent();
 		void Turn(string dir, float horizontal, float vertical);
 		void Express(Agent.Core.AgentFaceExpression expression);
 		void Idle(bool enabled);
