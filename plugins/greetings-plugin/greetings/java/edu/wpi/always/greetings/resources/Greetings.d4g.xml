@@ -18,7 +18,7 @@
        return $always.getUserModel().getUserFirstName();
     }
     
-    var poorSleepreports;
+    var poorSleepreports = 0;
     
   </t:script>
 
@@ -57,7 +57,8 @@
       </agent>
     </user>
     <user id="neg" text="No I did not sleep well">
-      <agent id="feeling" text="oh, are you feeling sick?"
+      <agent id="feeling" 
+      	text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; oh, are you feeling sick? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"
              eval="poorSleepreports=poorSleepreports+1;
                    println('poorSleepreports is now ' + poorSleepreports);
                    setPoorSleepReports(poorSleepreports);" >
@@ -74,7 +75,7 @@
     </user>
   </agent>
 
-  <agent id="_CallDoc" text="do you think you should call your doctor?">
+  <agent id="_CallDoc" text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; do you think you should call your doctor? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="yes">
       <agent text="ok, might be a good idea">
         <user text="yes, I'll call"/> 
@@ -107,7 +108,7 @@
                 println('poorSleepreports is now ' + poorSleepreports);
                 setPoorSleepReports(poorSleepreports);"> 
       <agent 
-          text="Oh, you aren't sleeping well.  Maybe you should consult your doctor" 
+          text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Oh, you aren't sleeping well.  Maybe you should consult your doctor &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
           applicable="poorSleepreports &gt; 5" >
         <user text="yes, I will next time I go to the doctor"/>
         <user text="no I am just not a good sleeper" />
@@ -119,7 +120,7 @@
         </user>
       </agent>
       <agent 
-          text="Gee, that's rare for you.  Are you feeling okay?"
+          text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Gee, that's rare for you.   Are you feeling okay? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;"
           applicable="poorSleepreports &lt; 5">
         <user text="yes" >
           <agent text="good!"/>
@@ -141,12 +142,13 @@
     </user>
   </agent>
 
-  <agent id="_AfternoonGreetings" text="How's your day going?">
+  <agent id="_AfternoonGreetings" 
+  	text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; How's your day going? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="fine">  
       <agent text="good, glad to hear it"/>
     </user>
     <user text="Oh not so great">
-      <agent text="sorry to hear it. Maybe it will improve">
+      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear it. Maybe it will improve&lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
         <user text="I hope so" />
         <user text="I think it will!" />
         <user text="Maybe so, maybe no" />
@@ -154,12 +156,12 @@
     </user>
   </agent>
   
-  <agent id="_EveningGreetings" text="So had a good day?">
+  <agent id="_EveningGreetings" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; So had a good day? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="yes, a good one">  
       <agent text="good, glad to hear it"/>
     </user>
     <user text="no, not really">
-      <agent text="sorry to hear it. Maybe this evening will be better">
+      <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear it. Maybe this evening will be better &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
         <user text="Hope so" />
         <user text="Possibly" />
         <user text="Definitely" />
@@ -176,10 +178,11 @@
 
   <agent id="_NightGreetings" text="Guess it's time to say good night|It's about time to say good night">
     <user id="affirmGoodNight" text="Yes, good night">  
-      <agent text="Thanks, sleep well."/>
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
     </user>
     <user text="No yet.  I got things to do.">
-      <agent text="Well, okay, sleep well when you get there">
+      <agent 
+      text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt;Well, okay, sleep well when you get there &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
         <user text="Good night">
           <agent text="Good night!" />
         </user>

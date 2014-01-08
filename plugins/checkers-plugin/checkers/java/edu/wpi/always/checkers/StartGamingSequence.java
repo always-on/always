@@ -642,7 +642,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          choice("Not really", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new gameOver(context);
+               return new endingPlugin(context);
             }
          });
       }
@@ -653,6 +653,16 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          CheckersClient.gameOver = true;
          getContext().getCheckersUI().makeBoardUnplayable();
          getContext().getCheckersUI().updatePlugin(this);
+      }
+   }
+   
+   public static class endingPlugin extends CheckersAdjacencyPairImpl {
+      public endingPlugin(final CheckersStateContext context){
+         super("", context);
+      }
+      @Override 
+      public void enter(){
+         getContext().getSchema().stop();
       }
    }
 

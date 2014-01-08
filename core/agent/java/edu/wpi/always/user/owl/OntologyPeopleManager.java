@@ -39,12 +39,12 @@ public class OntologyPeopleManager implements PeopleManager {
 
    @Override
    public OntologyPerson addPerson (String name) {
-      return addPerson(name, null, null, 0, null, null, null, null, null);
+      return addPerson(name, null, null, 0, null, null, null, null);
    }
 
    @Override
    public OntologyPerson addPerson(String name, Relationship relationship, Gender gender, 
-         int age, String phone, String skype, Place place, Person spouse, MonthDay birthday){
+         int age, String skype, Place place, Person spouse, MonthDay birthday){
       OntologyIndividual owlPerson = helper.getNamedIndividual(name);
       owlPerson.addSuperclass(OntologyPerson.PERSON_CLASS);
       OntologyPerson person = new OntologyPerson(
@@ -56,8 +56,6 @@ public class OntologyPeopleManager implements PeopleManager {
          person.setGender(gender);
       if ( age != 0)
          person.setAge(age);
-      if ( phone != null)
-         person.setPhoneNumber(phone);
       if ( skype != null) 
          person.setSkypeNumber(skype);
       if ( place != null)
@@ -89,7 +87,7 @@ public class OntologyPeopleManager implements PeopleManager {
       Set<OWLNamedIndividual> owlPeople = helper
             .getAllOfClass(OntologyPerson.PERSON_CLASS);
       int size = owlPeople.size();
-      if ( !includeUser ) size--;
+      if ( !includeUser && !model.getUserName().isEmpty() ) size--;
       OntologyPerson[] people = new OntologyPerson[size];
       int i = 0;
       Person user = getUser();

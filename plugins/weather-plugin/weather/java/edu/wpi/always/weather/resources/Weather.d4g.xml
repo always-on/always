@@ -133,7 +133,7 @@
       </user>
   </agent>  
      
-  <agent id="WeatherAlmanac"  text="Are you interested in knowing the record weather for today in the history?">
+  <agent id="WeatherAlmanac"  text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Are you interested in knowing the record weather for today in the history? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;">
       <user id="talk_stats_bad_option" text="No, I don't want to">
 	<agent text="Come on.  It is interesting to know those things!">
 	  <user text="Alright. What's the record weather?">
@@ -154,9 +154,9 @@
       </user>
   </agent>
     
-  <agent id="DoAlmanac" text="The record high is {$W.almanac.recordHigh.extremeTemp} F. It happened in {$W.almanac.recordHigh.year}.">
+  <agent id="DoAlmanac" text="The record high is {$W.almanac.recordHigh.extremeTemp} fahrenheit. It happened in {$W.almanac.recordHigh.year}.">
     	<user text="Wow, go on.">
-	  <agent text="The record low is {$W.almanac.recordLow.extremeTemp} F. It happened in  {$W.almanac.recordLow.year}.">
+	  <agent text="The record low is {$W.almanac.recordLow.extremeTemp} fahrenheit. It happened in  {$W.almanac.recordLow.year}.">
 	    <user text="That's pretty cold.">
 	      <agent text="Yeah.  Compared to the average temperatures of {$W.almanac.recordLow.averageTemp} (low) and {$W.almanac.recordHigh.averageTemp} (high), you can judge the difference.">
 		<user text="yeh, thanks for telling me." />
@@ -208,7 +208,8 @@
       </t:subtasks>     
   </t:task>
 
-  <agent id="_Ending" text="well, weather sure is interesting.">
+  <agent id="_Ending" 
+  	text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="yes. I love talking about weather">
       <agent text="yeh, me too. That's it for now "/>
     </user>

@@ -1,8 +1,10 @@
 package edu.wpi.always.explain;
 
-import edu.wpi.always.Plugin;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.user.UserModel;
+import edu.wpi.disco.*;
+import edu.wpi.disco.rt.DiscoRT;
 
 public class ExplainPlugin extends Plugin {
    
@@ -15,12 +17,19 @@ public class ExplainPlugin extends Plugin {
     * For testing Explain by itself
     */
    public static void main (String[] args) {
+      explainInteraction.load("edu/wpi/always/explain/resources/Explain.xml");
       Plugin.main(args, ExplainPlugin.class, "ExplainSelf");
    }
 
+   // preload task model
+   final static DiscoRT.Interaction explainInteraction = 
+         new DiscoRT.Interaction(new Agent("agent"), new User("user"));
+   static { if ( Always.ALL_PLUGINS ) explainInteraction.load("edu/wpi/always/explain/resources/Explain.xml"); }
+   
    // plugin-specific properties
    
    public static final String
+      ABOUT_AGENT = "ExplainAboutAgent",
       PREVIOUS_TALK = "ExplainPreviousTalk",
       PLAN_EXERCISE = "ExplainPlanExercise",
       TALK_ABOUT = "ExplainTalkAbout",
@@ -33,7 +42,7 @@ public class ExplainPlugin extends Plugin {
       USE_SKYPE = "ExplainUseSkype";
             
    public static String[] getProperties () {
-      return new String[] { PREVIOUS_TALK, PLAN_EXERCISE, TALK_ABOUT, USE_CALENDAR,
+      return new String[] { ABOUT_AGENT, PREVIOUS_TALK, PLAN_EXERCISE, TALK_ABOUT, USE_CALENDAR,
                             PLAY_GAMES, TELL_STORY, DISCUSS_WEATHER,
                             HEAR_ANECDOTES, ADVISE_NUTRITION, USE_SKYPE};
    }

@@ -6,6 +6,8 @@ import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.weather.wunderground.WundergroundWeatherProvider;
+import edu.wpi.disco.*;
+import edu.wpi.disco.rt.DiscoRT;
 
 // TODO Make this work with live daily data
 
@@ -36,6 +38,7 @@ public class WeatherPlugin extends Plugin {
     */
    public static void main (String[] args) {
       if ( args != null && args.length > 3 ) date = args[3];
+      weatherInteraction.load("edu/wpi/always/weather/resources/Weather.xml"); 
       Always always = Plugin.main(args, WeatherPlugin.class, "DiscussWeather");
       // code below is temporary to demonstrate how to define and use a new user 
       // property extensions (see Weather.owl)
@@ -50,5 +53,10 @@ public class WeatherPlugin extends Plugin {
                +" my #"+plugin.getIntProperty(RANK)
                +" favorite weather is "+plugin.getProperty(FAVORITE));
    }
+   
+   // preload task model
+   final static DiscoRT.Interaction weatherInteraction = 
+         new DiscoRT.Interaction(new Agent("agent"), new User("user"));
+   static { if ( Always.ALL_PLUGINS ) weatherInteraction.load("edu/wpi/always/weather/resources/Weather.xml"); }
  
 }

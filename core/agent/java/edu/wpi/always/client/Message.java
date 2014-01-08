@@ -9,14 +9,16 @@ public class Message {
    private final JsonObject body;
 
    public Message (String type, JsonObject body) {
-      super();
       this.type = type;
       this.body = body;
    }
 
+   public Message (String type) {
+      this(type, new JsonObject());
+   }
+
    public Message (String type, Map<String, String> properties) {
-      this.type = type;
-      this.body = new Gson().toJsonTree(properties).getAsJsonObject();
+      this(type, new Gson().toJsonTree(properties).getAsJsonObject());
    }
 
    public String getType () {

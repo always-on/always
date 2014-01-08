@@ -5,7 +5,7 @@
   > load java/edu/wpi/always/weather/resources/Weather.xml
   > task _WeatherCompanion
     User says "Let's achieve _WeatherCompanion."
-    Agent says "Today in Woooorcester, MA it is going to be 32.5 fahrenheit and it is Overcast."
+    Agent says "Today in Good old Worcester, MA it is going to be 32.5 fahrenheit and it is Overcast."
   > say
 [1] How does it feel outside?
 [2] What's the forecast for tomorrow?
@@ -37,7 +37,7 @@
 [1] Good to know.
   >> 1
     User says "Good to know."
-    Agent says "Would you like to know about the weather in cities around the country?"
+    Agent says "<EYEBROWS DIR="UP"> would you like to know about the weather in cities around the country? <EYEBROWS DIR="DOWN">."
   > say
 [1] Sure.
 [2] No, not today.
@@ -54,7 +54,7 @@
 [7] No more cities.
   >> 3
     User says "Miami."
-    Agent says "City of beaches. The temperature is 76.7 fahrenheit.  It is Mostly Cloudy now."
+    Agent says "Miami is called the City of beaches. The temperature is 76.7 fahrenheit.  It is Mostly Cloudy now."
   > say
 [1] Show me the cities again.
 [2] No more cities.
@@ -77,20 +77,20 @@
 [2] No more cities.
   >> 2
     User says "No more cities."
-    Agent says "Are you interested in knowing the record weather for today in the history?"
+    Agent says "<EYEBROWS DIR="UP"/> Are you interested in knowing the record weather for today in the history? <EYEBROWS DIR="DOWN"/>."
   > say
 [1] No, I don't want to.
 [2] Okay I guess.
 [3] Yes, tell me.
   >> 2
     User says "Okay I guess."
-    Agent says "The record high is 56 F. It happened in 1908."
+    Agent says "The record high is 56 fahrenheit. It happened in 1908."
   > say
 [1] Wow, go on.
 [2] Uh-huh.  That's enough.
   >> 1
     User says "Wow, go on."
-    Agent says "The record low is -11 F. It happened in  1979."
+    Agent says "The record low is -11 fahrenheit. It happened in  1979."
   > say
 [1] That's pretty cold.
 [2] That sounds about right.
@@ -102,7 +102,7 @@
 [2] Sure glad I'm here.
   >> 1
     User says "Yeh, thanks for telling me."
-    Agent says "Do you want to know what the weather's like where your friends or family members live?"
+    Agent says "<EYEBROWS DIR="UP"> do you want to know what the weather's like where your friends or family members live? <EYEBROWS DIR="DOWN">."
   > say
 [1] Sure.
 [2] No, not today.
