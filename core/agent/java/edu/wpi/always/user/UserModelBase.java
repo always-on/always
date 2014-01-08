@@ -47,11 +47,7 @@ public abstract class UserModelBase implements UserModel {
 
    @Override
    public void setCloseness (Closeness closeness) { 
-<<<<<<< HEAD
-      if ( !userName.isEmpty() ) setProperty(CLOSENESS, closeness.name()); 
-=======
       setProperty(CLOSENESS, closeness.name()); 
->>>>>>> develop
    }
   
 }
