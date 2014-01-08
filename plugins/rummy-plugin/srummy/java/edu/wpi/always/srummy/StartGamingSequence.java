@@ -274,6 +274,11 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                   playerIdentifier);
             currentAgentComment = getContext().getSrummyUI()
                   .getCurrentAgentComment();
+            humanResponseOptions.clear();
+            try{
+               humanResponseOptions.addAll(getContext().getSrummyUI()
+                     .getCurrentHumanResponseOptions());
+            }catch(Exception e){/*in case no response exists*/}
             getContext().getSrummyUI().updatePlugin(this);
             getContext().getSrummyUI().triggerNextStateTimer();
             SrummyClient.gazeDirection = "sayandgaze";
@@ -303,7 +308,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          SrummyClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!SrummyClient.gameOver){
-            for(String eachCommentOption : humanResponseOptions)
+            for(String eachCommentOption : humanResponseOptions){
                choice(eachCommentOption, new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
@@ -313,6 +318,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                      return new AgentPlayDelay(getContext());
                   }
                });
+            }
             if(playerIdentifier == HUMAN_IDENTIFIER){
                choice("Your turn", new DialogStateTransition() {
                   @Override
@@ -363,7 +369,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          SrummyClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!SrummyClient.gameOver){
-            for(final String eachCommentOption : humanCommentOptions)
+            for(final String eachCommentOption : humanCommentOptions){
                choice(eachCommentOption, new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
@@ -372,6 +378,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                            getContext(), playerIdentifier, eachCommentOption);
                   }
                });
+            }
             if(playerIdentifier == HUMAN_IDENTIFIER){
                choice("Your turn", new DialogStateTransition() {
                   @Override

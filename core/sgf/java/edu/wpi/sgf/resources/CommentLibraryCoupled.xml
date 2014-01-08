@@ -90,7 +90,7 @@
 			<response>Do I have to answer that question? Of course! </response>
 			<response>Of course, what else do you expect?</response>
 		</comment>
-		<comment strength='0.8' competitiveness='0.6' tags="offense" gameType="generic" madeOn="agent">
+		<comment strength='0.8' competitiveness='0.6' tags="offense" gameType="generic" madeOn="human">
 			<content>Now did you see that?</content>
 			<response>yes.  it was good</response>
 			<response>Don't get so impressed with yourself. I can do better than that!</response>

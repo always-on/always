@@ -43,6 +43,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
    public static class Limbo extends CheckersAdjacencyPairImpl { 
       public Limbo(final CheckersStateContext context){
          super("", context);
+         System.out.println("\n>>>> Limbo \n");
          //super(currentAgentComment, context);
       }
       @Override
@@ -192,6 +193,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
    public static class CreateCommentsAfterLimbo extends CheckersAdjacencyPairImpl { 
       public CreateCommentsAfterLimbo(final CheckersStateContext context){
          super("", context);
+         System.out.println("\n>>>> CreateCommentsAfterLimbo \n");
       }
       @Override
       public void enter(){
@@ -220,6 +222,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
    public static class AgentPlayDelay extends CheckersAdjacencyPairImpl {
       public AgentPlayDelay(final CheckersStateContext context){
          super(WhatAgentSaysIfHumanDoesNotChooseAComment, context);
+         System.out.println("\n>>>> AgentPlayDelay \n");
          WhatAgentSaysIfHumanDoesNotChooseAComment = "";
       }
       @Override
@@ -255,6 +258,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
    public static class AgentPlays extends CheckersAdjacencyPairImpl {
       public AgentPlays(final CheckersStateContext context){
          super("", context);
+         System.out.println("\n>>>> AgentPlays \n");
       }
       @Override
       public void enter(){
@@ -287,6 +291,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
             , final int playerIdentifier){
          //super(currentAgentComment, context);
          super("", context);
+         System.out.println("\n>>>> AgentComments \n");
          this.playerIdentifier = playerIdentifier;
       }
       @Override 
@@ -295,6 +300,11 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                playerIdentifier);
          currentAgentComment = getContext().getCheckersUI()
                .getCurrentAgentComment();
+         humanResponseOptions.clear();
+         try{
+            humanResponseOptions.addAll(getContext().getCheckersUI()
+                  .getCurrentHumanResponseOptions());
+         }catch(Exception e){/*in case no response exists*/}
          getContext().getCheckersUI().updatePlugin(this);
          getContext().getCheckersUI().triggerNextStateTimer();
          CheckersClient.gazeDirection = "sayandgaze";
@@ -311,10 +321,11 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       public HumanResponse(final CheckersStateContext context
             , final int playerIdentifier){
          super("", context);
+         System.out.println("\n>>>> HumanResponse \n");
          CheckersClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!CheckersClient.gameOver){
-            for(String eachCommentOption : humanResponseOptions)
+            for(String eachCommentOption : humanResponseOptions){
                choice(eachCommentOption, new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
@@ -324,13 +335,12 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                      return new AgentPlayDelay(getContext());
                   }
                });
+            }
             if(playerIdentifier == HUMAN_IDENTIFIER){
                choice("Your turn", new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
                      //getContext().getCheckersUI().cancelHumanCommentingTimer();
-                     if (playerIdentifier == AGENT_IDENTIFIER)
-                        return new Limbo(getContext());
                      return new AgentPlayDelay(getContext());
                   }
                });
@@ -431,10 +441,11 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       public HumanComments(final CheckersStateContext context
             , final int playerIdentifier){
          super("", context);
+         System.out.println("\n>>>> HumanComments \n");
          CheckersClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!CheckersClient.gameOver){
-            for(final String eachCommentOption : humanCommentOptions)
+            for(final String eachCommentOption : humanCommentOptions){
                choice(eachCommentOption, new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
@@ -443,6 +454,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                            getContext(), playerIdentifier, eachCommentOption);
                   }
                });
+            }
             if(playerIdentifier == HUMAN_IDENTIFIER){
                choice("Your turn", new DialogStateTransition() {
                   @Override
@@ -552,6 +564,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
             , final int playerIdentifier, String humanChoosenComment){
          //super(currentAgentComment, context);
          super("", context);
+         System.out.println("\n>>>> AgentResponse \n");
          this.playerIdentifier = playerIdentifier;
          this.humanChoosenComment = humanChoosenComment;
       }
