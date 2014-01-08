@@ -15,6 +15,7 @@ using System.Collections;
 using System.Data;
 using System.Resources;
 using System.Windows.Media.Animation;
+using Agent.Tcp;
 
 namespace Checkers.UI
 {
@@ -405,10 +406,13 @@ namespace Checkers.UI
             Reset();
 		}
 
-		public void ResetGame()
+		public void ResetGame(IUIThreadDispatcher uiThreadDispatcher)
 		{
-			this.grdBoard.Children.Clear();
-			this.Reset();
+			uiThreadDispatcher.BlockingInvoke(() =>
+			{
+				this.grdBoard.Children.Clear();
+				this.Reset();
+			});
 		}
 
         /// <summary>
