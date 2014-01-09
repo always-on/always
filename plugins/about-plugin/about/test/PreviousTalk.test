@@ -1,6 +1,6 @@
     # Jul 23, 2013 5:22:09 PM - TaskEngine 1.4.8 / Disco 1.6.10
     Welcome to Disco! (Type 'help' for command list)
-  > load java/edu/wpi/always/about/About.xml
+  > load java/edu/wpi/always/about/resources/About.xml
   > task _TalkAbout
     User says "Let's achieve _TalkAbout."
     Agent execute _GetPerson.
