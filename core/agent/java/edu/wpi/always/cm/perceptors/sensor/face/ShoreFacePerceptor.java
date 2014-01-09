@@ -2,11 +2,7 @@ package edu.wpi.always.cm.perceptors.sensor.face;
 
 import org.joda.time.DateTime;
 import edu.wpi.always.Always;
-<<<<<<< HEAD
-import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
-=======
 import edu.wpi.always.client.reeti.ReetiCommandSocketConnection;
->>>>>>> d66048f927dcc5743bf465359f60991ccd83ec2b
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
@@ -122,12 +118,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    public static class Reeti extends ShoreFacePerceptor {
 
-<<<<<<< HEAD
-      public Reeti (ReetiJsonConfiguration config) {
-         super(50, 50, 1700);
-         CPPinterface.INSTANCE.initReetiShoreEngine(
-               new String[] {config.getIP()}, 0);
-=======
       public Reeti () {
          super(50, 50, 1700);
 
@@ -135,7 +125,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
                .getConfigInfo().getIP() }; // Was "130.215.28.4"
 
          CPPinterface.INSTANCE.initReetiShoreEngine(ptr, 0);
->>>>>>> d66048f927dcc5743bf465359f60991ccd83ec2b
       }
 
       @Override
@@ -155,12 +144,12 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    }
 
    public static class Mirror extends ShoreFacePerceptor {
-      
-      private final ShoreFacePerceptor reeti, agent = new Agent();
 
-      public Mirror (ReetiJsonConfiguration config) {
+      private final ShoreFacePerceptor agent = new Agent(),
+            reeti = new Reeti();
+
+      public Mirror () {
          super(0, 0, 0);
-         reeti = new Reeti(config);
       }
 
       @Override

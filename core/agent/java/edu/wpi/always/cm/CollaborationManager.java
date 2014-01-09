@@ -3,13 +3,7 @@ package edu.wpi.always.cm;
 import java.io.File;
 import org.picocontainer.*;
 import edu.wpi.always.*;
-<<<<<<< HEAD
-import edu.wpi.always.Always.AgentType;
-import edu.wpi.always.client.*;
-import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
-=======
 import edu.wpi.always.client.reeti.ReetiCommandSocketConnection;
->>>>>>> d66048f927dcc5743bf465359f60991ccd83ec2b
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.perceptors.sensor.face.*;
 import edu.wpi.always.cm.primitives.*;
@@ -45,18 +39,21 @@ public class CollaborationManager extends DiscoRT {
    public ReetiCommandSocketConnection getReetiSocket () { return reetiSocket; }
    
    public void start (Class<? extends Plugin> plugin, String activity) {
+      
       switch ( Always.getAgentType() ) {
          case Unity:
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Agent.class);
             break;
          case Reeti:
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);  
+            reetiSocket = new ReetiCommandSocketConnection();
             break;
          case Mirror:
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Mirror.class);
+            reetiSocket = new ReetiCommandSocketConnection();
             break;
       }
-      // FIXME Use real sensors
+      // FIXME Try to use real sensors
       container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
       if ( plugin != null ) {
@@ -65,6 +62,7 @@ public class CollaborationManager extends DiscoRT {
          for (Registry r : instance.getRegistries(new Activity(plugin, activity, 0, 0, 0, 0)))
             addRegistry(r);
          System.out.println("Loaded plugin: "+instance);
+         
       } else
          for (TaskClass top : activities.getTaskClasses()) {
             Plugin instance = Plugin.getPlugin(top, container);
@@ -73,14 +71,6 @@ public class CollaborationManager extends DiscoRT {
             System.out.println("Loaded plugin: "+instance);
          }
       super.start(plugin == null ? "Session" : null);
-      // after super.start() so ClientRegistry done
-      ClientProxy proxy = container.getComponent(ClientProxy.class);
-      if ( Always.getAgentType() != AgentType.Unity ) {
-         if ( Always.getAgentType() == AgentType.Reeti ) proxy.toggleAgent();
-         String host = container.getComponent(ReetiJsonConfiguration.class).getIP();
-         proxy.reetiIP(host);
-         reetiSocket = new ReetiCommandSocketConnection(host);
-      }
       if ( plugin == null ) setSchema(null, SessionSchema.class);
    }
    

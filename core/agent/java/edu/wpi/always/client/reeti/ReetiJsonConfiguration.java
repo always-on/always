@@ -1,13 +1,5 @@
 package edu.wpi.always.client.reeti;
 
-<<<<<<< HEAD
-// this file is a placeholder in order to set up IP message
-// to client-- CR
-public class ReetiJsonConfiguration {
-
-   public String getIP () { return "0.0.0.0"; }
-   
-=======
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import org.json.simple.*;
 import java.io.InputStreamReader;
@@ -174,5 +166,4 @@ public class ReetiJsonConfiguration {
       new ReetiJsonConfiguration();
    }
 
->>>>>>> d66048f927dcc5743bf465359f60991ccd83ec2b
 }
