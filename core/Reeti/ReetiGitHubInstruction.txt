@@ -3,6 +3,8 @@ with the corresponding standard content of your Ubuntu version of the OS.
 
 * Second, do: sudo apt-get update
 
+* Third, install git: sudo apt-get install git
+
 * Then, do the followins:
 
 git config --global user.name "<your name here>"
