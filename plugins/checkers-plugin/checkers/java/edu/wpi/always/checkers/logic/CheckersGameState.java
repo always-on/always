@@ -249,10 +249,10 @@ public class CheckersGameState extends GameLogicState{
       
       makeMove(move);
       
-      /* Keep jumping if you have to!*/ //FORAGENT
+      /* Keep jumping if you have to!*/ //FOR AGENT
      if (move.isJump()) {
         if(getLegalJumpsFrom(RED, move.toRow, move.toCol) != null)
-           ;//new state? 
+           ;//new state? *** perform second move? produce move options again?
      }
       
       possibleWinner();
@@ -279,6 +279,11 @@ public class CheckersGameState extends GameLogicState{
 
       if(could && !move.isJump())
          return false;
+      
+      //checking multi-jump opportunity
+      if(move.isJump() 
+            && getLegalJumpsFrom(RED, move.toRow, move.toCol) != null) 
+            //new state? *** FOR HUMAN: if already made multi, do it, if not new state
 
       // safe now
       makeMove(move);
