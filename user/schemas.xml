@@ -5,6 +5,6 @@
      nXML mode for more info.-->
 <locatingRules xmlns="http://thaiopensource.com/ns/locating-rules/1.0">
    <namespace ns="http://ce.org/cea-2018" uri="cea-2018.rnc"/>
-   <namespace ns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext" uri="../core/discoRT/lib/disco1.6.9/lib/cea-2018-ext.rnc"/>
-   <namespace ns="http://www.cs.wpi.edu/~rich/d4g" uri="../core/discoRT/lib/disco1.6.9/d4g/d4g.rnc"/>
+   <namespace ns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext" uri="../core/discoRT/lib/disco1.6.10/lib/cea-2018-ext.rnc"/>
+   <namespace ns="http://www.cs.wpi.edu/~rich/d4g" uri="../core/discoRT/lib/disco1.6.10/d4g/d4g.rnc"/>
 </locatingRules>

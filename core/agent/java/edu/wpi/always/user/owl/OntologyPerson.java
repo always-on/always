@@ -22,8 +22,6 @@ public class OntologyPerson implements Person {
 
    public static final String BIRTHDAY_PROPERTY = "PersonBirthday";
 
-   public static final String PHONE_NUMBER_PROPERTY = "PersonPhoneNumber";
-
    public static final String SKYPE_NUMBER_PROPERTY = "PersonSkypeNumber";
 
    public static final String AGE_PROPERTY = "PersonAge";
@@ -93,18 +91,6 @@ public class OntologyPerson implements Person {
    }
 
    @Override
-   public void setPhoneNumber (String number) {
-      owlPerson.setDataProperty(PHONE_NUMBER_PROPERTY, (number != null)
-         ? helper.getLiteral(number) : null);
-      UserModelBase.saveIf();
-   }
-
-   @Override
-   public String getPhoneNumber () {
-      return owlPerson.getDataPropertyValue(PHONE_NUMBER_PROPERTY).asString();
-   }
-
-   @Override
    public void setSkypeNumber (String number) {
       owlPerson.setDataProperty(SKYPE_NUMBER_PROPERTY, (number != null)
          ? helper.getLiteral(number) : null);
@@ -139,7 +125,8 @@ public class OntologyPerson implements Person {
          // Note order of Relationship values start with most specific
          Set<OWLNamedIndividual> values = owlPerson.getObjectPropertyValues(r.name());
          for (OWLNamedIndividual related : values) 
-            if ( related == user ) return r;
+            if ( related == user.getOWLIndividual() ) 
+               return r;
       }
       return null;
    }

@@ -2,6 +2,7 @@ package edu.wpi.always.cm.perceptors.sensor.face;
 
 import org.joda.time.DateTime;
 import edu.wpi.always.Always;
+import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
@@ -117,11 +118,10 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    public static class Reeti extends ShoreFacePerceptor {
 
-      public Reeti () {
-         // TODO: This should come by reading user/Reeti.json
+      public Reeti (ReetiJsonConfiguration config) {
          super(50, 50, 1700);
-         String[] ptr = new String[] { "130.215.28.4" };
-         CPPinterface.INSTANCE.initReetiShoreEngine(ptr, 0);
+         CPPinterface.INSTANCE.initReetiShoreEngine(
+               new String[] {config.getIP()}, 0);
       }
 
       @Override
@@ -141,12 +141,12 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    }
 
    public static class Mirror extends ShoreFacePerceptor {
+      
+      private final ShoreFacePerceptor reeti, agent = new Agent();
 
-      private final ShoreFacePerceptor agent = new Agent(),
-            reeti = new Reeti();
-
-      public Mirror () {
+      public Mirror (ReetiJsonConfiguration config) {
          super(0, 0, 0);
+         reeti = new Reeti(config);
       }
 
       @Override
