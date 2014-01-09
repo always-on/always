@@ -115,7 +115,6 @@ public class ReetiPIDMessages extends ReetiJsonConfiguration {
    public String faceSearch () {
       String command;
 
-      // TODO: This actual values should come from reading the json file.
       command = "Global.servo.color=\"red\",Global.servo.neckRotat="
          + reetiJsonConfig.getNeckRotat()
          + " smooth:0.50s; " // Was 50
