@@ -18,21 +18,21 @@ abstract class CalendarChangeState {
             final LocalDate week) {
          super("Is the event you want to change this week?", context);
          this.week = week;
-         choice("yes, its this week", new DialogStateTransition() {
+         choice("yes, it's this week", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {
                return new SelectEvent(context, week);
             }
          });
-         choice("no, its next week", new DialogStateTransition() {
+         choice("no, it's next week", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {
                return new SelectEvent(context, week.plusWeeks(1));
             }
          });
-         choice("no, its in the future", new DialogStateTransition() {
+         choice("no, it's in the future", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {
