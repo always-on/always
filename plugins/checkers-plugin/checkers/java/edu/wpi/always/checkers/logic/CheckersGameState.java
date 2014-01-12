@@ -245,24 +245,28 @@ public class CheckersGameState extends GameLogicState{
    /**
     * Performs agent's move
     */
-   public void performAgentMove(CheckersLegalMove move){
+   public boolean playAgentMove(CheckersLegalMove move){
       
       makeMove(move);
       
-      /* Keep jumping if you have to!*/ //FOR AGENT
-     if (move.isJump()) {
-        if(getLegalJumpsFrom(RED, move.toRow, move.toCol) != null)
-           ;//new state? *** perform second move? produce move options again?
-     }
+      // Keep jumping if possible 
+      if (move.isJump() && 
+            getLegalJumpsFrom(RED, move.toRow, move.toCol) != null)
+         return true;
       
       possibleWinner();
+      
+      return false;
       
    }
    
    /** Confirm and perform user's requested move.
     * If not legal (not jumping while able to)
-    * agent will say an appropriate prompt.*/
-   public boolean performUserMove(CheckersLegalMove move){
+    * agent will say an appropriate prompt.
+    * 0: fine
+    * 1: could more and did not jump enough
+    * 2: could and did not jump*/
+   public int checkHumanMove(CheckersLegalMove move){
 
       boolean could = false;
 
@@ -277,26 +281,29 @@ public class CheckersGameState extends GameLogicState{
                   could = true;
             }
 
+      // if could jump and did not
       if(could && !move.isJump())
-         return false;
+         return 2;
       
-      //checking multi-jump opportunity
-      if(move.isJump() 
-            && getLegalJumpsFrom(RED, move.toRow, move.toCol) != null) 
-            //new state? *** FOR HUMAN: if already made multi, do it, if not new state
-
-      // safe now
-      makeMove(move);
-
       // also, agent should say a different thing if 
       // you just did not "continue" to jump. 
       // (further handled in adjacency pairs)
-      if (move.isJump()) CheckersClient.
-      userJumpedAtLeastOnceInThisTurn = true;
+      if (move.isJump()) 
+         CheckersClient.
+         userJumpedAtLeastOnceInThisTurn = true;
 
+      // if can jump more
+      if(move.isJump() && getLegalJumpsFrom(
+            RED, move.toRow, move.toCol) != null){
+         makeMove(move);
+         possibleWinner();
+         return 1;
+      }
+            
+      // jumped the right amount: >= 0
+      makeMove(move);
       possibleWinner();
-
-      return true;
+      return 0;
 
    }
    

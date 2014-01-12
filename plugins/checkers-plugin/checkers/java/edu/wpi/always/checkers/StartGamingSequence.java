@@ -118,7 +118,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
             });
          }
          else if(whichClarification.equals("touch")){
-            choice("Oh, ok", new DialogStateTransition() {
+            choice("Ok!", new DialogStateTransition() {
                @Override
                public AdjacencyPair run () {
                   return new Limbo(getContext());
@@ -126,7 +126,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
             });
          }
          else if(whichClarification.equals("touchtoomuch")){
-            choice("I'm now ready to let go", new DialogStateTransition() {
+            choice("Haha! fine!", new DialogStateTransition() {
                @Override
                public AdjacencyPair run () {
                   return new Limbo(getContext());
@@ -171,7 +171,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       }
       @Override
       public void humanTouchedAgentStuff (int howManyTimes) {
-       //here again, to be robust
+       // here again, to be robust
          CheckersClient.gazeDirection = "board";
          whichClarification = "touch";
          if(howManyTimes < 3)
