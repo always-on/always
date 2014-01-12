@@ -32,6 +32,12 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
                GazeBehavior.USER)
          .build());
       }
+      if(TTTClient.gazeDirection.equals("sayandgazeresp")){
+         propose(new SyncSayBuilder(
+               "$ "+WhoPlaysFirst.getCurrentAgentResponse()+" $",
+               GazeBehavior.USER)
+         .build());
+      }
       if(TTTClient.gazeDirection.equals("sayandgazegameover")){
          propose(new SyncSayBuilder(
                "$ "+"Game over. "+
