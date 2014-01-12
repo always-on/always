@@ -96,10 +96,11 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
       public void enter () {
          getContext().getEnrollUI().showCurrentEntry(person);
          if(firstTimeHere){
-            nameForLastState = 
-                  EditPersonState.editingSelf ? "you better": name;
-            nameToUse = EditPersonState.editingSelf ? "your" : name + "'s";
+            nameToUse = EditPersonState.editingSelf ?
+               "your" : person.getName() + "'s";
          }
+         nameForLastState = 
+               EditPersonState.editingSelf ? "you better" : person.getName();
          firstTimeHere = false;
          mainPromptForCheckCorrection = 
                "Is there anything else to correct?";
@@ -431,7 +432,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       @Override
       public AdjacencyPair cancel () {
-         return new EditStateInvalidAdjacencyPair(getContext());
+         getContext().hideKeyboard();
+         return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
    }
 
@@ -456,7 +458,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       @Override
       public AdjacencyPair cancel () {
-         return new EditStateInvalidAdjacencyPair(getContext());
+         getContext().hideKeyboard();
+         return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
    }
 
