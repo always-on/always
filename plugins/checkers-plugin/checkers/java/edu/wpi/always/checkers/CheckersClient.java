@@ -132,9 +132,10 @@ public class CheckersClient implements CheckersUI {
                
                //2 if user could have jumped but did not and
                //1 if user can jump more
-               if(gameState.checkHumanMove(humanMove) == 2)
+               int stat = gameState.checkAndPlayHumanMove(humanMove);
+               if(stat == 2)
                   listener.shouldHaveJumped();
-               else if(gameState.checkHumanMove(humanMove) == 1){
+               else if(stat == 1){
                   confirmHumanMove();
                   latestHumanMove = moveAnnotator
                         .annotate(humanMove, gameState);
@@ -143,7 +144,7 @@ public class CheckersClient implements CheckersUI {
 //                     makeBoardUnplayable();
                   listener.shouldHaveJumped();
                }
-               else {
+               else if(stat == 0){
                   confirmHumanMove();
                   latestHumanMove = moveAnnotator
                         .annotate(humanMove, gameState);
@@ -183,7 +184,7 @@ public class CheckersClient implements CheckersUI {
    }
    
    @Override
-   public void playAgentMove (CheckersUIListener listener) {
+   public void processAgentMove (CheckersUIListener listener) {
 
       this.listener = listener;
       show();

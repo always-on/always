@@ -263,7 +263,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       @Override
       public void enter(){
          //CheckersClient.gazeDirection = "board";
-         getContext().getCheckersUI().playAgentMove(this);
+         getContext().getCheckersUI().processAgentMove(this);
          getContext().getCheckersUI().prepareAgentCommentUserResponseForAMoveBy(
                AGENT_IDENTIFIER);
          currentAgentComment = getContext().getCheckersUI()
