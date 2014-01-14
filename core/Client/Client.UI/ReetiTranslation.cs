@@ -19,6 +19,8 @@ namespace Agent.UI
         private const String beginSpeech     = "Global.Talk.play(0.3);";
         private const String endSpeech       = "Global.Talk.play(0.3);";
 
+        private int intLastSecond = -1;
+
         private double findOutput(String HorOrVer, String cmd)
         {
             double output;
@@ -94,6 +96,17 @@ namespace Agent.UI
 
         public void TranslateToReetiCommand(String task, String Command)
         {
+            StreamWriter log;
+
+            if (!File.Exists("logfile.txt"))
+            {
+                log = new StreamWriter("logfile.txt");
+            }
+            else
+            {
+                log = File.AppendText("logfile.txt");
+            }
+
             if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
                 SendCommand(headNod);
@@ -139,12 +152,27 @@ namespace Agent.UI
             }
             if (Command.Contains("BEGINSPEECH"))
             {
-                SendCommand(beginSpeech);
+                if (DateTime.Now.Second != intLastSecond)
+                {
+                    intLastSecond = DateTime.Now.Second;
+                    SendCommand(beginSpeech);
+
+                    log.WriteLine(DateTime.Now);
+                    log.WriteLine("BEGINSPEECH");
+                    log.WriteLine();
+                }
+
             }
             if (Command.Contains("ENDSPEECH"))
             {
-                SendCommand(endSpeech);
+                log.WriteLine(DateTime.Now);
+                log.WriteLine("ENDSPEECH");
+                log.WriteLine();
+                
+                //SendCommand(endSpeech);
             }
+
+            log.Close();
         }
 
         private void SendCommand(String Command)
