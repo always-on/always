@@ -13,7 +13,7 @@ import edu.wpi.sgf.comment.CommentingManager;
 public class SrummyCommentingManager extends CommentingManager {
 
    private static final String CommentLibraryFilePath = 
-         "SrummyCommentLibrary.xml";
+         "SrummyCommentLibraryCoupled.xml";
 
    public SrummyCommentingManager(){
       

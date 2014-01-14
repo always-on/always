@@ -13,7 +13,7 @@ import edu.wpi.sgf.comment.CommentingManager;
 public class TTTCommentingManager extends CommentingManager {
 
    private static final String CommentLibraryFilePath = 
-         "TTTCommentLibrary.xml";
+         "TTTCommentLibraryCoupled.xml";
 
    public TTTCommentingManager(){
 

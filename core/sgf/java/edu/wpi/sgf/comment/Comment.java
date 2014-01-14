@@ -23,11 +23,13 @@ public class Comment implements Comparable<Comment> {
    private String gameType; //could be replaced by an enum {board, card, ...}
    private String gameName;
    private GameCommentingState gameState;
-   
+   private List<String> possibleResponses;
+
    public Comment(String someContent, String someMaker, 
          String someMadeOn, String[] someTags, double someStrength, 
          double someComepetitiveness, String someGameType, 
-         String someGameName, GameCommentingState someGameState){
+         String someGameName, GameCommentingState someGameState, 
+         List<String> somePossibleResponses){
       content = someContent;
       maker = someMaker;
       madeOn = someMadeOn;
@@ -38,19 +40,23 @@ public class Comment implements Comparable<Comment> {
       gameType = someGameType;
       gameName = someGameName;
       gameState = someGameState;
+      possibleResponses = new ArrayList<String>();
+      possibleResponses.addAll(somePossibleResponses);
+
    }
-   
+
    //constructor with strength safe margin
    public Comment(String someContent, String someMaker, 
          String someMadeOn, String[] someTags, double someStrength, 
          double someComepetitiveness, String someGameType, 
          String someGameName, double someStrengthSafeMargin, 
-         GameCommentingState gameState){
+         GameCommentingState gameState, List<String> somePossibleResponses){
       this(someContent, someMaker, someMadeOn, someTags, someStrength, 
-            someComepetitiveness, someGameType, someGameName, gameState);
+            someComepetitiveness, someGameType, someGameName, 
+            gameState, somePossibleResponses);
       strengthSafeMargin = someStrengthSafeMargin;
    }
-   
+
    public Comment(String someContent){
       content = someContent;
    }
@@ -58,45 +64,59 @@ public class Comment implements Comparable<Comment> {
    public String getContent(){
       return content;
    }
-   
+
    public String getMaker(){
       return maker;
    }
-   
+
    public String getMadeOn(){
       return madeOn;
    }
-   
+
    public List<String> getTags(){
       return tags;
    }
-   
+
    public void addTag(String tag){
       tags.add(tag);
    }
-   
+
    public double getStrength(){
       return strength;
    }
-   
+
    public double getComepetitiveness(){
       return competitiveness;
    }
-   
+
    public double getStrengthSafeMargin(){
       return strengthSafeMargin;
    }
-   
+
    public String getGameType(){
       return gameType;
    }
-   
+
    public String getGameName(){
       return gameName;
    }
-   
+
    public GameCommentingState getGameState(){
       return gameState;
+   }
+
+   public List<String> getPossibleResponses(){
+      return possibleResponses;
+   }
+
+   public String getOneResponseOption(){
+      return CommentingManager.
+            getOneRandomlyAmong(possibleResponses);
+   }
+
+   public List<String> getMultipleResponseOptions(){
+      return CommentingManager
+            .shuffleAndGetMax3(possibleResponses);
    }
 
    @Override
@@ -106,5 +126,5 @@ public class Comment implements Comparable<Comment> {
          return -1;
       return 1;
    }
-   
+
 }

@@ -47,7 +47,7 @@ namespace AgentApp
 			     new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
 
 			_remote.RegisterReceiveHandler("checkers.reset",
-				new MessageHandlerDelegateWrapper(x => game.ResetGame()));
+				new MessageHandlerDelegateWrapper(x => game.ResetGame(_uiThreadDispatcher)));
 
 			_remote.RegisterReceiveHandler("checkers.confirm_human_move",
 				new MessageHandlerDelegateWrapper(x => game.ReceivedConfirmation()));
