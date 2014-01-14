@@ -589,6 +589,9 @@ public class SrummyGameState extends GameLogicState {
       if(SrummyClient.twoMeldsInARowByHuman)
          tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
       
+      if(!tags.isEmpty())
+         SrummyClient.thereAreGameSpecificTags = true;
+      
       return tags;
    }
 

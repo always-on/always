@@ -3,6 +3,7 @@ package edu.wpi.always.srummy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import edu.wpi.always.checkers.CheckersClient;
 import edu.wpi.disco.rt.menu.*;
 
 public class StartGamingSequence extends SrummyAdjacencyPairImpl {
@@ -103,8 +104,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          humanCommentOptions = getContext().getSrummyUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
          Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean()){
-            //by 75% chance here: full comment exchange
+         if(rnd.nextBoolean() || rnd.nextBoolean() || SrummyClient.thereAreGameSpecificTags){
+            //by 75% chance (or if there is game specific comment) here: full comment exchange
+            SrummyClient.thereAreGameSpecificTags = false;
             if(new Random().nextBoolean())
                skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
             else
@@ -201,8 +203,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             humanCommentOptions = getContext().getSrummyUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
             Random rnd = new Random();
-            if(rnd.nextBoolean() || rnd.nextBoolean()){
-               //by 75% chance here: full comment exchange
+            if(rnd.nextBoolean() || rnd.nextBoolean() || SrummyClient.thereAreGameSpecificTags){
+               //by 75% chance (or if there is game specific comment) here: full comment exchange
+               SrummyClient.thereAreGameSpecificTags = false;
                if(new Random().nextBoolean())
                   skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
                else
@@ -237,8 +240,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             SrummyClient.twoMeldsInARowByAgent = false;
             //only discard can conclude a turn
             Random rnd = new Random();
-            if(rnd.nextBoolean() || rnd.nextBoolean()){
-               //by 75% chance here: full comment exchange
+            if(rnd.nextBoolean() || rnd.nextBoolean() || SrummyClient.thereAreGameSpecificTags){
+               //by 75% chance (or if there is game specific comment) here: full comment exchange
+               SrummyClient.thereAreGameSpecificTags = false;
                if(new Random().nextBoolean())
                   skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
                else
