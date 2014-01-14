@@ -32,9 +32,9 @@ public class CheckersGameState extends GameLogicState{
          for (int col = 0; col < 8; col++) {
             if ( row % 2 != col % 2 ) {
                if (row < 3)
-                  board[row][col] = RED;
-               else if (row > 4)
                   board[row][col] = BLACK;
+               else if (row > 4)
+                  board[row][col] = RED;
                else
                   board[row][col] = EMPTY;
             }
@@ -138,12 +138,12 @@ public class CheckersGameState extends GameLogicState{
          return false;  // (r2,c2) already contains a piece.
       
       if (player == RED) {
-         if (board[r1][c1] == RED && r2 < r1)
+         if (board[r1][c1] == RED && r2 > r1)
             return false;  // Regular red piece can only move down.
          return true;  // The move is legal.
       }
       else {
-         if (board[r1][c1] == BLACK && r2 > r1)
+         if (board[r1][c1] == BLACK && r2 < r1)
             return false;  // Regular black piece can only move up.
          return true;  // The move is legal.
       }
@@ -200,14 +200,14 @@ public class CheckersGameState extends GameLogicState{
          return false;  // (r3,c3) already contains a piece.
       
       if (player == BLACK) {
-         if (board[r1][c1] == BLACK && r3 > r1)
+         if (board[r1][c1] == BLACK && r3 < r1) //lets the kings free
             return false;  // Regular black piece can only move up.
          if (board[r2][c2] != RED && board[r2][c2] != RED_KING)
             return false;  // There is no black piece to jump.
          return true;  // The jump is legal.
       }
       else { //i.e. if (player == RED)
-         if (board[r1][c1] == RED && r3 < r1)
+         if (board[r1][c1] == RED && r3 > r1) //lets the kings free
             return false;  // Regular red piece can only move down.
          if (board[r2][c2] != BLACK && board[r2][c2] != BLACK_KING)
             return false;  // There is no red piece to jump.
@@ -240,9 +240,9 @@ public class CheckersGameState extends GameLogicState{
          int jumpCol = (fromCol + toCol) / 2;  // Column of the jumped piece.
          board[jumpRow][jumpCol] = EMPTY;
       }
-      if (toRow == 0 && board[toRow][toCol] == BLACK)
+      if (toRow == 7 && board[toRow][toCol] == BLACK)
          board[toRow][toCol] = BLACK_KING;
-      if (toRow == 7 && board[toRow][toCol] == RED)
+      if (toRow == 0 && board[toRow][toCol] == RED)
          board[toRow][toCol] = RED_KING;
       
    }
@@ -384,9 +384,9 @@ public class CheckersGameState extends GameLogicState{
          agentJustJumped = false;
 
       
-      if(player == RED /*user*/ && move.toRow == 7)
+      if(player == RED /*user*/ && move.toRow == 0)
          gameSpecificTags.add("humanCrown");
-      if(player == BLACK /*agent*/ && move.toRow == 0)
+      if(player == BLACK /*agent*/ && move.toRow == 7)
          gameSpecificTags.add("agentCrown");
       
       //used to avoid mistaking tags if this fun 
