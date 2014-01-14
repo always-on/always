@@ -205,8 +205,9 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          humanCommentOptions = getContext().getCheckersUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
          Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean()){
-            //by 75% chance here: full comment exchange
+         if(rnd.nextBoolean() || rnd.nextBoolean() || CheckersClient.thereAreGameSpecificTags){
+            //by 75% chance (or if there is game specific comment) here: full comment exchange
+            CheckersClient.thereAreGameSpecificTags = false;
             if(new Random().nextBoolean())
                skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
             else
@@ -271,8 +272,9 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          humanCommentOptions = getContext().getCheckersUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
          Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean()){
-            //by 75% chance here: full comment exchange
+         if(rnd.nextBoolean() || rnd.nextBoolean() || CheckersClient.thereAreGameSpecificTags){
+            //by 75% chance (or if there is game specific comment) here: full comment exchange
+            CheckersClient.thereAreGameSpecificTags = false;
             if(new Random().nextBoolean())
                skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
             else

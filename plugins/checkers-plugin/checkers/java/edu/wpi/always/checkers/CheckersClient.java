@@ -40,6 +40,8 @@ public class CheckersClient implements CheckersUI {
    public static boolean nod = false;
    public static boolean gameOver = false;
    private static final int HUMAN_IDENTIFIER = 1;
+   
+   public static boolean thereAreGameSpecificTags = false;
 
    private String currentAgentComment;
    private List<String> currentHumanResponseOptions;

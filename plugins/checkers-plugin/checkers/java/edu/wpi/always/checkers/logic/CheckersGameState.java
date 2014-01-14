@@ -393,6 +393,9 @@ public class CheckersGameState extends GameLogicState{
       //called more than once in same turn
       latestMove = move;
       
+      if(!gameSpecificTags.isEmpty())
+         CheckersClient.thereAreGameSpecificTags = true;
+      
       return gameSpecificTags;
    
    }
