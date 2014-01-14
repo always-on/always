@@ -19,7 +19,8 @@ namespace Agent.UI
         private const String beginSpeech     = "Global.Talk.play(0.3);";
         private const String endSpeech       = "Global.Talk.play(0.3);";
 
-        private int intLastSecond = -1;
+        private long intLookBackLastMillisecond = -1;
+        private int intBeginSpeechLastSecond    = -1;
 
         private double findOutput(String HorOrVer, String cmd)
         {
@@ -96,17 +97,6 @@ namespace Agent.UI
 
         public void TranslateToReetiCommand(String task, String Command)
         {
-            StreamWriter log;
-
-            if (!File.Exists("logfile.txt"))
-            {
-                log = new StreamWriter("logfile.txt");
-            }
-            else
-            {
-                log = File.AppendText("logfile.txt");
-            }
-
             if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
                 SendCommand(headNod);
@@ -127,7 +117,11 @@ namespace Agent.UI
                 }
                 else if ( (VerOutput < 60) && (VerOutput > 20) )
                 {
-                    SendCommand("Global.LookAway.lookBack();");
+                    if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - intLookBackLastMillisecond) > 2000)
+                    {
+                        intLookBackLastMillisecond = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                        SendCommand("Global.LookAway.lookBack();");
+                    }
                 }
                 else if (VerOutput < 20)
                 {
@@ -152,27 +146,16 @@ namespace Agent.UI
             }
             if (Command.Contains("BEGINSPEECH"))
             {
-                if (DateTime.Now.Second != intLastSecond)
+                if (DateTime.Now.Second != intBeginSpeechLastSecond)
                 {
-                    intLastSecond = DateTime.Now.Second;
+                    intBeginSpeechLastSecond = DateTime.Now.Second;
                     SendCommand(beginSpeech);
-
-                    log.WriteLine(DateTime.Now);
-                    log.WriteLine("BEGINSPEECH");
-                    log.WriteLine();
                 }
-
             }
-            if (Command.Contains("ENDSPEECH"))
-            {
-                log.WriteLine(DateTime.Now);
-                log.WriteLine("ENDSPEECH");
-                log.WriteLine();
-                
-                //SendCommand(endSpeech);
-            }
-
-            log.Close();
+            //if (Command.Contains("ENDSPEECH"))
+            //{                
+            //    SendCommand(endSpeech);
+            //}
         }
 
         private void SendCommand(String Command)
