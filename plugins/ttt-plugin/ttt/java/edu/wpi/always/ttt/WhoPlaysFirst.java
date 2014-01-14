@@ -203,6 +203,17 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          super("", context);
          TTTClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
+
+         //if no response is there for this agent's comment
+         //which human is responding to, then just go to 
+         //whoever turn it is to play. (No your turn button)
+         if(humanResponseOptions.isEmpty()){
+            if(playerIdentifier == HUMAN_IDENTIFIER)
+               skipTo(new AgentPlayDelay(getContext()));
+            else
+               skipTo(new Limbo(getContext()));
+         }
+         
          if(!TTTClient.gameOver){
             for(String eachCommentOption : humanResponseOptions)
                choice(eachCommentOption, new DialogStateTransition() {
