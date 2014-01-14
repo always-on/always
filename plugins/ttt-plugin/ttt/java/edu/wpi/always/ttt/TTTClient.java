@@ -31,6 +31,8 @@ public class TTTClient implements TTTUI {
    private static final int HUMAN_IDENTIFIER = 1;
 
    private static final int AGENT_IDENTIFIER = 2;
+   
+   public static boolean thereAreGameSpecificTags = false;
 
    // 1: userWins, 2: agentWins, 3: tie
    private int winOrTie = 0;

@@ -90,8 +90,9 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
          Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean()){
-            //by 75% chance here: full comment exchange
+         if(rnd.nextBoolean() || rnd.nextBoolean() || TTTClient.thereAreGameSpecificTags){
+            //by 75% chance (or if there is game specific comment) here: full comment exchange
+            TTTClient.thereAreGameSpecificTags = false;
             if(new Random().nextBoolean())
                skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
             else
@@ -152,8 +153,9 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
          Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean()){
-            //by 75% chance here: full comment exchange
+         if(rnd.nextBoolean() || rnd.nextBoolean() || TTTClient.thereAreGameSpecificTags){
+            //by 75% chance (or if there is game specific comment) here: full comment exchange
+            TTTClient.thereAreGameSpecificTags = false;
             if(new Random().nextBoolean())
                skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
             else
