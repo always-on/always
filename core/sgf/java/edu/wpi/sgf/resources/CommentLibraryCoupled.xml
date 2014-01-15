@@ -41,7 +41,7 @@
 			<content>Now my turn!</content>
 			<response>Show me what you can do!</response>
 			<response>Well go ahead</response>
-			<response>Nice</response>
+			<response>Good</response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="agent">
 			<content>That was the best I could do</content>
