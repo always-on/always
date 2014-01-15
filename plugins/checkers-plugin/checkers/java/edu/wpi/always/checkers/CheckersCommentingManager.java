@@ -13,7 +13,7 @@ import edu.wpi.sgf.comment.CommentingManager;
 public class CheckersCommentingManager extends CommentingManager {
 
    private static final String CommentLibraryFilePath = 
-         "CheckersCommentLibrary.xml";
+         "CheckersCommentLibraryCoupled.xml";
 
    public CheckersCommentingManager(){
 
