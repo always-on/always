@@ -193,7 +193,7 @@
 			<content>Let's see your next move</content>
 			<response>Here I go</response>
 			<response>More great play from little old me</response>
-			<response>I will do my best/response>
+			<response>I will do my best</response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.6' tags="compliment" gameType="generic" madeOn="both">
 			<content>I like playing with you</content>
