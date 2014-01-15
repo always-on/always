@@ -240,7 +240,7 @@
 			<response>You should try the chances again!</response>
 		</comment>
 		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="tie">
-			<content>Finally a tie!</content>
+			<content>Finally, a tie!</content>
 			<response>So we have to play again</response>
 			<response>Yes, tie!</response>
 			<response>Good game</response>
