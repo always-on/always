@@ -238,6 +238,8 @@ public class TTTGameState extends GameLogicState{
       
       if(!gameSpecificTags.isEmpty())
          TTTClient.thereAreGameSpecificTags = true;
+      else
+         TTTClient.thereAreGameSpecificTags = false;
       
       return gameSpecificTags;
    }

@@ -395,6 +395,8 @@ public class CheckersGameState extends GameLogicState{
       
       if(!gameSpecificTags.isEmpty())
          CheckersClient.thereAreGameSpecificTags = true;
+      else 
+         CheckersClient.thereAreGameSpecificTags = false;
       
       return gameSpecificTags;
    

@@ -67,7 +67,7 @@
 			<response>It is fun to pay with you</response>
 			<response>Good</response>
 		</comment>
-		<comment strength='0.5' competitiveness='0.5' tags="first" gameType="generic" madeOn="both">
+		<comment strength='0.5' competitiveness='0.5' tags="compliment" gameType="generic" madeOn="both">
 			<content>Games are so popular among both robots and humans</content>
 			<response>Oh yes!</response>
 			<response>Interesting</response>
@@ -85,7 +85,7 @@
 			<response>How intelligent can a toaster be anyway?</response>
 			<response>Bragging won't get you to win Madam agent</response>
 		</comment>
-		<comment strength='0.6' competitiveness='0.7' tags="brag" gameType="generic" madeOn="both">
+		<comment strength='0.6' competitiveness='0.7' tags="brag" gameType="generic" madeOn="agent">
 			<content>Nobody beats me</content>
 			<response>Until I start to play</response>
 			<response>You mean among other agents, right?</response>
@@ -171,7 +171,7 @@
 			<response>Well prove it</response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.2' tags="compliment" gameType="generic" madeOn="agent">
-			<content>I should say, you do play good</content>
+			<content>You do play very good</content>
 			<response>Thank you very much, you too</response>
 			<response>I learn from smart people like you</response>
 			<response>Such an encouragement to hear that</response>
@@ -199,11 +199,13 @@
 			<content>I like playing with you</content>
 			<response>me too! We should play more!</response>
 			<response>Glad to hear that. Thank you.</response>
+			<response>Well, we are only your creatures!</response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.6' tags="compliment" gameType="generic" madeOn="both">
-			<content>Human enjoy playing games!</content>
-			<response>me too!</response>
-			<response>robots and agent enjoy games a lot too</response>
+			<content>Humans enjoy playing games!</content>
+			<response>Me too!</response>
+			<response>Robots and agent too!</response>
+			<response>Well, we are only your creatures!</response>
 		</comment>
 		<comment competitiveness='0.8' tags="brag" gameType="generic" gameState="humanWon">
 			<content>Humans always wins! We made you robots!</content>

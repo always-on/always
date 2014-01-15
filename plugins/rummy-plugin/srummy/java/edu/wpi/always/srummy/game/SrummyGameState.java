@@ -591,6 +591,8 @@ public class SrummyGameState extends GameLogicState {
       
       if(!tags.isEmpty())
          SrummyClient.thereAreGameSpecificTags = true;
+      else 
+         SrummyClient.thereAreGameSpecificTags = false;
       
       return tags;
    }
