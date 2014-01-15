@@ -6,6 +6,8 @@ import edu.wpi.always.checkers.logic.*;
 import edu.wpi.always.client.*;
 import edu.wpi.sgf.scenario.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
+import edu.wpi.sgf.comment.Comment;
+import edu.wpi.sgf.comment.CommentLibraryHandler;
 import edu.wpi.sgf.comment.CommentingManager;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 
@@ -39,7 +41,9 @@ public class CheckersClient implements CheckersUI {
    public static boolean gameOver = false;
    private static final int HUMAN_IDENTIFIER = 1;
 
-   private String currentComment;
+   private String currentAgentComment;
+   private List<String> currentHumanResponseOptions;
+   private Map<String, String> currentAgentResponseOptions;
    private AnnotatedLegalMove currentMove;
 
    private final UIMessageDispatcher dispatcher;
@@ -110,6 +114,8 @@ public class CheckersClient implements CheckersUI {
       moveChooser = new MoveChooser();
       scenarioManager = new ScenarioManager();
       gameState = new CheckersGameState();
+      currentHumanResponseOptions = new ArrayList<String>();
+      currentAgentResponseOptions = new HashMap<String, String>();
       
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override
@@ -132,8 +138,8 @@ public class CheckersClient implements CheckersUI {
                   latestHumanMove = moveAnnotator
                         .annotate(humanMove, gameState);
                   updateWin();
-//                  if (gameState.possibleWinner() > 0)
-//                     makeBoardUnplayable();
+                  if (gameState.possibleWinner() > 0)
+                     makeBoardUnplayable();
                   listener.receivedHumanMove();
                }
             }
@@ -200,23 +206,46 @@ public class CheckersClient implements CheckersUI {
 
    @Override
    public String getCurrentAgentComment () {
-      return currentComment;
+      return currentAgentComment;
+   }
+   
+   @Override
+   public String getCurrentAgentResponse(
+         String humanChoosenComment) {
+      return currentAgentResponseOptions
+            .get(humanChoosenComment.trim());
    }
 
    @Override
-   public List<String> getCurrentHumanCommentOptionsForAMoveBy (int player) {
+   public List<String> 
+   getCurrentHumanCommentOptionsAgentResponseForAMoveBy (int player) {
+      
       updateWin();
 
+      List<Comment> humanCommentingOptions = 
+            new ArrayList<Comment>();
+      
       if ( player == HUMAN_IDENTIFIER )
-         return commentingManager.getHumanCommentingOptionsForHumanMove(
+         humanCommentingOptions.addAll(
+               commentingManager.getHumanCommentingOptionsAndAnAgentResponseForHumanMove(
                gameState, latestHumanMove,
                gameState.getGameSpecificCommentingTags(
-                     (CheckersLegalMove)latestHumanMove.getMove(), player));
+                     (CheckersLegalMove)latestHumanMove.getMove(), player)));
       else
-         return commentingManager.getHumanCommentingOptionsForAgentMove(
+         humanCommentingOptions.addAll(
+               commentingManager.getHumanCommentingOptionsForAgentMove(
                gameState, latestAgentMove,
                gameState.getGameSpecificCommentingTags(
-                     (CheckersLegalMove)latestAgentMove.getMove(), player));
+                     (CheckersLegalMove)latestAgentMove.getMove(), player)));
+      
+      currentAgentResponseOptions.clear();
+      for(Comment each : humanCommentingOptions)
+         currentAgentResponseOptions.put(
+               each.getContent().trim(), each.getOneResponseOption());
+      
+      return CommentLibraryHandler
+            .getContentsOfTheseComments(humanCommentingOptions);
+      
    }
 
    @Override
@@ -232,25 +261,48 @@ public class CheckersClient implements CheckersUI {
    }
 
    @Override
-   public void prepareAgentCommentForAMoveBy (int player) {
+   public void prepareAgentCommentUserResponseForAMoveBy (int player) {
 
       updateWin();
+      
+      Comment currentAgentCommentAsComment;
 
       // null passed for scenarios here.
       if ( player == HUMAN_IDENTIFIER )
-         currentComment = commentingManager.getAgentCommentForHumanMove(
+         currentAgentCommentAsComment =  
+         commentingManager.getAgentCommentForHumanMove(
                gameState, latestHumanMove, null,
                gameState.getGameSpecificCommentingTags(
                      (CheckersLegalMove)latestHumanMove.getMove(), player));
       else
-         currentComment = commentingManager.getAgentCommentForAgentMove(
+         currentAgentCommentAsComment = 
+         commentingManager.getAgentCommentForAgentMove(
                gameState, latestAgentMove, null,
                gameState.getGameSpecificCommentingTags(
                      (CheckersLegalMove)latestAgentMove.getMove(), player));
+     
+      if ( currentAgentCommentAsComment == null )
+         currentAgentComment = "";
+      else
+         currentAgentComment = 
+         currentAgentCommentAsComment.getContent();
 
-      if ( currentComment == null )
-         currentComment = "";
+      currentHumanResponseOptions.clear();
 
+      try{
+         currentHumanResponseOptions.addAll(
+               currentAgentCommentAsComment
+               .getMultipleResponseOptions());
+      }catch(Exception e){
+         // in case no responses exists
+      }
+
+   }
+   
+   @Override
+   public List<String> getCurrentHumanResponseOptions () {
+      return CommentingManager.
+            shuffleAndGetMax3(currentHumanResponseOptions);
    }
 
    // user commenting timer
@@ -316,10 +368,8 @@ public class CheckersClient implements CheckersUI {
    }
    
    private void updateWin () {
-
       if ( gameState.possibleWinner() != 0 )
          CheckersClient.gameOver = true;
-      
    }
 
    public void show () {

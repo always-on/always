@@ -32,6 +32,12 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
                GazeBehavior.USER)
          .build());
       }
+      if(CheckersClient.gazeDirection.equals("sayandgazeresp")){
+         propose(new SyncSayBuilder(
+               "$ "+StartGamingSequence.getCurrentAgentResponse()+" $",
+               GazeBehavior.USER)
+         .build());
+      }
       if(CheckersClient.gazeDirection.equals("sayandgazegameover")){
          propose(new SyncSayBuilder(
                "$ "+"Game over. "+

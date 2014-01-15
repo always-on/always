@@ -445,6 +445,7 @@ public abstract class EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair cancel() {
+         getContext().hideKeyboard();
          return new PersonRelationshipAdjacencyPair(getContext());
       }
    }
@@ -479,7 +480,8 @@ public abstract class EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair cancel() {
-         return new StateInvalidAdjacencyPair(getContext());
+         getContext().hideKeyboard();
+         return new PersonRelationshipAdjacencyPair(getContext());
       }
    }
 

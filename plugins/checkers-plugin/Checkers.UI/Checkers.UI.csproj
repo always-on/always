@@ -157,5 +157,8 @@
     <Resource Include="Assets\grayking_checker50x50.gif" />
     <Resource Include="Assets\redking_checker50x50.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\playingSound.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

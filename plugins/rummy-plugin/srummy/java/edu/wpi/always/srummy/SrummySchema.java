@@ -42,6 +42,12 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
                GazeBehavior.USER)
          .build());  
       }
+      if(SrummyClient.gazeDirection.equals("sayandgazeresp")){
+         propose(new SyncSayBuilder(
+               "$ "+StartGamingSequence.getCurrentAgentResponse()+" $",
+               GazeBehavior.USER)
+         .build());
+      }
       if(SrummyClient.gazeDirection.equals("sayandgazegameover")){
          propose(new SyncSayBuilder(
                "$ "+"Game over. "+

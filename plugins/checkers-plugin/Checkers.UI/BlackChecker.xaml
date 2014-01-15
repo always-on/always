@@ -8,8 +8,24 @@
 	mc:Ignorable="d"
 	Width="65" Height="65">
     <runtime:CheckerPiece.Resources>
-        <!--<Storyboard x:Key="DropPiece">-->
-        <!--</Storyboard>-->
+        <Storyboard x:Key="DropPiece">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="55"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01" Value="65"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="55"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01" Value="65"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="55"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01" Value="65"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="55"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01" Value="65"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
         <Storyboard x:Key="PieceCaptured">
             <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="imgChecker" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
                 <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
@@ -69,12 +85,11 @@
         </Storyboard>
     </runtime:CheckerPiece.Resources>
     <runtime:CheckerPiece.Triggers>
-        <!--<EventTrigger RoutedEvent="DragDrop.Drop">
+        <EventTrigger RoutedEvent="DragDrop.Drop">
 			<BeginStoryboard Storyboard="{StaticResource DropPiece}"/>
-		</EventTrigger>-->
+		</EventTrigger>
         <EventTrigger RoutedEvent="Stylus.GotStylusCapture">
-            <BeginStoryboard Storyboard="{StaticResource PieceCaptured}"
-                             />
+            <BeginStoryboard Storyboard="{StaticResource PieceCaptured}"/>
         </EventTrigger>
         <EventTrigger RoutedEvent="Stylus.GotStylusCapture">
             <BeginStoryboard Storyboard="{StaticResource AddToGraveyard}"/>

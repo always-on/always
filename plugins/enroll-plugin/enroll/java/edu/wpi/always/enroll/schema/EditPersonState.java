@@ -70,7 +70,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new ChangeGenderAdjacencyPair(getContext(), person);
             }
          });
-         choice("Edit Spouse.", new DialogStateTransition() {
+         choice("Edit Spouse", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new ChangeSpouseAdjacencyPair(getContext(), person);
@@ -102,15 +102,23 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeNameAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("Ok, please enter the new name", "New name:", context, context.getKeyboard());
+         super("Ok, please tell me the new name", "New name:", context, context.getKeyboard());
          this.person = person;
       }
 
       @Override
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
-         person.setName(text);
-         return new EditPersonAdjacencyPair(getContext(), person);
+         if(!text.isEmpty()){
+            person.setName(text);
+            if(!editingSelf){
+               nameToUse = text + "'s";
+               EditPersonState.prompt = 
+                     "Ok, here is what I know about " + person.getName();
+            }
+            return new EditPersonAdjacencyPair(getContext(), person);
+         }
+         return new PersonNameEditInvalidAdjacencyPair(getContext(), person);
       }
 
       @Override
@@ -118,6 +126,37 @@ public class EditPersonState extends EnrollAdjacencyPairs{
          getContext().hideKeyboard();
          return new EditPersonAdjacencyPair(getContext(), person);
       }
+   }
+   
+   public static class PersonNameEditInvalidAdjacencyPair extends
+   KeyboardAdjacencyPair<EnrollStateContext> {
+      
+      private Person person;
+      
+      public PersonNameEditInvalidAdjacencyPair(
+            final EnrollStateContext context, Person person) {
+         super("You must enter some name, even a nickname will do", 
+               "Enter name:", context, context.getKeyboard());
+         this.person = person;
+      }
+      @Override
+      public AdjacencyPair success(String text) {
+         if(!text.isEmpty()){
+            person.setName(text);
+            if(!editingSelf){
+               nameToUse = text + "'s";
+               EditPersonState.prompt = 
+                     "Ok, here is what I know about " + person.getName();
+            }
+            return new EditPersonAdjacencyPair(getContext(), person);
+         }
+         return new PersonNameEditInvalidAdjacencyPair(getContext(), person);
+      }
+      @Override
+      public AdjacencyPair cancel() {
+         getContext().hideKeyboard();
+         return new EditPersonAdjacencyPair(getContext(), person);
+      }  
    }
 
    public static class TellChangeBirthdayAdjacencyPair extends
@@ -422,7 +461,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeStateAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("Which is " + nameToUse +  " state ? ",
+         super("What is " + nameToUse +  " state ? ",
                "Enter " + nameToUse + " state:",
                context, context.getKeyboard());
          this.person = person;
@@ -441,7 +480,8 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair cancel() {
-         return new ChangeStateInvalidAdjacencyPair(getContext(), person);
+         getContext().hideKeyboard();
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
@@ -470,7 +510,8 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
       @Override
       public AdjacencyPair cancel() {
-         return new ChangeStateInvalidAdjacencyPair(getContext(), person);
+         getContext().hideKeyboard();
+         return new EditPersonAdjacencyPair(getContext(), person);
       }
    }
 
@@ -653,13 +694,13 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       public ChangeSpouseAdjacencyPair(
             final EnrollStateContext context, final Person person){
          super("Ok, what is " + nameToUse + " marital status?", context);
-         choice("Yes", new DialogStateTransition() {
+         choice("Married", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new ChangeReenterSpouseAdjacencyPair(getContext(), person);
             }
          });
-         choice("No", new DialogStateTransition() {
+         choice("Not married", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new EditPersonAdjacencyPair(getContext(), person);
