@@ -173,7 +173,7 @@
    <task id="__StartRest_tree">
       <subtasks id="_d4e21_subtasks">
          <step name="_d4e21_step" task="disco:Say"/>
-         <binding slot="$_d4e21_step.text" value="&#34;yes, please do.&#34;"/>
+         <binding slot="$_d4e21_step.text" value="&#34;yes, I do.&#34;"/>
          <binding slot="$_d4e21_step.external" value="true"/>
       </subtasks>
       <subtasks id="_d4e22_subtasks">
@@ -220,12 +220,12 @@
          <binding slot="$_d4e55_step.text" value="&#34;ok, go on&#34;"/>
          <binding slot="$_d4e55_step.external" value="true"/>
          <binding slot="$_d4e56_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Also, I can only see your face, when we talk.  I don't see         anything else around you, so you can wear whatever you like        during our conversations. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Also, I can only see your face, when we talk.  I don't see anything else around you, so you can wear whatever you like during our conversations. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &#34;"/>
          <binding slot="$_d4e56_step.external" value="false"/>
          <binding slot="$_d4e57_step.text" value="&#34;uh-huh&#34;"/>
          <binding slot="$_d4e57_step.external" value="true"/>
          <binding slot="$_d4e58_step.text"
-                  value="&#34;I also will not keep any photos or videos          of you unless you want to record a story.  Even then, I          will ask you after if you want to keep the video story.&#34;"/>
+                  value="&#34;I also will not keep any photos or videos of you unless you want to record a story.  Even then, I will ask you after if you want to keep the video story.&#34;"/>
          <binding slot="$_d4e58_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e65_subtasks">
