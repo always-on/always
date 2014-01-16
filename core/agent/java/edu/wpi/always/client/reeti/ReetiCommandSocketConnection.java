@@ -13,13 +13,12 @@ public class ReetiCommandSocketConnection {
 
    public final ReetiJsonConfiguration reetiJsonConfig;
 
-   public ReetiCommandSocketConnection () {
+   public ReetiCommandSocketConnection (String host) {
 
       reetiJsonConfig = new ReetiJsonConfiguration();
 
       try {
-         socket = new Socket(reetiJsonConfig.getIP(), 12045); // Was
-                                                              // 130.215.28.4
+         socket = new Socket(host, 12045); // Was 130.215.28.4
          writer = new PrintWriter(socket.getOutputStream(), true);
       } catch (IOException e) {
          throw new RuntimeException("Error opening socket to Reeti", e);
