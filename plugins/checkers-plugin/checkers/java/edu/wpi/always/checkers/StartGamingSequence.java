@@ -146,6 +146,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       public void enter() {
          getContext().getCheckersUI().updatePlugin(this);
          CheckersClient.gazeDirection = "";
+         CheckersClient.userJumpedAtLeastOnceInThisTurn = false;
       }
       @Override
       public void humanMoveReceived() {
@@ -228,6 +229,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       }
       @Override
       public void enter(){
+         CheckersClient.userJumpedAtLeastOnceInThisTurn = false;
          if(CheckersClient.gameOver){
             humanCommentOptions = getContext().getCheckersUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
@@ -235,12 +237,9 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                   AGENT_IDENTIFIER);
             currentAgentComment = getContext().getCheckersUI()
                   .getCurrentAgentComment();
-            CheckersClient.
-            userJumpedAtLeastOnceInThisTurn = false;
             skipTo(new gameOverDialogue(getContext()));
          }
          CheckersClient.gazeDirection = "thinking";
-         CheckersClient.userJumpedAtLeastOnceInThisTurn = false;
          getContext().getCheckersUI().makeBoardUnplayable();
          getContext().getCheckersUI().updatePlugin(this);
          getContext().getCheckersUI().triggerAgentPlayTimer();
