@@ -259,6 +259,10 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       @Override
       public void enter(){
          //CheckersClient.gazeDirection = "board";
+         if(CheckersClient.gameOver){
+            skipTo(new gameOverDialogue(getContext()));
+            CheckersClient.gazeDirection = "board";
+         }
          getContext().getCheckersUI().processAgentMove(this);
          getContext().getCheckersUI().prepareAgentCommentUserResponseForAMoveBy(
                AGENT_IDENTIFIER);
@@ -429,7 +433,6 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          CheckersClient.gazeDirection = "useronce";
          if(CheckersClient.gameOver){
             skipTo(new gameOverDialogue(getContext()));
-            CheckersClient.gazeDirection = "board";
          }
          currentAgentComment = "";
          //CheckersClient.gazeDirection = "user";
@@ -549,7 +552,6 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          CheckersClient.gazeDirection = "useronce";
          if(CheckersClient.gameOver){
             skipTo(new gameOverDialogue(getContext()));
-            CheckersClient.gazeDirection = "board";
          }
          currentAgentComment = "";
          //CheckersClient.gazeDirection = "user";

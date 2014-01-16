@@ -393,11 +393,11 @@ public class CheckersGameState extends GameLogicState{
       if(agentMultiJumped_ForCMTags && player == RED)
          agentMultiJumped_ForCMTags = false;
       
-      if(player == RED /*user*/ && move.toRow == 0)
-         if(board[move.fromRow][move.fromCol] != RED_KING)
+      if(player == RED /*user*/ && move.toRow == 0
+         && board[move.fromRow][move.fromCol] != RED_KING)
             gameSpecificTags.add("humanCrown");
-      if(player == BLACK /*agent*/ && move.toRow == 7)
-         if(board[move.fromRow][move.fromCol] != BLACK_KING)
+      if(player == BLACK /*agent*/ && move.toRow == 7
+         && board[move.fromRow][move.fromCol] != BLACK_KING)
             gameSpecificTags.add("agentCrown");
       
       if(!gameSpecificTags.isEmpty())
