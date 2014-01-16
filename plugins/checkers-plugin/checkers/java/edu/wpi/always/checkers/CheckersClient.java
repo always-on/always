@@ -204,7 +204,7 @@ public class CheckersClient implements CheckersUI {
                         .build();
       dispatcher.send(msg);
       updateWin();
-     
+      
       //can jump again
       while(moreJumpsPossible){
          prepareAgentMove();

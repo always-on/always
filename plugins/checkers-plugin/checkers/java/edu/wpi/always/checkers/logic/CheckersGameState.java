@@ -17,9 +17,8 @@ public class CheckersGameState extends GameLogicState{
    private static final int BLACK = 2; //agent
    private static final int BLACK_KING = 4; //agent crown
    private static final int EMPTY = 0; //empty
-   private CheckersLegalMove latestMove = null;
-   private boolean agentJustJumped = false;
-   private boolean userJustJumped = false;
+   private static boolean agentMultiJumped_ForCMTags = false;
+   private static boolean userMultiJumped_ForCMTags = false;
    
    public int[][] board = new int[8][8];
 
@@ -158,6 +157,7 @@ public class CheckersGameState extends GameLogicState{
     */
    List<CheckersLegalMove> getLegalJumpsFrom(
          int player, int row, int col, boolean isThisForMultiJump) {
+      
       if (player != RED && player != BLACK)
          return null;
       if(numberOfRemainingCheckers() == 1) 
@@ -168,7 +168,8 @@ public class CheckersGameState extends GameLogicState{
          playerKing = RED_KING;
       else
          playerKing = BLACK_KING;
-      List<CheckersLegalMove> moves = new ArrayList<CheckersLegalMove>();  // The legal jumps will be stored in this list.
+      
+      List<CheckersLegalMove> moves = new ArrayList<CheckersLegalMove>();
       if (isThisForMultiJump || board[row][col] == player || board[row][col] == playerKing) {
          if (canJump(player, row, col, row+1, col+1, row+2, col+2))
             moves.add(new CheckersLegalMove(row, col, row+2, col+2));
@@ -179,9 +180,12 @@ public class CheckersGameState extends GameLogicState{
          if (canJump(player, row, col, row-1, col-1, row-2, col-2))
             moves.add(new CheckersLegalMove(row, col, row-2, col-2));
       }
+      
       if (moves.size() == 0)
          return null;
+      
       return moves;
+      
    } 
 
    /**
@@ -256,8 +260,10 @@ public class CheckersGameState extends GameLogicState{
       
       // Keep jumping if possible 
       if (move.isJump() && 
-            getLegalJumpsFrom(BLACK, move.toRow, move.toCol, true) != null)
+            getLegalJumpsFrom(BLACK, move.toRow, move.toCol, true) != null){
+         agentMultiJumped_ForCMTags = true;
          return true;
+      }
       
       possibleWinner();
       
@@ -293,15 +299,17 @@ public class CheckersGameState extends GameLogicState{
       // also, agent should say a different thing if 
       // you just did not "continue" to jump. 
       // (further handled in adjacency pairs)
-      if (move.isJump()) 
+      if (move.isJump()) {
          CheckersClient.
          userJumpedAtLeastOnceInThisTurn = true;
+      }
 
       // if human can jump more
       if(move.isJump() && getLegalJumpsFrom(
             RED, move.toRow, move.toCol, true) != null){
          makeMove(move);
          possibleWinner();
+         userMultiJumped_ForCMTags = true;
          return 1;
       }
             
@@ -359,39 +367,32 @@ public class CheckersGameState extends GameLogicState{
             new ArrayList<String>();
       
       if(move.isJump()) {
-         
          if(player == RED /*user*/){ 
-            if(userJustJumped && !move.equals(latestMove)) 
+            if(userMultiJumped_ForCMTags) 
                gameSpecificTags.add("humanCaptureALot");
-            else {
-               userJustJumped = true; 
+            else 
                gameSpecificTags.add("humanCapture"); 
-            }
          }
          if(player == BLACK /*agent*/){
-            if(agentJustJumped && !move.equals(latestMove)) 
+            if(agentMultiJumped_ForCMTags) 
                gameSpecificTags.add("agentCaptureALot");
-            else { 
-               agentJustJumped = true; 
+            else 
                gameSpecificTags.add("agentCapture"); 
-            }
          }
       }
       
-      if(userJustJumped && player == BLACK)
-         userJustJumped = false;
-      if(agentJustJumped && player == RED)
-         agentJustJumped = false;
-
+      //resets the flags
+      if(userMultiJumped_ForCMTags && player == BLACK)
+         userMultiJumped_ForCMTags = false;
+      if(agentMultiJumped_ForCMTags && player == RED)
+         agentMultiJumped_ForCMTags = false;
       
       if(player == RED /*user*/ && move.toRow == 0)
-         gameSpecificTags.add("humanCrown");
+         if(board[move.fromRow][move.fromCol] != RED_KING)
+            gameSpecificTags.add("humanCrown");
       if(player == BLACK /*agent*/ && move.toRow == 7)
-         gameSpecificTags.add("agentCrown");
-      
-      //used to avoid mistaking tags if this fun 
-      //called more than once in same turn
-      latestMove = move;
+         if(board[move.fromRow][move.fromCol] != BLACK_KING)
+            gameSpecificTags.add("agentCrown");
       
       if(!gameSpecificTags.isEmpty())
          CheckersClient.thereAreGameSpecificTags = true;
