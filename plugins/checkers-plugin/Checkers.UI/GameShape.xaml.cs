@@ -29,8 +29,8 @@ namespace Checkers.UI
 	{
 		bool okToMove = false;
 		int illegalTouchCounter = 0;
-		private static int RED_LAST_ROW = 7;
-		private static int BLACK_LAST_ROW = 0;
+		private static int RED_LAST_ROW = 0;
+		private static int BLACK_LAST_ROW = 7;
 
 		private int latestC = 0, latestR = 0;
 		private CheckerPiece LatestRedTryingToMove = null;
@@ -98,10 +98,10 @@ namespace Checkers.UI
 
 				if (currentPiece is RedChecker || currentPiece is RedKingChecker)
 				{
-					if ((l.row == currentPiece.row + 1 
+					if ((l.row == currentPiece.row - 1 
 						&& (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1))
 						|| 
-						((l.row == currentPiece.row - 1 && currentPiece is RedKingChecker) 
+						((l.row == currentPiece.row + 1 && currentPiece is RedKingChecker) 
 						&& (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1)))
 					{
 						okToMove = true;
@@ -118,20 +118,7 @@ namespace Checkers.UI
 				
 				if (c == currentPiece.col + 2)
 				{
-					if (r == currentPiece.row + 2)
-					{
-						if (grdBoard.Children.OfType<BlackChecker>()
-							.Where(p => p.row == currentPiece.row + 1
-								&& (p.col == currentPiece.col + 1)).SingleOrDefault() != null)
-							opponentPiece = grdBoard.Children.OfType<BlackChecker>()
-								.Where(p => p.row == currentPiece.row + 1
-									&& (p.col == currentPiece.col + 1)).SingleOrDefault();
-						else
-							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
-							.Where(p => p.row == currentPiece.row + 1
-								&& (p.col == currentPiece.col + 1)).SingleOrDefault();
-					}
-					else if (r == currentPiece.row - 2 && currentPiece is RedKingChecker)
+					if (r == currentPiece.row - 2)
 					{
 						if (grdBoard.Children.OfType<BlackChecker>()
 							.Where(p => p.row == currentPiece.row - 1
@@ -142,25 +129,25 @@ namespace Checkers.UI
 						else
 							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
 							.Where(p => p.row == currentPiece.row - 1
+								&& (p.col == currentPiece.col + 1)).SingleOrDefault();
+					}
+					else if (r == currentPiece.row + 2 && currentPiece is RedKingChecker)
+					{
+						if (grdBoard.Children.OfType<BlackChecker>()
+							.Where(p => p.row == currentPiece.row + 1
+								&& (p.col == currentPiece.col + 1)).SingleOrDefault() != null)
+							opponentPiece = grdBoard.Children.OfType<BlackChecker>()
+								.Where(p => p.row == currentPiece.row + 1
+									&& (p.col == currentPiece.col + 1)).SingleOrDefault();
+						else
+							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
+							.Where(p => p.row == currentPiece.row + 1
 								&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 					}
 				}
 				else if (c == currentPiece.col - 2)
 				{
-					if (r == currentPiece.row + 2)
-					{
-						if (grdBoard.Children.OfType<BlackChecker>()
-							.Where(p => p.row == currentPiece.row + 1
-								&& (p.col == currentPiece.col - 1)).SingleOrDefault() != null)
-							opponentPiece = grdBoard.Children.OfType<BlackChecker>()
-								.Where(p => p.row == currentPiece.row + 1
-									&& (p.col == currentPiece.col - 1)).SingleOrDefault();
-						else
-							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
-							.Where(p => p.row == currentPiece.row + 1
-								&& (p.col == currentPiece.col - 1)).SingleOrDefault();
-					}
-					else if ((r == currentPiece.row - 2 && currentPiece is RedKingChecker))
+					if (r == currentPiece.row - 2)
 					{
 						if (grdBoard.Children.OfType<BlackChecker>()
 							.Where(p => p.row == currentPiece.row - 1
@@ -171,6 +158,19 @@ namespace Checkers.UI
 						else
 							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
 							.Where(p => p.row == currentPiece.row - 1
+								&& (p.col == currentPiece.col - 1)).SingleOrDefault();
+					}
+					else if ((r == currentPiece.row + 2 && currentPiece is RedKingChecker))
+					{
+						if (grdBoard.Children.OfType<BlackChecker>()
+							.Where(p => p.row == currentPiece.row + 1
+								&& (p.col == currentPiece.col - 1)).SingleOrDefault() != null)
+							opponentPiece = grdBoard.Children.OfType<BlackChecker>()
+								.Where(p => p.row == currentPiece.row + 1
+									&& (p.col == currentPiece.col - 1)).SingleOrDefault();
+						else
+							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
+							.Where(p => p.row == currentPiece.row + 1
 								&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 					}
 				}
@@ -181,7 +181,7 @@ namespace Checkers.UI
                 {
                     int validCol = (opponentPiece.col > currentPiece.col) ? 
 						currentPiece.col + 2 : currentPiece.col - 2;
-                    if (((r == currentPiece.row + 2) 
+                    if (((r == currentPiece.row - 2) 
 						|| (Math.Abs(r - currentPiece.row) == 2 
 						&& currentPiece is RedKingChecker)) && c == validCol)
                     {
@@ -220,7 +220,7 @@ namespace Checkers.UI
 				//should never be here
 				//>>Few lines below only for debugging (until "<<")
 				checker = new BlackChecker();
-				if (l.row == currentPiece.row - 1 && 
+				if (l.row == currentPiece.row + 1 && 
 				    (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1))
 				    okToMove = true;
 				CaptureHumanCellInAgentMoveIfAny(r, c, l);
@@ -281,59 +281,59 @@ namespace Checkers.UI
 			//>>
 			if (c == currentPiece.col + 2)
 			{
-				if (r == currentPiece.row - 2)
+				if (r == currentPiece.row + 2)
 				{
 					if (grdBoard.Children.OfType<RedChecker>()
-						.Where(p => p.row == currentPiece.row - 1
+						.Where(p => p.row == currentPiece.row + 1
 							&& (p.col == currentPiece.col + 1)).SingleOrDefault() != null)
 						opponentPiece = grdBoard.Children.OfType<RedChecker>()
-							.Where(p => p.row == currentPiece.row - 1
+							.Where(p => p.row == currentPiece.row + 1
 								&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 					else
 						opponentPiece = grdBoard.Children.OfType<RedKingChecker>()
-						.Where(p => p.row == currentPiece.row - 1
+						.Where(p => p.row == currentPiece.row + 1
 							&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 				}
-				else if (r == currentPiece.row + 2 && currentPiece is BlackKingChecker)
+				else if (r == currentPiece.row - 2 && currentPiece is BlackKingChecker)
 				{
 					if (grdBoard.Children.OfType<RedChecker>()
-					.Where(p => p.row == currentPiece.row + 1
+					.Where(p => p.row == currentPiece.row - 1
 					&& (p.col == currentPiece.col + 1)).SingleOrDefault() != null)
 						opponentPiece = grdBoard.Children.OfType<RedChecker>()
-						.Where(p => p.row == currentPiece.row + 1
+						.Where(p => p.row == currentPiece.row - 1
 						&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 					else
 						opponentPiece = grdBoard.Children.OfType<RedKingChecker>()
-					.Where(p => p.row == currentPiece.row + 1
+					.Where(p => p.row == currentPiece.row - 1
 					&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 				}
 			}
 			else if (c == currentPiece.col - 2)
 			{
-				if (r == currentPiece.row - 2)
+				if (r == currentPiece.row + 2)
 				{
 					if (grdBoard.Children.OfType<RedChecker>()
-						.Where(p => p.row == currentPiece.row - 1
+						.Where(p => p.row == currentPiece.row + 1
 							&& (p.col == currentPiece.col - 1)).SingleOrDefault() != null)
 						opponentPiece = grdBoard.Children.OfType<RedChecker>()
-							.Where(p => p.row == currentPiece.row - 1
+							.Where(p => p.row == currentPiece.row + 1
 								&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 					else
 						opponentPiece = grdBoard.Children.OfType<RedKingChecker>()
-						.Where(p => p.row == currentPiece.row - 1
+						.Where(p => p.row == currentPiece.row + 1
 							&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 				}
-				else if (r == currentPiece.row + 2 && currentPiece is BlackKingChecker)
+				else if (r == currentPiece.row - 2 && currentPiece is BlackKingChecker)
 				{
 					if (grdBoard.Children.OfType<RedChecker>()
-					.Where(p => p.row == currentPiece.row + 1
+					.Where(p => p.row == currentPiece.row - 1
 						&& (p.col == currentPiece.col - 1)).SingleOrDefault() != null)
 						opponentPiece = grdBoard.Children.OfType<RedChecker>()
-						.Where(p => p.row == currentPiece.row + 1
+						.Where(p => p.row == currentPiece.row - 1
 							&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 					else
 						opponentPiece = grdBoard.Children.OfType<RedKingChecker>()
-					.Where(p => p.row == currentPiece.row + 1
+					.Where(p => p.row == currentPiece.row - 1
 						&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 				}
 			}
@@ -344,7 +344,7 @@ namespace Checkers.UI
 			{
 				int validCol = (opponentPiece.col > currentPiece.col) ? 
 					currentPiece.col + 2 : currentPiece.col - 2;
-				if (((r == currentPiece.row - 2) 
+				if (((r == currentPiece.row + 2) 
 					|| (Math.Abs(r - currentPiece.row) == 2 
 					&& currentPiece is BlackKingChecker)) && c == validCol)
 				{
@@ -462,7 +462,7 @@ namespace Checkers.UI
                     Grid.SetRow(l, row);
                     this.grdBoard.Children.Add(l);
 
-                    if (row < 3)
+                    if (row >= grdBoard.RowDefinitions.Count - 3)
                     {
                         RedChecker redChecker = new RedChecker();
                         redChecker.PreviewMouseLeftButtonDown += 
@@ -478,7 +478,7 @@ namespace Checkers.UI
                         Grid.SetRow(redChecker, row);
                         this.grdBoard.Children.Add(redChecker);
                     }
-                    if (row >= grdBoard.RowDefinitions.Count - 3)
+					if (row < 3)
                     {
                         BlackChecker blackChecker = new BlackChecker();
                         blackChecker.PreviewMouseLeftButtonDown += 

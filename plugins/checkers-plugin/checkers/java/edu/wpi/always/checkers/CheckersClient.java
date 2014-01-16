@@ -40,6 +40,8 @@ public class CheckersClient implements CheckersUI {
    public static boolean nod = false;
    public static boolean gameOver = false;
    private static final int HUMAN_IDENTIFIER = 1;
+   
+   public static boolean thereAreGameSpecificTags = false;
 
    private String currentAgentComment;
    private List<String> currentHumanResponseOptions;
@@ -86,18 +88,18 @@ public class CheckersClient implements CheckersUI {
       shouldJumpAgainClarificationStringOptions
       .add("Look, You can jump again!");
       shouldJumpAgainClarificationStringOptions
-      .add("You should jump all the way!");
+      .add("You can jump all the way!");
       //3. user touches agent stuff!
       humantouchedAgentCheckerClarificationStringOptions
       .add("wait that is mine!");
       humantouchedAgentCheckerClarificationStringOptions
       .add("No. You cannot move mine!");
       humantouchedAgentCheckerClarificationStringOptions
-      .add("You see, I am more intelligent than you think!");
+      .add("Oh no cheating!");
       humantouchedAgentCheckerClarificationStringOptions
-      .add("Come on, Let go of my stuff!");
+      .add("Let's do a fair play, shall we?!");
       humantouchedAgentCheckerClarificationStringOptions
-      .add("Nice try");
+      .add("Not my checkers!");
       //4. user touches agent stuff too much!!
       humantouchedTooMuchClarificationStringOptions
       .add("really?!");
@@ -130,10 +132,21 @@ public class CheckersClient implements CheckersUI {
                      Integer.parseInt(moveDesc.split("//")[1].split(",")[0]), 
                      Integer.parseInt(moveDesc.split("//")[1].split(",")[1]));
                
-               //false if user could have jumped but did not
-               if(!gameState.performUserMove(humanMove))
+               //2 if user could have jumped but did not and
+               //1 if user can jump more
+               int stat = gameState.checkAndPlayHumanMove(humanMove);
+               if(stat == 2)
                   listener.shouldHaveJumped();
-               else {
+               else if(stat == 1){
+                  confirmHumanMove();
+                  latestHumanMove = moveAnnotator
+                        .annotate(humanMove, gameState);
+//                  updateWin();
+//                  if (gameState.possibleWinner() > 0)
+//                     makeBoardUnplayable();
+                  listener.shouldHaveJumped();
+               }
+               else if(stat == 0){
                   confirmHumanMove();
                   latestHumanMove = moveAnnotator
                         .annotate(humanMove, gameState);
@@ -173,27 +186,41 @@ public class CheckersClient implements CheckersUI {
    }
    
    @Override
-   public void playAgentMove (CheckersUIListener listener) {
+   public void processAgentMove (CheckersUIListener listener) {
 
       this.listener = listener;
       show();
       if ( currentMove == null )
          return;
-
       scenarioManager.tickAll();
       latestAgentMove = currentMove;
-      gameState.performAgentMove(
+      boolean moreJumpsPossible = gameState.playAgentMove(
             (CheckersLegalMove)currentMove.getMove());
-      
       Message msg = Message
             .builder(MSG_AGENT_MOVE)
             .add("moveDesc",
                   (gameState.makeMoveDesc(
                         (CheckersLegalMove) currentMove.getMove())))
-            .build();
-      
+                        .build();
       dispatcher.send(msg);
       updateWin();
+      
+      //can jump again
+      while(moreJumpsPossible){
+         prepareAgentMove();
+         latestAgentMove = currentMove;
+         moreJumpsPossible = gameState.playAgentMove(
+               (CheckersLegalMove)currentMove.getMove());
+         msg = Message
+               .builder(MSG_AGENT_MOVE)
+               .add("moveDesc",
+                     (gameState.makeMoveDesc(
+                           (CheckersLegalMove) currentMove.getMove())))
+                           .build();
+         dispatcher.send(msg);
+         updateWin();
+      }
+     
    }
 
    @Override
@@ -257,6 +284,7 @@ public class CheckersClient implements CheckersUI {
       // gameState), gameState), scenarioManager.getCurrentScenario()));
       moveChooser.choose(moveAnnotator.annotate(
             moveGenerator.generate(gameState), gameState));
+         
       updateWin();
    }
 

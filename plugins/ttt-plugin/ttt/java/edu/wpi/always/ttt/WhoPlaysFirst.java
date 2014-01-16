@@ -90,8 +90,9 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
          Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean()){
-            //by 75% chance here: full comment exchange
+         if(rnd.nextBoolean() || rnd.nextBoolean() || TTTClient.thereAreGameSpecificTags){
+            //by 75% chance (or if there is game specific comment) here: full comment exchange
+            TTTClient.thereAreGameSpecificTags = false;
             if(new Random().nextBoolean())
                skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
             else
@@ -152,8 +153,9 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
          Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean()){
-            //by 75% chance here: full comment exchange
+         if(rnd.nextBoolean() || rnd.nextBoolean() || TTTClient.thereAreGameSpecificTags){
+            //by 75% chance (or if there is game specific comment) here: full comment exchange
+            TTTClient.thereAreGameSpecificTags = false;
             if(new Random().nextBoolean())
                skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
             else
@@ -203,6 +205,17 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          super("", context);
          TTTClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
+
+         //if no response is there for this agent's comment
+         //which human is responding to, then just go to 
+         //whoever turn it is to play. (No your turn button)
+         if(humanResponseOptions.isEmpty()){
+            if(playerIdentifier == HUMAN_IDENTIFIER)
+               skipTo(new AgentPlayDelay(getContext()));
+            else
+               skipTo(new Limbo(getContext()));
+         }
+         
          if(!TTTClient.gameOver){
             for(String eachCommentOption : humanResponseOptions)
                choice(eachCommentOption, new DialogStateTransition() {

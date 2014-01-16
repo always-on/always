@@ -40,6 +40,8 @@ public class SrummyClient implements SrummyUI {
    public static boolean oneLayoffInHumanTurnAlready = false;
    public static boolean oneMeldInAgentTurnAlready = false;
    public static boolean oneLayoffInAgentTurnAlready = false;
+   
+   public static boolean thereAreGameSpecificTags = false;
 
    private static final int HUMAN_IDENTIFIER = 1;
    //private static final int AGENT_IDENTIFIER = 2;
