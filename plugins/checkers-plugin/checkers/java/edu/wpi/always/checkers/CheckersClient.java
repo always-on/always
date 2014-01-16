@@ -141,9 +141,6 @@ public class CheckersClient implements CheckersUI {
                   confirmHumanMove();
                   latestHumanMove = moveAnnotator
                         .annotate(humanMove, gameState);
-//                  updateWin();
-//                  if (gameState.possibleWinner() > 0)
-//                     makeBoardUnplayable();
                   listener.shouldHaveJumped();
                }
                else if(stat == 0){
