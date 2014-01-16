@@ -185,7 +185,7 @@
 		</comment>
 		<comment strength='0.8' competitiveness='0.6' tags="brag" gameType="generic" madeOn="human">
 			<content>Now did you see that?</content>
-			<response>yes. it was good</response>
+			<response>Yes. it was good</response>
 			<response>Don't get so impressed with yourself. I can do better than that</response>
 			<response>Not bad, not bad at all</response>
 		</comment>
@@ -198,8 +198,8 @@
 		<comment strength='0.5' competitiveness='0.6' tags="compliment" gameType="generic" madeOn="both">
 			<content>I like playing with you </content>
 			<response>Me too, We should play more </response>
-			<response>Glad to hear that, thank you.</response>
-			<response>Well, we are only your creatures</response>
+			<response>Goos to hear that, thank you </response>
+			<response>Well, we are only your creatures </response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.6' tags="compliment" gameType="generic" madeOn="both">
 			<content>Humans enjoy playing games</content>

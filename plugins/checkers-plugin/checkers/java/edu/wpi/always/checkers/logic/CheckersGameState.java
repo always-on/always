@@ -337,6 +337,12 @@ public class CheckersGameState extends GameLogicState{
     */
    public int possibleWinner(){
       
+      //if there are no moves available for a player, (s)he loses.
+      if(getLegalMoves(BLACK) == null)
+         return RED;
+      if(getLegalMoves(RED) == null)
+         return BLACK;
+               
       int redCount = 0, blackCount = 0;
       for(int i = 0; i < 8; i ++){
          for(int j = 0; j < 8; j ++){

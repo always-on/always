@@ -284,6 +284,7 @@ public class CheckersClient implements CheckersUI {
       // gameState), gameState), scenarioManager.getCurrentScenario()));
       moveChooser.choose(moveAnnotator.annotate(
             moveGenerator.generate(gameState), gameState));
+         
       updateWin();
    }
 
