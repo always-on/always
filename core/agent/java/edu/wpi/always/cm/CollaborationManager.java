@@ -5,7 +5,7 @@ import org.picocontainer.*;
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.*;
-import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
+import edu.wpi.always.client.reeti.*;
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.perceptors.sensor.face.*;
 import edu.wpi.always.cm.primitives.*;
@@ -46,7 +46,7 @@ public class CollaborationManager extends DiscoRT {
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Agent.class);
             break;
          case Reeti:
-            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);  
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);
             break;
          case Mirror:
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Mirror.class);
