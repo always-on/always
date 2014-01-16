@@ -21,6 +21,7 @@ public class CheckersGameState extends GameLogicState{
    private static boolean userMultiJumped_ForCMTags = false;
    
    public int[][] board = new int[8][8];
+   public int[][] boardMemory = new int[8][8];
 
    public CheckersGameState(){
       setUpBoard();
@@ -236,6 +237,9 @@ public class CheckersGameState extends GameLogicState{
     * piece becomes a king.
     */
    void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
+      
+      copyCurrentStateToMemory();
+      
       board[toRow][toCol] = board[fromRow][fromCol];
       board[fromRow][fromCol] = EMPTY;
       if (fromRow - toRow == 2 || fromRow - toRow == -2) {
@@ -248,8 +252,17 @@ public class CheckersGameState extends GameLogicState{
          board[toRow][toCol] = BLACK_KING;
       if (toRow == 0 && board[toRow][toCol] == RED)
          board[toRow][toCol] = RED_KING;
-      
    }
+   
+   /**
+    * Copies board state into memory for use in tags
+    */
+   private void copyCurrentStateToMemory(){
+      for (int row = 0; row < 8; row++)
+         for (int col = 0; col < 8; col++)
+            boardMemory[row][col] = board[row][col];
+   }
+   
    
    /**
     * Performs agent's move
@@ -394,10 +407,10 @@ public class CheckersGameState extends GameLogicState{
          agentMultiJumped_ForCMTags = false;
       
       if(player == RED /*user*/ && move.toRow == 0
-         && board[move.fromRow][move.fromCol] != RED_KING)
+         && boardMemory[move.fromRow][move.fromCol] != RED_KING)
             gameSpecificTags.add("humanCrown");
       if(player == BLACK /*agent*/ && move.toRow == 7
-         && board[move.fromRow][move.fromCol] != BLACK_KING)
+         && boardMemory[move.fromRow][move.fromCol] != BLACK_KING)
             gameSpecificTags.add("agentCrown");
       
       if(!gameSpecificTags.isEmpty())
