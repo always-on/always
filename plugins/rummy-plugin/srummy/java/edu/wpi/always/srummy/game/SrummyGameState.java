@@ -1,6 +1,5 @@
 package edu.wpi.always.srummy.game;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -588,6 +587,11 @@ public class SrummyGameState extends GameLogicState {
          tags.add(TWO_MELDS_IN_A_ROW_BY_AGENT);
       if(SrummyClient.twoMeldsInARowByHuman)
          tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
+      
+      if(!tags.isEmpty())
+         SrummyClient.thereAreGameSpecificTags = true;
+      else 
+         SrummyClient.thereAreGameSpecificTags = false;
       
       return tags;
    }
