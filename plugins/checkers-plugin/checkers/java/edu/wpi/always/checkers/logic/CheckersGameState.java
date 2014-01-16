@@ -157,7 +157,7 @@ public class CheckersGameState extends GameLogicState{
     * to the logic of the getLegalMoves() method.
     */
    List<CheckersLegalMove> getLegalJumpsFrom(
-         int player, int row, int col, boolean isThisForMultiJump) {
+         int player, int row, int col) {
       
       if (player != RED && player != BLACK)
          return null;
@@ -171,7 +171,7 @@ public class CheckersGameState extends GameLogicState{
          playerKing = BLACK_KING;
       
       List<CheckersLegalMove> moves = new ArrayList<CheckersLegalMove>();
-      if (isThisForMultiJump || board[row][col] == player || board[row][col] == playerKing) {
+      if (board[row][col] == player || board[row][col] == playerKing) {
          if (canJump(player, row, col, row+1, col+1, row+2, col+2))
             moves.add(new CheckersLegalMove(row, col, row+2, col+2));
          if (canJump(player, row, col, row-1, col+1, row-2, col+2))
@@ -273,7 +273,7 @@ public class CheckersGameState extends GameLogicState{
       
       // Keep jumping if possible 
       if (move.isJump() && 
-            getLegalJumpsFrom(BLACK, move.toRow, move.toCol, true) != null){
+            getLegalJumpsFrom(BLACK, move.toRow, move.toCol) != null){
          agentMultiJumped_ForCMTags = true;
          return true;
       }
@@ -312,23 +312,20 @@ public class CheckersGameState extends GameLogicState{
       // also, agent should say a different thing if 
       // you just did not "continue" to jump. 
       // (further handled in adjacency pairs)
-      if (move.isJump()) {
-         CheckersClient.
-         userJumpedAtLeastOnceInThisTurn = true;
-      }
+      if (move.isJump())
+         CheckersClient.userJumpedAtLeastOnceInThisTurn = true;
 
+      makeMove(move);
+      possibleWinner();
+      
       // if human can jump more
       if(move.isJump() && getLegalJumpsFrom(
-            RED, move.toRow, move.toCol, true) != null){
-         makeMove(move);
-         possibleWinner();
+            RED, move.toRow, move.toCol) != null){
          userMultiJumped_ForCMTags = true;
          return 1;
       }
-            
+      
       // jumped the right amount: >= 0
-      makeMove(move);
-      possibleWinner();
       return 0;
       
    }

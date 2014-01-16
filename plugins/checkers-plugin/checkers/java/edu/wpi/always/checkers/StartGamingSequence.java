@@ -36,7 +36,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          getContext().getCheckersUI().resetGame();
          getContext().getCheckersUI().updatePlugin(this);
       }
-//      getContext().getCheckersUI().makeBoardPlayable(); //NOT YET. Only if user played first or given the option to play first
+//      getContext().getCheckersUI().makeBoardPlayable();
    }
 
    //Limbo as waiting for user move
