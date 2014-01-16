@@ -70,6 +70,8 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReetiCommunication.cs" />
+    <Compile Include="ReetiTranslation.cs" />
     <Compile Include="SoundsLikeExtensions.cs" />
     <Compile Include="SpeechManagerHelper.cs" />
     <Page Include="AgentControl.xaml">

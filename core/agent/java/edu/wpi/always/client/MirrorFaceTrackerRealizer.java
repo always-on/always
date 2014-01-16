@@ -1,5 +1,6 @@
 package edu.wpi.always.client;
 
+import edu.wpi.always.client.reeti.ReetiFaceTrackerRealizer;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
