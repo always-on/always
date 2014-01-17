@@ -33,7 +33,7 @@ namespace Agent.UI
 	{
         public enum AgentType { Unity, Reeti, Mirror };
         
-        public static AgentType agentType;
+        public static AgentType agentType = AgentType.Unity;
 
         private ReetiTranslation AgentTranslate;
 
