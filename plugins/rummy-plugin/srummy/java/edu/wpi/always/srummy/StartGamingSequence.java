@@ -103,8 +103,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          humanCommentOptions = getContext().getSrummyUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
          Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean()){
-            //by 75% chance here: full comment exchange
+         if(rnd.nextBoolean() || rnd.nextBoolean() || SrummyClient.thereAreGameSpecificTags){
+            //by 75% chance (or if there is game specific comment) here: full comment exchange
+            SrummyClient.thereAreGameSpecificTags = false;
             if(new Random().nextBoolean())
                skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
             else
@@ -201,8 +202,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             humanCommentOptions = getContext().getSrummyUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
             Random rnd = new Random();
-            if(rnd.nextBoolean() || rnd.nextBoolean()){
-               //by 75% chance here: full comment exchange
+            if(rnd.nextBoolean() || rnd.nextBoolean() || SrummyClient.thereAreGameSpecificTags){
+               //by 75% chance (or if there is game specific comment) here: full comment exchange
+               SrummyClient.thereAreGameSpecificTags = false;
                if(new Random().nextBoolean())
                   skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
                else
@@ -237,8 +239,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             SrummyClient.twoMeldsInARowByAgent = false;
             //only discard can conclude a turn
             Random rnd = new Random();
-            if(rnd.nextBoolean() || rnd.nextBoolean()){
-               //by 75% chance here: full comment exchange
+            if(rnd.nextBoolean() || rnd.nextBoolean() || SrummyClient.thereAreGameSpecificTags){
+               //by 75% chance (or if there is game specific comment) here: full comment exchange
+               SrummyClient.thereAreGameSpecificTags = false;
                if(new Random().nextBoolean())
                   skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
                else
@@ -308,13 +311,17 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          SrummyClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!SrummyClient.gameOver){
-            if(humanResponseOptions.isEmpty() 
-                  && playerIdentifier == AGENT_IDENTIFIER){
-               //in case no response for this comment and response was 
-               //for a comment by agent on agent move and so it is 
-               //user turn (no "Your Turn" button) >> Just go to Limbo
-               skipTo(new Limbo(getContext()));
+
+            //if no response is there for this agent's comment
+            //which human is responding to, then just go to 
+            //whoever turn it is to play. (No your turn button)
+            if(humanResponseOptions.isEmpty()){
+               if(playerIdentifier == HUMAN_IDENTIFIER)
+                  skipTo(new AgentPlayDelay(getContext()));
+               else
+                  skipTo(new Limbo(getContext()));
             }
+            
             for(String eachCommentOption : humanResponseOptions){
                choice(eachCommentOption, new DialogStateTransition() {
                   @Override

@@ -1,6 +1,10 @@
 package edu.wpi.always.client.reeti;
 
-public class ReetiPIDController extends ReetiJsonConfiguration {
+import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
+
+public class ReetiPIDController {
+   
+   private final ReetiJsonConfiguration config;
 
    private double kpXNeck = 0.05, kpYNeck = 0.08; // For the future
                                                   // improvements: kiNeck = 0,
@@ -46,7 +50,8 @@ public class ReetiPIDController extends ReetiJsonConfiguration {
 
    private double eyeYError = 0;
 
-   public ReetiPIDController () {
+   ReetiPIDController (ReetiJsonConfiguration config) {
+      this.config = config;
       setNeckXPIDoutput(this.neckInitialOutputXPID);
       setEyeXPIDoutput(this.eyeInitialOutputXPID);
    }

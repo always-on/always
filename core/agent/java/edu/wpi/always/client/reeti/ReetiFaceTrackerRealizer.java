@@ -8,6 +8,7 @@ import edu.wpi.always.cm.primitives.FaceTrackBehavior;
 import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
+import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 
 enum Directions {
    xDIRECTION, yDIRECTION, bothDIRECTIONS
@@ -35,7 +36,8 @@ public class ReetiFaceTrackerRealizer extends
    private String lastMessage = "";
 
    public ReetiFaceTrackerRealizer (FaceTrackBehavior params,
-         FacePerceptor perceptor, CollaborationManager cm, ClientProxy proxy) {
+         FacePerceptor perceptor, CollaborationManager cm, ClientProxy proxy,
+         ReetiJsonConfiguration config) {
 
       super(params);
       this.perceptor = perceptor;
@@ -43,7 +45,7 @@ public class ReetiFaceTrackerRealizer extends
       double InputXPID = 0;
       double InputYPID = 0;
 
-      reetiPIDOutput = new ReetiPIDMessages();
+      reetiPIDOutput = new ReetiPIDMessages(config);
 
       // get socket connection
       client = cm.getReetiSocket();

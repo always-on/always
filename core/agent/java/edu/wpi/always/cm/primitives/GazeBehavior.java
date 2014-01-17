@@ -11,7 +11,7 @@ public class GazeBehavior extends PrimitiveBehavior {
     * Agent gaze for thinking (up and left)
     */
    public static final GazeBehavior THINKING = 
-         new GazeBehavior(GazeRealizer.translateAgentTurn(0.5f, 0.5f));
+         new GazeBehavior(GazeRealizer.translateAgentTurn(0.7f, 0.85f));
 
    /**
     * Agent gaze directly at user.
@@ -23,7 +23,7 @@ public class GazeBehavior extends PrimitiveBehavior {
     * Agent gaze toward plugin area (down and right).
     */
    public static final GazeBehavior PLUGIN = 
-         new GazeBehavior(GazeRealizer.translateAgentTurn(-1f, -0.5f));
+         new GazeBehavior(GazeRealizer.translateAgentTurn(-1f, -1f));
   
    private final Point point;
 
