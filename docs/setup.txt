@@ -33,6 +33,8 @@ including:
    Eclipse 3.8 (Juno) Service Release 1
    Visual Studio 2010 SP1 (Target Platform: Any CPU)
    Git 1.7
+   Unity Plugin 4.3.3f1 or later
+    (visit http://unity3d.com/webplayer to check version and download)
 
    Target Display Size 1600x900
 
