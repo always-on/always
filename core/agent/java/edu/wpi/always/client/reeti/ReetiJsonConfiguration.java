@@ -157,7 +157,7 @@ public class ReetiJsonConfiguration {
          this.neckPan = Double.valueOf((String) jsonObject.get("neckPan"));
 
       } catch (ParseException e) {
-         e.printStackTrace();
+         throw new RuntimeException(e);
       }
 
    }
