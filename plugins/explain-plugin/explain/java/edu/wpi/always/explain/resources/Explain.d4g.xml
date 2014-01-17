@@ -83,7 +83,7 @@
 
   <agent id="_StartRest" 
          text="I have told you about some of the activities we can do together.  There are a few more.  Want to hear about them?" >
-    <user text="yes, please do." />
+    <user text="yes, I do." />
     <user text="no thanks." eval="noThanks=true" >
     </user>
     <user text="I would rather hear about all the activities again" 

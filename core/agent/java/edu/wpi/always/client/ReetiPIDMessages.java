@@ -1,15 +1,14 @@
 package edu.wpi.always.client;
 
-import edu.wpi.always.client.*;
+import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 
 public class ReetiPIDMessages {
-   private ReetiPIDController XPID;
-
-   private ReetiPIDController YPID;
-
-   public ReetiPIDMessages () {
-      XPID = new ReetiPIDController();
-      YPID = new ReetiPIDController();
+   
+   private final ReetiPIDController XPID, YPID;
+   
+   public ReetiPIDMessages (ReetiJsonConfiguration config) {
+      XPID = new ReetiPIDController(config);
+      YPID = new ReetiPIDController(config);
    };
 
    private void SetXPID (double center) {

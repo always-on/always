@@ -91,6 +91,12 @@ public class ClientProxy {
       enqueue("toggleAgent");
    }
    
+   public static float ZOOM = 0.5f;
+   
+   public void zoom (float zoom) {
+      say("<CAMERA ZOOM="+ZOOM+">");
+   }
+   
    public void reetiIP (String address) {
       HashMap<String, String> p = Maps.newHashMap();
       p.put("address", address);
