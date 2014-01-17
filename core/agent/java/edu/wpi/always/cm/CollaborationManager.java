@@ -77,6 +77,7 @@ public class CollaborationManager extends DiscoRT {
          proxy.reetiIP(host);
          reetiSocket = new ReetiCommandSocketConnection(host);
       }
+      if ( Always.getAgentType() != AgentType.Reeti ) proxy.zoom(ClientProxy.ZOOM);
       if ( plugin == null ) setSchema(null, SessionSchema.class);
    }
    
