@@ -227,6 +227,7 @@ public class CheckersGameState extends GameLogicState{
     */
    void makeMove(CheckersLegalMove move) {
       makeMove(move.fromRow, move.fromCol, move.toRow, move.toCol);
+//      this.visualize(); //only for debug
    }
    
    /**

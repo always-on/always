@@ -19,6 +19,7 @@ public interface CheckersUI {
    List<String> getCurrentHumanCommentOptionsAgentResponseForAMoveBy (int player);
    List<String> getCurrentHumanResponseOptions ();
    String getCurrentAgentResponse (String humanChoosenComment);
+   void triggerAgentMultiJumpTimer (CheckersUIListener listener);
    public void makeBoardPlayable();
    public void makeBoardUnplayable();
 

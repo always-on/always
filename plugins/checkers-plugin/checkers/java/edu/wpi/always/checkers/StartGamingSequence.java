@@ -270,18 +270,59 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getCheckersUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
-         Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean() || CheckersClient.thereAreGameSpecificTags){
-            //by 75% chance (or if there is game specific comment) here: full comment exchange
-            CheckersClient.thereAreGameSpecificTags = false;
-            if(new Random().nextBoolean())
-               skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
-            else
-               skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+         
+         if(!CheckersClient.moreJumpsPossible){
+            Random rnd = new Random();
+            if(rnd.nextBoolean() || rnd.nextBoolean() || CheckersClient.thereAreGameSpecificTags){
+               //by 75% chance (or if there is game specific comment) here: full comment exchange
+               CheckersClient.thereAreGameSpecificTags = false;
+               if(new Random().nextBoolean())
+                  skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
+               else
+                  skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+            }
+            else{
+               //by 25% chance here: no comment exchange
+               skipTo(new Limbo(getContext()));
+            }
          }
+         else
+            skipTo(new AgentPlaysMultiJump(getContext()));
+      }
+   }
+   
+   public static class AgentPlaysMultiJump extends CheckersAdjacencyPairImpl {
+      public AgentPlaysMultiJump(final CheckersStateContext context){
+         super("", context);
+      }
+      @Override
+      public void enter(){
+         getContext().getCheckersUI().triggerAgentMultiJumpTimer(this);
+         getContext().getCheckersUI().prepareAgentCommentUserResponseForAMoveBy(
+               AGENT_IDENTIFIER);
+         currentAgentComment = getContext().getCheckersUI()
+               .getCurrentAgentComment();
+         humanCommentOptions = getContext().getCheckersUI()
+               .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
+      }
+      @Override
+      protected void agentMultiJumpConfirmed(){
+         if(CheckersClient.moreJumpsPossible)
+            skipTo(new AgentPlaysMultiJump(getContext()));
          else{
-            //by 25% chance here: no comment exchange
-            skipTo(new Limbo(getContext()));
+            Random rnd = new Random();
+            if(rnd.nextBoolean() || rnd.nextBoolean() || CheckersClient.thereAreGameSpecificTags){
+               //by 75% chance (or if there is game specific comment) here: full comment exchange
+               CheckersClient.thereAreGameSpecificTags = false;
+               if(new Random().nextBoolean())
+                  skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
+               else
+                  skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
+            }
+            else{
+               //by 25% chance here: no comment exchange
+               skipTo(new Limbo(getContext()));
+            }
          }
       }
    }
