@@ -44,7 +44,7 @@ public class DiscoRT implements Startable {
       public Interaction (Actor system, Actor external) {
          super(system, external);
          setName("edu.wpi.disco.rt.DiscoRT.Interaction");
-         getDisco().DEBUG = true; // so exceptions thrown
+         getConsole().THROW = true; // so exceptions thrown
       }
       
       public void setSchema (Schema schema) { setGlobal("$schema", schema); } 

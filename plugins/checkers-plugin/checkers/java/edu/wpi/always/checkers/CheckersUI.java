@@ -7,7 +7,7 @@ public interface CheckersUI {
 
    public void prepareAgentMove();
    public void triggerAgentPlayTimer();
-   public void playAgentMove(CheckersUIListener listener);
+   public void processAgentMove(CheckersUIListener listener);
    public String getCurrentAgentComment();
    public void triggerHumanCommentingTimer();
    public void cancelHumanCommentingTimer();
