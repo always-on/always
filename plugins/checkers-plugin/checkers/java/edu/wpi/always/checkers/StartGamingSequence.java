@@ -19,7 +19,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
    private static String whichClarification = "";
    
    public StartGamingSequence(final CheckersStateContext context) {
-      super("Let's play checkers, I will play Gray.", context);
+      super("Let's play checkers, I will play gray and you play red.", context);
       choice("Ok", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {
