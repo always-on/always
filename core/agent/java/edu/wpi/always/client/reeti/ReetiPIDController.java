@@ -1,4 +1,4 @@
-package edu.wpi.always.client;
+package edu.wpi.always.client.reeti;
 
 import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 
@@ -13,6 +13,8 @@ public class ReetiPIDController {
    private double kpXEye = 0.03, kpYEye = 0.03; // For the future improvements:
                                                 // kiEye = 0, kdEye = 0;
 
+   private ReetiJsonConfiguration reetiJsonConfig;
+
    private double inputXPID = 0, inputYPID = 0, neckXPIDoutput,
          neckYPIDoutput = 50, eyeXPIDoutput, eyeYPIDoutput = 42.55;
 
@@ -24,21 +26,17 @@ public class ReetiPIDController {
 
    private boolean eyeReachedYLimit = false;
 
-   private double neckInitialOutputXPID = 50; // TODO: This should come by
-                                              // reading from
-                                              // Reeti's json profile.
+   private double neckInitialOutputXPID = reetiJsonConfig.getNeckRotat(); // Was
+                                                                          // 50
 
-   private double neckInitialOutputYPID = 55.56; // TODO: This should come by
-                                                 // reading from
-                                                 // Reeti's json profile.
+   private double neckInitialOutputYPID = reetiJsonConfig.getNeckTilt(); // Was
+                                                                         // 55.56
 
-   private double eyeInitialOutputXPID = 50; // TODO: This should come by
-                                             // reading from
-                                             // Reeti's json profile.
+   private double eyeInitialOutputXPID = reetiJsonConfig.getLeftEyePan(); // Was
+                                                                          // 50
 
-   private double eyeInitialOutputYPID = 42.55; // TODO: This should come by
-                                                // reading from
-                                                // Reeti's json profile.
+   private double eyeInitialOutputYPID = reetiJsonConfig.getLeftEyeTilt(); // Was
+                                                                           // 42.55
 
    private final int setPointXPID = 160;
 
