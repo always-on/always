@@ -3,18 +3,33 @@
 // \version 1.0
 
 //personal modules to load
+if(isDelayLoaded == false)
+{
+        try{
+                loadModule("/home/reeti/reetiPrograms/UModules/delay.so");
+		var Global.Delay = uobjects.Delay.new();
+                isDelayLoaded = true;
+		cout << "loaded";
+		outErr << "WARNING:";
+        }
+        catch{
+                outErr << "WARNING: Load module UDelay FAIL\n";
+                isDelayLoaded = false;
+        }
+};
+
 if(isLookAwayLoaded == false)
 {
         try{
                 loadModule("/home/reeti/reetiPrograms/UModules/lookaway.so");
 		var Global.LookAway = uobjects.LookAway.new();
-                isLookAwayLoaded=true;
-		cout<<"loaded";
+                isLookAwayLoaded = true;
+		cout << "loaded";
 		outErr << "WARNING:";
         }
         catch{
                 outErr << "WARNING: Load module ULookAway FAIL\n";
-                isLookAwayLoaded=false;
+                isLookAwayLoaded = false;
         }
 };
 
@@ -23,13 +38,13 @@ if(isTalkLoaded == false)
         try{
                 loadModule("/home/reeti/reetiPrograms/UModules/talk.so");
 		var Global.Talk = uobjects.Talk.new();
-                isTalkLoaded=true;
-		cout<<"loaded";
+                isTalkLoaded = true;
+		cout << "loaded";
 		outErr << "WARNING:";
         }
         catch{
                 outErr << "WARNING: Load module UTalk FAIL\n";
-                isTalkLoaded=false;
+                isTalkLoaded = false;
         }
 };
 
@@ -38,13 +53,13 @@ if(isSmallNodLoaded == false)
         try{
                 loadModule("/home/reeti/reetiPrograms/UModules/smallnod.so");
 		var Global.SmallNod = uobjects.SmallNod.new();
-                isSmallNodLoaded=true;
-		cout<<"loaded";
+                isSmallNodLoaded = true;
+		cout << "loaded";
 		outErr << "WARNING:";
         }
         catch{
                 outErr << "WARNING: Load module USmallNod FAIL\n";
-                isSmallNodLoaded=false;
+                isSmallNodLoaded = false;
         }
 };
 
@@ -53,13 +68,13 @@ if(isBigNodLoaded == false)
         try{
                 loadModule("/home/reeti/reetiPrograms/UModules/bignod.so");
 		var Global.BigNod = uobjects.BigNod.new();
-                isBigNodLoaded=true;
-		cout<<"loaded";
+                isBigNodLoaded = true;
+		cout << "loaded";
 		outErr << "WARNING:";
         }
         catch{
                 outErr << "WARNING: Load module UBigNod FAIL\n";
-                isBigNodLoaded=false;
+                isBigNodLoaded = false;
         }
 };
 
@@ -68,13 +83,13 @@ if(isGreetingsLoaded == false)
         try{
                 loadModule("/home/reeti/reetiPrograms/UModules/greetings.so");
 		var Global.GreetTime = uobjects.Greetings.new();
-                isGreetingsLoaded=true;
-		cout<<"loaded";
+                isGreetingsLoaded = true;
+		cout << "loaded";
 		outErr << "WARNING:";
         }
         catch{
                 outErr << "WARNING: Load module UGreetings FAIL\n";
-                isGreetingsLoaded=false;
+                isGreetingsLoaded = false;
         }
 };
 
@@ -83,27 +98,28 @@ if(isSadLoaded == false)
         try{
                 loadModule("/home/reeti/reetiPrograms/UModules/sad.so");
 		var Global.Sad = uobjects.Sad.new();
-                isSadLoaded=true;
-		cout<<"loaded";
+                isSadLoaded = true;
+		cout << "loaded";
 		outErr << "WARNING:";
         }
         catch{
                 outErr << "WARNING: Load module USad FAIL\n";
-                isSadLoaded=false;
+                isSadLoaded = false;
         }
 };
+
 if(isHappyLoaded == false)
 {
 	try{
                 loadModule("/home/reeti/reetiPrograms/UModules/happy.so");
 		var Global.Happy = uobjects.Happy.new();
-                isHappyLoaded=true;
-		cout<<"loaded";
+                isHappyLoaded = true;
+		cout << "loaded";
 		outErr << "WARNING:";
         }
         catch{
                 outErr << "WARNING: Load module UHappy FAIL\n";
-                isHappyLoaded=false;
+                isHappyLoaded = false;
         }
 };
 
@@ -112,13 +128,13 @@ if(isSurpriseLoaded == false)
         try{
                 loadModule("/home/reeti/reetiPrograms/UModules/surprise.so");
 		var Global.Surprise = uobjects.Surprise.new();
-                isSurpriseLoaded=true;
-		cout<<"loaded";
+                isSurpriseLoaded = true;
+		cout << "loaded";
 		outErr << "WARNING:";
         }
         catch{
                 outErr << "WARNING: Load module USurprise FAIL\n";
-                isSurpriseLoaded=false;
+                isSurpriseLoaded = false;
         }
 };
 
@@ -127,10 +143,10 @@ if(isUExhibitorLoaded == false)
         try{
                 loadModule("/home/reeti/reetiPrograms/UModules/libUExhibitor.so");
                 var Global.exhibitor = uobjects.UExhibitor.new(2);
-                isUExhibitorLoaded=true;
+                isUExhibitorLoaded = true;
         }
         catch{
                 outErr << "WARNING: Load module UExhibitor FAIL\n";
-                isUExhibitorLoaded=false;
+                isUExhibitorLoaded = false;
         }
 };

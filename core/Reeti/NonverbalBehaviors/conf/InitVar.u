@@ -14,6 +14,7 @@ var isHappyLoaded      = false;
 var isSadLoaded        = false;
 var isTalkLoaded       = false;
 var isLookAwayLoaded   = false;
+var isDelayLoaded      = false;
 
 //var isMonModuleLoaded = false ;
 //var isUFaceTrackLoaded = false;
