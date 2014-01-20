@@ -20,7 +20,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          new ArrayList<String>();
 
    public StartGamingSequence(final SrummyStateContext context) {
-      super("Let's play rummy", context);
+      super("Ok, you play first.", context);
       System.out.println(">>>> StartGamingSequence");
       choice("Ok", new DialogStateTransition() {
          @Override
