@@ -6,7 +6,7 @@
 if(isDelayLoaded == false)
 {
         try{
-                loadModule("/home/reeti/reetiPrograms/UModules/delay.so");
+                loadModule("/home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src/delay.so");
 		var Global.Delay = uobjects.Delay.new();
                 isDelayLoaded = true;
 		cout << "loaded";
@@ -21,7 +21,7 @@ if(isDelayLoaded == false)
 if(isLookAwayLoaded == false)
 {
         try{
-                loadModule("/home/reeti/reetiPrograms/UModules/lookaway.so");
+                loadModule("/home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src/lookaway.so");
 		var Global.LookAway = uobjects.LookAway.new();
                 isLookAwayLoaded = true;
 		cout << "loaded";
@@ -36,7 +36,7 @@ if(isLookAwayLoaded == false)
 if(isTalkLoaded == false)
 {
         try{
-                loadModule("/home/reeti/reetiPrograms/UModules/talk.so");
+                loadModule("/home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src/talk.so");
 		var Global.Talk = uobjects.Talk.new();
                 isTalkLoaded = true;
 		cout << "loaded";
@@ -51,7 +51,7 @@ if(isTalkLoaded == false)
 if(isSmallNodLoaded == false)
 {
         try{
-                loadModule("/home/reeti/reetiPrograms/UModules/smallnod.so");
+                loadModule("/home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src/smallnod.so");
 		var Global.SmallNod = uobjects.SmallNod.new();
                 isSmallNodLoaded = true;
 		cout << "loaded";
@@ -66,7 +66,7 @@ if(isSmallNodLoaded == false)
 if(isBigNodLoaded == false)
 {
         try{
-                loadModule("/home/reeti/reetiPrograms/UModules/bignod.so");
+                loadModule("/home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src/bignod.so");
 		var Global.BigNod = uobjects.BigNod.new();
                 isBigNodLoaded = true;
 		cout << "loaded";
@@ -81,7 +81,7 @@ if(isBigNodLoaded == false)
 if(isGreetingsLoaded == false)
 {
         try{
-                loadModule("/home/reeti/reetiPrograms/UModules/greetings.so");
+                loadModule("/home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src/greetings.so");
 		var Global.GreetTime = uobjects.Greetings.new();
                 isGreetingsLoaded = true;
 		cout << "loaded";
@@ -96,7 +96,7 @@ if(isGreetingsLoaded == false)
 if(isSadLoaded == false)
 {
         try{
-                loadModule("/home/reeti/reetiPrograms/UModules/sad.so");
+                loadModule("/home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src/sad.so");
 		var Global.Sad = uobjects.Sad.new();
                 isSadLoaded = true;
 		cout << "loaded";
@@ -111,7 +111,7 @@ if(isSadLoaded == false)
 if(isHappyLoaded == false)
 {
 	try{
-                loadModule("/home/reeti/reetiPrograms/UModules/happy.so");
+                loadModule("/home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src/happy.so");
 		var Global.Happy = uobjects.Happy.new();
                 isHappyLoaded = true;
 		cout << "loaded";
@@ -126,7 +126,7 @@ if(isHappyLoaded == false)
 if(isSurpriseLoaded == false)
 {
         try{
-                loadModule("/home/reeti/reetiPrograms/UModules/surprise.so");
+                loadModule("/home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src/surprise.so");
 		var Global.Surprise = uobjects.Surprise.new();
                 isSurpriseLoaded = true;
 		cout << "loaded";

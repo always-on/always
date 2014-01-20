@@ -6,9 +6,8 @@ LIBRARYTALK = talk.so
 LIBRARYLOOKAWAY = lookaway.so
 LIBRARYDELAY = delay.so
 
-SOURCEFOLDER = /home/reeti/ReetiDevelopment/ReetiDev/src
-TARGETFOLDER = /home/reeti/reetiPrograms/UModules
-CONFIGURATIONSOURCE = /home/reeti/ReetiDevelopment/ReetiDev/conf/
+SOURCEFOLDER = /home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src
+CONFIGURATIONSOURCE = /home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/conf/
 CONFIGURATIONTARGET = /home/reeti/reetiPrograms/load
 
 SOURCESAD =						\
@@ -43,7 +42,6 @@ LDFLAGS = $$(pkg-config opencv --libs)
 CXXFLAGS = $$(pkg-config opencv --cflags)
 
 all: $(LIBRARYSAD) $(LIBRARYHAPPY) $(LIBRARYSMALLNOD) $(LIBRARYBIGNOD) $(LIBRARYTALK) $(LIBRARYLOOKAWAY) $(LIBRARYDELAY)
-	cp $(LIBRARYSAD) $(LIBRARYHAPPY) $(LIBRARYSMALLNOD) $(LIBRARYBIGNOD) $(LIBRARYTALK) $(LIBRARYLOOKAWAY) $(LIBRARYDELAY) $(TARGETFOLDER)
 	cp $(CONFIGURATIONSOURCE)/InitModule.u $(CONFIGURATIONSOURCE)/InitVar.u  $(CONFIGURATIONTARGET)
 	@echo "Compilation done."
 
