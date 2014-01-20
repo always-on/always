@@ -650,9 +650,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          }
          else{
             currentAgentComment = "";
-            //CheckersClient.gazeDirection = "user";
-            humanCommentOptions = getContext().getCheckersUI()
-                  .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(playerIdentifier);
+            //CheckersClient.gazeDirection = "useronce";
             getContext().getCheckersUI().updatePlugin(this);
             //getContext().getCheckersUI().triggerHumanCommentingTimer();
             //         if(playerIdentifier == AGENT_IDENTIFIER)
@@ -673,8 +671,6 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         getContext().getCheckersUI().prepareAgentCommentUserResponseForAMoveBy(
-               playerIdentifier);
          currentAgentResponse = getContext().getCheckersUI()
                .getCurrentAgentResponse(humanChoosenComment);
          getContext().getCheckersUI().updatePlugin(this);

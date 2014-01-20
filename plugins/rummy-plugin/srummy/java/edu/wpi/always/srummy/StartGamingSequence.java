@@ -427,8 +427,6 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          }
          currentAgentComment = "";
          //SrummyClient.gazeDirection = "user";
-         humanCommentOptions = getContext().getSrummyUI()
-               .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(playerIdentifier);
          getContext().getSrummyUI().updatePlugin(this);
          //getContext().getSrummyUI().triggerHumanCommentingTimer();
          //if(playerIdentifier == AGENT_IDENTIFIER)
@@ -448,8 +446,6 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
-               playerIdentifier);
          currentAgentResponse = getContext().getSrummyUI()
                .getCurrentAgentResponse(humanChoosenComment);
          getContext().getSrummyUI().updatePlugin(this);

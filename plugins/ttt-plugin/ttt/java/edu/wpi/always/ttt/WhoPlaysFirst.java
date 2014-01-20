@@ -321,10 +321,6 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          }
          currentAgentComment = "";
          //TTTClient.gazeDirection = "user";
-         humanCommentOptions = getContext().getTTTUI()
-               .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(playerIdentifier);
-         //get responses
-         
          getContext().getTTTUI().updatePlugin(this);
          //getContext().getTTTUI().triggerHumanCommentingTimer();
          if(playerIdentifier == AGENT_IDENTIFIER)
@@ -344,8 +340,6 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override
       public void enter(){
-         getContext().getTTTUI().prepareAgentCommentUserResponseForAMoveBy(
-               playerIdentifier);
          currentAgentResponse = getContext().getTTTUI()
                .getCurrentAgentResponse(humanChoosenComment);
          getContext().getTTTUI().updatePlugin(this);
