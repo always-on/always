@@ -2,7 +2,6 @@ package edu.wpi.always.ttt;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import edu.wpi.disco.rt.menu.*;
 
 public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
@@ -68,11 +67,11 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
             humanResponseOptions.addAll(getContext().getTTTUI()
                   .getCurrentHumanResponseOptions());
             }catch(Exception e){/*in case no response exists*/}
-            if(new Random().nextBoolean())
+            if(TTTClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
                skipTo(new gameOverDialogueByHuman(getContext()));
-            if(new Random().nextBoolean())
+            if(TTTClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
                skipTo(new gameOverDialogueByHuman(getContext()));
@@ -109,11 +108,11 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
             humanResponseOptions.addAll(getContext().getTTTUI()
                   .getCurrentHumanResponseOptions());
             }catch(Exception e){/*in case no response exists*/}
-            if(new Random().nextBoolean())
+            if(TTTClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
                skipTo(new gameOverDialogueByHuman(getContext()));
-            if(new Random().nextBoolean())
+            if(TTTClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
                skipTo(new gameOverDialogueByHuman(getContext()));
@@ -126,11 +125,10 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                   .getCurrentAgentComment();
             humanCommentOptions = getContext().getTTTUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
-            Random rnd = new Random();
-            if(rnd.nextBoolean() || rnd.nextBoolean() || TTTClient.thereAreGameSpecificTags){
+            if( TTTClient.random.nextBoolean() ||  TTTClient.random.nextBoolean() || TTTClient.thereAreGameSpecificTags){
                //by 75% chance (or if there is game specific comment) here: full comment exchange
                TTTClient.thereAreGameSpecificTags = false;
-               if(new Random().nextBoolean())
+               if(TTTClient.random.nextBoolean())
                   skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
                else
                   skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
@@ -163,7 +161,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
             humanResponseOptions.addAll(getContext().getTTTUI()
                   .getCurrentHumanResponseOptions());
             }catch(Exception e){/*in case no response exists*/}
-            if(new Random().nextBoolean())
+            if(TTTClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
                skipTo(new gameOverDialogueByHuman(getContext()));
@@ -200,11 +198,10 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
-         Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean() || TTTClient.thereAreGameSpecificTags){
+         if( TTTClient.random.nextBoolean() ||  TTTClient.random.nextBoolean() || TTTClient.thereAreGameSpecificTags){
             //by 75% chance (or if there is game specific comment) here: full comment exchange
             TTTClient.thereAreGameSpecificTags = false;
-            if(new Random().nextBoolean())
+            if(TTTClient.random.nextBoolean())
                skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
             else
                skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
@@ -239,7 +236,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          }catch(Exception e){/*in case no response exists*/}
          if(TTTClient.gameOver){
             TTTClient.gazeDirection = "";
-            if(new Random().nextBoolean())
+            if(TTTClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
                skipTo(new gameOverDialogueByHuman(getContext()));
@@ -317,7 +314,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
          if(TTTClient.gameOver){
             TTTClient.gazeDirection = "";
             TTTClient.gazeDirection = "board";
-            if(new Random().nextBoolean())
+            if(TTTClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
                skipTo(new gameOverDialogueByHuman(getContext()));
@@ -394,7 +391,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
                      .getCurrentHumanResponseOptions());
             }catch(Exception e){/*in case no response exists*/}
             TTTClient.gazeDirection = "";
-            if(new Random().nextBoolean())
+            if(TTTClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
                skipTo(new gameOverDialogueByHuman(getContext()));

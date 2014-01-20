@@ -61,6 +61,8 @@ public class TTTClient implements TTTUI {
 
    private TTTAnnotatedLegalMove latestAgentMove;
    private TTTAnnotatedLegalMove latestHumanMove;
+   
+   public static Random random;
 
    public TTTClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
       this.proxy = proxy;
@@ -75,6 +77,8 @@ public class TTTClient implements TTTUI {
       gameState = new TTTGameState();
       currentHumanResponseOptions = new ArrayList<String>();
       currentAgentResponseOptions = new HashMap<String, String>();
+      random = new Random();
+      random.setSeed(12345);
       
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override

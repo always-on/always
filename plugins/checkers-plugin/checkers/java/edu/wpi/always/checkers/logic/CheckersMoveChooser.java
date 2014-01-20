@@ -29,9 +29,12 @@ public class CheckersMoveChooser extends MoveChooser{
          if(eachMove.getMoveStrength() >= maxStrength)
             candidates.add(eachMove);
 
-      Collections.shuffle(candidates);
+//      Collections.shuffle(candidates);
 
       AnnotatedLegalMove selected = null;
+      
+      Random rnd = new Random();
+      rnd.setSeed(12345);
       
       if(multiJump){
          for(AnnotatedLegalMove each : candidates){
@@ -46,7 +49,7 @@ public class CheckersMoveChooser extends MoveChooser{
       }
       else
          selected = candidates.get(
-               new Random().nextInt(candidates.size()));
+               rnd.nextInt(candidates.size()));
 
       moveMemory = selected;
       return selected;

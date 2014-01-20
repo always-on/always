@@ -2,7 +2,6 @@ package edu.wpi.always.srummy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import edu.wpi.disco.rt.menu.*;
 
 public class StartGamingSequence extends SrummyAdjacencyPairImpl {
@@ -102,11 +101,11 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getSrummyUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
-         Random rnd = new Random();
-         if(rnd.nextBoolean() || rnd.nextBoolean() || SrummyClient.thereAreGameSpecificTags){
+         if(SrummyClient.random.nextBoolean() || SrummyClient.random.nextBoolean() 
+               || SrummyClient.thereAreGameSpecificTags){
             //by 75% chance (or if there is game specific comment) here: full comment exchange
             SrummyClient.thereAreGameSpecificTags = false;
-            if(new Random().nextBoolean())
+            if(SrummyClient.random.nextBoolean())
                skipTo(new AgentComments(getContext(), HUMAN_IDENTIFIER));
             else
                skipTo(new HumanComments(getContext(), HUMAN_IDENTIFIER));
@@ -201,11 +200,11 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                   .getCurrentAgentComment();
             humanCommentOptions = getContext().getSrummyUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
-            Random rnd = new Random();
-            if(rnd.nextBoolean() || rnd.nextBoolean() || SrummyClient.thereAreGameSpecificTags){
+            if(SrummyClient.random.nextBoolean() || SrummyClient.random.nextBoolean() 
+                  || SrummyClient.thereAreGameSpecificTags){
                //by 75% chance (or if there is game specific comment) here: full comment exchange
                SrummyClient.thereAreGameSpecificTags = false;
-               if(new Random().nextBoolean())
+               if(SrummyClient.random.nextBoolean())
                   skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
                else
                   skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));
@@ -238,11 +237,11 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             SrummyClient.agentDrawn = false;
             SrummyClient.twoMeldsInARowByAgent = false;
             //only discard can conclude a turn
-            Random rnd = new Random();
-            if(rnd.nextBoolean() || rnd.nextBoolean() || SrummyClient.thereAreGameSpecificTags){
+            if(SrummyClient.random.nextBoolean() || SrummyClient.random.nextBoolean() 
+                  || SrummyClient.thereAreGameSpecificTags){
                //by 75% chance (or if there is game specific comment) here: full comment exchange
                SrummyClient.thereAreGameSpecificTags = false;
-               if(new Random().nextBoolean())
+               if(SrummyClient.random.nextBoolean())
                   skipTo(new AgentComments(getContext(), AGENT_IDENTIFIER));
                else
                   skipTo(new HumanComments(getContext(), AGENT_IDENTIFIER));

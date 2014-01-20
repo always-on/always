@@ -70,6 +70,8 @@ public class CheckersClient implements CheckersUI {
    private AnnotatedLegalMove latestHumanMove;
    
    private static boolean agentMultiJumpInProcess;
+   
+   public static Random random;
 
    public CheckersClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
       this.proxy = proxy;
@@ -121,6 +123,9 @@ public class CheckersClient implements CheckersUI {
       gameState = new CheckersGameState();
       currentHumanResponseOptions = new ArrayList<String>();
       currentAgentResponseOptions = new HashMap<String, String>();
+      
+      random = new Random();
+      random.setSeed(12345);
       
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override
