@@ -15,12 +15,7 @@ int SmallNod::init()
 
 	//Declaring play to URBI
 	UBindFunction(SmallNod, play) ;
-
-	//Declare something to URBI
-	//UBindVar(HeadNod, color) ;
-
-	//Création d’une callback sur la variable something
-	//UNotifyChange(color, &HeadNod::ChangeLEDcolor);
+	
 	return 0;
 }
 
@@ -32,11 +27,4 @@ int SmallNod ::play()
 
 	return 1;
 }
-
-//Function calledas soon as something variable changes
-/*int HeadNod::ChangeLEDcolor(UVar& _color)
-{
-	//Get the UVar in a classical type
-	send("Global.servo.color=Global.head.color;");
-}*/
 

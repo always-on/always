@@ -17,21 +17,18 @@ using namespace urbi;
 //our class inherits from UObject
 class Talk:public UObject{
 	public:
-	//default constructor, always with an argument : const string&
-	Talk(const string &n);
+		//default constructor, always with an argument : const string&
+		Talk(const string &n);
 
-	// ‘‘Real’’ constructor URBI taking an int and a string
-	int init();
+		// ‘‘Real’’ constructor URBI taking an int and a string
+		int init();
 
-	//A declared function to URBI
-	int play(double t);
-
-	//A declared function to URBI
-	//int stop();
+		//A declared function to URBI
+		int play(double t);
 
 	private:
-	// client to send orders to URBI
-	UClient * client;
+		// client to send orders to URBI
+		UClient * client;
 };
 #endif
 

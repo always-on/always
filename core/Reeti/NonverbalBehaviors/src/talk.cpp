@@ -1,6 +1,7 @@
 #include"talk.h"
 #include<sstream>
 #include<iostream>
+#include<unistd.h>
 
 bool mouthStateFlag = false;
 
@@ -19,9 +20,6 @@ int Talk::init()
 	//Declaring play to URBI
 	UBindFunction(Talk, play);
 
-	//Declaring stop to URBI
-	//UBindFunction(Talk, stop);
-
 	return 0;
 }
 
@@ -33,28 +31,14 @@ int Talk::play(double time)
 	strBottomoLipOpen << "Global.servo.bottomLip=10 smooth:" << time << "s;";
 	strBottomoLipClose << "Global.servo.bottomLip=80 smooth:" << time << "s;";
 
-	if(mouthStateFlag == false)
-	{
-		//send( strBottomoLipOpen.str() );
-		send( "Global.servo.color=\"red\";" );
-		mouthStateFlag = true;
-	}
-	else
-	{
-		//send( strBottomoLipClose.str() );
-		send( "Global.servo.color=\"green\";" );
-		mouthStateFlag = false;
-	}
+	send( strBottomoLipOpen.str() );
+
+	usleep(1000);
+
+	send( strBottomoLipClose.str() );
 
 	strBottomoLipOpen.clear();
 	strBottomoLipClose.clear();
 
 	return 1;
 }
-
-/*int Talk::stop()
-{
-	send( "Global.servo.color=\"green\";" );
-
-	return 1;
-}*/

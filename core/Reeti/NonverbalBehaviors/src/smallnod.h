@@ -18,24 +18,24 @@ using namespace urbi;
 class SmallNod:public UObject{
 
 	public:
-	//default constructor, always with an argument : const string&
-	SmallNod(const string &n);
+		//default constructor, always with an argument : const string&
+		SmallNod(const string &n);
 
-	// ‘‘Real’’ constructor URBI taking an int and a string
-	int init();
+		// ‘‘Real’’ constructor URBI taking an int and a string
+		int init();
 
-	//A declared function to URBI
-	int play();
+		//A declared function to URBI
+		int play();
 
 	private:
-	// client to send orders to URBI
-	UClient * client;
+		// client to send orders to URBI
+		UClient * client;
 
-	// UVar declared to URBI
-	UVar color;
+		// UVar declared to URBI
+		UVar color;
 
-	// Callback function on « something » changes
-	int ChangeLEDcolor(UVar& var);
+		// Callback function on « something » changes
+		int ChangeLEDcolor(UVar& var);
 };
 #endif
 

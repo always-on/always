@@ -15,8 +15,10 @@ int Sad::init()
 
 	//Declaring play to URBI
 	UBindFunction(Sad, play) ;
+	
 	//Declare something to URBI
 	UBindVar(Sad, color) ;
+	
 	//Création d’une callback sur la variable something
 	UNotifyChange(color, &Sad::ChangeLEDcolor);
 
