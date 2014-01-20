@@ -101,13 +101,13 @@ namespace Agent.UI
             {
                 SendCommand(headNod);
             }
-            if (Command.Contains("DELAY"))
+            else if (Command.Contains("DELAY"))
             {
                 System.Threading.Thread.Sleep(getDelayAmount(Command));
             }
 
             //TODO: check if face tracking!!!
-            if (Command.Contains("GAZE")) //&& task.Equals("speech") )
+            else if (Command.Contains("GAZE")) //&& task.Equals("speech") )
             {
                 double HorOutput = mapOutput(HORIZONTAL, findOutput(HORIZONTAL, Command));
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
@@ -132,19 +132,19 @@ namespace Agent.UI
                     SendCommand("Global.LookAway.lookAwayAtRight();");
                 }
             }
-            if (Command.Contains("CONCERN"))
+            else if (Command.Contains("CONCERN"))
             {
                 SendCommand(concernFace);
             }
-            if (Command.Contains("SMILE"))
+            else if (Command.Contains("SMILE"))
             {
                 SendCommand(smileFace);
             }
-            if (Command.Contains("WARM"))
+            else if (Command.Contains("WARM"))
             {
                 SendCommand(neutralPosition);
             }
-            if (Command.Contains("BEGINSPEECH"))
+            else if (Command.Contains("BEGINSPEECH"))
             {
                 if (DateTime.Now.Second != intBeginSpeechLastSecond)
                 {
