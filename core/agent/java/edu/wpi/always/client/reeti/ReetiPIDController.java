@@ -3,8 +3,8 @@ package edu.wpi.always.client.reeti;
 import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 
 public class ReetiPIDController {
-   
-   private final ReetiJsonConfiguration config;
+
+   private ReetiJsonConfiguration config;
 
    private double kpXNeck = 0.05, kpYNeck = 0.08; // For the future
                                                   // improvements: kiNeck = 0,
@@ -12,8 +12,6 @@ public class ReetiPIDController {
 
    private double kpXEye = 0.03, kpYEye = 0.03; // For the future improvements:
                                                 // kiEye = 0, kdEye = 0;
-
-   private ReetiJsonConfiguration reetiJsonConfig;
 
    private double inputXPID = 0, inputYPID = 0, neckXPIDoutput,
          neckYPIDoutput = 50, eyeXPIDoutput, eyeYPIDoutput = 42.55;
@@ -26,17 +24,13 @@ public class ReetiPIDController {
 
    private boolean eyeReachedYLimit = false;
 
-   private double neckInitialOutputXPID = reetiJsonConfig.getNeckRotat(); // Was
-                                                                          // 50
+   private double neckInitialOutputXPID = config.getNeckRotat(); // Was 50
 
-   private double neckInitialOutputYPID = reetiJsonConfig.getNeckTilt(); // Was
-                                                                         // 55.56
+   private double neckInitialOutputYPID = config.getNeckTilt(); // Was 55.56
 
-   private double eyeInitialOutputXPID = reetiJsonConfig.getLeftEyePan(); // Was
-                                                                          // 50
+   private double eyeInitialOutputXPID = config.getLeftEyePan(); // Was 50
 
-   private double eyeInitialOutputYPID = reetiJsonConfig.getLeftEyeTilt(); // Was
-                                                                           // 42.55
+   private double eyeInitialOutputYPID = config.getLeftEyeTilt(); // Was 42.55
 
    private final int setPointXPID = 160;
 
@@ -51,9 +45,10 @@ public class ReetiPIDController {
    private double eyeYError = 0;
 
    ReetiPIDController (ReetiJsonConfiguration config) {
-      this.config = config;
       setNeckXPIDoutput(this.neckInitialOutputXPID);
       setEyeXPIDoutput(this.eyeInitialOutputXPID);
+
+      this.config = config;
    }
 
    private void neckXPIDcontroller () {
