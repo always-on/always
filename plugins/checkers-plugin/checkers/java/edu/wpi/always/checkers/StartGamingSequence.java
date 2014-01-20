@@ -48,6 +48,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       @Override
       public void enter() {
          if(CheckersClient.gameOver){
+            CheckersClient.gazeDirection = "";
             humanCommentOptions = getContext().getCheckersUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(
                         AGENT_IDENTIFIER);
@@ -233,6 +234,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       public void enter(){
          CheckersClient.userJumpedAtLeastOnceInThisTurn = false;
          if(CheckersClient.gameOver){
+            CheckersClient.gazeDirection = "";
             humanCommentOptions = getContext().getCheckersUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
             getContext().getCheckersUI().prepareAgentCommentUserResponseForAMoveBy(
@@ -270,6 +272,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       public void enter(){
          CheckersClient.gazeDirection = "board";
          if(CheckersClient.gameOver){
+            CheckersClient.gazeDirection = "";
             getContext().getCheckersUI().prepareAgentCommentUserResponseForAMoveBy(
                   AGENT_IDENTIFIER);
             currentAgentComment = getContext().getCheckersUI()
@@ -369,6 +372,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                   .getCurrentHumanResponseOptions());
          }catch(Exception e){/*in case no response exists*/}
          if(CheckersClient.gameOver){
+            CheckersClient.gazeDirection = "";
             if(new Random().nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
@@ -506,6 +510,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          humanCommentOptions = getContext().getCheckersUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(playerIdentifier);
          if(CheckersClient.gameOver){
+            CheckersClient.gazeDirection = "";
             if(new Random().nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
@@ -514,7 +519,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          else{
             getContext().getCheckersUI().updatePlugin(this);
             //getContext().getCheckersUI().triggerHumanCommentingTimer();
-            //         if(playerIdentifier == AGENT_IDENTIFIER)
+            //if(playerIdentifier == AGENT_IDENTIFIER)
             getContext().getCheckersUI().makeBoardPlayable();
          }
       }
@@ -626,6 +631,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       public void enter() {
          CheckersClient.gazeDirection = "useronce";
          if(CheckersClient.gameOver){
+            CheckersClient.gazeDirection = "";
             humanCommentOptions = getContext().getCheckersUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
             getContext().getCheckersUI().prepareAgentCommentUserResponseForAMoveBy(
