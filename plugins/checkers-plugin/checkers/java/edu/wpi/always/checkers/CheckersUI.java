@@ -11,7 +11,7 @@ public interface CheckersUI {
    public String getCurrentAgentComment();
    public void triggerHumanCommentingTimer();
    public void cancelHumanCommentingTimer();
-   public void triggerNextStateTimer();
+   public void triggerNextStateTimer(CheckersUIListener listener);
    public void startPluginForTheFirstTime(CheckersUIListener listener);
    public void updatePlugin(CheckersUIListener listener);
    public void resetGame();

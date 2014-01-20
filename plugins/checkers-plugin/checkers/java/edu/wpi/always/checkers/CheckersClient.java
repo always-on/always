@@ -396,7 +396,8 @@ public class CheckersClient implements CheckersUI {
    }
    
    @Override
-   public void triggerNextStateTimer () {
+   public void triggerNextStateTimer (CheckersUIListener listener) {
+      this.listener = listener;
       nextStateTimer = new Timer();
       nextStateTimer.schedule(new NextStateTimerSetter(),
             4000);
@@ -409,8 +410,14 @@ public class CheckersClient implements CheckersUI {
    }
    
    private void updateWin () {
-      if ( gameState.possibleWinner() != 0 )
+      int res = gameState.possibleWinner();
+      if ( res != 0 ){
          CheckersClient.gameOver = true;
+         if( res == 1 )
+            gameState.userWins = true;
+         else
+            gameState.agentWins = true;
+      }
    }
 
    public void show () {
