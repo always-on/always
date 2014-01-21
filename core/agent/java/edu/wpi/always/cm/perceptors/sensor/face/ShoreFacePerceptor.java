@@ -38,15 +38,15 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    public void run () {
 
       info = getFaceInfo(0);
-      prevInfo = info;
 
       if ( info != null ) {
-         if ( isRealFace() ) {
-            latest = new FacePerception(DateTime.now(), info.intTop,
-                  info.intBottom, info.intLeft, info.intRight, info.intArea,
-                  info.intCenter, info.intTiltCenter);
+         if ( prevInfo != null ) {
+            if ( isRealFace() ) {
+               latest = new FacePerception(DateTime.now(), info.intTop,
+                     info.intBottom, info.intLeft, info.intRight, info.intArea,
+                     info.intCenter, info.intTiltCenter);
+            }
          }
-
          prevInfo = info;
       }
    }
