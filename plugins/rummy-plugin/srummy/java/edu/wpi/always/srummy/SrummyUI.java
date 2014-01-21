@@ -10,7 +10,7 @@ public interface SrummyUI {
    public void triggerAgentDiscardDelay ();
    public void cancelHumanCommentingTimer();
    public void triggerHumanCommentingTimer();
-   public void triggerNextStateTimer();
+   public void triggerNextStateTimer(SrummyUIListener listener);
    public void startPluginForTheFirstTime(SrummyUIListener listener);
    public void updatePlugin(SrummyUIListener listener);
    public void sendBackAgentMove ();
@@ -19,7 +19,7 @@ public interface SrummyUI {
    List<String> getCurrentHumanCommentOptionsAgentResponseForAMoveBy (int player);
    void prepareAgentCommentUserResponseForAMoveBy (int player);
    List<String> getCurrentHumanResponseOptions ();
-   //   public void makeBoardPlayable();
-   //   public void makeBoardUnplayable();
+   public void makeBoardPlayable();
+   public void makeBoardUnplayable();
 
 }

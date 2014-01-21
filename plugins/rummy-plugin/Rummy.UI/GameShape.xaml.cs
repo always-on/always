@@ -205,5 +205,21 @@ namespace Rummy.UI
 
             return null;
         }
+
+		public void MakeTheBoardPlayable()
+		{
+			this.Dispatcher.Invoke((Action)(() =>
+			{
+				MainCanvas.IsEnabled = true;
+			}));
+		}
+
+		public void MakeTheBoardUnplayable()
+		{
+			this.Dispatcher.Invoke((Action)(() =>
+			{
+				MainCanvas.IsEnabled = false;
+			}));
+		}
     }
 }
