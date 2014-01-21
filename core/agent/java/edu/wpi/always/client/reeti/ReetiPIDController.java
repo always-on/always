@@ -1,10 +1,10 @@
-package edu.wpi.always.client;
+package edu.wpi.always.client.reeti;
 
 import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 
 public class ReetiPIDController {
-   
-   private final ReetiJsonConfiguration config;
+
+   private ReetiJsonConfiguration config;
 
    private double kpXNeck = 0.05, kpYNeck = 0.08; // For the future
                                                   // improvements: kiNeck = 0,
@@ -24,21 +24,13 @@ public class ReetiPIDController {
 
    private boolean eyeReachedYLimit = false;
 
-   private double neckInitialOutputXPID = 50; // TODO: This should come by
-                                              // reading from
-                                              // Reeti's json profile.
+   private double neckInitialOutputXPID = config.getNeckRotat(); // Was 50
 
-   private double neckInitialOutputYPID = 55.56; // TODO: This should come by
-                                                 // reading from
-                                                 // Reeti's json profile.
+   private double neckInitialOutputYPID = config.getNeckTilt(); // Was 55.56
 
-   private double eyeInitialOutputXPID = 50; // TODO: This should come by
-                                             // reading from
-                                             // Reeti's json profile.
+   private double eyeInitialOutputXPID = config.getLeftEyePan(); // Was 50
 
-   private double eyeInitialOutputYPID = 42.55; // TODO: This should come by
-                                                // reading from
-                                                // Reeti's json profile.
+   private double eyeInitialOutputYPID = config.getLeftEyeTilt(); // Was 42.55
 
    private final int setPointXPID = 160;
 
@@ -53,9 +45,10 @@ public class ReetiPIDController {
    private double eyeYError = 0;
 
    ReetiPIDController (ReetiJsonConfiguration config) {
-      this.config = config;
       setNeckXPIDoutput(this.neckInitialOutputXPID);
       setEyeXPIDoutput(this.eyeInitialOutputXPID);
+
+      this.config = config;
    }
 
    private void neckXPIDcontroller () {
