@@ -32,8 +32,10 @@ namespace Agent.UI
 	public partial class AgentControl : UserControl, IAgentControl
 	{
         public enum AgentType { Unity, Reeti, Mirror };
+        
+        public static AgentType agentType = AgentType.Unity;
 
-		public static AgentType agentType = AgentType.Unity;
+        private ReetiTranslation AgentTranslate;
 
         UnityUserControl.UnityUserControl agent;
 		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
@@ -49,6 +51,9 @@ namespace Agent.UI
             InitializeComponent();
 
             InitAgent();
+
+            if( (agentType == AgentType.Reeti) || (agentType == AgentType.Mirror) )
+                AgentTranslate = new ReetiTranslation();
         }
 
         private void agentCallbackListener(object sender, AgentEvent e)
@@ -62,13 +67,18 @@ namespace Agent.UI
             switch (e.eventType)
             {
                 case "viseme":
-                    //Put Reeti code here
+                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                        AgentTranslate.TranslateToReetiCommand("speech", "BEGINSPEECH");
                     break;
                 case "bookmark":
-                    //Put Reeti code here
+                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                        AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "end":
-                    ActionDone(this,new ActionDoneEventArgs("speech",e.sourceUtterance));
+                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                        AgentTranslate.TranslateToReetiCommand("speech", "ENDSPEECH");
+
+                    ActionDone(this,new ActionDoneEventArgs("speech", e.sourceUtterance));
                     break;
             }
         }
@@ -136,6 +146,8 @@ namespace Agent.UI
 
         private void Perform(string xmlCommand)
         {
+            if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                AgentTranslate.TranslateToReetiCommand("perform", xmlCommand);
             xmlMessage.LoadXml(xmlCommand);
             agent.perform(xmlMessage);
         }

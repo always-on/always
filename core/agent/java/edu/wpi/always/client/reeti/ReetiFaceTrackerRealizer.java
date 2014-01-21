@@ -1,4 +1,4 @@
-package edu.wpi.always.client;
+package edu.wpi.always.client.reeti;
 
 import java.awt.Point;
 import edu.wpi.always.cm.CollaborationManager;

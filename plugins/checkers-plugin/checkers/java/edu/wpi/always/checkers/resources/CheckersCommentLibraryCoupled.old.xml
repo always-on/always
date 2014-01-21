@@ -1,0 +1,250 @@
+<?xml version="1.0"?>
+
+<!--
+	THE GAME SPECIFIC (TIC TAC TOE) COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
+	AUTHOR: MORTEZA BEHROOZ
+	WORCESTER POLYTECHNIC INSTITUTE 
+-->
+
+<!--
+	> Attributes brief description:
+	- strength: determines how much of a strong move should it be, 
+	the move which this comment is being made for, human's or agent's.
+	- competitiveness: how competitive the comment sounds.
+	- tags: the social tags which comment carries.
+	- gameType: if a specific type of game the comment is made for.
+	- gameName: if a specific game the comment is made for.
+	- madeOn: to be made on agent's move, human's or both.
+	
+	> agent and human sections contain comments which should 
+	be made by each of them.
+	
+	PLEASE REFER TO SOCIAL GAMEPLAY FRAMEWORK DOCUMENTS FOR FURTHER INFORMATION.
+-->
+
+<comments>
+
+	<agent>
+		<comment competitiveness='0.3' tags="agentCrown/compliment" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Crowned! Yes!</content>
+			<response>Do not be so sure!</response>
+			<response>Nice!</response>
+			<response>That won't get you anywhere.</response>
+		</comment>
+		<comment competitiveness='0.7' tags="agentCrown/brag" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Now that is coming back to get you!</content>
+			<response>Oh my goodness!</response>
+			<response>Do your best!</response>
+			<response>Nice!</response>
+		</comment>
+		<comment competitiveness='0.8' tags="agentCrown/brag" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Pay respect to the crown!</content>
+			<response>Haha, unlikely</response>
+			<response>Just a soldier walking backward!</response>
+			<response>Indeed!</response>
+		</comment>
+		<comment competitiveness='0.6' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Had to hit you, sorry</content>
+			<response>Yes, that's the best place to start</response>
+			<response>But I can still win</response>
+			<response>Now watch this</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			<content>One less checker for you</content>
+			<response>Do not be so sure</response>
+			<response>Awesome, keep at it</response>
+			<response>I wish I had that</response>
+		</comment>
+		<comment competitiveness='0.6' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			<content>And that checker is out!</content>
+			<response>It did hurt, I should say</response>
+			<response>Awesome, keep at it</response>
+			<response>Haha, whatever</response>
+		</comment>
+		<comment competitiveness='0.6' tags="agentCaptureALot/brag" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Jump and jump, haha</content>
+			<response>Be careful not to fall!</response>
+			<response>That was nice</response>
+			<response>Do not be so sure!</response>
+		</comment>
+		<comment competitiveness='0.7' tags="agentCaptureALot" gameType="board" gameName="checkers" madeOn="agent">
+			<content>And that's what you call a killer move</content>
+			<response>That was nothing!</response>
+			<response>Well, let's see where it gets you</response>
+			<response>I don't think so!</response>
+		</comment>
+		<comment competitiveness='0.3' tags="agentCaptureALot" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Wow! I seem to love jumping!</content>
+			<response>Yes! I see!</response>
+			<response>Oh, C'mon!</response>
+			<response>Nice moves</response>
+		</comment>
+		<comment competitiveness='0.1' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			<content>You crowned, Nice!</content>
+			<response>Yup!</response>
+			<response>Haha, let's see where it takes me</response>
+			<response>It's nothing big</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			<content>Oh, now you can walk back to hunt me!</content>
+			<response>Oh yes!</response>
+			<response>Haha, do not worry!!</response>
+			<response>That's the plan!</response>
+		</comment>
+		<comment competitiveness='0.1' tags="humanCrown/compliment" gameType="board" gameName="checkers" madeOn="human">
+			<content>Nice move!</content>
+			<response>Haha</response>
+			<response>Thanks</response>
+			<response>I know!</response>
+		</comment>
+		<comment competitiveness='0.1' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			<content>Wow, you got me there</content>
+			<response>Yes I did!</response>
+			<response>Had to hit you</response>
+			<response>Haha, true</response>
+		</comment>
+		<comment competitiveness='0.9' tags="humanCapture/offense/brag" gameType="board" gameName="checkers" madeOn="human">
+			<content>No one hits me, how dare you?</content>
+			<response>Maybe not other agents, I do!</response>
+			<response>Easily!</response>
+			<response>Cool down madam robot</response>
+		</comment>
+		<comment competitiveness='0.1' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			<content>Outch!</content>
+			<response>Had to hit you!</response>
+			<response>Haha, on less checker for you!</response>
+			<response>It hurts ha?!</response>
+		</comment>
+		<comment competitiveness='0.3' tags="humanCaptureALot" gameType="board" gameName="checkers" madeOn="human">
+			<content>I see what you did there</content>
+			<response>Oh yes!</response>
+			<response>You had it coming!</response>
+			<response>Cause I am awesome!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanCaptureALot/brag" gameType="board" gameName="checkers" madeOn="human">
+			<content>I see there is a jumping ceremony over there</content>
+			<response>Of course it is!</response>
+			<response>Yes, you are invited too!</response>
+			<response>It's not that big of a deal</response>
+		</comment>
+		<comment competitiveness='0.1' tags="humanCaptureALot/compliment" gameType="board" gameName="checkers" madeOn="human">
+			<content>Nice set of moves</content>
+			<response>Thanks</response>
+			<response>That is how humans do it!</response>
+			<response>Expect no less from me!</response>
+		</comment>
+	</agent>
+	
+	<human>
+		<comment competitiveness='0.1' tags="agentCrown/compliment" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Nice crowning there!</content>
+			<response>Thanks</response>
+			<response>Pay respect to the king I guess</response>
+			<response>Now I can walk back and hunt your checkers</response>
+		</comment>
+		<comment competitiveness='0.3' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Oh now you can walk backwards</content>
+			<response>Oh yes! Nice.</response>
+			<response>Well then be ready for it</response>
+			<response>You are right, so be careful</response>
+		</comment>
+		<comment competitiveness='0.6' tags="agentCrown/brag" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Crowning won't get you anywhere</content>
+			<response>Well I would disagree!</response>
+			<response>Well, let's see</response>
+			<response>Unlikely!</response>
+		</comment>
+		<comment competitiveness='0.3' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Outch!</content>
+			<response>Haha, get used to that</response>
+			<response>Sorry had to hit you</response>
+			<response>I know it hurts!</response>
+			<response>Oh sorry, stupid game rules</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentCapture/compliment" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Nice you got me there</content>
+			<response>I know! thanks</response>
+			<response>Awesome</response>
+			<response>Cool</response>
+		</comment>
+		<comment competitiveness='0.9' tags="agentCapture/brag/offense" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Rude robot, don't hit me!</content>
+			<response>What can I say? I am brilliant</response>
+			<response>It's just a game</response>
+			<response>Do not take it personal!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentCaptureALot" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Jump after jump!</content>
+			<response>Yes! I loved it</response>
+			<response>It's my jumping exercise</response>
+			<response>Yes I am that awesome</response>
+		</comment>
+		<comment competitiveness='0.1' tags="agentCaptureALot/compliment" gameType="board" gameName="checkers" madeOn="agent">
+			<content>Such a killer move</content>
+			<response>I know! Thanks</response>
+			<response>I am so proud of my creators right now</response>
+			<response>Robots rule</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentCaptureALot/brag" gameType="board" gameName="checkers" madeOn="agent">
+			<content>You seem to enjoy jumping on my checkers</content>
+			<response>Oh yes. I very much do!</response>
+			<response>Haha, you know I had to</response>
+			<response>Absolutely, do not doubt it</response>
+		</comment>
+		<comment competitiveness='0.3' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			<content>Yes, crowned!</content>
+			<response>Oh you can walk back now!</response>
+			<response>Let's see where it takes you!</response>
+			<response>That won't get you anywhere</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			<content>Oh, now I can walk back to hunt you!</content>
+			<response>Oh yes!</response>
+			<response>I wouldn't worry!</response>
+			<response>Good luck!</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
+			<content>Say hello to the new king!</content>
+			<response>Hello. Your monarchy ends soon!</response>
+			<response>Crowning won't get you anywhere</response>
+			<response>Do not get too excited</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanCapture/brag" gameType="board" gameName="checkers" madeOn="human">
+			<content>Haha, how does that feel?</content>
+			<response>Outch!</response>
+			<response>Not so good</response>
+			<response>It motivates me to win!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			<content>Feels so good to jump like this!</content>
+			<response>Well, I am happy for you</response>
+			<response>Not for long</response>
+			<response>Haha, I know</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			<content>Now get that!</content>
+			<response>I got it and lost a piece for it</response>
+			<response>Very nice</response>
+			<response>Outch</response>
+		</comment>
+		<comment competitiveness='0.7' tags="humanCaptureALot/brag" gameType="board" gameName="checkers" madeOn="human">
+			<content>And my jumping ceremony began!</content>
+			<response>Unlikely</response>
+			<response>Until I start mine</response>
+			<response>Good luck with that</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanCaptureALot/brag" gameType="board" gameName="checkers" madeOn="human">
+			<content>Jump after jump for me!</content>
+			<response>I know, you are so good</response>
+			<response>Do not get too excited, I can win this</response>
+			<response>Nice</response>
+		</comment>
+		<comment competitiveness='0.9' tags="humanCaptureALot/brag" gameType="board" gameName="checkers" madeOn="human">
+			<content>That is how it's done</content>
+			<response>Oh yes! Nice.</response>
+			<response>I can do even better</response>
+			<response>You are such a master</response>
+		</comment>
+	</human>
+	
+</comments>
