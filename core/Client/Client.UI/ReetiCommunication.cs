@@ -12,9 +12,6 @@ namespace Agent.UI
 {
     class ReetiCommunication
     {
-        //The value of this field is given once in App.xaml.cs file.
-        public static readonly String agentType;
-
         // State object for receiving data from remote device.
         public class StateObject
         {
