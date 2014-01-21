@@ -388,7 +388,7 @@ namespace Checkers.UI
 					RedKingChecker deadman = new RedKingChecker();
 					Storyboard AddToGraveyard =
 						deadman.Resources["AddToGraveyard"] as Storyboard;
-					this.pnlRedGraveyard.Children.Add(deadman);
+					this.pnlBlackGraveyard.Children.Add(deadman);
 					AddToGraveyard.Begin();
 				}
 				else if (capturedPiece is BlackKingChecker)
