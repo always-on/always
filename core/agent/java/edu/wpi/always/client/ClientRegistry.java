@@ -2,7 +2,7 @@ package edu.wpi.always.client;
 
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
-import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
+import edu.wpi.always.client.reeti.*;
 import edu.wpi.always.cm.primitives.AudioFileRealizer;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;

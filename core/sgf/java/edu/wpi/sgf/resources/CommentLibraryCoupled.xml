@@ -32,7 +32,7 @@
 			<response>Such a bad show, haha</response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="human">
-			<content>I should say, you do play very good</content>
+			<content>I should say, you do play very well</content>
 			<response>Thank you, you do too</response>
 			<response>Thanks, you can learn!</response>
 			<response>You too</response>
@@ -171,7 +171,7 @@
 			<response>Well prove it</response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.2' tags="compliment" gameType="generic" madeOn="agent">
-			<content>You do play very good</content>
+			<content>You do play very well</content>
 			<response>Thank you very much, you too</response>
 			<response>I learn from smart people like you</response>
 			<response>Such an encouragement to hear that</response>
