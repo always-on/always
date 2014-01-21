@@ -62,8 +62,10 @@ implements CheckersUIListener {
    }
    protected void agentStuffWasTouched (int howManyTimes){}
 
-   //   @Override
-   //   public void receivedNewState() {
-   //   }
-
+   @Override
+   public void agentMultiJumpedOneMore(){
+      agentMultiJumpConfirmed();
+   }
+   protected void agentMultiJumpConfirmed(){}
+   
 }

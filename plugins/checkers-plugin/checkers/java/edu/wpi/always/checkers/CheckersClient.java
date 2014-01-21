@@ -20,7 +20,6 @@ public class CheckersClient implements CheckersUI {
    private static final String MSG_HUMAN_TOUCHED_AGENT_PIECE = "checkers.touched_agent_piece";
    private static final String MSG_BOARD_PLAYABILITY = "checkers.playability";
    private static final String MSG_RESET = "checkers.reset";
-   
    public static List<String> shouldHaveJumpedClarificationStringOptions =
          new ArrayList<String>();
    public static List<String> shouldJumpAgainClarificationStringOptions =
@@ -36,6 +35,7 @@ public class CheckersClient implements CheckersUI {
 
    public static String gazeDirection = "";
    public static boolean userJumpedAtLeastOnceInThisTurn = false;
+   public static boolean moreJumpsPossible = false;
    
    public static boolean nod = false;
    public static boolean gameOver = false;
@@ -56,7 +56,7 @@ public class CheckersClient implements CheckersUI {
    private CheckersLegalMoveAnnotator moveAnnotator;
    private ScenarioManager scenarioManager;
    // private ScenarioFilter scenarioFilter;
-   private MoveChooser moveChooser;
+   private CheckersMoveChooser moveChooser;
    private CommentingManager commentingManager;
    private CheckersGameState gameState;
 
@@ -64,9 +64,14 @@ public class CheckersClient implements CheckersUI {
    private Timer agentPlayDelayTimer;
    private Timer agentPlayingGazeDelayTimer;
    private Timer nextStateTimer;
+   private Timer agentMultiJumpTimer;
 
    private AnnotatedLegalMove latestAgentMove;
    private AnnotatedLegalMove latestHumanMove;
+   
+   private static boolean agentMultiJumpInProcess;
+   
+   public static Random random;
 
    public CheckersClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
       this.proxy = proxy;
@@ -113,11 +118,14 @@ public class CheckersClient implements CheckersUI {
       moveAnnotator = new CheckersLegalMoveAnnotator();
       commentingManager = new CheckersCommentingManager();
       //scenarioFilter = new ScenarioFilter();
-      moveChooser = new MoveChooser();
+      moveChooser = new CheckersMoveChooser();
       scenarioManager = new ScenarioManager();
       gameState = new CheckersGameState();
       currentHumanResponseOptions = new ArrayList<String>();
       currentAgentResponseOptions = new HashMap<String, String>();
+      
+      random = new Random();
+      random.setSeed(12345);
       
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override
@@ -141,9 +149,6 @@ public class CheckersClient implements CheckersUI {
                   confirmHumanMove();
                   latestHumanMove = moveAnnotator
                         .annotate(humanMove, gameState);
-//                  updateWin();
-//                  if (gameState.possibleWinner() > 0)
-//                     makeBoardUnplayable();
                   listener.shouldHaveJumped();
                }
                else if(stat == 0){
@@ -194,7 +199,7 @@ public class CheckersClient implements CheckersUI {
          return;
       scenarioManager.tickAll();
       latestAgentMove = currentMove;
-      boolean moreJumpsPossible = gameState.playAgentMove(
+      moreJumpsPossible = gameState.playAgentMove(
             (CheckersLegalMove)currentMove.getMove());
       Message msg = Message
             .builder(MSG_AGENT_MOVE)
@@ -205,13 +210,26 @@ public class CheckersClient implements CheckersUI {
       dispatcher.send(msg);
       updateWin();
       
-      //can jump again
-      while(moreJumpsPossible){
+   }  
+   
+   @Override
+   public void triggerAgentMultiJumpTimer (CheckersUIListener listener) {
+      this.listener = listener;
+      moreJumpsPossible = false;
+      agentMultiJumpTimer = new Timer();
+      agentMultiJumpTimer.schedule(new AgentMultiJumpTimerAction(),
+            2000);
+   }
+   
+   class AgentMultiJumpTimerAction extends TimerTask {
+      @Override
+      public void run () {
+         agentMultiJumpInProcess = true;
          prepareAgentMove();
          latestAgentMove = currentMove;
          moreJumpsPossible = gameState.playAgentMove(
                (CheckersLegalMove)currentMove.getMove());
-         msg = Message
+         Message msg = Message
                .builder(MSG_AGENT_MOVE)
                .add("moveDesc",
                      (gameState.makeMoveDesc(
@@ -219,8 +237,8 @@ public class CheckersClient implements CheckersUI {
                            .build();
          dispatcher.send(msg);
          updateWin();
+         listener.agentMultiJumpedOneMore();
       }
-     
    }
 
    @Override
@@ -283,8 +301,8 @@ public class CheckersClient implements CheckersUI {
       // moveAnnotator.annotate(moveGenerator.generate(
       // gameState), gameState), scenarioManager.getCurrentScenario()));
       moveChooser.choose(moveAnnotator.annotate(
-            moveGenerator.generate(gameState), gameState));
-         
+            moveGenerator.generate(gameState), gameState), agentMultiJumpInProcess);
+      agentMultiJumpInProcess = false;
       updateWin();
    }
 
@@ -383,7 +401,8 @@ public class CheckersClient implements CheckersUI {
    }
    
    @Override
-   public void triggerNextStateTimer () {
+   public void triggerNextStateTimer (CheckersUIListener listener) {
+      this.listener = listener;
       nextStateTimer = new Timer();
       nextStateTimer.schedule(new NextStateTimerSetter(),
             4000);
@@ -396,8 +415,14 @@ public class CheckersClient implements CheckersUI {
    }
    
    private void updateWin () {
-      if ( gameState.possibleWinner() != 0 )
+      int res = gameState.possibleWinner();
+      if ( res != 0 ){
          CheckersClient.gameOver = true;
+         if( res == 1 )
+            gameState.userWins = true;
+         else
+            gameState.agentWins = true;
+      }
    }
 
    public void show () {

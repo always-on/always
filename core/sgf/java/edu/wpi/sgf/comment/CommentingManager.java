@@ -1,7 +1,6 @@
 package edu.wpi.sgf.comment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
@@ -142,25 +141,30 @@ public class CommentingManager {
    //utilities:
    public static <E> List<E> shuffleAndGetMax3(
          List<E> someObjects){
+      Random rnd = new Random();
+      rnd.setSeed(12345);
       if(someObjects.isEmpty())
          return null;
       List<E> final3 = new ArrayList<E>();
       if(someObjects.size() > 3){
-         Collections.shuffle(someObjects);
+//       Collections.shuffle(someObjects);
          for(int i = 0; i < 3; i ++)
-            final3.add(someObjects.get(i));
+            final3.add(someObjects.get(
+                  rnd.nextInt(someObjects.size())));
       }
       else
          final3.addAll(someObjects);
-      Collections.shuffle(final3);
+//      Collections.shuffle(final3);
       return final3;
    }
    
    static <E> E getOneRandomlyAmong(List<E> someObjects){
       if(someObjects.isEmpty())
          return null;
-      Collections.shuffle(someObjects);
-      return someObjects.get(new Random().
+//      Collections.shuffle(someObjects);
+      Random rnd = new Random();
+      rnd.setSeed(12345);
+      return someObjects.get(rnd.
             nextInt(someObjects.size()));
    }
 

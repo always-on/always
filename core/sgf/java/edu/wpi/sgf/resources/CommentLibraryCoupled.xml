@@ -197,15 +197,15 @@
 		</comment>
 		<comment strength='0.5' competitiveness='0.6' tags="compliment" gameType="generic" madeOn="both">
 			<content>I like playing with you </content>
-			<response>Me too, We should play more </response>
-			<response>Goos to hear that, thank you </response>
-			<response>Well, we are only your creatures </response>
+			<response>Then we should play more! </response>
+			<response>Thanks, I like it too </response>
+			<response>I am very happy to hear that </response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.6' tags="compliment" gameType="generic" madeOn="both">
 			<content>Humans enjoy playing games</content>
-			<response>Me too</response>
-			<response>Robots and agent too</response>
-			<response>Well, we are only your creatures</response>
+			<response>Me too </response>
+			<response>Robots and agents too </response>
+			<response>Well, we are only your creatures </response>
 		</comment>
 		<comment competitiveness='0.8' tags="brag" gameType="generic" gameState="humanWon">
 			<content>Humans always wins! We made you robots!</content>
