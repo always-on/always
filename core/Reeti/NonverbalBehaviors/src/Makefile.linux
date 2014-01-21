@@ -1,0 +1,70 @@
+LIBRARYSAD = sad.so
+LIBRARYHAPPY = happy.so
+LIBRARYSMALLNOD = smallnod.so
+LIBRARYBIGNOD = bignod.so
+LIBRARYTALK = talk.so
+LIBRARYLOOKAWAY = lookaway.so
+LIBRARYDELAY = delay.so
+
+SOURCEFOLDER = /home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/src
+CONFIGURATIONSOURCE = /home/reeti/Always-On/always/core/Reeti/NonverbalBehaviors/conf/
+CONFIGURATIONTARGET = /home/reeti/reetiPrograms/load
+
+SOURCESAD =						\
+  $(SOURCEFOLDER)/sad.cpp				\
+  $(SOURCEFOLDER)/sad.h
+
+SOURCEHAPPY = 					\
+  $(SOURCEFOLDER)/happy.cpp				\
+  $(SOURCEFOLDER)/happy.h
+
+SOURCESMALLNOD =				\
+  $(SOURCEFOLDER)/smallnod.cpp			\
+  $(SOURCEFOLDER)/smallnod.h
+
+SOURCEBIGNOD = 					\
+  $(SOURCEFOLDER)/bignod.cpp			\
+  $(SOURCEFOLDER)/bignod.h
+
+SOURCETALK = 					\
+  $(SOURCEFOLDER)/talk.cpp				\
+  $(SOURCEFOLDER)/talk.h
+
+SOURCELOOKAWAY = 				\
+  $(SOURCEFOLDER)/lookaway.cpp			\
+  $(SOURCEFOLDER)/lookaway.h
+
+SOURCEDELAY =					\
+  $(SOURCEFOLDER)/delay.cpp				\
+  $(SOURCEFOLDER)/delay.h
+
+LDFLAGS = $$(pkg-config opencv --libs)
+CXXFLAGS = $$(pkg-config opencv --cflags)
+
+all: $(LIBRARYSAD) $(LIBRARYHAPPY) $(LIBRARYSMALLNOD) $(LIBRARYBIGNOD) $(LIBRARYTALK) $(LIBRARYLOOKAWAY) $(LIBRARYDELAY)
+	cp $(CONFIGURATIONSOURCE)/InitModule.u $(CONFIGURATIONSOURCE)/InitVar.u  $(CONFIGURATIONTARGET)
+	@echo "Compilation done."
+
+$(LIBRARYSAD): $(SOURCESAD)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCESAD) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYHAPPY): $(SOURCEHAPPY)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCEHAPPY) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYSMALLNOD): $(SOURCESMALLNOD)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCESMALLNOD) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYBIGNOD): $(SOURCEBIGNOD)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCEBIGNOD) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYTALK): $(SOURCETALK)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCETALK) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYLOOKAWAY): $(SOURCELOOKAWAY)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCELOOKAWAY) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+$(LIBRARYDELAY): $(SOURCEDELAY)
+	$(SDK_PATH)umake-shared -o $@ $(SOURCEDELAY) EXTRA_CPPFLAGS="${CXXFLAGS}" EXTRA_LDFLAGS="${LDFLAGS}"
+
+clean:
+	rm -rf $(LIBRARYSAD) _ubuild-$(LIBRARYSAD) .libs $(LIBRARYHAPPY) _ubuild-$(LIBRARYHAPPY) _ubuild-$(LIBRARYSMALLNOD) $(LIBRARYSMALLNOD) _ubuild-$(LIBRARYBIGNOD) $(LIBRARYBIGNOD) _ubuild-$(LIBRARYTALK) $(LIBRARYTALK) _ubuild-$(LIBRARYLOOKAWAY) $(LIBRARYLOOKAWAY) _ubuild-$(LIBRARYDELAY) $(LIBRARYDELAY) *.la

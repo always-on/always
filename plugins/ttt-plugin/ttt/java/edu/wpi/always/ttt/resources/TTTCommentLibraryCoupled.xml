@@ -31,57 +31,18 @@
 			<response>Haha, whatever</response>
 			<response>It's just one cell, take it easy!</response>
 		</comment>
-		<comment competitiveness='0.4' tags="centerCellTakenByHuman/offense" gameType="board" gameName="ttt" madeOn="human">
-			<content>Smart ha? Taking the center cell</content>
-			<response>exactly!</response>
-			<response>oh yes!</response>
-			<response>haha, might not be that important</response>
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByHuman/brag" gameType="board" gameName="ttt" madeOn="human">
-			<content>I can win without that cell</content>
-			<response>prove it</response>
-			<response>unlikely</response>
-			<response>let's see</response>
-		</comment>
-		<comment competitiveness='0.6' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
+		<comment competitiveness='0.2' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
 			<content>I got the golden cell</content>
 			<response>yes, that's the best place to start</response>
 			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
-			<content>center cell, yes!</content>
-			<response>do not be so sure</response>
-			<response>awesome, keep at it</response>
-			<response>I wish I had that</response>
-		</comment>
-		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Not that easy</content>
-			<response>victory cannot be blocked</response>
-			<response>haha, you are smart</response>
-			<response>nice defense</response>
-		</comment>
-		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Nice try</content>
-			<response>victory cannot be blocked</response>
-			<response>haha, you are smart</response>
-			<response>nice defense</response>
+			<response>yes, now what are you going to do?</response>
+			<response>your turn</response>
 		</comment>
 		<comment competitiveness='0.2' tags="AgentWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="human">
-			Haha! smart move
-		</comment>
-		<comment competitiveness='0.5' tags="AgentWinOppBlocked/brag" gameType="board" gameName="ttt" madeOn="human">
-			<content>Victory cannot be blocked, it finds a way</content>
-			<response>It's just that victory is not yours!</response>
-			<response>then keep at it!</response>
-			<response>prove it!</response>
-		</comment>
-		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense/brag" gameType="board" gameName="ttt" madeOn="human">
-			<content>No one blocks me, how dare you?</content>
-			<response>Maybe not other agents, I do!</response>
-			<response>Easily!</response>
-			<response>Haha, sure you are right</response>
+			<content> Haha! smart move </content>
+			<response>thank you!</response>
+			<response>I couldn't let you win so easily</response>
+			<response>What is your next move?</response>
 		</comment>
 	</agent>
 	
@@ -92,60 +53,18 @@
 			<response>I know!!</response>
 			<response>It's just a cell</response>
 		</comment>
-		<comment competitiveness='0.4' tags="centerCellTakenByAgent/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Smart ha? Taking the center cell</content>
-			<response>Exactly!</response>
-			<response>haha, yes!</response>
-			<response>It's just a cell</response>
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByAgent/brag" gameType="board" gameName="ttt" madeOn="both">
-			<content>I can win without that cell</content>
-			<response>prove it!</response>
-			<response>unlikely!</response>
-			<response>Really, haha</response>
-		</comment>
-		<comment competitiveness='0.6' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
+		<comment competitiveness='0.3' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
 			<content>I got the golden cell</content>
 			<response>yes, that's the best place to start</response>
 			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
-			<content>center cell, yes!</content>
-			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
-		</comment>
-		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Not that easy</content>
-			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
-		</comment>
-		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Nice try</content>
-			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
+			<response>To win, you have to have a good plan</response>
+			<response>Still your turn</response>
 		</comment>
 		<comment competitiveness='0.2' tags="HumanWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="agent">
 			<content>Smart ha? Taking the center cell</content>
 			<response>exactly!</response>
 			<response>oh yes!</response>
 			<response>haha, might not be that important</response>
-		</comment>
-		<comment competitiveness='0.5' tags="HumanWinOppBlocked/brag" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Victory can't be blocked</content>
-			<response>It's just that victory is not yours!</response>
-			<response>then keep at it!</response>
-			<response>prove it!</response>
-		</comment>
-		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense/brag" gameType="board" gameName="ttt" madeOn="agent">
-			<content>No one blocks me, how dare you?</content>
-			<response>Maybe not other agents, I do!</response>
-			<response>Easily!</response>
-			<response>Haha, sure you are right</response>
 		</comment>
 	</human>
 	
