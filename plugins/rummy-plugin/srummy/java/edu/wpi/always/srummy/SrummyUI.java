@@ -2,7 +2,6 @@ package edu.wpi.always.srummy;
 
 import java.util.List;
 import edu.wpi.always.srummy.SrummyUI;
-import edu.wpi.always.srummy.StartGamingSequence.gameOverDialogueByAgent;
 
 public interface SrummyUI {
 
