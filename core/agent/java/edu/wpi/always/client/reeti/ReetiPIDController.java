@@ -26,11 +26,11 @@ public class ReetiPIDController {
 
    private double neckInitialOutputXPID = config.getNeckRotat(); // Was 50
 
-   private double neckInitialOutputYPID = config.getNeckTilt(); // Was 55.56
+   // private double neckInitialOutputYPID = config.getNeckTilt(); // Was 55.56
 
    private double eyeInitialOutputXPID = config.getLeftEyePan(); // Was 50
 
-   private double eyeInitialOutputYPID = config.getLeftEyeTilt(); // Was 42.55
+   // private double eyeInitialOutputYPID = config.getLeftEyeTilt(); // Was 42.55
 
    private final int setPointXPID = 160;
 
