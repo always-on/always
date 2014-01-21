@@ -19,7 +19,7 @@ public interface SrummyUI {
    List<String> getCurrentHumanCommentOptionsAgentResponseForAMoveBy (int player);
    void prepareAgentCommentUserResponseForAMoveBy (int player);
    List<String> getCurrentHumanResponseOptions ();
-   //   public void makeBoardPlayable();
-   //   public void makeBoardUnplayable();
+   public void makeBoardPlayable();
+   public void makeBoardUnplayable();
 
 }

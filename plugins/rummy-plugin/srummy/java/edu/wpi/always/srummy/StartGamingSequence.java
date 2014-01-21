@@ -39,7 +39,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          getContext().getSrummyUI().updatePlugin(this);
       }
 //      SrummyClient.gazeDirection = "board";
-      //getContext().getSrummyUI().makeBoardPlayable();
+      getContext().getSrummyUI().makeBoardPlayable();
    }
    @Override
    public void humanMoveReceived () {
@@ -79,7 +79,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                skipTo(new gameOverDialogueByHuman(getContext()));
          }
          else{
-            //getContext().getSrummyUI().makeBoardPlayable();
+            getContext().getSrummyUI().makeBoardPlayable();
             getContext().getSrummyUI().updatePlugin(this);
             //SrummyClient.gazeDirection = "board";
             SrummyClient.oneMeldInAgentTurnAlready = false;
@@ -160,7 +160,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                skipTo(new gameOverDialogueByHuman(getContext()));
          }
          else{
-            //getContext().getSrummyUI().makeBoardUnplayable();
+            getContext().getSrummyUI().makeBoardUnplayable();
             getContext().getSrummyUI().triggerAgentPlayTimers();
          }
       }
@@ -403,8 +403,8 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(playerIdentifier);
          getContext().getSrummyUI().updatePlugin(this);
          //getContext().getSrummyUI().triggerHumanCommentingTimer();
-         //if(playerIdentifier == AGENT_IDENTIFIER)
-         //     getContext().getSrummyUI().makeBoardPlayable();
+         if(playerIdentifier == AGENT_IDENTIFIER)
+              getContext().getSrummyUI().makeBoardPlayable();
       }
    }
 
@@ -479,8 +479,8 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             //SrummyClient.gazeDirection = "user";
             getContext().getSrummyUI().updatePlugin(this);
             //getContext().getSrummyUI().triggerHumanCommentingTimer();
-            //if(playerIdentifier == AGENT_IDENTIFIER)
-            //     getContext().getSrummyUI().makeBoardPlayable();
+            if(playerIdentifier == AGENT_IDENTIFIER)
+                 getContext().getSrummyUI().makeBoardPlayable();
          }
       }
    }
@@ -520,7 +520,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       public void enter(){
          System.out.println("\n\n\ngameOverDialogueByAgent\n\n");
          getContext().getSrummyUI().triggerNextStateTimer(this);
-//         getContext().getSrummyUI().makeBoardUnplayable();
+         getContext().getSrummyUI().makeBoardUnplayable();
          SrummyClient.gazeDirection = "sayandgaze";
       }
       @Override
@@ -556,7 +556,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       public void enter(){
          System.out.println("\n\n\ngameOverDialogueByHuman\n\n");
          currentAgentComment = "";
-//         getContext().getSrummyUI().makeBoardUnplayable();
+         getContext().getSrummyUI().makeBoardUnplayable();
       }
    }
 
@@ -633,7 +633,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          SrummyClient.gazeDirection = "";
          //SrummyClient.gazeDirection = "user";
          SrummyClient.gameOver = true;
-         //getContext().getSrummyUI().makeBoardUnplayable();
+         getContext().getSrummyUI().makeBoardUnplayable();
          getContext().getSrummyUI().updatePlugin(this);
       }
    }

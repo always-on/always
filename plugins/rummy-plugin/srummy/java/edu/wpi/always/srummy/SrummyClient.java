@@ -21,6 +21,7 @@ public class SrummyClient implements SrummyUI {
    private static final String MSG_PICKED_AGENT_MOVE = "rummy.agent_move"; //sends
    private static final String MSG_RESET_GAME = "rummy.reset_game"; //sends
    private static final String MSG_GAME_OVER = "rummy.gameover"; //sends
+   private static final String MSG_BOARD_PLAYABILITY = "rummy.playability";//sends
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;//not currently used
    private static final int AGENT_PLAY_DELAY_AMOUNT = 6;
@@ -654,20 +655,20 @@ public class SrummyClient implements SrummyUI {
       dispatcher.send(m);
    }
 
-   //   @Override
-   //   public void makeBoardPlayable () {
-   //      if ( gameState.didAnyOneJustWin() == 0 ) {
-   //         Message m = Message.builder(MSG_BOARD_PLAYABILITY)
-   //               .add("value", "true").build();
-   //         dispatcher.send(m);
-   //      }
-   //   }
+   @Override
+   public void makeBoardPlayable () {
+      if ( gameState.didAnyOneJustWin() == 0 ) {
+         Message m = Message.builder(MSG_BOARD_PLAYABILITY)
+               .add("value", "true").build();
+         dispatcher.send(m);
+      }
+   }
 
-   //   @Override
-   //   public void makeBoardUnplayable () {
-   //      Message m = Message.builder(MSG_BOARD_PLAYABILITY).add("value", "false")
-   //            .build();
-   //      dispatcher.send(m);
-   //   }
+   @Override
+   public void makeBoardUnplayable () {
+      Message m = Message.builder(MSG_BOARD_PLAYABILITY)
+            .add("value", "false").build();
+      dispatcher.send(m);
+   }
 
 }
