@@ -375,7 +375,8 @@ public class SrummyClient implements SrummyUI {
    }
 
    @Override
-   public void triggerNextStateTimer () {
+   public void triggerNextStateTimer (SrummyUIListener listener) {
+      this.listener = listener;
       nextStateTimer = new Timer();
       nextStateTimer.schedule(new NextStateTimerSetter(),
             4000);

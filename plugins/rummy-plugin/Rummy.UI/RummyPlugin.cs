@@ -59,11 +59,15 @@ namespace AgentApp
 
 			_remote.RegisterReceiveHandler("rummy.agent_move",
 				  new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
+
+			_remote.RegisterReceiveHandler("rummy.playability",
+				  new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
 		}
 
 		public void Dispose()
 		{
 			_remote.RemoveReceiveHandler("rummy.agent_move");
+			_remote.RemoveReceiveHandler("rummy.playability");
 		}
 
 		private string PlayerNameToSend(Player player)
@@ -262,6 +266,14 @@ namespace AgentApp
 			//}
 
 			return body;
+		}
+
+		private void SetPlayability(JObject playabilityAsJObj)
+		{
+			if (playabilityAsJObj["value"].ToString().Trim().Contains("true"))
+				game.MakeTheBoardPlayable();
+			else if (playabilityAsJObj["value"].ToString().Trim().Contains("false"))
+				game.MakeTheBoardUnplayable();
 		}
 
 		public System.Windows.UIElement GetUIElement()

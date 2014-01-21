@@ -2,6 +2,7 @@ package edu.wpi.always.srummy;
 
 import java.util.List;
 import edu.wpi.always.srummy.SrummyUI;
+import edu.wpi.always.srummy.StartGamingSequence.gameOverDialogueByAgent;
 
 public interface SrummyUI {
 
@@ -10,7 +11,7 @@ public interface SrummyUI {
    public void triggerAgentDiscardDelay ();
    public void cancelHumanCommentingTimer();
    public void triggerHumanCommentingTimer();
-   public void triggerNextStateTimer();
+   public void triggerNextStateTimer(SrummyUIListener listener);
    public void startPluginForTheFirstTime(SrummyUIListener listener);
    public void updatePlugin(SrummyUIListener listener);
    public void sendBackAgentMove ();
