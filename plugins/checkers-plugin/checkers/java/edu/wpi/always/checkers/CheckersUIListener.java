@@ -10,5 +10,6 @@ public interface CheckersUIListener {
    void agentPlayingGazeDelayOver();
    void humanTouchedAgentStuff (int howManyTimes);
    //   void receivedNewState();
+   void agentMultiJumpedOneMore ();
 
 }

@@ -87,6 +87,8 @@ public class SrummyClient implements SrummyUI {
    private int hashCodeOfTheSelectedMove;
    private int numOfPossibleDiscards, numOfPossibleMelds
    , numOfPossibleLayoffs, numOfPossibleDraws;
+   
+   public static Random random;
 
    public SrummyClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
 
@@ -113,6 +115,9 @@ public class SrummyClient implements SrummyUI {
       currentHumanResponseOptions = new ArrayList<String>();
       currentAgentResponseOptions = new HashMap<String, String>();
       //scenarioManager.chooseOrUpdateScenario();
+      
+      random = new Random();
+      random.setSeed(12345);
 
    }
 
