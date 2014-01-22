@@ -16,11 +16,14 @@ namespace Agent.UI
         private const String neutralPosition = "Global.servo.neutralPosition();";
         private const String smileFace       = "Global.Happy.play();";
         private const String concernFace     = "Global.Sad.play();";
-        private const String beginSpeech     = "Global.Talk.play(0.3);";
-        private const String endSpeech       = "Global.Talk.play(0.3);";
+        private const String moveMouth       = "Global.Talk.play("; //0.15);";
 
         private long intLookBackLastMillisecond = -1;
         private int intBeginSpeechLastSecond    = -1;
+
+        private Boolean blnLookBack = true;
+
+        private int intAccumulatedVisemeDuration = 401;
 
         private double findOutput(String HorOrVer, String cmd)
         {
@@ -83,6 +86,33 @@ namespace Agent.UI
             return output;
         }
 
+        private int getSpeechPermission(String command)
+        {
+            int begin = 0, end = 0;
+            int intDuration = 0;
+
+            begin = command.IndexOf("duration=\"") + 10;
+            end = command.IndexOf("\">");
+
+            intDuration = Convert.ToInt32(command.Substring(begin, end - begin));
+
+            intAccumulatedVisemeDuration += intDuration;
+
+            // It takes 600 msec to open and close the mouth on Reeti.
+            if (intDuration > 400)
+            {
+                return intDuration;
+            }
+            else if (intAccumulatedVisemeDuration > 400)
+            {
+                intDuration = intAccumulatedVisemeDuration;
+                intAccumulatedVisemeDuration = 0;
+                return intAccumulatedVisemeDuration;
+            }
+            else
+                return -1;
+        }
+
         private int getDelayAmount(String command)
         {
             int output = -1, begin = 0, end = 0;
@@ -97,6 +127,8 @@ namespace Agent.UI
 
         public void TranslateToReetiCommand(String task, String Command)
         {
+            int intDuration = 0;
+
             if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
                 SendCommand(headNod);
@@ -117,19 +149,24 @@ namespace Agent.UI
                 }
                 else if ( (VerOutput < 60) && (VerOutput > 20) )
                 {
-                    if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - intLookBackLastMillisecond) > 2000)
+                    //if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - intLookBackLastMillisecond) > 2000)
+                    if (blnLookBack)
                     {
-                        intLookBackLastMillisecond = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                        //intLookBackLastMillisecond = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                    
                         SendCommand("Global.LookAway.lookBack();");
+                        blnLookBack = false;
                     }
                 }
                 else if (VerOutput < 20)
                 {
                     SendCommand("Global.LookAway.lookAtBoard();");
+                    blnLookBack = true;
                 }
                 else if (VerOutput >= 75)
                 {
                     SendCommand("Global.LookAway.lookAwayAtRight();");
+                    blnLookBack = true;
                 }
             }
             else if (Command.Contains("CONCERN"))
@@ -144,18 +181,22 @@ namespace Agent.UI
             {
                 SendCommand(neutralPosition);
             }
-            else if (Command.Contains("BEGINSPEECH"))
+            else if (Command.Contains("viseme"))
             {
-                if (DateTime.Now.Second != intBeginSpeechLastSecond)
+                //if (DateTime.Now.Second != intBeginSpeechLastSecond)
+                intDuration = getSpeechPermission(Command);
+
+                if ( intDuration != -1)
                 {
-                    intBeginSpeechLastSecond = DateTime.Now.Second;
-                    SendCommand(beginSpeech);
+                    //intBeginSpeechLastSecond = DateTime.Now.Second;
+                    SendCommand(moveMouth + intDuration / 1000 + ");\"");
                 }
             }
-            //if (Command.Contains("ENDSPEECH"))
-            //{                
-            //    SendCommand(endSpeech);
-            //}
+            if (Command.Contains("ENDSPEECH"))
+            {
+                //SendCommand(endSpeech);
+                blnLookBack = true;
+            }
         }
 
         private void SendCommand(String Command)

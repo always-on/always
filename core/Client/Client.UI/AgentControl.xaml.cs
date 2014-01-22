@@ -68,7 +68,7 @@ namespace Agent.UI
             {
                 case "viseme":
                     if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
-                        AgentTranslate.TranslateToReetiCommand("speech", "BEGINSPEECH");
+                        AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "bookmark":
                     if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
