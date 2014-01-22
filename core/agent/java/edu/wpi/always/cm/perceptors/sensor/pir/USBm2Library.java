@@ -56,10 +56,7 @@ public interface USBm2Library extends Library {
          put(Library.OPTION_TYPE_MAPPER, new USBmTypeMapper());
       }
    };
-   static final USBm2Library INSTANCE = (USBm2Library) NativeUtil
-         .loadLibraryFromResource(
-               "/resources/nativeLibs/USBm2-"
-                  + System.getProperty("sun.arch.data.model"), "USBm2-"
-                  + System.getProperty("sun.arch.data.model"),
-               USBm2Library.class, USBm2Library.OPTIONS);
+   
+   static final USBm2Library INSTANCE = (USBm2Library) Native.loadLibrary("USBm2-64", USBm2Library.class, OPTIONS);
+
 }
