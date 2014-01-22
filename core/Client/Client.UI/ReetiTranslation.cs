@@ -23,7 +23,7 @@ namespace Agent.UI
 
         private Boolean blnLookBack = true;
 
-        private int intAccumulatedVisemeDuration = 401;
+        private int intAccumulatedVisemeDuration = 151;
 
         private double findOutput(String HorOrVer, String cmd)
         {
@@ -98,12 +98,11 @@ namespace Agent.UI
 
             intAccumulatedVisemeDuration += intDuration;
 
-            // It takes 600 msec to open and close the mouth on Reeti.
-            if (intDuration > 400)
+            if (intDuration > 150)
             {
                 return intDuration;
             }
-            else if (intAccumulatedVisemeDuration > 400)
+            else if (intAccumulatedVisemeDuration > 150)
             {
                 intDuration = intAccumulatedVisemeDuration;
                 intAccumulatedVisemeDuration = 0;
@@ -189,7 +188,7 @@ namespace Agent.UI
                 if ( intDuration != -1)
                 {
                     //intBeginSpeechLastSecond = DateTime.Now.Second;
-                    SendCommand(moveMouth + intDuration / 1000 + ");\"");
+                    SendCommand(moveMouth + ((float)intDuration / 1000) + ");\"");
                 }
             }
             if (Command.Contains("ENDSPEECH"))
