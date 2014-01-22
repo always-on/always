@@ -21,7 +21,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
 
    public StartGamingSequence(final SrummyStateContext context) {
       super("Ok, you play first.", context);
-      System.out.println(">>>> StartGamingSequence");
+      System.out.println("\n>>>> StartGamingSequence");
       choice("Ok", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {
@@ -47,14 +47,21 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    }
    @Override
    public void agentMoveOptionsReceived (String chosenMoveType) {
-      receivedAgentDrawOptions = true;
+      if (chosenMoveType.equals("draw"))
+         receivedAgentDrawOptions = true;
+      else if(chosenMoveType.equals("discard"))
+         receivedAgentDiscardOptions = true;
+      else if(chosenMoveType.equals("meld"))
+         receivedAgentMeldOptions = true;
+      else if(chosenMoveType.equals("layoff"))
+         receivedAgentLayoffOptions = true;
    }
 
    //Limbo as waiting for user move
    public static class Limbo extends SrummyAdjacencyPairImpl { 
       public Limbo(final SrummyStateContext context){
          super("", context);
-         System.out.println(">>>> Limbo");
+         System.out.println("\n>>>> Limbo");
       }
       @Override
       public void enter() {
@@ -94,17 +101,24 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       public void agentMoveOptionsReceived (String chosenMoveType) {
-         receivedAgentDrawOptions = true;
+         if (chosenMoveType.equals("draw"))
+            receivedAgentDrawOptions = true;
+         else if(chosenMoveType.equals("discard"))
+            receivedAgentDiscardOptions = true;
+         else if(chosenMoveType.equals("meld"))
+            receivedAgentMeldOptions = true;
+         else if(chosenMoveType.equals("layoff"))
+            receivedAgentLayoffOptions = true;
       }
    }
 
    public static class CreateCommentsAfterLimbo extends SrummyAdjacencyPairImpl { 
       public CreateCommentsAfterLimbo(final SrummyStateContext context){
          super("", context);
-         System.out.println(">>>> CreateCommentsAfterLimbo");
       }
       @Override
       public void enter(){
+         System.out.println("\n>>>>  CreateCommentsAfterLimbo");
          getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
                HUMAN_IDENTIFIER);
          currentAgentComment = getContext().getSrummyUI()
@@ -125,12 +139,23 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             skipTo(new AgentPlayDelay(getContext()));
          }
       }
+      @Override
+      public void agentMoveOptionsReceived (String chosenMoveType) {
+         if (chosenMoveType.equals("draw"))
+            receivedAgentDrawOptions = true;
+         else if(chosenMoveType.equals("discard"))
+            receivedAgentDiscardOptions = true;
+         else if(chosenMoveType.equals("meld"))
+            receivedAgentMeldOptions = true;
+         else if(chosenMoveType.equals("layoff"))
+            receivedAgentLayoffOptions = true;
+      }
    }
 
    public static class AgentPlayDelay extends SrummyAdjacencyPairImpl {
       public AgentPlayDelay(final SrummyStateContext context){
          super(WhatAgentSaysIfHumanDoesNotChooseAComment, context);
-         System.out.println(">>>> AgentPlayDelay");
+         System.out.println("\n>>>> AgentPlayDelay");
          WhatAgentSaysIfHumanDoesNotChooseAComment = "";
       }
       @Override
@@ -170,6 +195,8 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             receivedAgentDrawOptions = false;
             getContext().getSrummyUI().sendBackAgentMove();
          }
+//         else ***
+//            trigger draw delay and call itself again?
       }
       @Override
       protected void afterAgentPlayingGazeDelay () {
@@ -177,7 +204,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       public void agentMoveOptionsReceived (String chosenMoveType) {
-         if(chosenMoveType.equals("discard"))
+         if (chosenMoveType.equals("draw"))
+            receivedAgentDrawOptions = true;
+         else if(chosenMoveType.equals("discard"))
             receivedAgentDiscardOptions = true;
          else if(chosenMoveType.equals("meld"))
             receivedAgentMeldOptions = true;
@@ -201,7 +230,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    public static class AgentPlays extends SrummyAdjacencyPairImpl {
       public AgentPlays(final SrummyStateContext context){
          super("", context);
-         System.out.println(">>>> AgentPlays");
+         System.out.println("\n>>>> AgentPlays");
       }
       @Override
       public void enter(){
@@ -245,7 +274,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          }
       }
       @Override
-      public void receivedAgentMoveOptions (String moveType) {
+      public void agentMoveOptionsReceived (String moveType) {
          if(moveType.equals("discard")){
             getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
                   AGENT_IDENTIFIER);
@@ -287,11 +316,12 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       public AgentComments(final SrummyStateContext context
             , final int playerIdentifier){
          super("", context);
-         System.out.println(">>>> AgentComments");
+         System.out.println("\n>>>> AgentComments");
          this.playerIdentifier = playerIdentifier;
       }
       @Override 
       public void enter(){
+         getContext().getSrummyUI().makeBoardUnplayable();
          getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
                playerIdentifier);
          currentAgentComment = getContext().getSrummyUI()
@@ -310,15 +340,6 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             SrummyClient.gazeDirection = "";
             humanCommentOptions = getContext().getSrummyUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
-//            getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
-//                  HUMAN_IDENTIFIER);
-//            currentAgentComment = getContext().getSrummyUI()
-//                  .getCurrentAgentComment();
-//            humanResponseOptions.clear();
-//            try{
-//            humanResponseOptions.addAll(getContext().getSrummyUI()
-//                  .getCurrentHumanResponseOptions());
-//            }catch(Exception e){/*in case no response exists*/}
             if(SrummyClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
@@ -327,9 +348,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       public void goToNextState () {
-         skipTo(new HumanResponse(
-               getContext(), playerIdentifier));
+         skipTo(new HumanResponse(getContext(), playerIdentifier));
       }
+      
    }
    
    public static class HumanResponse extends SrummyAdjacencyPairImpl {
@@ -337,11 +358,10 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       public HumanResponse(final SrummyStateContext context
             , final int playerIdentifier){
          super("", context);
-         System.out.println("HumanResponses");
+         System.out.println("\n>>>>HumanResponses");
          SrummyClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!SrummyClient.gameOver){
-
             //if no response is there for this agent's comment
             //which human is responding to, then just go to 
             //whoever turn it is to play. (No your turn button)
@@ -396,14 +416,28 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             else
                skipTo(new gameOverDialogueByHuman(getContext()));
          }
-         currentAgentComment = "";
-         //SrummyClient.gazeDirection = "user";
-         humanCommentOptions = getContext().getSrummyUI()
-               .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(playerIdentifier);
-         getContext().getSrummyUI().updatePlugin(this);
-         //getContext().getSrummyUI().triggerHumanCommentingTimer();
-         if(playerIdentifier == AGENT_IDENTIFIER)
-              getContext().getSrummyUI().makeBoardPlayable();
+         else{
+            currentAgentComment = "";
+            //SrummyClient.gazeDirection = "user";
+            humanCommentOptions = getContext().getSrummyUI()
+                  .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(playerIdentifier);
+            getContext().getSrummyUI().updatePlugin(this);
+            getContext().getSrummyUI().makeBoardPlayable();
+            //getContext().getSrummyUI().triggerHumanCommentingTimer();
+            if(playerIdentifier == AGENT_IDENTIFIER)
+               getContext().getSrummyUI().makeBoardPlayable();
+         }
+      }
+      @Override
+      public void agentMoveOptionsReceived (String chosenMoveType) {
+         if (chosenMoveType.equals("draw"))
+            receivedAgentDrawOptions = true;
+         else if(chosenMoveType.equals("discard"))
+            receivedAgentDiscardOptions = true;
+         else if(chosenMoveType.equals("meld"))
+            receivedAgentMeldOptions = true;
+         else if(chosenMoveType.equals("layoff"))
+            receivedAgentLayoffOptions = true;
       }
    }
 
@@ -412,7 +446,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       public HumanComments(final SrummyStateContext context
             , final int playerIdentifier){
          super("", context);
-         System.out.println(">>>> HumanComments");
+         System.out.println("\n>>>> HumanComments");
          SrummyClient.gazeDirection = "useronce";
          this.playerIdentifier = playerIdentifier;
          if(!SrummyClient.gameOver){
@@ -448,8 +482,20 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override 
       public void humanMoveReceived() {
-         SrummyClient.gazeDirection = "board";
+         SrummyClient.gazeDirection = "";
+         currentAgentComment = "";
          skipTo(new CreateCommentsAfterLimbo(getContext()));
+      }
+      @Override
+      public void agentMoveOptionsReceived (String chosenMoveType) {
+         if (chosenMoveType.equals("draw"))
+            receivedAgentDrawOptions = true;
+         else if(chosenMoveType.equals("discard"))
+            receivedAgentDiscardOptions = true;
+         else if(chosenMoveType.equals("meld"))
+            receivedAgentMeldOptions = true;
+         else if(chosenMoveType.equals("layoff"))
+            receivedAgentLayoffOptions = true;
       }
       @Override
       public void enter() {
@@ -490,7 +536,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       public AgentResponse(final SrummyStateContext context
             , final int playerIdentifier, String humanChoosenComment){
          super("", context);
-         System.out.println(">>>> AgentResponses");
+         System.out.println("\n>>>> AgentResponses");
          this.playerIdentifier = playerIdentifier;
          this.humanChoosenComment = humanChoosenComment;
       }
@@ -509,6 +555,17 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          else 
             skipTo(new AgentPlayDelay(getContext()));
       }
+      @Override
+      public void agentMoveOptionsReceived (String chosenMoveType) {
+         if (chosenMoveType.equals("draw"))
+            receivedAgentDrawOptions = true;
+         else if(chosenMoveType.equals("discard"))
+            receivedAgentDiscardOptions = true;
+         else if(chosenMoveType.equals("meld"))
+            receivedAgentMeldOptions = true;
+         else if(chosenMoveType.equals("layoff"))
+            receivedAgentLayoffOptions = true;
+      }
    }
 
    public static class gameOverDialogueByAgent extends SrummyAdjacencyPairImpl {
@@ -517,7 +574,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         System.out.println("\n\n\ngameOverDialogueByAgent\n\n");
+         System.out.println("\n>>>gameOverDialogueByAgent\n");
          getContext().getSrummyUI().triggerNextStateTimer(this);
          getContext().getSrummyUI().makeBoardUnplayable();
          SrummyClient.gazeDirection = "sayandgaze";
@@ -553,7 +610,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         System.out.println("\n\n\ngameOverDialogueByHuman\n\n");
+         System.out.println("\n>>>gameOverDialogueByHuman\n\n");
          currentAgentComment = "";
          getContext().getSrummyUI().makeBoardUnplayable();
       }
@@ -583,7 +640,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         System.out.println("\n\n\ngameOverdrbh\n\n");
+         System.out.println("\n>>>ngameOverdrbh\n\n");
          SrummyClient.gazeDirection = "";
          SrummyClient.gameOver = true;
       }
@@ -598,7 +655,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       public void enter () {
-         System.out.println("\n\ngameOverDialogueResponseByAgent\n\n\n");
+         System.out.println("\n>>>gameOverDialogueResponseByAgent\n\n\n");
          getContext().getSrummyUI().triggerNextStateTimer(this);
          currentAgentResponse = getContext().getSrummyUI()
                .getCurrentAgentResponse(humanChosenCm);
@@ -613,7 +670,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    public static class gameOver extends SrummyAdjacencyPairImpl {
       public gameOver(final SrummyStateContext context){
          super("Now do you want to play again?", context);
-         System.out.println(">>>> gameOver");
+         System.out.println("\n>>>> gameOver");
          choice("Sure", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
