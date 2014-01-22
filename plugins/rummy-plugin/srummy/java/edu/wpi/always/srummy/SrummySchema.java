@@ -22,7 +22,7 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
          MenuPerceptor menuPerceptor, Keyboard keyboard, SrummyUI SrummyUI,
          UIMessageDispatcher dispatcher, PlaceManager placeManager,
          PeopleManager peopleManager) {
-      super(new StartGamingSequence(new SrummyStateContext(keyboard, SrummyUI, dispatcher,
+      super(new SrummyInitial(new SrummyStateContext(keyboard, SrummyUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor);
       
