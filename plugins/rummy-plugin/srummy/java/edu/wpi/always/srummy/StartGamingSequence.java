@@ -31,9 +31,8 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    }
    @Override
    public void enter() {
-      if(!SrummyClient.gameOver)
-         getContext().getSrummyUI().startPluginForTheFirstTime(this);
-      else {
+      getContext().getSrummyUI().makeBoardPlayable();
+      if(SrummyClient.gameOver){
          SrummyClient.gameOver = false;
          getContext().getSrummyUI().resetGame();
          getContext().getSrummyUI().updatePlugin(this);
@@ -293,16 +292,16 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
+         getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
+               playerIdentifier);
+         currentAgentComment = getContext().getSrummyUI()
+               .getCurrentAgentComment();
+         humanResponseOptions.clear();
+         try{
+            humanResponseOptions.addAll(getContext().getSrummyUI()
+                  .getCurrentHumanResponseOptions());
+         }catch(Exception e){/*in case no response exists*/}
          if(!SrummyClient.gameOver){
-            getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
-                  playerIdentifier);
-            currentAgentComment = getContext().getSrummyUI()
-                  .getCurrentAgentComment();
-            humanResponseOptions.clear();
-            try{
-               humanResponseOptions.addAll(getContext().getSrummyUI()
-                     .getCurrentHumanResponseOptions());
-            }catch(Exception e){/*in case no response exists*/}
             getContext().getSrummyUI().updatePlugin(this);
             getContext().getSrummyUI().triggerNextStateTimer(this);
             SrummyClient.gazeDirection = "sayandgaze";
@@ -311,15 +310,15 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             SrummyClient.gazeDirection = "";
             humanCommentOptions = getContext().getSrummyUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
-            getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
-                  HUMAN_IDENTIFIER);
-            currentAgentComment = getContext().getSrummyUI()
-                  .getCurrentAgentComment();
-            humanResponseOptions.clear();
-            try{
-            humanResponseOptions.addAll(getContext().getSrummyUI()
-                  .getCurrentHumanResponseOptions());
-            }catch(Exception e){/*in case no response exists*/}
+//            getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
+//                  HUMAN_IDENTIFIER);
+//            currentAgentComment = getContext().getSrummyUI()
+//                  .getCurrentAgentComment();
+//            humanResponseOptions.clear();
+//            try{
+//            humanResponseOptions.addAll(getContext().getSrummyUI()
+//                  .getCurrentHumanResponseOptions());
+//            }catch(Exception e){/*in case no response exists*/}
             if(SrummyClient.random.nextBoolean())
                skipTo(new gameOverDialogueByAgent(getContext()));
             else
