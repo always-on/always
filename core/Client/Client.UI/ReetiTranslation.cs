@@ -30,7 +30,7 @@ namespace Agent.UI
         private bool blnViseme          = true;
         private bool blnEndSpeech       = true;
 
-        private int intAccumulatedVisemeDuration = 401;
+        private int intAccumulatedVisemeDuration = 601;
 
         private double findOutput(String HorOrVer, String cmd)
         {
@@ -99,24 +99,36 @@ namespace Agent.UI
             begin = command.IndexOf("duration=\"") + 10;
             end = command.IndexOf("\">");
 
-            intDuration = Convert.ToInt32(command.Substring(begin, end - begin));
+            //intDuration = Convert.ToInt32(command.Substring(begin, end - begin));
 
-            intAccumulatedVisemeDuration += intDuration;
+            //intAccumulatedVisemeDuration += intDuration;
 
-            if (intDuration > 400)
+            intAccumulatedVisemeDuration += Convert.ToInt32(command.Substring(begin, end - begin));
+
+            if (intAccumulatedVisemeDuration > 800)
             {
-                if (intDuration > 700) intDuration = 700;
-                return intDuration;
-            }
-            else if ((intAccumulatedVisemeDuration > 400) &&  (intDuration > 100))
-            {
-                if (intAccumulatedVisemeDuration > 700) intAccumulatedVisemeDuration = 700;
+                if (intAccumulatedVisemeDuration > 1200) intAccumulatedVisemeDuration = 1200;
                 intDuration = intAccumulatedVisemeDuration;
                 intAccumulatedVisemeDuration = 0;
                 return intDuration;
             }
             else
                 return -1;
+
+            //if (intDuration > 400)
+            //{
+            //    if (intDuration > 700) intDuration = 700;
+            //    return intDuration;
+            //}
+            //else if ((intAccumulatedVisemeDuration > 400) &&  (intDuration > 100))
+            //{
+            //    if (intAccumulatedVisemeDuration > 700) intAccumulatedVisemeDuration = 700;
+            //    intDuration = intAccumulatedVisemeDuration;
+            //    intAccumulatedVisemeDuration = 0;
+            //    return intDuration;
+            //}
+            //else
+            //    return -1;
         }
 
         private int getDelayAmount(String command)
@@ -343,13 +355,14 @@ namespace Agent.UI
 
                 if ( intDuration != -1)
                 {
-                    if (blnViseme) SendCommand(moveMouth + ((float)intDuration / 2000) + ");");
+                    if (blnViseme) SendCommand(moveMouth + ((float)intDuration / 4000) + ");");
                     updateRobotState("Viseme");
                 }
             }
             if (Command.Contains("ENDSPEECH"))
             {
                 updateRobotState("EndSpeech");
+                intAccumulatedVisemeDuration = 601;
             }
         }
 
