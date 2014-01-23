@@ -91,10 +91,11 @@ public class ClientProxy {
       enqueue("toggleAgent");
    }
    
-   public static float ZOOM = 0.5f;
+   public static float ZOOM = 1.8f;
    
    public void zoom (float zoom) {
-      say("<CAMERA ZOOM="+ZOOM+">");
+      // need some text or else IVONA ignores the command
+      say("zoom <CAMERA ZOOM=\""+ZOOM+"\"/>");
    }
    
    public void reetiIP (String address) {
