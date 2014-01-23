@@ -21,9 +21,21 @@ namespace Agent.UI
         private long intLookBackLastMillisecond = -1;
         private int intBeginSpeechLastSecond    = -1;
 
-        private Boolean blnLookBack = true;
+        private bool blnHeadNod         = true;
+        private bool blnDelay           = true;
+        private bool blnLookAwayThink   = true;
+        private bool blnLookBack        = true;
+        private bool blnLookAtBoard     = true;
+        private bool blnLookAwayAtRight = true;
+        private bool blnConcern         = true;
+        private bool blnSmile           = true;
+        private bool blnWarm            = true;
+        private bool blnViseme          = true;
+        private bool blnEndSpeech       = true;
 
-        private int intAccumulatedVisemeDuration = 151;
+        //private bool blnLookBack = true;
+
+        private int intAccumulatedVisemeDuration = 401;
 
         private double findOutput(String HorOrVer, String cmd)
         {
@@ -98,15 +110,17 @@ namespace Agent.UI
 
             intAccumulatedVisemeDuration += intDuration;
 
-            if (intDuration > 150)
+            if (intDuration > 400)
             {
+                if (intDuration > 700) intDuration = 700;
                 return intDuration;
             }
-            else if (intAccumulatedVisemeDuration > 150)
+            else if ((intAccumulatedVisemeDuration > 400) &&  (intDuration > 100))
             {
+                if (intAccumulatedVisemeDuration > 700) intAccumulatedVisemeDuration = 700;
                 intDuration = intAccumulatedVisemeDuration;
                 intAccumulatedVisemeDuration = 0;
-                return intAccumulatedVisemeDuration;
+                return intDuration;
             }
             else
                 return -1;
@@ -124,17 +138,169 @@ namespace Agent.UI
             return output;
         }
 
+        private void updateRobotState(String strState)
+        {
+            switch(strState)
+            {
+                case "HeadNod":
+                    blnHeadNod         = false;
+                    blnDelay           = true;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = true;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = true;
+                    blnSmile           = true;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "Delay":
+                    blnHeadNod         = true;
+                    blnDelay           = false;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = true;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = true;
+                    blnSmile           = true;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "LookAwayThink":
+                    blnHeadNod         = true;
+                    blnDelay           = true;
+                    blnLookAwayThink   = false;
+                    blnLookBack        = true;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = true;
+                    blnSmile           = true;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "LookBack":
+                    blnHeadNod         = true;
+                    blnDelay           = true;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = false;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = true;
+                    blnSmile           = true;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "LookAtBoard":
+                    blnHeadNod         = true;
+                    blnDelay           = true;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = true;
+                    blnLookAtBoard     = false;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = true;
+                    blnSmile           = true;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "LookAwayAtRight":
+                    blnHeadNod         = true;
+                    blnDelay           = true;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = true;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = false;
+                    blnConcern         = true;
+                    blnSmile           = true;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "Concern":
+                    blnHeadNod         = true;
+                    blnDelay           = true;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = true;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = false;
+                    blnSmile           = true;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "Smile":
+                    blnHeadNod         = true;
+                    blnDelay           = true;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = true;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = true;
+                    blnSmile           = false;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "Warm":
+                    blnHeadNod         = true;
+                    blnDelay           = true;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = true;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = true;
+                    blnSmile           = true;
+                    blnWarm            = false;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "Viseme":
+                    blnHeadNod         = true;
+                    blnDelay           = true;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = false;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = true;
+                    blnSmile           = true;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+                case "EndSpeech":
+                    blnHeadNod         = true;
+                    blnDelay           = true;
+                    blnLookAwayThink   = true;
+                    blnLookBack        = true;
+                    blnLookAtBoard     = true;
+                    blnLookAwayAtRight = true;
+                    blnConcern         = true;
+                    blnSmile           = true;
+                    blnWarm            = true;
+                    blnViseme          = true;
+                    blnEndSpeech       = true;
+                    break;
+            }
+        }
+
         public void TranslateToReetiCommand(String task, String Command)
         {
             int intDuration = 0;
 
             if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
-                SendCommand(headNod);
+                if (blnHeadNod) SendCommand(headNod);
+                updateRobotState("HeadNod");
             }
             else if (Command.Contains("DELAY"))
             {
-                System.Threading.Thread.Sleep(getDelayAmount(Command));
+                if (blnDelay) System.Threading.Thread.Sleep(getDelayAmount(Command));
+                updateRobotState("Delay");
             }
 
             //TODO: check if face tracking!!!
@@ -144,7 +310,8 @@ namespace Agent.UI
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
 
                 if( (VerOutput < 75) && (VerOutput > 60) ) {
-                    SendCommand("Global.LookAway.lookAwayThink();");
+                    if (blnLookAwayThink) SendCommand("Global.LookAway.lookAwayThink();");
+                    updateRobotState("LookAwayThink");
                 }
                 else if ( (VerOutput < 60) && (VerOutput > 20) )
                 {
@@ -152,33 +319,35 @@ namespace Agent.UI
                     if (blnLookBack)
                     {
                         //intLookBackLastMillisecond = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-                    
-                        SendCommand("Global.LookAway.lookBack();");
-                        blnLookBack = false;
+                        if (blnLookBack) SendCommand("Global.LookAway.lookBack();");
+                        updateRobotState("LookBack");
                     }
                 }
                 else if (VerOutput < 20)
                 {
-                    SendCommand("Global.LookAway.lookAtBoard();");
-                    blnLookBack = true;
+                    if (blnLookAtBoard) SendCommand("Global.LookAway.lookAtBoard();");
+                    updateRobotState("LookAtBoard");
                 }
                 else if (VerOutput >= 75)
                 {
-                    SendCommand("Global.LookAway.lookAwayAtRight();");
-                    blnLookBack = true;
+                    if (blnLookAwayAtRight) SendCommand("Global.LookAway.lookAwayAtRight();");
+                    updateRobotState("LookAwayAtRight");
                 }
             }
             else if (Command.Contains("CONCERN"))
             {
-                SendCommand(concernFace);
+                if (blnConcern) SendCommand(concernFace);
+                updateRobotState("Concern");
             }
             else if (Command.Contains("SMILE"))
             {
-                SendCommand(smileFace);
+                if (blnSmile) SendCommand(smileFace);
+                updateRobotState("Smile");
             }
             else if (Command.Contains("WARM"))
             {
-                SendCommand(neutralPosition);
+                if (blnWarm) SendCommand(neutralPosition);
+                updateRobotState("Warm");
             }
             else if (Command.Contains("viseme"))
             {
@@ -188,13 +357,15 @@ namespace Agent.UI
                 if ( intDuration != -1)
                 {
                     //intBeginSpeechLastSecond = DateTime.Now.Second;
-                    SendCommand(moveMouth + ((float)intDuration / 1000) + ");\"");
+                    if (blnViseme) SendCommand(moveMouth + ((float)intDuration / 2000) + ");");
+                    updateRobotState("Viseme");
                 }
             }
             if (Command.Contains("ENDSPEECH"))
             {
                 //SendCommand(endSpeech);
-                blnLookBack = true;
+                //blnLookBack = true;
+                updateRobotState("EndSpeech");
             }
         }
 
