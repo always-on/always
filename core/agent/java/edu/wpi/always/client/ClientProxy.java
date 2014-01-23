@@ -95,7 +95,7 @@ public class ClientProxy {
    
    public void zoom (float zoom) {
       // need some text or else IVONA ignores the command
-      say("zoom <CAMERA ZOOM=\""+ZOOM+"\"/>");
+      say("done <CAMERA ZOOM=\""+ZOOM+"\"/>");
    }
    
    public void reetiIP (String address) {
