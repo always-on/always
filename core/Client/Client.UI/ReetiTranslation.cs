@@ -105,9 +105,9 @@ namespace Agent.UI
 
             intAccumulatedVisemeDuration += Convert.ToInt32(command.Substring(begin, end - begin));
 
-            if (intAccumulatedVisemeDuration > 800)
+            if (intAccumulatedVisemeDuration > 600)
             {
-                if (intAccumulatedVisemeDuration > 1200) intAccumulatedVisemeDuration = 1200;
+                if (intAccumulatedVisemeDuration > 900) intAccumulatedVisemeDuration = 900;
                 intDuration = intAccumulatedVisemeDuration;
                 intAccumulatedVisemeDuration = 0;
                 return intDuration;
@@ -355,7 +355,7 @@ namespace Agent.UI
 
                 if ( intDuration != -1)
                 {
-                    if (blnViseme) SendCommand(moveMouth + ((float)intDuration / 4000) + ");");
+                    if (blnViseme) SendCommand(moveMouth + ((float)intDuration / 3000) + ");");
                     updateRobotState("Viseme");
                 }
             }
