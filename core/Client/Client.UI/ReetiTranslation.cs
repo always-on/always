@@ -16,10 +16,7 @@ namespace Agent.UI
         private const String neutralPosition = "Global.servo.neutralPosition();";
         private const String smileFace       = "Global.Happy.play();";
         private const String concernFace     = "Global.Sad.play();";
-        private const String moveMouth       = "Global.Talk.play("; //0.15);";
-
-        private long intLookBackLastMillisecond = -1;
-        private int intBeginSpeechLastSecond    = -1;
+        private const String moveMouth       = "Global.Talk.play(";
 
         private bool blnHeadNod         = true;
         private bool blnDelay           = true;
@@ -32,8 +29,6 @@ namespace Agent.UI
         private bool blnWarm            = true;
         private bool blnViseme          = true;
         private bool blnEndSpeech       = true;
-
-        //private bool blnLookBack = true;
 
         private int intAccumulatedVisemeDuration = 401;
 
@@ -68,10 +63,8 @@ namespace Agent.UI
         {
             if (HorOrVer.Equals(HORIZONTAL))
             {
-                //Mirror the Agent 
                 if (output > 0)
                 {
-                    //output *= -1;
                     output = (output * 25) + 45;
                 }
                 else if (output < 0)
@@ -309,26 +302,21 @@ namespace Agent.UI
                 double HorOutput = mapOutput(HORIZONTAL, findOutput(HORIZONTAL, Command));
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
 
-                if( (VerOutput < 75) && (VerOutput > 60) ) {
+                if( (VerOutput <= 78) && (VerOutput > 60) ) {
                     if (blnLookAwayThink) SendCommand("Global.LookAway.lookAwayThink();");
                     updateRobotState("LookAwayThink");
                 }
-                else if ( (VerOutput < 60) && (VerOutput > 20) )
+                else if ( (VerOutput < 60) && (VerOutput > 30) )
                 {
-                    //if (((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - intLookBackLastMillisecond) > 2000)
-                    if (blnLookBack)
-                    {
-                        //intLookBackLastMillisecond = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-                        if (blnLookBack) SendCommand("Global.LookAway.lookBack();");
-                        updateRobotState("LookBack");
-                    }
+                    if (blnLookBack) SendCommand("Global.LookAway.lookBack();");
+                    updateRobotState("LookBack");
                 }
-                else if (VerOutput < 20)
+                else if (VerOutput < 30)
                 {
                     if (blnLookAtBoard) SendCommand("Global.LookAway.lookAtBoard();");
                     updateRobotState("LookAtBoard");
                 }
-                else if (VerOutput >= 75)
+                else if (VerOutput >= 79)
                 {
                     if (blnLookAwayAtRight) SendCommand("Global.LookAway.lookAwayAtRight();");
                     updateRobotState("LookAwayAtRight");
@@ -351,20 +339,16 @@ namespace Agent.UI
             }
             else if (Command.Contains("viseme"))
             {
-                //if (DateTime.Now.Second != intBeginSpeechLastSecond)
                 intDuration = getSpeechPermission(Command);
 
                 if ( intDuration != -1)
                 {
-                    //intBeginSpeechLastSecond = DateTime.Now.Second;
                     if (blnViseme) SendCommand(moveMouth + ((float)intDuration / 2000) + ");");
                     updateRobotState("Viseme");
                 }
             }
             if (Command.Contains("ENDSPEECH"))
             {
-                //SendCommand(endSpeech);
-                //blnLookBack = true;
                 updateRobotState("EndSpeech");
             }
         }
