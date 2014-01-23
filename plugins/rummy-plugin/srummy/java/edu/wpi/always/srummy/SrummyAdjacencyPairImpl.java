@@ -75,4 +75,10 @@ implements SrummyUIListener {
    }
    public void goToNextState(){}
 
+   @Override
+   public void waitingForAgentDrawOptionsOver () {
+      timesUpForDrawOption();
+   }
+   public void timesUpForDrawOption(){}
+
 }

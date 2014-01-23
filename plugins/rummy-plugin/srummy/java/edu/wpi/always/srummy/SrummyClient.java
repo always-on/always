@@ -65,6 +65,7 @@ public class SrummyClient implements SrummyUI {
    private Timer agentPlayingGazeDelayTimer;
    private Timer agentDrawOrDiscardDelayTimer;
    private Timer nextStateTimer;
+   private Timer waitMoreForDrawOptionsTimer;
 
    private SrummyLegalMoveFetcher moveFetcher;
    private SrummyLegalMoveAnnotator moveAnnotator;
@@ -341,6 +342,31 @@ public class SrummyClient implements SrummyUI {
             new AgentDrawDelayTimerSetter(), 
             1000 * AGENT_DRAWING_DISCARDING_DELAY);
    }
+   
+   @Override
+   public void cancelUpcomingTimersTillNextRound (SrummyUIListener listener) {
+      agentPlayDelayTimer.cancel();
+      agentPlayDelayTimer.purge();
+      agentPlayingGazeDelayTimer.cancel();
+      agentPlayingGazeDelayTimer.purge();
+   }
+   
+   @Override
+   public void waitMoreForAgentDrawOptions 
+   (SrummyUIListener listener) {
+      this.listener = listener;
+      waitMoreForDrawOptionsTimer = new Timer();
+      waitMoreForDrawOptionsTimer
+      .schedule(new RobustDrawOptionsRetrieval(), 1000);
+      
+   }
+   private class RobustDrawOptionsRetrieval extends TimerTask {
+      @Override
+      public void run () {
+         listener.waitingForAgentDrawOptionsOver();
+      }
+   }
+
 
    private class AgentPlayDelayTimerSetter extends TimerTask {
       @Override
@@ -388,7 +414,7 @@ public class SrummyClient implements SrummyUI {
          listener.nextState();
       }
    }
-
+   
    /**Finding the chosen move in the initial list to send its hashCode back
     * 0 is sent if draw move was the option. Later for cheating the hash-code of
     * the chosen card.

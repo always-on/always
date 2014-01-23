@@ -125,6 +125,11 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                .getCurrentAgentComment();
          humanCommentOptions = getContext().getSrummyUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(HUMAN_IDENTIFIER);
+         humanResponseOptions.clear();
+         try{
+         humanResponseOptions.addAll(getContext().getSrummyUI()
+               .getCurrentHumanResponseOptions());
+         }catch(Exception e){/*in case no response exists*/}
          if(SrummyClient.random.nextBoolean() || SrummyClient.random.nextBoolean() 
                || SrummyClient.thereAreGameSpecificTags){
             //by 75% chance (or if there is game specific comment) here: full comment exchange
@@ -195,8 +200,14 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             receivedAgentDrawOptions = false;
             getContext().getSrummyUI().sendBackAgentMove();
          }
-//         else ***
-//            trigger draw delay and call itself again?
+         else
+            getContext().getSrummyUI().waitMoreForAgentDrawOptions(this);
+      }
+      @Override
+      public void timesUpForDrawOption () {
+         //loops till get them
+         getContext().getSrummyUI().cancelUpcomingTimersTillNextRound(this);
+         skipTo(new AgentPlayDelay(getContext()));
       }
       @Override
       protected void afterAgentPlayingGazeDelay () {

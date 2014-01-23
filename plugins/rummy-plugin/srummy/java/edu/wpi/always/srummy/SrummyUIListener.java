@@ -11,5 +11,6 @@ public interface SrummyUIListener {
    void receivedAgentMoveOptions (String chosenMoveType);
    void receivedNewState ();
    void agentPlayingGazeDelayOver ();
+   void waitingForAgentDrawOptionsOver ();
 
 }

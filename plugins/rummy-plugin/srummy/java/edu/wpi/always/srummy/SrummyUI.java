@@ -11,6 +11,8 @@ public interface SrummyUI {
    public void cancelHumanCommentingTimer();
    public void triggerHumanCommentingTimer();
    public void triggerNextStateTimer(SrummyUIListener listener);
+   public void waitMoreForAgentDrawOptions(SrummyUIListener listener);
+   public void cancelUpcomingTimersTillNextRound(SrummyUIListener listener);
    public void startPluginForTheFirstTime(SrummyUIListener listener);
    public void updatePlugin(SrummyUIListener listener);
    public void sendBackAgentMove ();
