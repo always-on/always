@@ -33,8 +33,8 @@ public class SrummyClient implements SrummyUI {
    public static boolean nod = false;
    public static boolean gameOver = false;
    public static boolean DelayAfterDraw = false;
-   public static boolean meldedAlready = false;
-   public static boolean agentDrawn = false;
+   public static boolean meldedOnce = false;
+   public static boolean agentDrew = false;
    public static boolean twoMeldsInARowByAgent = false;
    public static boolean twoMeldsInARowByHuman = false;
    public static boolean oneMeldInHumanTurnAlready = false;
@@ -63,9 +63,10 @@ public class SrummyClient implements SrummyUI {
    private Timer humanCommentingTimer;
    private Timer agentPlayDelayTimer;
    private Timer agentPlayingGazeDelayTimer;
-   private Timer agentDrawOrDiscardDelayTimer;
+   private Timer agentDiscardOrMeldLayoffDelayTimer;
    private Timer nextStateTimer;
    private Timer waitMoreForDrawOptionsTimer;
+   private Timer waitMoreForDiscardMeldLayoffOptionsTimer;
 
    private SrummyLegalMoveFetcher moveFetcher;
    private SrummyLegalMoveAnnotator moveAnnotator;
@@ -331,20 +332,21 @@ public class SrummyClient implements SrummyUI {
    public void triggerAgentPlayTimers () {
       agentPlayDelayTimer = new Timer();
       agentPlayingGazeDelayTimer = new Timer();
-      agentDrawOrDiscardDelayTimer = new Timer();
+      agentDiscardOrMeldLayoffDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(
             new AgentPlayDelayTimerSetter(),
             1000 * AGENT_PLAY_DELAY_AMOUNT);
       agentPlayingGazeDelayTimer.schedule(
             new AgentPlayingGazeDelayTimerSetter(),
             1000 * AGENT_PLAYING_GAZE_DELAY_AMOUNT);
-      agentDrawOrDiscardDelayTimer.schedule(
+      agentDiscardOrMeldLayoffDelayTimer.schedule(
             new AgentDrawDelayTimerSetter(), 
             1000 * AGENT_DRAWING_DISCARDING_DELAY);
    }
    
    @Override
    public void cancelUpcomingTimersTillNextRound (SrummyUIListener listener) {
+      this.listener = listener;
       agentPlayDelayTimer.cancel();
       agentPlayDelayTimer.purge();
       agentPlayingGazeDelayTimer.cancel();
@@ -366,7 +368,22 @@ public class SrummyClient implements SrummyUI {
          listener.waitingForAgentDrawOptionsOver();
       }
    }
-
+   
+   @Override
+   public void waitMoreForAgentDiscardMeldLayoff 
+   (SrummyUIListener listener) {
+      this.listener = listener;
+      waitMoreForDiscardMeldLayoffOptionsTimer = new Timer();
+      waitMoreForDiscardMeldLayoffOptionsTimer
+      .schedule(new RobustDiscardMeldLayoffOptionsRetrieval(), 1000);
+   }
+   private class RobustDiscardMeldLayoffOptionsRetrieval extends TimerTask {
+      @Override
+      public void run () {
+         //can use this here too
+         listener.agentPlayDelayOver();
+      }
+   }
 
    private class AgentPlayDelayTimerSetter extends TimerTask {
       @Override
@@ -388,9 +405,9 @@ public class SrummyClient implements SrummyUI {
    }
    
    @Override
-   public void triggerAgentDiscardDelay () {
-      agentDrawOrDiscardDelayTimer = new Timer();
-      agentDrawOrDiscardDelayTimer.schedule(
+   public void triggerAgentDiscardOrMeldLayoffDelay () {
+      agentDiscardOrMeldLayoffDelayTimer = new Timer();
+      agentDiscardOrMeldLayoffDelayTimer.schedule(
             new AgentDiscardDelayTimerSetter(), 
             1000 * AGENT_DRAWING_DISCARDING_DELAY);
    }
@@ -456,10 +473,10 @@ public class SrummyClient implements SrummyUI {
             moveChooser.choose(passedMoves);
       
       if(passedMove.getMove() instanceof DrawMove)
-         agentDrawn = true;
+         agentDrew = true;
       
       if(passedMove.getMove() instanceof MeldMove)
-         meldedAlready = true;
+         meldedOnce = true;
       
       return passedMove;
    }
