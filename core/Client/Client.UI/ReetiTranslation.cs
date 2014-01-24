@@ -10,16 +10,16 @@ namespace Agent.UI
     {
         private ReetiCommunication reeti = new ReetiCommunication();
 
-        private const String HORIZONTAL      = "horizontal";
-        private const String VERTICAL        = "vertical";
-        private const String headNod         = "Global.SmallNod.play();";
-        private const String neutralPosition = "Global.servo.neutralPosition();";
-        private const String smileFace       = "Global.Happy.play();";
-        private const String concernFace     = "Global.Sad.play();";
-        private const String moveMouth       = "Global.Talk.play();";
-        private const String mouthDuration   = "Global.Talk.setMouthOpenDuration(";
-        private const String letMouthMove    = "Global.Talk.changeMouthPermission(true);";
-        private const String stopMouthMove   = "Global.Talk.changeMouthPermission(false);";
+        private const String HORIZONTAL        = "horizontal";
+        private const String VERTICAL          = "vertical";
+        private const String headNod           = "Global.SmallNod.play();";
+        private const String neutralPosition   = "Global.servo.neutralPosition();";
+        private const String smileFace         = "Global.Happy.play();";
+        private const String concernFace       = "Global.Sad.play();";
+        private const String moveMouth         = "Global.Talk.play();";
+        private const String mouthOpenDuration = "Global.Talk.setMouthOpenDuration(";
+        private const String letMouthMove      = "Global.Talk.changeMouthPermission(true);";
+        private const String stopMouthMove     = "Global.Talk.changeMouthPermission(false);";
 
         private bool blnHeadNod         = true;
         private bool blnDelay           = true;
@@ -33,7 +33,9 @@ namespace Agent.UI
         private bool blnViseme          = true;
         private bool blnEndSpeech       = true;
 
-        private int intAccumulatedVisemeDuration = 601;
+        private int intAccumulatedVisemeDuration = 701;
+
+        private bool blnTalkAlreadyStarted = false;
 
         private double findOutput(String HorOrVer, String cmd)
         {
@@ -108,9 +110,9 @@ namespace Agent.UI
 
             intAccumulatedVisemeDuration += Convert.ToInt32(command.Substring(begin, end - begin));
 
-            if (intAccumulatedVisemeDuration > 600)
+            if (intAccumulatedVisemeDuration > 700)
             {
-                if (intAccumulatedVisemeDuration > 900) intAccumulatedVisemeDuration = 900;
+                //if (intAccumulatedVisemeDuration > 1100) intAccumulatedVisemeDuration = 1100;
                 intDuration = intAccumulatedVisemeDuration;
                 intAccumulatedVisemeDuration = 0;
                 return intDuration;
@@ -360,16 +362,26 @@ namespace Agent.UI
                 {
                     if (blnViseme)
                     {
-                        SendCommand(letMouthMove);
-                        SendCommand(moveMouth + ((float)intDuration / 3000) + ");");
+                        if (!blnTalkAlreadyStarted)
+                        {
+                            SendCommand(letMouthMove);
+                            SendCommand(moveMouth);
+                            blnTalkAlreadyStarted = true;
+                        }
+                        SendCommand(mouthOpenDuration + ((float)intDuration / 3000) + ");");
                     }
                     updateRobotState("Viseme");
                 }
             }
             if (Command.Contains("ENDSPEECH"))
             {
+                if (blnEndSpeech)
+                {
+                    SendCommand(stopMouthMove);
+                    intAccumulatedVisemeDuration = 701;
+                    blnTalkAlreadyStarted = false;
+                }
                 updateRobotState("EndSpeech");
-                intAccumulatedVisemeDuration = 601;
             }
         }
 

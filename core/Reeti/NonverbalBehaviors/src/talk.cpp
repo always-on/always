@@ -44,7 +44,7 @@ void Talk::playHelper()
 	stringstream strBottomoLipOpen, strBottomoLipClose;
 
 	strBottomoLipOpen << "Global.servo.bottomLip=10 smooth:" << mouthOpenDuration << "s;";
-	strBottomoLipClose << "Global.servo.bottomLip=80 smooth: 0.1s;";
+	strBottomoLipClose << "Global.servo.bottomLip=80 smooth:" << ((float)mouthOpenDuration/2) << "s;";
 
 	while (mouthMovePermission)
 	{
@@ -52,7 +52,7 @@ void Talk::playHelper()
 
 		send( strBottomoLipClose.str() );
 		
-		usleep( ( 0.1 + mouthOpenDuration ) * 1000000 );
+		usleep((( 0.1 + mouthOpenDuration ) * 1000000 ) * 2.5 );
 	}
 
 	strBottomoLipOpen.clear();
