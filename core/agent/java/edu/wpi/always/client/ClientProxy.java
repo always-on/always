@@ -91,7 +91,7 @@ public class ClientProxy {
       enqueue("toggleAgent");
    }
    
-   public static float ZOOM = 1.8f;
+   public static float ZOOM = 1.6f;
    
    public void zoom (float zoom) {
       // need some text or else IVONA ignores the command

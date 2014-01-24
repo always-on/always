@@ -25,19 +25,13 @@
 <comments>
 
 	<agent>
-		<comment strength='0.6' competitiveness='0.5' tags="first" gameType="generic" madeOn="human">
-			<content>Now watch me play</content>
-			<response>Ok! I'm watching</response>
-			<response>Just play!</response>
-			<response>Such a bad show, haha</response>
-		</comment>
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="human">
 			<content>I should say, you do play very well</content>
 			<response>Thank you, you do too</response>
 			<response>Thanks, you can learn!</response>
 			<response>You too</response>
 		</comment>
-		<comment strength='0.5' competitiveness='0.6' tags="brag" gameType="generic" madeOn="human">
+		<comment strength='0.5' competitiveness='0.5' tags="brag" gameType="generic" madeOn="human">
 			<content>Now my turn!</content>
 			<response>Show me what you can do!</response>
 			<response>Well go ahead</response>
@@ -46,189 +40,89 @@
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="agent">
 			<content>That was the best I could do</content>
 			<response>It was pretty good</response>
-			<response>I know, you are bad!</response>
+			<response>I know, you are tricky!</response>
 			<response>But watch me!</response>
 		</comment>
-		<comment strength='0.5' competitiveness='0.7' tags="brag" gameType="generic" madeOn="both">
+		<comment strength='0.5' competitiveness='0.3' tags="brag" gameType="generic" madeOn="both">
 			<content>I am in this to win</content>
 			<response>Well do your best</response>
 			<response>I won't let you</response>
 			<response>It's just a game</response>
 		</comment>
-		<comment strength='0.5' competitiveness='0.6' tags="brag" gameType="generic" madeOn="agent">
-			<content>I am naturally good at calculations</content>
-			<response>We know, we made you!</response>
-			<response>Not proving it so far</response>
-			<response>You would think so</response>
-		</comment>
-		<comment strength='0.5' competitiveness='0.4' tags="compliment" gameType="generic" madeOn="both">
+	
+		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="both">
 			<content>I love playing games</content>
 			<response>Me too</response>
 			<response>It is fun to play with you</response>
 			<response>Good</response>
 		</comment>
-		<comment strength='0.5' competitiveness='0.5' tags="compliment" gameType="generic" madeOn="both">
-			<content>Games are so popular among both robots and humans</content>
-			<response>Oh yes!</response>
-			<response>Interesting</response>
-			<response>But we are better at it for sure!</response>
-		</comment>
-		<comment strength='0.6' competitiveness='0.8' tags="brag/offense" gameType="generic" madeOn="both">
-			<content>I have Intel inside, you got cheese burger</content>
-			<response>Don't forget the toppings, I had jalapeno</response>
-			<response>At least I eat!</response>
-			<response>It was so delicious, you should, oh wait, you can't</response>
-		</comment>
-		<comment strength='0.6' competitiveness='0.7' tags="brag/offense" gameType="generic" madeOn="both">
-			<content>Humans are somewhat intelligent but robots are genius</content>
-			<response>Oh really? tell me, who made you?</response>
-			<response>How intelligent can a toaster be anyway?</response>
-			<response>Bragging won't get you to win Madam agent</response>
-		</comment>
-		<comment strength='0.6' competitiveness='0.7' tags="brag" gameType="generic" madeOn="agent">
-			<content>Nobody beats me</content>
-			<response>Until I start to play</response>
-			<response>You mean among other agents, right?</response>
-			<response>Yeah right</response>
-		</comment>
-		<comment strength='0.7' competitiveness='0.7' tags="brag" gameType="generic" madeOn="both">
-			<content>My nickname is champion</content>
-			<response>And I am captain America, nice to meet you</response>
-			<response>Who gave you that? other agents?</response>
-			<response>You do play good</response>
-		</comment>
-		<comment competitiveness='0.8' tags="compliment" gameType="generic" gameState="agentWon">
-			<content>Agent wins! Yes! I am the best!</content>
-			<response>Congratulations</response>
-			<response>Take it easy. It's just a game!</response>
-			<response>I think you need to be tested again!</response>
-		</comment>
 		<comment competitiveness='0.2' tags="compliment" gameType="generic" gameState="agentWon">
-			<content>I won but you played good too</content>
+			<content>I won but you played well too</content>
 			<response>Congratulations</response>
 			<response>Thanks</response>
 			<response>I think you need to be tested again!</response>
 		</comment>
-		<comment competitiveness='0.7' tags="compliment" gameType="generic" gameState="agentWon">
-			<content>I rule!</content>
-			<response>Congratulations</response>
-			<response>Take it easy. It's just a game!</response>
-			<response>I think you need to be tested again!</response>
-		</comment>
-		<comment competitiveness='0.6' tags="brag" gameType="generic" gameState="humanWon">
-			<content>Well, sure, you win</content>
-			<response>Yes I do!</response>
-			<response>You played good too</response>
-			<response>Good game</response>
-		</comment>
-		<comment competitiveness='0.6' tags="compliment" gameType="generic" gameState="humanWon">
+
+		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="humanWon">
 			<content>Nice you won</content>
 			<response>Thanks</response>
 			<response>Well then learn from me!</response>
 			<response>Good game</response>
 		</comment>
-		<comment competitiveness='0.7' tags="brag" gameType="generic" gameState="humanWon">
-			<content>Ok somebody won, whatever</content>
-			<response>Haha, really?</response>
-			<response>Wanna lose again?</response>
-			<response>Not a big deal Madam agent</response>
-		</comment>
-		<comment competitiveness='0.6' tags="compliment" gameType="generic" gameState="tie">
+
+		<comment competitiveness='0.4' tags="compliment" gameType="generic" gameState="tie">
 			<content>Well well well, looks like a tie</content>
 			<response>So we have to play again</response>
 			<response>It does!</response>
 			<response>Good game</response>
 		</comment>
-		<comment competitiveness='0.6' tags="compliment" gameType="generic" gameState="tie">
+		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="tie">
 			<content>Nice tie, nice game</content>
 			<response>Yes good game</response>
-			<response>Should play again then!</response>
+			<response>Let's play again then!</response>
 		</comment>
-		<comment competitiveness='0.6' tags="compliment" gameType="generic" gameState="tie">
-			<content>Play again and I win!</content>
-			<response>Yea? prove it!</response>
-			<response>Good game</response>
-		</comment>
+
 	</agent>
 	
 	<human>
-		<comment strength='0.5' competitiveness='0.6' tags="brag" gameType="generic" madeOn="human">
-			<content>Now you can tell you are dealing with a master</content>
-			<response>Oh, really, well it's my turn, so pay attention</response>
-			<response>Some master you are</response>
-			<response>Masters are winners like me</response>
-		</comment>
-		<comment strength='0.5' competitiveness='0.8' tags="brag" gameType="generic" madeOn="agent">
-			<content>You think that was good?! Watch my next move</content>
-			<response>Fine, I am waiting </response>
-			<response>Bragging won't get you anywhere </response>
-			<response>well, let's see </response>
-		</comment>
-		<comment strength='0.5' competitiveness='0.8' tags="brag" gameType="generic" madeOn="agent">
-			<content>Humans rule in games. We played before you existed</content>
-			<response>Sure, fare enough</response>
-			<response>But we came along better and faster</response>
-			<response>Well prove it</response>
-		</comment>
+
 		<comment strength='0.5' competitiveness='0.2' tags="compliment" gameType="generic" madeOn="agent">
 			<content>You do play very well</content>
 			<response>Thank you very much, you too</response>
 			<response>I learn from smart people like you</response>
-			<response>Such an encouragement to hear that</response>
+			<response>Such encouragement to hear that!</response>
 		</comment>
-		<comment strength='0.5' competitiveness='0.8' tags="brag/offense" gameType="generic" madeOn="human">
-			<content>Can you do better than that?</content>
-			<response>Need you ask?</response>
-			<response>Do you doubt me?</response>
-			<response>Do I have to answer that question? Of course </response>
-			<response>Of course, what else do you expect?</response>
-		</comment>
-		<comment strength='0.8' competitiveness='0.6' tags="brag" gameType="generic" madeOn="human">
+
+		<comment strength='0.8' competitiveness='0.5' tags="brag" gameType="generic" madeOn="human">
 			<content>Now did you see that?</content>
 			<response>Yes. it was good</response>
-			<response>Don't get so impressed with yourself. I can do better than that</response>
+			<response>Don't get so impressed with yourself. It wasn't so great.</response>
 			<response>Not bad, not bad at all</response>
 		</comment>
-		<comment strength='0.5' competitiveness='0.6' tags="brag" gameType="generic" madeOn="human">
-			<content>Let's see your next move</content>
-			<response>Here I go </response>
-			<response>More great play from little old me</response>
-			<response>I will do my best</response>
-		</comment>
-		<comment strength='0.5' competitiveness='0.6' tags="compliment" gameType="generic" madeOn="both">
+		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="both">
 			<content>I like playing with you </content>
 			<response>Then we should play more! </response>
 			<response>Thanks, I like it too </response>
 			<response>I am very happy to hear that </response>
 		</comment>
-		<comment strength='0.5' competitiveness='0.6' tags="compliment" gameType="generic" madeOn="both">
-			<content>Humans enjoy playing games</content>
-			<response>Me too </response>
-			<response>Robots and agents too </response>
-			<response>Well, we are only your creatures </response>
-		</comment>
-		<comment competitiveness='0.8' tags="brag" gameType="generic" gameState="humanWon">
-			<content>Humans always wins! We made you robots!</content>
-			<response>Congratulations</response>
-			<response>Take it easy. It's just a game</response>
-			<response>You do play good</response>
-		</comment>
-		<comment competitiveness='0.5' tags="compliment" gameType="generic" gameState="humanWon">
+
+		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="humanWon">
 			<content>I finally win. Good game.</content>
 			<response>Congratulations</response>
 			<response>Good game</response>
 			<response>I think you need to be tested again</response>
 		</comment>
-		<comment competitiveness='0.7' tags="compliment" gameType="generic" gameState="humanWon">
-			<content>I rule!</content>
+		<comment competitiveness='0.4' tags="compliment" gameType="generic" gameState="humanWon">
+			<content>Did you see that?  I won!</content>
 			<response>Congratulations</response>
 			<response>Take it easy. It's just a game</response>
 			<response>I think you need to be tested again</response>
 		</comment>
+
 		<comment competitiveness='0.6' tags="brag" gameType="generic" gameState="agentWon">
 			<content>You did win, but need to be tested again.</content>
 			<response>Well, Ok</response>
-			<response>You played good too</response>
+			<response>You played well too</response>
 		</comment>
 		<comment competitiveness='0.8' tags="brag" gameType="generic" gameState="agentWon">
 			<content>I just let you win, you know</content>
@@ -239,7 +133,7 @@
 		<comment competitiveness='0.1' tags="compliment" gameType="generic" gameState="agentWon">
 			<content>You won, nice!</content>
 			<response>Thanks!</response>
-			<response>You should try the chances again</response>
+			<response>You should try again</response>
 		</comment>
 		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="tie">
 			<content>Finally, a tie!</content>
@@ -251,11 +145,6 @@
 			<content>Nice tie, nice game</content>
 			<response>Yes good game</response>
 			<response>Should play again then</response>
-		</comment>
-		<comment competitiveness='0.9' tags="brag" gameType="generic" gameState="tie">
-			<content>Play again and I win</content>
-			<response>Yea? prove it</response>
-			<response>Good game</response>
 		</comment>
 	</human>
 	

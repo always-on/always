@@ -135,7 +135,7 @@
      
   <agent id="WeatherAlmanac"  text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Are you interested in knowing the record weather for today in the history? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;">
       <user id="talk_stats_bad_option" text="No, I don't want to">
-	<agent text="Come on.  It is interesting to know those things!">
+	<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Come on.  It is interesting to know those things! &lt;FACE EXPR=\&quot;WARM\&quot;&gt;">
 	  <user text="Alright. What's the record weather?">
 	    <do task="DoAlmanac" />
 	  </user>
@@ -211,10 +211,10 @@
   <agent id="_Ending" 
   	text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="yes. I love talking about weather">
-      <agent text="yeh, me too. That's it for now "/>
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;&gt; yeh, me too. That's it for now &lt;FACE EXPR=\&quot;WARM\&quot;&gt;"/>
     </user>
     <user text="yes, I need to know the weather before I go out">
-      <agent text="Feel free to ask me!" />
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;&gt; Feel free to ask me! &lt;FACE EXPR=\&quot;WARM\&quot;&gt;" />
     </user>
     <user text="yes, but I only want to know about it sometimes">
       <agent text="I'm ready to talk about it whenever you want"/>
