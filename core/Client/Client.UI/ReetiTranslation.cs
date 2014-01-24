@@ -104,36 +104,16 @@ namespace Agent.UI
             begin = command.IndexOf("duration=\"") + 10;
             end = command.IndexOf("\">");
 
-            //intDuration = Convert.ToInt32(command.Substring(begin, end - begin));
-
-            //intAccumulatedVisemeDuration += intDuration;
-
             intAccumulatedVisemeDuration += Convert.ToInt32(command.Substring(begin, end - begin));
 
             if (intAccumulatedVisemeDuration > 700)
             {
-                //if (intAccumulatedVisemeDuration > 1100) intAccumulatedVisemeDuration = 1100;
                 intDuration = intAccumulatedVisemeDuration;
                 intAccumulatedVisemeDuration = 0;
                 return intDuration;
             }
             else
                 return -1;
-
-            //if (intDuration > 400)
-            //{
-            //    if (intDuration > 700) intDuration = 700;
-            //    return intDuration;
-            //}
-            //else if ((intAccumulatedVisemeDuration > 400) &&  (intDuration > 100))
-            //{
-            //    if (intAccumulatedVisemeDuration > 700) intAccumulatedVisemeDuration = 700;
-            //    intDuration = intAccumulatedVisemeDuration;
-            //    intAccumulatedVisemeDuration = 0;
-            //    return intDuration;
-            //}
-            //else
-            //    return -1;
         }
 
         private int getDelayAmount(String command)
