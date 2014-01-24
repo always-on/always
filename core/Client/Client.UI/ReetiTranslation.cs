@@ -16,7 +16,10 @@ namespace Agent.UI
         private const String neutralPosition = "Global.servo.neutralPosition();";
         private const String smileFace       = "Global.Happy.play();";
         private const String concernFace     = "Global.Sad.play();";
-        private const String moveMouth       = "Global.Talk.play(";
+        private const String moveMouth       = "Global.Talk.play();";
+        private const String mouthDuration   = "Global.Talk.setMouthOpenDuration(";
+        private const String letMouthMove    = "Global.Talk.changeMouthPermission(true);";
+        private const String stopMouthMove   = "Global.Talk.changeMouthPermission(false);";
 
         private bool blnHeadNod         = true;
         private bool blnDelay           = true;
@@ -355,7 +358,11 @@ namespace Agent.UI
 
                 if ( intDuration != -1)
                 {
-                    if (blnViseme) SendCommand(moveMouth + ((float)intDuration / 3000) + ");");
+                    if (blnViseme)
+                    {
+                        SendCommand(letMouthMove);
+                        SendCommand(moveMouth + ((float)intDuration / 3000) + ");");
+                    }
                     updateRobotState("Viseme");
                 }
             }
