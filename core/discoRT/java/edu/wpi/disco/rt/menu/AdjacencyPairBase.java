@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt.menu;
 
 import com.google.common.collect.Lists;
+import edu.wpi.cetask.Utils;
 import edu.wpi.disco.rt.util.NullArgumentException;
 import java.util.*;
 
@@ -28,7 +29,7 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
 
    protected void choice (String choice, DialogStateTransition transition) {
       if ( choice == null ) throw new NullArgumentException("choice");
-      choices.put(choice, transition);
+      choices.put(Utils.capitalize(choice), transition);
    }
    
    @Override
