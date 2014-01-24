@@ -23,130 +23,202 @@
 -->
 
 <comments>
-
 	<agent>
-		<comment competitiveness='0.2' tags="centerCellTakenByHuman/compliment" gameType="board" gameName="ttt" madeOn="human">
+		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Clever meld!</content>
+			<response>Thanks</response>
+			<response>Oh yes!</response>
+			<response>Try to do the same!</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanMeld/brag" gameType="board" gameName="srummy" madeOn="human">
+			<content>These cards are nice, why meld? keep them</content>
+			<response>Haha, sure!</response>
+			<response>Really?!</response>
+			<response>You too!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Look at that, what a meld!</content>
+			<response>Aha!</response>
+			<response>Thanks</response>
+			<response>Well try to learn!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Good lay off!</content>
+			<response>Aha!</response>
+			<response>Thanks</response>
+			<response>Well try to learn!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>That meld just got bigger</content>
+			<response>Yes!</response>
+			<response>Not gonna stop either!</response>
+			<response>From my cards of course!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Nice</content>
+			<response>Yes!</response>
+			<response>Thanks</response>
+		</comment>
+		<comment competitiveness='0.8' tags="agentMeld/brag" gameType="board" gameName="srummy" madeOn="agent">
+			<content>And that's how you make a meld</content>
+			<response>Wait for mine!</response>
+			<response>Don't get too excited!</response>
+			<response>Not really madam robot</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Found a meld</content>
+			<response>Good for you</response>
+			<response>Won't get you anywhere</response>
+			<response>Nice!</response>
+		</comment>
+		<comment competitiveness='0.7' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Meld, here I go</content>
+			<response>Wait for mine!</response>
+			<response>Don't get too excited!</response>
+			<response>Not really madam robot</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>And that meld goes bigger</content>
+			<response>Nice</response>
+			<response>Try melding, it's better!</response>
+			<response>It's just one card, take it easy!</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>One less card for me</content>
+			<response>Nice</response>
+			<response>Interesting</response>
+			<response>It's just one card, take it easy!</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>And that meld goes bigger</content>
+			<response>It can't beat my lay offs</response>
+			<response>Good job</response>
+			<response>Nice</response>
+		</comment>
+		<!--More instances of these -->
+		<comment competitiveness='0.2' tags="longTimeNoMeldByHuman" gameType="board" gameName="srummy" madeOn="human">
+			<content>You notice you have not made a meld in ages</content>
+			<response>Will do </response>
+			<response>Do not worry</response>
+			<response>I know!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="longTimeNoMeldByAgent" gameType="board" gameName="srummy" madeOn="agent">
+			<content>I have not made a meld for a long time!</content>
+			<response>You are lazy!</response>
+			<response>Try harder</response>
+			<response>You will get there</response>
+		</comment>
+		<comment competitiveness='0.5' tags="twoMeldsInARowByHuman" gameType="board" gameName="srummy" madeOn="human">
 			<content>Nice! You got the golden cell</content>
 			<response>Yes I did! Let's see if it is helpful</response>
 			<response>Haha, whatever</response>
 			<response>It's just one cell, take it easy!</response>
 		</comment>
-		<comment competitiveness='0.4' tags="centerCellTakenByHuman/offense" gameType="board" gameName="ttt" madeOn="human">
-			<content>Smart ha? Taking the center cell</content>
-			<response>exactly!</response>
-			<response>oh yes!</response>
-			<response>haha, might not be that important</response>
+		<comment competitiveness='0.5' tags="twoMeldsInARowByAgent" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Wow meld and meld</content>
+			<response>Awesome!</response>
+			<response>Goo djob</response>
+			<response>Stop it</response>
 		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByHuman/brag" gameType="board" gameName="ttt" madeOn="human">
-			<content>I can win without that cell</content>
-			<response>prove it</response>
-			<response>unlikely</response>
-			<response>let's see</response>
-		</comment>
-		<comment competitiveness='0.6' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
-			<content>I got the golden cell</content>
-			<response>yes, that's the best place to start</response>
-			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
-			<content>center cell, yes!</content>
-			<response>do not be so sure</response>
-			<response>awesome, keep at it</response>
-			<response>I wish I had that</response>
-		</comment>
-		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Not that easy</content>
-			<response>victory cannot be blocked</response>
-			<response>haha, you are smart</response>
-			<response>nice defense</response>
-		</comment>
-		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Nice try</content>
-			<response>victory cannot be blocked</response>
-			<response>haha, you are smart</response>
-			<response>nice defense</response>
-		</comment>
-		<comment competitiveness='0.2' tags="AgentWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="human">
-			Haha! smart move
-		</comment>
-		<comment competitiveness='0.5' tags="AgentWinOppBlocked/brag" gameType="board" gameName="ttt" madeOn="human">
-			<content>Victory cannot be blocked, it finds a way</content>
-			<response>It's just that victory is not yours!</response>
-			<response>then keep at it!</response>
-			<response>prove it!</response>
-		</comment>
-		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense/brag" gameType="board" gameName="ttt" madeOn="human">
-			<content>No one blocks me, how dare you?</content>
-			<response>Maybe not other agents, I do!</response>
-			<response>Easily!</response>
-			<response>Haha, sure you are right</response>
-		</comment>
+		<!--More tags -->
 	</agent>
-	
 	<human>
-		<comment competitiveness='0.2' tags="centerCellTakenByAgent/compliment" gameType="board" gameName="ttt" madeOn="agent">
+		<comment competitiveness='0.2' tags="humanMeld" gameType="board" gameName="srummy" madeOn="human">
+			<content>I found a meld!</content>
+			<response>Nice</response>
+			<response>Good job</response>
+			<response>Wait for my melds</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanMeld/brag" gameType="board" gameName="srummy" madeOn="human">
+			<content>Best meld ever!</content>
+			<response>Not really!</response>
+			<response>Haha, awesome</response>
+			<response>Wait for mine then</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Here I go, meld!</content>
+			<response>Nice</response>
+			<response>Good job</response>
+			<response>I have to do more melds then</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Found a lay off, yes!</content>
+			<response>Nice</response>
+			<response>Good job</response>
+			<response>I should do more lay off too</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>I lave lay offs!</content>
+			<response>me too!</response>
+			<response>Exactly, once less card on the go</response>
+			<response>Cool</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Haha, lay off!</content>
+			<response>Yes!</response>
+			<response>Awesome</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Good meld</content>
+			<response>Thanks</response>
+			<response>Yes, I just found it</response>
+			<response>I know, thanks</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>I can do a better meld!</content>
+			<response>Oh really?</response>
+			<response>I am watching!</response>
+			<response>Go ahead!</response>
+		</comment>
+		<comment competitiveness='0.7' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>These melds are not gonna make you win</content>
+			<response>oh on the contrary!</response>
+			<response>Well game rules would disagree</response>
+			<response>well let's see</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Good job on lay off</content>
+			<response>Yes!</response>
+			<response>I know</response>
+			<response>Thanks</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Lay offs are very helpful</content>
+			<response>I like them too </response>
+			<response>I know</response>
+			<response>Exactly</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Keep the cards, why lay off?</content>
+			<response>Haha, sure!</response>
+			<response>Well, you too</response>
+			<response>You smart human</response>
+		</comment>
+		<!--More instances of these -->
+		<comment competitiveness='0.2' tags="longTimeNoMeldByHuman" gameType="board" gameName="srummy" madeOn="human">
+			<content>You notice you have not made a meld in ages</content>
+			<response>Will do </response>
+			<response>Do not worry</response>
+			<response>I know!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="longTimeNoMeldByAgent" gameType="board" gameName="srummy" madeOn="agent">
+			<content>I have not made a meld for a long time!</content>
+			<response>You are lazy!</response>
+			<response>Try harder</response>
+			<response>You will get there</response>
+		</comment>
+		<comment competitiveness='0.5' tags="twoMeldsInARowByHuman" gameType="board" gameName="srummy" madeOn="human">
 			<content>Nice! You got the golden cell</content>
-			<response>Thanks!</response>
-			<response>I know!!</response>
-			<response>It's just a cell</response>
+			<response>Yes I did! Let's see if it is helpful</response>
+			<response>Haha, whatever</response>
+			<response>It's just one cell, take it easy!</response>
 		</comment>
-		<comment competitiveness='0.4' tags="centerCellTakenByAgent/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Smart ha? Taking the center cell</content>
-			<response>Exactly!</response>
-			<response>haha, yes!</response>
-			<response>It's just a cell</response>
+		<comment competitiveness='0.5' tags="twoMeldsInARowByAgent" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Wow meld and meld</content>
+			<response>Awesome!</response>
+			<response>Goo djob</response>
+			<response>Stop it</response>
 		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByAgent/brag" gameType="board" gameName="ttt" madeOn="both">
-			<content>I can win without that cell</content>
-			<response>prove it!</response>
-			<response>unlikely!</response>
-			<response>Really, haha</response>
-		</comment>
-		<comment competitiveness='0.6' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
-			<content>I got the golden cell</content>
-			<response>yes, that's the best place to start</response>
-			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
-		</comment>
-		<comment competitiveness='0.5' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
-			<content>center cell, yes!</content>
-			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
-		</comment>
-		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Not that easy</content>
-			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
-		</comment>
-		<comment competitiveness='0.9' tags="AgentWinOppBlocked/offense" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Nice try</content>
-			<response>yes, but I can still win</response>
-			<response>yes, but watch this.</response>
-			<response>just take your turn</response>
-		</comment>
-		<comment competitiveness='0.2' tags="HumanWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Smart ha? Taking the center cell</content>
-			<response>exactly!</response>
-			<response>oh yes!</response>
-			<response>haha, might not be that important</response>
-		</comment>
-		<comment competitiveness='0.5' tags="HumanWinOppBlocked/brag" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Victory can't be blocked</content>
-			<response>It's just that victory is not yours!</response>
-			<response>then keep at it!</response>
-			<response>prove it!</response>
-		</comment>
-		<comment competitiveness='0.9' tags="HumanWinOppBlocked/offense/brag" gameType="board" gameName="ttt" madeOn="agent">
-			<content>No one blocks me, how dare you?</content>
-			<response>Maybe not other agents, I do!</response>
-			<response>Easily!</response>
-			<response>Haha, sure you are right</response>
-		</comment>
+		<!--More tags -->
 	</human>
-	
 </comments>
