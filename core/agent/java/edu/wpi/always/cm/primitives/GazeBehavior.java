@@ -11,7 +11,7 @@ public class GazeBehavior extends PrimitiveBehavior {
     * Agent gaze for thinking (up and left)
     */
    public static final GazeBehavior THINKING = 
-         new GazeBehavior(GazeRealizer.translateAgentTurn(0.7f, 0.85f));
+         new GazeBehavior(GazeRealizer.translateAgentTurn(1.0f, 0.85f));
 
    /**
     * Agent gaze directly at user.
