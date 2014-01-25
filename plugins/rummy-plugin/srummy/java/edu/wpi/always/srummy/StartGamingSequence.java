@@ -31,14 +31,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    }
    @Override
    public void enter() {
-      getContext().getSrummyUI().makeBoardPlayable();
       if(SrummyClient.gameOver){
          SrummyClient.gameOver = false;
          getContext().getSrummyUI().resetGame();
          getContext().getSrummyUI().updatePlugin(this);
       }
-//      SrummyClient.gazeDirection = "board";
-      getContext().getSrummyUI().makeBoardPlayable();
+//      getContext().getSrummyUI().makeBoardPlayable();
+//      SrummyClient.gazeDirection = "boardonce";
    }
    @Override
    public void humanMoveReceived () {
