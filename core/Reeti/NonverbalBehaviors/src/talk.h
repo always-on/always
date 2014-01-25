@@ -23,12 +23,24 @@ class Talk:public UObject{
 		// ‘‘Real’’ constructor URBI taking an int and a string
 		int init();
 
+		void changeMouthPermission(bool p);
+
+		void setMouthOpenDuration(double d);
+		
 		//A declared function to URBI
-		int play(double t);
+		void play();
 
 	private:
+		bool mouthMovePermission;
+		
+		double mouthOpenDuration;
+		
 		// client to send orders to URBI
 		UClient * client;
+
+		//A declared function to URBI
+		void playHelper();
+		void changeMouthPermissionHelper(bool p);
 };
 #endif
 
