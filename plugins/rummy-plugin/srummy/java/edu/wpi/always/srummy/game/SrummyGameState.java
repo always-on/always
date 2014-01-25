@@ -32,6 +32,9 @@ public class SrummyGameState extends GameLogicState {
    private final static String TWO_MELDS_IN_A_ROW_BY_AGENT = "twoMeldsInARowByAgent";
    private final static String TWO_MELDS_IN_A_ROW_BY_HUMAN = "twoMeldsInARowByHuman";
    
+   private static boolean fewCardsForAgentAlreadySaid = false;
+   private static boolean fewCardsForHumanAlreadySaid = false;
+   
    private Deck stock;
    private Deck discard;
 
@@ -588,10 +591,16 @@ public class SrummyGameState extends GameLogicState {
          if(SrummyClient.twoMeldsInARowByHuman)
             tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
 
-         if(playersCards.get(Player.Agent).size() < 4)
+         if(playersCards.get(Player.Agent).size() < 30
+               && !fewCardsForAgentAlreadySaid){
+            fewCardsForAgentAlreadySaid = true;
             tags.add("agentFewCardsLeft");
-         if(playersCards.get(Player.Human).size() < 4)
-            tags.add("agentFewCardsLeft");
+         }
+         if(playersCards.get(Player.Human).size() < 30
+               && !fewCardsForHumanAlreadySaid){
+            fewCardsForHumanAlreadySaid = true;
+            tags.add("HumanFewCardsLeft");
+         }
       }
 
       if(!tags.isEmpty())

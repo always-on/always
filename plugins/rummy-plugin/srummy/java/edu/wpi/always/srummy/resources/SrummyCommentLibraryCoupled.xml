@@ -108,6 +108,30 @@
 			<response>Nice</response>
 		</comment>
 		<!--More instances of these -->
+		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Yes, I am finishing my cards</content>
+			<response>Not so soon</response>
+			<response>Good job</response>
+			<response>Keep at it</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Only a few cards left here, haha</content>
+			<response>Good</response>
+			<response>Not so soon</response>
+			<response>Wait for my moves</response>
+		</comment>
+		<comment competitiveness='0.2' tags="HumanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Few cards to go for you</content>
+			<response>I know</response>
+			<response>Fingers crossed</response>
+			<response>Too soon to say</response>
+		</comment>
+		<comment competitiveness='0.2' tags="HumanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Oh you got only a few cards left</content>
+			<response>Do not worry, too soon to tell</response>
+			<response>Haha, I am gonna win</response>
+			<response>It is close</response>
+		</comment>
 		<comment competitiveness='0.2' tags="longTimeNoMeldByHuman" gameType="board" gameName="srummy" madeOn="human">
 			<content>You notice you have not made a meld in ages</content>
 			<response>Will do </response>
@@ -218,6 +242,30 @@
 			<response>You smart human</response>
 		</comment>
 		<!--More instances of these -->
+		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Wow, you are close to winning</content>
+			<response>Yes! Fingers crossed</response>
+			<response>Uhum, thanks</response>
+			<response>You are playing very good too</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Only few cards left there</content>
+			<response>I know, I am excited</response>
+			<response>So close to win</response>
+			<response>Only if I finish these last ones</response>
+		</comment>
+		<comment competitiveness='0.2' tags="HumanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>I am gonna win with these few cards!</content>
+			<response>Do not be so sure</response>
+			<response>Good!</response>
+			<response>Well let's see about that</response>
+		</comment>
+		<comment competitiveness='0.2' tags="HumanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>I have a few cards left</content>
+			<response>I see, nice</response>
+			<response>Not so soon</response>
+			<response>I should hurry up then!</response>
+		</comment>
 		<comment competitiveness='0.2' tags="longTimeNoMeldByHuman" gameType="board" gameName="srummy" madeOn="human">
 			<content>You notice you have not made a meld in ages</content>
 			<response>Will do </response>
