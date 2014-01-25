@@ -15,10 +15,9 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
    public SkypeSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, ShoreFacePerceptor shore) {
-      super(null, behaviorReceiver, behaviorHistory, resourceMonitor,
-				menuPerceptor);
+      super(new Test(shore),
+            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
-      stateMachine.setState(new Test(shore));
    }
 
    @Override
@@ -34,7 +33,7 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
       private final ShoreFacePerceptor shore;
       
       public Test (ShoreFacePerceptor shore) {
-         super("This is a test", null);
+         super("I am taking the camera until you say ok", new AdjacencyPair.Context());
          this.shore = shore;
          choice("Ok", new DialogStateTransition() {
             @Override

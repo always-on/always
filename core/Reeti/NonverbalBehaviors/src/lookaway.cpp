@@ -37,7 +37,7 @@ int LookAway::lookAwayThink()
 // lookAtBoard function binded to URBI
 int LookAway::lookAtBoard()
 {
-	send("Global.servo.neckRotat=0 smooth:1s,");
+	send("Global.servo.neckRotat=5 smooth:1s,");
 	send("Global.servo.neckTilt=12.5 smooth:1s,");
 	send("Global.servo.rightEyePan=60 smooth:0.5s,");
 	send("Global.servo.rightEyeTilt=42 smooth:0.5s,");
@@ -50,7 +50,7 @@ int LookAway::lookAtBoard()
 // lookAwayAtRight function binded to URBI
 int LookAway::lookAwayAtRight()
 {
-	send("Global.servo.neckRotat=0 smooth:1s,");
+	send("Global.servo.neckRotat=5 smooth:1s,");
 	send("Global.servo.neckTilt=80 smooth:1s,");
 	send("Global.servo.rightEyePan=60 smooth:0.5s,");
 	send("Global.servo.rightEyeTilt=42 smooth:0.5s,");

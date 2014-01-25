@@ -99,7 +99,7 @@
          <binding slot="$_talk_stats_bad_option_step.text" value="&#34;No, I don't want to&#34;"/>
          <binding slot="$_talk_stats_bad_option_step.external" value="true"/>
          <binding slot="$_d4e47_step.text"
-                  value="&#34;Come on.  It is interesting to know those things!&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Come on.  It is interesting to know those things! &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
          <binding slot="$_d4e47_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e52_subtasks">
@@ -183,7 +183,8 @@
          <step name="_d4e82_step" task="disco:Say"/>
          <binding slot="$_d4e81_step.text" value="&#34;yes. I love talking about weather&#34;"/>
          <binding slot="$_d4e81_step.external" value="true"/>
-         <binding slot="$_d4e82_step.text" value="&#34;yeh, me too. That's it for now &#34;"/>
+         <binding slot="$_d4e82_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; yeh, me too. That's it for now &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
          <binding slot="$_d4e82_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e83_subtasks">
@@ -192,7 +193,8 @@
          <binding slot="$_d4e83_step.text"
                   value="&#34;yes, I need to know the weather before I go out&#34;"/>
          <binding slot="$_d4e83_step.external" value="true"/>
-         <binding slot="$_d4e84_step.text" value="&#34;Feel free to ask me!&#34;"/>
+         <binding slot="$_d4e84_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; Feel free to ask me! &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
          <binding slot="$_d4e84_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e85_subtasks">
