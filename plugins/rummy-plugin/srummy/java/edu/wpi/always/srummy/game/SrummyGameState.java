@@ -34,6 +34,7 @@ public class SrummyGameState extends GameLogicState {
    
    private static boolean fewCardsForAgentAlreadySaid = false;
    private static boolean fewCardsForHumanAlreadySaid = false;
+   private static int gameRoundMemory1 = 0, gameRoundMemory2 = 0;
    
    private Deck stock;
    private Deck discard;
@@ -591,15 +592,25 @@ public class SrummyGameState extends GameLogicState {
          if(SrummyClient.twoMeldsInARowByHuman)
             tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
 
-         if(playersCards.get(Player.Agent).size() < 30
-               && !fewCardsForAgentAlreadySaid){
-            fewCardsForAgentAlreadySaid = true;
-            tags.add("agentFewCardsLeft");
+         if((playersCards.get(Player.Agent).size()) < 4){
+            if(SrummyGameState.gameRoundMemory1 != 0)
+               if(SrummyGameState.gameRoundMemory1 
+                     != SrummyClient.gameRound)
+                  fewCardsForAgentAlreadySaid = true;
+            SrummyGameState
+            .gameRoundMemory1 = SrummyClient.gameRound;
+            if(!fewCardsForAgentAlreadySaid)
+               tags.add("agentFewCardsLeft");
          }
-         if(playersCards.get(Player.Human).size() < 30
-               && !fewCardsForHumanAlreadySaid){
-            fewCardsForHumanAlreadySaid = true;
-            tags.add("HumanFewCardsLeft");
+         if((playersCards.get(Player.Human).size()) < 4){
+            if(SrummyGameState.gameRoundMemory2 != 0)
+               if(SrummyGameState.gameRoundMemory2 
+                     != SrummyClient.gameRound)
+                  fewCardsForHumanAlreadySaid = true;
+            SrummyGameState
+            .gameRoundMemory2 = SrummyClient.gameRound;
+            if(!fewCardsForHumanAlreadySaid)
+               tags.add("humanFewCardsLeft");
          }
       }
 
