@@ -24,6 +24,18 @@
 
 <comments>
 	<agent>
+		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
+			<content>How is your hand?</content>
+			<response>Not gonna tell you!</response>
+			<response>Terrible!</response>
+			<response>Good!</response>
+		</comment>
+		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
+			<content>Do you have good cards?</content>
+			<response>Not sure</response>
+			<response>Yes</response>
+			<response>Not really</response>
+		</comment>
 		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
 			<content>Clever meld!</content>
 			<response>Thanks</response>
@@ -120,14 +132,25 @@
 			<response>Goo djob</response>
 			<response>Stop it</response>
 		</comment>
-		<!--More tags -->
 	</agent>
 	<human>
+		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
+			<content>How is your hand?</content>
+			<response>Not gonna tell you!</response>
+			<response>Not so bad</response>
+			<response>Well, you'll see, haha</response>
+		</comment>
+		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
+			<content>I have terrible cards!</content>
+			<response>Wow, I am sorry</response>
+			<response>You'll get better ones</response>
+			<response>Still too soon to say!</response>
+		</comment>
 		<comment competitiveness='0.2' tags="humanMeld" gameType="board" gameName="srummy" madeOn="human">
-			<content>I found a meld!</content>
-			<response>Nice</response>
-			<response>Good job</response>
-			<response>Wait for my melds</response>
+			<content>I got good cards!</content>
+			<response>Then I might be just losing</response>
+			<response>Really? good, me too!</response>
+			<response>Hey, not so soon!</response>
 		</comment>
 		<comment competitiveness='0.6' tags="humanMeld/brag" gameType="board" gameName="srummy" madeOn="human">
 			<content>Best meld ever!</content>
@@ -219,6 +242,5 @@
 			<response>Goo djob</response>
 			<response>Stop it</response>
 		</comment>
-		<!--More tags -->
 	</human>
 </comments>

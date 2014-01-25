@@ -28,6 +28,7 @@ public class SrummyClient implements SrummyUI {
    private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 3;
    private static final int AGENT_DRAWING_DISCARDING_DELAY = 1;
 
+   public static int gameRound = 0;
    public static String gazeDirection = "";
    public static boolean limboEnteredOnce = false;
    public static boolean nod = false;
@@ -687,6 +688,7 @@ public class SrummyClient implements SrummyUI {
    public void sendBackAgentMove () {
       Message m = Message.builder(MSG_PICKED_AGENT_MOVE)
             .add("hashcode", hashCodeOfTheSelectedMove).build();
+      SrummyClient.gameRound += 1;
       dispatcher.send(m);
       //updateWinOrTie();
    }
@@ -696,6 +698,7 @@ public class SrummyClient implements SrummyUI {
       Message m = Message.builder(MSG_RESET_GAME)
             .add("value", "reset").build();
       dispatcher.send(m);
+      SrummyClient.gameRound = 0;
    }
 
    @Override

@@ -21,7 +21,7 @@ import edu.wpi.sgf.logic.GameLogicState;
  * and evaluating different paths or other possible usages with SGF.
  * 
  * @author Morteza Behrooz
- * @version 2.0
+ * @version 3.0
  */
 public class SrummyGameState extends GameLogicState {
 
@@ -565,35 +565,42 @@ public class SrummyGameState extends GameLogicState {
     * 4. TODO Not melding for 4 rounds (averts repeating on 5th.)
     * 
     * @return List of String including rummy specific tags
-    * @Sicne 2.0
     */
    public List<String> getGameSpecificCommentingTags () {
       
       List<String> tags = new ArrayList<String>();
       
-      if(SrummyClient.oneMeldInAgentTurnAlready)
-         tags.add(AGENT_MELD_COMMENTING_TAG);
-      else if(SrummyClient.oneLayoffInAgentTurnAlready)
-         tags.add(AGENT_LAYOFF_COMMENTING_TAG);
-      
-      if(SrummyClient.oneMeldInHumanTurnAlready)
-         tags.add(HUMAN_MELD_COMMENTING_TAG);
-      else if(SrummyClient.oneLayoffInHumanTurnAlready)
-         tags.add(HUMAN_LAYOFF_COMMENTING_TAG);
-      
-      //could here add both layoff and meld cm, TODO
-      
-      if(SrummyClient.twoMeldsInARowByAgent)
-         tags.add(TWO_MELDS_IN_A_ROW_BY_AGENT);
-      if(SrummyClient.twoMeldsInARowByHuman)
-         tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
-      
+      if(SrummyClient.gameRound < 2)
+         tags.add("firstRound");
+      else{
+         if(SrummyClient.oneMeldInAgentTurnAlready)
+            tags.add(AGENT_MELD_COMMENTING_TAG);
+         else if(SrummyClient.oneLayoffInAgentTurnAlready)
+            tags.add(AGENT_LAYOFF_COMMENTING_TAG);
+
+         if(SrummyClient.oneMeldInHumanTurnAlready)
+            tags.add(HUMAN_MELD_COMMENTING_TAG);
+         else if(SrummyClient.oneLayoffInHumanTurnAlready)
+            tags.add(HUMAN_LAYOFF_COMMENTING_TAG);
+
+         if(SrummyClient.twoMeldsInARowByAgent)
+            tags.add(TWO_MELDS_IN_A_ROW_BY_AGENT);
+         if(SrummyClient.twoMeldsInARowByHuman)
+            tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
+
+         if(playersCards.get(Player.Agent).size() < 4)
+            tags.add("agentFewCardsLeft");
+         if(playersCards.get(Player.Human).size() < 4)
+            tags.add("agentFewCardsLeft");
+      }
+
       if(!tags.isEmpty())
          SrummyClient.thereAreGameSpecificTags = true;
       else 
          SrummyClient.thereAreGameSpecificTags = false;
       
       return tags;
+      
    }
 
    public int didAnyOneJustWin () {
