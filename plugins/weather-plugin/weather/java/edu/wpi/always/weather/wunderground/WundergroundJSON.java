@@ -34,8 +34,7 @@ public class WundergroundJSON {
    public WundergroundJSON (String s, UserModel model) throws Exception {
       this.model = model;
       FRIENDS_ZIP_MAP = createFriendMap();
-      System.out.println("Getting weather for " + model.getUserName()
-         + " at ZIP " + s);
+      System.out.println("Getting weather for ZIP " + s);
       fillData(s);
    }
 
