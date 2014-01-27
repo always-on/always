@@ -137,34 +137,40 @@ namespace Rummy.UI
             if (hitTestResult != null)
                 fan = FindFanCanvasAncestor(hitTestResult.VisualHit);
 
-            if (fan == null)
-            {
-                ((FanCanvas)sender).CancelDrag();
-            }
-            else
-            {
-                var sourceController = FanCanvasControllers[(FanCanvas)sender];
-                var card = sourceController.CardFromShape(e.CardShape);
-                Debug.Assert(card != null);
+			if (fan == null)
+			{
+				((FanCanvas)sender).CancelDrag();
+			}
+			else
+			{
+				var sourceController = FanCanvasControllers[(FanCanvas)sender];
+				var card = sourceController.CardFromShape(e.CardShape);
+				//Debug.Assert(card != null);//***
+				if (card == null)
+				{
+					((FanCanvas)sender).CancelDrag();
+				}
+				else
+				{
+					var targetController = FanCanvasControllers[fan];
 
-                var targetController = FanCanvasControllers[fan];
-
-                if (targetController.AcceptDrop(card))
-                {
-                    sourceController.DropAcceptedNotification(card);
-                    if (sourceController == HumanCardsController && humanCards.HasVisibleCards() == false)
-                    {
-                        foreach (var mshape in MeldShapes[HumanPlayer])
-                        {
-                            ((MeldController)FanCanvasControllers[mshape]).SubmitToGameState();
-                        }
-                    }
-                }
-                else
-                {
-                    ((FanCanvas)sender).CancelDrag();
-                }
-            }
+					if (targetController.AcceptDrop(card))
+					{
+						sourceController.DropAcceptedNotification(card);
+						if (sourceController == HumanCardsController && humanCards.HasVisibleCards() == false)
+						{
+							foreach (var mshape in MeldShapes[HumanPlayer])
+							{
+								((MeldController)FanCanvasControllers[mshape]).SubmitToGameState();
+							}
+						}
+					}
+					else
+					{
+						((FanCanvas)sender).CancelDrag();
+					}
+				}
+			}
         }
 
         private FanCanvas FindFanCanvasAncestor(DependencyObject dependencyObject)
