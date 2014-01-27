@@ -576,22 +576,9 @@ public class SrummyGameState extends GameLogicState {
       
       if(SrummyClient.gameRound < 2)
          tags.add("firstRound");
+     
       else{
-         if(SrummyClient.oneMeldInAgentTurnAlready)
-            tags.add(AGENT_MELD_COMMENTING_TAG);
-         else if(SrummyClient.oneLayoffInAgentTurnAlready)
-            tags.add(AGENT_LAYOFF_COMMENTING_TAG);
-
-         if(SrummyClient.oneMeldInHumanTurnAlready)
-            tags.add(HUMAN_MELD_COMMENTING_TAG);
-         else if(SrummyClient.oneLayoffInHumanTurnAlready)
-            tags.add(HUMAN_LAYOFF_COMMENTING_TAG);
-
-         if(SrummyClient.twoMeldsInARowByAgent)
-            tags.add(TWO_MELDS_IN_A_ROW_BY_AGENT);
-         if(SrummyClient.twoMeldsInARowByHuman)
-            tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
-
+         
          if((playersCards.get(Player.Agent).size()) < 4){
             if(SrummyGameState.gameRoundMemory1 != 0)
                if(SrummyGameState.gameRoundMemory1 
@@ -612,6 +599,23 @@ public class SrummyGameState extends GameLogicState {
             if(!fewCardsForHumanAlreadySaid)
                tags.add("humanFewCardsLeft");
          }
+
+         if(tags.isEmpty()){
+            //if not first round and not reached few cards...
+            if(SrummyClient.oneMeldInAgentTurnAlready)
+               tags.add(AGENT_MELD_COMMENTING_TAG);
+            else if(SrummyClient.oneLayoffInAgentTurnAlready)
+               tags.add(AGENT_LAYOFF_COMMENTING_TAG);
+            if(SrummyClient.oneMeldInHumanTurnAlready)
+               tags.add(HUMAN_MELD_COMMENTING_TAG);
+            else if(SrummyClient.oneLayoffInHumanTurnAlready)
+               tags.add(HUMAN_LAYOFF_COMMENTING_TAG);
+            if(SrummyClient.twoMeldsInARowByAgent)
+               tags.add(TWO_MELDS_IN_A_ROW_BY_AGENT);
+            if(SrummyClient.twoMeldsInARowByHuman)
+               tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
+         }
+
       }
 
       if(!tags.isEmpty())
