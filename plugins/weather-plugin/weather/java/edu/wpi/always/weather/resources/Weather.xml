@@ -7,7 +7,7 @@
          <step name="_WeatherLocal_step" task="disco:Say$Expression"/>
          <step name="_WeatherLocal_ref" task="_WeatherLocal_tree"/>
          <binding slot="$_WeatherLocal_step.text"
-                  value="&#34;\&#34;Today in \&#34;+($W.currentWeather.locationName)+\&#34; it is going to be \&#34;+($W.currentWeather.temperature)+\&#34; fahrenheit and it is \&#34;+($W.currentWeather.weatherCondition)&#34;"/>
+                  value="&#34;\&#34;Today in Boston, it is going to be \&#34;+($W.currentWeather.temperature)+\&#34; fahrenheit and it is \&#34;+($W.currentWeather.weatherCondition)&#34;"/>
          <binding slot="$_WeatherLocal_step.external" value="false"/>
       </subtasks>
    </task>
