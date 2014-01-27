@@ -120,13 +120,13 @@
 			<response>Not so soon</response>
 			<response>Wait for my moves</response>
 		</comment>
-		<comment competitiveness='0.2' tags="HumanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
 			<content>Few cards to go for you</content>
 			<response>I know</response>
 			<response>Fingers crossed</response>
 			<response>Too soon to say</response>
 		</comment>
-		<comment competitiveness='0.2' tags="HumanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
 			<content>Oh you got only a few cards left</content>
 			<response>Do not worry, too soon to tell</response>
 			<response>Haha, I am gonna win</response>
@@ -254,13 +254,13 @@
 			<response>So close to win</response>
 			<response>Only if I finish these last ones</response>
 		</comment>
-		<comment competitiveness='0.2' tags="HumanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
 			<content>I am gonna win with these few cards!</content>
 			<response>Do not be so sure</response>
 			<response>Good!</response>
 			<response>Well let's see about that</response>
 		</comment>
-		<comment competitiveness='0.2' tags="HumanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
 			<content>I have a few cards left</content>
 			<response>I see, nice</response>
 			<response>Not so soon</response>
