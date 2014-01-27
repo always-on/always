@@ -60,7 +60,7 @@ namespace Agent.UI
                 // Establish the remote endpoint for the socket.
                 // The name of the 
                 // remote device is "host.contoso.com".
-                IPHostEntry ipHostInfo = Dns.Resolve("130.215.28.4"); // Was "130.215.28.4" Agent.Tcp.AgentControlJsonAdapter.REETI_IP
+                IPHostEntry ipHostInfo = Dns.GetHostEntry(Agent.Tcp.AgentControlJsonAdapter.REETI_IP); // Was "130.215.28.4" Agent.Tcp.AgentControlJsonAdapter.REETI_IP
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 

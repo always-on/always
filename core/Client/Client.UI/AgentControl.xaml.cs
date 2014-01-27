@@ -29,16 +29,18 @@ using UnityUserControl;
 
 namespace Agent.UI
 {
-	public partial class AgentControl : UserControl, IAgentControl
-	{
+    public partial class AgentControl : UserControl, IAgentControl
+    {
         public enum AgentType { Unity, Reeti, Mirror };
-        
+
         public static AgentType agentType = AgentType.Unity;
 
         private ReetiTranslation AgentTranslate;
 
+        private static bool ReetiIPReveived = false;
+
         UnityUserControl.UnityUserControl agent;
-		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
+        public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
         public event EventHandler LoadComplete;
         XmlDocument xmlMessage = new XmlDocument();
 
@@ -52,41 +54,50 @@ namespace Agent.UI
 
             InitAgent();
 
-            if( (agentType == AgentType.Reeti) || (agentType == AgentType.Mirror) )
-                AgentTranslate = new ReetiTranslation();
+            Agent.Tcp.AgentControlJsonAdapter.ReetiIPReceived += (s, e) =>
+            {
+                if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                {
+                    AgentTranslate = new ReetiTranslation();
+                    ReetiIPReveived = true;
+                }
+            };
         }
 
         private void agentCallbackListener(object sender, AgentEvent e)
         {
-            if(e.value == "LoadComplete")
+            if (e.value == "LoadComplete")
                 LoadComplete(this, null);
         }
 
         private void ttsCallbackListener(object sender, UnityUserControl.TTSEvent e)
         {
-            switch (e.eventType)
+            if (ReetiIPReveived)
             {
-                case "viseme":
-                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
-                        AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
-                    break;
-                case "bookmark":
-                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
-                        AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
-                    break;
-                case "end":
-                    if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
-                        AgentTranslate.TranslateToReetiCommand("speech", "ENDSPEECH");
+                switch (e.eventType)
+                {
+                    case "viseme":
+                        if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                            AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
+                        break;
+                    case "bookmark":
+                        if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                            AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
+                        break;
+                    case "end":
+                        if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                            AgentTranslate.TranslateToReetiCommand("speech", "ENDSPEECH");
 
-                    ActionDone(this,new ActionDoneEventArgs("speech", e.sourceUtterance));
-                    break;
+                        ActionDone(this, new ActionDoneEventArgs("speech", e.sourceUtterance));
+                        break;
+                }
             }
         }
 
         private void InitAgent()
         {
             agent = new UnityUserControl.UnityUserControl();
-            agent.Dock = System.Windows.Forms.DockStyle.Fill; 
+            agent.Dock = System.Windows.Forms.DockStyle.Fill;
             agent.Init();
             WFHost.Child = agent;
             agent.agentEvent += agentCallbackListener;
@@ -146,7 +157,8 @@ namespace Agent.UI
 
         private void Perform(string xmlCommand)
         {
-            if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+            if (ReetiIPReveived && 
+                ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror)))
                 AgentTranslate.TranslateToReetiCommand("perform", xmlCommand);
             xmlMessage.LoadXml(xmlCommand);
             agent.perform(xmlMessage);
@@ -189,57 +201,57 @@ namespace Agent.UI
             agent.stopSpeak();
         }
 
-/***********************************************UI CONTROLS*******************************/
-		private IChoiceButtons _buttons;
-		public IChoiceButtons Buttons
-		{
-			get { return _buttons; }
-			set
-			{
-				if (_buttons != null)
-				{
-					_buttons.UserSelectedButton -= Buttons_UserSelectedButton;
-				}
+        /***********************************************UI CONTROLS*******************************/
+        private IChoiceButtons _buttons;
+        public IChoiceButtons Buttons
+        {
+            get { return _buttons; }
+            set
+            {
+                if (_buttons != null)
+                {
+                    _buttons.UserSelectedButton -= Buttons_UserSelectedButton;
+                }
 
-				if (value != null)
-					_buttons = value;
-				else
-					_buttons = new NullChoiceButtons();
+                if (value != null)
+                    _buttons = value;
+                else
+                    _buttons = new NullChoiceButtons();
 
-				_buttons.UserSelectedButton += Buttons_UserSelectedButton;
-			}
-		}
+                _buttons.UserSelectedButton += Buttons_UserSelectedButton;
+            }
+        }
 
-		void Buttons_UserSelectedButton(object sender, UserSelectedButtonEventArgs e)
-		{
-			Nod();
-			UserSelectedButton(sender, e);
-		}
+        void Buttons_UserSelectedButton(object sender, UserSelectedButtonEventArgs e)
+        {
+            Nod();
+            UserSelectedButton(sender, e);
+        }
 
-		protected override Size MeasureOverride(Size constraint)
-		{
-			if (constraint.IsEmpty)
-				return base.MeasureOverride(constraint);
+        protected override Size MeasureOverride(Size constraint)
+        {
+            if (constraint.IsEmpty)
+                return base.MeasureOverride(constraint);
 
-			if (double.IsInfinity(constraint.Width) && double.IsInfinity(constraint.Height))
-				return base.MeasureOverride(constraint);
+            if (double.IsInfinity(constraint.Width) && double.IsInfinity(constraint.Height))
+                return base.MeasureOverride(constraint);
 
-			double w = constraint.Width;
-			double h = constraint.Height;
+            double w = constraint.Width;
+            double h = constraint.Height;
 
-			var minDim = Math.Min(w, h);
+            var minDim = Math.Min(w, h);
 
-			return new Size(minDim, minDim);
-		}
+            return new Size(minDim, minDim);
+        }
 
-		private IEnumerable<FormsControl> GetControlsRecursively(FormsControl c)
-		{
-			yield return c;
+        private IEnumerable<FormsControl> GetControlsRecursively(FormsControl c)
+        {
+            yield return c;
 
-			foreach (FormsControl ic in c.Controls)
-				foreach (FormsControl ctrl in GetControlsRecursively(ic))
-					yield return ctrl;
-		}
+            foreach (FormsControl ic in c.Controls)
+                foreach (FormsControl ctrl in GetControlsRecursively(ic))
+                    yield return ctrl;
+        }
 
 
         //Unused?
@@ -257,5 +269,5 @@ namespace Agent.UI
 			return p;*/
         /*    return base.ArrangeOverride(arrangeBounds);
         }*/
-	}
+    }
 }
