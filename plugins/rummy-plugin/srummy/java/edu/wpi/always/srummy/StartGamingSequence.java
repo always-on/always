@@ -20,12 +20,20 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
          new ArrayList<String>();
 
    public StartGamingSequence(final SrummyStateContext context) {
-      super("Ok, you play first.", context);
+      super("Ok, do you want to play first or should I?", context);
       System.out.println("\n>>>> StartGamingSequence");
-      choice("Ok", new DialogStateTransition() {
+      choice("I'll go first", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {
+            getContext().getSrummyUI().setUpGame(HUMAN_IDENTIFIER);
             return new Limbo(context);
+         }
+      });
+      choice("You go ahead", new DialogStateTransition() {
+         @Override
+         public AdjacencyPair run () {
+            getContext().getSrummyUI().setUpGame(AGENT_IDENTIFIER);
+            return new AgentPlayDelay(context);
          }
       });
    }
@@ -33,8 +41,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    public void enter() {
       if(SrummyClient.gameOver){
          SrummyClient.gameOver = false;
-         getContext().getSrummyUI().resetGame();
+         getContext().getSrummyUI().reset();
          getContext().getSrummyUI().updatePlugin(this);
+//         getContext().getSrummyUI().resetGame();
       }
 //      getContext().getSrummyUI().makeBoardPlayable();
 //      SrummyClient.gazeDirection = "boardonce";
@@ -108,6 +117,29 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             receivedAgentMeldOptions = true;
          else if(chosenMoveType.equals("layoff"))
             receivedAgentLayoffOptions = true;
+      }
+      @Override
+      //this method would be used only when user cards would finish as a result of 
+      // a meld including the card he/she just drew. 
+      //Therefore, no discard would be necessary/possible. 
+      public void gameIsOverByYieldingZeroCardsInATurn () {
+         getContext().getSrummyUI().makeBoardUnplayable();
+         getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
+               AGENT_IDENTIFIER);
+         currentAgentComment = getContext().getSrummyUI()
+               .getCurrentAgentComment();
+         humanResponseOptions.clear();
+         try{
+            humanResponseOptions.addAll(getContext().getSrummyUI()
+                  .getCurrentHumanResponseOptions());
+         }catch(Exception e){/*in case no response exists*/}
+         SrummyClient.gazeDirection = "";
+         humanCommentOptions = getContext().getSrummyUI()
+               .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
+         if(SrummyClient.random.nextBoolean())
+            skipTo(new gameOverDialogueByAgent(getContext()));
+         else
+            skipTo(new gameOverDialogueByHuman(getContext()));
       }
    }
 
@@ -260,7 +292,6 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             receivedAgentDiscardOptions = false;
             AgentPlays.secondMovesRound = false;
             
-            //***
             SrummyClient.meldedOnce = false;
             SrummyClient.agentDrew = false;
             SrummyClient.twoMeldsInARowByAgent = false;
@@ -313,6 +344,29 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
 
          //if did a meld or a lay off, and wants to meld or lay off again:
          getContext().getSrummyUI().triggerAgentDiscardOrMeldLayoffDelay();
+      }
+      @Override
+      //this method would be used only when agent cards would finish as a result of 
+      // a meld including the card he(/she?!) just drew. 
+      //Therefore, no discard would be necessary/possible. 
+      public void gameIsOverByYieldingZeroCardsInATurn () {
+         getContext().getSrummyUI().makeBoardUnplayable();
+         getContext().getSrummyUI().prepareAgentCommentUserResponseForAMoveBy(
+               AGENT_IDENTIFIER);
+         currentAgentComment = getContext().getSrummyUI()
+               .getCurrentAgentComment();
+         humanResponseOptions.clear();
+         try{
+            humanResponseOptions.addAll(getContext().getSrummyUI()
+                  .getCurrentHumanResponseOptions());
+         }catch(Exception e){/*in case no response exists*/}
+         SrummyClient.gazeDirection = "";
+         humanCommentOptions = getContext().getSrummyUI()
+               .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
+         if(SrummyClient.random.nextBoolean())
+            skipTo(new gameOverDialogueByAgent(getContext()));
+         else
+            skipTo(new gameOverDialogueByHuman(getContext()));
       }
    }
 

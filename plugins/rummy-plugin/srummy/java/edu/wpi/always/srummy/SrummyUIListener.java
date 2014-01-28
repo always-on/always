@@ -12,4 +12,5 @@ public interface SrummyUIListener {
    void receivedNewState ();
    void agentPlayingGazeDelayOver ();
    void waitingForAgentDrawOptionsOver ();
+   void gameIsOverByYieldingZeroCardsInATurn ();
 }

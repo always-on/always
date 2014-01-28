@@ -19,9 +19,9 @@ public class SrummyClient implements SrummyUI {
    private static final String MSG_HUMAN_MOVE = "rummy.human_move"; //receives
    private static final String MSG_GAME_STATE = "rummy.game_state"; //receives
    private static final String MSG_PICKED_AGENT_MOVE = "rummy.agent_move"; //sends
-   private static final String MSG_RESET_GAME = "rummy.reset_game"; //sends
    private static final String MSG_GAME_OVER = "rummy.gameover"; //sends
    private static final String MSG_BOARD_PLAYABILITY = "rummy.playability";//sends
+   private static final String MSG_SETUP_BOARD = "rummy.setupgame";//sends
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;//not currently used
    private static final int AGENT_PLAY_DELAY_AMOUNT = 6;
@@ -134,6 +134,15 @@ public class SrummyClient implements SrummyUI {
          }
       });
    }
+   
+   @Override
+   public void setUpGame (int playerIdentifier) {
+      String who = playerIdentifier == HUMAN_IDENTIFIER ? 
+         "human" : "agent";
+      Message m = Message.builder(MSG_SETUP_BOARD)
+            .add("who", who).build();
+      dispatcher.send(m);
+   }
 
    private void receivedMessage (Message message) {
       
@@ -143,6 +152,7 @@ public class SrummyClient implements SrummyUI {
          .getAsString().toLowerCase().trim();
          gameState.gameOver(winner);
          SrummyClient.gameOver = true;
+         listener.gameIsOverByYieldingZeroCardsInATurn();
       }
       
       if(message.getType()
@@ -674,7 +684,6 @@ public class SrummyClient implements SrummyUI {
    @Override
    public void startPluginForTheFirstTime (SrummyUIListener listener) {
       //different method for doing extra things if necessary, 
-      //remove later if none.
       updatePlugin(listener);
    }
 
@@ -694,14 +703,6 @@ public class SrummyClient implements SrummyUI {
    }
 
    @Override
-   public void resetGame () {
-      Message m = Message.builder(MSG_RESET_GAME)
-            .add("value", "reset").build();
-      dispatcher.send(m);
-      SrummyClient.gameRound = 0;
-   }
-
-   @Override
    public void makeBoardPlayable () {
       if ( gameState.didAnyOneJustWin() == 0 ) {
          Message m = Message.builder(MSG_BOARD_PLAYABILITY)
@@ -715,6 +716,14 @@ public class SrummyClient implements SrummyUI {
       Message m = Message.builder(MSG_BOARD_PLAYABILITY)
             .add("value", "false").build();
       dispatcher.send(m);
+   }
+
+   @Override
+   public void reset () {
+      gameState = new SrummyGameState();
+      SrummyClient.gameRound = 0;
+      latestAgentMove = latestHumanMove = null;
+      humanPlayedMoves = new ArrayList<SrummyLegalMove>();
    }
 
 }

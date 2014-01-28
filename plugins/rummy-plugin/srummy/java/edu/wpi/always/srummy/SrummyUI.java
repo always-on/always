@@ -17,12 +17,13 @@ public interface SrummyUI {
    public void startPluginForTheFirstTime(SrummyUIListener listener);
    public void updatePlugin(SrummyUIListener listener);
    public void sendBackAgentMove ();
-   public void resetGame();
    String getCurrentAgentResponse (String humanChoosenComment);
    List<String> getCurrentHumanCommentOptionsAgentResponseForAMoveBy (int player);
    void prepareAgentCommentUserResponseForAMoveBy (int player);
    List<String> getCurrentHumanResponseOptions ();
    public void makeBoardPlayable();
    public void makeBoardUnplayable();
+   public void setUpGame (int agentIdentifier);
+   public void reset();
 
 }

@@ -53,6 +53,16 @@ public class CommentingManager {
          GameLogicState gameState, AnnotatedLegalMove agentMove,
          List<String> gameSpecificTags) {
 
+      //Prevents prioritized gameSpecific tags 
+      //when game is finished. (For example:
+      //In rummy, a meld yielding in a user win, 
+      //should not result in a comment about meld, 
+      //but a comment about game being over.
+      if(gameState.agentWins 
+            || gameState.userWins 
+            || gameState.tie)
+         gameSpecificTags.clear();
+         
       //if win or tie situation
       if(gameState.agentWins)
          return shuffleAndGetMax3(

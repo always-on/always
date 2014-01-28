@@ -81,4 +81,10 @@ implements SrummyUIListener {
    }
    protected void timesUpForDrawOption(){}
    
+   @Override
+   public void gameIsOverByYieldingZeroCardsInATurn(){
+      gameOverByZeroCardsInThisTurn();
+   }
+   protected void gameOverByZeroCardsInThisTurn(){}
+   
 }
