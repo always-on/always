@@ -37,8 +37,6 @@ namespace Agent.UI
 
         private ReetiTranslation AgentTranslate;
 
-        //private static bool ReetiIPReceived = false;
-
         UnityUserControl.UnityUserControl agent;
         public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
         public event EventHandler LoadComplete;
@@ -57,10 +55,7 @@ namespace Agent.UI
             Agent.Tcp.AgentControlJsonAdapter.ReetiIPReceived += (s, e) =>
             {
                 if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
-                {
                     AgentTranslate = new ReetiTranslation();
-                    //ReetiIPReceived = true;
-                }
             };
         }
 
