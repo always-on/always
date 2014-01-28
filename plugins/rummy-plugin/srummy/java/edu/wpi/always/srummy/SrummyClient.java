@@ -215,6 +215,8 @@ public class SrummyClient implements SrummyUI {
                && !(latestHumanMove.getMove() instanceof LayoffMove)){
             listener.receivedHumanMove();
             SrummyClient.gameRound += 1;
+            SrummyClient.oneMeldInAgentTurnAlready = false;
+            SrummyClient.oneLayoffInAgentTurnAlready = false;
          }
          updateWinOrTie();
       }
