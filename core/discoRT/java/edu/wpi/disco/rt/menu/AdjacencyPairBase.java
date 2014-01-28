@@ -29,7 +29,7 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
 
    protected void choice (String choice, DialogStateTransition transition) {
       if ( choice == null ) throw new NullArgumentException("choice");
-      choices.put(Utils.capitalize(choice), transition);
+      choices.put(Utils.capitalize(choice.trim()), transition);
    }
    
    @Override
