@@ -21,7 +21,7 @@ import edu.wpi.disco.rt.menu.AdjacencyPair;
 public class RAGStateContext extends AdjacencyPair.Context {
 	public static int menuChoice = -1;
 	private final Keyboard keyboard;
-	private final UIMessageDispatcher dispatcher;
+	private static UIMessageDispatcher dispatcher;
 	private final PlaceManager placeManager;
 	private final PeopleManager peopleManager;
 	//DSM Variables
@@ -129,6 +129,10 @@ public class RAGStateContext extends AdjacencyPair.Context {
 			output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<rag>" + output + "</rag>";
 			Document doc = documentBuilder.parse(new ByteArrayInputStream(output.getBytes("UTF-8")));
 			NodeList nodeList = doc.getChildNodes().item(0).getChildNodes();
+			//Page Test
+//		    Message test = Message.builder("page").add("url", "file:///C:/AlwaysAvailable/WWW/pillbox.jpg").build();
+//		    dispatcher.send(test);
+		    //End of Test
 			for(int i = 0; i < nodeList.getLength(); i++){
 				Node tempNode = nodeList.item(i);
 				//System.out.println(tempNode.getNodeName());
@@ -138,6 +142,8 @@ public class RAGStateContext extends AdjacencyPair.Context {
 						speechText += tempNode.getTextContent() + " ";
 						break;
 					case "PAGE":
+					    Message msg = Message.builder("page").add("url", tempNode.getAttributes().getNamedItem("URL").toString()).build();
+					    dispatcher.send(msg);
 						break;
 					case "POSTURE":
 						speechText += "<POSTURE/> ";
