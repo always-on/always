@@ -28,8 +28,18 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
    }
 
    protected void choice (String choice, DialogStateTransition transition) {
+      choices.put(normalize(choice), transition);
+   }
+   
+   protected static String normalize (String choice) {
       if ( choice == null ) throw new NullArgumentException("choice");
-      choices.put(Utils.capitalize(choice.trim()), transition);
+      choice = choice.trim();
+      if ( choice.length() > 0 ) {
+         int i = choice.length()-1;
+         if ( choice.charAt(i) == '.' ) choice = choice.substring(0, i);
+      }
+      if ( "OK".equals(choice) ) choice = "Ok";
+      return Utils.capitalize(choice);
    }
    
    @Override
