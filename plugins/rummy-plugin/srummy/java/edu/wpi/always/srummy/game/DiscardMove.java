@@ -44,7 +44,7 @@ public class DiscardMove extends SrummyLegalMove{
 				!= this.player)
 			return false;
 		
-		if(supposedlySameDiscardMove.getCard()
+		if(!supposedlySameDiscardMove.getCard()
 				.equals(this.playedCard))
 			return false;
 		

@@ -1,6 +1,7 @@
 package edu.wpi.sgf.comment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
@@ -10,7 +11,12 @@ public class CommentingManager {
 
    protected CommentLibraryHandler libHandler;
 
+   private static Random random;
+   private static final int RANDOM_SEED = 12345;
+   
    public CommentingManager(){
+      
+      random = new Random(RANDOM_SEED);
 
    }
 
@@ -47,6 +53,16 @@ public class CommentingManager {
          GameLogicState gameState, AnnotatedLegalMove agentMove,
          List<String> gameSpecificTags) {
 
+      //Prevents prioritized gameSpecific tags 
+      //when game is finished. (For example:
+      //In rummy, a meld yielding in a user win, 
+      //should not result in a comment about meld, 
+      //but a comment about game being over.
+      if(gameState.agentWins 
+            || gameState.userWins 
+            || gameState.tie)
+         gameSpecificTags.clear();
+         
       //if win or tie situation
       if(gameState.agentWins)
          return shuffleAndGetMax3(
@@ -141,30 +157,26 @@ public class CommentingManager {
    //utilities:
    public static <E> List<E> shuffleAndGetMax3(
          List<E> someObjects){
-      Random rnd = new Random();
-      rnd.setSeed(12345);
       if(someObjects.isEmpty())
          return null;
       List<E> final3 = new ArrayList<E>();
       if(someObjects.size() > 3){
-//       Collections.shuffle(someObjects);
+         Collections.shuffle(someObjects, random);
          for(int i = 0; i < 3; i ++)
             final3.add(someObjects.get(
-                  rnd.nextInt(someObjects.size())));
+                  random.nextInt(someObjects.size())));
       }
       else
          final3.addAll(someObjects);
-//      Collections.shuffle(final3);
+      Collections.shuffle(someObjects, random);
       return final3;
    }
    
    static <E> E getOneRandomlyAmong(List<E> someObjects){
       if(someObjects.isEmpty())
          return null;
-//      Collections.shuffle(someObjects);
-      Random rnd = new Random();
-      rnd.setSeed(12345);
-      return someObjects.get(rnd.
+      Collections.shuffle(someObjects, random);
+      return someObjects.get(random.
             nextInt(someObjects.size()));
    }
 

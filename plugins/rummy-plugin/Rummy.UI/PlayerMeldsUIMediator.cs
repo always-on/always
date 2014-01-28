@@ -39,5 +39,6 @@ namespace Rummy.UI
             con.AssociateWithMeldInGameState(idx);
             con.RenderContents();
         }
+
     }
 }
