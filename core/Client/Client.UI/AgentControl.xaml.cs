@@ -37,7 +37,7 @@ namespace Agent.UI
 
         private ReetiTranslation AgentTranslate;
 
-        private static bool ReetiIPReveived = false;
+        //private static bool ReetiIPReceived = false;
 
         UnityUserControl.UnityUserControl agent;
         public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
@@ -59,7 +59,7 @@ namespace Agent.UI
                 if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
                 {
                     AgentTranslate = new ReetiTranslation();
-                    ReetiIPReveived = true;
+                    //ReetiIPReceived = true;
                 }
             };
         }
@@ -72,7 +72,7 @@ namespace Agent.UI
 
         private void ttsCallbackListener(object sender, UnityUserControl.TTSEvent e)
         {
-            if (ReetiIPReveived)
+            if (Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) //ReetiIPReceived
             {
                 switch (e.eventType)
                 {
@@ -157,7 +157,7 @@ namespace Agent.UI
 
         private void Perform(string xmlCommand)
         {
-            if (ReetiIPReveived && 
+            if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && 
                 ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror)))
                 AgentTranslate.TranslateToReetiCommand("perform", xmlCommand);
             xmlMessage.LoadXml(xmlCommand);
