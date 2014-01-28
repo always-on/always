@@ -212,8 +212,10 @@ public class SrummyClient implements SrummyUI {
          //if meld or lay-off is sent in between, 
          //waits for the discard which "concludes" human's turn.
          if(!(latestHumanMove.getMove() instanceof MeldMove)
-               && !(latestHumanMove.getMove() instanceof LayoffMove))
+               && !(latestHumanMove.getMove() instanceof LayoffMove)){
             listener.receivedHumanMove();
+            SrummyClient.gameRound += 1;
+         }
          updateWinOrTie();
       }
       if(message.getType()
