@@ -196,6 +196,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       public void enter(){
+         SrummyClient.gameRound += 1;
          SrummyClient.twoMeldsInARowByHuman = false;
          SrummyClient.oneMeldInHumanTurnAlready = false;
          SrummyClient.oneLayoffInHumanTurnAlready = false;

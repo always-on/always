@@ -697,7 +697,6 @@ public class SrummyClient implements SrummyUI {
    public void sendBackAgentMove () {
       Message m = Message.builder(MSG_PICKED_AGENT_MOVE)
             .add("hashcode", hashCodeOfTheSelectedMove).build();
-      SrummyClient.gameRound += 1;
       dispatcher.send(m);
       //updateWinOrTie();
    }
