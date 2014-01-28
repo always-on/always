@@ -34,8 +34,7 @@ public class WundergroundJSON {
    public WundergroundJSON (String s, UserModel model) throws Exception {
       this.model = model;
       FRIENDS_ZIP_MAP = createFriendMap();
-      System.out.println("Getting weather for " + model.getUserName()
-         + " at ZIP " + s);
+      System.out.println("Getting weather for ZIP " + s);
       fillData(s);
    }
 
@@ -74,8 +73,8 @@ public class WundergroundJSON {
       comments.put("Miami", "Miami is the known as the city of beaches.");
       result.put("San Francisco", "94105");
       comments.put("San Francisco", "San Francisco is the Golden Gate city.");
-      result.put("Boston", "2101");
-      comments.put("Boston", "Well, you could just look out the window!");
+      result.put("Chicago", "60601");
+      comments.put("Chicago", "Chicago is known as the Windy City");
       result.put("New York", "10001");
       comments.put("New York", "New York is the big apple.");
       result.put("New Orleans", "70112");

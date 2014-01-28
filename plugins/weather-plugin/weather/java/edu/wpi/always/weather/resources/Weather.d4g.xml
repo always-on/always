@@ -108,7 +108,7 @@
 
   <!-- note we are not displaying radarURL -->
     
-  <agent id="WeatherLocal" text="Today in {$W.currentWeather.locationName} it is going to be {$W.currentWeather.temperature} fahrenheit and it is {$W.currentWeather.weatherCondition}">
+  <agent id="WeatherLocal" text="Today in Boston, it is going to be {$W.currentWeather.temperature} fahrenheit and it is {$W.currentWeather.weatherCondition}">
       <user text="How does it feel outside?">
 	<agent text="With {$W.currentWeather.humidity} humidity, it feels like {$W.currentWeather.temperature} fahrenheit.">
 	  <agent ref="WeatherLocal"/>
