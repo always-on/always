@@ -72,7 +72,7 @@ namespace Agent.UI
 
         private void ttsCallbackListener(object sender, UnityUserControl.TTSEvent e)
         {
-            if (Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) //ReetiIPReceived
+            if (Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null)
             {
                 switch (e.eventType)
                 {
