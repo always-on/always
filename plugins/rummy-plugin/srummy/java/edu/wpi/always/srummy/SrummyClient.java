@@ -22,6 +22,7 @@ public class SrummyClient implements SrummyUI {
    private static final String MSG_GAME_OVER = "rummy.gameover"; //sends
    private static final String MSG_BOARD_PLAYABILITY = "rummy.playability";//sends
    private static final String MSG_SETUP_BOARD = "rummy.setupgame";//sends
+   private static final String MSG_STARTING_PLAYER = "rummy.starting_player";//sends
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;//not currently used
    private static final int AGENT_PLAY_DELAY_AMOUNT = 6;
@@ -136,12 +137,20 @@ public class SrummyClient implements SrummyUI {
    }
    
    @Override
-   public void setUpGame (int playerIdentifier) {
+   public void setUpGame () {
+      Message m = Message.builder(MSG_SETUP_BOARD)
+            .build();
+      dispatcher.send(m);
+   }
+   
+   @Override
+   public void setStartingPlayer (int playerIdentifier) {
       String who = playerIdentifier == HUMAN_IDENTIFIER ? 
          "human" : "agent";
-      Message m = Message.builder(MSG_SETUP_BOARD)
+      Message m = Message.builder(MSG_STARTING_PLAYER)
             .add("who", who).build();
       dispatcher.send(m);
+      
    }
 
    private void receivedMessage (Message message) {

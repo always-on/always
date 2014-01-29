@@ -37,10 +37,9 @@ namespace Rummy.UI
 			//SetItUp(Player.One);//ONLY for debug
         }
 
-		public void SetItUp(Player startingPlayer)
+		public void SetItUp()
 		{
-			State startingState = startingPlayer == Player.One ? State.Player1Draw : State.Player2Draw;
-            GameState = new GameState(startingState);
+            GameState = new GameState();
 
             HumanCardsController = new PlayerCardsController(this, humanCards, GameState, HumanPlayer);
             AgentCardsController = new RandomAICardsController(this, agentCards, GameState, AgentPlayer);
@@ -72,6 +71,12 @@ namespace Rummy.UI
             {
                  AgentCardsController.CheckForActionOpportunity();
             };
+		}
+
+		public void SetStartingPlayer(Player startingPlayer)
+		{
+			State startingState = startingPlayer == Player.One ? State.Player1Draw : State.Player2Draw;
+			GameState.SetState(startingState);
 		}
 
         private void SubscribeToFanCanvasDropEvents()

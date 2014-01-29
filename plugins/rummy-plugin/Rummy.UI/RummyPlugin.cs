@@ -38,17 +38,29 @@ namespace AgentApp
 				  new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
 
 			_remote.RegisterReceiveHandler("rummy.setupgame",
-				  new MessageHandlerDelegateWrapper(x => SetUpGame(x, uiThreadDispatcher)));
+				  new MessageHandlerDelegateWrapper(x => SetUpGame(uiThreadDispatcher)));
+
+			_remote.RegisterReceiveHandler("rummy.starting_player",
+				  new MessageHandlerDelegateWrapper(x => SetStartingPlayer(x, uiThreadDispatcher)));
 		}
 
-		private void SetUpGame(JObject msg, IUIThreadDispatcher uiThreadDispatcher)
+		private void SetStartingPlayer(JObject msg, IUIThreadDispatcher uiThreadDispatcher)
 		{
 			string firstPlayer = msg["who"].ToString();
-			Player playerToStart = 
+			Player playerToStart =
 				firstPlayer.Equals("agent") ? Player.Two : Player.One;
+
+			game.SetStartingPlayer(playerToStart);
+
+			if (playerToStart == Player.Two) //agent
+				_remote.Send("rummy.available_moves", getPossibleMovesAsJson());
+		}
+
+		private void SetUpGame(IUIThreadDispatcher uiThreadDispatcher)
+		{
 			uiThreadDispatcher.BlockingInvoke(() =>
 			{
-				game.SetItUp(playerToStart);
+				game.SetItUp();
 				game.AgentCardsController.AutoPlay = false;
 				game.GameState.MoveHappened += m =>
 				{
@@ -77,9 +89,6 @@ namespace AgentApp
 				};
 
 			});
-
-			if(playerToStart == Player.Two)
-				_remote.Send("rummy.available_moves", getPossibleMovesAsJson());
 		}
 
 		public void Dispose()
