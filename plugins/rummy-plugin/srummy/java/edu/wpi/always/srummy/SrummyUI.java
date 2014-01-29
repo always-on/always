@@ -23,7 +23,8 @@ public interface SrummyUI {
    List<String> getCurrentHumanResponseOptions ();
    public void makeBoardPlayable();
    public void makeBoardUnplayable();
-   public void setUpGame (int agentIdentifier);
+   public void setUpGame ();
    public void reset();
+   public void setStartingPlayer (int playerIdentifier);
 
 }

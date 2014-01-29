@@ -25,14 +25,14 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       choice("I'll go first", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {
-            getContext().getSrummyUI().setUpGame(HUMAN_IDENTIFIER);
+            getContext().getSrummyUI().setStartingPlayer(HUMAN_IDENTIFIER);
             return new Limbo(context);
          }
       });
       choice("You go ahead", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {
-            getContext().getSrummyUI().setUpGame(AGENT_IDENTIFIER);
+            getContext().getSrummyUI().setStartingPlayer(AGENT_IDENTIFIER);
             return new AgentPlayDelay(context);
          }
       });
