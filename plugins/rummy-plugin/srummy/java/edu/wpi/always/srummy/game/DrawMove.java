@@ -39,8 +39,8 @@ public class DrawMove extends SrummyLegalMove{
 		DrawMove supposedlySameDrawMove 
 				= (DrawMove) someMove;
 		
-		if(!(supposedlySameDrawMove.getPlayer()
-				== this.player))
+		if(supposedlySameDrawMove.getPlayer()
+				!= this.player)
 			return false;
 		
 		if(supposedlySameDrawMove.getPile()
