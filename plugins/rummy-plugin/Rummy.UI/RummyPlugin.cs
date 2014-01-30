@@ -25,9 +25,43 @@ namespace AgentApp
 			this._remote = remote;
 			uiThreadDispatcher.BlockingInvoke(() =>
 			{
-				game = new GameShape(agentStarts ? Player.Two : Player.One);
-				game.AgentCardsController.AutoPlay = false;
+				game = new GameShape();
 
+				pluginContainer = new Viewbox();
+				pluginContainer.Child = game;
+			});
+
+			_remote.RegisterReceiveHandler("rummy.agent_move",
+				  new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
+
+			_remote.RegisterReceiveHandler("rummy.playability",
+				  new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
+
+			_remote.RegisterReceiveHandler("rummy.setupgame",
+				  new MessageHandlerDelegateWrapper(x => SetUpGame(uiThreadDispatcher)));
+
+			_remote.RegisterReceiveHandler("rummy.starting_player",
+				  new MessageHandlerDelegateWrapper(x => SetStartingPlayer(x, uiThreadDispatcher)));
+		}
+
+		private void SetStartingPlayer(JObject msg, IUIThreadDispatcher uiThreadDispatcher)
+		{
+			string firstPlayer = msg["who"].ToString();
+			Player playerToStart =
+				firstPlayer.Equals("agent") ? Player.Two : Player.One;
+
+			game.SetStartingPlayer(playerToStart);
+
+			if (playerToStart == Player.Two) //agent
+				_remote.Send("rummy.available_moves", getPossibleMovesAsJson());
+		}
+
+		private void SetUpGame(IUIThreadDispatcher uiThreadDispatcher)
+		{
+			uiThreadDispatcher.BlockingInvoke(() =>
+			{
+				game.SetItUp();
+				game.AgentCardsController.AutoPlay = false;
 				game.GameState.MoveHappened += m =>
 				{
 					if (m.Player == Player.One
@@ -35,6 +69,7 @@ namespace AgentApp
 					{
 						_remote.Send("rummy.human_move"
 							, getMoveAsJson(m));
+						game.GameState.CheckForWinnerInTheMiddleOfTurns();
 					}
 				};
 
@@ -53,21 +88,14 @@ namespace AgentApp
 					_remote.Send("rummy.gameover", getPlayerAsJson(p));
 				};
 
-				pluginContainer = new Viewbox();
-				pluginContainer.Child = game;
 			});
-
-			_remote.RegisterReceiveHandler("rummy.agent_move",
-				  new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
-
-			_remote.RegisterReceiveHandler("rummy.playability",
-				  new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
 		}
 
 		public void Dispose()
 		{
 			_remote.RemoveReceiveHandler("rummy.agent_move");
 			_remote.RemoveReceiveHandler("rummy.playability");
+			_remote.RemoveReceiveHandler("rummy.setupgame");
 		}
 
 		private string PlayerNameToSend(Player player)
@@ -113,6 +141,7 @@ namespace AgentApp
 					}
 						
 			}
+			game.GameState.CheckForWinnerInTheMiddleOfTurns();
 		}
 
 		public JObject getPossibleMovesAsJson()

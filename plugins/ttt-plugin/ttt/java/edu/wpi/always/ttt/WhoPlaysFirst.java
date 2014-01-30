@@ -223,6 +223,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
+         getContext().getTTTUI().makeBoardUnplayable();
          humanCommentOptions = getContext().getTTTUI()
                .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
          getContext().getTTTUI().prepareAgentCommentUserResponseForAMoveBy(
@@ -312,6 +313,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       public void enter() {
          TTTClient.gazeDirection = "useronce";
          if(TTTClient.gameOver){
+            getContext().getTTTUI().makeBoardUnplayable();
             TTTClient.gazeDirection = "";
             TTTClient.gazeDirection = "board";
             if(TTTClient.random.nextBoolean())
@@ -325,6 +327,8 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
             //getContext().getTTTUI().triggerHumanCommentingTimer();
             if(playerIdentifier == AGENT_IDENTIFIER)
                getContext().getTTTUI().makeBoardPlayable();
+            else
+               getContext().getTTTUI().makeBoardUnplayable();
          }
       }
    }
@@ -378,6 +382,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       public void enter() {
          TTTClient.gazeDirection = "useronce";
          if(TTTClient.gameOver){
+            getContext().getTTTUI().makeBoardUnplayable();
             TTTClient.gazeDirection = "";
             humanCommentOptions = getContext().getTTTUI()
                   .getCurrentHumanCommentOptionsAgentResponseForAMoveBy(AGENT_IDENTIFIER);
@@ -403,6 +408,8 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
             //getContext().getTTTUI().triggerHumanCommentingTimer();
             if(playerIdentifier == AGENT_IDENTIFIER)
                getContext().getTTTUI().makeBoardPlayable();
+            else
+               getContext().getTTTUI().makeBoardUnplayable();
          }
       }
    }
@@ -419,6 +426,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override
       public void enter(){
+         getContext().getTTTUI().makeBoardUnplayable();
          currentAgentResponse = getContext().getTTTUI()
                .getCurrentAgentResponse(humanChoosenComment);
          getContext().getTTTUI().updatePlugin(this);
@@ -440,7 +448,6 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         System.out.println("\n\n\ngameOverDialogueByAgent\n\n");
          getContext().getTTTUI().triggerNextStateTimer(this);
          getContext().getTTTUI().makeBoardUnplayable();
          TTTClient.gazeDirection = "sayandgaze";
@@ -476,7 +483,6 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         System.out.println("\n\n\ngameOverDialogueByHuman\n\n");
          currentAgentComment = "";
          getContext().getTTTUI().makeBoardUnplayable();
       }
@@ -506,7 +512,6 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
-         System.out.println("\n\n\ngameOverdrbh\n\n");
          TTTClient.gazeDirection = "";
          TTTClient.gameOver = true;
       }
@@ -521,7 +526,6 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       }
       @Override
       public void enter () {
-         System.out.println("\n\ngameOverDialogueResponseByAgent\n\n\n");
          getContext().getTTTUI().triggerNextStateTimer(this);
          currentAgentResponse = getContext().getTTTUI()
                .getCurrentAgentResponse(humanChosenCm);
@@ -552,7 +556,7 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
       @Override 
       public void enter(){
          TTTClient.gazeDirection = "";
-         //TTTClient.gazeDirection = "user";
+         //TTTClient.gazeDirection = "useronce";
          TTTClient.gameOver = true;
          getContext().getTTTUI().makeBoardUnplayable();
          getContext().getTTTUI().updatePlugin(this);

@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using Agent.Tcp;
 
 namespace Rummy.UI
 {
@@ -31,16 +32,14 @@ namespace Rummy.UI
         Dictionary<Player, List<FanCanvas>> MeldShapes = new Dictionary<Player, List<FanCanvas>>();
 
         public GameShape()
-            : this(Player.One)
-        {
-        }
-
-        public GameShape(Player startingPlayer)
         {
             InitializeComponent();
+			//SetItUp(Player.One);//ONLY for debug
+        }
 
-            State startingState = startingPlayer == Player.One ? State.Player1Draw : State.Player2Draw;
-            GameState = new GameState(startingState);
+		public void SetItUp()
+		{
+            GameState = new GameState();
 
             HumanCardsController = new PlayerCardsController(this, humanCards, GameState, HumanPlayer);
             AgentCardsController = new RandomAICardsController(this, agentCards, GameState, AgentPlayer);
@@ -54,6 +53,8 @@ namespace Rummy.UI
                 {Discard, DiscardController},
                 {Stock, StockController}
             };
+
+			MeldShapes = new Dictionary<Player, List<FanCanvas>>();
 
             CreateMeldShapesFor(HumanPlayer, Canvas.GetTop(humanCards) - 150, 80);
             CreateMeldShapesFor(AgentPlayer, 180, -80);
@@ -70,7 +71,13 @@ namespace Rummy.UI
             {
                  AgentCardsController.CheckForActionOpportunity();
             };
-        }
+		}
+
+		public void SetStartingPlayer(Player startingPlayer)
+		{
+			State startingState = startingPlayer == Player.One ? State.Player1Draw : State.Player2Draw;
+			GameState.SetState(startingState);
+		}
 
         private void SubscribeToFanCanvasDropEvents()
         {
@@ -137,34 +144,40 @@ namespace Rummy.UI
             if (hitTestResult != null)
                 fan = FindFanCanvasAncestor(hitTestResult.VisualHit);
 
-            if (fan == null)
-            {
-                ((FanCanvas)sender).CancelDrag();
-            }
-            else
-            {
-                var sourceController = FanCanvasControllers[(FanCanvas)sender];
-                var card = sourceController.CardFromShape(e.CardShape);
-                Debug.Assert(card != null);
+			if (fan == null)
+			{
+				((FanCanvas)sender).CancelDrag();
+			}
+			else
+			{
+				var sourceController = FanCanvasControllers[(FanCanvas)sender];
+				var card = sourceController.CardFromShape(e.CardShape);
+				//Debug.Assert(card != null);//***
+				if (card == null)
+				{
+					((FanCanvas)sender).CancelDrag();
+				}
+				else
+				{
+					var targetController = FanCanvasControllers[fan];
 
-                var targetController = FanCanvasControllers[fan];
-
-                if (targetController.AcceptDrop(card))
-                {
-                    sourceController.DropAcceptedNotification(card);
-                    if (sourceController == HumanCardsController && humanCards.HasVisibleCards() == false)
-                    {
-                        foreach (var mshape in MeldShapes[HumanPlayer])
-                        {
-                            ((MeldController)FanCanvasControllers[mshape]).SubmitToGameState();
-                        }
-                    }
-                }
-                else
-                {
-                    ((FanCanvas)sender).CancelDrag();
-                }
-            }
+					if (targetController.AcceptDrop(card))
+					{
+						sourceController.DropAcceptedNotification(card);
+						if (sourceController == HumanCardsController && humanCards.HasVisibleCards() == false)
+						{
+							foreach (var mshape in MeldShapes[HumanPlayer])
+							{
+								((MeldController)FanCanvasControllers[mshape]).SubmitToGameState();
+							}
+						}
+					}
+					else
+					{
+						((FanCanvas)sender).CancelDrag();
+					}
+				}
+			}
         }
 
         private FanCanvas FindFanCanvasAncestor(DependencyObject dependencyObject)
