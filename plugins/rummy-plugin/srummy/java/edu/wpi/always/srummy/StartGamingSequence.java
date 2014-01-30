@@ -282,7 +282,6 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       public void enter(){
-         SrummyClient.gameOver = true;//***for debug remove later
          AgentPlays.secondMovesRound = false;
          SrummyClient.gazeDirection = "board";
          getContext().getSrummyUI().updatePlugin(this);
