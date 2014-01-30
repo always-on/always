@@ -40,10 +40,11 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    @Override
    public void enter() {
       if(SrummyClient.gameOver){
+         //if came from a reset
          SrummyClient.gameOver = false;
          getContext().getSrummyUI().reset();
+         getContext().getSrummyUI().setUpGame();
          getContext().getSrummyUI().updatePlugin(this);
-//         getContext().getSrummyUI().resetGame();
       }
 //      getContext().getSrummyUI().makeBoardPlayable();
 //      SrummyClient.gazeDirection = "boardonce";
@@ -281,6 +282,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       public void enter(){
+         SrummyClient.gameOver = true;//***for debug remove later
          AgentPlays.secondMovesRound = false;
          SrummyClient.gazeDirection = "board";
          getContext().getSrummyUI().updatePlugin(this);
