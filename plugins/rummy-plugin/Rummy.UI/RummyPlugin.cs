@@ -26,7 +26,6 @@ namespace AgentApp
 			uiThreadDispatcher.BlockingInvoke(() =>
 			{
 				game = new GameShape();
-
 				pluginContainer = new Viewbox();
 				pluginContainer.Child = game;
 			});
@@ -41,19 +40,10 @@ namespace AgentApp
 				  new MessageHandlerDelegateWrapper(x => SetUpGame(uiThreadDispatcher)));
 
 			_remote.RegisterReceiveHandler("rummy.starting_player",
-				  new MessageHandlerDelegateWrapper(x => SetStartingPlayer(x, uiThreadDispatcher)));
-		}
+				  new MessageHandlerDelegateWrapper(x => SetStartingPlayer(x)));
 
-		private void SetStartingPlayer(JObject msg, IUIThreadDispatcher uiThreadDispatcher)
-		{
-			string firstPlayer = msg["who"].ToString();
-			Player playerToStart =
-				firstPlayer.Equals("agent") ? Player.Two : Player.One;
-
-			game.SetStartingPlayer(playerToStart);
-
-			if (playerToStart == Player.Two) //agent
-				_remote.Send("rummy.available_moves", getPossibleMovesAsJson());
+			_remote.RegisterReceiveHandler("rummy.reset",
+				  new MessageHandlerDelegateWrapper(x => Reset(uiThreadDispatcher)));
 		}
 
 		private void SetUpGame(IUIThreadDispatcher uiThreadDispatcher)
@@ -91,11 +81,36 @@ namespace AgentApp
 			});
 		}
 
+		private void SetStartingPlayer(JObject msg)
+		{
+			string firstPlayer = msg["who"].ToString();
+			Player playerToStart =
+				firstPlayer.Equals("agent") ? Player.Two : Player.One;
+
+			game.SetStartingPlayer(playerToStart);
+
+			if (playerToStart == Player.Two) //agent
+				_remote.Send("rummy.available_moves", getPossibleMovesAsJson());
+		}
+
+		private void Reset(IUIThreadDispatcher uiThreadDispatcher)
+		{
+			uiThreadDispatcher.BlockingInvoke(() =>
+			{
+				game = new GameShape();
+				pluginContainer = new Viewbox();
+				pluginContainer.Child = game;
+			});
+
+			currentMoveSuggestions.Clear();
+		}
+
 		public void Dispose()
 		{
 			_remote.RemoveReceiveHandler("rummy.agent_move");
 			_remote.RemoveReceiveHandler("rummy.playability");
 			_remote.RemoveReceiveHandler("rummy.setupgame");
+			_remote.RemoveReceiveHandler("rummy.reset");
 		}
 
 		private string PlayerNameToSend(Player player)

@@ -23,6 +23,7 @@ public class SrummyClient implements SrummyUI {
    private static final String MSG_BOARD_PLAYABILITY = "rummy.playability";//sends
    private static final String MSG_SETUP_BOARD = "rummy.setupgame";//sends
    private static final String MSG_STARTING_PLAYER = "rummy.starting_player";//sends
+   private static final String MSG_RESET_GAME = "rummy.reset";//sends
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;//not currently used
    private static final int AGENT_PLAY_DELAY_AMOUNT = 6;
@@ -736,6 +737,9 @@ public class SrummyClient implements SrummyUI {
       SrummyClient.gameRound = 0;
       latestAgentMove = latestHumanMove = null;
       humanPlayedMoves = new ArrayList<SrummyLegalMove>();
+      Message m = Message.builder(MSG_RESET_GAME)
+            .build();
+      dispatcher.send(m);
    }
 
 }
