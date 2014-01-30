@@ -10,11 +10,13 @@ implements SrummyUIListener {
    public SrummyAdjacencyPairImpl(
          String message, SrummyStateContext context) {
       super(message, context);
+      this.repeatOption = false;
    }
 
    public SrummyAdjacencyPairImpl (String message,
          SrummyStateContext context, boolean twoColumn) {
       super(message, context, twoColumn);
+      this.repeatOption = false;
    }
 
    public void skipTo (AdjacencyPair nextAdjacencyPair) {
