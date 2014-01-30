@@ -19,22 +19,24 @@ public class SrummyClient implements SrummyUI {
    private static final String MSG_HUMAN_MOVE = "rummy.human_move"; //receives
    private static final String MSG_GAME_STATE = "rummy.game_state"; //receives
    private static final String MSG_PICKED_AGENT_MOVE = "rummy.agent_move"; //sends
-   private static final String MSG_RESET_GAME = "rummy.reset_game"; //sends
    private static final String MSG_GAME_OVER = "rummy.gameover"; //sends
    private static final String MSG_BOARD_PLAYABILITY = "rummy.playability";//sends
+   private static final String MSG_SETUP_BOARD = "rummy.setupgame";//sends
+   private static final String MSG_STARTING_PLAYER = "rummy.starting_player";//sends
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;//not currently used
    private static final int AGENT_PLAY_DELAY_AMOUNT = 6;
    private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 3;
    private static final int AGENT_DRAWING_DISCARDING_DELAY = 1;
 
+   public static int gameRound = 0;
    public static String gazeDirection = "";
    public static boolean limboEnteredOnce = false;
    public static boolean nod = false;
    public static boolean gameOver = false;
    public static boolean DelayAfterDraw = false;
-   public static boolean meldedAlready = false;
-   public static boolean agentDrawn = false;
+   public static boolean meldedOnce = false;
+   public static boolean agentDrew = false;
    public static boolean twoMeldsInARowByAgent = false;
    public static boolean twoMeldsInARowByHuman = false;
    public static boolean oneMeldInHumanTurnAlready = false;
@@ -63,8 +65,10 @@ public class SrummyClient implements SrummyUI {
    private Timer humanCommentingTimer;
    private Timer agentPlayDelayTimer;
    private Timer agentPlayingGazeDelayTimer;
-   private Timer agentDrawOrDiscardDelayTimer;
+   private Timer agentDiscardOrMeldLayoffDelayTimer;
    private Timer nextStateTimer;
+   private Timer waitMoreForDrawOptionsTimer;
+   private Timer waitMoreForDiscardMeldLayoffOptionsTimer;
 
    private SrummyLegalMoveFetcher moveFetcher;
    private SrummyLegalMoveAnnotator moveAnnotator;
@@ -131,6 +135,23 @@ public class SrummyClient implements SrummyUI {
          }
       });
    }
+   
+   @Override
+   public void setUpGame () {
+      Message m = Message.builder(MSG_SETUP_BOARD)
+            .build();
+      dispatcher.send(m);
+   }
+   
+   @Override
+   public void setStartingPlayer (int playerIdentifier) {
+      String who = playerIdentifier == HUMAN_IDENTIFIER ? 
+         "human" : "agent";
+      Message m = Message.builder(MSG_STARTING_PLAYER)
+            .add("who", who).build();
+      dispatcher.send(m);
+      
+   }
 
    private void receivedMessage (Message message) {
       
@@ -140,6 +161,7 @@ public class SrummyClient implements SrummyUI {
          .getAsString().toLowerCase().trim();
          gameState.gameOver(winner);
          SrummyClient.gameOver = true;
+         listener.gameIsOverByYieldingZeroCardsInATurn();
       }
       
       if(message.getType()
@@ -199,8 +221,12 @@ public class SrummyClient implements SrummyUI {
          //if meld or lay-off is sent in between, 
          //waits for the discard which "concludes" human's turn.
          if(!(latestHumanMove.getMove() instanceof MeldMove)
-               && !(latestHumanMove.getMove() instanceof LayoffMove))
+               && !(latestHumanMove.getMove() instanceof LayoffMove)){
             listener.receivedHumanMove();
+            SrummyClient.gameRound += 1;
+            SrummyClient.oneMeldInAgentTurnAlready = false;
+            SrummyClient.oneLayoffInAgentTurnAlready = false;
+         }
          updateWinOrTie();
       }
       if(message.getType()
@@ -330,16 +356,57 @@ public class SrummyClient implements SrummyUI {
    public void triggerAgentPlayTimers () {
       agentPlayDelayTimer = new Timer();
       agentPlayingGazeDelayTimer = new Timer();
-      agentDrawOrDiscardDelayTimer = new Timer();
+      agentDiscardOrMeldLayoffDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(
             new AgentPlayDelayTimerSetter(),
             1000 * AGENT_PLAY_DELAY_AMOUNT);
       agentPlayingGazeDelayTimer.schedule(
             new AgentPlayingGazeDelayTimerSetter(),
             1000 * AGENT_PLAYING_GAZE_DELAY_AMOUNT);
-      agentDrawOrDiscardDelayTimer.schedule(
+      agentDiscardOrMeldLayoffDelayTimer.schedule(
             new AgentDrawDelayTimerSetter(), 
             1000 * AGENT_DRAWING_DISCARDING_DELAY);
+   }
+   
+   @Override
+   public void cancelUpcomingTimersTillNextRound (SrummyUIListener listener) {
+      this.listener = listener;
+      agentPlayDelayTimer.cancel();
+      agentPlayDelayTimer.purge();
+      agentPlayingGazeDelayTimer.cancel();
+      agentPlayingGazeDelayTimer.purge();
+   }
+   
+   @Override
+   public void waitMoreForAgentDrawOptions 
+   (SrummyUIListener listener) {
+      this.listener = listener;
+      waitMoreForDrawOptionsTimer = new Timer();
+      waitMoreForDrawOptionsTimer
+      .schedule(new RobustDrawOptionsRetrieval(), 1000);
+      
+   }
+   private class RobustDrawOptionsRetrieval extends TimerTask {
+      @Override
+      public void run () {
+         listener.waitingForAgentDrawOptionsOver();
+      }
+   }
+   
+   @Override
+   public void waitMoreForAgentDiscardMeldLayoff 
+   (SrummyUIListener listener) {
+      this.listener = listener;
+      waitMoreForDiscardMeldLayoffOptionsTimer = new Timer();
+      waitMoreForDiscardMeldLayoffOptionsTimer
+      .schedule(new RobustDiscardMeldLayoffOptionsRetrieval(), 1000);
+   }
+   private class RobustDiscardMeldLayoffOptionsRetrieval extends TimerTask {
+      @Override
+      public void run () {
+         //can use this here too
+         listener.agentPlayDelayOver();
+      }
    }
 
    private class AgentPlayDelayTimerSetter extends TimerTask {
@@ -362,9 +429,9 @@ public class SrummyClient implements SrummyUI {
    }
    
    @Override
-   public void triggerAgentDiscardDelay () {
-      agentDrawOrDiscardDelayTimer = new Timer();
-      agentDrawOrDiscardDelayTimer.schedule(
+   public void triggerAgentDiscardOrMeldLayoffDelay () {
+      agentDiscardOrMeldLayoffDelayTimer = new Timer();
+      agentDiscardOrMeldLayoffDelayTimer.schedule(
             new AgentDiscardDelayTimerSetter(), 
             1000 * AGENT_DRAWING_DISCARDING_DELAY);
    }
@@ -388,7 +455,7 @@ public class SrummyClient implements SrummyUI {
          listener.nextState();
       }
    }
-
+   
    /**Finding the chosen move in the initial list to send its hashCode back
     * 0 is sent if draw move was the option. Later for cheating the hash-code of
     * the chosen card.
@@ -430,10 +497,10 @@ public class SrummyClient implements SrummyUI {
             moveChooser.choose(passedMoves);
       
       if(passedMove.getMove() instanceof DrawMove)
-         agentDrawn = true;
+         agentDrew = true;
       
       if(passedMove.getMove() instanceof MeldMove)
-         meldedAlready = true;
+         meldedOnce = true;
       
       return passedMove;
    }
@@ -630,7 +697,6 @@ public class SrummyClient implements SrummyUI {
    @Override
    public void startPluginForTheFirstTime (SrummyUIListener listener) {
       //different method for doing extra things if necessary, 
-      //remove later if none.
       updatePlugin(listener);
    }
 
@@ -649,13 +715,6 @@ public class SrummyClient implements SrummyUI {
    }
 
    @Override
-   public void resetGame () {
-      Message m = Message.builder(MSG_RESET_GAME)
-            .add("value", "reset").build();
-      dispatcher.send(m);
-   }
-
-   @Override
    public void makeBoardPlayable () {
       if ( gameState.didAnyOneJustWin() == 0 ) {
          Message m = Message.builder(MSG_BOARD_PLAYABILITY)
@@ -669,6 +728,14 @@ public class SrummyClient implements SrummyUI {
       Message m = Message.builder(MSG_BOARD_PLAYABILITY)
             .add("value", "false").build();
       dispatcher.send(m);
+   }
+
+   @Override
+   public void reset () {
+      gameState = new SrummyGameState();
+      SrummyClient.gameRound = 0;
+      latestAgentMove = latestHumanMove = null;
+      humanPlayedMoves = new ArrayList<SrummyLegalMove>();
    }
 
 }

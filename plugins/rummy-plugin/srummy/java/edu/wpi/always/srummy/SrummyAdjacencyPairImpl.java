@@ -55,15 +55,15 @@ implements SrummyUIListener {
    
    @Override
    public void agentDiscardDelayOver(){
-      afterAgentDiscardDelay();
+      afterAgentDiscardOrMeldLayoffDelay();
    }
-   protected void afterAgentDiscardDelay(){}
+   protected void afterAgentDiscardOrMeldLayoffDelay(){}
    
    @Override
    public void agentPlayDelayOver(){
-      afterDrawAfterGazeAfterThinkingDelay();
+      afterAgentPlayingDelay();
    }
-   protected void afterDrawAfterGazeAfterThinkingDelay(){}
+   protected void afterAgentPlayingDelay(){}
    
    @Override
    public void agentPlayingGazeDelayOver () {
@@ -77,4 +77,16 @@ implements SrummyUIListener {
    }
    public void goToNextState(){}
 
+   @Override
+   public void waitingForAgentDrawOptionsOver () {
+      timesUpForDrawOption();
+   }
+   protected void timesUpForDrawOption(){}
+   
+   @Override
+   public void gameIsOverByYieldingZeroCardsInATurn(){
+      gameOverByZeroCardsInThisTurn();
+   }
+   protected void gameOverByZeroCardsInThisTurn(){}
+   
 }

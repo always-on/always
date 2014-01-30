@@ -84,7 +84,8 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
          this.items = items;
          choices = new ArrayList<String>(items.size()+1);
          for (Plugin.Item item : items) {
-            choices.add(item.formatted != null ? item.formatted : interaction.format(item, false));
+            choices.add(normalize(
+              item.formatted != null ? item.formatted : interaction.format(item, false)));
          }
          if ( utterance != null ) choices.add(REPEAT);  
       }
