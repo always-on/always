@@ -39,7 +39,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    @Override
    public void enter() {
       if(SrummyClient.gameOver){
-         //if came from a reset
+         //if coming from a reset
          SrummyClient.gameOver = false;
          getContext().getSrummyUI().reset();
          getContext().getSrummyUI().setUpGame();
@@ -829,7 +829,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       @Override 
       public void enter(){
          SrummyClient.gazeDirection = "";
-         //SrummyClient.gazeDirection = "user";
+         //SrummyClient.gazeDirection = "useronce";
          SrummyClient.gameOver = true;
          getContext().getSrummyUI().makeBoardUnplayable();
          getContext().getSrummyUI().updatePlugin(this);
