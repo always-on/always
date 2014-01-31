@@ -1,4 +1,4 @@
-#include"smallnod.h"
+#include"include/smallnod.h"
 
 //Declaring our class to URBI
 UStart(SmallNod);
