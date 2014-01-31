@@ -108,6 +108,11 @@ namespace Rummy
             _currentState = startingState;
         }
 
+		public void SetState(State startingState)
+		{
+			_currentState = startingState;
+		}
+
         public GameState(ICollection<Card> player1Cards)
         {
             GenerateInitialStateAndShuffleStock(player1Cards);

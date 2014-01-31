@@ -135,11 +135,15 @@ namespace Agent.Tcp
         }
 
 		public static string REETI_IP;
+        public static event EventHandler ReetiIPReceived = delegate { };
 
 		private void ReetiIP(JObject args)
         {
-			if (args["address"] != null)
-				REETI_IP = args["address"].Value<string>();
+            if (args["address"] != null)
+            {
+                REETI_IP = args["address"].Value<string>();
+                ReetiIPReceived(this, null);
+            }
         }
 		private void StopSpeech(JObject args)
 		{
