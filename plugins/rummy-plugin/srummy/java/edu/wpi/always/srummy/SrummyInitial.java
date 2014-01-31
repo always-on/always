@@ -18,6 +18,7 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
 
    public SrummyInitial (SrummyStateContext context) {
       super("Let's play rummy", context);
+      this.repeatOption = true;
       nextLevelButtonMarks.add("Ok");
       nextLevelButtonMarks.add("Uh-huh");
       nextLevelButtonMarks.add("Go on");
@@ -44,12 +45,14 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
    @Override
    public void enter(){
       getContext().getSrummyUI().startPluginForTheFirstTime(this);
-//      getContext().getSrummyUI().makeBoardUnplayable(); // by default
+      getContext().getSrummyUI().setUpGame();
+      getContext().getSrummyUI().makeBoardUnplayable();
    }
 
    public class AskIfWantTutorial extends SrummyAdjacencyPairImpl{
       public AskIfWantTutorial (SrummyStateContext context) {
          super("Before we start, do you want a refresher on playing rummy?", context);
+         this.repeatOption = true;
          choice("Yes, definitely", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
@@ -68,6 +71,7 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
    public class Tutorial extends SrummyAdjacencyPairImpl{
       public Tutorial (SrummyStateContext context) {
          super(prompts.get(explainingLine), context);
+         this.repeatOption = true;
          if(explainingLine != 8 && explainingLine != 6){
             choice(nextLevelButtonMarks.get(SrummyClient.random.nextInt(
                   nextLevelButtonMarks.size())), new DialogStateTransition() {
@@ -113,6 +117,7 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
    public class LetsPlay extends SrummyAdjacencyPairImpl{
       public LetsPlay (SrummyStateContext context) {
          super("Ok let's play!", context);
+         this.repeatOption = true;
          choice("Yes, great!", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {

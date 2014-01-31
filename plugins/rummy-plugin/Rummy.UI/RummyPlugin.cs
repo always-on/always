@@ -26,7 +26,6 @@ namespace AgentApp
 			uiThreadDispatcher.BlockingInvoke(() =>
 			{
 				game = new GameShape();
-
 				pluginContainer = new Viewbox();
 				pluginContainer.Child = game;
 			});
@@ -38,17 +37,20 @@ namespace AgentApp
 				  new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
 
 			_remote.RegisterReceiveHandler("rummy.setupgame",
-				  new MessageHandlerDelegateWrapper(x => SetUpGame(x, uiThreadDispatcher)));
+				  new MessageHandlerDelegateWrapper(x => SetUpGame(uiThreadDispatcher)));
+
+			_remote.RegisterReceiveHandler("rummy.starting_player",
+				  new MessageHandlerDelegateWrapper(x => SetStartingPlayer(x)));
+
+			_remote.RegisterReceiveHandler("rummy.reset",
+				  new MessageHandlerDelegateWrapper(x => Reset(uiThreadDispatcher)));
 		}
 
-		private void SetUpGame(JObject msg, IUIThreadDispatcher uiThreadDispatcher)
+		private void SetUpGame(IUIThreadDispatcher uiThreadDispatcher)
 		{
-			string firstPlayer = msg["who"].ToString();
-			Player playerToStart = 
-				firstPlayer.Equals("agent") ? Player.Two : Player.One;
 			uiThreadDispatcher.BlockingInvoke(() =>
 			{
-				game.SetItUp(playerToStart);
+				game.SetItUp();
 				game.AgentCardsController.AutoPlay = false;
 				game.GameState.MoveHappened += m =>
 				{
@@ -77,9 +79,30 @@ namespace AgentApp
 				};
 
 			});
+		}
 
-			if(playerToStart == Player.Two)
+		private void SetStartingPlayer(JObject msg)
+		{
+			string firstPlayer = msg["who"].ToString();
+			Player playerToStart =
+				firstPlayer.Equals("agent") ? Player.Two : Player.One;
+
+			game.SetStartingPlayer(playerToStart);
+
+			if (playerToStart == Player.Two) //agent
 				_remote.Send("rummy.available_moves", getPossibleMovesAsJson());
+		}
+
+		private void Reset(IUIThreadDispatcher uiThreadDispatcher)
+		{
+			uiThreadDispatcher.BlockingInvoke(() =>
+			{
+				game = new GameShape();
+				pluginContainer = new Viewbox();
+				pluginContainer.Child = game;
+			});
+
+			currentMoveSuggestions.Clear();
 		}
 
 		public void Dispose()
@@ -87,6 +110,7 @@ namespace AgentApp
 			_remote.RemoveReceiveHandler("rummy.agent_move");
 			_remote.RemoveReceiveHandler("rummy.playability");
 			_remote.RemoveReceiveHandler("rummy.setupgame");
+			_remote.RemoveReceiveHandler("rummy.reset");
 		}
 
 		private string PlayerNameToSend(Player player)
