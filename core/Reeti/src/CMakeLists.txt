@@ -93,20 +93,3 @@ target_link_libraries(ReetiServer_Mirroring
 )
 
 FILE(COPY /home/reeti/Always-On/always/core/Reeti/conf/. DESTINATION /home/reeti/reetiPrograms/load)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
