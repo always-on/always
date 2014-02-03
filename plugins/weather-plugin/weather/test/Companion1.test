@@ -5,7 +5,7 @@
   > load java/edu/wpi/always/weather/resources/Weather.xml
   > task _WeatherCompanion
     User says "Let's achieve _WeatherCompanion."
-    Agent says "Today in Good old Worcester, MA it is going to be 32.5 fahrenheit and it is Overcast."
+    Agent says "Today in Boston, it is going to be 32.5 fahrenheit and it is Overcast."
   > say
 [1] How does it feel outside?
 [2] What's the forecast for tomorrow?

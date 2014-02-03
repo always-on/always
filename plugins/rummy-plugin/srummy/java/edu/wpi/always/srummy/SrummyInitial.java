@@ -44,6 +44,7 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
    @Override
    public void enter(){
       getContext().getSrummyUI().startPluginForTheFirstTime(this);
+      getContext().getSrummyUI().setUpGame();
       getContext().getSrummyUI().makeBoardUnplayable();
    }
 
