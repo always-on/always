@@ -142,7 +142,7 @@ public class RAGStateContext extends AdjacencyPair.Context {
 						speechText += tempNode.getTextContent() + " ";
 						break;
 					case "PAGE":
-					    Message msg = Message.builder("page").add("url", tempNode.getAttributes().getNamedItem("URL").getNodeValue()).build();
+					    Message msg = Message.builder("page").add("url", tempNode.getAttributes().getNamedItem("URL").toString()).build();
 					    dispatcher.send(msg);
 						break;
 					case "POSTURE":
