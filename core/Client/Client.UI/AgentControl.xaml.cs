@@ -30,13 +30,8 @@ using UnityUserControl;
 
 namespace Agent.UI
 {
-<<<<<<< HEAD
 	public partial class AgentControl : System.Windows.Controls.UserControl, IAgentControl
 	{
-=======
-    public partial class AgentControl : UserControl, IAgentControl
-    {
->>>>>>> upstream/develop
         public enum AgentType { Unity, Reeti, Mirror };
 
         public static AgentType agentType = AgentType.Unity;
@@ -44,12 +39,9 @@ namespace Agent.UI
         private ReetiTranslation AgentTranslate;
 
         UnityUserControl.UnityUserControl agent;
-<<<<<<< HEAD
+
         System.Windows.Forms.WebBrowser page;
 		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
-=======
-        public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
->>>>>>> upstream/develop
         public event EventHandler LoadComplete;
         XmlDocument xmlMessage = new XmlDocument();
 
