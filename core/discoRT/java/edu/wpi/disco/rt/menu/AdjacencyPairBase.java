@@ -11,6 +11,7 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
    private final Map<String, DialogStateTransition> choices = new LinkedHashMap<String, DialogStateTransition>();
    private final C context;
    private final boolean twoColumn;
+   protected boolean repeatOption = true;
 
    protected AdjacencyPairBase (String message, C context) {
       this(message, context, false);
@@ -50,7 +51,7 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
    @Override
    public List<String> getChoices () {
       List<String> choices = Lists.newArrayList(this.choices.keySet());
-      if ( message != null ) choices.add(REPEAT);  
+      if( repeatOption && message != null ) choices.add(REPEAT);  
       return choices;
    }
 

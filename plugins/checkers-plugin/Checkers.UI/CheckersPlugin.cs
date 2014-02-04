@@ -41,6 +41,7 @@ namespace AgentApp
 				};
 				pluginContainer = new Viewbox();
 				pluginContainer.Child = game;
+				game.MakeTheBoardUnplayable();
 			});
 
 			_remote.RegisterReceiveHandler("checkers.agent_move",

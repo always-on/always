@@ -8,7 +8,7 @@ import edu.wpi.disco.rt.menu.AdjacencyPair;
 public class CheckersStateContext extends AdjacencyPair.Context {
 
    private final Keyboard keyboard;
-   private final CheckersUI srummyUIUI;
+   private final CheckersUI checkersUI;
    private final UIMessageDispatcher dispatcher;
    private final PlaceManager placeManager;
    private final PeopleManager peopleManager;
@@ -17,7 +17,7 @@ public class CheckersStateContext extends AdjacencyPair.Context {
          UIMessageDispatcher dispatcher,
          PlaceManager placeManager, PeopleManager peopleManager) {
       this.keyboard = keyboard;
-      this.srummyUIUI = srummyUIUI;
+      this.checkersUI = srummyUIUI;
       this.dispatcher = dispatcher;
       this.placeManager = placeManager;
       this.peopleManager = peopleManager;
@@ -28,7 +28,7 @@ public class CheckersStateContext extends AdjacencyPair.Context {
    }
 
    public CheckersUI getCheckersUI () {
-      return srummyUIUI;
+      return checkersUI;
    }
 
    public UIMessageDispatcher getDispatcher () {
