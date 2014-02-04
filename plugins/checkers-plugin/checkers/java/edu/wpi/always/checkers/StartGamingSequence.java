@@ -379,6 +379,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                skipTo(new gameOverDialogueByHuman(getContext()));
          }
          else{
+            getContext().getCheckersUI().makeBoardUnplayable();
             getContext().getCheckersUI().updatePlugin(this);
             getContext().getCheckersUI().triggerNextStateTimer(this);
             CheckersClient.gazeDirection = "sayandgaze";
@@ -664,6 +665,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
+         getContext().getCheckersUI().makeBoardUnplayable();
          currentAgentResponse = getContext().getCheckersUI()
                .getCurrentAgentResponse(humanChoosenComment);
          getContext().getCheckersUI().updatePlugin(this);
