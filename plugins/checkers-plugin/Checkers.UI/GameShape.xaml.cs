@@ -615,6 +615,7 @@ namespace Checkers.UI
 
 		public void ReceivedConfirmation()
 		{
+			MakeTheBoardUnplayable();
 			sound.Play();
 			MoveChecker(latestR, latestC, LatestRedTryingToMove);
 		}

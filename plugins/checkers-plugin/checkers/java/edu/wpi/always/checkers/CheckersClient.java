@@ -32,6 +32,7 @@ public class CheckersClient implements CheckersUI {
    private static final int HUMAN_COMMENTING_TIMEOUT = 30;
    private static final int AGENT_PLAY_DELAY_AMOUNT = 4;
    private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 3;
+   private static final int NEXT_STATE_DELAY = 3500;//ms
 
    public static String gazeDirection = "";
    public static boolean userJumpedAtLeastOnceInThisTurn = false;
@@ -405,7 +406,7 @@ public class CheckersClient implements CheckersUI {
       this.listener = listener;
       nextStateTimer = new Timer();
       nextStateTimer.schedule(new NextStateTimerSetter(),
-            4000);
+            NEXT_STATE_DELAY);
    }
    private class NextStateTimerSetter extends TimerTask {
       @Override

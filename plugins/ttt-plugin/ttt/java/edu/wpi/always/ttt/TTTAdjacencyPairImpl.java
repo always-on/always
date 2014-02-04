@@ -9,11 +9,13 @@ implements TTTUIListener {
 
    public TTTAdjacencyPairImpl(String message, TTTStateContext context) {
       super(message, context);
+      this.repeatOption = false;
    }
 
    public TTTAdjacencyPairImpl (String message,
          TTTStateContext context, boolean twoColumn) {
       super(message, context, twoColumn);
+      this.repeatOption = false;
    }
 
    public void skipTo (AdjacencyPair nextAdjacencyPair) {

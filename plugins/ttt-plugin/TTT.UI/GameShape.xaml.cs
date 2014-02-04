@@ -63,8 +63,6 @@ namespace TTT.UI
 				for(int i = 1; i < 10; i++)
 				{
 					((Button)this.FindName("cell" + i)).Content = null;
-
-
 				}
 			}));
         }
@@ -90,6 +88,7 @@ namespace TTT.UI
 			Button button = (Button)sender;
             if (button.Content == null)
             {
+				MakeTheBoardUnplayable();
                 button.Content = "O";
                 Played(this, new cellEventArg { cellNum = 
 					int.Parse((string)button.Tag.ToString()[1].ToString()) });
@@ -101,6 +100,5 @@ namespace TTT.UI
     class cellEventArg : EventArgs
     {
         public int cellNum { get; set; }
-
     }
 }

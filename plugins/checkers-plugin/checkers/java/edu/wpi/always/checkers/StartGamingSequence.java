@@ -379,6 +379,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
                skipTo(new gameOverDialogueByHuman(getContext()));
          }
          else{
+            getContext().getCheckersUI().makeBoardUnplayable();
             getContext().getCheckersUI().updatePlugin(this);
             getContext().getCheckersUI().triggerNextStateTimer(this);
             CheckersClient.gazeDirection = "sayandgaze";
@@ -519,8 +520,8 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
          else{
             getContext().getCheckersUI().updatePlugin(this);
             //getContext().getCheckersUI().triggerHumanCommentingTimer();
-            //if(playerIdentifier == AGENT_IDENTIFIER)
-            getContext().getCheckersUI().makeBoardPlayable();
+            if(playerIdentifier == AGENT_IDENTIFIER)
+               getContext().getCheckersUI().makeBoardPlayable();
          }
       }
    }
@@ -619,13 +620,6 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
             }
             skipTo (new Clarification(getContext()));
          }
-         else{
-            //to clarify it is agent's turn?
-//            whichClarification = "myturn";
-//            clarificationString = "Wait, I think it's my turn";
-//            CheckersClient.gazeDirection = "";
-//            skipTo (new Clarification(getContext()));
-         }
       }
       @Override
       public void enter() {
@@ -653,8 +647,8 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
             //CheckersClient.gazeDirection = "useronce";
             getContext().getCheckersUI().updatePlugin(this);
             //getContext().getCheckersUI().triggerHumanCommentingTimer();
-            //         if(playerIdentifier == AGENT_IDENTIFIER)
-            getContext().getCheckersUI().makeBoardPlayable();
+            if(playerIdentifier == AGENT_IDENTIFIER)
+               getContext().getCheckersUI().makeBoardPlayable();
          }
       }
    }
@@ -671,6 +665,7 @@ public class StartGamingSequence extends CheckersAdjacencyPairImpl {
       }
       @Override 
       public void enter(){
+         getContext().getCheckersUI().makeBoardUnplayable();
          currentAgentResponse = getContext().getCheckersUI()
                .getCurrentAgentResponse(humanChoosenComment);
          getContext().getCheckersUI().updatePlugin(this);
