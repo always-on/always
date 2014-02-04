@@ -1,5 +1,6 @@
 package pluginCore;
 
+import edu.wpi.always.client.UIMessageDispatcher;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
@@ -12,7 +13,7 @@ public class ScriptbuilderSchema extends ActivityStateMachineSchema<RAGStateCont
 	public ScriptbuilderSchema(ScriptbuilderCoreScript init,
 			BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-			MenuPerceptor menuPerceptor) {
+			MenuPerceptor menuPerceptor,  UIMessageDispatcher dispatcher) {
 		super(init, behaviorReceiver, behaviorHistory, resourceMonitor,
 				menuPerceptor);
 		this.context = init.context;
