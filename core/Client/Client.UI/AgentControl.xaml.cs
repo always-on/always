@@ -67,25 +67,22 @@ namespace Agent.UI
 
         private void ttsCallbackListener(object sender, UnityUserControl.TTSEvent e)
         {
-            if (Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null)
+            switch (e.eventType)
             {
-                switch (e.eventType)
-                {
-                    case "viseme":
-                        if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
-                            AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
-                        break;
-                    case "bookmark":
-                        if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
-                            AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
-                        break;
-                    case "end":
-                        if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
-                            AgentTranslate.TranslateToReetiCommand("speech", "ENDSPEECH");
+                case "viseme":
+                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && (agentType != AgentType.Unity))
+                        AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
+                    break;
+                case "bookmark":
+                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && (agentType != AgentType.Unity))
+                        AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
+                    break;
+                case "end":
+                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && (agentType != AgentType.Unity))
+                        AgentTranslate.TranslateToReetiCommand("speech", "ENDSPEECH");
 
-                        ActionDone(this, new ActionDoneEventArgs("speech", e.sourceUtterance));
-                        break;
-                }
+                    ActionDone(this, new ActionDoneEventArgs("speech", e.sourceUtterance));
+                    break;
             }
         }
 
