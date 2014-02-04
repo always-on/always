@@ -46,6 +46,7 @@ namespace Agent.UI
         public AgentControl()
         {
             Console.WriteLine("Starting AgentControl...");
+			Console.WriteLine("agentType = " + agentType);
             Buttons = new NullChoiceButtons();
 
             InitializeComponent();
@@ -54,6 +55,11 @@ namespace Agent.UI
 
             Agent.Tcp.AgentControlJsonAdapter.ReetiIPReceived += (s, e) =>
             {
+				if (agentType == AgentType.Unity)
+				{
+					agentType = AgentType.Reeti;
+					Console.WriteLine("Received REETI_IP "+Agent.Tcp.AgentControlJsonAdapter.REETI_IP+" (agentType = Reeti)");
+				}
                 if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
                     AgentTranslate = new ReetiTranslation();
             };
@@ -66,7 +72,7 @@ namespace Agent.UI
         }
 
         private void ttsCallbackListener(object sender, UnityUserControl.TTSEvent e)
-        {
+		{
             if (Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null)
             {
                 switch (e.eventType)

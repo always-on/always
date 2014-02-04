@@ -75,7 +75,7 @@ namespace Agent.Tcp
             else
                 dir = "TOWARDS";
 
-            System.Diagnostics.Debug.WriteLine("horizontal = " + horizontal + "| vertical =" + vertical);
+            //System.Diagnostics.Debug.WriteLine("horizontal = " + horizontal + "| vertical =" + vertical);
 
 			_agent.Turn(dir,horizontal,vertical);
 
