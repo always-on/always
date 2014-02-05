@@ -5,6 +5,8 @@ import org.joda.time.LocalTime;
 import org.picocontainer.MutablePicoContainer;
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
+import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
@@ -50,6 +52,15 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       }
       ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
                       .setInterrupt(false);
+      // print out information here again so it goes into log
+      System.out.println("****************************************************************************");
+      System.out.println("Writing log to: "+interaction.getConsole().log);
+      System.out.println("****************************************************************************");
+      System.out.println("Agent type = "+Always.getAgentType());
+      OntologyUserModel model = (OntologyUserModel) always.getUserModel();
+      System.out.println("User ontology file: "+model.getUserDataFile());
+      System.out.println("User name = "+model.getUserName());
+      System.out.println("Using closeness = "+model.getCloseness());
    }
 
    // activities for which startActivity has been called (not same as Plan.isStarted)
