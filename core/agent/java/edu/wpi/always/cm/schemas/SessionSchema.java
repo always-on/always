@@ -4,7 +4,7 @@ import java.util.*;
 import org.joda.time.LocalTime;
 import org.picocontainer.MutablePicoContainer;
 import edu.wpi.always.*;
-import edu.wpi.always.client.ClientProxy;
+import edu.wpi.always.client.*;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
@@ -105,6 +105,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    @Override
    public void dispose () {
       super.dispose();
+      ClientPluginUtils.hidePlugin(container.getComponent(UIMessageDispatcher.class));
       // restart if fails for some reason
       Utils.lnprint(System.out, "Restarting SessionSchema...");
       interaction.clear();
