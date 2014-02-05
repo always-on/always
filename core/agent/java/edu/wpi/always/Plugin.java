@@ -13,6 +13,7 @@ import org.joda.time.LocalTime;
 import org.picocontainer.Characteristics;
 import org.picocontainer.MutablePicoContainer;
 
+import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.*;
 import edu.wpi.always.user.UserModel;
@@ -83,6 +84,13 @@ public abstract class Plugin {
     * Show the related UI plugin, if any
     */
    public void show () {}
+   
+   /**
+    * Hide the related UI plugin, if any
+    */
+   public void hide () { 
+      ClientPluginUtils.hidePlugin(container.getComponent(UIMessageDispatcher.class));
+   }
    
    /**
     * Get user property associated with this plugin.  Property is stored
@@ -269,8 +277,10 @@ public abstract class Plugin {
       ActivitySchema activity = null;
       for (Class<? extends Schema> schema : schemas.get(name)) {
         Schema instance = cm.getContainer().getComponent(SchemaManager.class).start(schema);
-        if ( instance instanceof ActivitySchema ) 
+        if ( instance instanceof ActivitySchema ) {
            activity = (ActivitySchema) instance;
+           activity.setPlugin(this);
+        }
       }
       if ( activity == null ) throw new IllegalStateException("No activity schema for: "+name);
       return activity;

@@ -22,6 +22,7 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
 
    @Override
    public void dispose () { 
+      super.dispose();
       // this is here so it is run even if schema throws an error
       if ( shore != null ) shore.start(); 
    }
