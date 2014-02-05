@@ -26,7 +26,7 @@ public abstract class ActivitySchema extends SchemaBase {
    @Override
    public void dispose () {
       super.dispose();
-      plugin.hide();
+      if ( plugin != null ) plugin.hide();
    }
    
    /**
