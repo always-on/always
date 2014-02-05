@@ -1,4 +1,4 @@
-#include"lookaway.h"
+#include"include/lookaway.h"
 
 //Declaring our class to URBI
 UStart(LookAway);

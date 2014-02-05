@@ -30,6 +30,7 @@ namespace Agent.Tcp
 			dispatcher.RegisterReceiveHandler("idle", new MessageHandlerDelegateWrapper(Idle));
             dispatcher.RegisterReceiveHandler("toggleAgent", new MessageHandlerDelegateWrapper(ToggleAgent));
             dispatcher.RegisterReceiveHandler("reetiIP", new MessageHandlerDelegateWrapper(ReetiIP));
+            dispatcher.RegisterReceiveHandler("page", new MessageHandlerDelegateWrapper(ShowPage));
 		}
 
 		void Agent_UserSelectedButton(object sender, UserSelectedButtonEventArgs e)
@@ -75,11 +76,19 @@ namespace Agent.Tcp
             else
                 dir = "TOWARDS";
 
-            System.Diagnostics.Debug.WriteLine("horizontal = " + horizontal + "| vertical =" + vertical);
+            //System.Diagnostics.Debug.WriteLine("horizontal = " + horizontal + "| vertical =" + vertical);
 
 			_agent.Turn(dir,horizontal,vertical);
 
 		}
+
+        private void ShowPage(JObject args)
+        {
+            if (args["url"] != null)
+            {
+                _agent.ShowPage(args["url"].Value<string>());
+            }
+        }
 
 		private void Express(JObject args)
 		{
