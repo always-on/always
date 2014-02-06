@@ -30,7 +30,7 @@ public class CheckersClient implements CheckersUI {
          new ArrayList<String>();
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 30;
-   private static final int AGENT_PLAY_DELAY_AMOUNT = 4;
+   private static final double AGENT_PLAY_DELAY_AMOUNT = 4.5;
    private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 3;
    private static final int NEXT_STATE_DELAY = 3500;//ms
 
@@ -381,7 +381,7 @@ public class CheckersClient implements CheckersUI {
       agentPlayingGazeDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(
             new AgentPlayDelayTimerSetter(),
-            1000 * AGENT_PLAY_DELAY_AMOUNT);
+            ((int)(1000 * AGENT_PLAY_DELAY_AMOUNT)));
       agentPlayingGazeDelayTimer.schedule(
             new AgentPlayingGazeDelayTimerSetter(),
             1000 * AGENT_PLAYING_GAZE_DELAY_AMOUNT);
