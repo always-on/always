@@ -48,6 +48,7 @@ namespace Agent.Core
         void ToggleAgent();
 		void Turn(string dir, float horizontal, float vertical);
 		void Express(Agent.Core.AgentFaceExpression expression);
+        void ShowPage(string url);
 		void Idle(bool enabled);
 		void StopSpeech();
 		event EventHandler<UserSelectedButtonEventArgs> UserSelectedButton;

@@ -16,6 +16,8 @@ public class OntologyUserModel extends UserModelBase {
    private final OntologyPeopleManager peopleManager;
    private final OntologyPlaceManager placeManager;
 
+   public File getUserDataFile () { return userDataFile; }
+   
    public OntologyUserModel (OntologyHelper ontology,
          @UserModel.UserOntologyLocation File userDataFile, OntologyCalendar calendar,
          OntologyPeopleManager peopleManager, OntologyPlaceManager placeManager) {

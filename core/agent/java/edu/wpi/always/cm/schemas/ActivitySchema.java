@@ -1,5 +1,7 @@
 package edu.wpi.always.cm.schemas;
 
+import edu.wpi.always.Plugin;
+import edu.wpi.always.client.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuTurnStateMachine;
 import edu.wpi.disco.rt.schema.SchemaBase;
@@ -17,6 +19,16 @@ public abstract class ActivitySchema extends SchemaBase {
       setNeedsFocusResource(true); // default value
    }
 
+   private Plugin plugin;
+   
+   public void setPlugin (Plugin plugin) { this.plugin = plugin; }
+   
+   @Override
+   public void dispose () {
+      super.dispose();
+      if ( plugin != null ) plugin.hide();
+   }
+   
    /**
     * Implementation must provide support for automatically adding focus resource.
     * 
