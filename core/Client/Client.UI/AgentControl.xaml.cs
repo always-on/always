@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Timers;
 using FormsControl = System.Windows.Forms.Control;
 using FormsPanel = System.Windows.Forms.Panel;
+using System.Windows.Forms;
 using System.Threading;
 //using RagClient.Agent.Flash;
 using System.Diagnostics;
@@ -29,8 +30,8 @@ using UnityUserControl;
 
 namespace Agent.UI
 {
-    public partial class AgentControl : UserControl, IAgentControl
-    {
+	public partial class AgentControl : System.Windows.Controls.UserControl, IAgentControl
+	{
         public enum AgentType { Unity, Reeti, Mirror };
 
         public static AgentType agentType = AgentType.Unity;
@@ -38,7 +39,9 @@ namespace Agent.UI
         private ReetiTranslation AgentTranslate;
 
         UnityUserControl.UnityUserControl agent;
-        public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
+
+        System.Windows.Forms.WebBrowser page;
+		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
         public event EventHandler LoadComplete;
         XmlDocument xmlMessage = new XmlDocument();
 
@@ -50,6 +53,8 @@ namespace Agent.UI
             Buttons = new NullChoiceButtons();
 
             InitializeComponent();
+
+            //InitPage();
 
             InitAgent();
 
@@ -97,9 +102,33 @@ namespace Agent.UI
             agent = new UnityUserControl.UnityUserControl();
             agent.Dock = System.Windows.Forms.DockStyle.Fill;
             agent.Init();
+            InitPage();
             WFHost.Child = agent;
             agent.agentEvent += agentCallbackListener;
             agent.ttsEvent += ttsCallbackListener;
+        }
+
+        private void InitPage()
+        {
+            page = new System.Windows.Forms.WebBrowser();
+            page.Dock = System.Windows.Forms.DockStyle.Fill;
+            page.Location = new System.Drawing.Point(0, 0);
+            page.MinimumSize = new System.Drawing.Size(20, 20);
+            page.Name = "webBrowser";
+            page.Size = new System.Drawing.Size(150, 150);
+            agent.Controls.Add(page);
+//            WFHost.Child = agent;
+            page.BringToFront();
+            page.Visible = false;
+            page.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.onPageLoad);
+        }
+
+        private void onPageLoad(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            if (page.ScrollBarsEnabled)
+            {
+                page.ScrollBarsEnabled = false;
+            }
         }
 
         public void Nod()
@@ -175,6 +204,25 @@ namespace Agent.UI
         public void Turn(string dir, float horizontal, float vertical)
         {
             Perform("<GAZE dir=\"" + dir + "\" horizontal=\"" + horizontal + "\" vertical=\"" + vertical + "\" />");
+        }
+
+        public void ShowPage(string url)
+        {
+            agent.Invoke((MethodInvoker)delegate
+            {
+                //agent.Visible = false;
+                if (url != "")
+                {
+                    page.Visible = true;
+                    page.Navigate(url);
+                    //                page.Navigate(url);
+                    page.ScrollBarsEnabled = false;
+                }
+                else
+                {
+                    page.Visible = false;
+                }
+            });
         }
 
         public void Express(AgentFaceExpression expression)

@@ -1,12 +1,11 @@
 // \author msh
 // \date 21/11/2013
-// \version 1.0 
-//personal var to instanciate
+// \version 1.0
+ 
+// Personal var to instanciate
+// var for knowing if a module is loaded
 
-//var for knowing if a module is loaded
 var isUExhibitorLoaded = false;
-var isSurpriseLoaded   = false;
-var isGreetingsLoaded  = false;
 
 var isSmallNodLoaded   = false;
 var isBigNodLoaded     = false;
@@ -15,10 +14,5 @@ var isSadLoaded        = false;
 var isTalkLoaded       = false;
 var isLookAwayLoaded   = false;
 var isDelayLoaded      = false;
-
-//var isMonModuleLoaded = false ;
-//var isUFaceTrackLoaded = false;
-//var isUMoveDetectionLoaded = false ;
-//var isCamLoaded = false;
 
 

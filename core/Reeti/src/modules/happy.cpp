@@ -1,4 +1,4 @@
-#include"happy.h"
+#include"include/happy.h"
 
 //Declaring our class to URBI
 UStart(Happy);
