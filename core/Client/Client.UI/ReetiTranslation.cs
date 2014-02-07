@@ -344,7 +344,7 @@ namespace Agent.UI
                     {
                         if (!blnTalkAlreadyStarted)
                         {
-                            SendCommand(letMouthMove);
+                            //SendCommand(letMouthMove);
                             SendCommand(moveMouth);
                             blnTalkAlreadyStarted = true;
                         }

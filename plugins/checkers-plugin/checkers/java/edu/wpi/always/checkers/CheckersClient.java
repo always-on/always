@@ -432,6 +432,9 @@ public class CheckersClient implements CheckersUI {
 
    @Override
    public void startPluginForTheFirstTime (CheckersUIListener listener) {
+//      Message m = Message.builder("reetiIP")
+//            .add("address", "130.215.28.4").build();
+//      dispatcher.send(m);
       updatePlugin(listener);
    }
 

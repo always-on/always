@@ -118,10 +118,21 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    public static class Reeti extends ShoreFacePerceptor {
 
+      private boolean running;
+      
+      @Override
+      public synchronized void run () {
+         if ( running )
+            super.run();
+      }
+      
       public Reeti (ReetiJsonConfiguration config) {
          super(50, 50, 1700);
-         CPPinterface.INSTANCE.initReetiShoreEngine(
-               new String[] {config.getIP()}, 0);
+         if ( !running ) {
+            CPPinterface.INSTANCE.initReetiShoreEngine(
+                new String[] {config.getIP()}, 0);
+            running = true;
+         }
       }
 
       @Override
@@ -133,10 +144,19 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       public void start () {
          throw new UnsupportedOperationException();
       }
-
+      
+//      @Override
+//      public void stop () {
+//         CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
+//      }
+      
       @Override
-      public void stop () {
-         CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
+      public synchronized void stop () {
+         if ( running ) {
+            latest = null;
+            running = false; // before terminate
+            CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
+         }
       }
    }
 
