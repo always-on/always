@@ -36,7 +36,6 @@
 			<response>yes, that's the best place to start</response>
 			<response>yes, but I can still win</response>
 			<response>yes, now what are you going to do?</response>
-			<response>your turn</response>
 		</comment>
 		<comment competitiveness='0.2' tags="AgentWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="human">
 			<content> Haha! smart move </content>
