@@ -336,10 +336,10 @@ namespace Agent.UI
             }
             else if (Command.Contains("viseme"))
             {
-                intDuration = getSpeechPermission(Command);
+                /*intDuration = getSpeechPermission(Command);
 
                 if ( intDuration != -1)
-                {
+                {*/
                     if (blnViseme)
                     {
                         if (!blnTalkAlreadyStarted)
@@ -348,17 +348,17 @@ namespace Agent.UI
                             SendCommand(moveMouth);
                             blnTalkAlreadyStarted = true;
                         }
-                        SendCommand(mouthOpenDuration + ((float)intDuration / 3000) + ");");
+                        //SendCommand(mouthOpenDuration + ((float)intDuration / 3000) + ");");
                     }
                     updateRobotState("Viseme");
-                }
+                //}
             }
             if (Command.Contains("ENDSPEECH"))
             {
                 if (blnEndSpeech)
                 {
                     SendCommand(stopMouthMove);
-                    intAccumulatedVisemeDuration = 701;
+                    //intAccumulatedVisemeDuration = 701;
                     blnTalkAlreadyStarted = false;
                 }
                 updateRobotState("EndSpeech");
