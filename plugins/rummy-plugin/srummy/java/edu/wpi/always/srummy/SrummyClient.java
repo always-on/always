@@ -448,7 +448,7 @@ public class SrummyClient implements SrummyUI {
       this.listener = listener;
       nextStateTimer = new Timer();
       nextStateTimer.schedule(new NextStateTimerSetter(),
-            4000);
+            3000);
    }
    private class NextStateTimerSetter extends TimerTask {
       @Override
