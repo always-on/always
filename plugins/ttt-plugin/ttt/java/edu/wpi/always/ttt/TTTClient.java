@@ -19,7 +19,7 @@ public class TTTClient implements TTTUI {
    private static final String MSG_BOARD_PLAYABILITY = "tictactoe.playability";
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;
-   private static final int AGENT_PLAY_DELAY_AMOUNT = 5;
+   private static final double AGENT_PLAY_DELAY_AMOUNT = 5.5;
    private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 3;
    private static final int NEXT_STATE_DELAY = 3000;//ms
 
@@ -258,7 +258,7 @@ public class TTTClient implements TTTUI {
       agentPlayingGazeDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(
             new AgentPlayDelayTimerSetter(),
-            1000 * AGENT_PLAY_DELAY_AMOUNT);
+            ((int)(1000 * AGENT_PLAY_DELAY_AMOUNT)));
       agentPlayingGazeDelayTimer.schedule(
             new AgentPlayingGazeDelayTimerSetter(),
             1000 * AGENT_PLAYING_GAZE_DELAY_AMOUNT);
