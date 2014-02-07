@@ -698,6 +698,9 @@ public class SrummyClient implements SrummyUI {
    @Override
    public void startPluginForTheFirstTime (SrummyUIListener listener) {
       //different method for doing extra things if necessary, 
+      Message m = Message.builder("reetiIP")
+            .add("address", "130.215.28.4").build();
+      dispatcher.send(m);
       updatePlugin(listener);
    }
 
