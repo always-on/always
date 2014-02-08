@@ -1,6 +1,7 @@
 #include"include/talk.h"
 #include<sstream>
 #include<iostream>
+#include<time.h>
 #include<unistd.h>
 #include<boost/thread.hpp>
 
@@ -10,15 +11,15 @@ UStart(Talk);
 //constructeur declaring init to URBI
 Talk::Talk(const string &n):UObject(n)
 {
+	mouthMovePermission = false;
+	mouthOpenDuration   = 0.2;
+
 	UBindFunction(Talk, init) ;
 }
 
 //Init function
 int Talk::init()
 {
-	mouthMovePermission = false;
-	mouthOpenDuration   = 0.2;
-
 	//Declaring play to URBI
 	UBindFunction(Talk, play);
 
@@ -41,22 +42,28 @@ void Talk::changeMouthPermissionHelper(bool permission)
 
 void Talk::playHelper()
 {
-	stringstream strBottomoLipOpen, strBottomoLipClose;
+	int counter = 0;
+	long cTime1, cTime2;
+	timeval curtime;
 
-	strBottomoLipOpen << "Global.servo.bottomLip=10 smooth:" << mouthOpenDuration << "s;";
-	strBottomoLipClose << "Global.servo.bottomLip=80 smooth:" << ((float)mouthOpenDuration/2) << "s;";
-
+	mouthMovePermission = true;
+	
 	while (mouthMovePermission)
 	{
-		send( strBottomoLipOpen.str() );
+		send( "Global.servo.bottomLip=10 smooth:0.3s;" );
 
-		send( strBottomoLipClose.str() );
-		
-		usleep((( 0.1 + mouthOpenDuration ) * 1000000 ) * 2.5 );
+		send( "Global.servo.bottomLip=80 smooth:0.2s;" );
+
+		gettimeofday(&curtime, NULL);
+		cTime1 = (curtime.tv_sec*1000) + (curtime.tv_usec/1000);
+		cTime2 = cTime1;
+
+		while(cTime2-cTime1 <= 1000) {
+			gettimeofday(&curtime, NULL);
+			cTime2 = (curtime.tv_sec*1000) + (curtime.tv_usec/1000);
+			if(!mouthMovePermission) break;
+		}
 	}
-
-	strBottomoLipOpen.clear();
-	strBottomoLipClose.clear();
 }
 
 //Play function binded to URBI
