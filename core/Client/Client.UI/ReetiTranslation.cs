@@ -345,7 +345,7 @@ namespace Agent.UI
                 }
                 updateRobotState("Viseme");
             }
-            if (Command.Contains("ENDSPEECH"))
+            else  if (Command.Contains("ENDSPEECH"))
             {
                 if (blnEndSpeech)
                 {
