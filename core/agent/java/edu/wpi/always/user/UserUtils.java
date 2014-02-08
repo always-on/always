@@ -24,11 +24,11 @@ public abstract class UserUtils {
    public static String USER_DIR;
    
    /**
-    * Filename in USER_FOLDER for user model.
+    * Filename in USER_DIR for user model.
     * 
     * @see Always#main(String[])
     */
-   public static String USER_FILE = "User.owl";
+   public static String USER_FILE;
    
    /**
     * Optional argument is USER_FILE
@@ -49,6 +49,21 @@ public abstract class UserUtils {
    }
    
    /**
+    * @returns last modified file in USER_DIR starting with "User." or null if none.
+    */
+   public static File lastModified () {
+      File last = null;
+      for (File file : new File(USER_DIR).listFiles()) {
+         if ( file.getName().startsWith("User.") ) {
+            if ( last == null ) last = file;
+            else if ( file.lastModified() > last.lastModified() )
+               last = file;
+         }
+      }
+      return last;
+   }
+   
+   /**
     * Print out core information about all people
     * 
     * @see CalendarUtils#print(Calendar,PrintStream)
@@ -56,10 +71,11 @@ public abstract class UserUtils {
    public static void print (UserModel model, PrintStream stream) {
       stream.println();
       stream.println("USER MODEL FOR "+model.getUserName());
-      System.out.print("Sessions: "+model.getSessions()+
-            " Closeness: "+model.getCloseness());
-      System.out.println(" StartTime: "+new DateTime(model.getStartTime()));
-      System.out.println();
+      stream.println();
+      stream.println("Closeness: "+model.getCloseness());
+      stream.println("Sessions: "+model.getSessions());
+      stream.println("StartTime: "+new DateTime(model.getStartTime()));
+      stream.println();
       for (Person person : model.getPeopleManager().getPeople(true)) {
          stream.print(person);
          Gender gender = person.getGender();
@@ -86,7 +102,7 @@ public abstract class UserUtils {
                stream.println();
             }
          }
-         // plugin specific
+         // plugin specific per person properties
          Person.AboutStatus status = person.getAboutStatus();
          if ( status != null ) stream.println("\tAboutStatus = "+status);
          String comment = person.getAboutComment();
@@ -94,8 +110,7 @@ public abstract class UserUtils {
          boolean mentioned = person.isAboutMentioned();
          if ( mentioned ) stream.println("\tAboutMentioned = "+mentioned);
       }
-      stream.println();
-      // plugin specific properties
+      stream.println("\nPLUGIN-SPECIFIC USER PROPERTIES\n");
       for (Class<? extends Plugin> plugin : Plugin.getPlugins()) {
          boolean hasProperties = false;
          try {
@@ -106,8 +121,9 @@ public abstract class UserUtils {
          } catch (Exception e) {}
          if ( hasProperties) stream.println();
       }
-      stream.println("CALENDAR");
+      stream.println("CALENDAR\n");
       CalendarUtils.print(model.getCalendar(), stream);
+      stream.println();
    }
 
    private static final String regex = "\\d{3}-\\d{3}-\\d{4}";
