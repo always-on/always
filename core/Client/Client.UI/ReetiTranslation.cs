@@ -18,7 +18,6 @@ namespace Agent.UI
         private const String concernFace       = "Global.Sad.play();";
         private const String moveMouth         = "Global.Talk.play();";
         private const String mouthOpenDuration = "Global.Talk.setMouthOpenDuration(";
-        private const String letMouthMove      = "Global.Talk.changeMouthPermission(true);";
         private const String stopMouthMove     = "Global.Talk.changeMouthPermission(false);";
 
         private bool blnHeadNod         = true;
@@ -351,7 +350,6 @@ namespace Agent.UI
                 if (blnEndSpeech)
                 {
                     SendCommand(stopMouthMove);
-                    //intAccumulatedVisemeDuration = 701;
                     blnTalkAlreadyStarted = false;
                 }
                 updateRobotState("EndSpeech");
