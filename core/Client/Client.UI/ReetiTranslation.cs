@@ -336,22 +336,15 @@ namespace Agent.UI
             }
             else if (Command.Contains("viseme"))
             {
-                /*intDuration = getSpeechPermission(Command);
-
-                if ( intDuration != -1)
-                {*/
-                    if (blnViseme)
+                if (blnViseme)
+                {
+                    if (!blnTalkAlreadyStarted)
                     {
-                        if (!blnTalkAlreadyStarted)
-                        {
-                            //SendCommand(letMouthMove);
-                            SendCommand(moveMouth);
-                            blnTalkAlreadyStarted = true;
-                        }
-                        //SendCommand(mouthOpenDuration + ((float)intDuration / 3000) + ");");
+                        SendCommand(moveMouth);
+                        blnTalkAlreadyStarted = true;
                     }
-                    updateRobotState("Viseme");
-                //}
+                }
+                updateRobotState("Viseme");
             }
             if (Command.Contains("ENDSPEECH"))
             {
