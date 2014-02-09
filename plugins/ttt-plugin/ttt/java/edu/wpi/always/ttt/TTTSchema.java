@@ -19,12 +19,10 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
       super(new WhoPlaysFirst(new TTTStateContext(keyboard, tttUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor);
-      if (true) throw new org.semanticweb.owlapi.reasoner.InconsistentOntologyException();
    }
 
    @Override
    public void run () {
-      //if (true) throw new org.semanticweb.owlapi.reasoner.InconsistentOntologyException();
 
       super.run();
 
