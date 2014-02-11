@@ -23,6 +23,7 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
       // note activities append to session log
       console = new DiscoRT.ConsoleWindow(interaction, getClass().getSimpleName(), true);
+      console.setVisible(true);
    }
    
    protected void start (String id) {
