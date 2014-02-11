@@ -49,12 +49,14 @@ public abstract class UserUtils {
    }
    
    /**
-    * @returns last modified file in USER_DIR starting with "User." or null if none.
+    * @returns last modified file in USER_DIR starting with "User." and
+    * ending with ".xml", or null if none.
     */
    public static File lastModified () {
       File last = null;
       for (File file : new File(USER_DIR).listFiles()) {
-         if ( file.getName().startsWith("User.") ) {
+         String name = file.getName();
+         if ( name.startsWith("User.") && name.endsWith(".xml") ) {
             if ( last == null ) last = file;
             else if ( file.lastModified() > last.lastModified() )
                last = file;
