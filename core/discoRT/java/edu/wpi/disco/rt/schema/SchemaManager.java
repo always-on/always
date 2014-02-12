@@ -37,7 +37,6 @@ public class SchemaManager {
          instance = (T) factory.create(container);
          ScheduledFuture<?> future = scheduler.schedule(instance, factory.getUpdateDelay());
          instance.setFuture(future);
-         return instance;
       } else {
          instance = container.getComponent(type);
          scheduler.schedule(instance, DiscoRT.SCHEMA_INTERVAL);
