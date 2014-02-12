@@ -89,7 +89,7 @@ public class ThreadPools {
 
    private static void afterExecute (Runnable r, Throwable t, 
          Class<? extends Throwable> handle, Runnable handler) {
-      if ( t == null && Future.class.isAssignableFrom(r.getClass()) ) {
+      if ( t == null && r instanceof Future<?> ) {
          if ( !((Future<?>) r).isDone() ) return;
          try {
             ((Future<?>) r).get(1, TimeUnit.MILLISECONDS);
@@ -98,7 +98,7 @@ public class ThreadPools {
          } catch (ExecutionException e) {
             t = e.getCause();
          } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt(); // ignore/reset
          } catch (TimeoutException e) {
             if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Timeout " + getName(r));
          }
