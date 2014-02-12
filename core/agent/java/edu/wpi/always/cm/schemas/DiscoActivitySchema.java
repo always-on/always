@@ -43,5 +43,6 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
       super.dispose();
       history(); 
       console.close();
+      interaction.exit();
    }
 }
