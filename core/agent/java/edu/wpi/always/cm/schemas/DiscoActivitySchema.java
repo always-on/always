@@ -40,9 +40,8 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    
    @Override
    public void dispose () { 
+      history(); // before dispose
       super.dispose();
-      history(); 
       console.close();
-      interaction.exit();
    }
 }
