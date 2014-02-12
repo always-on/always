@@ -81,7 +81,7 @@ public abstract class UserUtils {
       stream.println();
       stream.println("Closeness: "+model.getCloseness());
       stream.println("Sessions: "+model.getSessions());
-      stream.println("StartTime: "+new DateTime(model.getStartTime()));
+      stream.println("StartTime: "+UserUtils.formatDate());
       stream.println();
       for (Person person : model.getPeopleManager().getPeople(true)) {
          stream.print(person);
