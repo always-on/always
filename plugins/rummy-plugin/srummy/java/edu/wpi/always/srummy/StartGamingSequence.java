@@ -819,7 +819,7 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
                return new StartGamingSequence(context);
             }
          });
-         choice("Not really", new DialogStateTransition() {
+         choice("No thanks", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new endingPlugin(context);

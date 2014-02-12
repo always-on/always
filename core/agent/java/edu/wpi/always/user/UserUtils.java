@@ -2,6 +2,7 @@ package edu.wpi.always.user;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 import org.joda.time.*;
@@ -19,16 +20,16 @@ public abstract class UserUtils {
 
    /**
     * Folder where user model is stored.  
-    * See initialization in always/user/Activities.xml
+    * See initialization in Always constructor
     */
    public static String USER_DIR;
    
    /**
-    * Filename in USER_FOLDER for user model.
+    * Filename in USER_DIR for user model.
     * 
     * @see Always#main(String[])
     */
-   public static String USER_FILE = "User.owl";
+   public static String USER_FILE;
    
    /**
     * Optional argument is USER_FILE
@@ -49,6 +50,27 @@ public abstract class UserUtils {
    }
    
    /**
+    * @returns last modified file in USER_DIR starting with "User." and
+    * ending with ".owl", or null if none.
+    */
+   public static File lastModified () {
+      File last = null;
+      for (File file : new File(USER_DIR).listFiles()) {
+         String name = file.getName();
+         if ( name.startsWith("User.") && name.endsWith(".owl") ) {
+            if ( last == null ) last = file;
+            else if ( file.lastModified() > last.lastModified() )
+               last = file;
+         }
+      }
+      return last;
+   }
+   
+   public static String formatDate () {
+      return new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss").format(Always.getSessionDate());
+   }
+   
+   /**
     * Print out core information about all people
     * 
     * @see CalendarUtils#print(Calendar,PrintStream)
@@ -56,10 +78,11 @@ public abstract class UserUtils {
    public static void print (UserModel model, PrintStream stream) {
       stream.println();
       stream.println("USER MODEL FOR "+model.getUserName());
-      System.out.print("Sessions: "+model.getSessions()+
-            " Closeness: "+model.getCloseness());
-      System.out.println(" StartTime: "+new DateTime(model.getStartTime()));
-      System.out.println();
+      stream.println();
+      stream.println("Closeness: "+model.getCloseness());
+      stream.println("Sessions: "+model.getSessions());
+      stream.println("StartTime: "+UserUtils.formatDate());
+      stream.println();
       for (Person person : model.getPeopleManager().getPeople(true)) {
          stream.print(person);
          Gender gender = person.getGender();
@@ -86,7 +109,7 @@ public abstract class UserUtils {
                stream.println();
             }
          }
-         // plugin specific
+         // plugin specific per person properties
          Person.AboutStatus status = person.getAboutStatus();
          if ( status != null ) stream.println("\tAboutStatus = "+status);
          String comment = person.getAboutComment();
@@ -94,8 +117,7 @@ public abstract class UserUtils {
          boolean mentioned = person.isAboutMentioned();
          if ( mentioned ) stream.println("\tAboutMentioned = "+mentioned);
       }
-      stream.println();
-      // plugin specific properties
+      stream.println("\nPLUGIN-SPECIFIC USER PROPERTIES\n");
       for (Class<? extends Plugin> plugin : Plugin.getPlugins()) {
          boolean hasProperties = false;
          try {
@@ -103,11 +125,12 @@ public abstract class UserUtils {
                stream.println("\t"+property+" = "+model.getProperty(property));
                hasProperties = true;
             }
-         } catch (Exception e) {}
+         } catch (Exception e) {} // method is optional
          if ( hasProperties) stream.println();
       }
-      stream.println("CALENDAR");
+      stream.println("CALENDAR\n");
       CalendarUtils.print(model.getCalendar(), stream);
+      stream.println();
    }
 
    private static final String regex = "\\d{3}-\\d{3}-\\d{4}";
