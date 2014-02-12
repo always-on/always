@@ -135,7 +135,7 @@ namespace Agent.UI
                     blnHeadNod         = false;
                     blnDelay           = true;
                     blnLookAwayThink   = true;
-                    blnLookBack        = true;
+                    blnLookBack        = false;
                     blnLookAtBoard     = true;
                     blnLookAwayAtRight = true;
                     blnConcern         = true;
