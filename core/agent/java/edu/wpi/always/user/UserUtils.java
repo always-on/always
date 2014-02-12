@@ -125,7 +125,7 @@ public abstract class UserUtils {
                stream.println("\t"+property+" = "+model.getProperty(property));
                hasProperties = true;
             }
-         } catch (Exception e) {}
+         } catch (Exception e) {} // method is optional
          if ( hasProperties) stream.println();
       }
       stream.println("CALENDAR\n");
