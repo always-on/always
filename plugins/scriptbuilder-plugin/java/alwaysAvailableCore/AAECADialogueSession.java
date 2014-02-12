@@ -1,8 +1,8 @@
 package alwaysAvailableCore;
 
 
+import edu.wpi.cetask.Utils;
 import java.util.List;
-
 import DialogueRuntime.*;
 import DialogueRuntime.DialogueSession.EventType;
 import DialogueRuntime.DialogueSession.State;
@@ -44,7 +44,7 @@ public class AAECADialogueSession extends DialogueSession {
 			}
 			shutdown(DialogueListener.TerminationReason.INTERNAL_ERROR);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Utils.rethrow(e);
 		}
 	}
 
@@ -323,12 +323,11 @@ public class AAECADialogueSession extends DialogueSession {
 		@SuppressWarnings("static-access")
 		public void enter() throws InterruptedException {
 			// send idle event to the client
-
 			try {
 				//DSM.GO("WRAPUP_MINISESSION_TIMEOUT", DSM.scripts.get("Start"));
 				DSM.PUSH("Timeout", "WRAPUP_MINISESSION_TIMEOUT", DSM.scripts.get("Timeout"));
 			} catch (Exception e) {
-				e.printStackTrace();
+				Utils.rethrow(e);
 			}
 		}
 
