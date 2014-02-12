@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt;
 
 import java.awt.Frame;
+import java.io.File;
 import java.util.*;
 import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
@@ -65,7 +66,7 @@ public class DiscoRT implements Startable {
       container.as(Characteristics.CACHE).addComponent(interaction);
    }
    
-   protected void configure (String title) {
+   protected void configure (String title, File log) {
       container.as(Characteristics.CACHE).addComponent(PrimitiveBehaviorManager.class);
       container.as(Characteristics.CACHE).addComponent(Realizer.class);
       container.addComponent(FocusRequestRealizer.class);
@@ -77,13 +78,13 @@ public class DiscoRT implements Startable {
       if ( container.getComponent(Scheduler.class) == null )
          container.as(Characteristics.CACHE).addComponent(Scheduler.class);
       if ( title != null ) 
-         new DiscoRT.ConsoleWindow(interaction, title, false).setVisible(true);
+         new DiscoRT.ConsoleWindow(interaction, title, false, log).setVisible(true);
    }
 
    public static class ConsoleWindow extends edu.wpi.disco.ConsoleWindow {
       
-      public ConsoleWindow (Interaction interaction, String title, boolean append) {
-         super(interaction, 600, 500, 14, append);
+      public ConsoleWindow (Interaction interaction, String title, boolean append, File log) {
+         super(interaction, 600, 500, 14, append, log);
          setExtendedState(Frame.ICONIFIED);
          setTitle(title);
       }
@@ -97,8 +98,8 @@ public class DiscoRT implements Startable {
       else throw new IllegalArgumentException("Unknown registry type: "+registry);
    }
 
-   public void start (String title) {
-      configure(title);
+   public void start (String title, File log) {
+      configure(title, log);
       SchemaManager schemaManager = new SchemaManager(container); 
       container.as(Characteristics.CACHE).addComponent(schemaManager);
       for (ComponentRegistry registry : registries) {

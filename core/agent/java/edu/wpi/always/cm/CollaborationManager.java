@@ -32,14 +32,13 @@ public class CollaborationManager extends DiscoRT {
       container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
       activities = interaction.load("Activities.xml");
-      // load user model after Activities.xml for initialization of USER_DIR
       loadUserModel();
    }
  
    private void loadUserModel () {
        File last = UserUtils.USER_FILE == null ? UserUtils.lastModified() : 
          new File(UserUtils.USER_DIR, UserUtils.USER_FILE);
-      UserUtils.USER_FILE = "User."+new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss").format(new Date())+".owl";
+      UserUtils.USER_FILE = "User."+UserUtils.formatDate()+".owl";
       if ( last != null ) try { 
          Files.copy(last.toPath(), new File(UserUtils.USER_DIR, UserUtils.USER_FILE).toPath(),
                StandardCopyOption.REPLACE_EXISTING);
@@ -96,7 +95,8 @@ public class CollaborationManager extends DiscoRT {
                for (Registry r : instance.getRegistries(a)) addRegistry(r);
             System.out.println("Loaded plugin: "+instance);
          }
-      super.start(plugin == null ? "Session" : null);
+      super.start(plugin == null ? "Session" : null,
+         new File(UserUtils.USER_DIR, "User."+UserUtils.formatDate()+".txt"));
       // after super.start() so ClientRegistry done
       ClientProxy proxy = container.getComponent(ClientProxy.class);
       if ( Always.getAgentType() != AgentType.Unity ) {
@@ -110,14 +110,14 @@ public class CollaborationManager extends DiscoRT {
    }
    
    @Override
-   protected void configure (String title) {
+   protected void configure (String title, File log) {
       // handle user model problems in schemas
       Scheduler scheduler = new Scheduler(InconsistentOntologyException.class,
             new Runnable () {
               @Override
               public void run () { revertUserModel(); }});
       container.as(Characteristics.CACHE).addComponent(scheduler);
-      super.configure(title);
+      super.configure(title, log);
    }
    
    @Override

@@ -2,6 +2,7 @@ package edu.wpi.always.user;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 import org.joda.time.*;
@@ -19,7 +20,7 @@ public abstract class UserUtils {
 
    /**
     * Folder where user model is stored.  
-    * See initialization in always/user/Activities.xml
+    * See initialization in Always constructor
     */
    public static String USER_DIR;
    
@@ -50,19 +51,23 @@ public abstract class UserUtils {
    
    /**
     * @returns last modified file in USER_DIR starting with "User." and
-    * ending with ".xml", or null if none.
+    * ending with ".owl", or null if none.
     */
    public static File lastModified () {
       File last = null;
       for (File file : new File(USER_DIR).listFiles()) {
          String name = file.getName();
-         if ( name.startsWith("User.") && name.endsWith(".xml") ) {
+         if ( name.startsWith("User.") && name.endsWith(".owl") ) {
             if ( last == null ) last = file;
             else if ( file.lastModified() > last.lastModified() )
                last = file;
          }
       }
       return last;
+   }
+   
+   public static String formatDate () {
+      return new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss").format(Always.getSessionDate());
    }
    
    /**

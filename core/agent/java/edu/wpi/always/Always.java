@@ -1,7 +1,7 @@
 package edu.wpi.always;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.util.*;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
@@ -50,6 +50,10 @@ public class Always {
    private static AgentType agentType = AgentType.Unity;
    
    public static AgentType getAgentType () { return agentType; }
+   
+   private static Date sessionDate;
+   
+   public static Date getSessionDate () { return sessionDate; }
    
    /**
     * Factory method for Always.  
@@ -144,6 +148,13 @@ public class Always {
    public Always (boolean logToConsole, boolean allPlugins) {
       ALL_PLUGINS = allPlugins;
       THIS = this;
+      sessionDate = new Date();
+      // initialize user folder location for Eclipse development
+      // change to c:\Dropbox subfolder later
+      if ( UserUtils.USER_DIR == null 
+            || !new File(UserUtils.USER_DIR, UserUtils.USER_FILE).exists() ) 
+         UserUtils.USER_DIR = new File("../../user").exists() ? "../../user" : 
+            new File("../../../user").exists() ? "../../../user" : ".";
       if ( logToConsole )
          BasicConfigurator.configure();
       else
