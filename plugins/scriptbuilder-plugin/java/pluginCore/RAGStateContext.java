@@ -1,12 +1,9 @@
 package pluginCore;
 
 import org.w3c.dom.*;
-
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-
 import javax.xml.parsers.*;
-
 import DialogueRuntime.*;
 import alwaysAvailableCore.*;
 import edu.wpi.always.*;
@@ -16,6 +13,7 @@ import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.cetask.Utils;
 import edu.wpi.disco.rt.menu.AdjacencyPair;
 
 public class RAGStateContext extends AdjacencyPair.Context {
@@ -82,13 +80,9 @@ public class RAGStateContext extends AdjacencyPair.Context {
 		}
 		
 		int user_id = 1;
-		try {
-			ecaServer = new AAECAServer(null, topScript, user_id,userModel);
-			Session = ecaServer.getSession();
-			DSM = Session.getDSM();
-		} catch (Exception e) {
-			System.err.println("ex: " + e);
-		}
+		ecaServer = new AAECAServer(null, topScript, user_id,userModel);
+		Session = ecaServer.getSession();
+		DSM = Session.getDSM();
 	}
 
 	// Support functions to poke the DSM
@@ -99,8 +93,8 @@ public class RAGStateContext extends AdjacencyPair.Context {
 				documentBuilderFactory = DocumentBuilderFactory.newInstance();
 				documentBuilder = documentBuilderFactory.newDocumentBuilder();
 				createDSM();
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+			   Utils.rethrow(e);
 			}
 		}
 		String output = "";
@@ -187,9 +181,7 @@ public class RAGStateContext extends AdjacencyPair.Context {
 				isDone = true;
 				return false;
 			} else {
-				System.out.println("Exception caught:" + e.getMessage());
-				e.printStackTrace();
-				return false;
+			   Utils.rethrow(e);
 			}
 		}
 		return true;

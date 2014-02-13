@@ -27,6 +27,11 @@ public class ThreadPools {
    }
 
    public static ScheduledExecutorService newScheduledThreadPool (int corePoolSize) {
+      return newScheduledThreadPool(corePoolSize, null, null);
+   }
+   
+   public static ScheduledExecutorService newScheduledThreadPool (int corePoolSize, 
+         final Class<? extends Throwable> handle, final Runnable handler) {
       
       return new ScheduledThreadPoolExecutor(corePoolSize) {
 
@@ -47,7 +52,7 @@ public class ThreadPools {
          @Override
          protected void afterExecute (Runnable r, Throwable t) {
             super.afterExecute(r, t);
-            ThreadPools.afterExecute(r, t);
+            ThreadPools.afterExecute(r, t, handle, handler);
          }
       };
    }
@@ -78,12 +83,13 @@ public class ThreadPools {
       @Override
       protected void afterExecute (Runnable r, Throwable t) {
          super.afterExecute(r, t);
-         ThreadPools.afterExecute(r, t);
+         ThreadPools.afterExecute(r, t, null, null);
       }
    }
 
-   private static void afterExecute (Runnable r, Throwable t) {
-      if ( t == null && Future.class.isAssignableFrom(r.getClass()) ) {
+   private static void afterExecute (Runnable r, Throwable t, 
+         Class<? extends Throwable> handle, Runnable handler) {
+      if ( t == null && r instanceof Future<?> ) {
          if ( !((Future<?>) r).isDone() ) return;
          try {
             ((Future<?>) r).get(1, TimeUnit.MILLISECONDS);
@@ -92,7 +98,7 @@ public class ThreadPools {
          } catch (ExecutionException e) {
             t = e.getCause();
          } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt(); // ignore/reset
          } catch (TimeoutException e) {
             if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Timeout " + getName(r));
          }
@@ -106,8 +112,11 @@ public class ThreadPools {
          }
       }
       if ( t != null ) {
-         System.out.println(); // may improve readability
-         edu.wpi.cetask.Utils.rethrow(t); 
+         if ( handle.isInstance(t) ) handler.run();
+         else {
+            System.out.println(); // may improve readability
+            edu.wpi.cetask.Utils.rethrow(t);
+         }
       }
    }
    

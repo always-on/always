@@ -1,12 +1,10 @@
 package pluginCore;
 
 import DialogueRuntime.OutputText;
-
 import com.google.common.collect.Lists;
-
+import edu.wpi.cetask.Utils;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.util.NullArgumentException;
-
 import java.util.*;
 
 public class ScriptbuilderCoreScript extends AdjacencyPairBase<RAGStateContext> {
@@ -46,7 +44,7 @@ public class ScriptbuilderCoreScript extends AdjacencyPairBase<RAGStateContext> 
 								new AADialogStateTransition(i, context));
 					}
 				} catch (Exception e) {
-					System.out.println("Exception thrown:" + e);
+				   Utils.rethrow(e);
 				}
 			}
 		}

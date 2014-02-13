@@ -29,7 +29,7 @@ including:
 
    Windows 7 (64-bit)
    Java 1.7 (64-bit)
-   .Net 4.0
+   .Net 4.5 (64-bit)
    Eclipse 3.8 (Juno) Service Release 1
    Visual Studio 2010 SP1 (Target Platform: Any CPU)
    Git 1.7

@@ -31,7 +31,7 @@
     // NB: All flags must be defined in Explain.owl
 
     Activity.ALL = {
-         AboutAgent : new Activity("ABOUT_AGENT", "Learning about your agent partner"), 
+         AboutAgent : new Activity("ABOUT_AGENT", "Learning about me, your agent partner"), 
          PlanExercise : new Activity("PLAN_EXERCISE", "Developing an exercise plan for me"), 
          TalkAbout : new Activity("TALK_ABOUT", "Talking together about my family and friends"),
          UseCalendar : new Activity("USE_CALENDAR", "Keeping my personal calendar"),
@@ -146,7 +146,7 @@
     	eval="Activity.ALL.AboutAgent.setFlag()">
     		<user text="ok, go on">
     			<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Also, I can only see your face, when we talk.  I don't see anything else around you, so you can wear whatever you like during our conversations. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
-    				<user text="uh-huh">
+    				<user text="Good!">
     					<agent text="I also will not keep any photos or videos of you unless you want to record a story.  Even then, I will ask you after if you want to keep the video story.">
     						<user text="ok, I see"/>
     						<user text="ok, that's good to know"/>

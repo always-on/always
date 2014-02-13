@@ -276,12 +276,13 @@
 		                       (date == undefined ? todayDate() : date)+".json");
       }
       
-      function todayDate () { // return today's date, e.g., 02_14_2012
+      // return today's date in same format as timestamped log files, e.g., 2014_02_14
+      function todayDate () { 
 	      var currentTime = new Date();
 	      var month = currentTime.getMonth() + 1;
 	      var day = currentTime.getDate();
 	      var year = currentTime.getFullYear();	
-	      return (pad2(month) + "_" + pad2(day) + "_" + year);
+	      return (year+"_"+pad2(month)+"_"+pad2(day));
       }
       
       function pad2 (number) { return (10 &gt; number ? '0' : '') + number; }
