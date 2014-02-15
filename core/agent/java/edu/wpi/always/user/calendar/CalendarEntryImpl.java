@@ -126,7 +126,7 @@ public class CalendarEntryImpl implements CalendarEntry {
    @Override
    public String toString () {
       return "Calendar Entry [" + getDisplayTitle() + " @ " + getPlace()
-         + "], [" + getTime() + "] - " + getId();
+         + "], [" + getTime() + "]";
    }
 
    @Override

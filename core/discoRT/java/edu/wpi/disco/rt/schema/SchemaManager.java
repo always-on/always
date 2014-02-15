@@ -31,17 +31,18 @@ public class SchemaManager {
 
    public <T extends Schema> T start (Class<T> type) {
       if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Starting: "+type);
-      T instance = null;
+      T instance;
+      long interval;
       if ( factories.containsKey(type) ) {
          SchemaFactory factory = factories.get(type);
          instance = (T) factory.create(container);
-         ScheduledFuture<?> future = scheduler.schedule(instance, factory.getUpdateDelay());
-         instance.setFuture(future);
-         return instance;
+         interval = factory.getUpdateDelay();
       } else {
          instance = container.getComponent(type);
-         scheduler.schedule(instance, DiscoRT.SCHEMA_INTERVAL);
+         interval = DiscoRT.SCHEMA_INTERVAL;
       }
+      ScheduledFuture<?> future = scheduler.schedule(instance, interval);
+      instance.setFuture(future);
       return instance;
    }
 

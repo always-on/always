@@ -36,7 +36,9 @@ public abstract class UserModelBase implements UserModel {
    @Override
    public long getStartTime () { return getLongProperty(START_TIME); }
    
-   public void start () { setProperty(START_TIME, System.currentTimeMillis()); }
+   public void start () { 
+      setProperty(START_TIME, Always.getSessionDate().getTime()); 
+   }
 
    @Override
    public Closeness getCloseness () {

@@ -443,7 +443,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    AdjacencyPairBase<EnrollStateContext> {
 
       public UserSpouseAdjacencyPair(final EnrollStateContext context){
-         super("ok, can I ask if you are you married?", context);
+         super("ok, can I ask if you are married?", context);
          choice("Yes", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {

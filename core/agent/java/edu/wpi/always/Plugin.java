@@ -368,7 +368,7 @@ public abstract class Plugin {
       String plugin = task.getEngine().getProperty(getActivity(task)+"@plugin");
       try { 
          Class<? extends Plugin> cls = (Class<? extends Plugin>) Class.forName(plugin);
-         plugins.add(cls);
+         if ( !plugins.contains(cls) ) plugins.add(cls);
          return cls;
       } catch (ClassNotFoundException e) {
          throw new RuntimeException("Plugin not found for task "+task, e);
