@@ -23,9 +23,9 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
       nextLevelButtonMarks.add("Uh-huh");
       nextLevelButtonMarks.add("Go on");
       prompts.add("To win in rummy, you must empty your hand of cards before I do.");
-      prompts.add("To empty your hand, you place cards from your hand on the table by making a group of, Melds.");
-      prompts.add("A meld is 3 cards of the same type.  For example 3 cards that are all nines.  "
-            + "A meld is also 3 cards in sequence in the same suit.  Like the 9, 10 and 11 of hearts.");
+      prompts.add("To empty your hand, you place cards from your hand on the table, by making a group of, Melds.");
+      prompts.add("A meld is 3 cards of the same type.  For example, three cards that are all nines makes a meld.  ");
+      prompts.add("A meld is also 3 cards of the same suit, in sequence.  For example, the 9, 10 and 11 of hearts makes a meld.");
       prompts.add("Your turn starts when you take a card from the deck or from the discard pile.");
       prompts.add("If you want to meld, you meld during your turn before you discard.");
       prompts.add("During your turn you can also add to any meld on the table.  The meld can be your own or mine!");
@@ -34,6 +34,7 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
       prompts.add("After you discard a card, it's my turn.  ");
       prompts.add("When I take a card, it just appears in my hand.  It's hard to see me do it!  ");
       prompts.add("By the way, even though your cards are face up, I can't see them!");
+      prompts.add("That's all there is to rummy!");
       choice("Ok", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {

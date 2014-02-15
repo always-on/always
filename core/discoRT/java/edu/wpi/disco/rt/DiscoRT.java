@@ -1,6 +1,7 @@
 package edu.wpi.disco.rt;
 
 import java.awt.Frame;
+import java.io.File;
 import java.util.*;
 import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
@@ -31,7 +32,6 @@ public class DiscoRT implements Startable {
     */
    public static boolean TRACE;
    
-   private final Scheduler scheduler = new Scheduler();
    protected final DiscoRT.Interaction interaction =  new DiscoRT.Interaction(new Agent("agent"), new User("user"));
    protected final MutablePicoContainer container;
    protected final List<SchemaRegistry> schemaRegistries = new ArrayList<SchemaRegistry>();
@@ -66,7 +66,7 @@ public class DiscoRT implements Startable {
       container.as(Characteristics.CACHE).addComponent(interaction);
    }
    
-   private void configure (String title) {
+   protected void configure (String title, File log) {
       container.as(Characteristics.CACHE).addComponent(PrimitiveBehaviorManager.class);
       container.as(Characteristics.CACHE).addComponent(Realizer.class);
       container.addComponent(FocusRequestRealizer.class);
@@ -74,14 +74,17 @@ public class DiscoRT implements Startable {
       container.as(Characteristics.CACHE).addComponent(CandidateBehaviorsContainer.class);
       container.as(Characteristics.CACHE).addComponent(Arbitrator.class);
       container.as(Characteristics.CACHE).addComponent(ResourceMonitor.class);
-      container.as(Characteristics.CACHE).addComponent(scheduler);
-      if ( title != null ) new DiscoRT.ConsoleWindow(interaction, title, false);
+      // allow easy overriding of this
+      if ( container.getComponent(Scheduler.class) == null )
+         container.as(Characteristics.CACHE).addComponent(Scheduler.class);
+      if ( title != null ) 
+         new DiscoRT.ConsoleWindow(interaction, title, false, log).setVisible(true);
    }
 
    public static class ConsoleWindow extends edu.wpi.disco.ConsoleWindow {
       
-      public ConsoleWindow (Interaction interaction, String title, boolean append) {
-         super(interaction, 600, 500, 14, append);
+      public ConsoleWindow (Interaction interaction, String title, boolean append, File log) {
+         super(interaction, 600, 500, 14, append, log);
          setExtendedState(Frame.ICONIFIED);
          setTitle(title);
       }
@@ -95,8 +98,8 @@ public class DiscoRT implements Startable {
       else throw new IllegalArgumentException("Unknown registry type: "+registry);
    }
 
-   public void start (String title) {
-      configure(title);
+   public void start (String title, File log) {
+      configure(title, log);
       SchemaManager schemaManager = new SchemaManager(container); 
       container.as(Characteristics.CACHE).addComponent(schemaManager);
       for (ComponentRegistry registry : registries) {
@@ -111,6 +114,7 @@ public class DiscoRT implements Startable {
       Arbitrator arbitrator = container.getComponent(Arbitrator.class);
       @SuppressWarnings("rawtypes")
       List<Perceptor> perceptors = container.getComponents(Perceptor.class);
+      Scheduler scheduler = container.getComponent(Scheduler.class);
       scheduler.schedule(arbitrator, ARBITRATOR_INTERVAL);
       for (Perceptor<?> p : perceptors) {
          scheduler.schedule(p, PERCEPTOR_INTERVAL);

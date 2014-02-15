@@ -222,7 +222,7 @@
          <binding slot="$_d4e56_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Also, I can only see your face, when we talk.  I don't see anything else around you, so you can wear whatever you like during our conversations. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &#34;"/>
          <binding slot="$_d4e56_step.external" value="false"/>
-         <binding slot="$_d4e57_step.text" value="&#34;uh-huh&#34;"/>
+         <binding slot="$_d4e57_step.text" value="&#34;Good!&#34;"/>
          <binding slot="$_d4e57_step.external" value="true"/>
          <binding slot="$_d4e58_step.text"
                   value="&#34;I also will not keep any photos or videos of you unless you want to record a story.  Even then, I will ask you after if you want to keep the video story.&#34;"/>
@@ -803,7 +803,7 @@
     // NB: All flags must be defined in Explain.owl
 
     Activity.ALL = {
-         AboutAgent : new Activity("ABOUT_AGENT", "Learning about your agent partner"), 
+         AboutAgent : new Activity("ABOUT_AGENT", "Learning about me, your agent partner"), 
          PlanExercise : new Activity("PLAN_EXERCISE", "Developing an exercise plan for me"), 
          TalkAbout : new Activity("TALK_ABOUT", "Talking together about my family and friends"),
          UseCalendar : new Activity("USE_CALENDAR", "Keeping my personal calendar"),

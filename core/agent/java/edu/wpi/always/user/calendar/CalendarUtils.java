@@ -53,7 +53,6 @@ public abstract class CalendarUtils {
    }
    
    public static void print (Calendar calendar, PrintStream stream) {
-      System.out.println(((edu.wpi.always.user.owl.OntologyCalendar) calendar).getAllEventInstances());
       Iterator<CalendarEntry> iterator = calendar.iterator();
       while (iterator.hasNext()) stream.println(iterator.next());
    }

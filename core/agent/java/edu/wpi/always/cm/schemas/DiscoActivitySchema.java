@@ -22,7 +22,8 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
          MenuPerceptor menuPerceptor, Always always, DiscoRT.Interaction interaction) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
       // note activities append to session log
-      console = new DiscoRT.ConsoleWindow(interaction, getClass().getSimpleName(), true);
+      console = new DiscoRT.ConsoleWindow(interaction, getClass().getSimpleName(), true, null);
+      console.setVisible(true);
    }
    
    protected void start (String id) {
@@ -39,8 +40,8 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    
    @Override
    public void dispose () { 
+      history(); // before dispose
       super.dispose();
-      history(); 
       console.close();
    }
 }

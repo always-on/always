@@ -11,9 +11,11 @@ public class StartupSchemas implements SchemaRegistry {
    
    @Override
    public void register (SchemaManager manager) {
+      // register session first so it gets started first
+      // and user model printout not interrupted
+      if ( allPlugins) manager.registerSchema(SessionSchema.class, true);
       manager.registerSchema(MovementTrackerSchema.class, true);
       manager.registerSchema(FaceTrackerSchema.class, true);
-      if ( allPlugins) manager.registerSchema(SessionSchema.class, true);
       manager.registerSchema(EngagementSchema.class, true);
    }
 }
