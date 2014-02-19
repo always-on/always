@@ -25,11 +25,23 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
     * {@link #translateToAgentTurnVer}.
     */
    public static Point translateAgentTurn (float hor, float ver) {
-      return (ClientPluginUtils.isPluginVisible()) ? new Point(
-            Math.round(160f - (160f * hor / ((hor < 0) ? 0.82f : 0.7f))),
-            Math.round(120f - (120f * ver / 0.1f))) : new Point(
-            Math.round(160f - (160f * hor / ((hor < 0) ? 0.7f : 0.74f))),
-            Math.round(120f - (120f * ver / 0.1f)));
+      // NB: Use jsonHpMacAddressObject.isHpMachine() to check whether the 
+      // code is running on an HP machine.
+      // NB: 0.025 is calculated due to the value of 165 in translateToAgentTurnHor method.
+      
+      int offset = 10;
+
+      return ((ClientPluginUtils.isPluginVisible()) ?
+         ((hor < -0.025) ? 
+            new Point((Math.round(160f - (160f * hor / 0.8f) - offset)),
+                       Math.round(120f - (120f * ver / 0.1f)))  :
+            new Point((Math.round(160f - (160f * hor / 0.8f))),
+                       Math.round(120f - (120f * ver / 0.1f)))) :
+         ((hor < -0.025) ?
+            new Point((Math.round(160f - (160f * hor / 0.8f))),
+                       Math.round(120f - (120f * ver / 0.1f)))  :
+            new Point((Math.round(160f - (160f * hor / 0.8f) + offset)),
+                       Math.round(120f - (120f * ver / 0.1f)))));
    }
 
    /**
@@ -40,9 +52,14 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
     */
    public static float translateToAgentTurnHor (Point p) {
       // NB: Make sure to change translateAgentTurn if change this
-      return (ClientPluginUtils.isPluginVisible()) ? ((160f - p.x)
-         * ((p.x > 175) ? 0.82f : 0.7f) / 160f) : ((160f - p.x)
-         * ((p.x > 175) ? 0.7f : 0.74f) / 160f);
+      // NB: Use jsonHpMacAddressObject.isHpMachine() to check whether the 
+      // code is running on an HP machine. 
+
+      int offset = 10;
+    
+      return ((ClientPluginUtils.isPluginVisible()) ?
+         ((p.x > 165) ? ((160f - (p.x + offset)) * 0.8f / 160f) : ((160f - p.x) * 0.8f / 160f)) :
+         ((p.x > 165) ? ((160f - p.x) * 0.8f / 160f) : ((160f - (p.x - offset)) * 0.8f / 160f)));
    }
 
    /**
