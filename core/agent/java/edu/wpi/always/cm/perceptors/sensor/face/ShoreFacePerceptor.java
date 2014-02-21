@@ -8,6 +8,12 @@ import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
 public abstract class ShoreFacePerceptor implements FacePerceptor {
 
+   private long currentTime = 0;
+
+   private long previousTime = 0;
+
+   private final static int timeUnit = 220;
+
    protected FaceInfo getFaceInfo (int debug) {
       return null;
    }
@@ -38,30 +44,35 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    public void run () {
 
       info = getFaceInfo(0);
+      currentTime = System.currentTimeMillis();
 
       if ( info != null ) {
          if ( prevInfo != null ) {
-            if ( isRealFace() ) {
+            if ( isRealFace((int) (currentTime - previousTime)) ) {
                latest = new FacePerception(DateTime.now(), info.intTop,
                      info.intBottom, info.intLeft, info.intRight, info.intArea,
                      info.intCenter, info.intTiltCenter);
             }
          }
          prevInfo = info;
+         previousTime = currentTime;
       }
    }
 
-   protected boolean isRealFace () {
-      return (isProportionalPosition() && isProportionalArea());
+   protected boolean isRealFace (int timeDifference) {
+      return (isProportionalPosition(timeDifference) && isProportionalArea(timeDifference));
    }
 
-   private boolean isProportionalPosition () {
-      return (Math.abs(info.intLeft - prevInfo.intLeft) <= faceHorizontalDisplacementThreshold && Math
-            .abs(info.intTop - prevInfo.intTop) <= faceVerticalDisplacementThreshold);
+   private boolean isProportionalPosition (int timeDifference) {
+      return ((((float) Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference) <= 
+             ((float) faceHorizontalDisplacementThreshold / timeUnit)) && 
+             (((float) Math.abs(info.intTop - prevInfo.intTop) / timeDifference) <= 
+             ((float) faceVerticalDisplacementThreshold / timeUnit)));
    }
 
-   private boolean isProportionalArea () {
-      return (Math.abs(info.intArea - prevInfo.intArea) <= faceAreaThreshold);
+   private boolean isProportionalArea (int timeDifference) {
+      return (((float) Math.abs(info.intArea - prevInfo.intArea) / timeDifference) <= 
+             ((float) faceAreaThreshold / timeUnit));
    }
 
    public static class Agent extends ShoreFacePerceptor {
@@ -106,13 +117,16 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
 
       @Override
-      protected boolean isRealFace () {
-         return super.isRealFace() && isSignificantMotion();
+      protected boolean isRealFace (int timeDifference) {
+         return super.isRealFace(timeDifference)
+            && isSignificantMotion(timeDifference);
       }
 
-      private boolean isSignificantMotion () {
-         return (Math.abs(info.intLeft - prevInfo.intLeft) > faceHorizontalMovementThreshold || Math
-               .abs(info.intTop - prevInfo.intTop) > faceVerticalMovementThreshold);
+      private boolean isSignificantMotion (int timeDifference) {
+         return ((((float) Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference) > 
+                ((float) faceHorizontalMovementThreshold / timeUnit)) || 
+                (((float) Math.abs(info.intTop - prevInfo.intTop) / timeDifference) > 
+                ((float) faceVerticalMovementThreshold / timeUnit)));
       }
    }
 
@@ -121,7 +135,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       public Reeti (ReetiJsonConfiguration config) {
          super(50, 50, 1700);
          CPPinterface.INSTANCE.initReetiShoreEngine(
-               new String[] {config.getIP()}, 0);
+               new String[] { config.getIP() }, 0);
       }
 
       @Override
@@ -141,7 +155,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    }
 
    public static class Mirror extends ShoreFacePerceptor {
-      
+
       private final ShoreFacePerceptor reeti, agent = new Agent();
 
       public Mirror (ReetiJsonConfiguration config) {
