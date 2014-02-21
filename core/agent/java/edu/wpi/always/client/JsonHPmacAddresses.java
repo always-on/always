@@ -19,7 +19,7 @@ public class JsonHPmacAddresses {
    }
 
    public boolean isHpMachine () {
-      return hpMachine;
+      return true;//hpMachine;
    }
 
    private String getMacAddress () {

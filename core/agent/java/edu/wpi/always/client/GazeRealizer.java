@@ -40,14 +40,14 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       return (jsonHpMacAddressObject.isHpMachine()) ? 
             ((ClientPluginUtils.isPluginVisible()) ?
             ((hor < -0.025) ? 
-               new Point((Math.round(160f - (160f * hor / 0.8f) - offset)),
+               new Point((-1) * (Math.round(160f - (160f * hor / 0.8f) - offset)),
                           Math.round(120f - (120f * ver / 0.1f)))  :
-               new Point((Math.round(160f - (160f * hor / 0.8f))),
+               new Point((-1) * (Math.round(160f - (160f * hor / 0.8f))),
                           Math.round(120f - (120f * ver / 0.1f)))) :
             ((hor < -0.025) ?
-               new Point((Math.round(160f - (160f * hor / 0.8f))),
+               new Point((-1) * (Math.round(160f - (160f * hor / 0.8f))),
                           Math.round(120f - (120f * ver / 0.1f)))  :
-               new Point((Math.round(160f - (160f * hor / 0.8f) + offset)),
+               new Point((-1) * (Math.round(160f - (160f * hor / 0.8f) + offset)),
                           Math.round(120f - (120f * ver / 0.1f))))) : 
             ((ClientPluginUtils.isPluginVisible()) ?
             ((hor < -0.025) ? 
@@ -77,8 +77,8 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       
       return (jsonHpMacAddressObject.isHpMachine()) ? 
             ((ClientPluginUtils.isPluginVisible()) ?
-               ((p.x > 165) ? ((160f - (p.x + offset)) * 0.8f / 160f) : ((160f - p.x) * 0.8f / 160f)) :
-               ((p.x > 165) ? ((160f - p.x) * 0.8f / 160f) : ((160f - (p.x - offset)) * 0.8f / 160f))) : 
+               ((p.x > 165) ? ((-1) * (160f - (p.x + offset)) * 0.8f / 160f) : ((-1) * (160f - p.x) * 0.8f / 160f)) :
+               ((p.x > 165) ? ((-1) * (160f - p.x) * 0.8f / 160f) : ((-1) * (160f - (p.x - offset)) * 0.8f / 160f))) : 
             ((ClientPluginUtils.isPluginVisible()) ?
                ((p.x > 165) ? ((160f - (p.x + offset)) * 0.8f / 160f) : ((160f - p.x) * 0.8f / 160f)) :
                ((p.x > 165) ? ((160f - p.x) * 0.8f / 160f) : ((160f - (p.x - offset)) * 0.8f / 160f)));
