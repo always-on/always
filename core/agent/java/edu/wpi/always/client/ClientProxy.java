@@ -67,19 +67,15 @@ public class ClientProxy {
 
    // TODO need to get information back for gaze changes
    // do to html markup
-   public float getGazeHor () {
-      return hor;
-   }
+   public float getGazeHor () { return hor; }
 
-   public float getGazeVer () {
-      return ver;
-   }
+   public float getGazeVer () { return ver; }
 
    public void gaze (float hor, float ver) {
       // allow fudge for round-off and coercion
       if ( Math.abs(hor) > 1.01f || Math.abs(ver) > 1.01f )
          throw new IllegalArgumentException("Gaze out of bounds: horizontal=\""
-            + hor + "\" vertical=\"" + ver + "\"");
+               + hor + "\" vertical=\"" + ver + "\"");
       HashMap<String, String> p = Maps.newHashMap();
       p.put("horizontal", Float.toString(hor));
       p.put("vertical", Float.toString(ver));
@@ -133,12 +129,9 @@ public class ClientProxy {
       }
    }
 
-   public void showMenu (List<String> items, boolean twoColumn,
-         boolean extension) {
+   public void showMenu (List<String> items, boolean twoColumn, boolean extension) {
       JsonArray menus = new JsonArray();
-      if ( items != null )
-         for (String s : items)
-            menus.add(new JsonPrimitive(s));
+      if ( items != null ) for (String s : items) menus.add(new JsonPrimitive(s));
       JsonObject body = new JsonObject();
       body.add("menus", menus);
       body.addProperty("twoColumn", twoColumn);
@@ -156,8 +149,7 @@ public class ClientProxy {
       enqueue("idle", p);
    }
 
-   public void startPlugin (String pluginName, InstanceReuseMode mode,
-         JsonObject params) {
+   public void startPlugin (String pluginName, InstanceReuseMode mode, JsonObject params) {
       ClientPluginUtils.startPlugin(dispatcher, pluginName, mode, params);
    }
 
