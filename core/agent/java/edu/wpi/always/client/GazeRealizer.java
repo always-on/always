@@ -33,15 +33,15 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
 
       return ((ClientPluginUtils.isPluginVisible()) ?
          ((hor < -0.025) ? 
-            new Point((Math.round(160f - (160f * hor / 0.8f) - offset)),
-                       Math.round(120f - (120f * ver / 0.1f)))  :
-            new Point((Math.round(160f - (160f * hor / 0.8f))),
-                       Math.round(120f - (120f * ver / 0.1f)))) :
+            new Point((Math.round(160f - (160f * hor / 0.2f) - offset)),
+                       Math.round(120f - (120f * ver / 0.2f)))  :
+            new Point((Math.round(160f - (160f * hor / 0.2f))),
+                       Math.round(120f - (120f * ver / 0.2f)))) :
          ((hor < -0.025) ?
-            new Point((Math.round(160f - (160f * hor / 0.8f))),
-                       Math.round(120f - (120f * ver / 0.1f)))  :
-            new Point((Math.round(160f - (160f * hor / 0.8f) + offset)),
-                       Math.round(120f - (120f * ver / 0.1f)))));
+            new Point((Math.round(160f - (160f * hor / 0.2f))),
+                       Math.round(120f - (120f * ver / 0.2f)))  :
+            new Point((Math.round(160f - (160f * hor / 0.2f) + offset)),
+                       Math.round(120f - (120f * ver / 0.2f)))));
    }
 
    /**
@@ -58,8 +58,8 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       int offset = 10;
     
       return ((ClientPluginUtils.isPluginVisible()) ?
-         ((p.x > 165) ? ((160f - (p.x + offset)) * 0.8f / 160f) : ((160f - p.x) * 0.8f / 160f)) :
-         ((p.x > 165) ? ((160f - p.x) * 0.8f / 160f) : ((160f - (p.x - offset)) * 0.8f / 160f)));
+         ((p.x > 165) ? ((160f - (p.x + offset)) * 0.2f / 160f) : ((160f - p.x) * 0.2f / 160f)) :
+         ((p.x > 165) ? ((160f - p.x) * 0.2f / 160f) : ((160f - (p.x - offset)) * 0.2f / 160f)));
    }
 
    /**
@@ -70,6 +70,6 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
     */
    public static float translateToAgentTurnVer (Point p) {
       // NB: Make sure to change translateAgentTurn if change this
-      return (120f - p.y) * 0.1f / 120f;
+      return (120f - p.y) * 0.2f / 120f;
    }
 }
