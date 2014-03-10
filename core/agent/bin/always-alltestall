@@ -36,6 +36,13 @@ if [ -e about-plugin ]; then
   result=`expr $result + $?`
   cd ../..
 fi
+if [ -e baseball-plugin ]; then
+  echo ">> always/baseball"
+  cd baseball-plugin/baseball
+  testall test ../../../core/agent/bin/always-disco
+  result=`expr $result + $?`
+  cd ../..
+fi
 #
 all_end=`date +%s`
 echo ">>"
