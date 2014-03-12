@@ -8,39 +8,53 @@ if [ -e weather-plugin/weather ]; then
   echo ">> always/weather"
   cd weather-plugin/weather
   testall test ../../../core/agent/bin/always-disco
-  result=`expr $result + $?`
+  if [ $? != 0 ]; then
+    result=`expr $result + 1`
+  fi
   cd ../..
 fi
 if [ -e explain-plugin ]; then
   echo ">> always/explain"
   cd explain-plugin/explain
   ../../../core/agent/bin/always-disco test/ExplainSomeInitialCases
-  result=`expr $result + $?`
+   if [ $? != 0 ]; then
+    result=`expr $result + 1`
+  fi
   ../../../core/agent/bin/always-disco-continue test/ExplainSomeMore
-  result=`expr $result + $?`
+  if [ $? != 0 ]; then
+    result=`expr $result + 1`
+  fi
   ../../../core/agent/bin/always-disco test/AdditionalTests
-  result=`expr $result + $?`
+  if [ $? != 0 ]; then
+    result=`expr $result + 1`
+  fi
   cd ../..
 fi
 if [ -e greetings-plugin ]; then
   echo ">> always/greetings"
   cd greetings-plugin/greetings
   testall test ../../../core/agent/bin/always-disco
-  result=`expr $result + $?`
+  if [ $? != 0 ]; then
+    result=`expr $result + 1`
+  fi
   cd ../..
 fi
 if [ -e about-plugin ]; then
   echo ">> always/about"
   cd about-plugin/about
   testall test ../../../core/agent/bin/always-disco
-  result=`expr $result + $?`
+  if [ $? != 0 ]; then
+    result=`expr $result + 1`
+  fi
   cd ../..
 fi
 if [ -e baseball-plugin ]; then
   echo ">> always/baseball"
   cd baseball-plugin/baseball
   testall test ../../../core/agent/bin/always-disco
-  result=`expr $result + $?`
+  if [ $? != 0 ]; then
+    result=`expr $result + 1`
+  fi
   cd ../..
 fi
 #
