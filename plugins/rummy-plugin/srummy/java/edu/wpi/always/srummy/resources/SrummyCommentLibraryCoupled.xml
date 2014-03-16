@@ -145,16 +145,16 @@
 			<response>You will get there</response>
 		</comment>
 		<comment competitiveness='0.5' tags="twoMeldsInARowByHuman" gameType="board" gameName="srummy" madeOn="human">
-			<content>Nice! You got the golden cell</content>
-			<response>Yes I did! Let's see if it is helpful</response>
-			<response>Haha, whatever</response>
-			<response>It's just one cell, take it easy!</response>
+			<content>Wow! Two melds in a row!</content>
+			<response>Yes and I plan to win...</response>
+			<response>no big deal.</response>
+			<response></response>
 		</comment>
 		<comment competitiveness='0.5' tags="twoMeldsInARowByAgent" gameType="board" gameName="srummy" madeOn="agent">
-			<content>Wow meld and meld</content>
+			<content>Wow I did a  meld and a meld</content>
 			<response>Awesome!</response>
-			<response>Goo djob</response>
-			<response>Stop it</response>
+			<response>Good job</response>
+			<response>You got to stop doing that!</response>
 		</comment>
 	</agent>
 	<human>
@@ -183,10 +183,10 @@
 			<response>Wait for mine then</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
-			<content>Here I go, meld!</content>
+			<content>Here I go, a meld!</content>
 			<response>Nice</response>
 			<response>Good job</response>
-			<response>I have to do more melds then</response>
+			<response>I just have to do more melds then</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
 			<content>Found a lay off, yes!</content>
@@ -201,7 +201,7 @@
 			<response>Cool</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
-			<content>Haha, lay off!</content>
+			<content>Ah ha! a lay off!</content>
 			<response>Yes!</response>
 			<response>Awesome</response>
 		</comment>
@@ -238,20 +238,20 @@
 		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
 			<content>Keep the cards, why lay off?</content>
 			<response>Haha, sure!</response>
-			<response>Well, you too</response>
-			<response>You smart human</response>
+			<response>Well, you will have to, too</response>
+			<response>Really? I don't want to.</response>
 		</comment>
 		<!--More instances of these -->
 		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
 			<content>Wow, you are close to winning</content>
-			<response>Yes! Fingers crossed</response>
+			<response>Yes! My Fingers are crossed.</response>
 			<response>Uhum, thanks</response>
-			<response>You are playing very good too</response>
+			<response>You are playing very well, too</response>
 		</comment>
 		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
 			<content>Only few cards left there</content>
 			<response>I know, I am excited</response>
-			<response>So close to win</response>
+			<response>So close to a win</response>
 			<response>Only if I finish these last ones</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
@@ -278,17 +278,11 @@
 			<response>Try harder</response>
 			<response>You will get there</response>
 		</comment>
-		<comment competitiveness='0.5' tags="twoMeldsInARowByHuman" gameType="board" gameName="srummy" madeOn="human">
-			<content>Nice! You got the golden cell</content>
-			<response>Yes I did! Let's see if it is helpful</response>
-			<response>Haha, whatever</response>
-			<response>It's just one cell, take it easy!</response>
-		</comment>
 		<comment competitiveness='0.5' tags="twoMeldsInARowByAgent" gameType="board" gameName="srummy" madeOn="agent">
 			<content>Wow meld and meld</content>
 			<response>Awesome!</response>
 			<response>Good job</response>
-			<response>Stop it</response>
+			<response>Stop doing that!</response>
 		</comment>
 	</human>
 </comments>
