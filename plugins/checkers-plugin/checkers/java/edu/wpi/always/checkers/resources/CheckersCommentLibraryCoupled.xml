@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-	THE GAME SPECIFIC (TIC TAC TOE) COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
+	THE GAME SPECIFIC (CHECKERS) COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
 	AUTHOR: MORTEZA BEHROOZ
 	WORCESTER POLYTECHNIC INSTITUTE 
 -->
@@ -40,7 +40,7 @@
 		<comment competitiveness='0.1' tags="humanCrown" gameType="board" gameName="checkers" madeOn="human">
 			<content>You crowned, Nice!</content>
 			<response>Yup!</response>
-			<response>Haha, let's see where it takes me</response>
+			<response>Now, beware! I have plans to win!</response>
 			<response>It's nothing big</response>
 		</comment>
 		<comment competitiveness='0.1' tags="humanCrown/compliment" gameType="board" gameName="checkers" madeOn="human">
@@ -52,7 +52,7 @@
 		<comment competitiveness='0.1' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
 			<content>Wow, you got me there</content>
 			<response>Yes I did!</response>
-			<response>Had to hit you</response>
+			<response>Had to take your piece</response>
 			<response>Haha, true</response>
 		</comment>
 		<comment competitiveness='0.1' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
@@ -97,7 +97,7 @@
 		<comment competitiveness='0.3' tags="agentCapture" gameType="board" gameName="checkers" madeOn="agent">
 			<content>Outch!</content>
 			<response>Haha, get used to that</response>
-			<response>Sorry had to hit you</response>
+			<response>Sorry had to do it</response>
 			<response>I know it hurts!</response>
 			<response>Oh sorry, stupid game rules</response>
 		</comment>
@@ -129,7 +129,7 @@
 			<content>Feels so good to jump like this!</content>
 			<response>Well, I am happy for you</response>
 			<response>Not for long</response>
-			<response>Haha, I know</response>
+			<response>I'll get you for that!</response>
 		</comment>
 	</human>
 	
