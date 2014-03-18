@@ -3,7 +3,6 @@ package edu.wpi.always.client;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -14,12 +13,14 @@ import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 public class ClientProxy {
 
    private final List<ClientProxyObserver> observers;
+
    private final UIMessageDispatcher dispatcher;
 
    public ClientProxy (UIMessageDispatcher dispatcher) {
       this.dispatcher = dispatcher;
       observers = new CopyOnWriteArrayList<ClientProxyObserver>();
       registerOnDispatcher();
+      GazeRealizer.setjsonHpMacAddressObject(new JsonHPmacAddresses());
    }
 
    private void registerOnDispatcher () {
@@ -39,7 +40,7 @@ public class ClientProxy {
 
                @Override
                public void handleMessage (JsonObject body) {
-                  fireMenuSelectedMessage(body.get("text").getAsString()); 
+                  fireMenuSelectedMessage(body.get("text").getAsString());
                }
             });
    }
@@ -47,7 +48,7 @@ public class ClientProxy {
    private void enqueue (String messageType) {
       enqueue(new Message(messageType));
    }
-   
+
    private void enqueue (Message message) {
       dispatcher.send(message);
    }
@@ -63,24 +64,26 @@ public class ClientProxy {
    }
 
    private float hor, ver;
-   
-   //TODO need to get information back for gaze changes
-   //     do to html markup
+
+   // TODO need to get information back for gaze changes
+   // do to html markup
    public float getGazeHor () { return hor; }
+
    public float getGazeVer () { return ver; }
-   
+
    public void gaze (float hor, float ver) {
       // allow fudge for round-off and coercion
       if ( Math.abs(hor) > 1.01f || Math.abs(ver) > 1.01f )
          throw new IllegalArgumentException("Gaze out of bounds: horizontal=\""
-               +hor+"\" vertical=\""+ver+"\"");
+               + hor + "\" vertical=\"" + ver + "\"");
       HashMap<String, String> p = Maps.newHashMap();
       p.put("horizontal", Float.toString(hor));
-      p.put("vertical",	Float.toString(ver));
+      p.put("vertical", Float.toString(ver));
       enqueue("gaze", p);
-      this.hor = hor; this.ver = ver;
+      this.hor = hor;
+      this.ver = ver;
    }
- 
+
    public void express (AgentFaceExpression expression) {
       HashMap<String, String> p = Maps.newHashMap();
       p.put("expression", expression.toString());
@@ -90,20 +93,20 @@ public class ClientProxy {
    public void toggleAgent () {
       enqueue("toggleAgent");
    }
-   
+
    public static float ZOOM = 1.6f;
-   
+
    public void zoom (float zoom) {
       // need some text or else IVONA ignores the command
-      say(" hm <CAMERA ZOOM=\""+ZOOM+"\"/>");
+      say(" hm <CAMERA ZOOM=\"" + ZOOM + "\"/>");
    }
-   
+
    public void reetiIP (String address) {
       HashMap<String, String> p = Maps.newHashMap();
       p.put("address", address);
       enqueue("reetiIP", p);
    }
-   
+
    public void addObserver (ClientProxyObserver observer) {
       if ( observer == null )
          throw new IllegalArgumentException("observer is null");
@@ -125,7 +128,7 @@ public class ClientProxy {
          o.notifyMenuSelected(this, text);
       }
    }
-   
+
    public void showMenu (List<String> items, boolean twoColumn, boolean extension) {
       JsonArray menus = new JsonArray();
       if ( items != null ) for (String s : items) menus.add(new JsonPrimitive(s));
@@ -145,12 +148,12 @@ public class ClientProxy {
       p.put("enabled", enable ? "true" : "false");
       enqueue("idle", p);
    }
-   
+
    public void startPlugin (String pluginName, InstanceReuseMode mode, JsonObject params) {
       ClientPluginUtils.startPlugin(dispatcher, pluginName, mode, params);
    }
-   
-   public void showPlugin (String pluginName) { 
+
+   public void showPlugin (String pluginName) {
       ClientPluginUtils.showPlugin(dispatcher, pluginName);
    }
 
