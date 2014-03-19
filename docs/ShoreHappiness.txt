@@ -1,0 +1,24 @@
+If you ever wanted to add happiness detection to the Face Detection
+system of always-on, do the following:
+
+1. Open the VS solution in this folder (core/FaceDetection) and add these lines to the FaceDetection.CPP file:
+
+faceInfo.intHappiness = recognizeHappiness(content->GetObject(intSelectedFaceIndex)); // inside the getAgentFaceInfo() // where other faceInfo fields are filled. (around line 250).
+
+2. Set the flag analyzeHappy to true for the agent (line 138)
+
+3. Add the following method:
+
+int recognizeHappiness( Shore::Object const* object )
+{
+return *(object->GetRating(0)); //0 Rating index is for Happy
+}
+
+4. Now build the project and the resulting dll file inside x64 folder should be copied to the \core\agent\lib\win32-x86-64 folder.
+
+5. Now your dll will send the faceInfo with a Happiness value. Inside the following Java files make the obvious changes for reading the value such as other fields of faceInfo.
+
+FacePerception.Java
+FakeFacePerception.Java
+ShoreFacePerceptor.Java
+
