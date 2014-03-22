@@ -263,7 +263,7 @@
 
       var resource = getResource(); 
       if ( resource == null ) {
-		 println("Cannot find weather data for "+todayDate());
+		 println("\nCannot find weather data for "+todayDate());
 		 println("Using testing data...");
 		 date = "testing";
 		 resource = getResource();

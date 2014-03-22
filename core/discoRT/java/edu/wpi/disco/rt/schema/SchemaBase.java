@@ -26,7 +26,7 @@ public abstract class SchemaBase implements Schema {
       this.behaviorHistory = behaviorHistory;
       lastProposal = new TimeStampedValue<Behavior>(Behavior.NULL);
    }
- 
+   
    @Override
    public void stop () { 
       // mayInterruptIfRunning is false, because might leave 

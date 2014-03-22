@@ -26,7 +26,7 @@
 	<agent>
 		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
 			<content>How is your hand?</content>
-			<response>Not gonna tell you!</response>
+			<response>I'm not gonna tell you!</response>
 			<response>Terrible!</response>
 			<response>Good!</response>
 		</comment>
@@ -43,8 +43,8 @@
 			<response>Try to do the same!</response>
 		</comment>
 		<comment competitiveness='0.6' tags="humanMeld/brag" gameType="board" gameName="srummy" madeOn="human">
-			<content>These cards are nice, why meld? keep them</content>
-			<response>Haha, sure!</response>
+			<content>Those cards are nice, why meld? keep them</content>
+			<response>Very funny/response>
 			<response>Really?!</response>
 			<response>You too!</response>
 		</comment>
@@ -75,7 +75,7 @@
 			<content>And that's how you make a meld</content>
 			<response>Wait for mine!</response>
 			<response>Don't get too excited!</response>
-			<response>Not really madam robot</response>
+			<response>Not really, madam agent</response>
 		</comment>
 		<comment competitiveness='0.5' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
 			<content>Found a meld</content>
@@ -87,7 +87,7 @@
 			<content>Meld, here I go</content>
 			<response>Wait for mine!</response>
 			<response>Don't get too excited!</response>
-			<response>Not really madam robot</response>
+			<response>Don't count your chickens yet!</response>
 		</comment>
 		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
 			<content>And that meld goes bigger</content>
@@ -115,7 +115,7 @@
 			<response>Keep at it</response>
 		</comment>
 		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
-			<content>Only a few cards left here, haha</content>
+			<content>Only a few cards left here, look out!</content>
 			<response>Good</response>
 			<response>Not so soon</response>
 			<response>Wait for my moves</response>
@@ -129,7 +129,7 @@
 		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
 			<content>Oh you got only a few cards left</content>
 			<response>Do not worry, too soon to tell</response>
-			<response>Haha, I am gonna win</response>
+			<response>Yes, I am gonna win</response>
 			<response>It is close</response>
 		</comment>
 		<comment competitiveness='0.2' tags="longTimeNoMeldByHuman" gameType="board" gameName="srummy" madeOn="human">
@@ -140,14 +140,14 @@
 		</comment>
 		<comment competitiveness='0.2' tags="longTimeNoMeldByAgent" gameType="board" gameName="srummy" madeOn="agent">
 			<content>I have not made a meld for a long time!</content>
-			<response>You are lazy!</response>
+			<response>You aren't as lucky as me!</response>
 			<response>Try harder</response>
 			<response>You will get there</response>
 		</comment>
 		<comment competitiveness='0.5' tags="twoMeldsInARowByHuman" gameType="board" gameName="srummy" madeOn="human">
 			<content>Wow! Two melds in a row!</content>
 			<response>Yes and I plan to win...</response>
-			<response>no big deal.</response>
+			<response>No big deal.</response>
 			<response></response>
 		</comment>
 		<comment competitiveness='0.5' tags="twoMeldsInARowByAgent" gameType="board" gameName="srummy" madeOn="agent">
@@ -160,9 +160,9 @@
 	<human>
 		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
 			<content>How is your hand?</content>
-			<response>Not gonna tell you!</response>
+			<response>I am not gonna tell you!</response>
 			<response>Not so bad</response>
-			<response>Well, you'll see, haha</response>
+			<response>Well, you'll see!</response>
 		</comment>
 		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
 			<content>I have terrible cards!</content>
@@ -179,7 +179,7 @@
 		<comment competitiveness='0.6' tags="humanMeld/brag" gameType="board" gameName="srummy" madeOn="human">
 			<content>Best meld ever!</content>
 			<response>Not really!</response>
-			<response>Haha, awesome</response>
+			<response>Hah hah, awesome</response>
 			<response>Wait for mine then</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
@@ -268,13 +268,13 @@
 		</comment>
 		<comment competitiveness='0.2' tags="longTimeNoMeldByHuman" gameType="board" gameName="srummy" madeOn="human">
 			<content>You notice you have not made a meld in ages</content>
-			<response>Will do </response>
+			<response>Will do soon </response>
 			<response>Do not worry</response>
 			<response>I know!</response>
 		</comment>
 		<comment competitiveness='0.2' tags="longTimeNoMeldByAgent" gameType="board" gameName="srummy" madeOn="agent">
 			<content>I have not made a meld for a long time!</content>
-			<response>You are lazy!</response>
+			<response>You are just not lucky!</response>
 			<response>Try harder</response>
 			<response>You will get there</response>
 		</comment>

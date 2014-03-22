@@ -9,6 +9,7 @@ import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
 import org.picocontainer.lifecycle.StartableLifecycleStrategy;
 import org.picocontainer.monitors.LifecycleComponentMonitor;
+import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
@@ -68,13 +69,13 @@ public class Always {
          if ( args.length > 1 ) UserUtils.USER_FILE = args[1];
          if ( args.length > 2 ) agentType = AgentType.valueOf(args[2]);
       }
-      System.out.println("Agent type = "+agentType);
+      Utils.lnprint(System.out, "Agent type = "+agentType);
       Always always = new Always(true, plugin == null);
       if ( args != null && args.length > 0 ) {
          Closeness closeness = Closeness.valueOf(args[0]);
          always.getUserModel().setCloseness(closeness);
       }
-      System.out.println("Using closeness = "+always.getUserModel().getCloseness());
+      Utils.lnprint(System.out, "Using closeness = "+always.getUserModel().getCloseness());
       always.plugin = plugin; 
       always.activity = activity;
       return always;
@@ -204,9 +205,9 @@ public class Always {
       container.start(); 
       CollaborationManager cm = container.getComponent(CollaborationManager.class);
       for (Registry registry : cmRegistries) cm.addRegistry(registry);
-      System.out.println("Starting Collaboration Manager...");
-      cm.start(plugin, activity);
-      System.out.println("Always running...");
+      Utils.lnprint(System.out, "Starting Collaboration Manager...");
+      cm.start(plugin, activity); 
+      Utils.lnprint(System.out, "Always running...");
       if ( plugin != null ) 
          cm.setSchema(null,
             container.getComponent(plugin).startActivity(activity).getClass());

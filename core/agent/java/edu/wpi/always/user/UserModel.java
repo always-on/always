@@ -66,6 +66,10 @@ public interface UserModel {
    void save ();
 
    void load ();
+   
+   void ensureConsistency ();
+   
+   void reset ();
 
    Calendar getCalendar ();
 

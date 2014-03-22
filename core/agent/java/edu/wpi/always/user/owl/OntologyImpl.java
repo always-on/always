@@ -1,10 +1,8 @@
 package edu.wpi.always.user.owl;
 
 import java.util.List;
-
 import org.joda.time.MonthDay;
-import org.mindswap.pellet.ABox;
-import org.mindswap.pellet.Literal;
+import org.mindswap.pellet.*;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -15,10 +13,9 @@ import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.PrefixManager;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.*;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
-
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.clarkparsia.pellet.owlapiv3.*;
 import com.clarkparsia.pellet.rules.builtins.BuiltInRegistry;
 import com.clarkparsia.pellet.rules.builtins.GeneralFunction;
 import com.clarkparsia.pellet.rules.builtins.GeneralFunctionBuiltIn;
@@ -32,13 +29,38 @@ public class OntologyImpl implements Ontology {
    private PrefixManager pm;
 
    public OntologyImpl () {
+      PelletOptions.USE_TRACING = true;
+      PelletOptions.USE_INCREMENTAL_CONSISTENCY = true;
+      BuiltInRegistry.instance.registerBuiltIn("my:gMonthDay",
+            new GeneralFunctionBuiltIn(new GMonthDay()));
+      reset();
+   }
+
+   @Override
+   public void ensureConsistency () {
       try {
-         BuiltInRegistry.instance.registerBuiltIn("my:gMonthDay",
-               new GeneralFunctionBuiltIn(new GMonthDay()));
+         PelletReasoner reasoner = (PelletReasoner) getReasoner();
+         reasoner.refresh();
+         reasoner.getKB().ensureConsistency(); 
+      } catch ( org.mindswap.pellet.exceptions.InconsistentOntologyException e) {
+         throw inconsistent(e);
+      }
+   }
+   
+   public static InconsistentOntologyException inconsistent (Throwable cause) {
+      InconsistentOntologyException e = new InconsistentOntologyException();
+      e.initCause(cause);
+      return e;
+   }
+   
+   @Override
+   public void reset () {
+      try {
          manager = OWLManager.createOWLOntologyManager();
          ontology = manager.createOntology(DOCUMENT_IRI);
          pm = new DefaultPrefixManager();
          factory = manager.getOWLDataFactory();
+         reasoner = null;
          manager.addOntologyChangeListener(new OWLOntologyChangeListener() {
 
             @Override
@@ -49,10 +71,10 @@ public class OntologyImpl implements Ontology {
             }
          });
       } catch (OWLOntologyCreationException e) {
-         e.printStackTrace();
+         throw new RuntimeException(e);
       }
    }
-
+   
    @Override
    public OWLOntologyManager getManager () {
       return manager;
