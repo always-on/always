@@ -22,10 +22,5 @@ public class AAPropertiesInitializer extends PropertiesInitializer{
 		    if(prop.startsWith("CURRENT_"))
 			    p.remove(prop);
 			};	
-			//p.setProperty("STUDY_DAY",""+s.getUsersStudyDay());
-	    	//p.setProperty("NAME",s.getUserName());
-	    	
-	    	
 		}
-	
 }
