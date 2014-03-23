@@ -732,7 +732,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
       public DoneCurrentPersonAdjacencyPair (final EnrollStateContext context) {
          super("Ok, now I know about " + nameForLastState
             + ". Would you like to introduce someone else to me?", context);
-         choice("Yes, I do", new DialogStateTransition() {
+         choice("Yes, I would", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new PersonNameAdjacencyPair(getContext());

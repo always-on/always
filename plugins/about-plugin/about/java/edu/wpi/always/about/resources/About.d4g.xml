@@ -330,7 +330,7 @@
 	      </agent>
 	    </user>
 	    <user text="No, no thanks" >
-	      <agent text="well, I hope {pronounSubj} has a good trip!"/>
+	      <agent text="well, I hope {famFriend} enjoys the trip!"/>
 	    </user>
 	  </agent>
 	</user>
