@@ -13,11 +13,6 @@ public class AAECADialogueSessionInitializer implements DialogueSessionInitializ
 	    return false; //do nothing on startup
 	} else if(event.startsWith("<USER_LOGIN ")) {
 		System.out.println("Got login message from client ");
-			//String id = Utilities.extractArgument(event,"ID");
-			//System.out.println("userid entered " + id);
-			//session.getRuntime().setProperty("THIS_SESSION_ID",""+id);
-		
-			
    			int session_id = session.getRuntime().getStore().addSession(ServerConstants.Media.ECA);
    			
    			System.out.println("SESSIONID = "+session_id);
@@ -35,4 +30,4 @@ public class AAECADialogueSessionInitializer implements DialogueSessionInitializ
     }
     }
 
-} //
+}

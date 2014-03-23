@@ -51,7 +51,7 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
    @Override
    public List<String> getChoices () {
       List<String> choices = Lists.newArrayList(this.choices.keySet());
-      if( repeatOption && message != null ) choices.add(REPEAT);  
+      if( repeatOption && message != null && choices.size() != 0) choices.add(REPEAT);  
       return choices;
    }
 
