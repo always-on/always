@@ -233,7 +233,8 @@ public class AADBStore extends DBStore {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		String lastNutritionInteractionDate = store.getProperty("last_n_date");
 		if (lastNutritionInteractionDate == null) {
-			store.setProperty("count_day", "1");						
+			store.setProperty("count_day", "1");
+			store.setProperty("STUDY_DAY", "2");
 		} else {
 			Date last_date;
 			try {
@@ -241,7 +242,9 @@ public class AADBStore extends DBStore {
 				long dif = (Calendar.getInstance().getTime().getTime() - last_date.getTime()) / (1000 * 60 * 60 * 24);
 				int p_count = Integer.valueOf(store.getProperty("count_day"));
 				int c_count = p_count+ (int)dif;
+				int study_count = c_count+1;
 				store.setProperty("count_day",String.valueOf(c_count));
+				store.setProperty("STUDY_DAY",String.valueOf(study_count));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}			
@@ -250,6 +253,25 @@ public class AADBStore extends DBStore {
 		store.setProperty("last_n_date", lastNutritionInteractionDate);
 	}
 
+	public void updateContentDay() {
+		String content_day = store.getProperty("content_day");
+		if(content_day == null){
+			store.setProperty("content_day", "1");	
+		} else {
+			int current_content_day = Integer.valueOf(store.getProperty("content_day"));
+			current_content_day ++;
+			store.setProperty("content_day", String.valueOf(current_content_day));	
+		}
+	}
+	
+	public int getContentDay() {
+		int content_day = 0;
+		if(store.getProperty("content_day")!=null){
+			content_day=Integer.valueOf(store.getProperty("content_day"));
+		}
+		return content_day;
+	}
+	
 	public int lastInteractionInDays() {
 		int daysAgo = 0;
 		store.getProperty("start_time");
@@ -449,6 +471,49 @@ public class AADBStore extends DBStore {
 		// }
 		// return hoursAgo;
 		return hoursAgo;
+	}
+	
+	public void travel(){
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Calendar last_n_cal = Calendar.getInstance();
+		String last_n_date_str = store.getProperty("last_n_date");
+		try {
+			Date last_n_date = df.parse(last_n_date_str);
+			last_n_cal.setTime(last_n_date);
+			last_n_cal.add(Calendar.DATE, -1);
+			String updatedDate = df.format(last_n_cal.getTime());
+			store.setProperty("last_n_date",updatedDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public int checkDuplicateInteraction(){
+		int result=0;
+		int daysAgo = 0;
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		if(store.getProperty("last_n_date")==null){
+			result=0;
+		}
+		else{			
+			try {
+				String last_n_date = store.getProperty("last_n_date");
+				Date lastNutritionInteractionDate = df.parse(last_n_date);
+				long dif = (Calendar.getInstance().getTime().getTime() - lastNutritionInteractionDate
+						.getTime()) / (1000 * 60 * 60 * 24);
+				daysAgo = (int) dif;
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			if(daysAgo>=1){
+				result=2;
+			}
+			else{
+				result = 1;
+			}
+		}
+		return result;
 	}
 
 	public int daysSinceInteraction() {
@@ -715,6 +780,12 @@ public class AADBStore extends DBStore {
 		int days = (int)dif;
 		return days;
 	}
+	
+	public int getCurrentCountDay(){
+		int count_day = 0;
+		count_day = Integer.valueOf(store.getProperty("count_day"));
+		return count_day;
+	}
 
 	public void cacheVFCountAndGoals() {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -729,7 +800,6 @@ public class AADBStore extends DBStore {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		//int studyDay = Integer.valueOf(store.getProperty("STUDY_DAY_N"));
 		VFCountCache = new int[count_days];
 		VFGoalsCache = new int[count_days];
 		for (int i = 0; i < VFCountCache.length; i++) {
@@ -742,27 +812,22 @@ public class AADBStore extends DBStore {
 						.valueOf(i + 1)));
 			}
 		}
-		// need to be differentiated
-		for (int i = 0; i < VFGoalsCache.length; i++) {
+		
+		int current_goal=0;
+		for (int i = 0; i < VFGoalsCache.length-1; i++) {
 			if (store.getProperty("G_"+String.valueOf(i + 1)) != null) {
 				VFGoalsCache[i + 1] = Integer.valueOf(store.getProperty("G_"+String
 						.valueOf(i + 1)));
+				current_goal = Integer.valueOf(store.getProperty("G_"+String
+						.valueOf(i + 1)));
 			}
+			else{
+				if(i>3){
+				   VFGoalsCache[i + 1] = current_goal;
+				}
+			}
+			
 		}
-		/*
-		 * try { int i=0; int lastGoal=0; int next = 0; String
-		 * query="SELECT STUDY_DAY,VF_COUNT FROM VF_STEPS WHERE User_ID=" +
-		 * userID; ResultSet RS = stmt.executeQuery(query); while(RS.next()) {
-		 * next = RS.getInt(1); if (next>-1 && next<VFCountCache.length){
-		 * VFCountCache[RS.getInt(1)]= RS.getInt(2); } }
-		 * query="SELECT STUDY_DAY,GOAL FROM VF_STEP_GOALS WHERE User_ID=" +
-		 * userID; RS = stmt.executeQuery(query); while(RS.next()) { i =
-		 * RS.getInt(1); if (i>-1 && i<VFGoalsCache.length){ VFGoalsCache[i]=
-		 * RS.getInt(2); if (VFGoalsCache[i]>0){ lastGoal=VFGoalsCache[i];
-		 * System.out.println("Last Goal is: "+lastGoal); } } } if (lastGoal>0){
-		 * VFGoalsCache[VFGoalsCache.length-1]=lastGoal; } } catch (SQLException
-		 * e) { System.out.println("cache ex: "+e); }
-		 */
 		System.out.println("\nCached steps...");
 		for (int j = 0; j < VFCountCache.length; j++) {
 			System.out.println("Day " + j + " Steps = " + VFCountCache[j]);
@@ -801,7 +866,7 @@ public class AADBStore extends DBStore {
 			}
 		}
 	}
-
+	
 //	public void recordVF(int studyday, int mins) {
 //		// store.setProperty("C_"+String.valueOf(studyday),
 //		// String.valueOf(mins));
@@ -819,7 +884,7 @@ public class AADBStore extends DBStore {
 	}
 
 	public void recordVFGoal(int goalPerDay) {
-		int studyDay = Integer.valueOf(store.getProperty("STUDY_DAY_N"));
+		int studyDay = Integer.valueOf(store.getProperty("STUDY_DAY"));
 		store.setProperty("G_" + String.valueOf(studyDay),
 				String.valueOf(goalPerDay));
 		if (VFGoalsCache != null) {
