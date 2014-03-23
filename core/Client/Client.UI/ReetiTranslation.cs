@@ -279,7 +279,6 @@ namespace Agent.UI
 
         public void TranslateToReetiCommand(String task, String Command)
         {
-            int intDuration = 0;
 
             if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
