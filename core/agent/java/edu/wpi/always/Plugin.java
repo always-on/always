@@ -25,7 +25,7 @@ import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.schema.SchemaConfig;
 import edu.wpi.disco.rt.schema.SchemaManager;
 import edu.wpi.disco.rt.schema.SchemaRegistry;
-import edu.wpi.disco.rt.util.ComponentRegistry;
+import edu.wpi.disco.rt.util.*;
 
 /**
  * Base class for plugins.
@@ -47,11 +47,14 @@ public abstract class Plugin {
       this.cm = cm;
       container = cm.getContainer();      
       interaction = container.getComponent(Interaction.class);
+   }
+   
+   public void loadOntology () {
       InputStream stream = getClass().getResourceAsStream("resources/"+name+".owl");
       if ( stream == null )
          stream = getClass().getResourceAsStream(name+".owl");
       if ( stream != null ) {
-         System.out.println("Loading "+name+".owl");
+         Utils.lnprint(System.out, "Loading "+name+".owl");
          ((OntologyUserModel) userModel).addAxioms(stream, true);
       }
    }

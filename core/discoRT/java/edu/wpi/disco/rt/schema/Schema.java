@@ -17,7 +17,7 @@ public interface Schema extends Runnable {
     * Return true iff this schema is no longer scheduled for execution.  
     */
    boolean isDone ();
-    
+
    /**
     * Called by arbitrator each time this schema's proposal including focus is chosen.
     * 

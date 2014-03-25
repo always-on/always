@@ -3,6 +3,7 @@ package edu.wpi.always.cm.schemas;
 import java.util.*;
 import org.joda.time.LocalTime;
 import org.picocontainer.MutablePicoContainer;
+import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
@@ -26,6 +27,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final Stop stop;
    private final ClientProxy proxy;
    private final SchemaManager schemaManager;
+   private final CollaborationManager cm;
    private final Interaction interaction;
    
    public static int HOUR = -1;  // for testing
@@ -40,8 +42,19 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       this.schemaManager = schemaManager;
       this.interaction = interaction;
       container = always.getContainer();
+      cm = container.getComponent(CollaborationManager.class);
       if ( HOUR < 0 ) HOUR = LocalTime.now().getHourOfDay();
       stop = new Stop(interaction);
+      ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
+           .setInterrupt(false);
+      // print out information here so it goes into log
+      System.out.println();
+      System.out.println("****************************************************************************");
+      System.out.println("Writing log to: "+interaction.getConsole().log);
+      System.out.println("****************************************************************************");
+      System.out.println("Agent type = "+Always.getAgentType());
+      try { UserUtils.print(always.getUserModel(), System.out);}
+      catch (InconsistentOntologyException e) { cm.revertUserModel(e); }  // try once
       DiscoDocument session = always.getRM().getSession();
       Disco disco = interaction.getDisco();
       if ( disco.getTaskClass("_Session") == null && session != null ) { // could be restart
@@ -51,16 +64,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          interaction.push(interaction.addTop("_Session"));
          always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
       }
-      ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
-                      .setInterrupt(false);
-      // print out information here so it goes into log
-      System.out.println();
-      System.out.println("****************************************************************************");
-      System.out.println("Writing log to: "+interaction.getConsole().log);
-      System.out.println("****************************************************************************");
-      System.out.println("Agent type = "+Always.getAgentType());
-      OntologyUserModel model = (OntologyUserModel) always.getUserModel();
-      UserUtils.print(model, System.out);
+
    }
 
    // activities for which startActivity has been called (not same as Plan.isStarted)
@@ -86,6 +90,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          schema = started.get(plan);
          if ( schema != null ) {
             if ( schema.isDone() ) {
+               revertIfInconsistent(schema);
                stop(plan);
                stateMachine.setState(schema.isSelfStop() ? 
                   new StopAdjacencyPairWrapper(discoAdjacencyPair) : 
@@ -113,15 +118,20 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       else propose(stateMachine);
    }
    
+   private void revertIfInconsistent (ActivitySchema schema) {
+      InconsistentOntologyException e = schema.getInconsistentOntologyException();
+      if ( e != null) cm.revertUserModel(e);
+   }
+   
    @Override
    public void dispose () {
       super.dispose();
       ClientPluginUtils.hidePlugin(
-            container.getComponent(CollaborationManager.class)
-              .getContainer().getComponent(UIMessageDispatcher.class));
+            cm.getContainer().getComponent(UIMessageDispatcher.class));
       // restart if fails for some reason
       Utils.lnprint(System.out, "Restarting SessionSchema...");
       interaction.clear();
+      revertIfInconsistent(this);
       schemaManager.start(getClass());
    }
    

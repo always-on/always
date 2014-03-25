@@ -18,7 +18,6 @@ namespace Agent.UI
         private const String concernFace       = "Global.Sad.play();";
         private const String moveMouth         = "Global.Talk.play();";
         private const String mouthOpenDuration = "Global.Talk.setMouthOpenDuration(";
-        private const String letMouthMove      = "Global.Talk.changeMouthPermission(true);";
         private const String stopMouthMove     = "Global.Talk.changeMouthPermission(false);";
 
         private bool blnHeadNod         = true;
@@ -136,7 +135,7 @@ namespace Agent.UI
                     blnHeadNod         = false;
                     blnDelay           = true;
                     blnLookAwayThink   = true;
-                    blnLookBack        = true;
+                    blnLookBack        = false;
                     blnLookAtBoard     = true;
                     blnLookAwayAtRight = true;
                     blnConcern         = true;
@@ -280,7 +279,6 @@ namespace Agent.UI
 
         public void TranslateToReetiCommand(String task, String Command)
         {
-            int intDuration = 0;
 
             if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
@@ -336,29 +334,21 @@ namespace Agent.UI
             }
             else if (Command.Contains("viseme"))
             {
-                intDuration = getSpeechPermission(Command);
-
-                if ( intDuration != -1)
+                if (blnViseme)
                 {
-                    if (blnViseme)
+                    if (!blnTalkAlreadyStarted)
                     {
-                        if (!blnTalkAlreadyStarted)
-                        {
-                            SendCommand(letMouthMove);
-                            SendCommand(moveMouth);
-                            blnTalkAlreadyStarted = true;
-                        }
-                        SendCommand(mouthOpenDuration + ((float)intDuration / 3000) + ");");
+                        SendCommand(moveMouth);
+                        blnTalkAlreadyStarted = true;
                     }
-                    updateRobotState("Viseme");
                 }
+                updateRobotState("Viseme");
             }
-            if (Command.Contains("ENDSPEECH"))
+            else  if (Command.Contains("ENDSPEECH"))
             {
                 if (blnEndSpeech)
                 {
                     SendCommand(stopMouthMove);
-                    intAccumulatedVisemeDuration = 701;
                     blnTalkAlreadyStarted = false;
                 }
                 updateRobotState("EndSpeech");

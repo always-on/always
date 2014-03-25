@@ -7,7 +7,6 @@ import org.jsoup.select.Elements;
 import java.io.*;
 import java.util.ArrayList;
 
-@SuppressWarnings("serial")
 public class RecentNewsParser {
    Document doc;
 
