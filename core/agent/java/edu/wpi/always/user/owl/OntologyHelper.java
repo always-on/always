@@ -10,18 +10,27 @@ import java.util.*;
 
 public class OntologyHelper {
 
-   private final OWLDataFactory factory;
-   private final OWLOntologyManager manager;
-   private final OWLOntology ontology;
-   private final PrefixManager pm;
-   private final Ontology ontologyData;
+   private OWLDataFactory factory;
+   private OWLOntologyManager manager;
+   private OWLOntology ontology;
+   private PrefixManager pm;
+   private Ontology ontologyData;
 
-   public OntologyHelper (Ontology ont) {
-      this.ontologyData = ont;
-      factory = ont.getFactory();
-      manager = ont.getManager();
-      ontology = ont.getOntology();
-      pm = ont.getPm();
+   public OntologyHelper (Ontology ontologyData) {
+      this.ontologyData = ontologyData;
+      init();
+   }
+   
+   public void reset () { 
+      ontologyData.reset(); 
+      init();
+   }
+   
+   private void init () {
+      factory = ontologyData.getFactory();
+      manager = ontologyData.getManager();
+      ontology = ontologyData.getOntology();
+      pm = ontologyData.getPm();
    }
 
    public Ontology getOntologyDataObject () {
@@ -206,8 +215,10 @@ public class OntologyHelper {
    }
 
    public void addAxioms (File file) {
-      try { addAxioms(manager.loadOntologyFromOntologyDocument(file)); } 
-      catch (OWLOntologyCreationException e) {
+      // loadOntologyFromOntologyDocument(File) does not close stream!
+      try (InputStream stream = new FileInputStream(file)) { 
+         addAxioms(manager.loadOntologyFromOntologyDocument(stream)); 
+      } catch (OWLOntologyCreationException | IOException e) {
          e.printStackTrace();
       }
    }

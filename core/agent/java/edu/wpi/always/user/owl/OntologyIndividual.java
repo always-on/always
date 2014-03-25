@@ -73,11 +73,12 @@ public class OntologyIndividual {
       if ( values.size() == 0 )
          return new OntologyValue(null);
       if ( values.size() != 1 )
-         throw new RuntimeException("The OWLIndividual " + individual
-            + " has more than one value for the property " + property);
+         throw OntologyImpl.inconsistent(new RuntimeException("The OWLIndividual " + individual
+            + " has more than one value for the property " + property));
       return new OntologyValue(values.iterator().next());
    }
 
+   
    public void setObjectProperty (String property, OntologyIndividual value) {
       setObjectProperty(helper.getObjectProperty(property), value);
    }
@@ -128,8 +129,8 @@ public class OntologyIndividual {
       if ( values.size() == 0 )
          return null;
       if ( values.size() != 1 )
-         throw new RuntimeException("The OWLIndividual " + individual
-            + " has more than one value for the property " + property);
+         throw OntologyImpl.inconsistent(new RuntimeException("The OWLIndividual " + individual
+            + " has more than one value for the property " + property));
       return new OntologyIndividual(helper.getOntologyDataObject(), values
             .iterator().next());
    }

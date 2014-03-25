@@ -34,8 +34,8 @@ public class DiscoRT implements Startable {
    
    protected final DiscoRT.Interaction interaction =  new DiscoRT.Interaction(new Agent("agent"), new User("user"));
    protected final MutablePicoContainer container;
-   protected final List<SchemaRegistry> schemaRegistries = new ArrayList<SchemaRegistry>();
-   protected final List<ComponentRegistry> registries = new ArrayList<ComponentRegistry>();
+   protected final Set<SchemaRegistry> schemaRegistries = new HashSet<SchemaRegistry>();
+   protected final Set<ComponentRegistry> registries = new HashSet<ComponentRegistry>();
   
    public Interaction getInteraction () { return interaction; }
    
@@ -124,7 +124,7 @@ public class DiscoRT implements Startable {
    
    @Override
    public void start () {
-      System.out.println("Starting DiscoRT...");
+      Utils.lnprint(System.out, "Starting DiscoRT...");
       container.start();
    }
    

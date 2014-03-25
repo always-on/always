@@ -35,8 +35,14 @@ public abstract class UserUtils {
     * Optional argument is USER_FILE
     */
    public static void main (String[] args) {
-      if ( args != null && args.length > 0 && args[0].length() > 0 )
+      USER_DIR = new File("../../user").exists() ? "../../user" : 
+            new File("../../../user").exists() ? "../../../user" : ".";
+      if ( args != null && args.length > 0 && args[0].length() > 0 ) 
          USER_FILE = args[0];
+      else {
+         File last = lastModified();
+         if ( last != null ) USER_FILE = last.toString();
+      }
       Always always = new Always(true, true);
       // to get plugin classes 
       for (TaskClass task : new TaskEngine().load("Activities.xml").getTaskClasses())

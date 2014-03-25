@@ -738,7 +738,7 @@
          <binding slot="$_d4e174_step.text" value="&#34;No, no thanks&#34;"/>
          <binding slot="$_d4e174_step.external" value="true"/>
          <binding slot="$_d4e175_step.text"
-                  value="&#34;\&#34;well, I hope \&#34;+(pronounSubj)+\&#34; has a good trip!\&#34;&#34;"/>
+                  value="&#34;\&#34;well, I hope \&#34;+(famFriend)+\&#34; enjoys the trip!\&#34;&#34;"/>
          <binding slot="$_d4e175_step.external" value="false"/>
       </subtasks>
    </task>
@@ -876,7 +876,7 @@
                   value="&#34;\&#34; \&#34;+(pronounSubj)+\&#34; is postponing a visit to me\&#34;&#34;"/>
          <binding slot="$_d4e260_step.external" value="true"/>
          <binding slot="$_d4e261_step.text"
-                  value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, that's too a shame.  Any chance of a visit later? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+                  value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, that's too bad.  Any chance of a visit later? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e261_step.external" value="false"/>
       </subtasks>
    </task>

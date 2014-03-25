@@ -10,8 +10,7 @@
     }
     
     function setPoorSleepReports (n) {
-       $always.getUserModel().setProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS,
-                    new java.lang.Integer(n));
+       $schema.setPoorSleepReports(n);
     } 
     
     function getUserName () {
@@ -120,7 +119,7 @@
         </user>
       </agent>
       <agent 
-          text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Gee, that's rare for you.   Are you feeling okay? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;"
+          text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Gee, that's unusual for you.   Are you feeling okay? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;"
           applicable="poorSleepreports &lt; 5">
         <user text="yes" >
           <agent text="good!"/>
