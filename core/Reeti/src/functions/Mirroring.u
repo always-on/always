@@ -1,0 +1,226 @@
+var Object.permissionToTalk = true;
+var Object.mouthOpen = false;
+var mouth = Tag.new("mouth");
+var Object.s;
+
+function Object.initMouthMove()
+{
+   mouth:detach({Global.servo.bottomLip = 50 sin:0.7s ampli:15;});
+   mouth.freeze;
+   Global.servo.bottomLip = 65;
+};
+
+function Object.stopMouthMove()
+{
+   Object.permissionToTalk = false;
+   mouth.freeze;
+   Global.servo.bottomLip = 65 smooth:0.15s;
+   Object.mouthOpen = false;
+};
+
+function Object.moveMouth()
+{
+   Object.permissionToTalk = true;
+
+   whenever(Object.permissionToTalk)
+   {
+      mouth.unfreeze;
+   }
+};
+
+function Object.smallNod()
+{
+   Global.servo.neckTilt=55.56 smooth:0.2s,
+   Global.servo.neckTilt=25 smooth:0.35s;
+   Global.servo.neckTilt=55.56 smooth:0.15s;
+};
+
+function Object.lookAwayThink()
+{
+   Global.servo.rightEyePan = 80 smooth:0.5s,
+   Global.servo.rightEyeTilt = 70 smooth:0.5s,
+   Global.servo.leftEyePan = 60 smooth:0.5s,
+   Global.servo.leftEyeTilt = 70 smooth:0.5s,
+   Global.servo.neckRotat = 57.5 smooth:1s,
+   Global.servo.neckTilt = 67.5 smooth:1s,
+};
+
+function Object.lookAtBoard()
+{
+   Global.servo.neckRotat = 7 smooth:1.3s,
+   Global.servo.neckTilt = 13.5 smooth:1.3s,
+   Global.servo.rightEyePan = 60 smooth:0.5s,
+   Global.servo.rightEyeTilt = 42 smooth:0.5s,
+   Global.servo.leftEyePan = 40 smooth:0.5s,
+   Global.servo.leftEyeTilt = 42 smooth:0.5s,
+};
+
+function Object.lookBack()
+{
+   Global.servo.neckRotat = 50 smooth:1.3s,
+   Global.servo.neckTilt = 55.56 smooth:1.3s,
+   Global.servo.rightEyePan = 60 smooth:0.5s,
+   Global.servo.rightEyeTilt = 42 smooth:0.5s,
+   Global.servo.leftEyePan = 40 smooth:0.5s,
+   Global.servo.leftEyeTilt = 42 smooth:0.5s,
+};
+
+function Object.lookAwayAtRight()
+{
+   Global.servo.neckRotat = 5 smooth:1s,
+   Global.servo.neckTilt = 80 smooth:1s,
+   Global.servo.rightEyePan = 60 smooth:0.5s,
+   Global.servo.rightEyeTilt = 42 smooth:0.5s,
+   Global.servo.leftEyePan = 40 smooth:0.5s,
+   Global.servo.leftEyeTilt = 42 smooth:0.5s,
+};
+
+function Object.expressSad()
+{
+   Global.servo.neckRotat = 50 smooth:1s,
+   Global.servo.neckTilt = 0 smooth:1s,
+   Global.servo.neckPan = 50 smooth:1s,
+   Global.servo.leftLC = 0 smooth:1s,
+   Global.servo.rightLC = 0 smooth:1s,
+   Global.servo.leftEyeTilt = 30 smooth:1s,
+   Global.servo.rightEyeTilt = 30 smooth:1s,
+   Global.servo.leftEyeLid = 90 smooth:0.5s,
+   Global.servo.rightEyeLid = 90 smooth:0.5s,
+   Global.servo.topLip = 0 smooth:1s,
+   Global.servo.bottomLip = 100 smooth:1s,
+   Global.servo.leftEar = 0 smooth:1s,
+   Global.servo.rightEar = 0 smooth:1s;
+};
+
+function Object.expressHappy()
+{
+   Global.servo.neckRotat = 50 smooth:1s,
+   Global.servo.neckTilt = 50 smooth:1s,
+   Global.servo.neckPan = 50 smooth:1s,
+   Global.servo.leftLC = 100 smooth:1s,
+   Global.servo.rightLC = 100 smooth:1s,
+   Global.servo.leftEyeLid = 90 smooth:0.5s,
+   Global.servo.rightEyeLid = 90 smooth:0.5s;
+   Global.servo.topLip = 80 smooth:1s,
+   Global.servo.bottomLip = 50 smooth:1s,
+   Global.servo.leftEar = 100 smooth:1s,
+   Global.servo.rightEar = 100 smooth:1s,
+};
+
+function Object.bigNod()
+{
+   Global.servo.neckTilt=0 smooth:0.25s,
+   Global.servo.leftEar=0 smooth:0.15s,
+   Global.servo.rightEar=0 smooth:0.15s,
+   Global.servo.leftEyeLid=55 smooth:0.25s,
+   Global.servo.rightEyeLid=55 smooth:0.25s;
+   Global.servo.neckTilt=55.56 smooth:0.25s;		
+   Global.servo.leftEar=50 smooth:0.15s,
+   Global.servo.rightEar=50 smooth:0.15s,
+   Global.servo.leftEyeLid=90 smooth:0.25s,
+   Global.servo.rightEyeLid=90 smooth:0.25s;
+};
+
+function Object.executeCommand(var command)
+{
+   if(command[0,2] == "00") // Small Nod
+   {
+      detach({Object.smallNod();});
+      echo("Small Nod");
+   }
+   else if (command[0,2] == "01") // Start Talking
+   {
+      detach({Object.moveMouth();});
+      echo("Start Talking");
+   }
+   else if(command[0,2] == "02") // Stop Talking
+   {
+      detach({Object.stopMouthMove();});
+      echo("Stop Talking");
+   }
+   else if(command[0,2] == "03") // Look Away Think
+   {
+      detach({Object.lookAwayThink();});
+      echo("Look Away Think");
+   }
+   else if(command[0,2] == "04") // Look At Board
+   {
+      detach({Object.lookAtBoard();});
+      echo("Look At Board");
+   }
+   else if(command[0,2] == "05") // Look Back
+   {
+      detach({Object.lookBack();});
+      echo("Look Back");
+   }
+   else if(command[0,2] == "06") // Look Away At Right
+   {
+      detach({Object.lookAwayAtRight();});
+      echo("Look Away At Right");
+   }
+   else if(command[0,2] == "07") // Express Sad
+   {
+      detach({Object.expressSad();});
+      echo("Express Sad");
+   }
+   else if(command[0,2] == "08") // Express Happy
+   {
+      detach({Object.expressHappy();});
+      echo("Express Happy");
+   }
+   else if(command[0,2] == "09") // Big Nod
+   {
+      detach({Object.bigNod();});
+      echo("Big Nod");
+   }
+   else if(command[0,2] == "10")
+   {
+      detach({Global.servo.neutralPosition();});
+      echo("Neutral Position");
+   }
+};
+
+function Object.listeningSocket()
+{
+   Object.s.listen("0.0.0.0","12111");
+   echo("Listening...");
+};
+
+function Object.socketConnection()
+{
+   Object.s = do(Server.new)
+   {
+      function serverConnections()
+      {
+         for (var i in this.sockets)
+         {
+            echo("socket in list: %s -> %s" % [i, i.isConnected]);
+         };
+      };
+
+      at (connection?(var socket))
+      {
+         at (socket.connected?)
+         {
+            echo("socket connected = " + socket);
+            this.serverConnections();
+         };
+
+         at (socket.disconnected?)
+         {
+            echo("socket disconnected");
+            this.serverConnections();
+         };
+
+         at (socket.received?(var data))
+         {
+            //echo ("received data = " + data);
+            detach({Object.executeCommand(data);});
+         };
+      };
+   };
+};
+
+Object.initMouthMove();
+Object.socketConnection();
+Object.listeningSocket();

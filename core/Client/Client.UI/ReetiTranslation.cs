@@ -10,15 +10,19 @@ namespace Agent.UI
     {
         private ReetiCommunication reeti = new ReetiCommunication();
 
-        private const String HORIZONTAL        = "horizontal";
-        private const String VERTICAL          = "vertical";
-        private const String headNod           = "Global.SmallNod.play();";
-        private const String neutralPosition   = "Global.servo.neutralPosition();";
-        private const String smileFace         = "Global.Happy.play();";
-        private const String concernFace       = "Global.Sad.play();";
-        private const String moveMouth         = "Global.Talk.play();";
-        private const String mouthOpenDuration = "Global.Talk.setMouthOpenDuration(";
-        private const String stopMouthMove     = "Global.Talk.changeMouthPermission(false);";
+        private const String HORIZONTAL      = "horizontal";
+        private const String VERTICAL        = "vertical";
+        private const String headNod         = "00"; // smallNod
+        private const String moveMouth       = "01"; // startTalking
+        private const String stopMouthMove   = "02"; // stopTalking
+        private const String lookAwayThink   = "03"; // lookAwayThink
+        private const String lookAtBoard     = "04"; // lookAtBoard
+        private const String lookBack        = "05"; // lookBack
+        private const String lookAwayAtRight = "06"; // lookAwayAtRight
+        private const String expressHappy    = "07"; // expressHappy
+        private const String expressSad      = "08"; // expressSad
+        private const String bigNod          = "09"; // expressSad
+        private const String neutralPosition = "10"; // Global.servo.neutralPosition()
 
         private bool blnHeadNod         = true;
         private bool blnDelay           = true;
@@ -32,7 +36,7 @@ namespace Agent.UI
         private bool blnViseme          = true;
         private bool blnEndSpeech       = true;
 
-        private int intAccumulatedVisemeDuration = 701;
+        private int intAccumulatedVisemeDuration = 351;
 
         private bool blnTalkAlreadyStarted = false;
 
@@ -105,7 +109,7 @@ namespace Agent.UI
 
             intAccumulatedVisemeDuration += Convert.ToInt32(command.Substring(begin, end - begin));
 
-            if (intAccumulatedVisemeDuration > 700)
+            if (intAccumulatedVisemeDuration > 350)
             {
                 intDuration = intAccumulatedVisemeDuration;
                 intAccumulatedVisemeDuration = 0;
@@ -279,6 +283,7 @@ namespace Agent.UI
 
         public void TranslateToReetiCommand(String task, String Command)
         {
+            int intDuration = 0;
 
             if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
@@ -298,33 +303,33 @@ namespace Agent.UI
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
 
                 if( (VerOutput <= 78) && (VerOutput > 60) ) {
-                    if (blnLookAwayThink) SendCommand("Global.LookAway.lookAwayThink();");
+                    if (blnLookAwayThink) SendCommand(lookAwayThink);
                     updateRobotState("LookAwayThink");
                 }
                 else if ( (VerOutput < 60) && (VerOutput > 30) )
                 {
-                    if (blnLookBack) SendCommand("Global.LookAway.lookBack();");
+                    if (blnLookBack) SendCommand(lookBack);
                     updateRobotState("LookBack");
                 }
                 else if (VerOutput < 30)
                 {
-                    if (blnLookAtBoard) SendCommand("Global.LookAway.lookAtBoard();");
+                    if (blnLookAtBoard) SendCommand(lookAtBoard);
                     updateRobotState("LookAtBoard");
                 }
                 else if (VerOutput >= 79)
                 {
-                    if (blnLookAwayAtRight) SendCommand("Global.LookAway.lookAwayAtRight();");
+                    if (blnLookAwayAtRight) SendCommand(lookAwayAtRight);
                     updateRobotState("LookAwayAtRight");
                 }
             }
             else if (Command.Contains("CONCERN"))
             {
-                if (blnConcern) SendCommand(concernFace);
+                if (blnConcern) SendCommand(expressSad);
                 updateRobotState("Concern");
             }
             else if (Command.Contains("SMILE"))
             {
-                if (blnSmile) SendCommand(smileFace);
+                if (blnSmile) SendCommand(expressHappy);
                 updateRobotState("Smile");
             }
             else if (Command.Contains("WARM"))
