@@ -30,7 +30,7 @@ public class RAGStateContext extends AdjacencyPair.Context {
 	private static AAECADialogueSession Session;
 	private static DocumentBuilderFactory documentBuilderFactory;
 	private static DocumentBuilder documentBuilder;
-	private static boolean firstRun = true;
+	public static boolean firstRun = true;
 	
 	private static UserModel userModel;
 	

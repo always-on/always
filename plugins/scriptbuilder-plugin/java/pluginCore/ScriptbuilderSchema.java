@@ -21,7 +21,11 @@ public class ScriptbuilderSchema extends ActivityStateMachineSchema<RAGStateCont
 
 	@Override
 	public void run() {
-	   if( context.isDone ) stop();
+	   if( context.isDone ){
+		   context.firstRun = true;
+		   context.isDone = false;
+		   stop();
+	   }
 		else super.run();
 	}
 }
