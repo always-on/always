@@ -27,17 +27,18 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
    public static Point translateAgentTurn (float hor, float ver) {
       // NB: Use jsonHpMacAddressObject.isHpMachine() to check whether the 
       // code is running on an HP machine.
-      // NB: 0.025 is calculated due to the value of 165 in translateToAgentTurnHor method.
+      // NB: -0.00625 and -0.75 are calculated due to the value of 165 and 
+      // 220 in translateToAgentTurnHor method respectively.
       
-      int offset = 10;
+      int offset = 30;
 
       return ((ClientPluginUtils.isPluginVisible()) ?
-         ((hor < -0.025) ? 
+         ((hor < -0.00625) ? 
             new Point((Math.round(160f - (160f * hor / 0.2f) - offset)),
                        Math.round(120f - (120f * ver / 0.2f)))  :
             new Point((Math.round(160f - (160f * hor / 0.2f))),
                        Math.round(120f - (120f * ver / 0.2f)))) :
-         ((hor < -0.025) ?
+         ((hor < -0.75) ?
             new Point((Math.round(160f - (160f * hor / 0.2f))),
                        Math.round(120f - (120f * ver / 0.2f)))  :
             new Point((Math.round(160f - (160f * hor / 0.2f) + offset)),
@@ -55,11 +56,11 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       // NB: Use jsonHpMacAddressObject.isHpMachine() to check whether the 
       // code is running on an HP machine. 
 
-      int offset = 10;
-    
+      int offset = 30;
+      
       return ((ClientPluginUtils.isPluginVisible()) ?
          ((p.x > 165) ? ((160f - (p.x + offset)) * 0.2f / 160f) : ((160f - p.x) * 0.2f / 160f)) :
-         ((p.x > 165) ? ((160f - p.x) * 0.2f / 160f) : ((160f - (p.x - offset)) * 0.2f / 160f)));
+         ((p.x > 220) ? ((160f - p.x) * 0.2f / 160f) : ((160f - (p.x - offset)) * 0.2f / 160f)));
    }
 
    /**
