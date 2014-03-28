@@ -1,0 +1,45 @@
+var Object.serverFaceTracking;
+
+function Object.listeningFaceTrackingSocket()
+{
+   Object.serverFaceTracking.listen("0.0.0.0","12045");
+   echo("[Face Tracking] Listening on port #: 12045");
+};
+
+function Object.socketConnectionFaceTracking()
+{
+   Object.serverFaceTracking = do(Server.new)
+   {
+      function serverConnections()
+      {
+         for (var i in this.sockets)
+         {
+            echo("socket in list: %s -> %s" % [i, i.isConnected]);
+         };
+      };
+
+      at (connection?(var socketFaceTracking))
+      {
+         at (socketFaceTracking.connected?)
+         {
+            echo("socket connected = " + socketFaceTracking);
+            this.serverConnections();
+         };
+
+         at (socketFaceTracking.disconnected?)
+         {
+            echo("socket disconnected");
+            this.serverConnections();
+         };
+
+         at (socketFaceTracking.received?(var command))
+         {
+            detach({command});
+            echo ("Received command = " + command);
+         };
+      };
+   };
+};
+
+Object.socketConnectionFaceTracking();
+Object.listeningFaceTrackingSocket();
