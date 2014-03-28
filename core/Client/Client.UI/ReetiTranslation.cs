@@ -262,7 +262,7 @@ namespace Agent.UI
                     blnConcern         = true;
                     blnSmile           = true;
                     blnWarm            = true;
-                    blnViseme          = true;
+                    blnViseme          = false;
                     blnEndSpeech       = true;
                     break;
                 case "EndSpeech":
@@ -276,7 +276,7 @@ namespace Agent.UI
                     blnSmile           = true;
                     blnWarm            = true;
                     blnViseme          = true;
-                    blnEndSpeech       = true;
+                    blnEndSpeech       = false;
                     break;
             }
         }
@@ -287,13 +287,19 @@ namespace Agent.UI
 
             if (Command.Contains("HEADNOD") && task.Equals("perform"))
             {
-                if (blnHeadNod) SendCommand(headNod);
-                updateRobotState("HeadNod");
+                if (blnHeadNod)
+                {
+                    SendCommand(headNod);
+                    updateRobotState("HeadNod");
+                }
             }
             else if (Command.Contains("DELAY"))
             {
-                if (blnDelay) System.Threading.Thread.Sleep(getDelayAmount(Command));
-                updateRobotState("Delay");
+                if (blnDelay)
+                {
+                    System.Threading.Thread.Sleep(getDelayAmount(Command));
+                    updateRobotState("Delay");
+                }
             }
 
             //TODO: check if face tracking!!!
@@ -303,39 +309,60 @@ namespace Agent.UI
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
 
                 if( (VerOutput <= 78) && (VerOutput > 60) ) {
-                    if (blnLookAwayThink) SendCommand(lookAwayThink);
-                    updateRobotState("LookAwayThink");
+                    if (blnLookAwayThink)
+                    {
+                        SendCommand(lookAwayThink);
+                        updateRobotState("LookAwayThink");
+                    }
                 }
                 else if ( (VerOutput < 60) && (VerOutput > 30) )
                 {
-                    if (blnLookBack) SendCommand(lookBack);
-                    updateRobotState("LookBack");
+                    if (blnLookBack)
+                    {
+                        SendCommand(lookBack);
+                        updateRobotState("LookBack");
+                    }
                 }
                 else if (VerOutput < 30)
                 {
-                    if (blnLookAtBoard) SendCommand(lookAtBoard);
-                    updateRobotState("LookAtBoard");
+                    if (blnLookAtBoard)
+                    {
+                        SendCommand(lookAtBoard);
+                        updateRobotState("LookAtBoard");
+                    }
                 }
                 else if (VerOutput >= 79)
                 {
-                    if (blnLookAwayAtRight) SendCommand(lookAwayAtRight);
-                    updateRobotState("LookAwayAtRight");
+                    if (blnLookAwayAtRight)
+                    {
+                        SendCommand(lookAwayAtRight);
+                        updateRobotState("LookAwayAtRight");
+                    }
                 }
             }
             else if (Command.Contains("CONCERN"))
             {
-                if (blnConcern) SendCommand(expressSad);
-                updateRobotState("Concern");
+                if (blnConcern)
+                {
+                    SendCommand(expressSad);
+                    updateRobotState("Concern");
+                }
             }
             else if (Command.Contains("SMILE"))
             {
-                if (blnSmile) SendCommand(expressHappy);
-                updateRobotState("Smile");
+                if (blnSmile)
+                {
+                    SendCommand(expressHappy);
+                    updateRobotState("Smile");
+                }
             }
             else if (Command.Contains("WARM"))
             {
-                if (blnWarm) SendCommand(neutralPosition);
-                updateRobotState("Warm");
+                if (blnWarm)
+                {
+                    SendCommand(neutralPosition);
+                    updateRobotState("Warm");
+                }
             }
             else if (Command.Contains("viseme"))
             {
@@ -344,19 +371,19 @@ namespace Agent.UI
                     if (!blnTalkAlreadyStarted)
                     {
                         SendCommand(moveMouth);
+                        updateRobotState("Viseme");
                         blnTalkAlreadyStarted = true;
                     }
                 }
-                updateRobotState("Viseme");
             }
             else  if (Command.Contains("ENDSPEECH"))
             {
                 if (blnEndSpeech)
                 {
                     SendCommand(stopMouthMove);
+                    updateRobotState("EndSpeech");
                     blnTalkAlreadyStarted = false;
                 }
-                updateRobotState("EndSpeech");
             }
         }
 
