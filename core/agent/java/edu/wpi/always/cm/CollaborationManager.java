@@ -42,7 +42,7 @@ public class CollaborationManager extends DiscoRT {
    public void revertUserModel (InconsistentOntologyException e) {
       inconsistent(e);
       loadUserModel();
-      loadPluginOntologies();
+      loadPluginOntologies(null);
    }
    
    private void loadUserModel () {
@@ -127,7 +127,7 @@ public class CollaborationManager extends DiscoRT {
                for (Registry r : instance.getRegistries(a)) addRegistry(r);
             Utils.lnprint(System.out, "Loaded plugin: "+instance);
          } 
-      loadPluginOntologies();
+      loadPluginOntologies(plugin);
       start(plugin == null ? "Session" : null,
          new File(UserUtils.USER_DIR, "User."+UserUtils.formatDate()+".txt"));
       // after super.start() so ClientRegistry done
@@ -142,11 +142,14 @@ public class CollaborationManager extends DiscoRT {
       if ( plugin == null ) setSchema(null, SessionSchema.class);
    }
    
-   private void loadPluginOntologies () {
+   private void loadPluginOntologies (Class<? extends Plugin> plugin) {
       try { 
-          for (TaskClass top : activities.getTaskClasses()) 
-             Plugin.getPlugin(top, container).loadOntology();
-          parent.getComponent(UserModel.class).ensureConsistency();
+         if ( plugin != null ) 
+            parent.getComponent(plugin).loadOntology();
+         else
+            for (TaskClass top : activities.getTaskClasses()) 
+               Plugin.getPlugin(top, container).loadOntology();
+         parent.getComponent(UserModel.class).ensureConsistency();
       } catch (InconsistentOntologyException e) { revertUserModel(e); }
    }
    
