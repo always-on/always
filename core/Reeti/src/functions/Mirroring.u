@@ -1,11 +1,11 @@
 var Object.permissionToTalk = true;
-var Object.mouthOpen = false;
+var Object.agentTalking = false;
 var mouth = Tag.new("mouth");
-var Object.s;
+var Object.serverMirroring;
 
 function Object.initMouthMove()
 {
-   mouth:detach({Global.servo.bottomLip = 50 sin:0.7s ampli:15;});
+   mouth:detach({Global.servo.bottomLip = 50 sin:0.6s ampli:25;});
    mouth.freeze;
    Global.servo.bottomLip = 65;
 };
@@ -15,7 +15,6 @@ function Object.stopMouthMove()
    Object.permissionToTalk = false;
    mouth.freeze;
    Global.servo.bottomLip = 65 smooth:0.15s;
-   Object.mouthOpen = false;
 };
 
 function Object.moveMouth()
@@ -130,13 +129,21 @@ function Object.executeCommand(var command)
    }
    else if (command[0,2] == "01") // Start Talking
    {
-      detach({Object.moveMouth();});
-      echo("Start Talking");
+      if(Object.agentTalking == false)
+      {
+         detach({Object.moveMouth();});
+         echo("Start Talking");
+         Object.agentTalking = true;
+      }
    }
    else if(command[0,2] == "02") // Stop Talking
    {
-      detach({Object.stopMouthMove();});
-      echo("Stop Talking");
+      if(Object.agentTalking == true)
+      {
+         detach({Object.stopMouthMove();});
+         echo("Stop Talking");
+         Object.agentTalking = false;
+      }
    }
    else if(command[0,2] == "03") // Look Away Think
    {
@@ -180,15 +187,23 @@ function Object.executeCommand(var command)
    }
 };
 
-function Object.listeningSocket()
+function Object.listeningMirroringSocket()
 {
-   Object.s.listen("0.0.0.0","12111");
-   echo("Listening...");
+   Object.serverMirroring.listen("0.0.0.0","12111");
+   echo("[Mirroring] Listening on port #: 12111");
 };
 
-function Object.socketConnection()
+function Object.separateCommands(var multipleCommands)
 {
-   Object.s = do(Server.new)
+   for, (var i = 0 ; i < multipleCommands.length ; i += 2)
+   {
+      detach({Object.executeCommand(multipleCommands[i, i+2]);});
+   };
+};
+
+function Object.socketConnectionMirroring()
+{
+   Object.serverMirroring = do(Server.new)
    {
       function serverConnections()
       {
@@ -198,23 +213,25 @@ function Object.socketConnection()
          };
       };
 
-      at (connection?(var socket))
+      at (connection?(var socketMirroring))
       {
-         at (socket.connected?)
+         at (socketMirroring.connected?)
          {
-            echo("socket connected = " + socket);
+            echo("socket connected = " + socketMirroring);
             this.serverConnections();
          };
 
-         at (socket.disconnected?)
+         at (socketMirroring.disconnected?)
          {
             echo("socket disconnected");
             this.serverConnections();
          };
 
-         at (socket.received?(var data))
+         at (socketMirroring.received?(var data))
          {
             //echo ("received data = " + data);
+            if(data.length > 2)
+               Object.separateCommands(data);
             detach({Object.executeCommand(data);});
          };
       };
@@ -222,5 +239,5 @@ function Object.socketConnection()
 };
 
 Object.initMouthMove();
-Object.socketConnection();
-Object.listeningSocket();
+Object.socketConnectionMirroring();
+Object.listeningMirroringSocket();
