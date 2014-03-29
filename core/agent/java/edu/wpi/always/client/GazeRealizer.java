@@ -27,7 +27,7 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
    public static Point translateAgentTurn (float hor, float ver) {
       // NB: Use jsonHpMacAddressObject.isHpMachine() to check whether the 
       // code is running on an HP machine.
-      // NB: -0.0125 and -0.75 are calculated due to the value of 170 and 
+      // NB: -0.0125 and -0.075 are calculated due to the value of 170 and 
       // 220 in translateToAgentTurnHor method respectively.
       
       int offset = 90;
