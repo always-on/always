@@ -14,7 +14,8 @@ public class StartupSchemas implements SchemaRegistry {
       // register session first so it gets started first
       // and user model printout not interrupted
       if ( allPlugins) manager.registerSchema(SessionSchema.class, true);
-      manager.registerSchema(MovementTrackerSchema.class, true);
+      // not using movement tracking, since field of view of camera is too narrow
+      // manager.registerSchema(MovementTrackerSchema.class, true);
       manager.registerSchema(FaceTrackerSchema.class, true);
       manager.registerSchema(EngagementSchema.class, true);
    }

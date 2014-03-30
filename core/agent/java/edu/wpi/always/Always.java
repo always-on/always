@@ -2,7 +2,6 @@ package edu.wpi.always;
 
 import java.io.File;
 import java.util.*;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
 import org.picocontainer.*;
@@ -10,9 +9,9 @@ import org.picocontainer.behaviors.OptInCaching;
 import org.picocontainer.lifecycle.StartableLifecycleStrategy;
 import org.picocontainer.monitors.LifecycleComponentMonitor;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
-
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
+import edu.wpi.always.cm.perceptors.EngagementRegistry;
 import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.UserUtils;
@@ -163,9 +162,10 @@ public class Always {
       container.as(Characteristics.CACHE).addComponent(this);
       container.as(Characteristics.CACHE).addComponent(RelationshipManager.class);  
       addRegistry(new OntologyUserRegistry()); 
+      register();
       addCMRegistry(new ClientRegistry());
       addCMRegistry(new StartupSchemas(allPlugins));
-      register();
+      addCMRegistry(new EngagementRegistry());
       SpeechMarkupBehavior.ANALYZER = new AgentSpeechMarkupAnalyzer();
       CollaborationManager cm = new CollaborationManager(container);
       container.as(Characteristics.CACHE).addComponent(cm);

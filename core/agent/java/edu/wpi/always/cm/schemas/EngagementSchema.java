@@ -1,7 +1,6 @@
 package edu.wpi.always.cm.schemas;
 
 import java.util.Arrays;
-
 import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
 import edu.wpi.always.cm.perceptors.EngagementPerceptor;
@@ -16,10 +15,7 @@ import edu.wpi.disco.rt.behavior.BehaviorMetadata;
 import edu.wpi.disco.rt.behavior.BehaviorMetadataBuilder;
 import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
 import edu.wpi.disco.rt.behavior.SpeechBehavior;
-import edu.wpi.disco.rt.menu.MenuBehavior;
-import edu.wpi.disco.rt.menu.MenuPerceptor;
-import edu.wpi.disco.rt.menu.MenuTurnStateMachine;
-import edu.wpi.disco.rt.menu.RepeatMenuTimeoutHandler;
+import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 import edu.wpi.disco.rt.schema.SchemaManager;
 
@@ -28,43 +24,41 @@ public class EngagementSchema extends SchemaBase {
    private final MenuTurnStateMachine stateMachine;
    private final EngagementPerceptor engagementPerceptor;
    private final FacePerceptor facePerceptor;
-   private SchemaManager schemaManager;
 
    public EngagementSchema (BehaviorProposalReceiver behaviorReceiver,
          EngagementPerceptor engagementPerceptor,
          FacePerceptor facePerceptor, BehaviorHistory behaviorHistory,
-         ResourceMonitor resourceMonitor, MenuPerceptor menuPerceptor,
-         SchemaManager schemaManager) {
+         ResourceMonitor resourceMonitor, MenuPerceptor menuPerceptor) {
       super(behaviorReceiver, behaviorHistory);
       this.engagementPerceptor = engagementPerceptor;
       this.facePerceptor = facePerceptor;
-      this.schemaManager = schemaManager;
       stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
-            menuPerceptor, new RepeatMenuTimeoutHandler());
+            menuPerceptor, new RepeatMenuTimeoutHandler<AdjacencyPair.Context>());
       stateMachine.setSpecificityMetadata(.9);
    }
 
-   private EngagementState lastState = null;
-
+   @SuppressWarnings("unused")
+   private EngagementState lastState;
+   
    @Override
    public void run () {
       BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0.05)
             .build();
-      EngagementPerception engPerception = engagementPerceptor
+      EngagementPerception engagementPerception = engagementPerceptor
             .getLatest();
       FacePerception facePerception = facePerceptor.getLatest();
-      if ( engPerception != null ) {
-         switch (engPerception.getState()) {
+      if ( engagementPerception != null ) {
+         switch (engagementPerception.getState()) {
          case Idle:
             propose(Behavior.newInstance(new IdleBehavior(false)), m);
             break;
          case Attention:
-            if ( facePerception != null && facePerception.getPoint() != null )
-               propose(new FaceTrackBehavior(), m);
+            // Light up screen?
+            //if ( facePerception != null && facePerception.getPoint() != null )
+            //   propose(new FaceTrackBehavior(), m);
             break;
          case Initiation:
-            propose(Behavior.newInstance(new FaceTrackBehavior(),
-                  new SpeechBehavior("Hi")), m);
+            propose(Behavior.newInstance(new SpeechBehavior("Hi"), new MenuBehavior(Arrays.asList("Hi"))), m);
             break;
          case Engaged:
             // FIXME Disabled engagement dialogue for testing...
@@ -78,7 +72,7 @@ public class EngagementSchema extends SchemaBase {
                         Arrays.asList("Yes"))), m);
             break;
          }
-         lastState = engPerception.getState();
+         lastState = engagementPerception.getState();
       } else
          lastState = null;
    }

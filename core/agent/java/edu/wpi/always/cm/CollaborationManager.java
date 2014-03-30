@@ -10,6 +10,7 @@ import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.always.client.reeti.*;
+import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.primitives.*;
@@ -99,26 +100,13 @@ public class CollaborationManager extends DiscoRT {
    
    public ReetiCommandSocketConnection getReetiSocket () { return reetiSocket; }
    
-   public void start (Class<? extends Plugin> plugin, String activity) {
-      switch ( Always.getAgentType() ) {
-         case Unity:
-            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Agent.class);
-            break;
-         case Reeti:
-            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);
-            break;
-         case Mirror:
-            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Mirror.class);
-            break;
-      }
-      // FIXME Use real sensors
-      container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class);
-      container.as(Characteristics.CACHE).addComponent(DummyEngagementPerceptor.class);
+   public void start (Class<? extends Plugin> plugin, String activity) {   
       if ( plugin != null ) {
          parent.as(Characteristics.CACHE).addComponent(plugin);
          Plugin instance = parent.getComponent(plugin);
-         for (Registry r : instance.getRegistries(new Activity(plugin, activity, 0, 0, 0, 0)))
-            addRegistry(r);
+         if ( activity != null )
+            for (Registry r : instance.getRegistries(new Activity(plugin, activity, 0, 0, 0, 0)))
+               addRegistry(r);
          Utils.lnprint(System.out, "Loaded plugin: "+instance);
       } else 
          for (TaskClass top : activities.getTaskClasses()) {
@@ -130,7 +118,7 @@ public class CollaborationManager extends DiscoRT {
       loadPluginOntologies(plugin);
       start(plugin == null ? "Session" : null,
          new File(UserUtils.USER_DIR, "User."+UserUtils.formatDate()+".txt"));
-      // after super.start() so ClientRegistry done
+      // after DiscoRT.start() so all registries done
       ClientProxy proxy = container.getComponent(ClientProxy.class);
       if ( Always.getAgentType() != AgentType.Unity ) {
          if ( Always.getAgentType() == AgentType.Reeti ) proxy.toggleAgent();
