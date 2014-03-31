@@ -16,14 +16,14 @@
 	<classpathentry kind="lib" path="lib/bsh-2.0b4.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.9.0.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry exported="true" kind="lib" path="lib/owlapi/aterm-java-1.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/owlapi/jfact.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/owlapi/jgrapht-jdk1.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/owlapi/pellet-core.jar" sourcepath="lib/owlapi/src/pellet-core-src.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/owlapi/pellet-datatypes.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/owlapi/pellet-el.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/owlapi/pellet-owlapiv3.jar" sourcepath="lib/owlapi/src/pellet-owlapiv3-src.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/owlapi/pellet-rules.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/aterm-java-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/jfact.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/jgrapht-jdk1.5.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/pellet-core.jar" sourcepath="lib/owlapi/src/pellet-core-src.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/pellet-datatypes.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/pellet-el.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/pellet-owlapiv3.jar" sourcepath="lib/owlapi/src/pellet-owlapiv3-src.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/pellet-rules.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/discoRT"/>
 	<classpathentry exported="true" kind="lib" path="lib/gson-2.2.4.jar">
 		<attributes>
