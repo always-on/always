@@ -1,0 +1,8 @@
+// \author jbr
+// \date 31/05/11
+// \version 1.0
+//personal functions to load for use
+//load("/home/reeti/reetiPrograms/functions/fini.u");
+
+load("/home/reeti/reetiPrograms/functions/Mirroring.u");
+load("/home/reeti/reetiPrograms/functions/FaceTracking.u");
