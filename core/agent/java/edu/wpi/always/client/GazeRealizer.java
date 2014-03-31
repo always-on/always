@@ -27,22 +27,54 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
    public static Point translateAgentTurn (float hor, float ver) {
       // NB: Use jsonHpMacAddressObject.isHpMachine() to check whether the 
       // code is running on an HP machine.
-      // NB: -0.0125 and -0.075 are calculated due to the value of 170 and 
-      // 220 in translateToAgentTurnHor method respectively.
+      // NB: -0.0375, -0.0125, -0.075 and 0.05 are calculated due to the 
+      // value of 190, 170, 220 and 120 in translateToAgentTurnHor method 
+      // respectively.
       
-      int offset = 90;
+      int offset;
 
-      return ((ClientPluginUtils.isPluginVisible()) ?
-         ((hor < -0.0125) ? 
-            new Point((Math.round(160f - (160f * hor / 0.2f) - offset)),
-                       Math.round(120f - (120f * ver / 0.2f)))  :
-            new Point((Math.round(160f - (160f * hor / 0.2f))),
-                       Math.round(120f - (120f * ver / 0.2f)))) :
-         ((hor < -0.075) ?
-            new Point((Math.round(160f - (160f * hor / 0.2f))),
-                       Math.round(120f - (120f * ver / 0.2f)))  :
-            new Point((Math.round(160f - (160f * hor / 0.2f) + offset)),
-                       Math.round(120f - (120f * ver / 0.2f)))));
+      if (ClientPluginUtils.isPluginVisible())
+      {
+         if (hor < -0.0375)
+         {
+            offset = 10;
+            return new Point((Math.round(160f - (160f * hor / 0.2f) + offset)),
+                              Math.round(120f - (120f * ver / 0.2f)));
+         }
+         else if ((hor >= -0.0375) && (hor <= -0.0125))
+         {
+            offset = 60;
+            return new Point((Math.round(160f - (160f * hor / 0.2f) - offset)),
+                              Math.round(120f - (120f * ver / 0.2f)));
+         }
+         else
+         {
+            offset = 20;
+            return new Point((Math.round(160f - (160f * hor / 0.2f) - offset)),
+                              Math.round(120f - (120f * ver / 0.2f)));
+         }
+      }
+      else
+      {
+         if (hor < -0.075)
+         {
+            offset = 20;
+            return new Point((Math.round(160f - (160f * hor / 0.2f) + offset)),
+                              Math.round(120f - (120f * ver / 0.2f)));
+         }
+         else if ((hor >= -0.075) && (hor <= 0.05))
+         {
+            offset = 70;
+            return new Point((Math.round(160f - (160f * hor / 0.2f) + offset)),
+                              Math.round(120f - (120f * ver / 0.2f)));
+         }
+         else
+         {
+            offset = 10;
+            return new Point((Math.round(160f - (160f * hor / 0.2f) - offset)),
+                              Math.round(120f - (120f * ver / 0.2f)));
+         }
+      }
    }
 
    /**
@@ -56,11 +88,44 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       // NB: Use jsonHpMacAddressObject.isHpMachine() to check whether the 
       // code is running on an HP machine. 
 
-      int offset = 90;
+      int offset;
       
-      return ((ClientPluginUtils.isPluginVisible()) ?
-         ((p.x > 170) ? ((160f - (p.x + offset)) * 0.2f / 160f) : ((160f - p.x) * 0.2f / 160f)) :
-         ((p.x > 220) ? ((160f - p.x) * 0.2f / 160f) : ((160f - (p.x - offset)) * 0.2f / 160f)));
+      if (ClientPluginUtils.isPluginVisible())
+      {
+         if (p.x > 190)
+         {
+            offset = 10;
+            return ((160f - (p.x - offset)) * 0.2f / 160f);
+         }
+         else if ((p.x <= 190) && (p.x >= 170))
+         {
+            offset = 60;
+            return ((160f - (p.x + offset)) * 0.2f / 160f);
+         }
+         else
+         {
+            offset = 20;
+            return ((160f - (p.x + offset)) * 0.2f / 160f);
+         }
+      }
+      else
+      {
+         if(p.x > 220)
+         {
+            offset = 20;
+            return ((160f - (p.x - offset)) * 0.2f / 160f);
+         }
+         else if ((p.x <= 220) && (p.x >= 120))
+         {
+            offset = 70;
+            return ((160f - (p.x - offset)) * 0.2f / 160f);
+         }
+         else
+         {
+            offset = 10;
+            return ((160f - (p.x + offset)) * 0.2f / 160f);
+         }
+      }
    }
 
    /**
