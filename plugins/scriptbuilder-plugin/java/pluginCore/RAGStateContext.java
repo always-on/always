@@ -40,6 +40,7 @@ public class RAGStateContext extends AdjacencyPair.Context {
 	
 	public RAGStateContext(Keyboard keyboard, UIMessageDispatcher dispatcher,
 			PlaceManager placeManager, PeopleManager peopleManager,Always always, String module) {
+		this.firstRun = true;
 		this.keyboard = keyboard;
 		this.dispatcher = dispatcher;
 		this.placeManager = placeManager;
