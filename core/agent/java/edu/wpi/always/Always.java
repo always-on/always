@@ -204,13 +204,15 @@ public class Always {
       // start container first, since cm has own start method
       container.start(); 
       CollaborationManager cm = container.getComponent(CollaborationManager.class);
-      for (Registry registry : cmRegistries) cm.addRegistry(registry);
+      for (Registry registry : cmRegistries) cm.addRegistry(registry);      
       Utils.lnprint(System.out, "Starting Collaboration Manager...");
       cm.start(plugin, activity); 
       Utils.lnprint(System.out, "Always running...");
-      if ( plugin != null ) 
-         cm.setSchema(null,
-            container.getComponent(plugin).startActivity(activity).getClass());
+      if ( plugin != null ) {
+         Schema schema =  container.getComponent(plugin).startActivity(activity);
+         cm.setSchema(null, schema.getClass());
+         cm.getInteraction().setSchema(schema);
+      }
    }
 
    public void stop () { 

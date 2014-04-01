@@ -12,9 +12,9 @@ import edu.wpi.disco.rt.schema.SchemaManager;
 import edu.wpi.disco.rt.schema.SchemaRegistry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 
-public class FakeDemoGUIRegistry implements ComponentRegistry, SchemaRegistry {
+public class DemoRegistry implements ComponentRegistry, SchemaRegistry {
 
-   private FakeDemoGUI gui = new FakeDemoGUI();
+   private DemoGUI gui = new DemoGUI();
 
    @Override
    public void register (SchemaManager manager) {

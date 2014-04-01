@@ -12,7 +12,7 @@ import edu.wpi.disco.rt.schema.SchemaManager;
 import edu.wpi.disco.rt.schema.SchemaRegistry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 
-public class FakeEngagementGUIRegistry implements ComponentRegistry, SchemaRegistry {
+public class FakeEngagementRegistry implements ComponentRegistry, SchemaRegistry {
 
    @Override
    public void register (MutablePicoContainer container) {

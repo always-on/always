@@ -10,19 +10,55 @@ import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.cetask.Utils;
 
 public class FakeEngagementGUI {
+   
+   private final JRadioButton near, far, none;
+   private final JCheckBox motion;
+   
+   public MovementPerceptor createMovementPerceptor () {
+      return new FakeMovementPerceptor(motion);
+   }
 
-   private static FacePerception facePerception;
+   public FacePerceptor createFacePerceptor () {
+      return new FakeFacePerceptor(near, far, none);
+   }
+
+   private final FacePerception facePerception;
 
    public static void main (String[] args) {
-      Always always = Always.make(args, null, null);
+      Always always = Always.make(null, null, null);
       // adapted from Always.start()
       always.getContainer().start(); 
       CollaborationManager cm = always.getCM();
       cm.addRegistry(new ClientRegistry());
+      cm.addRegistry(new FakeEngagementRegistry());
       cm.addRegistry(new StartupSchemas(false)); // false = do not start SessionSchema yet
       try { // preload GreetingsPlugin for SessionSchema
          cm.start((Class<? extends Plugin>) Class.forName("edu.wpi.always.greetings.GreetingsPlugin"), null);
       } catch (ClassNotFoundException e) { Utils.rethrow(e); }
+      
+      while (true) {
+         try {
+            Thread.sleep(500);
+         } catch (InterruptedException e) {
+         }
+         facePerception = facePerceptor.getLatest();
+         if ( facePerception != null ) {
+            locationLabel.setText("Location: " + facePerception.getPoint());
+            sizeLabel.setText("Size: "
+               + (facePerception.getRight() - facePerception.getLeft()) + " x "
+               + (facePerception.getBottom() - facePerception.getTop())
+               + (facePerception.isNear() ? " is near" : " is far"));
+         }
+         EngagementPerception engagementPerception = engagementPerceptor
+               .getLatest();
+         if ( engagementPerception != null ) {
+            stateLabel.setText("State: " + engagementPerception.getState());
+         }
+         panel.repaint();
+      }
+   }
+
+   public FakeEngagementGUI () {
       JFrame frame = new JFrame("Face Location");
       frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
       JLabel locationLabel = new JLabel();
@@ -80,26 +116,8 @@ public class FakeEngagementGUI {
       EngagementPerceptor engagementPerceptor = always.getContainer()
             .getComponent(CollaborationManager.class).getContainer()
             .getComponent(EngagementPerceptor.class);
-      while (true) {
-         try {
-            Thread.sleep(500);
-         } catch (InterruptedException e) {
-         }
-         facePerception = facePerceptor.getLatest();
-         if ( facePerception != null ) {
-            locationLabel.setText("Location: " + facePerception.getPoint());
-            sizeLabel.setText("Size: "
-               + (facePerception.getRight() - facePerception.getLeft()) + " x "
-               + (facePerception.getBottom() - facePerception.getTop())
-               + (facePerception.isNear() ? " is near" : " is far"));
-         }
-         EngagementPerception engagementPerception = engagementPerceptor
-               .getLatest();
-         if ( engagementPerception != null ) {
-            stateLabel.setText("State: " + engagementPerception.getState());
-         }
-         panel.repaint();
-      }
+      
+      
    }
 
 }
