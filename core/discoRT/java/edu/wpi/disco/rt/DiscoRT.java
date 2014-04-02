@@ -130,8 +130,8 @@ public class DiscoRT implements Startable {
    
    @Override
    public void stop () {
-      container.stop();
-      Utils.lnprint(System.out, "DiscoRT stopped.");
+      // ALWAYS ON!!!!
+      this.start();
    }
 
    public MutablePicoContainer getContainer () {
