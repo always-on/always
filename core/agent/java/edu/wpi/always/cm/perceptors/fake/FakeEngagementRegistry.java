@@ -2,18 +2,13 @@ package edu.wpi.always.cm.perceptors.fake;
 
 import org.picocontainer.*;
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor;
-import edu.wpi.always.test.AquariumTripSchema;
-import edu.wpi.disco.rt.DiscoRT;
-import edu.wpi.disco.rt.behavior.BehaviorHistory;
-import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
-import edu.wpi.disco.rt.schema.Schema;
-import edu.wpi.disco.rt.schema.SchemaFactory;
-import edu.wpi.disco.rt.schema.SchemaManager;
-import edu.wpi.disco.rt.schema.SchemaRegistry;
+import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 
 public class FakeEngagementRegistry implements ComponentRegistry, SchemaRegistry {
 
+   private final FakeEngagementGUI gui = new FakeEngagementGUI();
+   
    @Override
    public void register (MutablePicoContainer container) {
       container.addComponent(gui.createMovementPerceptor());
@@ -29,4 +24,7 @@ public class FakeEngagementRegistry implements ComponentRegistry, SchemaRegistry
          }
       });
    }
+
+   @Override
+   public void register (SchemaManager manager) {}
 }

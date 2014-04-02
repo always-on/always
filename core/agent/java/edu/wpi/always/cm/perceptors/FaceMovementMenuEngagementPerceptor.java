@@ -10,7 +10,7 @@ import edu.wpi.disco.rt.util.Utils;
 
 public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor {
 
-   private volatile EngagementPerception latest;
+   private volatile EngagementPerception latest = new EngagementPerception(EngagementState.Idle);
    private final FacePerceptor facePerceptor;
    private final MovementPerceptor movementPerceptor;
    private final MenuPerceptor menuPerceptor;

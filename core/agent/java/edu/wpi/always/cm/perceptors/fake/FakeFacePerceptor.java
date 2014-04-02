@@ -47,7 +47,7 @@ public class FakeFacePerceptor implements FacePerceptor, ActionListener {
    @Override
    public void run () {
       if ( txtX == null) {
-         latest = new FacePerception(DateTime.now(), 0, 0, 0, 0, area, 0, 0);
+         latest = new FacePerception(DateTime.now(), 0, 0, area-1, 0, area, 0, 0);
       } else {
          Point p = tryParsePoint();
          if ( p == null )

@@ -9,7 +9,7 @@ import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.cetask.Utils;
 
-public class FakeEngagementGUI {
+public class FakeEngagementGUI extends JFrame {
    
    private final JRadioButton near, far, none;
    private final JCheckBox motion;
@@ -22,8 +22,6 @@ public class FakeEngagementGUI {
       return new FakeFacePerceptor(near, far, none);
    }
 
-   private final FacePerception facePerception;
-
    public static void main (String[] args) {
       Always always = Always.make(null, null, null);
       // adapted from Always.start()
@@ -35,61 +33,33 @@ public class FakeEngagementGUI {
       try { // preload GreetingsPlugin for SessionSchema
          cm.start((Class<? extends Plugin>) Class.forName("edu.wpi.always.greetings.GreetingsPlugin"), null);
       } catch (ClassNotFoundException e) { Utils.rethrow(e); }
-      
+      EngagementPerceptor engagementPerceptor = cm.getContainer().getComponent(EngagementPerceptor.class);
       while (true) {
-         try {
-            Thread.sleep(500);
-         } catch (InterruptedException e) {
-         }
-         facePerception = facePerceptor.getLatest();
-         if ( facePerception != null ) {
-            locationLabel.setText("Location: " + facePerception.getPoint());
-            sizeLabel.setText("Size: "
-               + (facePerception.getRight() - facePerception.getLeft()) + " x "
-               + (facePerception.getBottom() - facePerception.getTop())
-               + (facePerception.isNear() ? " is near" : " is far"));
-         }
-         EngagementPerception engagementPerception = engagementPerceptor
-               .getLatest();
-         if ( engagementPerception != null ) {
-            stateLabel.setText("State: " + engagementPerception.getState());
-         }
-         panel.repaint();
+         try { Thread.sleep(500); }
+         catch (InterruptedException e) {}
+         EngagementPerception p = engagementPerceptor.getLatest();
+         if ( p != null) THIS.setState(p.getState().toString());
       }
    }
 
+   private final JLabel state;
+   
+   private void setState (String state) {
+      this.state.setText(state);
+      repaint();
+   }
+   
+   private static FakeEngagementGUI THIS;
+   
    public FakeEngagementGUI () {
-      JFrame frame = new JFrame("Face Location");
-      frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-      JLabel locationLabel = new JLabel();
-      locationLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
-      frame.add(locationLabel);
-      JLabel sizeLabel = new JLabel();
-      sizeLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
-      frame.add(sizeLabel);
-      JPanel panel = new JPanel() {
-
-         private static final long serialVersionUID = 6254014952377622108L;
-
-         @Override
-         public void paintComponent (Graphics g) {
-            super.paintComponent(g);
-            g.setColor(Color.WHITE);
-            g.fillRect(0, 0, 320, 240);
-            g.setColor(Color.BLACK);
-            g.drawRect(0, 0, 320, 240);
-            if ( facePerception != null )
-               g.fillRect(facePerception.getLeft() ,
-                     facePerception.getTop(), facePerception.getRight()
-                        - facePerception.getLeft(), facePerception.getBottom()
-                        - facePerception.getTop());
-         }
-      };
-      frame.add(panel);
-      JRadioButton near = new JRadioButton("Near");
-      JRadioButton far = new JRadioButton("Far");
-      JRadioButton none = new JRadioButton("None");
-      cm.getContainer().addComponent(new FakeFacePerceptor(near, far, none));
+      THIS = this;
+      setTitle("Fake Engagment");
+      setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+      state = new JLabel();
+      add(state);
+      near = new JRadioButton("Near");
+      far = new JRadioButton("Far");
+      none = new JRadioButton("None", true);
       ButtonGroup group = new ButtonGroup();
       group.add(near);
       group.add(far);
@@ -98,26 +68,13 @@ public class FakeEngagementGUI {
       radioPanel.add(near);
       radioPanel.add(far);
       radioPanel.add(none);
-      frame.add(radioPanel, BorderLayout.LINE_START);
-      JCheckBox motion = new JCheckBox("Motion");
-      cm.getContainer().addComponent(new FakeMovementPerceptor(motion));
-      frame.add(motion);
-      JLabel stateLabel = new JLabel();
-      stateLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
-      frame.add(stateLabel);
-      frame.pack();
-      frame.setSize(500, 500);
-      frame.setVisible(true);
-      frame.setAlwaysOnTop(true);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      FacePerceptor facePerceptor = always.getContainer()
-            .getComponent(CollaborationManager.class).getContainer()
-            .getComponent(FacePerceptor.class);
-      EngagementPerceptor engagementPerceptor = always.getContainer()
-            .getComponent(CollaborationManager.class).getContainer()
-            .getComponent(EngagementPerceptor.class);
-      
-      
+      add(radioPanel, BorderLayout.LINE_START);
+      motion = new JCheckBox("Motion");
+      add(motion);
+      pack();
+      setSize(100, 200);
+      setAlwaysOnTop(true);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    }
 
 }
