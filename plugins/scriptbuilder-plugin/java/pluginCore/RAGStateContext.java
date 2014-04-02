@@ -30,7 +30,7 @@ public class RAGStateContext extends AdjacencyPair.Context {
 	private static AAECADialogueSession Session;
 	private static DocumentBuilderFactory documentBuilderFactory;
 	private static DocumentBuilder documentBuilder;
-	private static boolean firstRun = true;
+	public static boolean firstRun = true;
 	
 	private static UserModel userModel;
 	
@@ -40,6 +40,7 @@ public class RAGStateContext extends AdjacencyPair.Context {
 	
 	public RAGStateContext(Keyboard keyboard, UIMessageDispatcher dispatcher,
 			PlaceManager placeManager, PeopleManager peopleManager,Always always, String module) {
+		this.firstRun = true;
 		this.keyboard = keyboard;
 		this.dispatcher = dispatcher;
 		this.placeManager = placeManager;
