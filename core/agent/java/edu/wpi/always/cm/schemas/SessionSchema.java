@@ -142,7 +142,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          stateMachine.setState(stop);
          stateMachine.setExtension(true);
       }
-      stateMachine.setSpecificityMetadata(0.5);
+      stateMachine.setSpecificityMetadata(SPECIFICITY-0.2);
       setNeedsFocusResource(false);
       Plugin.getPlugin(plan.getType(), container).show();
    }

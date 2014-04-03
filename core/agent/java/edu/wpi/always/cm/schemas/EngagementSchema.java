@@ -21,59 +21,72 @@ import edu.wpi.disco.rt.schema.SchemaManager;
 
 public class EngagementSchema extends SchemaBase {
 
-   private final MenuTurnStateMachine stateMachine;
    private final EngagementPerceptor engagementPerceptor;
-   private final FacePerceptor facePerceptor;
+   private final SchemaManager schemaManager;
 
-   public EngagementSchema (BehaviorProposalReceiver behaviorReceiver,
-         EngagementPerceptor engagementPerceptor,
-         FacePerceptor facePerceptor, BehaviorHistory behaviorHistory,
-         ResourceMonitor resourceMonitor, MenuPerceptor menuPerceptor) {
+   public EngagementSchema (BehaviorProposalReceiver behaviorReceiver, BehaviorHistory behaviorHistory,
+         EngagementPerceptor engagementPerceptor, SchemaManager schemaManager) {
       super(behaviorReceiver, behaviorHistory);
       this.engagementPerceptor = engagementPerceptor;
-      this.facePerceptor = facePerceptor;
-      stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
-            menuPerceptor, new RepeatMenuTimeoutHandler<AdjacencyPair.Context>());
-      stateMachine.setSpecificityMetadata(.9);
+      this.schemaManager = schemaManager;
    }
 
-   @SuppressWarnings("unused")
    private EngagementState lastState;
+
+   private boolean dim = true;
    
    @Override
    public void run () {
-      BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0.05)
+      // needs to have higher priority than activities and session schemas
+      BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(ActivitySchema.SPECIFICITY+0.2)
             .build();
       EngagementPerception engagementPerception = engagementPerceptor
             .getLatest();
-      FacePerception facePerception = facePerceptor.getLatest();
       if ( engagementPerception != null ) {
          switch (engagementPerception.getState()) {
-         case Idle:
-            propose(Behavior.newInstance(new IdleBehavior(false)), m);
-            break;
-         case Attention:
-            // Light up screen?
-            //if ( facePerception != null && facePerception.getPoint() != null )
-            //   propose(new FaceTrackBehavior(), m);
-            break;
-         case Initiation:
-            propose(Behavior.newInstance(new SpeechBehavior("Hi"), new MenuBehavior(Arrays.asList("Hi"))), m);
-            break;
-         case Engaged:
-            // FIXME Disabled engagement dialogue for testing...
-            //if ( lastState != EngagementState.Engaged )
-            //   stateMachine.setAdjacencyPair(new EngagementDialog(schemaManager));
-            //propose(stateMachine);
-            break;
-         case Recovering:
-            propose(Behavior.newInstance(new FaceTrackBehavior(),
-                  new SpeechBehavior("Are you still there"), new MenuBehavior(
-                        Arrays.asList("Yes"))), m);
-            break;
+            //TODO: Need to make it *very* hard to end session!!!!
+            case Idle:
+               if ( lastState != EngagementState.Idle ) {
+                  // TODO: need to end session
+               }
+               propose(Behavior.newInstance(new IdleBehavior(false)), m);
+               if ( !dim) {
+                  // TODO: dim screen
+                  java.awt.Toolkit.getDefaultToolkit().beep();
+                  dim = true;
+               }
+               break;
+            case Attention:
+               undim();
+               break;
+            case Initiation:
+               undim();
+               propose(Behavior.newInstance(new SpeechBehavior("Hi"), new MenuBehavior(Arrays.asList("Hi"))), m);
+               break;
+            case Engaged:
+               undim();
+               if ( true ) // TODO: Check if already in session
+                  schemaManager.start(SessionSchema.class);
+               // TODO: If session schema not running, need to start it via schema manager
+               break;
+            case Recovering:
+               undim();
+               propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), new MenuBehavior(
+                     Arrays.asList("Yes"))), m);
+               break;
          }
          lastState = engagementPerception.getState();
       } else
          lastState = null;
+   }
+   
+   private void undim () {
+      if ( dim ) {
+         // TODO: Un-dim screen
+         java.awt.Toolkit.getDefaultToolkit().beep();
+         try { Thread.sleep(250); } catch (InterruptedException e) {}
+         java.awt.Toolkit.getDefaultToolkit().beep();
+         dim = false;
+      }
    }
 }

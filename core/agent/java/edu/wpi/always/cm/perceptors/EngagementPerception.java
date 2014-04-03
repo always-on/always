@@ -11,7 +11,7 @@ public class EngagementPerception extends Perception {
 
    public static long IDLE_FACE_TIME = 1000;
    public static long ATTENTION_NO_FACE_TIMEOUT = 10000;
-   public static long ATTENTION_FACE_TIME = 2000;
+   public static long ATTENTION_FACE_TIME = 4000;
    public static long INITIATION_NOT_NEAR_TIMEOUT = 20000;
    public static long ENGAGED_NO_TOUCH_TIMEOUT = 20000;
    public static long ENGAGED_NOT_NEAR_TIMEOUT = 15000;
