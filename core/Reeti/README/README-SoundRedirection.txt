@@ -33,4 +33,14 @@ exit 0
    > sudo chmod 755 /etc/init.d/speaker-proxy
 
 
-   > sudo update-rc.d speaker-loopback defaults
+   > sudo update-rc.d speaker-proxy defaults
+   
+3. Run "Startup Applications" program on Ubuntu.
+
+3.a. Add a new startup application, and add the followings to the three fields:
+
+Name: Speaker
+Command: /etc/init.d/speaker-proxy start
+Comment: To play sound by Reeti's speaker.
+
+4. Restart the robot!
