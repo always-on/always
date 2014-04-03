@@ -57,8 +57,7 @@ namespace Agent.UI
             // Connect to a remote device.
             try
             {
-                IPHostEntry ipHostInfo = Dns.GetHostEntry(Agent.Tcp.AgentControlJsonAdapter.REETI_IP);
-                IPAddress ipAddress = ipHostInfo.AddressList[0];
+                IPAddress ipAddress = IPAddress.Parse(Agent.Tcp.AgentControlJsonAdapter.REETI_IP);
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
                 // Connect to the remote endpoint.
