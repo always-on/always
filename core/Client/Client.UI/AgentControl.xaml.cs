@@ -78,8 +78,6 @@ namespace Agent.UI
 
         private void ttsCallbackListener(object sender, UnityUserControl.TTSEvent e)
         {
-            if (AgentTranslate != null)
-            {
                 switch (e.eventType)
                 {
                     case "viseme":
@@ -97,7 +95,6 @@ namespace Agent.UI
                         ActionDone(this, new ActionDoneEventArgs("speech", e.sourceUtterance));
                         break;
                 }
-            }
         }
 
         private void InitAgent()
