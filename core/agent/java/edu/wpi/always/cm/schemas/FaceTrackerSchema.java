@@ -22,7 +22,7 @@ public class FaceTrackerSchema extends SchemaBase {
       FacePerception perception = facePerceptor.getLatest();
       
       if ( perception != null ) {
-         BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0.05)
+         BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0.1)
                .build();
          propose(new FaceTrackBehavior(), m);
       } else {
