@@ -1,13 +1,12 @@
 package edu.wpi.always.cm.perceptors.fake;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 import javax.swing.*;
-import edu.wpi.always.*;
-import edu.wpi.always.client.ClientRegistry;
-import edu.wpi.always.cm.CollaborationManager;
+import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.cm.schemas.StartupSchemas;
-import edu.wpi.disco.rt.util.Utils;
+import edu.wpi.disco.rt.Registry;
 
 public class FakeEngagementGUI extends JFrame {
    
@@ -23,19 +22,15 @@ public class FakeEngagementGUI extends JFrame {
    }
 
    public static void main (String[] args) {
-      Always always = Always.make(null, null, null);
-      // adapted from Always.start()
-      always.getContainer().start(); 
-      Utils.lnprint(System.out, "Always running...");
-      CollaborationManager cm = always.getCM();
-      cm.addRegistry(new ClientRegistry());
-      cm.addRegistry(new FakeEngagementRegistry());
-      cm.addRegistry(new StartupSchemas(false)); // false = do not start SessionSchema yet
-      try { // preload GreetingsPlugin for SessionSchema
-         cm.start((Class<? extends Plugin>) Class.forName("edu.wpi.always.greetings.GreetingsPlugin"), null);
-      } catch (ClassNotFoundException e) {
-         edu.wpi.cetask.Utils.rethrow(e); }
-      EngagementPerceptor engagementPerceptor = cm.getContainer().getComponent(EngagementPerceptor.class);
+      Always always = Always.make(args, null, null);
+      List<Registry> cmRegistries = always.getCMRegistries();
+      Iterator<Registry> i = cmRegistries.iterator();
+      while (i.hasNext())
+         if ( i.next() instanceof EngagementRegistry ) i.remove();
+      cmRegistries.add(new FakeEngagementRegistry());
+      always.start();
+      EngagementPerceptor engagementPerceptor = 
+            always.getCM().getContainer().getComponent(EngagementPerceptor.class);
       while (true) {
          try { Thread.sleep(500); }
          catch (InterruptedException e) {}

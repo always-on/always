@@ -46,6 +46,7 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange,
                TouchTransition lastTouch, boolean hadTouch, long timeInState) {
+            if ( hadTouch ) return Engaged;
             if ( lastFaceChange.isNear )
                return Initiation;
             if ( lastMovementChange.isMoving )
@@ -62,6 +63,7 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange,
                TouchTransition lastTouch, boolean hadTouch, long timeInState) {
+            if ( hadTouch ) return Engaged;
             if ( lastFaceChange.isNear )
                return Initiation;
             if ( !lastFaceChange.isFace
@@ -80,10 +82,7 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange,
                TouchTransition lastTouch, boolean hadTouch, long timeInState) {
-            if ( hadTouch )
-               return Engaged;
-            if ( lastFaceChange.isNear )
-               return Engaged;
+            if ( hadTouch ) return Engaged;
             if ( !lastFaceChange.isNear
                && lastFaceChange.timeSinceChange() > INITIATION_NOT_NEAR_TIMEOUT )
                return Idle;
@@ -114,8 +113,7 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange,
                TouchTransition lastTouch, boolean hadTouch, long timeInState) {
-            if ( hadTouch )
-               return Engaged;
+            if ( hadTouch ) return Engaged;
             if ( timeInState > RECOVERING_NO_TOUCH_TIMEOUT )
                return Idle;
             if ( !lastFaceChange.isNear

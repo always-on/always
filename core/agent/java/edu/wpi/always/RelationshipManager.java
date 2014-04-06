@@ -20,15 +20,7 @@ public class RelationshipManager {
    }
  
    public DiscoDocument getSession () { 
-      switch (model.getCloseness()) {
-         case Stranger:
-            return new DiscoDocument(interaction.getDisco(), "Stranger.xml"); 
-         case Acquaintance:
-            return new DiscoDocument(interaction.getDisco(), "Acquaintance.xml"); 
-         case Companion:
-            return new DiscoDocument(interaction.getDisco(), "Acquaintance.xml");
-         default: throw new IllegalStateException("Unknown closeness value");
-      }
+      return new DiscoDocument(interaction.getDisco(), model.getCloseness()+".xml"); 
    }
 
    public void afterInteraction (Interaction interaction, int closeness, int time) { }

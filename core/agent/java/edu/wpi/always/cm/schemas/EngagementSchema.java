@@ -18,6 +18,7 @@ import edu.wpi.disco.rt.behavior.SpeechBehavior;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 import edu.wpi.disco.rt.schema.SchemaManager;
+import edu.wpi.disco.rt.util.Utils;
 
 public class EngagementSchema extends SchemaBase {
 
@@ -35,10 +36,12 @@ public class EngagementSchema extends SchemaBase {
 
    private boolean dim = true;
    
+   private boolean started; // session started
+   
    @Override
    public void run () {
-      // needs to have higher priority than activities and session schemas
-      BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(ActivitySchema.SPECIFICITY+0.2)
+      // needs to have higher priority than session schema
+      BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(ActivitySchema.SPECIFICITY+0.4)
             .build();
       EngagementPerception engagementPerception = engagementPerceptor
             .getLatest();
@@ -49,15 +52,16 @@ public class EngagementSchema extends SchemaBase {
                if ( lastState != EngagementState.Idle ) {
                   // TODO: need to end session
                }
-               propose(Behavior.newInstance(new IdleBehavior(false)), m);
                if ( !dim) {
                   // TODO: dim screen
                   java.awt.Toolkit.getDefaultToolkit().beep();
                   dim = true;
                }
+               propose(Behavior.newInstance(new IdleBehavior(false)), m);
                break;
             case Attention:
                undim();
+               proposeNothing();
                break;
             case Initiation:
                undim();
@@ -65,9 +69,12 @@ public class EngagementSchema extends SchemaBase {
                break;
             case Engaged:
                undim();
-               if ( true ) // TODO: Check if already in session
+               if ( !started ) { 
+                  Utils.lnprint(System.out, "Starting session...");
                   schemaManager.start(SessionSchema.class);
-               // TODO: If session schema not running, need to start it via schema manager
+                  started = true;
+               }
+               proposeNothing();
                break;
             case Recovering:
                undim();

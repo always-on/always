@@ -164,7 +164,7 @@ public class Always {
       addRegistry(new OntologyUserRegistry()); 
       register();
       addCMRegistry(new ClientRegistry());
-      addCMRegistry(new StartupSchemas(allPlugins));
+      addCMRegistry(new StartupSchemas());
       addCMRegistry(new EngagementRegistry());
       SpeechMarkupBehavior.ANALYZER = new AgentSpeechMarkupAnalyzer();
       CollaborationManager cm = new CollaborationManager(container);
@@ -182,6 +182,8 @@ public class Always {
    private final List<OntologyRegistry> ontologyRegistries = new ArrayList<OntologyRegistry>();
    private final List<ComponentRegistry> registries = new ArrayList<ComponentRegistry>();
    private final List<Registry> cmRegistries = new ArrayList<Registry>();
+   
+   public List<Registry> getCMRegistries () { return cmRegistries; }
    
    public void addRegistry (Registry registry) {
       if ( registry instanceof ComponentRegistry )
