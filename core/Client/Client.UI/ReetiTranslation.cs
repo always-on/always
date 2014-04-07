@@ -23,6 +23,7 @@ namespace Agent.UI
         private const String expressSad      = "08"; // expressSad
         private const String bigNod          = "09"; // expressSad
         private const String neutralPosition = "10"; // Global.servo.neutralPosition()
+        private const String delay           = "11"; // delay
 
         private bool blnHeadNod         = true;
         private bool blnDelay           = true;
@@ -283,7 +284,7 @@ namespace Agent.UI
 
         public void TranslateToReetiCommand(String task, String Command)
         {
-            if (Command.Contains("HEADNOD") && task.Equals("perform"))
+            if (Command.Contains("HEADNOD"))
             {
                 if (blnHeadNod)
                 {
@@ -295,7 +296,9 @@ namespace Agent.UI
             {
                 if (blnDelay)
                 {
-                    System.Threading.Thread.Sleep(getDelayAmount(Command));
+                    int delayAmount = getDelayAmount(Command);
+                    System.Threading.Thread.Sleep(delayAmount);
+                    //SendCommand(delay + "," + delayAmount/1000);
                     updateRobotState("Delay");
                 }
             }

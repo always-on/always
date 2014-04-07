@@ -78,7 +78,7 @@ public class ReetiFaceTrackerRealizer extends
             // Making sure that the PID controller has returned different
             // control command.
             if ( !this.lastMessage.equals(Message) ) {
-               client.send(Message);
+               //client.send(Message);
                fireDoneMessage();
             }
             this.lastMessage = Message;
@@ -92,7 +92,7 @@ public class ReetiFaceTrackerRealizer extends
             // at the same direction.
             if ( ((currentLosingTime - currentTime) > acceptableLosingTime)
                && (this.searchFlag == true) ) {
-               String Message = reetiPIDOutput.faceSearch();
+               String Message = reetiPIDOutput.faceSearch(false);
                client.send(Message);
                this.lastMessage = Message;
                this.searchFlag = false;
