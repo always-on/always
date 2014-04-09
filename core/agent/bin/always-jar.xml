@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project agent">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="C:/Users/rich/Desktop/always.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="edu.wpi.always.Always"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/core/agent/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/core/discoRT/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/about-plugin/about/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/calendar-plugin/calendar/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/enroll-plugin/enroll/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/explain-plugin/explain/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/weather-plugin/weather/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/ttt-plugin/ttt/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/rummy-plugin/srummy/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/greetings-plugin/greetings/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/skype-plugin/skype/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/core/sgf/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/story-plugin/story/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/scriptbuilder-plugin/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/plugins/checkers-plugin/checkers/class"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/core/agent/lib"/>
+            <fileset dir="C:/Users/rich/Documents/GitHub/always/user"/>   
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/plugins/scriptbuilder-plugin/scripts/AAScripts.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/activemq-all-5.6.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/bsh-2.0b4.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/mockito-all-1.9.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/gson-2.2.4.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/jna-4.0.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/json-simple-1.1.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/owlapi/owlapi-bin.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/owlapi/aterm-java-1.6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/owlapi/jfact.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/owlapi/jgrapht-jdk1.5.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/owlapi/pellet-core.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/owlapi/pellet-datatypes.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/owlapi/pellet-el.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/owlapi/pellet-owlapiv3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/agent/lib/owlapi/pellet-rules.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/sgf/lib/jdom-2.0.5.jar"/>            
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/discoRT/lib/joda-time-2.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/discoRT/lib/guava-10.0.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/discoRT/lib/commons-io-2.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/discoRT/lib/picocontainer-2.14.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/discoRT/lib/jFuzzyLogic_v2.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/rich/Documents/GitHub/always/core/discoRT/lib/disco1.6.10/lib/disco.jar"/>
+        </jar>
+    </target>
+</project>
