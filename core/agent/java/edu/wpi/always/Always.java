@@ -38,7 +38,7 @@ public class Always {
     * @param args [closeness model agentType] NB: Case-sensitive!
     *  <p>
     *  closeness: Stranger (default), Acquaintance or Companion<br>
-    *  model: file in always/user (default User.owl)<br>
+    *  model: file in always/user (default most recent User.*.owl)<br>
     *  agentType: Unity (default), Reeti or Both 
     */
    public static void main (String[] args) {
