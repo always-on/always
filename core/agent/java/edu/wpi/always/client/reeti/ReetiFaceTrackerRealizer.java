@@ -78,7 +78,7 @@ public class ReetiFaceTrackerRealizer extends
             // Making sure that the PID controller has returned different
             // control command.
             if ( !this.lastMessage.equals(Message) ) {
-               //client.send(Message);
+               client.send(Message);
                fireDoneMessage();
             }
             this.lastMessage = Message;
