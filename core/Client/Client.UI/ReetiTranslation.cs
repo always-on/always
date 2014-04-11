@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Agent.UI
 {
     class ReetiTranslation
     {
+        private static Mutex mut = new Mutex();
+
         private ReetiCommunication reeti = new ReetiCommunication();
 
         private const String HORIZONTAL      = "horizontal";
         private const String VERTICAL        = "vertical";
-        private const String headNod         = "00"; // smallNod
-        private const String moveMouth       = "01"; // startTalking
-        private const String stopMouthMove   = "02"; // stopTalking
-        private const String lookAwayThink   = "03"; // lookAwayThink
-        private const String lookAtBoard     = "04"; // lookAtBoard
-        private const String lookBack        = "05"; // lookBack
-        private const String lookAwayAtRight = "06"; // lookAwayAtRight
-        private const String expressHappy    = "07"; // expressHappy
-        private const String expressSad      = "08"; // expressSad
-        private const String bigNod          = "09"; // expressSad
-        private const String neutralPosition = "10"; // Global.servo.neutralPosition()
+        private const String headNod         = "aa"; // smallNod
+        private const String moveMouth       = "bb"; // startTalking
+        private const String stopMouthMove   = "cc"; // stopTalking
+        private const String lookAwayThink   = "dd"; // lookAwayThink
+        private const String lookAtBoard     = "ee"; // lookAtBoard
+        private const String lookBack        = "ff"; // lookBack
+        private const String lookAwayAtRight = "gg"; // lookAwayAtRight
+        private const String expressHappy    = "hh"; // expressHappy
+        private const String expressSad      = "ii"; // expressSad
+        private const String bigNod          = "jj"; // bigNod
+        private const String neutralPosition = "kk"; // Global.servo.neutralPosition()
+        private const String delay           = "ll"; // delay
 
         private bool blnHeadNod         = true;
         private bool blnDelay           = true;
@@ -129,6 +134,18 @@ namespace Agent.UI
             output = Convert.ToInt32(command.Substring(begin, end - begin));
 
             return output;
+        }
+
+        private Boolean isClosedViseme(String command)
+        {
+            int begin = 0, end = 0, number = -1;
+
+            begin = command.IndexOf("\">") + 2;
+            end = command.IndexOf("</viseme>");
+
+            number = Convert.ToInt32(command.Substring(begin, end - begin));
+
+            return (number == 0) ? true : false;
         }
 
         private void updateRobotState(String strState)
@@ -283,7 +300,9 @@ namespace Agent.UI
 
         public void TranslateToReetiCommand(String task, String Command)
         {
-            if (Command.Contains("HEADNOD") && task.Equals("perform"))
+            mut.WaitOne();
+
+            if (Command.Contains("HEADNOD"))
             {
                 if (blnHeadNod)
                 {
@@ -295,13 +314,22 @@ namespace Agent.UI
             {
                 if (blnDelay)
                 {
-                    System.Threading.Thread.Sleep(getDelayAmount(Command));
+                    // NB: If we need to send any delay to the robot.
+                    /*int delayAmount = getDelayAmount(Command)/1000;
+                    SendCommand(delay + ((delayAmount < 10) ? ",0" : ",") + delayAmount);*/
+                    
+                    // NB: If we need to make further delay on the PC side.
+                    /*Stopwatch stopwatch = new Stopwatch();
+                    stopwatch = Stopwatch.StartNew();
+                    while (stopwatch.ElapsedMilliseconds < (delayAmount*1000));
+                    stopwatch.Stop();*/
+                    
                     updateRobotState("Delay");
                 }
             }
 
             //TODO: check if face tracking!!!
-            else if (Command.Contains("GAZE")) //&& task.Equals("speech") )
+            else if (Command.Contains("GAZE"))
             {
                 double HorOutput = mapOutput(HORIZONTAL, findOutput(HORIZONTAL, Command));
                 double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
@@ -373,6 +401,12 @@ namespace Agent.UI
                         blnTalkAlreadyStarted = true;
                     }
                 }
+                if (isClosedViseme(Command))
+                {
+                   SendCommand(stopMouthMove);
+                   updateRobotState("EndSpeech");
+                   blnTalkAlreadyStarted = false;
+                }
             }
             else  if (Command.Contains("ENDSPEECH"))
             {
@@ -383,6 +417,7 @@ namespace Agent.UI
                     blnTalkAlreadyStarted = false;
                 }
             }
+            mut.ReleaseMutex();
         }
 
         private void SendCommand(String Command)

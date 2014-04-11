@@ -48,15 +48,17 @@ public class ReetiPIDMessages {
       return YPID.getEyeYPIDoutput();
    }
 
-   private String XTrack (boolean terminateCommand) {
+   private String XTrack (boolean terminateCommand, boolean neededLED) {
       String Message = null;
 
       double Xout = ComputeNeckXPID();
       double XeyeLOut = ComputeEyeXPID();
       double XeyeROut = XeyeLOut + 20;
 
-      Message = "Global.servo.color=\"green\"";
-      Message += ",Global.servo.neckRotat=";
+      if ( neededLED )
+         Message = "Global.servo.color=\"green\",";
+      
+      Message += "Global.servo.neckRotat=";
       Message += Xout;
       Message += ",Global.servo.leftEyePan=";
       Message += XeyeLOut;
@@ -95,17 +97,17 @@ public class ReetiPIDMessages {
       switch (direction) {
          case xDIRECTION:
             SetXPID(Xcenter);
-            Message = XTrack(true);
+            Message = XTrack(true, false);
             break;
 
          case yDIRECTION:
             SetYPID(Ycenter);
-            Message = YTrack(true);
+            Message = YTrack(false);
             break;
 
          case bothDIRECTIONS:
             SetXYPID(Xcenter, Ycenter);
-            Message = XTrack(false);
+            Message = XTrack(false, false);
             Message += YTrack(false);
             break;
       }
@@ -113,10 +115,13 @@ public class ReetiPIDMessages {
       return Message;
    }
 
-   public String faceSearch () {
+   public String faceSearch (boolean neededLED) {
       String command;
 
-      command = "Global.servo.color=\"red\",Global.servo.neckRotat="
+      if ( neededLED )
+         command = "Global.servo.color=\"red\",";
+      
+      command = "Global.servo.neckRotat="
          + config.getNeckRotat()
          + " smooth:0.50s; " // Was 50
          + "Global.servo.leftEyePan="
