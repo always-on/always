@@ -2,6 +2,7 @@ var Object.permissionToTalk = true;
 var Object.agentTalking = false;
 var mouth = Tag.new("mouth");
 var Object.serverMirroring;
+var Object.myMutex = Mutex.new|;
 
 function Object.initMouthMove()
 {
@@ -122,68 +123,73 @@ function Object.bigNod()
 
 function Object.executeCommand(var command)
 {
-   if(command[0,2] == "00") // Small Nod
+   if(command[0,2] == "aa") // Small Nod
    {
-      detach({Object.smallNod();});
+      Object.smallNod();
       echo("Small Nod");
    }
-   else if (command[0,2] == "01") // Start Talking
+   else if (command[0,2] == "bb") // Start Talking
    {
       if(Object.agentTalking == false)
       {
          detach({Object.moveMouth();});
-         echo("Start Talking");
          Object.agentTalking = true;
+         echo("Start Talking");
       }
    }
-   else if(command[0,2] == "02") // Stop Talking
+   else if(command[0,2] == "cc") // Stop Talking
    {
       if(Object.agentTalking == true)
       {
          detach({Object.stopMouthMove();});
-         echo("Stop Talking");
          Object.agentTalking = false;
+         echo("Stop Talking");
       }
    }
-   else if(command[0,2] == "03") // Look Away Think
+   else if(command[0,2] == "dd") // Look Away Think
    {
       detach({Object.lookAwayThink();});
       echo("Look Away Think");
    }
-   else if(command[0,2] == "04") // Look At Board
+   else if(command[0,2] == "ee") // Look At Board
    {
       detach({Object.lookAtBoard();});
       echo("Look At Board");
    }
-   else if(command[0,2] == "05") // Look Back
+   else if(command[0,2] == "ff") // Look Back
    {
       detach({Object.lookBack();});
       echo("Look Back");
    }
-   else if(command[0,2] == "06") // Look Away At Right
+   else if(command[0,2] == "gg") // Look Away At Right
    {
       detach({Object.lookAwayAtRight();});
       echo("Look Away At Right");
    }
-   else if(command[0,2] == "07") // Express Sad
+   else if(command[0,2] == "hh") // Express Happy
    {
-      detach({Object.expressSad();});
-      echo("Express Sad");
-   }
-   else if(command[0,2] == "08") // Express Happy
-   {
-      detach({Object.expressHappy();});
+      Object.expressHappy();
       echo("Express Happy");
    }
-   else if(command[0,2] == "09") // Big Nod
+   else if(command[0,2] == "ii") // Express Sad
+   {
+      Object.expressSad();
+      echo("Express Sad");
+   }
+   else if(command[0,2] == "jj") // Big Nod
    {
       detach({Object.bigNod();});
       echo("Big Nod");
    }
-   else if(command[0,2] == "10")
+   else if(command[0,2] == "kk")
    {
-      detach({Global.servo.neutralPosition();});
+      Global.servo.neutralPosition();
       echo("Neutral Position");
+   }
+   else if(command[0,2] == "ll")
+   {
+      //sleep(command[3,5].asFloat);
+      //echo("Sleep: " + command[3,5].asFloat + "s");
    }
 };
 
@@ -195,9 +201,24 @@ function Object.listeningMirroringSocket()
 
 function Object.separateCommands(var multipleCommands)
 {
-   for, (var i = 0 ; i < multipleCommands.length ; i += 2)
+   var regExp = Regexp.new(",(\\d+)$");
+   var temp;
+   echo("Compound command: " + multipleCommands);
+   for (var i = 0 ; i <= multipleCommands.length-2 ; i += 2)
    {
-      detach({Object.executeCommand(multipleCommands[i, i+2]);});
+      temp = multipleCommands[i, i+2];
+      if(temp == "ll")
+      {
+         Object.executeCommand(multipleCommands[i, i+5]);
+         i += 1;
+      }
+      else 
+      {
+         if(!regExp.match(temp))
+         {
+            Object.executeCommand(temp);
+         }
+      };
    };
 };
 
@@ -230,9 +251,18 @@ function Object.socketConnectionMirroring()
          at (socketMirroring.received?(var data))
          {
             //echo ("received data = " + data);
-            if(data.length > 2)
-               Object.separateCommands(data);
-            detach({Object.executeCommand(data);});
+            Object.myMutex:
+            {
+               if(data.length > 2)
+               {
+                  Object.separateCommands(data);
+               }
+               else
+               {
+                  Object.executeCommand(data);
+                  echo("Single command: " + data);
+               };
+            };
          };
       };
    };
