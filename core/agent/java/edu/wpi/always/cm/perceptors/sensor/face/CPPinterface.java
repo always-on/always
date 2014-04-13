@@ -22,7 +22,7 @@ public interface CPPinterface extends Library {
 
       public static CPPinterface loadLibrary () {
          try {
-            Utils.lnprint(System.out, "Loading FaceDetection.dll from classpath: "+Platform.RESOURCE_PREFIX);
+            // System.setProperty("jna.debug_load", "true");
             return (CPPinterface) Native.loadLibrary("FaceDetection", CPPinterface.class);
          } catch (UnsatisfiedLinkError e) { throw new RuntimeException(e); }
       }

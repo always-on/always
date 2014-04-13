@@ -36,7 +36,7 @@ public class CollaborationManager extends DiscoRT {
       container.removeComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
-      activities = interaction.load("Activities.xml");
+      activities = interaction.load("/edu/wpi/always/resources/Activities.xml");
       loadUserModel();
    }
  
