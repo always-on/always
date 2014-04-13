@@ -1,14 +1,11 @@
 package edu.wpi.always.cm.perceptors;
 
-import edu.wpi.always.*;
-import edu.wpi.always.Always.AgentType;
-import edu.wpi.always.client.reeti.*;
-import edu.wpi.always.cm.perceptors.dummy.DummyMovementPerceptor;
+import org.picocontainer.*;
+import edu.wpi.always.Always;
+import edu.wpi.always.cm.perceptors.dummy.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.perceptors.sensor.pir.PIRMovementPerceptor;
-import edu.wpi.always.cm.primitives.AudioFileRealizer;
 import edu.wpi.disco.rt.util.ComponentRegistry;
-import org.picocontainer.*;
 
 public class EngagementRegistry implements ComponentRegistry {
 
@@ -25,6 +22,7 @@ public class EngagementRegistry implements ComponentRegistry {
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Mirror.class);
             break;
       }
+      // TODO: Replace dummy with real PIR below
       //container.as(Characteristics.CACHE).addComponent(PIRMovementPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(FaceMovementMenuEngagementPerceptor.class);
