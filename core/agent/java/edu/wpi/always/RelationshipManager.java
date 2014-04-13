@@ -20,7 +20,8 @@ public class RelationshipManager {
    }
  
    public DiscoDocument getSession () { 
-      return new DiscoDocument(interaction.getDisco(), model.getCloseness()+".xml"); 
+      return new DiscoDocument(interaction.getDisco(), 
+            "/edu/wpi/always/resources/"+model.getCloseness()+".xml"); 
    }
 
    public void afterInteraction (Interaction interaction, int closeness, int time) { }

@@ -149,12 +149,6 @@ public class Always {
       ALL_PLUGINS = allPlugins;
       THIS = this;
       sessionDate = new Date();
-      // initialize user folder location for Eclipse development
-      // change to c:\Dropbox subfolder later
-      if ( UserUtils.USER_DIR == null 
-            || !new File(UserUtils.USER_DIR, UserUtils.USER_FILE).exists() ) 
-         UserUtils.USER_DIR = new File("../../user").exists() ? "../../user" : 
-            new File("../../../user").exists() ? "../../../user" : ".";
       if ( logToConsole )
          BasicConfigurator.configure();
       else
