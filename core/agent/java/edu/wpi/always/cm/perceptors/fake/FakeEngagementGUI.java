@@ -1,94 +1,77 @@
 package edu.wpi.always.cm.perceptors.fake;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import javax.swing.*;
 import edu.wpi.always.Always;
-import edu.wpi.always.cm.CollaborationManager;
-import edu.wpi.always.cm.perceptors.EngagementPerception;
-import edu.wpi.always.cm.perceptors.EngagementPerceptor;
-import edu.wpi.always.cm.perceptors.FacePerception;
-import edu.wpi.always.cm.perceptors.FacePerceptor;
-import edu.wpi.always.user.UserModel;
+import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.disco.rt.Registry;
 
-public class FakeEngagementGUI {
+public class FakeEngagementGUI extends JFrame {
+   
+   private final JRadioButton near, far, none;
+   private final JCheckBox motion;
+   
+   public MovementPerceptor createMovementPerceptor () {
+      return new FakeMovementPerceptor(motion);
+   }
 
-   private static FacePerception facePerception;
+   public FacePerceptor createFacePerceptor () {
+      return new FakeFacePerceptor(near, far, none);
+   }
 
    public static void main (String[] args) {
-      Always always = Always.make(null, null, null);
+      Always always = Always.make(args, null, null);
+      List<Registry> cmRegistries = always.getCMRegistries();
+      Iterator<Registry> i = cmRegistries.iterator();
+      while (i.hasNext())
+         if ( i.next() instanceof EngagementRegistry ) i.remove();
+      cmRegistries.add(new FakeEngagementRegistry());
       always.start();
-      always.getContainer().getComponent(UserModel.class).load();
-      JFrame frame = new JFrame("Face Location");
-      frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-      JLabel locationLabel = new JLabel();
-      locationLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
-      frame.add(locationLabel);
-      JLabel sizeLabel = new JLabel();
-      sizeLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
-      frame.add(sizeLabel);
-      JPanel panel = new JPanel() {
-
-         /**
-			 * 
-			 */
-         private static final long serialVersionUID = 6254014952377622108L;
-
-         @Override
-         public void paintComponent (Graphics g) {
-            super.paintComponent(g);
-            g.setColor(Color.WHITE);
-            g.fillRect(0, 0, 320, 240);
-            g.setColor(Color.BLACK);
-            g.drawRect(0, 0, 320, 240);
-            if ( facePerception != null )
-               g.fillRect(facePerception.getLeft() ,
-                     facePerception.getTop(), facePerception.getRight()
-                        - facePerception.getLeft(), facePerception.getBottom()
-                        - facePerception.getTop());
-         }
-      };
-      frame.add(panel);
-      JLabel stateLabel = new JLabel();
-      stateLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
-      frame.add(stateLabel);
-      frame.pack();
-      frame.setSize(500, 500);
-      frame.setVisible(true);
-      frame.setAlwaysOnTop(true);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      FacePerceptor facePerceptor = always.getContainer()
-            .getComponent(CollaborationManager.class).getContainer()
-            .getComponent(FacePerceptor.class);
-      EngagementPerceptor engagementPerceptor = always.getContainer()
-            .getComponent(CollaborationManager.class).getContainer()
-            .getComponent(EngagementPerceptor.class);
+      EngagementPerceptor engagementPerceptor = 
+            always.getCM().getContainer().getComponent(EngagementPerceptor.class);
       while (true) {
-         try {
-            Thread.sleep(200);
-         } catch (InterruptedException e) {
-         }
-         facePerception = facePerceptor.getLatest();
-         if ( facePerception != null ) {
-            locationLabel.setText("Location: " + facePerception.getPoint());
-            sizeLabel.setText("Size: "
-               + (facePerception.getRight() - facePerception.getLeft()) + " x "
-               + (facePerception.getBottom() - facePerception.getTop())
-               + (facePerception.isNear() ? " is near" : " is far"));
-         }
-         EngagementPerception engagementPerception = engagementPerceptor
-               .getLatest();
-         if ( engagementPerception != null ) {
-            stateLabel.setText("State: " + engagementPerception.getState());
-         }
-         panel.repaint();
+         try { Thread.sleep(500); }
+         catch (InterruptedException e) {}
+         EngagementPerception p = engagementPerceptor.getLatest();
+         if ( p != null) THIS.setState(p.getState().toString());
       }
+   }
+
+   private final JLabel state;
+   
+   private void setState (String state) {
+      this.state.setText(state);
+      repaint();
+   }
+   
+   private static FakeEngagementGUI THIS;
+   
+   public FakeEngagementGUI () {
+      THIS = this;
+      setTitle("Fake Engagment");
+      setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+      state = new JLabel();
+      add(state);
+      near = new JRadioButton("Near");
+      far = new JRadioButton("Far");
+      none = new JRadioButton("None", true);
+      ButtonGroup group = new ButtonGroup();
+      group.add(near);
+      group.add(far);
+      group.add(none);
+      JPanel radioPanel = new JPanel(new GridLayout(0, 1));
+      radioPanel.add(near);
+      radioPanel.add(far);
+      radioPanel.add(none);
+      add(radioPanel, BorderLayout.LINE_START);
+      motion = new JCheckBox("Motion");
+      add(motion);
+      pack();
+      setSize(100, 200);
+      setAlwaysOnTop(true);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    }
 
 }

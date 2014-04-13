@@ -1,8 +1,7 @@
 package edu.wpi.always.cm.perceptors.fake;
 
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoContainer;
-
+import org.picocontainer.*;
+import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor;
 import edu.wpi.always.test.AquariumTripSchema;
 import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.behavior.BehaviorHistory;
@@ -13,9 +12,9 @@ import edu.wpi.disco.rt.schema.SchemaManager;
 import edu.wpi.disco.rt.schema.SchemaRegistry;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 
-public class FakeDemoGUIRegistry implements ComponentRegistry, SchemaRegistry {
+public class DemoRegistry implements ComponentRegistry, SchemaRegistry {
 
-   private FakeDemoGUI gui = new FakeDemoGUI();
+   private DemoGUI gui = new DemoGUI();
 
    @Override
    public void register (SchemaManager manager) {
@@ -51,6 +50,7 @@ public class FakeDemoGUIRegistry implements ComponentRegistry, SchemaRegistry {
    public void register (MutablePicoContainer container) {
       container.addComponent(gui.createMovementPerceptor());
       container.addComponent(gui.createFacePerceptor());
+      container.as(Characteristics.CACHE).addComponent(FaceMovementMenuEngagementPerceptor.class);
       java.awt.EventQueue.invokeLater(new Runnable() {
 
          @Override

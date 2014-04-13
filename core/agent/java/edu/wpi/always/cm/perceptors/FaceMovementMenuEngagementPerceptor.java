@@ -4,12 +4,13 @@ import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
 import edu.wpi.disco.rt.menu.MenuPerception;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.disco.rt.util.Utils;
 
 // TODO Respond to touches elsewhere on screen than menu
 
 public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor {
 
-   private volatile EngagementPerception latest;
+   private volatile EngagementPerception latest = new EngagementPerception(EngagementState.Idle);
    private final FacePerceptor facePerceptor;
    private final MovementPerceptor movementPerceptor;
    private final MenuPerceptor menuPerceptor;
@@ -82,7 +83,7 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
 
    protected void setState (EngagementState newState) {
       synchronized (stateLock) {
-         if ( Always.TRACE ) System.out.println("Engagement Status: "
+         if ( Always.TRACE ) Utils.lnprint(System.out, "Engagement Status: "
             + (latest != null ? latest.getState() : "") + " -> " + newState);
          // reset timing for new state
          if ( lastMovementChange != null )

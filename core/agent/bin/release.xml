@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="release" name="Release Always-On">
+    <target name="release">
+        <copy todir="C:/Dropbox-Always/release">
+          <fileset excludes="FaceDetection.dll,USBm2-64.dll" dir="../lib/win32-x86-64"/>
+          <fileset file="always.bat"/>
+        </copy>
+        <copy todir="C:/Dropbox-Always/release/client">
+          <fileset dir="../../../plugins/Plugins.Startup/bin/Debug"/>
+        </copy>   
+        <jar destfile="C:/Dropbox-Always/release/always.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="edu.wpi.always.Always"/>
+            </manifest>
+            <fileset dir="../class"/>
+            <fileset dir="../../discoRT/class"/>
+            <fileset dir="../../sgf/class"/>
+            <fileset dir="../../../plugins/about-plugin/about/class"/>
+            <fileset dir="../../../plugins/calendar-plugin/calendar/class"/>
+            <fileset dir="../../../plugins/checkers-plugin/checkers/class"/>
+            <fileset dir="../../../plugins/enroll-plugin/enroll/class"/>
+            <fileset dir="../../../plugins/explain-plugin/explain/class"/>
+            <fileset dir="../../../plugins/greetings-plugin/greetings/class"/>
+            <fileset dir="../../../plugins/rummy-plugin/srummy/class"/>
+            <fileset dir="../../../plugins/scriptbuilder-plugin/class"/>
+            <fileset dir="../../../plugins/skype-plugin/skype/class"/>
+            <fileset dir="../../../plugins/story-plugin/story/class"/>
+            <fileset dir="../../../plugins/weather-plugin/weather/class"/>
+            <fileset dir="../../../plugins/ttt-plugin/ttt/class"/>
+            <fileset includes="win32-x86-64/FaceDetection.dll,win32-x86-64/USBm2-64.dll" dir="../lib"/>
+            <zipfileset excludes="META-INF/*.SF" src="../../../plugins/scriptbuilder-plugin/scripts/AAScripts.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/jna-4.1.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/activemq-all-5.6.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/bsh-2.0b4.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/mockito-all-1.9.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/gson-2.2.4.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/json-simple-1.1.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/owlapi/owlapi-bin.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/owlapi/aterm-java-1.6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/owlapi/jfact.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/owlapi/jgrapht-jdk1.5.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/owlapi/pellet-core.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/owlapi/pellet-datatypes.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/owlapi/pellet-el.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/owlapi/pellet-owlapiv3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../lib/owlapi/pellet-rules.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../../sgf/lib/jdom-2.0.5.jar"/>            
+            <zipfileset excludes="META-INF/*.SF" src="../../discoRT/lib/joda-time-2.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../../discoRT/lib/guava-10.0.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../../discoRT/lib/commons-io-2.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../../discoRT/lib/picocontainer-2.14.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../../discoRT/lib/jFuzzyLogic_v2.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../../discoRT/lib/disco1.6.10/lib/disco.jar"/>
+        </jar>
+    </target>
+</project>

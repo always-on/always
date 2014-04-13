@@ -4,6 +4,7 @@ import java.util.*;
 import com.sun.jna.*;
 import com.sun.jna.ptr.PointerByReference;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
+import edu.wpi.disco.rt.util.Utils;
 
 public interface CPPinterface extends Library {
 
@@ -21,6 +22,7 @@ public interface CPPinterface extends Library {
 
       public static CPPinterface loadLibrary () {
          try {
+            // System.setProperty("jna.debug_load", "true");
             return (CPPinterface) Native.loadLibrary("FaceDetection", CPPinterface.class);
          } catch (UnsatisfiedLinkError e) { throw new RuntimeException(e); }
       }

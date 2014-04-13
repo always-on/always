@@ -3,5 +3,7 @@
 # restore user model from test folder
 #
 dir="`dirname $0`"
-cp -f "$dir/../test/TestUser.owl" "$dir/../../../user/User.Diane.owl"
-echo "Restored user/User.Diane.owl from core/agent/test/TestUser.owl"
+box="C:/Dropbox-Always/$COMPUTERNAME"
+if [ ! -e $box ]; then box="$dir/../../../user"; fi
+cp -f "$dir/../test/TestUser.owl" "$box/User.Diane.owl"
+echo "Restored User.Diane.owl from always/core/agent/test/TestUser.owl"

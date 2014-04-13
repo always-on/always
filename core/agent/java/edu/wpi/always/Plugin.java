@@ -78,7 +78,6 @@ public abstract class Plugin {
          model.setUserName("TestPluginUser");
          System.out.println("User name: "+model.getUserName());
       }
-      SessionSchema.HOUR = LocalTime.now().getHourOfDay();
       always.start();
       return always;
    }

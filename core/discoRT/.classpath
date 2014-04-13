@@ -19,8 +19,8 @@
 			<attribute name="javadoc_location" value="http://picocontainer.codehaus.org/javadoc/core"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/jFuzzyLogic_v2.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFuzzyLogic_v2.1.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry exported="true" kind="lib" path="lib/disco1.6.10/lib/disco.jar" sourcepath="lib/disco1.6.10/src.zip"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>

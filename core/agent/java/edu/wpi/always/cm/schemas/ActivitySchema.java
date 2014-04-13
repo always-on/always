@@ -12,7 +12,7 @@ import edu.wpi.disco.rt.schema.*;
  */
 public abstract class ActivitySchema extends SchemaBase {
 
-   public static final double SPECIFICITY = 0.7;
+   public static final double SPECIFICITY = 0.5;
    
    protected ActivitySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory) {
