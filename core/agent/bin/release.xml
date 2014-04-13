@@ -10,6 +10,9 @@
         </copy>  
         <copy todir="C:/Dropbox-Always/release/core/agent/images">
           <fileset dir="../images"/>
+        </copy>  
+        <copy todir="C:/Dropbox-Always/release/reeti">
+          <fileset dir="../lib/reeti"/>
         </copy>   
         <jar destfile="C:/Dropbox-Always/release/always.jar" filesetmanifest="mergewithoutmain">
             <manifest>
