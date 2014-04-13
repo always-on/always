@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="release" name="Relase Always-On">
+<project default="release" name="Release Always-On">
     <target name="release">
         <copy todir="C:/Dropbox-Always/release">
           <fileset excludes="FaceDetection.dll,USBm2-64.dll" dir="../lib/win32-x86-64"/>
           <fileset file="always.bat"/>
         </copy>
+        <copy todir="C:/Dropbox-Always/release/client">
+          <fileset dir="../../../plugins/Plugins.Startup/bin/Debug"/>
+        </copy>   
         <jar destfile="C:/Dropbox-Always/release/always.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="edu.wpi.always.Always"/>
