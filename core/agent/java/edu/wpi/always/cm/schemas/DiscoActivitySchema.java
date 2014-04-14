@@ -10,7 +10,7 @@ import edu.wpi.disco.rt.menu.*;
 /**
  * Note: This schema will automatically stop (cancel) when
  * there is nothing left for the user or agent to say.
- * It can also be ended abrubtly by calling '$schema.cancel()'
+ * It can also be ended abruptly by calling '$schema.cancel()'
  * in the 'eval' attribute of a D4g element.
  */
 public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
@@ -19,10 +19,11 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    
    public DiscoActivitySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Always always) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
+         MenuPerceptor menuPerceptor, Always always, DiscoRT.Interaction interaction) {
+      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
       // note activities append to session log
-      console = new DiscoRT.ConsoleWindow(interaction, getClass().getSimpleName(), true);
+      console = new DiscoRT.ConsoleWindow(interaction, getClass().getSimpleName(), true, null);
+      console.setVisible(true);
    }
    
    protected void start (String id) {
@@ -32,15 +33,15 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    }
    
    @Override
-   public void cancel () {
-      super.cancel();
+   public void stop() {
+      super.stop();
       dispose();
    }
    
    @Override
    public void dispose () { 
+      history(); // before dispose
       super.dispose();
-      history(); 
       console.close();
    }
 }

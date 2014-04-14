@@ -15,6 +15,10 @@ using System.Collections;
 using System.Data;
 using System.Resources;
 using System.Windows.Media.Animation;
+using Agent.Tcp;
+using System.Media;
+using System.IO;
+using System.Reflection;
 
 namespace Checkers.UI
 {
@@ -25,11 +29,12 @@ namespace Checkers.UI
 	{
 		bool okToMove = false;
 		int illegalTouchCounter = 0;
-		private static int RED_LAST_ROW = 7;
-		private static int BLACK_LAST_ROW = 0;
+		private static int RED_LAST_ROW = 0;
+		private static int BLACK_LAST_ROW = 7;
 
 		private int latestC = 0, latestR = 0;
 		private CheckerPiece LatestRedTryingToMove = null;
+		SoundPlayer sound;
 
         private enum Turn
         {
@@ -93,10 +98,10 @@ namespace Checkers.UI
 
 				if (currentPiece is RedChecker || currentPiece is RedKingChecker)
 				{
-					if ((l.row == currentPiece.row + 1 
+					if ((l.row == currentPiece.row - 1 
 						&& (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1))
 						|| 
-						((l.row == currentPiece.row - 1 && currentPiece is RedKingChecker) 
+						((l.row == currentPiece.row + 1 && currentPiece is RedKingChecker) 
 						&& (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1)))
 					{
 						okToMove = true;
@@ -113,20 +118,7 @@ namespace Checkers.UI
 				
 				if (c == currentPiece.col + 2)
 				{
-					if (r == currentPiece.row + 2)
-					{
-						if (grdBoard.Children.OfType<BlackChecker>()
-							.Where(p => p.row == currentPiece.row + 1
-								&& (p.col == currentPiece.col + 1)).SingleOrDefault() != null)
-							opponentPiece = grdBoard.Children.OfType<BlackChecker>()
-								.Where(p => p.row == currentPiece.row + 1
-									&& (p.col == currentPiece.col + 1)).SingleOrDefault();
-						else
-							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
-							.Where(p => p.row == currentPiece.row + 1
-								&& (p.col == currentPiece.col + 1)).SingleOrDefault();
-					}
-					else if (r == currentPiece.row - 2 && currentPiece is RedKingChecker)
+					if (r == currentPiece.row - 2)
 					{
 						if (grdBoard.Children.OfType<BlackChecker>()
 							.Where(p => p.row == currentPiece.row - 1
@@ -137,25 +129,25 @@ namespace Checkers.UI
 						else
 							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
 							.Where(p => p.row == currentPiece.row - 1
+								&& (p.col == currentPiece.col + 1)).SingleOrDefault();
+					}
+					else if (r == currentPiece.row + 2 && currentPiece is RedKingChecker)
+					{
+						if (grdBoard.Children.OfType<BlackChecker>()
+							.Where(p => p.row == currentPiece.row + 1
+								&& (p.col == currentPiece.col + 1)).SingleOrDefault() != null)
+							opponentPiece = grdBoard.Children.OfType<BlackChecker>()
+								.Where(p => p.row == currentPiece.row + 1
+									&& (p.col == currentPiece.col + 1)).SingleOrDefault();
+						else
+							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
+							.Where(p => p.row == currentPiece.row + 1
 								&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 					}
 				}
 				else if (c == currentPiece.col - 2)
 				{
-					if (r == currentPiece.row + 2)
-					{
-						if (grdBoard.Children.OfType<BlackChecker>()
-							.Where(p => p.row == currentPiece.row + 1
-								&& (p.col == currentPiece.col - 1)).SingleOrDefault() != null)
-							opponentPiece = grdBoard.Children.OfType<BlackChecker>()
-								.Where(p => p.row == currentPiece.row + 1
-									&& (p.col == currentPiece.col - 1)).SingleOrDefault();
-						else
-							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
-							.Where(p => p.row == currentPiece.row + 1
-								&& (p.col == currentPiece.col - 1)).SingleOrDefault();
-					}
-					else if ((r == currentPiece.row - 2 && currentPiece is RedKingChecker))
+					if (r == currentPiece.row - 2)
 					{
 						if (grdBoard.Children.OfType<BlackChecker>()
 							.Where(p => p.row == currentPiece.row - 1
@@ -166,6 +158,19 @@ namespace Checkers.UI
 						else
 							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
 							.Where(p => p.row == currentPiece.row - 1
+								&& (p.col == currentPiece.col - 1)).SingleOrDefault();
+					}
+					else if ((r == currentPiece.row + 2 && currentPiece is RedKingChecker))
+					{
+						if (grdBoard.Children.OfType<BlackChecker>()
+							.Where(p => p.row == currentPiece.row + 1
+								&& (p.col == currentPiece.col - 1)).SingleOrDefault() != null)
+							opponentPiece = grdBoard.Children.OfType<BlackChecker>()
+								.Where(p => p.row == currentPiece.row + 1
+									&& (p.col == currentPiece.col - 1)).SingleOrDefault();
+						else
+							opponentPiece = grdBoard.Children.OfType<BlackKingChecker>()
+							.Where(p => p.row == currentPiece.row + 1
 								&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 					}
 				}
@@ -176,7 +181,7 @@ namespace Checkers.UI
                 {
                     int validCol = (opponentPiece.col > currentPiece.col) ? 
 						currentPiece.col + 2 : currentPiece.col - 2;
-                    if (((r == currentPiece.row + 2) 
+                    if (((r == currentPiece.row - 2) 
 						|| (Math.Abs(r - currentPiece.row) == 2 
 						&& currentPiece is RedKingChecker)) && c == validCol)
                     {
@@ -215,7 +220,7 @@ namespace Checkers.UI
 				//should never be here
 				//>>Few lines below only for debugging (until "<<")
 				checker = new BlackChecker();
-				if (l.row == currentPiece.row - 1 && 
+				if (l.row == currentPiece.row + 1 && 
 				    (l.col == currentPiece.col + 1 || l.col == currentPiece.col - 1))
 				    okToMove = true;
 				CaptureHumanCellInAgentMoveIfAny(r, c, l);
@@ -276,59 +281,59 @@ namespace Checkers.UI
 			//>>
 			if (c == currentPiece.col + 2)
 			{
-				if (r == currentPiece.row - 2)
+				if (r == currentPiece.row + 2)
 				{
 					if (grdBoard.Children.OfType<RedChecker>()
-						.Where(p => p.row == currentPiece.row - 1
+						.Where(p => p.row == currentPiece.row + 1
 							&& (p.col == currentPiece.col + 1)).SingleOrDefault() != null)
 						opponentPiece = grdBoard.Children.OfType<RedChecker>()
-							.Where(p => p.row == currentPiece.row - 1
+							.Where(p => p.row == currentPiece.row + 1
 								&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 					else
 						opponentPiece = grdBoard.Children.OfType<RedKingChecker>()
-						.Where(p => p.row == currentPiece.row - 1
+						.Where(p => p.row == currentPiece.row + 1
 							&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 				}
-				else if (r == currentPiece.row + 2 && currentPiece is BlackKingChecker)
+				else if (r == currentPiece.row - 2 && currentPiece is BlackKingChecker)
 				{
 					if (grdBoard.Children.OfType<RedChecker>()
-					.Where(p => p.row == currentPiece.row + 1
+					.Where(p => p.row == currentPiece.row - 1
 					&& (p.col == currentPiece.col + 1)).SingleOrDefault() != null)
 						opponentPiece = grdBoard.Children.OfType<RedChecker>()
-						.Where(p => p.row == currentPiece.row + 1
+						.Where(p => p.row == currentPiece.row - 1
 						&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 					else
 						opponentPiece = grdBoard.Children.OfType<RedKingChecker>()
-					.Where(p => p.row == currentPiece.row + 1
+					.Where(p => p.row == currentPiece.row - 1
 					&& (p.col == currentPiece.col + 1)).SingleOrDefault();
 				}
 			}
 			else if (c == currentPiece.col - 2)
 			{
-				if (r == currentPiece.row - 2)
+				if (r == currentPiece.row + 2)
 				{
 					if (grdBoard.Children.OfType<RedChecker>()
-						.Where(p => p.row == currentPiece.row - 1
+						.Where(p => p.row == currentPiece.row + 1
 							&& (p.col == currentPiece.col - 1)).SingleOrDefault() != null)
 						opponentPiece = grdBoard.Children.OfType<RedChecker>()
-							.Where(p => p.row == currentPiece.row - 1
+							.Where(p => p.row == currentPiece.row + 1
 								&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 					else
 						opponentPiece = grdBoard.Children.OfType<RedKingChecker>()
-						.Where(p => p.row == currentPiece.row - 1
+						.Where(p => p.row == currentPiece.row + 1
 							&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 				}
-				else if (r == currentPiece.row + 2 && currentPiece is BlackKingChecker)
+				else if (r == currentPiece.row - 2 && currentPiece is BlackKingChecker)
 				{
 					if (grdBoard.Children.OfType<RedChecker>()
-					.Where(p => p.row == currentPiece.row + 1
+					.Where(p => p.row == currentPiece.row - 1
 						&& (p.col == currentPiece.col - 1)).SingleOrDefault() != null)
 						opponentPiece = grdBoard.Children.OfType<RedChecker>()
-						.Where(p => p.row == currentPiece.row + 1
+						.Where(p => p.row == currentPiece.row - 1
 							&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 					else
 						opponentPiece = grdBoard.Children.OfType<RedKingChecker>()
-					.Where(p => p.row == currentPiece.row + 1
+					.Where(p => p.row == currentPiece.row - 1
 						&& (p.col == currentPiece.col - 1)).SingleOrDefault();
 				}
 			}
@@ -339,7 +344,7 @@ namespace Checkers.UI
 			{
 				int validCol = (opponentPiece.col > currentPiece.col) ? 
 					currentPiece.col + 2 : currentPiece.col - 2;
-				if (((r == currentPiece.row - 2) 
+				if (((r == currentPiece.row + 2) 
 					|| (Math.Abs(r - currentPiece.row) == 2 
 					&& currentPiece is BlackKingChecker)) && c == validCol)
 				{
@@ -383,7 +388,7 @@ namespace Checkers.UI
 					RedKingChecker deadman = new RedKingChecker();
 					Storyboard AddToGraveyard =
 						deadman.Resources["AddToGraveyard"] as Storyboard;
-					this.pnlRedGraveyard.Children.Add(deadman);
+					this.pnlBlackGraveyard.Children.Add(deadman);
 					AddToGraveyard.Begin();
 				}
 				else if (capturedPiece is BlackKingChecker)
@@ -400,15 +405,19 @@ namespace Checkers.UI
 
 		public GameShape()
 		{
+			sound = new SoundPlayer(GetResourceStream("Assets/playingSound.wav"));
 			this.InitializeComponent();
             this.grdBoard.AllowDrop = true;
             Reset();
 		}
 
-		public void ResetGame()
+		public void ResetGame(IUIThreadDispatcher uiThreadDispatcher)
 		{
-			this.grdBoard.Children.Clear();
-			this.Reset();
+			uiThreadDispatcher.BlockingInvoke(() =>
+			{
+				this.grdBoard.Children.Clear();
+				this.Reset();
+			});
 		}
 
         /// <summary>
@@ -453,7 +462,7 @@ namespace Checkers.UI
                     Grid.SetRow(l, row);
                     this.grdBoard.Children.Add(l);
 
-                    if (row < 3)
+                    if (row >= grdBoard.RowDefinitions.Count - 3)
                     {
                         RedChecker redChecker = new RedChecker();
                         redChecker.PreviewMouseLeftButtonDown += 
@@ -469,7 +478,7 @@ namespace Checkers.UI
                         Grid.SetRow(redChecker, row);
                         this.grdBoard.Children.Add(redChecker);
                     }
-                    if (row >= grdBoard.RowDefinitions.Count - 3)
+					if (row < 3)
                     {
                         BlackChecker blackChecker = new BlackChecker();
                         blackChecker.PreviewMouseLeftButtonDown += 
@@ -517,7 +526,7 @@ namespace Checkers.UI
 			
 			currentPiece = src;
 
-			//drag adroner stuff, Not finish>>
+			//drag adroner (Not currently used)>>
 			_dragAdorner = new DragAdorner(currentPiece, currentPiece, true, 1);
 			//currentPiece.Visibility = System.Windows.Visibility.Hidden;
 			AdornerLayerForDrag().Add(_dragAdorner);
@@ -596,8 +605,8 @@ namespace Checkers.UI
 
 				CaptureHumanCellInAgentMoveIfAny(tox, toy, tempEmptySpace);
 				
+				sound.Play();
 				MoveChecker(tox, toy, checker);
-
 				currentTurn = Turn.Red;
 
 			}));
@@ -606,6 +615,8 @@ namespace Checkers.UI
 
 		public void ReceivedConfirmation()
 		{
+			MakeTheBoardUnplayable();
+			sound.Play();
 			MoveChecker(latestR, latestC, LatestRedTryingToMove);
 		}
 
@@ -625,7 +636,16 @@ namespace Checkers.UI
 			}));
 		}
 
-
+		private static UnmanagedMemoryStream GetResourceStream(string resName)
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var strResources = assembly.GetName().Name + ".g.resources";
+			var rStream = assembly.GetManifestResourceStream(strResources);
+			var resourceReader = new ResourceReader(rStream);
+			var items = resourceReader.OfType<DictionaryEntry>();
+			var stream = items.First(x => (x.Key as string) == resName.ToLower()).Value;
+			return (UnmanagedMemoryStream)stream;
+		}
 	}
 
 	class CheckerEventArg : EventArgs

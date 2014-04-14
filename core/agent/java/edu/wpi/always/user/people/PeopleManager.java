@@ -23,6 +23,7 @@ public interface PeopleManager {
 
    Person[] getPeople (boolean includeUser);
 
-   Person addPerson(String name, Relationship relationship, Gender gender, int age, String phone,
+   Person addPerson(String name, Relationship relationship, Gender gender, int age,
          String skype, Place place, Person spouse, MonthDay birthday);
 }
+

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<!--
+	THE GAME SPECIFIC (TIC TAC TOE) COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
+	AUTHOR: MORTEZA BEHROOZ
+	WORCESTER POLYTECHNIC INSTITUTE 
+-->
+
+<!--
+	> Attributes brief description:
+	- strength: determines how much of a strong move should it be, 
+	the move which this comment is being made for, human's or agent's.
+	- competitiveness: how competitive the comment sounds.
+	- tags: the social tags which comment carries.
+	- gameType: if a specific type of game the comment is made for.
+	- gameName: if a specific game the comment is made for.
+	- madeOn: to be made on agent's move, human's or both.
+	
+	> agent and human sections contain comments which should 
+	be made by each of them.
+	
+	PLEASE REFER TO SOCIAL GAMEPLAY FRAMEWORK DOCUMENTS FOR FURTHER INFORMATION.
+-->
+
+<comments>
+
+	<agent>
+		<comment competitiveness='0.2' tags="centerCellTakenByHuman/compliment" gameType="board" gameName="ttt" madeOn="human">
+			<content>Nice! You got the golden cell</content>
+			<response>Yes I did! Let's see if it is helpful</response>
+			<response>Haha, whatever</response>
+			<response>It's just one cell, take it easy!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="centerCellTakenByAgent" gameType="board" gameName="ttt" madeOn="agent">
+			<content>I got the golden cell</content>
+			<response>yes, that's the best place to start</response>
+			<response>yes, but I can still win</response>
+			<response>yes, now what are you going to do?</response>
+		</comment>
+		<comment competitiveness='0.2' tags="AgentWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="human">
+			<content> Haha! smart move </content>
+			<response>thank you!</response>
+			<response>I couldn't let you win so easily</response>
+			<response>What is your next move?</response>
+		</comment>
+	</agent>
+	
+	<human>
+		<comment competitiveness='0.2' tags="centerCellTakenByAgent/compliment" gameType="board" gameName="ttt" madeOn="agent">
+			<content>Nice! You got the golden cell</content>
+			<response>Thanks!</response>
+			<response>I know!!</response>
+			<response>It's just a cell</response>
+		</comment>
+		<comment competitiveness='0.3' tags="centerCellTakenByHuman" gameType="board" gameName="ttt" madeOn="human">
+			<content>I got the golden cell</content>
+			<response>yes, that's the best place to start</response>
+			<response>yes, but I can still win</response>
+			<response>To win, you have to have a good plan</response>
+			<response>Still your turn</response>
+		</comment>
+		<comment competitiveness='0.2' tags="HumanWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="agent">
+			<content>Smart ha? Taking the center cell</content>
+			<response>exactly!</response>
+			<response>oh yes!</response>
+			<response>haha, might not be that important</response>
+		</comment>
+	</human>
+	
+</comments>

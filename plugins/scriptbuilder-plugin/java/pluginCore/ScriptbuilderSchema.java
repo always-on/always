@@ -1,18 +1,19 @@
 package pluginCore;
 
+import edu.wpi.always.client.UIMessageDispatcher;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class ScriptbuilderSchema extends ActivityStateMachineSchema {
+public class ScriptbuilderSchema extends ActivityStateMachineSchema<RAGStateContext> {
 	
-	RAGStateContext context;
+	private final RAGStateContext context;
 	
 	public ScriptbuilderSchema(ScriptbuilderCoreScript init,
 			BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-			MenuPerceptor menuPerceptor) {
+			MenuPerceptor menuPerceptor,  UIMessageDispatcher dispatcher) {
 		super(init, behaviorReceiver, behaviorHistory, resourceMonitor,
 				menuPerceptor);
 		this.context = init.context;
@@ -20,7 +21,7 @@ public class ScriptbuilderSchema extends ActivityStateMachineSchema {
 
 	@Override
 	public void run() {
-	   if( context.isDone ) cancel();
+	   if( context.isDone ) stop();
 		else super.run();
 	}
 }

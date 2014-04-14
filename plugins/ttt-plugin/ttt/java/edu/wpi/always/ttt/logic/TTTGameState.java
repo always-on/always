@@ -1,6 +1,7 @@
 package edu.wpi.always.ttt.logic;
 
 import java.util.*;
+import edu.wpi.always.ttt.TTTClient;
 import edu.wpi.sgf.logic.GameLogicState;
 
 /** 
@@ -234,6 +235,11 @@ public class TTTGameState extends GameLogicState{
             gameSpecificTags.add("AgentWinOppBlocked");
       }
       //<<
+      
+      if(!gameSpecificTags.isEmpty())
+         TTTClient.thereAreGameSpecificTags = true;
+      else
+         TTTClient.thereAreGameSpecificTags = false;
       
       return gameSpecificTags;
    }

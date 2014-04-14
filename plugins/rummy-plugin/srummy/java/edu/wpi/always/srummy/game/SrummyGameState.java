@@ -1,6 +1,5 @@
 package edu.wpi.always.srummy.game;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ import edu.wpi.sgf.logic.GameLogicState;
  * and evaluating different paths or other possible usages with SGF.
  * 
  * @author Morteza Behrooz
- * @version 2.0
+ * @version 3.0
  */
 public class SrummyGameState extends GameLogicState {
 
@@ -32,6 +31,10 @@ public class SrummyGameState extends GameLogicState {
    private final static String HUMAN_LAYOFF_COMMENTING_TAG = "humanLayoff";
    private final static String TWO_MELDS_IN_A_ROW_BY_AGENT = "twoMeldsInARowByAgent";
    private final static String TWO_MELDS_IN_A_ROW_BY_HUMAN = "twoMeldsInARowByHuman";
+   
+   private static boolean fewCardsForAgentAlreadySaid = false;
+   private static boolean fewCardsForHumanAlreadySaid = false;
+   private static int gameRoundMemory1 = 0, gameRoundMemory2 = 0;
    
    private Deck stock;
    private Deck discard;
@@ -566,30 +569,62 @@ public class SrummyGameState extends GameLogicState {
     * 4. TODO Not melding for 4 rounds (averts repeating on 5th.)
     * 
     * @return List of String including rummy specific tags
-    * @Sicne 2.0
     */
    public List<String> getGameSpecificCommentingTags () {
       
       List<String> tags = new ArrayList<String>();
       
-      if(SrummyClient.oneMeldInAgentTurnAlready)
-         tags.add(AGENT_MELD_COMMENTING_TAG);
-      else if(SrummyClient.oneLayoffInAgentTurnAlready)
-         tags.add(AGENT_LAYOFF_COMMENTING_TAG);
-      
-      if(SrummyClient.oneMeldInHumanTurnAlready)
-         tags.add(HUMAN_MELD_COMMENTING_TAG);
-      else if(SrummyClient.oneLayoffInHumanTurnAlready)
-         tags.add(HUMAN_LAYOFF_COMMENTING_TAG);
-      
-      //could here add both layoff and meld cm, TODO
-      
-      if(SrummyClient.twoMeldsInARowByAgent)
-         tags.add(TWO_MELDS_IN_A_ROW_BY_AGENT);
-      if(SrummyClient.twoMeldsInARowByHuman)
-         tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
+      if(SrummyClient.gameRound < 2)
+         tags.add("firstRound");
+     
+      else{
+         
+         if((playersCards.get(Player.Agent).size()) < 4){
+            if(SrummyGameState.gameRoundMemory1 != 0)
+               if(SrummyGameState.gameRoundMemory1 
+                     != SrummyClient.gameRound)
+                  fewCardsForAgentAlreadySaid = true;
+            SrummyGameState
+            .gameRoundMemory1 = SrummyClient.gameRound;
+            if(!fewCardsForAgentAlreadySaid)
+               tags.add("agentFewCardsLeft");
+         }
+         if((playersCards.get(Player.Human).size()) < 4){
+            if(SrummyGameState.gameRoundMemory2 != 0)
+               if(SrummyGameState.gameRoundMemory2 
+                     != SrummyClient.gameRound)
+                  fewCardsForHumanAlreadySaid = true;
+            SrummyGameState
+            .gameRoundMemory2 = SrummyClient.gameRound;
+            if(!fewCardsForHumanAlreadySaid)
+               tags.add("humanFewCardsLeft");
+         }
+
+         if(tags.isEmpty()){
+            //if not first round and not reached few cards...
+            if(SrummyClient.oneMeldInAgentTurnAlready)
+               tags.add(AGENT_MELD_COMMENTING_TAG);
+            else if(SrummyClient.oneLayoffInAgentTurnAlready)
+               tags.add(AGENT_LAYOFF_COMMENTING_TAG);
+            if(SrummyClient.oneMeldInHumanTurnAlready)
+               tags.add(HUMAN_MELD_COMMENTING_TAG);
+            else if(SrummyClient.oneLayoffInHumanTurnAlready)
+               tags.add(HUMAN_LAYOFF_COMMENTING_TAG);
+            if(SrummyClient.twoMeldsInARowByAgent)
+               tags.add(TWO_MELDS_IN_A_ROW_BY_AGENT);
+            if(SrummyClient.twoMeldsInARowByHuman)
+               tags.add(TWO_MELDS_IN_A_ROW_BY_HUMAN);
+         }
+
+      }
+
+      if(!tags.isEmpty())
+         SrummyClient.thereAreGameSpecificTags = true;
+      else 
+         SrummyClient.thereAreGameSpecificTags = false;
       
       return tags;
+      
    }
 
    public int didAnyOneJustWin () {

@@ -1,5 +1,6 @@
 package DialogueRuntime;
 
+import edu.wpi.cetask.Utils;
 import java.util.*;
 import java.io.*;
 import java.sql.*;
@@ -47,6 +48,7 @@ public class DBStore extends PersistentStore {
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 			} catch (Exception e) {
 				System.err.println("Could not load SQL drivers:");
+				Utils.rethrow(e);
 			}
 			String serverAddress = "jdbc:mysql://"
 				+ connectionProperties.getProperty("serverIP") 
@@ -471,7 +473,7 @@ System.out.println("DB studyday="+studyDay);
 				query = "UPDATE users set start_date=(select '" + start_date + "' - INTERVAL " + offset + " day) where user_id=" + userID;
 				stmt.executeUpdate(query);
 			} 
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			System.out.println("Error adjusting user startdate:");
 			e.toString();
 			e.printStackTrace();
@@ -557,7 +559,7 @@ System.out.println("DB studyday="+studyDay);
 	            pstmt.setString(3, (String)p.get(property));		
 	        try {     
 	        	pstmt.executeUpdate();
-	        } catch (Exception e) {
+	        } catch (SQLException e) {
 	           System.out.println("SQL exception " + e);
 	           System.out.println("on query " + pstmt.toString());
 	           System.out.println(e.getStackTrace());
@@ -571,7 +573,7 @@ System.out.println("DB studyday="+studyDay);
        
         try {    	
      	stmt.executeUpdate("REPLACE INTO properties (`User_ID`,`Property`,`Value`) VALUES (" + userID + ",'" + property + "', '" + value + "')");
-    	        } catch (Exception e) {
+    	        } catch (SQLException e) {
     	           System.out.println("SQL exception " + e);
     	           System.out.println("on query " + e.getMessage());
     	           System.out.println(e.getStackTrace());

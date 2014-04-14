@@ -6,10 +6,26 @@
 	mc:Ignorable="d"
 	x:Class="Checkers.UI.RedChecker"
     xmlns:runtime="clr-namespace:Checkers.UI"
-	Width="65" Height="65" OnCaptured="CheckerPiece_OnCaptured" x:Name="checkerPiece" RenderTransformOrigin="0.5,0.5">
+	Width="65" Height="65"  x:Name="checkerPiece" RenderTransformOrigin="0.5,0.5">
     <runtime:CheckerPiece.Resources>
-        <!--<Storyboard x:Key="DropPiece">
-        </Storyboard>-->
+        <Storyboard x:Key="DropPiece">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="55"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01" Value="65"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="55"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01" Value="65"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="55"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01" Value="65"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="55"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:01" Value="65"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
         <Storyboard x:Key="PieceCaptured">
             <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="imgChecker" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
                 <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
@@ -96,6 +112,9 @@
         </EventTrigger>
         <EventTrigger RoutedEvent="Stylus.GotStylusCapture">
             <BeginStoryboard Storyboard="{StaticResource AddToGraveyard}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="DragDrop.Drop">
+            <BeginStoryboard Storyboard="{StaticResource DropPiece}"/>
         </EventTrigger>
         <EventTrigger RoutedEvent="Stylus.GotStylusCapture">
             <BeginStoryboard Storyboard="{StaticResource LoadEmUp}"/>

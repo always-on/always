@@ -2,19 +2,47 @@
 <taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
            xmlns:disco="urn:disco.wpi.edu:Disco"
            about="urn:always.wpi.edu:models:Greetings">
-   <task id="_MorningGreetings">
-      <subtasks id="__MorningGreetings_subtasks">
-         <step name="__MorningGreetings_step" task="disco:Say"/>
-         <step name="__MorningGreetings_ref" task="__MorningGreetings_tree"/>
-         <binding slot="$__MorningGreetings_step.text" value="&#34;Good morning.&#34;"/>
-         <binding slot="$__MorningGreetings_step.external" value="false"/>
+   <task id="_Morning">
+      <subtasks id="__Morning_subtasks">
+         <step name="__Morning_step" task="disco:Say$Expression"/>
+         <step name="__Morning_ref" task="__Morning_tree"/>
+         <binding slot="$__Morning_step.text" value="&#34;\&#34;Good morning, \&#34;+(getUserName())+\&#34;.\&#34;&#34;"/>
+         <binding slot="$__Morning_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_SleepWell">
+      <subtasks id="__SleepWell_subtasks">
+         <step name="__SleepWell_step" task="disco:Say$Eval"/>
+         <step name="__SleepWell_ref" task="__SleepWell_tree"/>
+         <binding slot="$__SleepWell_step.text" value="&#34;Did you sleep well?&#34;"/>
+         <binding slot="$__SleepWell_step.external" value="false"/>
+         <binding slot="$__SleepWell_step.eval"
+                  value="&#34;poorSleepReports = getPoorSleepReports();&#34;"/>
+      </subtasks>
+   </task>
+   <task id="_CallDoc">
+      <subtasks id="__CallDoc_subtasks">
+         <step name="__CallDoc_step" task="disco:Say"/>
+         <step name="__CallDoc_ref" task="__CallDoc_tree"/>
+         <binding slot="$__CallDoc_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; do you think you should call your doctor? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+         <binding slot="$__CallDoc_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_SleepWellCompanion">
+      <subtasks id="__SleepWellCompanion_subtasks">
+         <step name="__SleepWellCompanion_step" task="disco:Say"/>
+         <step name="__SleepWellCompanion_ref" task="__SleepWellCompanion_tree"/>
+         <binding slot="$__SleepWellCompanion_step.text" value="&#34;Did you sleep well?&#34;"/>
+         <binding slot="$__SleepWellCompanion_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_AfternoonGreetings">
       <subtasks id="__AfternoonGreetings_subtasks">
          <step name="__AfternoonGreetings_step" task="disco:Say"/>
          <step name="__AfternoonGreetings_ref" task="__AfternoonGreetings_tree"/>
-         <binding slot="$__AfternoonGreetings_step.text" value="&#34;How's your day going?&#34;"/>
+         <binding slot="$__AfternoonGreetings_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; How's your day going? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__AfternoonGreetings_step.external" value="false"/>
       </subtasks>
    </task>
@@ -22,119 +50,479 @@
       <subtasks id="__EveningGreetings_subtasks">
          <step name="__EveningGreetings_step" task="disco:Say"/>
          <step name="__EveningGreetings_ref" task="__EveningGreetings_tree"/>
-         <binding slot="$__EveningGreetings_step.text" value="&#34;So had a good day?&#34;"/>
+         <binding slot="$__EveningGreetings_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; So had a good day? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__EveningGreetings_step.external" value="false"/>
       </subtasks>
    </task>
-   <task id="__MorningGreetings_tree">
-      <subtasks id="_d4e6_subtasks">
-         <step name="_d4e6_step" task="disco:Say"/>
-         <binding slot="$_d4e6_step.text" value="&#34;Good morning.&#34;"/>
-         <binding slot="$_d4e6_step.external" value="true"/>
+   <task id="_NightGreetings">
+      <subtasks id="__NightGreetings_subtasks">
+         <step name="__NightGreetings_step" task="disco:Say"/>
+         <step name="__NightGreetings_ref" task="__NightGreetings_tree"/>
+         <binding slot="$__NightGreetings_step.text"
+                  value="&#34;Guess it's time to say good night|It's about time to say good night&#34;"/>
+         <binding slot="$__NightGreetings_step.external" value="false"/>
       </subtasks>
    </task>
-   <task id="__AfternoonGreetings_tree">
-      <subtasks id="_d4e8_subtasks">
-         <step name="_d4e8_step" task="disco:Say"/>
-         <step name="_d4e9_step" task="disco:Say"/>
-         <binding slot="$_d4e8_step.text" value="&#34;fine&#34;"/>
-         <binding slot="$_d4e8_step.external" value="true"/>
-         <binding slot="$_d4e9_step.text" value="&#34;good, glad to hear it&#34;"/>
-         <binding slot="$_d4e9_step.external" value="false"/>
-      </subtasks>
-      <subtasks id="_d4e10_subtasks">
-         <step name="_d4e10_step" task="disco:Say"/>
-         <step name="_d4e11_step" task="disco:Say"/>
-         <step name="_d4e11_ref" task="_d4e11_tree"/>
-         <binding slot="$_d4e10_step.text" value="&#34;oh not so great&#34;"/>
-         <binding slot="$_d4e10_step.external" value="true"/>
-         <binding slot="$_d4e11_step.text" value="&#34;sorry to hear it. Maybe it will improve&#34;"/>
-         <binding slot="$_d4e11_step.external" value="false"/>
-      </subtasks>
-   </task>
-   <task id="_d4e11_tree">
-      <subtasks id="_d4e12_subtasks">
-         <step name="_d4e12_step" task="disco:Say"/>
-         <binding slot="$_d4e12_step.text" value="&#34;hope so&#34;"/>
-         <binding slot="$_d4e12_step.external" value="true"/>
-      </subtasks>
+   <task id="__Morning_tree">
       <subtasks id="_d4e13_subtasks">
          <step name="_d4e13_step" task="disco:Say"/>
-         <binding slot="$_d4e13_step.text" value="&#34;it has to!&#34;"/>
+         <binding slot="$_d4e13_step.text" value="&#34;Good morning.&#34;"/>
          <binding slot="$_d4e13_step.external" value="true"/>
       </subtasks>
       <subtasks id="_d4e14_subtasks">
          <step name="_d4e14_step" task="disco:Say"/>
-         <binding slot="$_d4e14_step.text" value="&#34;we'll see&#34;"/>
+         <binding slot="$_d4e14_step.text" value="&#34;oh morning already!  Good morning!&#34;"/>
          <binding slot="$_d4e14_step.external" value="true"/>
       </subtasks>
    </task>
-   <task id="__EveningGreetings_tree">
-      <subtasks id="_d4e16_subtasks">
-         <step name="_d4e16_step" task="disco:Say"/>
+   <task id="__SleepWell_tree">
+      <subtasks id="_affirm_subtasks">
+         <step name="_affirm_step" task="disco:Say"/>
          <step name="_d4e17_step" task="disco:Say"/>
-         <binding slot="$_d4e16_step.text" value="&#34;yes, a good one&#34;"/>
-         <binding slot="$_d4e16_step.external" value="true"/>
-         <binding slot="$_d4e17_step.text" value="&#34;good, glad to hear it&#34;"/>
+         <step name="_d4e17_ref" task="_d4e17_tree"/>
+         <binding slot="$_affirm_step.text" value="&#34;Yes&#34;"/>
+         <binding slot="$_affirm_step.external" value="true"/>
+         <binding slot="$_d4e17_step.text" value="&#34;Are you feeling okay today?&#34;"/>
          <binding slot="$_d4e17_step.external" value="false"/>
       </subtasks>
+      <subtasks id="_neg_subtasks">
+         <step name="_neg_step" task="disco:Say"/>
+         <step name="_feeling_step" task="disco:Say$Eval"/>
+         <step name="_feeling_ref" task="_feeling_tree"/>
+         <binding slot="$_neg_step.text" value="&#34;No I did not sleep well&#34;"/>
+         <binding slot="$_neg_step.external" value="true"/>
+         <binding slot="$_feeling_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; oh, are you feeling sick? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+         <binding slot="$_feeling_step.external" value="false"/>
+         <binding slot="$_feeling_step.eval"
+                  value="&#34;poorSleepreports=poorSleepreports+1;                    println('poorSleepreports is now ' + poorSleepreports);                    setPoorSleepReports(poorSleepreports);&#34;"/>
+      </subtasks>
+   </task>
+   <task id="_d4e17_tree">
       <subtasks id="_d4e18_subtasks">
          <step name="_d4e18_step" task="disco:Say"/>
          <step name="_d4e19_step" task="disco:Say"/>
-         <step name="_d4e19_ref" task="_d4e19_tree"/>
-         <binding slot="$_d4e18_step.text" value="&#34;no, not really&#34;"/>
+         <binding slot="$_d4e18_step.text" value="&#34;yes&#34;"/>
          <binding slot="$_d4e18_step.external" value="true"/>
-         <binding slot="$_d4e19_step.text"
-                  value="&#34;sorry to hear it. Maybe this evening will be better&#34;"/>
+         <binding slot="$_d4e19_step.text" value="&#34;good, glad to hear it&#34;"/>
          <binding slot="$_d4e19_step.external" value="false"/>
       </subtasks>
-      <subtasks id="_d4e23_subtasks">
-         <step name="_d4e23_step" task="disco:Say"/>
-         <step name="_d4e24_step" task="disco:Say"/>
-         <step name="_d4e24_ref" task="_d4e24_tree"/>
-         <binding slot="$_d4e23_step.text" value="&#34;nothing special&#34;"/>
-         <binding slot="$_d4e23_step.external" value="true"/>
-         <binding slot="$_d4e24_step.text"
-                  value="&#34;some days are like that. There's still the evening to come!&#34;"/>
-         <binding slot="$_d4e24_step.external" value="false"/>
-      </subtasks>
-   </task>
-   <task id="_d4e19_tree">
       <subtasks id="_d4e20_subtasks">
          <step name="_d4e20_step" task="disco:Say"/>
-         <binding slot="$_d4e20_step.text" value="&#34;hope so&#34;"/>
-         <binding slot="$_d4e20_step.external" value="true"/>
-      </subtasks>
-      <subtasks id="_d4e21_subtasks">
          <step name="_d4e21_step" task="disco:Say"/>
-         <binding slot="$_d4e21_step.text" value="&#34;maybe&#34;"/>
-         <binding slot="$_d4e21_step.external" value="true"/>
+         <binding slot="$_d4e20_step.text" value="&#34;No but it's nothing.&#34;"/>
+         <binding slot="$_d4e20_step.external" value="true"/>
+         <binding slot="$_d4e21_step.text" value="&#34;glad to hear it.&#34;"/>
+         <binding slot="$_d4e21_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e22_subtasks">
          <step name="_d4e22_step" task="disco:Say"/>
-         <binding slot="$_d4e22_step.text" value="&#34;we'll see&#34;"/>
+         <step name="_d4e23_step" task="_CallDoc"/>
+         <binding slot="$_d4e22_step.text" value="&#34;No, I am not feeling well&#34;"/>
          <binding slot="$_d4e22_step.external" value="true"/>
       </subtasks>
    </task>
-   <task id="_d4e24_tree">
-      <subtasks id="_d4e25_subtasks">
-         <step name="_d4e25_step" task="disco:Say"/>
-         <binding slot="$_d4e25_step.text" value="&#34;yes, so there is&#34;"/>
-         <binding slot="$_d4e25_step.external" value="true"/>
-      </subtasks>
+   <task id="_feeling_tree">
       <subtasks id="_d4e26_subtasks">
          <step name="_d4e26_step" task="disco:Say"/>
-         <binding slot="$_d4e26_step.text" value="&#34;not expecting much&#34;"/>
-         <binding slot="$_d4e26_step.external" value="true"/>
-      </subtasks>
-      <subtasks id="_d4e27_subtasks">
          <step name="_d4e27_step" task="disco:Say"/>
-         <binding slot="$_d4e27_step.text" value="&#34;I'm looking forward to it&#34;"/>
-         <binding slot="$_d4e27_step.external" value="true"/>
+         <step name="_d4e27_ref" task="_d4e27_tree"/>
+         <binding slot="$_d4e26_step.text" value="&#34;no&#34;"/>
+         <binding slot="$_d4e26_step.external" value="true"/>
+         <binding slot="$_d4e27_step.text" value="&#34;I hope you sleep better tonight&#34;"/>
+         <binding slot="$_d4e27_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e30_subtasks">
+         <step name="_d4e30_step" task="disco:Say"/>
+         <step name="_d4e31_step" task="_CallDoc"/>
+         <binding slot="$_d4e30_step.text" value="&#34;yes&#34;"/>
+         <binding slot="$_d4e30_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="_d4e27_tree">
+      <subtasks id="_d4e28_subtasks">
+         <step name="_d4e28_step" task="disco:Say"/>
+         <binding slot="$_d4e28_step.text" value="&#34;me too&#34;"/>
+         <binding slot="$_d4e28_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e29_subtasks">
+         <step name="_d4e29_step" task="disco:Say"/>
+         <binding slot="$_d4e29_step.text" value="&#34;I probably will. Nothing to worry about.&#34;"/>
+         <binding slot="$_d4e29_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="__CallDoc_tree">
+      <subtasks id="_d4e33_subtasks">
+         <step name="_d4e33_step" task="disco:Say"/>
+         <step name="_d4e34_step" task="disco:Say"/>
+         <step name="_d4e34_ref" task="_d4e34_tree"/>
+         <binding slot="$_d4e33_step.text" value="&#34;yes&#34;"/>
+         <binding slot="$_d4e33_step.external" value="true"/>
+         <binding slot="$_d4e34_step.text" value="&#34;ok, might be a good idea&#34;"/>
+         <binding slot="$_d4e34_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e38_subtasks">
+         <step name="_d4e38_step" task="disco:Say"/>
+         <step name="_d4e39_step" task="disco:Say"/>
+         <binding slot="$_d4e38_step.text" value="&#34;no&#34;"/>
+         <binding slot="$_d4e38_step.external" value="true"/>
+         <binding slot="$_d4e39_step.text"
+                  value="&#34;well, you know best.  I'm sorry you aren't feeling so good.&#34;"/>
+         <binding slot="$_d4e39_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e34_tree">
+      <subtasks id="_d4e35_subtasks">
+         <step name="_d4e35_step" task="disco:Say"/>
+         <binding slot="$_d4e35_step.text" value="&#34;yes, I'll call&#34;"/>
+         <binding slot="$_d4e35_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e36_subtasks">
+         <step name="_d4e36_step" task="disco:Say"/>
+         <step name="_d4e37_step" task="disco:Say"/>
+         <binding slot="$_d4e36_step.text"
+                  value="&#34;well, I think I'll call the doc later if I still don't feel good.&#34;"/>
+         <binding slot="$_d4e36_step.external" value="true"/>
+         <binding slot="$_d4e37_step.text" value="&#34;okay&#34;"/>
+         <binding slot="$_d4e37_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="__SleepWellCompanion_tree">
+      <subtasks id="_yup_subtasks">
+         <step name="_yup_step" task="disco:Say"/>
+         <step name="_d4e42_step" task="disco:Say"/>
+         <step name="_d4e42_ref" task="_d4e42_tree"/>
+         <binding slot="$_yup_step.text" value="&#34;yes&#34;"/>
+         <binding slot="$_yup_step.external" value="true"/>
+         <binding slot="$_d4e42_step.text" value="&#34;Are you feeling okay?&#34;"/>
+         <binding slot="$_d4e42_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e49_subtasks">
+         <step name="_d4e49_step" task="disco:Say$Eval"/>
+         <step name="_d4e49_ref" task="_d4e49_tree"/>
+         <binding slot="$_d4e49_step.text" value="&#34;no&#34;"/>
+         <binding slot="$_d4e49_step.external" value="true"/>
+         <binding slot="$_d4e49_step.eval"
+                  value="&#34;poorSleepreports=poorSleepreports+1;                 println('poorSleepreports is now ' + poorSleepreports);                 setPoorSleepReports(poorSleepreports);&#34;"/>
+      </subtasks>
+   </task>
+   <task id="_d4e42_tree">
+      <subtasks id="_d4e43_subtasks">
+         <step name="_d4e43_step" task="disco:Say"/>
+         <step name="_d4e44_step" task="disco:Say"/>
+         <binding slot="$_d4e43_step.text" value="&#34;yes&#34;"/>
+         <binding slot="$_d4e43_step.external" value="true"/>
+         <binding slot="$_d4e44_step.text" value="&#34;good&#34;"/>
+         <binding slot="$_d4e44_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e45_subtasks">
+         <step name="_d4e45_step" task="disco:Say"/>
+         <step name="_d4e46_step" task="disco:Say"/>
+         <binding slot="$_d4e45_step.text" value="&#34;no but it's nothing.&#34;"/>
+         <binding slot="$_d4e45_step.external" value="true"/>
+         <binding slot="$_d4e46_step.text" value="&#34;glad to hear it.&#34;"/>
+         <binding slot="$_d4e46_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e47_subtasks">
+         <step name="_d4e47_step" task="disco:Say"/>
+         <step name="_d4e48_step" task="_CallDoc"/>
+         <binding slot="$_d4e47_step.text" value="&#34;No I don't feel so great&#34;"/>
+         <binding slot="$_d4e47_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="_d4e49_tree">
+      <subtasks id="_d4e50_subtasks">
+         <step name="_d4e50_step" task="disco:Say"/>
+         <step name="_d4e50_ref" task="_d4e50_tree"/>
+         <applicable>poorSleepreports &gt; 5</applicable>
+         <binding slot="$_d4e50_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, you aren't sleeping well.  Maybe you should consult your doctor &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+         <binding slot="$_d4e50_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e57_subtasks">
+         <step name="_d4e57_step" task="disco:Say"/>
+         <step name="_d4e57_ref" task="_d4e57_tree"/>
+         <applicable>poorSleepreports &lt; 5</applicable>
+         <binding slot="$_d4e57_step.text"
+                  value="&#34;&lt;EYEBROWS DIR=\&#34;UP\&#34;/&gt; Gee, that's rare for you.   Are you feeling okay? &lt;EYEBROWS DIR=\&#34;DOWN\&#34;/&gt;&#34;"/>
+         <binding slot="$_d4e57_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e50_tree">
+      <subtasks id="_d4e51_subtasks">
+         <step name="_d4e51_step" task="disco:Say"/>
+         <binding slot="$_d4e51_step.text" value="&#34;yes, I will next time I go to the doctor&#34;"/>
+         <binding slot="$_d4e51_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e52_subtasks">
+         <step name="_d4e52_step" task="disco:Say"/>
+         <binding slot="$_d4e52_step.text" value="&#34;no I am just not a good sleeper&#34;"/>
+         <binding slot="$_d4e52_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e53_subtasks">
+         <step name="_d4e53_step" task="disco:Say"/>
+         <step name="_d4e54_step" task="disco:Say"/>
+         <step name="_d4e54_ref" task="_d4e54_tree"/>
+         <binding slot="$_d4e53_step.text" value="&#34;oh, it's not anything&#34;"/>
+         <binding slot="$_d4e53_step.external" value="true"/>
+         <binding slot="$_d4e54_step.text" value="&#34;well, the doctor won't mind if you ask.&#34;"/>
+         <binding slot="$_d4e54_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e54_tree">
+      <subtasks id="_d4e55_subtasks">
+         <step name="_d4e55_step" task="disco:Say"/>
+         <binding slot="$_d4e55_step.text" value="&#34;okay&#34;"/>
+         <binding slot="$_d4e55_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e56_subtasks">
+         <step name="_d4e56_step" task="disco:Say"/>
+         <binding slot="$_d4e56_step.text" value="&#34;maybe later&#34;"/>
+         <binding slot="$_d4e56_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="_d4e57_tree">
+      <subtasks id="_d4e58_subtasks">
+         <step name="_d4e58_step" task="disco:Say"/>
+         <step name="_d4e59_step" task="disco:Say"/>
+         <binding slot="$_d4e58_step.text" value="&#34;yes&#34;"/>
+         <binding slot="$_d4e58_step.external" value="true"/>
+         <binding slot="$_d4e59_step.text" value="&#34;good!&#34;"/>
+         <binding slot="$_d4e59_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e60_subtasks">
+         <step name="_d4e60_step" task="disco:Say"/>
+         <step name="_d4e61_step" task="disco:Say"/>
+         <binding slot="$_d4e60_step.text" value="&#34;no, but it's nothing.&#34;"/>
+         <binding slot="$_d4e60_step.external" value="true"/>
+         <binding slot="$_d4e61_step.text" value="&#34;okay&#34;"/>
+         <binding slot="$_d4e61_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e62_subtasks">
+         <step name="_d4e62_step" task="disco:Say"/>
+         <step name="_d4e63_step" task="disco:Say"/>
+         <step name="_d4e63_ref" task="_d4e63_tree"/>
+         <binding slot="$_d4e62_step.text" value="&#34;no, not so much&#34;"/>
+         <binding slot="$_d4e62_step.external" value="true"/>
+         <binding slot="$_d4e63_step.text"
+                  value="&#34;mm, maybe you should give the doc's office a call later today.&#34;"/>
+         <binding slot="$_d4e63_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e63_tree">
+      <subtasks id="_d4e64_subtasks">
+         <step name="_d4e64_step" task="disco:Say"/>
+         <step name="_d4e65_step" task="disco:Say"/>
+         <binding slot="$_d4e64_step.text" value="&#34;yeh, I think I will.&#34;"/>
+         <binding slot="$_d4e64_step.external" value="true"/>
+         <binding slot="$_d4e65_step.text" value="&#34;okay.&#34;"/>
+         <binding slot="$_d4e65_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e66_subtasks">
+         <step name="_d4e66_step" task="disco:Say"/>
+         <step name="_d4e67_step" task="disco:Say"/>
+         <binding slot="$_d4e66_step.text" value="&#34;No, I'll be okay.&#34;"/>
+         <binding slot="$_d4e66_step.external" value="true"/>
+         <binding slot="$_d4e67_step.text" value="&#34;okay, your call.  Pun intended!&#34;"/>
+         <binding slot="$_d4e67_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="__AfternoonGreetings_tree">
+      <subtasks id="_d4e69_subtasks">
+         <step name="_d4e69_step" task="disco:Say"/>
+         <step name="_d4e70_step" task="disco:Say"/>
+         <binding slot="$_d4e69_step.text" value="&#34;fine&#34;"/>
+         <binding slot="$_d4e69_step.external" value="true"/>
+         <binding slot="$_d4e70_step.text" value="&#34;good, glad to hear it&#34;"/>
+         <binding slot="$_d4e70_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e71_subtasks">
+         <step name="_d4e71_step" task="disco:Say"/>
+         <step name="_d4e72_step" task="disco:Say"/>
+         <step name="_d4e72_ref" task="_d4e72_tree"/>
+         <binding slot="$_d4e71_step.text" value="&#34;Oh not so great&#34;"/>
+         <binding slot="$_d4e71_step.external" value="true"/>
+         <binding slot="$_d4e72_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; sorry to hear it. Maybe it will improve&lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+         <binding slot="$_d4e72_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e72_tree">
+      <subtasks id="_d4e73_subtasks">
+         <step name="_d4e73_step" task="disco:Say"/>
+         <binding slot="$_d4e73_step.text" value="&#34;I hope so&#34;"/>
+         <binding slot="$_d4e73_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e74_subtasks">
+         <step name="_d4e74_step" task="disco:Say"/>
+         <binding slot="$_d4e74_step.text" value="&#34;I think it will!&#34;"/>
+         <binding slot="$_d4e74_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e75_subtasks">
+         <step name="_d4e75_step" task="disco:Say"/>
+         <binding slot="$_d4e75_step.text" value="&#34;Maybe so, maybe no&#34;"/>
+         <binding slot="$_d4e75_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="__EveningGreetings_tree">
+      <subtasks id="_d4e77_subtasks">
+         <step name="_d4e77_step" task="disco:Say"/>
+         <step name="_d4e78_step" task="disco:Say"/>
+         <binding slot="$_d4e77_step.text" value="&#34;yes, a good one&#34;"/>
+         <binding slot="$_d4e77_step.external" value="true"/>
+         <binding slot="$_d4e78_step.text" value="&#34;good, glad to hear it&#34;"/>
+         <binding slot="$_d4e78_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e79_subtasks">
+         <step name="_d4e79_step" task="disco:Say"/>
+         <step name="_d4e80_step" task="disco:Say"/>
+         <step name="_d4e80_ref" task="_d4e80_tree"/>
+         <binding slot="$_d4e79_step.text" value="&#34;no, not really&#34;"/>
+         <binding slot="$_d4e79_step.external" value="true"/>
+         <binding slot="$_d4e80_step.text"
+                  value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; sorry to hear it. Maybe this evening will be better &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+         <binding slot="$_d4e80_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e84_subtasks">
+         <step name="_d4e84_step" task="disco:Say"/>
+         <step name="_d4e85_step" task="disco:Say"/>
+         <step name="_d4e85_ref" task="_d4e85_tree"/>
+         <binding slot="$_d4e84_step.text" value="&#34;nothing special&#34;"/>
+         <binding slot="$_d4e84_step.external" value="true"/>
+         <binding slot="$_d4e85_step.text"
+                  value="&#34;Some days are like that. There's still the evening to come!&#34;"/>
+         <binding slot="$_d4e85_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e80_tree">
+      <subtasks id="_d4e81_subtasks">
+         <step name="_d4e81_step" task="disco:Say"/>
+         <binding slot="$_d4e81_step.text" value="&#34;Hope so&#34;"/>
+         <binding slot="$_d4e81_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e82_subtasks">
+         <step name="_d4e82_step" task="disco:Say"/>
+         <binding slot="$_d4e82_step.text" value="&#34;Possibly&#34;"/>
+         <binding slot="$_d4e82_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e83_subtasks">
+         <step name="_d4e83_step" task="disco:Say"/>
+         <binding slot="$_d4e83_step.text" value="&#34;Definitely&#34;"/>
+         <binding slot="$_d4e83_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="_d4e85_tree">
+      <subtasks id="_d4e86_subtasks">
+         <step name="_d4e86_step" task="disco:Say"/>
+         <binding slot="$_d4e86_step.text" value="&#34;Yes, so there is&#34;"/>
+         <binding slot="$_d4e86_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e87_subtasks">
+         <step name="_d4e87_step" task="disco:Say"/>
+         <binding slot="$_d4e87_step.text" value="&#34;Not expecting much&#34;"/>
+         <binding slot="$_d4e87_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e88_subtasks">
+         <step name="_d4e88_step" task="disco:Say"/>
+         <binding slot="$_d4e88_step.text" value="&#34;I'm looking forward to it&#34;"/>
+         <binding slot="$_d4e88_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="__NightGreetings_tree">
+      <subtasks id="_affirmGoodNight_subtasks">
+         <step name="_affirmGoodNight_step" task="disco:Say"/>
+         <step name="_d4e91_step" task="disco:Say"/>
+         <binding slot="$_affirmGoodNight_step.text" value="&#34;Yes, good night&#34;"/>
+         <binding slot="$_affirmGoodNight_step.external" value="true"/>
+         <binding slot="$_d4e91_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+         <binding slot="$_d4e91_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e92_subtasks">
+         <step name="_d4e92_step" task="disco:Say"/>
+         <step name="_d4e93_step" task="disco:Say"/>
+         <step name="_d4e93_ref" task="_d4e93_tree"/>
+         <binding slot="$_d4e92_step.text" value="&#34;No yet.  I got things to do.&#34;"/>
+         <binding slot="$_d4e92_step.external" value="true"/>
+         <binding slot="$_d4e93_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt;Well, okay, sleep well when you get there &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+         <binding slot="$_d4e93_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e100_subtasks">
+         <step name="_d4e100_step" task="disco:Say"/>
+         <step name="_d4e101_step" task="disco:Say"/>
+         <step name="_d4e101_ref" task="_d4e101_tree"/>
+         <binding slot="$_d4e100_step.text" value="&#34;No.  I plan to read a bit yet&#34;"/>
+         <binding slot="$_d4e100_step.external" value="true"/>
+         <binding slot="$_d4e101_step.text" value="&#34;Oh, well good night for later!&#34;"/>
+         <binding slot="$_d4e101_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e93_tree">
+      <subtasks id="_d4e94_subtasks">
+         <step name="_d4e94_step" task="disco:Say"/>
+         <step name="_d4e95_step" task="disco:Say"/>
+         <binding slot="$_d4e94_step.text" value="&#34;Good night&#34;"/>
+         <binding slot="$_d4e94_step.external" value="true"/>
+         <binding slot="$_d4e95_step.text" value="&#34;Good night!&#34;"/>
+         <binding slot="$_d4e95_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e96_subtasks">
+         <step name="_d4e96_step" task="disco:Say"/>
+         <step name="_d4e97_step" task="disco:Say"/>
+         <binding slot="$_d4e96_step.text" value="&#34;Will do. Good night&#34;"/>
+         <binding slot="$_d4e96_step.external" value="true"/>
+         <binding slot="$_d4e97_step.text" value="&#34;Good night!&#34;"/>
+         <binding slot="$_d4e97_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e98_subtasks">
+         <step name="_d4e98_step" task="disco:Say"/>
+         <step name="_d4e99_step" task="disco:Say"/>
+         <binding slot="$_d4e98_step.text" value="&#34;Hope so. Good night&#34;"/>
+         <binding slot="$_d4e98_step.external" value="true"/>
+         <binding slot="$_d4e99_step.text" value="&#34;Good night!&#34;"/>
+         <binding slot="$_d4e99_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_d4e101_tree">
+      <subtasks id="_d4e102_subtasks">
+         <step name="_d4e102_step" task="disco:Say"/>
+         <binding slot="$_d4e102_step.text" value="&#34;Thanks, Good night&#34;"/>
+         <binding slot="$_d4e102_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e103_subtasks">
+         <step name="_d4e103_step" task="disco:Say"/>
+         <step name="_d4e104_step" task="disco:Say"/>
+         <binding slot="$_d4e103_step.text" value="&#34;Sleep well&#34;"/>
+         <binding slot="$_d4e103_step.external" value="true"/>
+         <binding slot="$_d4e104_step.text"
+                  value="&#34;You know, I don't really go to sleep.  But good night&#34;"/>
+         <binding slot="$_d4e104_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e105_subtasks">
+         <step name="_d4e105_step" task="disco:Say"/>
+         <step name="_d4e106_step" task="disco:Say"/>
+         <binding slot="$_d4e105_step.text"
+                  value="&#34;I'm hoping for a good night's rest in a bit.&#34;"/>
+         <binding slot="$_d4e105_step.external" value="true"/>
+         <binding slot="$_d4e106_step.text" value="&#34;Good night&#34;"/>
+         <binding slot="$_d4e106_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_MorningGreetings">
+      <subtasks id="simple">
+         <step name="greet" task="_Morning"/>
+         <step name="sleep" task="_SleepWell"/>
+      </subtasks>
+   </task>
+   <task id="_MorningGreetingsCompanion">
+      <subtasks id="base">
+         <step name="greet" task="_Morning"/>
+         <step name="sleep" task="_SleepWellCompanion"/>
       </subtasks>
    </task>
    <script init="true">
-    var hour = Packages.org.joda.time.LocalTime.now().getHourOfDay();
     
     function getPoorSleepReports () {
        return $always.getUserModel().getIntProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS);
@@ -142,8 +530,14 @@
     
     function setPoorSleepReports (n) {
        $always.getUserModel().setProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS,
-            new java.lang.Integer(n));    
+                    new java.lang.Integer(n));
+    } 
+    
+    function getUserName () {
+       return $always.getUserModel().getUserFirstName();
     }
-       
+    
+    var poorSleepreports = 0;
+    
   </script>
 </taskModel>

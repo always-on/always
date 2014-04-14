@@ -10,18 +10,19 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public class EnrollSchema extends ActivityStateMachineKeyboardSchema {
+public class EnrollSchema extends ActivityStateMachineKeyboardSchema<EnrollStateContext> {
 
    public EnrollSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, EnrollUI enrollUI, 
          UIMessageDispatcher dispatcher, UserModel model, PlaceManager placeManager, 
          PeopleManager peopleManager) {
-      super(model.getUserName() == null ? 
+      super(model.getUserName().isEmpty() ? 
          new UserModelAdjacencyPair(new EnrollStateContext(
             keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)) :
          new InitialEnroll(new EnrollStateContext(
             keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)),
          behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard);
+      setSelfStop(true);
    }
 }

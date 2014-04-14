@@ -41,13 +41,14 @@ namespace AgentApp
 				};
 				pluginContainer = new Viewbox();
 				pluginContainer.Child = game;
+				game.MakeTheBoardUnplayable();
 			});
 
 			_remote.RegisterReceiveHandler("checkers.agent_move",
 			     new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
 
 			_remote.RegisterReceiveHandler("checkers.reset",
-				new MessageHandlerDelegateWrapper(x => game.ResetGame()));
+				new MessageHandlerDelegateWrapper(x => game.ResetGame(_uiThreadDispatcher)));
 
 			_remote.RegisterReceiveHandler("checkers.confirm_human_move",
 				new MessageHandlerDelegateWrapper(x => game.ReceivedConfirmation()));

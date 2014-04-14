@@ -7,7 +7,7 @@
          <step name="_WeatherLocal_step" task="disco:Say$Expression"/>
          <step name="_WeatherLocal_ref" task="_WeatherLocal_tree"/>
          <binding slot="$_WeatherLocal_step.text"
-                  value="&#34;\&#34;Today in \&#34;+($W.currentWeather.locationName)+\&#34; it is going to be \&#34;+($W.currentWeather.temperature)+\&#34; fahrenheit and it is \&#34;+($W.currentWeather.weatherCondition)&#34;"/>
+                  value="&#34;\&#34;Today in Boston, it is going to be \&#34;+($W.currentWeather.temperature)+\&#34; fahrenheit and it is \&#34;+($W.currentWeather.weatherCondition)&#34;"/>
          <binding slot="$_WeatherLocal_step.external" value="false"/>
       </subtasks>
    </task>
@@ -16,7 +16,7 @@
          <step name="_WeatherAlert_step" task="disco:Say"/>
          <step name="_WeatherAlert_ref" task="_WeatherAlert_tree"/>
          <binding slot="$_WeatherAlert_step.text"
-                  value="&#34;Let me check if there's a severe weather alert in your area.&#34;"/>
+                  value="&#34;Let me check to see if there's a severe weather alert in your area.&#34;"/>
          <binding slot="$_WeatherAlert_step.external" value="false"/>
       </subtasks>
    </task>
@@ -25,7 +25,7 @@
          <step name="_WeatherAlmanac_step" task="disco:Say"/>
          <step name="_WeatherAlmanac_ref" task="_WeatherAlmanac_tree"/>
          <binding slot="$_WeatherAlmanac_step.text"
-                  value="&#34;Are you interested in knowing the record weather for today in the history?&#34;"/>
+                  value="&#34;&lt;EYEBROWS DIR=\&#34;UP\&#34;/&gt; Are you interested in knowing the record weather for today in the history? &lt;EYEBROWS DIR=\&#34;DOWN\&#34;/&gt;&#34;"/>
          <binding slot="$_WeatherAlmanac_step.external" value="false"/>
       </subtasks>
    </task>
@@ -34,7 +34,7 @@
          <step name="_DoAlmanac_step" task="disco:Say$Expression"/>
          <step name="_DoAlmanac_ref" task="_DoAlmanac_tree"/>
          <binding slot="$_DoAlmanac_step.text"
-                  value="&#34;\&#34;The record high is \&#34;+($W.almanac.recordHigh.extremeTemp)+\&#34; F. It happened in \&#34;+($W.almanac.recordHigh.year)+\&#34;.\&#34;&#34;"/>
+                  value="&#34;\&#34;The record high is \&#34;+($W.almanac.recordHigh.extremeTemp)+\&#34; fahrenheit. It happened in \&#34;+($W.almanac.recordHigh.year)+\&#34;.\&#34;&#34;"/>
          <binding slot="$_DoAlmanac_step.external" value="false"/>
       </subtasks>
    </task>
@@ -42,7 +42,8 @@
       <subtasks id="__Ending_subtasks">
          <step name="__Ending_step" task="disco:Say"/>
          <step name="__Ending_ref" task="__Ending_tree"/>
-         <binding slot="$__Ending_step.text" value="&#34;well, weather sure is interesting.&#34;"/>
+         <binding slot="$__Ending_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__Ending_step.external" value="false"/>
       </subtasks>
    </task>
@@ -98,7 +99,7 @@
          <binding slot="$_talk_stats_bad_option_step.text" value="&#34;No, I don't want to&#34;"/>
          <binding slot="$_talk_stats_bad_option_step.external" value="true"/>
          <binding slot="$_d4e47_step.text"
-                  value="&#34;Come on.  It is interesting to know those things!&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Come on.  It is interesting to know those things! &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
          <binding slot="$_d4e47_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e52_subtasks">
@@ -138,7 +139,7 @@
          <binding slot="$_d4e57_step.text" value="&#34;Wow, go on.&#34;"/>
          <binding slot="$_d4e57_step.external" value="true"/>
          <binding slot="$_d4e58_step.text"
-                  value="&#34;\&#34;The record low is \&#34;+($W.almanac.recordLow.extremeTemp)+\&#34; F. It happened in  \&#34;+($W.almanac.recordLow.year)+\&#34;.\&#34;&#34;"/>
+                  value="&#34;\&#34;The record low is \&#34;+($W.almanac.recordLow.extremeTemp)+\&#34; fahrenheit. It happened in  \&#34;+($W.almanac.recordLow.year)+\&#34;.\&#34;&#34;"/>
          <binding slot="$_d4e58_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e64_subtasks">
@@ -182,7 +183,8 @@
          <step name="_d4e82_step" task="disco:Say"/>
          <binding slot="$_d4e81_step.text" value="&#34;yes. I love talking about weather&#34;"/>
          <binding slot="$_d4e81_step.external" value="true"/>
-         <binding slot="$_d4e82_step.text" value="&#34;yeh, me too. That's it for now &#34;"/>
+         <binding slot="$_d4e82_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; yeh, me too. That's it for now &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
          <binding slot="$_d4e82_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e83_subtasks">
@@ -191,7 +193,8 @@
          <binding slot="$_d4e83_step.text"
                   value="&#34;yes, I need to know the weather before I go out&#34;"/>
          <binding slot="$_d4e83_step.external" value="true"/>
-         <binding slot="$_d4e84_step.text" value="&#34;Feel free to ask me!&#34;"/>
+         <binding slot="$_d4e84_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; Feel free to ask me! &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
          <binding slot="$_d4e84_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e85_subtasks">
@@ -273,12 +276,13 @@
 		                       (date == undefined ? todayDate() : date)+".json");
       }
       
-      function todayDate () { // return today's date, e.g., 02_14_2012
+      // return today's date in same format as timestamped log files, e.g., 2014_02_14
+      function todayDate () { 
 	      var currentTime = new Date();
 	      var month = currentTime.getMonth() + 1;
 	      var day = currentTime.getDate();
 	      var year = currentTime.getFullYear();	
-	      return (pad2(month) + "_" + pad2(day) + "_" + year);
+	      return (year+"_"+pad2(month)+"_"+pad2(day));
       }
       
       function pad2 (number) { return (10 &gt; number ? '0' : '') + number; }

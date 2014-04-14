@@ -1,0 +1,288 @@
+<?xml version="1.0"?>
+
+<!--
+	THE GAME SPECIFIC (TIC TAC TOE) COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
+	AUTHOR: MORTEZA BEHROOZ
+	WORCESTER POLYTECHNIC INSTITUTE 
+-->
+
+<!--
+	> Attributes brief description:
+	- strength: determines how much of a strong move should it be, 
+	the move which this comment is being made for, human's or agent's.
+	- competitiveness: how competitive the comment sounds.
+	- tags: the social tags which comment carries.
+	- gameType: if a specific type of game the comment is made for.
+	- gameName: if a specific game the comment is made for.
+	- madeOn: to be made on agent's move, human's or both.
+	
+	> agent and human sections contain comments which should 
+	be made by each of them.
+	
+	PLEASE REFER TO SOCIAL GAMEPLAY FRAMEWORK DOCUMENTS FOR FURTHER INFORMATION.
+-->
+
+<comments>
+	<agent>
+		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
+			<content>How is your hand?</content>
+			<response>Not gonna tell you!</response>
+			<response>Terrible!</response>
+			<response>Good!</response>
+		</comment>
+		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
+			<content>Do you have good cards?</content>
+			<response>Not sure</response>
+			<response>Yes</response>
+			<response>Not really</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Clever meld!</content>
+			<response>Thanks</response>
+			<response>Oh yes!</response>
+			<response>Try to do the same!</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanMeld/brag" gameType="board" gameName="srummy" madeOn="human">
+			<content>These cards are nice, why meld? keep them</content>
+			<response>Haha, sure!</response>
+			<response>Really?!</response>
+			<response>You too!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Look at that, what a meld!</content>
+			<response>Aha!</response>
+			<response>Thanks</response>
+			<response>Well try to learn!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Good lay off!</content>
+			<response>Aha!</response>
+			<response>Thanks</response>
+			<response>Well try to learn!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>That meld just got bigger</content>
+			<response>Yes!</response>
+			<response>Not gonna stop either!</response>
+			<response>From my cards of course!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Nice</content>
+			<response>Yes!</response>
+			<response>Thanks</response>
+		</comment>
+		<comment competitiveness='0.8' tags="agentMeld/brag" gameType="board" gameName="srummy" madeOn="agent">
+			<content>And that's how you make a meld</content>
+			<response>Wait for mine!</response>
+			<response>Don't get too excited!</response>
+			<response>Not really madam robot</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Found a meld</content>
+			<response>Good for you</response>
+			<response>Won't get you anywhere</response>
+			<response>Nice!</response>
+		</comment>
+		<comment competitiveness='0.7' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Meld, here I go</content>
+			<response>Wait for mine!</response>
+			<response>Don't get too excited!</response>
+			<response>Not really madam robot</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>And that meld goes bigger</content>
+			<response>Nice</response>
+			<response>Try melding, it's better!</response>
+			<response>It's just one card, take it easy!</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>One less card for me</content>
+			<response>Nice</response>
+			<response>Interesting</response>
+			<response>It's just one card, take it easy!</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>And that meld goes bigger</content>
+			<response>It can't beat my lay offs</response>
+			<response>Good job</response>
+			<response>Nice</response>
+		</comment>
+		<!--More instances of these -->
+		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Yes, I am finishing my cards</content>
+			<response>Not so soon</response>
+			<response>Good job</response>
+			<response>Keep at it</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Only a few cards left here, haha</content>
+			<response>Good</response>
+			<response>Not so soon</response>
+			<response>Wait for my moves</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Few cards to go for you</content>
+			<response>I know</response>
+			<response>Fingers crossed</response>
+			<response>Too soon to say</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Oh you got only a few cards left</content>
+			<response>Do not worry, too soon to tell</response>
+			<response>Haha, I am gonna win</response>
+			<response>It is close</response>
+		</comment>
+		<comment competitiveness='0.2' tags="longTimeNoMeldByHuman" gameType="board" gameName="srummy" madeOn="human">
+			<content>You notice you have not made a meld in ages</content>
+			<response>Will do </response>
+			<response>Do not worry</response>
+			<response>I know!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="longTimeNoMeldByAgent" gameType="board" gameName="srummy" madeOn="agent">
+			<content>I have not made a meld for a long time!</content>
+			<response>You are lazy!</response>
+			<response>Try harder</response>
+			<response>You will get there</response>
+		</comment>
+		<comment competitiveness='0.5' tags="twoMeldsInARowByHuman" gameType="board" gameName="srummy" madeOn="human">
+			<content>Wow! Two melds in a row!</content>
+			<response>Yes and I plan to win...</response>
+			<response>no big deal.</response>
+			<response></response>
+		</comment>
+		<comment competitiveness='0.5' tags="twoMeldsInARowByAgent" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Wow I did a  meld and a meld</content>
+			<response>Awesome!</response>
+			<response>Good job</response>
+			<response>You got to stop doing that!</response>
+		</comment>
+	</agent>
+	<human>
+		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
+			<content>How is your hand?</content>
+			<response>Not gonna tell you!</response>
+			<response>Not so bad</response>
+			<response>Well, you'll see, haha</response>
+		</comment>
+		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
+			<content>I have terrible cards!</content>
+			<response>Wow, I am sorry</response>
+			<response>You'll get better ones</response>
+			<response>Still too soon to say!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanMeld" gameType="board" gameName="srummy" madeOn="human">
+			<content>I got good cards!</content>
+			<response>Then I might be just losing</response>
+			<response>Really? good, me too!</response>
+			<response>Hey, not so soon!</response>
+		</comment>
+		<comment competitiveness='0.6' tags="humanMeld/brag" gameType="board" gameName="srummy" madeOn="human">
+			<content>Best meld ever!</content>
+			<response>Not really!</response>
+			<response>Haha, awesome</response>
+			<response>Wait for mine then</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Here I go, a meld!</content>
+			<response>Nice</response>
+			<response>Good job</response>
+			<response>I just have to do more melds then</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Found a lay off, yes!</content>
+			<response>Nice</response>
+			<response>Good job</response>
+			<response>I should do more lay off too</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>I lave lay offs!</content>
+			<response>me too!</response>
+			<response>Exactly, once less card on the go</response>
+			<response>Cool</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Ah ha! a lay off!</content>
+			<response>Yes!</response>
+			<response>Awesome</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Good meld</content>
+			<response>Thanks</response>
+			<response>Yes, I just found it</response>
+			<response>I know, thanks</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>I can do a better meld!</content>
+			<response>Oh really?</response>
+			<response>I am watching!</response>
+			<response>Go ahead!</response>
+		</comment>
+		<comment competitiveness='0.7' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>These melds are not gonna make you win</content>
+			<response>oh on the contrary!</response>
+			<response>Well game rules would disagree</response>
+			<response>well let's see</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Good job on lay off</content>
+			<response>Yes!</response>
+			<response>I know</response>
+			<response>Thanks</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Lay offs are very helpful</content>
+			<response>I like them too </response>
+			<response>I know</response>
+			<response>Exactly</response>
+		</comment>
+		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Keep the cards, why lay off?</content>
+			<response>Haha, sure!</response>
+			<response>Well, you will have to, too</response>
+			<response>Really? I don't want to.</response>
+		</comment>
+		<!--More instances of these -->
+		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Wow, you are close to winning</content>
+			<response>Yes! My Fingers are crossed.</response>
+			<response>Uhum, thanks</response>
+			<response>You are playing very well, too</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>Only few cards left there</content>
+			<response>I know, I am excited</response>
+			<response>So close to a win</response>
+			<response>Only if I finish these last ones</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>I am gonna win with these few cards!</content>
+			<response>Do not be so sure</response>
+			<response>Good!</response>
+			<response>Well let's see about that</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
+			<content>I have a few cards left</content>
+			<response>I see, nice</response>
+			<response>Not so soon</response>
+			<response>I should hurry up then!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="longTimeNoMeldByHuman" gameType="board" gameName="srummy" madeOn="human">
+			<content>You notice you have not made a meld in ages</content>
+			<response>Will do </response>
+			<response>Do not worry</response>
+			<response>I know!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="longTimeNoMeldByAgent" gameType="board" gameName="srummy" madeOn="agent">
+			<content>I have not made a meld for a long time!</content>
+			<response>You are lazy!</response>
+			<response>Try harder</response>
+			<response>You will get there</response>
+		</comment>
+		<comment competitiveness='0.5' tags="twoMeldsInARowByAgent" gameType="board" gameName="srummy" madeOn="agent">
+			<content>Wow meld and meld</content>
+			<response>Awesome!</response>
+			<response>Good job</response>
+			<response>Stop doing that!</response>
+		</comment>
+	</human>
+</comments>

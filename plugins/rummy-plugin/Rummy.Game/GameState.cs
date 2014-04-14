@@ -108,6 +108,11 @@ namespace Rummy
             _currentState = startingState;
         }
 
+		public void SetState(State startingState)
+		{
+			_currentState = startingState;
+		}
+
         public GameState(ICollection<Card> player1Cards)
         {
             GenerateInitialStateAndShuffleStock(player1Cards);
@@ -466,6 +471,23 @@ namespace Rummy
 
             MoveHappened(move);
         }
+
+		//This method is to address situations where agent might 
+		//empty her(/his?!) hand by a meld which requires no subsequent 
+		//discard move (works for both players though).
+		public void CheckForWinnerInTheMiddleOfTurns()
+		{
+			if (Player1Cards.Count == 0)
+			{
+				ChangeStateTo(State.Player1Won);
+				GameOver(Player.One);
+			}
+			else if (Player2Cards.Count == 0)
+			{
+				ChangeStateTo(State.Player2Won);
+				GameOver(Player.Two);
+			}
+		}
 
         //Is it player's turn to draw a card
         public bool CanDraw(Player player)

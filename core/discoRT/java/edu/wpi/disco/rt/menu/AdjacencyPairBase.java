@@ -1,34 +1,46 @@
 package edu.wpi.disco.rt.menu;
 
 import com.google.common.collect.Lists;
+import edu.wpi.cetask.Utils;
 import edu.wpi.disco.rt.util.NullArgumentException;
 import java.util.*;
 
-public abstract class AdjacencyPairBase<C> implements AdjacencyPair {
+public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> implements AdjacencyPair {
 
    private final String message;
    private final Map<String, DialogStateTransition> choices = new LinkedHashMap<String, DialogStateTransition>();
    private final C context;
    private final boolean twoColumn;
+   protected boolean repeatOption = true;
 
-   public AdjacencyPairBase (String message, C context) {
+   protected AdjacencyPairBase (String message, C context) {
       this(message, context, false);
    }
 
-   public AdjacencyPairBase (String message, C context, boolean twoColumn) {
+   protected AdjacencyPairBase (String message, C context, boolean twoColumn) {
       this.message = message;
       this.context = context;
       this.twoColumn = twoColumn;
    }
 
+   @Override
    public C getContext () {
       return context;
    }
 
    protected void choice (String choice, DialogStateTransition transition) {
-      if ( choice == null )
-         throw new NullArgumentException("choice");
-      choices.put(choice, transition);
+      choices.put(normalize(choice), transition);
+   }
+   
+   protected static String normalize (String choice) {
+      if ( choice == null ) throw new NullArgumentException("choice");
+      choice = choice.trim();
+      if ( choice.length() > 0 ) {
+         int i = choice.length()-1;
+         if ( choice.charAt(i) == '.' ) choice = choice.substring(0, i);
+      }
+      if ( "OK".equals(choice) ) choice = "Ok";
+      return Utils.capitalize(choice);
    }
    
    @Override
@@ -38,14 +50,16 @@ public abstract class AdjacencyPairBase<C> implements AdjacencyPair {
 
    @Override
    public List<String> getChoices () {
-      return Lists.newArrayList(choices.keySet());
+      List<String> choices = Lists.newArrayList(this.choices.keySet());
+      if( repeatOption && message != null ) choices.add(REPEAT);  
+      return choices;
    }
 
    @Override
    public AdjacencyPair nextState (String text) {
-      if ( choices.containsKey(text) )
-         return choices.get(text).run();
-      return null;
+      return REPEAT.equals(text) ? this :
+         choices.containsKey(text) ? choices.get(text).run() :
+            null;
    }
 
    @Override

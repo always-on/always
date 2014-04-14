@@ -6,6 +6,8 @@ import edu.wpi.always.checkers.logic.*;
 import edu.wpi.always.client.*;
 import edu.wpi.sgf.scenario.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
+import edu.wpi.sgf.comment.Comment;
+import edu.wpi.sgf.comment.CommentLibraryHandler;
 import edu.wpi.sgf.comment.CommentingManager;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 
@@ -18,7 +20,6 @@ public class CheckersClient implements CheckersUI {
    private static final String MSG_HUMAN_TOUCHED_AGENT_PIECE = "checkers.touched_agent_piece";
    private static final String MSG_BOARD_PLAYABILITY = "checkers.playability";
    private static final String MSG_RESET = "checkers.reset";
-   
    public static List<String> shouldHaveJumpedClarificationStringOptions =
          new ArrayList<String>();
    public static List<String> shouldJumpAgainClarificationStringOptions =
@@ -29,17 +30,23 @@ public class CheckersClient implements CheckersUI {
          new ArrayList<String>();
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 30;
-   private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
-   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 2;
+   private static final double AGENT_PLAY_DELAY_AMOUNT = 5.5;
+   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 3;
+   private static final int NEXT_STATE_DELAY = 3000;//ms
 
    public static String gazeDirection = "";
    public static boolean userJumpedAtLeastOnceInThisTurn = false;
+   public static boolean moreJumpsPossible = false;
    
    public static boolean nod = false;
    public static boolean gameOver = false;
    private static final int HUMAN_IDENTIFIER = 1;
+   
+   public static boolean thereAreGameSpecificTags = false;
 
-   private String currentComment;
+   private String currentAgentComment;
+   private List<String> currentHumanResponseOptions;
+   private Map<String, String> currentAgentResponseOptions;
    private AnnotatedLegalMove currentMove;
 
    private final UIMessageDispatcher dispatcher;
@@ -50,7 +57,7 @@ public class CheckersClient implements CheckersUI {
    private CheckersLegalMoveAnnotator moveAnnotator;
    private ScenarioManager scenarioManager;
    // private ScenarioFilter scenarioFilter;
-   private MoveChooser moveChooser;
+   private CheckersMoveChooser moveChooser;
    private CommentingManager commentingManager;
    private CheckersGameState gameState;
 
@@ -58,9 +65,14 @@ public class CheckersClient implements CheckersUI {
    private Timer agentPlayDelayTimer;
    private Timer agentPlayingGazeDelayTimer;
    private Timer nextStateTimer;
+   private Timer agentMultiJumpTimer;
 
    private AnnotatedLegalMove latestAgentMove;
    private AnnotatedLegalMove latestHumanMove;
+   
+   private static boolean agentMultiJumpInProcess;
+   
+   public static Random random;
 
    public CheckersClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
       this.proxy = proxy;
@@ -82,18 +94,18 @@ public class CheckersClient implements CheckersUI {
       shouldJumpAgainClarificationStringOptions
       .add("Look, You can jump again!");
       shouldJumpAgainClarificationStringOptions
-      .add("You should jump all the way!");
+      .add("You can jump all the way!");
       //3. user touches agent stuff!
       humantouchedAgentCheckerClarificationStringOptions
       .add("wait that is mine!");
       humantouchedAgentCheckerClarificationStringOptions
       .add("No. You cannot move mine!");
       humantouchedAgentCheckerClarificationStringOptions
-      .add("You see, I am more intelligent than you think!");
+      .add("Oh no cheating!");
       humantouchedAgentCheckerClarificationStringOptions
-      .add("Come on, Let go of my stuff!");
+      .add("Let's do a fair play, shall we?!");
       humantouchedAgentCheckerClarificationStringOptions
-      .add("Nice try");
+      .add("Not my checkers!");
       //4. user touches agent stuff too much!!
       humantouchedTooMuchClarificationStringOptions
       .add("really?!");
@@ -107,9 +119,14 @@ public class CheckersClient implements CheckersUI {
       moveAnnotator = new CheckersLegalMoveAnnotator();
       commentingManager = new CheckersCommentingManager();
       //scenarioFilter = new ScenarioFilter();
-      moveChooser = new MoveChooser();
+      moveChooser = new CheckersMoveChooser();
       scenarioManager = new ScenarioManager();
       gameState = new CheckersGameState();
+      currentHumanResponseOptions = new ArrayList<String>();
+      currentAgentResponseOptions = new HashMap<String, String>();
+      
+      random = new Random();
+      random.setSeed(12345);
       
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override
@@ -124,16 +141,24 @@ public class CheckersClient implements CheckersUI {
                      Integer.parseInt(moveDesc.split("//")[1].split(",")[0]), 
                      Integer.parseInt(moveDesc.split("//")[1].split(",")[1]));
                
-               //false if user could have jumped but did not
-               if(!gameState.performUserMove(humanMove))
+               //2 if user could have jumped but did not and
+               //1 if user can jump more
+               int stat = gameState.checkAndPlayHumanMove(humanMove);
+               if(stat == 2)
                   listener.shouldHaveJumped();
-               else {
+               else if(stat == 1){
+                  confirmHumanMove();
+                  latestHumanMove = moveAnnotator
+                        .annotate(humanMove, gameState);
+                  listener.shouldHaveJumped();
+               }
+               else if(stat == 0){
                   confirmHumanMove();
                   latestHumanMove = moveAnnotator
                         .annotate(humanMove, gameState);
                   updateWin();
-//                  if (gameState.possibleWinner() > 0)
-//                     makeBoardUnplayable();
+                  if (gameState.possibleWinner() > 0)
+                     makeBoardUnplayable();
                   listener.receivedHumanMove();
                }
             }
@@ -167,27 +192,54 @@ public class CheckersClient implements CheckersUI {
    }
    
    @Override
-   public void playAgentMove (CheckersUIListener listener) {
+   public void processAgentMove (CheckersUIListener listener) {
 
       this.listener = listener;
       show();
       if ( currentMove == null )
          return;
-
       scenarioManager.tickAll();
       latestAgentMove = currentMove;
-      gameState.performAgentMove(
+      moreJumpsPossible = gameState.playAgentMove(
             (CheckersLegalMove)currentMove.getMove());
-      
       Message msg = Message
             .builder(MSG_AGENT_MOVE)
             .add("moveDesc",
                   (gameState.makeMoveDesc(
                         (CheckersLegalMove) currentMove.getMove())))
-            .build();
-      
+                        .build();
       dispatcher.send(msg);
       updateWin();
+      
+   }  
+   
+   @Override
+   public void triggerAgentMultiJumpTimer (CheckersUIListener listener) {
+      this.listener = listener;
+      moreJumpsPossible = false;
+      agentMultiJumpTimer = new Timer();
+      agentMultiJumpTimer.schedule(new AgentMultiJumpTimerAction(),
+            2000);
+   }
+   
+   class AgentMultiJumpTimerAction extends TimerTask {
+      @Override
+      public void run () {
+         agentMultiJumpInProcess = true;
+         prepareAgentMove();
+         latestAgentMove = currentMove;
+         moreJumpsPossible = gameState.playAgentMove(
+               (CheckersLegalMove)currentMove.getMove());
+         Message msg = Message
+               .builder(MSG_AGENT_MOVE)
+               .add("moveDesc",
+                     (gameState.makeMoveDesc(
+                           (CheckersLegalMove) currentMove.getMove())))
+                           .build();
+         dispatcher.send(msg);
+         updateWin();
+         listener.agentMultiJumpedOneMore();
+      }
    }
 
    @Override
@@ -200,23 +252,46 @@ public class CheckersClient implements CheckersUI {
 
    @Override
    public String getCurrentAgentComment () {
-      return currentComment;
+      return currentAgentComment;
+   }
+   
+   @Override
+   public String getCurrentAgentResponse(
+         String humanChoosenComment) {
+      return currentAgentResponseOptions
+            .get(humanChoosenComment.trim());
    }
 
    @Override
-   public List<String> getCurrentHumanCommentOptionsForAMoveBy (int player) {
+   public List<String> 
+   getCurrentHumanCommentOptionsAgentResponseForAMoveBy (int player) {
+      
       updateWin();
 
+      List<Comment> humanCommentingOptions = 
+            new ArrayList<Comment>();
+      
       if ( player == HUMAN_IDENTIFIER )
-         return commentingManager.getHumanCommentingOptionsForHumanMove(
+         humanCommentingOptions.addAll(
+               commentingManager.getHumanCommentingOptionsAndAnAgentResponseForHumanMove(
                gameState, latestHumanMove,
                gameState.getGameSpecificCommentingTags(
-                     (CheckersLegalMove)latestHumanMove.getMove(), player));
+                     (CheckersLegalMove)latestHumanMove.getMove(), player)));
       else
-         return commentingManager.getHumanCommentingOptionsForAgentMove(
+         humanCommentingOptions.addAll(
+               commentingManager.getHumanCommentingOptionsForAgentMove(
                gameState, latestAgentMove,
                gameState.getGameSpecificCommentingTags(
-                     (CheckersLegalMove)latestAgentMove.getMove(), player));
+                     (CheckersLegalMove)latestAgentMove.getMove(), player)));
+      
+      currentAgentResponseOptions.clear();
+      for(Comment each : humanCommentingOptions)
+         currentAgentResponseOptions.put(
+               each.getContent().trim(), each.getOneResponseOption());
+      
+      return CommentLibraryHandler
+            .getContentsOfTheseComments(humanCommentingOptions);
+      
    }
 
    @Override
@@ -227,30 +302,54 @@ public class CheckersClient implements CheckersUI {
       // moveAnnotator.annotate(moveGenerator.generate(
       // gameState), gameState), scenarioManager.getCurrentScenario()));
       moveChooser.choose(moveAnnotator.annotate(
-            moveGenerator.generate(gameState), gameState));
+            moveGenerator.generate(gameState), gameState), agentMultiJumpInProcess);
+      agentMultiJumpInProcess = false;
       updateWin();
    }
 
    @Override
-   public void prepareAgentCommentForAMoveBy (int player) {
+   public void prepareAgentCommentUserResponseForAMoveBy (int player) {
 
       updateWin();
+      
+      Comment currentAgentCommentAsComment;
 
       // null passed for scenarios here.
       if ( player == HUMAN_IDENTIFIER )
-         currentComment = commentingManager.getAgentCommentForHumanMove(
+         currentAgentCommentAsComment =  
+         commentingManager.getAgentCommentForHumanMove(
                gameState, latestHumanMove, null,
                gameState.getGameSpecificCommentingTags(
                      (CheckersLegalMove)latestHumanMove.getMove(), player));
       else
-         currentComment = commentingManager.getAgentCommentForAgentMove(
+         currentAgentCommentAsComment = 
+         commentingManager.getAgentCommentForAgentMove(
                gameState, latestAgentMove, null,
                gameState.getGameSpecificCommentingTags(
                      (CheckersLegalMove)latestAgentMove.getMove(), player));
+     
+      if ( currentAgentCommentAsComment == null )
+         currentAgentComment = "";
+      else
+         currentAgentComment = 
+         currentAgentCommentAsComment.getContent();
 
-      if ( currentComment == null )
-         currentComment = "";
+      currentHumanResponseOptions.clear();
 
+      try{
+         currentHumanResponseOptions.addAll(
+               currentAgentCommentAsComment
+               .getMultipleResponseOptions());
+      }catch(Exception e){
+         // in case no responses exists
+      }
+
+   }
+   
+   @Override
+   public List<String> getCurrentHumanResponseOptions () {
+      return CommentingManager.
+            shuffleAndGetMax3(currentHumanResponseOptions);
    }
 
    // user commenting timer
@@ -282,7 +381,7 @@ public class CheckersClient implements CheckersUI {
       agentPlayingGazeDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(
             new AgentPlayDelayTimerSetter(),
-            1000 * AGENT_PLAY_DELAY_AMOUNT);
+            ((int)(1000 * AGENT_PLAY_DELAY_AMOUNT)));
       agentPlayingGazeDelayTimer.schedule(
             new AgentPlayingGazeDelayTimerSetter(),
             1000 * AGENT_PLAYING_GAZE_DELAY_AMOUNT);
@@ -303,10 +402,11 @@ public class CheckersClient implements CheckersUI {
    }
    
    @Override
-   public void triggerNextStateTimer () {
+   public void triggerNextStateTimer (CheckersUIListener listener) {
+      this.listener = listener;
       nextStateTimer = new Timer();
       nextStateTimer.schedule(new NextStateTimerSetter(),
-            4000);
+            NEXT_STATE_DELAY);
    }
    private class NextStateTimerSetter extends TimerTask {
       @Override
@@ -316,10 +416,14 @@ public class CheckersClient implements CheckersUI {
    }
    
    private void updateWin () {
-
-      if ( gameState.possibleWinner() != 0 )
+      int res = gameState.possibleWinner();
+      if ( res != 0 ){
          CheckersClient.gameOver = true;
-      
+         if( res == 1 )
+            gameState.userWins = true;
+         else
+            gameState.agentWins = true;
+      }
    }
 
    public void show () {

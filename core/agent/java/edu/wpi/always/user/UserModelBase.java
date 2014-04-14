@@ -5,10 +5,15 @@ import edu.wpi.always.*;
 public abstract class UserModelBase implements UserModel {
    
    public static void saveIf () { 
-      if ( !INHIBIT_SAVE ) Always.THIS.getUserModel().save(); 
+      if ( !INHIBIT_SAVE ) {
+         UserModel model = Always.THIS.getUserModel();
+         if ( model.getUserName().isEmpty() )
+            System.err.println("WARNING! Not saving user model because user name is empty.");
+         else model.save();
+      }
    }
    
-   protected String userName, userFirstName;
+   protected String userName = "", userFirstName = "";
    
    @Override
    public String getUserName () {
@@ -31,18 +36,20 @@ public abstract class UserModelBase implements UserModel {
    @Override
    public long getStartTime () { return getLongProperty(START_TIME); }
    
-   public void start () { setProperty(START_TIME, System.currentTimeMillis()); }
+   public void start () { 
+      setProperty(START_TIME, Always.getSessionDate().getTime()); 
+   }
 
    @Override
    public Closeness getCloseness () {
-      if ( userName == null ) return Closeness.Stranger;  // for uninitialized model
+      if ( userName.isEmpty() ) return Closeness.Stranger;  // for uninitialized model
       String closeness = getProperty(CLOSENESS);
       return closeness == null ? Closeness.Stranger : Closeness.valueOf(closeness);
    }
 
    @Override
    public void setCloseness (Closeness closeness) { 
-      if ( userName != null ) setProperty(CLOSENESS, closeness.name()); 
+      setProperty(CLOSENESS, closeness.name()); 
    }
   
 }

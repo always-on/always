@@ -29,10 +29,12 @@ including:
 
    Windows 7 (64-bit)
    Java 1.7 (64-bit)
-   .Net 4.0
+   .Net 4.5 (64-bit)
    Eclipse 3.8 (Juno) Service Release 1
    Visual Studio 2010 SP1 (Target Platform: Any CPU)
    Git 1.7
+   Unity Plugin 4.3.3f1 or later
+    (visit http://unity3d.com/webplayer to check version and download)
 
    Target Display Size 1600x900
 
@@ -154,12 +156,14 @@ development tools.
 
 ---ECLIPSE SETUP---
 
-    * Inform Eclipse of repository location
+    * Inform Eclipse of repository and upstream locations
 
       -menu bar Window > Show View > Other > Git > Git Repositories
       -in Git Repositories window, click on Add an existing local Git repository
       -Browse to always folder, e.g., in C:\Users\...\Documents\GitHub
       -click Finish
+      -expand newly created always repository
+      =expand Remotes
 
     * Create a working set
 

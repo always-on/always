@@ -1,12 +1,9 @@
 package pluginCore;
 
 import org.w3c.dom.*;
-
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-
 import javax.xml.parsers.*;
-
 import DialogueRuntime.*;
 import alwaysAvailableCore.*;
 import edu.wpi.always.*;
@@ -16,11 +13,13 @@ import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
+import edu.wpi.cetask.Utils;
+import edu.wpi.disco.rt.menu.AdjacencyPair;
 
-public class RAGStateContext {
+public class RAGStateContext extends AdjacencyPair.Context {
 	public static int menuChoice = -1;
 	private final Keyboard keyboard;
-	private final UIMessageDispatcher dispatcher;
+	private static UIMessageDispatcher dispatcher;
 	private final PlaceManager placeManager;
 	private final PeopleManager peopleManager;
 	//DSM Variables
@@ -81,13 +80,9 @@ public class RAGStateContext {
 		}
 		
 		int user_id = 1;
-		try {
-			ecaServer = new AAECAServer(null, topScript, user_id,userModel);
-			Session = ecaServer.getSession();
-			DSM = Session.getDSM();
-		} catch (Exception e) {
-			System.err.println("ex: " + e);
-		}
+		ecaServer = new AAECAServer(null, topScript, user_id,userModel);
+		Session = ecaServer.getSession();
+		DSM = Session.getDSM();
 	}
 
 	// Support functions to poke the DSM
@@ -98,8 +93,8 @@ public class RAGStateContext {
 				documentBuilderFactory = DocumentBuilderFactory.newInstance();
 				documentBuilder = documentBuilderFactory.newDocumentBuilder();
 				createDSM();
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+			   Utils.rethrow(e);
 			}
 		}
 		String output = "";
@@ -120,18 +115,29 @@ public class RAGStateContext {
 				outputOnly = false;
 			//getDSM output
 			output = DSM.getOutput().getOutput();
+			//System.out.println("outputraw:" + output);
+			output = output.replace("<speech>", "");
+			output = output.replace("</speech>", "");
+			Builder b;
+			String speechText = "";
 			output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<rag>" + output + "</rag>";
 			Document doc = documentBuilder.parse(new ByteArrayInputStream(output.getBytes("UTF-8")));
 			NodeList nodeList = doc.getChildNodes().item(0).getChildNodes();
-			Builder b;
-			String speechText = "";
+			//Page Test
+//		    Message test = Message.builder("page").add("url", "file:///C:/AlwaysAvailable/WWW/pillbox.jpg").build();
+//		    dispatcher.send(test);
+		    //End of Test
 			for(int i = 0; i < nodeList.getLength(); i++){
 				Node tempNode = nodeList.item(i);
+				//System.out.println(tempNode.getNodeName());
 				switch(tempNode.getNodeName().toUpperCase()){
-					case "SPEECH":
+//					case "SPEECH":
+					case "#TEXT":
 						speechText += tempNode.getTextContent() + " ";
 						break;
 					case "PAGE":
+					    Message msg = Message.builder("page").add("url", tempNode.getAttributes().getNamedItem("URL").toString()).build();
+					    dispatcher.send(msg);
 						break;
 					case "POSTURE":
 						speechText += "<POSTURE/> ";
@@ -175,9 +181,7 @@ public class RAGStateContext {
 				isDone = true;
 				return false;
 			} else {
-				System.out.println("Exception caught:" + e.getMessage());
-				e.printStackTrace();
-				return false;
+			   Utils.rethrow(e);
 			}
 		}
 		return true;

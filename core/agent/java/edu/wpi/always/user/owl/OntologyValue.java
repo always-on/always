@@ -93,4 +93,9 @@ public class OntologyValue {
       if ( isNull() ) return null;
       return XML_DURATION_FORMAT.parsePeriod(asString());
    }
+   
+   @Override
+   public String toString () {
+      return literal.toString();
+   }
 }

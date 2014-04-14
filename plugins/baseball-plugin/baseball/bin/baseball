@@ -1,3 +1,0 @@
-#!/bin/sh
-dir="`dirname $0`/.."
-"$dir/../../../core/agent/bin/always-disco" "$1" ../../../../plugins/baseball-plugin/baseball/class ../../../../plugins/baseball-plugin/baseball/lib/jsoup-1.5.2.jar

@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.client.*;
 import edu.wpi.always.ttt.logic.*;
+import edu.wpi.sgf.comment.Comment;
+import edu.wpi.sgf.comment.CommentLibraryHandler;
 import edu.wpi.sgf.comment.CommentingManager;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
 import edu.wpi.sgf.scenario.*;
@@ -17,8 +19,9 @@ public class TTTClient implements TTTUI {
    private static final String MSG_BOARD_PLAYABILITY = "tictactoe.playability";
 
    private static final int HUMAN_COMMENTING_TIMEOUT = 15;
-   private static final int AGENT_PLAY_DELAY_AMOUNT = 3;
-   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 2;
+   private static final double AGENT_PLAY_DELAY_AMOUNT = 5.5;
+   private static final int AGENT_PLAYING_GAZE_DELAY_AMOUNT = 3;
+   private static final int NEXT_STATE_DELAY = 3000;//ms
 
    public static String gazeDirection = "";
    
@@ -29,11 +32,15 @@ public class TTTClient implements TTTUI {
    private static final int HUMAN_IDENTIFIER = 1;
 
    private static final int AGENT_IDENTIFIER = 2;
+   
+   public static boolean thereAreGameSpecificTags = false;
 
    // 1: userWins, 2: agentWins, 3: tie
    private int winOrTie = 0;
 
-   private String currentComment;
+   private String currentAgentComment;
+   private Map<String, String> currentAgentResponseOptions;
+   private List<String> currentHumanResponseOptions;
    private AnnotatedLegalMove currentMove;
 
    private final UIMessageDispatcher dispatcher;
@@ -55,6 +62,8 @@ public class TTTClient implements TTTUI {
 
    private TTTAnnotatedLegalMove latestAgentMove;
    private TTTAnnotatedLegalMove latestHumanMove;
+   
+   public static Random random;
 
    public TTTClient (ClientProxy proxy, UIMessageDispatcher dispatcher) {
       this.proxy = proxy;
@@ -67,7 +76,11 @@ public class TTTClient implements TTTUI {
       moveChooser = new MoveChooser();
       scenarioManager = new ScenarioManager();
       gameState = new TTTGameState();
-
+      currentHumanResponseOptions = new ArrayList<String>();
+      currentAgentResponseOptions = new HashMap<String, String>();
+      random = new Random();
+      random.setSeed(12345);
+      
       dispatcher.registerReceiveHandler(MSG_HUMAN_MOVE, new MessageHandler() {
          @Override
          public void handleMessage (JsonObject body) {
@@ -120,20 +133,44 @@ public class TTTClient implements TTTUI {
 
    @Override
    public String getCurrentAgentComment () {
-      return currentComment;
+      return currentAgentComment;
+   }
+   
+   @Override
+   public String getCurrentAgentResponse(
+         String humanChoosenComment) {
+      return currentAgentResponseOptions
+            .get(humanChoosenComment.trim());
    }
 
    @Override
-   public List<String> getCurrentHumanCommentOptionsForAMoveBy (int player) {
-      updateWinOrTie();
+   public List<String> 
+   getCurrentHumanCommentOptionsAgentResponseForAMoveBy (int player) {
 
+      updateWinOrTie();
+      
+      List<Comment> humanCommentingOptions = 
+            new ArrayList<Comment>();
+      
       if ( player == HUMAN_IDENTIFIER )
-         return commentingManager.getHumanCommentingOptionsForHumanMove(
+         humanCommentingOptions.addAll(commentingManager.
+               getHumanCommentingOptionsAndAnAgentResponseForHumanMove(
                gameState, latestHumanMove,
-               gameState.getGameSpecificCommentingTags());
-      return commentingManager.getHumanCommentingOptionsForAgentMove(
+               gameState.getGameSpecificCommentingTags()));
+      else
+         humanCommentingOptions.addAll(commentingManager.
+               getHumanCommentingOptionsForAgentMove(
             gameState, latestAgentMove,
-            gameState.getGameSpecificCommentingTags());
+            gameState.getGameSpecificCommentingTags()));
+      
+      currentAgentResponseOptions.clear();
+      for(Comment each : humanCommentingOptions)
+         currentAgentResponseOptions.put(
+               each.getContent().trim(), each.getOneResponseOption());
+      
+      return CommentLibraryHandler
+            .getContentsOfTheseComments(humanCommentingOptions);
+      
    }
 
    @Override
@@ -149,23 +186,47 @@ public class TTTClient implements TTTUI {
    }
 
    @Override
-   public void prepareAgentCommentForAMoveBy (int player) {
+   public void 
+   prepareAgentCommentUserResponseForAMoveBy (int player) {
 
       updateWinOrTie();
 
+      Comment currentAgentCommentAsComment;
+      
       // null passed for scenarios here.
       if ( player == HUMAN_IDENTIFIER )
-         currentComment = commentingManager.getAgentCommentForHumanMove(
+         currentAgentCommentAsComment = 
+         commentingManager.getAgentCommentForHumanMove(
                gameState, latestHumanMove, null,
                gameState.getGameSpecificCommentingTags());
       else
-         currentComment = commentingManager.getAgentCommentForAgentMove(
+         currentAgentCommentAsComment = 
+         commentingManager.getAgentCommentForAgentMove(
                gameState, latestAgentMove, null,
                gameState.getGameSpecificCommentingTags());
 
-      if ( currentComment == null )
-         currentComment = "";
+      if ( currentAgentCommentAsComment == null )
+         currentAgentComment = "";
+      else
+         currentAgentComment = 
+         currentAgentCommentAsComment.getContent();
 
+      currentHumanResponseOptions.clear();
+
+      try{
+         currentHumanResponseOptions.addAll(
+               currentAgentCommentAsComment
+               .getMultipleResponseOptions());
+      }catch(Exception e){
+         // in case no responses exists
+      }
+      
+   }
+   
+   @Override
+   public List<String> getCurrentHumanResponseOptions () {
+      return CommentingManager.
+            shuffleAndGetMax3(currentHumanResponseOptions);
    }
 
    // user commenting timer
@@ -197,7 +258,7 @@ public class TTTClient implements TTTUI {
       agentPlayingGazeDelayTimer = new Timer();
       agentPlayDelayTimer.schedule(
             new AgentPlayDelayTimerSetter(),
-            1000 * AGENT_PLAY_DELAY_AMOUNT);
+            ((int)(1000 * AGENT_PLAY_DELAY_AMOUNT)));
       agentPlayingGazeDelayTimer.schedule(
             new AgentPlayingGazeDelayTimerSetter(),
             1000 * AGENT_PLAYING_GAZE_DELAY_AMOUNT);
@@ -220,9 +281,10 @@ public class TTTClient implements TTTUI {
    @Override
    public void triggerNextStateTimer (
          TTTUIListener listener) {
+      this.listener = listener;
       nextStateTimer = new Timer();
       nextStateTimer.schedule(new NextStateTimerSetter(),
-            4000);
+            NEXT_STATE_DELAY);
    }
    private class NextStateTimerSetter extends TimerTask {
       @Override

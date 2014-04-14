@@ -25,9 +25,33 @@ namespace AgentApp
 			this._remote = remote;
 			uiThreadDispatcher.BlockingInvoke(() =>
 			{
-				game = new GameShape(agentStarts ? Player.Two : Player.One);
-				game.AgentCardsController.AutoPlay = false;
+				game = new GameShape();
+				pluginContainer = new Viewbox();
+				pluginContainer.Child = game;
+			});
 
+			_remote.RegisterReceiveHandler("rummy.agent_move",
+				  new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
+
+			_remote.RegisterReceiveHandler("rummy.playability",
+				  new MessageHandlerDelegateWrapper(x => SetPlayability(x)));
+
+			_remote.RegisterReceiveHandler("rummy.setupgame",
+				  new MessageHandlerDelegateWrapper(x => SetUpGame(uiThreadDispatcher)));
+
+			_remote.RegisterReceiveHandler("rummy.starting_player",
+				  new MessageHandlerDelegateWrapper(x => SetStartingPlayer(x)));
+
+			_remote.RegisterReceiveHandler("rummy.reset",
+				  new MessageHandlerDelegateWrapper(x => Reset(uiThreadDispatcher)));
+		}
+
+		private void SetUpGame(IUIThreadDispatcher uiThreadDispatcher)
+		{
+			uiThreadDispatcher.BlockingInvoke(() =>
+			{
+				game.SetItUp();
+				game.AgentCardsController.AutoPlay = false;
 				game.GameState.MoveHappened += m =>
 				{
 					if (m.Player == Player.One
@@ -35,6 +59,7 @@ namespace AgentApp
 					{
 						_remote.Send("rummy.human_move"
 							, getMoveAsJson(m));
+						game.GameState.CheckForWinnerInTheMiddleOfTurns();
 					}
 				};
 
@@ -53,17 +78,39 @@ namespace AgentApp
 					_remote.Send("rummy.gameover", getPlayerAsJson(p));
 				};
 
+			});
+		}
+
+		private void SetStartingPlayer(JObject msg)
+		{
+			string firstPlayer = msg["who"].ToString();
+			Player playerToStart =
+				firstPlayer.Equals("agent") ? Player.Two : Player.One;
+
+			game.SetStartingPlayer(playerToStart);
+
+			if (playerToStart == Player.Two) //agent
+				_remote.Send("rummy.available_moves", getPossibleMovesAsJson());
+		}
+
+		private void Reset(IUIThreadDispatcher uiThreadDispatcher)
+		{
+			uiThreadDispatcher.BlockingInvoke(() =>
+			{
+				game = new GameShape();
 				pluginContainer = new Viewbox();
 				pluginContainer.Child = game;
 			});
 
-			_remote.RegisterReceiveHandler("rummy.agent_move",
-				  new MessageHandlerDelegateWrapper(x => PlayAgentMove(x)));
+			currentMoveSuggestions.Clear();
 		}
 
 		public void Dispose()
 		{
 			_remote.RemoveReceiveHandler("rummy.agent_move");
+			_remote.RemoveReceiveHandler("rummy.playability");
+			_remote.RemoveReceiveHandler("rummy.setupgame");
+			_remote.RemoveReceiveHandler("rummy.reset");
 		}
 
 		private string PlayerNameToSend(Player player)
@@ -109,6 +156,7 @@ namespace AgentApp
 					}
 						
 			}
+			game.GameState.CheckForWinnerInTheMiddleOfTurns();
 		}
 
 		public JObject getPossibleMovesAsJson()
@@ -262,6 +310,14 @@ namespace AgentApp
 			//}
 
 			return body;
+		}
+
+		private void SetPlayability(JObject playabilityAsJObj)
+		{
+			if (playabilityAsJObj["value"].ToString().Trim().Contains("true"))
+				game.MakeTheBoardPlayable();
+			else if (playabilityAsJObj["value"].ToString().Trim().Contains("false"))
+				game.MakeTheBoardUnplayable();
 		}
 
 		public System.Windows.UIElement GetUIElement()

@@ -1,28 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
-           xmlns:disco="urn:disco.wpi.edu:Disco"
-           xmlns:a="urn:always.wpi.edu:Activities"
-           about="urn:always.wpi.edu:Companion">
-   <task id="_Greetings">
-      <subtasks id="__Greetings_subtasks">
-         <step name="__Greetings_step" task="disco:Say"/>
-         <step name="__Greetings_ref" task="__Greetings_tree"/>
-         <binding slot="$__Greetings_step.text" value="&#34;Hello&#34;"/>
-         <binding slot="$__Greetings_step.external" value="false"/>
-      </subtasks>
-   </task>
-   <task id="__Greetings_tree">
-      <subtasks id="_d4e10_subtasks">
-         <step name="_d4e10_step" task="disco:Say"/>
-         <binding slot="$_d4e10_step.text" value="&#34;Hi&#34;"/>
-         <binding slot="$_d4e10_step.external" value="true"/>
-      </subtasks>
-   </task>
-   <task id="_Session">
-      <subtasks id="_s1">
-         <step name="greet" task="_Greetings"/>
-         <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
-         <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
-      </subtasks>
-   </task>
+<taskModel about="urn:always.wpi.edu:Companion"
+       xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
+       xmlns:a="urn:always.wpi.edu:Activities">
+
+  <!-- Session model for companions  **TODO** Same as Acquaintance for now
+
+       See Activities.xml for definition of toplevel activities.
+
+       Note: Toplevel task must be named _Session
+  -->
+ 
+  <task id="_Session">
+    <subtasks id="_s1">
+      <step name="greet" task="a:GreetUser"/>
+      <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
+      <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
+    </subtasks>
+  </task>
+
+  <!--  when session "falls off the end" of this plan, it will
+        default to toplevel activities. -->
+
 </taskModel>

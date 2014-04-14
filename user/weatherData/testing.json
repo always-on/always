@@ -1,6 +1,6 @@
 {
 	"currentWeather" : {
-		"locationName" : "Woooorcester, MA",
+		"locationName" : "Worcester, MA",
 		"temperature" : "32.5",
 		"weatherCondition" : "Overcast",
 		"humidity" : "24%"
@@ -48,14 +48,14 @@
 			},
 		"New York" : {
 			"locationName" : "New York, NY",
-			"comment" : "The big apple.",
+			"comment" : "New York is called The big apple.",
 			"temperature" : "75",
 			"weatherCondition" : "sunny",
 			"humidity" : "35%"
 		},
 		"Miami" : {
 			"locationName" : "Miami, FL",
-  			"comment" : "City of beaches.",
+  			"comment" : "Miami is called the City of beaches.",
 			"temperature" : "76.7",
 			"weatherCondition" : "Mostly Cloudy",
 			"humidity" : "66%"
@@ -70,7 +70,7 @@
 		},
 		"San Francisco" : {
 			"locationName" : "San Francisco, CA",
-			"comment" : "The Golden Gate city.",
+			"comment" : "San Francisco is called The Golden Gate city.",
 			"temperature" : "51.1",
 			"weatherCondition" : "Partly Cloudy",
 			"humidity" : "60%"

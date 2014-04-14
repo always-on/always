@@ -44,6 +44,10 @@ public class ClientProxy {
             });
    }
 
+   private void enqueue (String messageType) {
+      enqueue(new Message(messageType));
+   }
+   
    private void enqueue (Message message) {
       dispatcher.send(message);
    }
@@ -83,6 +87,23 @@ public class ClientProxy {
       enqueue("express", p);
    }
 
+   public void toggleAgent () {
+      enqueue("toggleAgent");
+   }
+   
+   public static float ZOOM = 1.6f;
+   
+   public void zoom (float zoom) {
+      // need some text or else IVONA ignores the command
+      say(" hm <CAMERA ZOOM=\""+ZOOM+"\"/>");
+   }
+   
+   public void reetiIP (String address) {
+      HashMap<String, String> p = Maps.newHashMap();
+      p.put("address", address);
+      enqueue("reetiIP", p);
+   }
+   
    public void addObserver (ClientProxyObserver observer) {
       if ( observer == null )
          throw new IllegalArgumentException("observer is null");
@@ -116,7 +137,7 @@ public class ClientProxy {
    }
 
    public void stopSpeech () {
-      enqueue(new Message("stop_speech", new JsonObject()));
+      enqueue("stop_speech");
    }
 
    public void idle (boolean enable) {
@@ -133,7 +154,7 @@ public class ClientProxy {
       ClientPluginUtils.showPlugin(dispatcher, pluginName);
    }
 
-   public void hidePlugin () { 
+   public void hidePlugin () {
       ClientPluginUtils.hidePlugin(dispatcher);
    }
 }

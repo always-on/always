@@ -14,16 +14,27 @@ import edu.wpi.disco.rt.menu.*;
 
 public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
+   protected static String nameForLastState;
+   protected static Boolean firstTimeHere = true;
+   protected static String mainPromptForCheckCorrection = 
+         "Okay, here's what I have. Are there any mistakes?";
+   protected static String nameToUse;
+   
+   protected static void resetErrorCheckingMainPrompt(){
+      mainPromptForCheckCorrection = 
+            "Okay, here's what I have. Are there any mistakes?";
+   }
+   
    public static class CheckCorrectionAdjacencyPair extends
          AdjacencyPairBase<EnrollStateContext> {
 
       private Person person;
-
+      
       public CheckCorrectionAdjacencyPair (final EnrollStateContext context,
             final Person person) {
-         super("Okay, here's what I have. Are there any mistakes?", context,
-               true);
+         super(mainPromptForCheckCorrection, context,true);
          this.person = person;
+
          choice("Edit Name", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
@@ -72,17 +83,11 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new EditSkypeAdjacencyPair(getContext());
             }
          });
-         choice("Edit Phone", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               return new EditPhoneAdjacencyPair(getContext());
-            }
-         });
          choice("All Correct", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                getContext().hideEnrollUI();
-               return new NextPersonAdjacencyPair(getContext());
+               return new DoneCurrentPersonAdjacencyPair(getContext());
             }
          });
       }
@@ -90,6 +95,15 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
       @Override
       public void enter () {
          getContext().getEnrollUI().showCurrentEntry(person);
+         if(firstTimeHere){
+            nameToUse = EditPersonState.editingSelf ?
+               "your" : person.getName() + "'s";
+         }
+         nameForLastState = 
+               EditPersonState.editingSelf ? "you better" : person.getName();
+         firstTimeHere = false;
+         mainPromptForCheckCorrection = 
+               "Is there anything else to correct?";
       }
    }
 
@@ -119,7 +133,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          AdjacencyPairBase<EnrollStateContext> {
 
       public TellEditBirthdayAdjacencyPair (final EnrollStateContext context) {
-         super("Do you want to tell " + name + "s birthday", context);
+         super("Do you want me to know " + nameToUse + " birthday?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -139,17 +153,10 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
             @Override
             public AdjacencyPair run () {
-               person.setBirthday(null);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new TellEditBirthdayAdjacencyPair(getContext());
-            }
-         });
+        
       }
    }
 
@@ -158,7 +165,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       public EditBirthdayMonthAdjacencyPair (final EnrollStateContext context,
             final Person person) {
-         super("What is " + name + "'s birthday month", context, true);
+         super("What is " + nameToUse + " birthday's month ?", context, true);
          for (int i = 0; i < 12; i++) {
             final int MonthNum = i;
             choice(Person.Month[i], new DialogStateTransition() {
@@ -172,7 +179,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          choice("Never Mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               person.setBirthday(null);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
@@ -184,8 +190,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       public EditBirthdayDayAdjacencyPair (final EnrollStateContext context,
             final Person person) {
-         super("What is the day of " + name + "'s Birthday", "Enter "
-            + name + "'s Birthday:", context, context.getKeyboard(), true);
+         super("What is " + nameToUse + " day of birthday ?", "Enter "
+            + nameToUse + " Birthday:", context, context.getKeyboard(), true);
       }
 
       @Override
@@ -204,7 +210,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
       @Override
       public AdjacencyPair cancel () {
          getContext().hideKeyboard();
-         person.setBirthday(null);
          return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
    }
@@ -214,8 +219,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       public EditBirthdayDayInvalidAdjacencyPair (
             final EnrollStateContext context, final Person person) {
-         super("The day you enter is invalid please enter again",
-               "Enter valid " + name + "'s birthday:", context, context
+         super("The day you entered is invalid. Please enter the day again",
+               "Enter valid " + nameToUse + " birthday:", context, context
                      .getKeyboard(), true);
       }
 
@@ -244,7 +249,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          AdjacencyPairBase<EnrollStateContext> {
 
       public EditGenderAdjacencyPair (final EnrollStateContext context) {
-         super("What is the person's gender?", context);
+         super("What is " + nameToUse + " gender?", context);
          choice("Male", new DialogStateTransition() {
 
             @Override
@@ -265,7 +270,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
             @Override
             public AdjacencyPair run () {
-               person.setGender(null);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
@@ -276,7 +280,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditAgeAdjacencyPair (final EnrollStateContext context) {
-         super("What is the person's age?", "Enter " + name + "'s age:",
+         super("What is " + nameToUse + " age?", "Enter " + nameToUse + " age:",
                context, context.getKeyboard(), true);
       }
 
@@ -302,8 +306,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditAgeInvalidAdjacencyPair (final EnrollStateContext context) {
-         super("The age you enter is invalid please enter again",
-               "Enter valid " + name + "'s age :", context, context
+         super("The age you entered does not seem right. Please enter it again",
+               nameToUse + " valid age:", context, context
                      .getKeyboard(), true);
       }
 
@@ -329,7 +333,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          AdjacencyPairBase<EnrollStateContext> {
 
       public DoKnowZipCodeAdjacencyPair (final EnrollStateContext context) {
-         super("Do you know " + name + "'s ZipCode?", context);
+         super("Do you know " + nameToUse + " ZipCode?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -344,13 +348,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new EditStateAdjacencyPair(getContext());
             }
          });
-         choice("Please repeat this question.", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new DoKnowZipCodeAdjacencyPair(getContext());
-            }
-         });
+        
       }
    }
 
@@ -358,8 +356,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditZipCodeAdjacencyPair (final EnrollStateContext context) {
-         super("What is the person's zipcode?", "Enter " + name
-            + "s zipcode:", context, context.getKeyboard(), true);
+         super("What is " + nameToUse + " zipcode?", "Enter " + nameToUse
+            + " zipcode:", context, context.getKeyboard(), true);
       }
 
       @Override
@@ -387,9 +385,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public ZipCodeAgainInvalidAdjacencyPair (final EnrollStateContext context) {
-         super(
-               "The zipcode entered is invalid. Please enter an valid zipcode.",
-               "Enter " + name + "'s zipcode again:", context, context
+         super("This zipcode does not seem right to me. Can you please enter it again?",
+               "Enter " + nameToUse + " zipcode again:", context, context
                      .getKeyboard(), true);
       }
 
@@ -418,8 +415,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditStateAdjacencyPair (final EnrollStateContext context) {
-         super("Which state does the person live", "Enter " + name
-            + "'s state:", context, context.getKeyboard());
+         super("What is " + nameToUse + "?", "Enter " + nameToUse
+            + " state:", context, context.getKeyboard());
       }
 
       @Override
@@ -435,7 +432,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       @Override
       public AdjacencyPair cancel () {
-         return new EditStateInvalidAdjacencyPair(getContext());
+         getContext().hideKeyboard();
+         return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
    }
 
@@ -443,8 +441,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditStateInvalidAdjacencyPair (final EnrollStateContext context) {
-         super("Sorry, but you must enter a valid state name here",
-               "Please Enter valid state name:", context, context.getKeyboard());
+         super("Sorry, but the state seems incorrect to me, would you pelase try again?",
+               "Please enter valid state name:", context, context.getKeyboard());
       }
 
       @Override
@@ -460,7 +458,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       @Override
       public AdjacencyPair cancel () {
-         return new EditStateInvalidAdjacencyPair(getContext());
+         getContext().hideKeyboard();
+         return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
    }
 
@@ -468,8 +467,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditCityAdjacencyPair (final EnrollStateContext context) {
-         super("Which city does the person live in", "Enter " + name
-            + "'s city:", context, context.getKeyboard());
+         super("What is " + nameToUse + " city ?", "Enter " + nameToUse
+            + " city:", context, context.getKeyboard());
       }
 
       @Override
@@ -502,8 +501,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditCityInvalidAdjacencyPair (final EnrollStateContext context) {
-         super("City name is not valid please enter it again",
-               "Invalid city name. Plase re-enter " + name + "'s city:",
+         super("This seems invalid. Could you please try again?",
+               "Please re-enter " + nameToUse + " city:",
                context, context.getKeyboard());
       }
 
@@ -541,7 +540,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          AdjacencyPairBase<EnrollStateContext> {
 
       public EditRelationAdjacencyPair (final EnrollStateContext context) {
-         super("What is your relationship with this person?", context, true);
+         super("What is " + nameToUse + " relation to you?", context, true);
          choice("Friend", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
@@ -629,7 +628,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          choice("Never Mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               person.setRelationship(null);
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
@@ -640,14 +638,14 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          AdjacencyPairBase<EnrollStateContext> {
 
       public EditSpouseAdjacencyPair (final EnrollStateContext context) {
-         super("Is the person married?", context);
-         choice("Yes", new DialogStateTransition() {
+         super("Ok, what is " + nameToUse + " marital status?", context);
+         choice("Married", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new ReenterSpouseAdjacencyPair(getContext());
             }
          });
-         choice("No", new DialogStateTransition() {
+         choice("Not married", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new CheckCorrectionAdjacencyPair(getContext(), person);
@@ -666,8 +664,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public ReenterSpouseAdjacencyPair (final EnrollStateContext context) {
-         super("What is his or her spouse's name?", "Enter " + name
-            + "'s spouse name:", context, context.getKeyboard());
+         super("What is " + nameToUse + " spouse's name?", "Enter " + nameToUse
+            + " spouse's name:", context, context.getKeyboard());
       }
 
       @Override
@@ -685,66 +683,12 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
       }
    }
 
-   public static class EditPhoneAdjacencyPair extends
-         KeyboardAdjacencyPair<EnrollStateContext> {
-
-      public EditPhoneAdjacencyPair (final EnrollStateContext context) {
-         super("What is his or her phone number?", "Enter " + name
-            + "'s phone number: (XXX-XXX-XXXX)", context,
-               context.getKeyboard(), true);
-      }
-
-      @Override
-      public AdjacencyPair success (String text) {
-         if ( UserUtils.isPhoneNumberValid(text) ) {
-            getContext().hideKeyboard();
-            person.setPhoneNumber(text);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
-         }
-         return new EditPhoneInvalidAdjacencyPair(getContext());
-      }
-
-      @Override
-      public AdjacencyPair cancel () {
-         person.setPhoneNumber(null);
-         getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
-      }
-   }
-
-   public static class EditPhoneInvalidAdjacencyPair extends
-         KeyboardAdjacencyPair<EnrollStateContext> {
-
-      public EditPhoneInvalidAdjacencyPair (final EnrollStateContext context) {
-         super("That's not a valid phone number, please enter again",
-               "Enter valid " + name + "'s phone number: (XXX-XXX-XXXX)",
-               context, context.getKeyboard(), true);
-      }
-
-      @Override
-      public AdjacencyPair success (String text) {
-         if ( UserUtils.isPhoneNumberValid(text) ) {
-            getContext().hideKeyboard();
-            person.setPhoneNumber(text);
-            return new CheckCorrectionAdjacencyPair(getContext(), person);
-         }
-         return new EditPhoneInvalidAdjacencyPair(getContext());
-      }
-
-      @Override
-      public AdjacencyPair cancel () {
-         person.setPhoneNumber(null);
-         getContext().hideKeyboard();
-         return new CheckCorrectionAdjacencyPair(getContext(), person);
-      }
-   }
-
    public static class EditSkypeAdjacencyPair extends
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditSkypeAdjacencyPair (final EnrollStateContext context) {
-         super("What is his or her skype number?", "Enter " + name
-            + "s skype name:", context, context.getKeyboard());
+         super("What is " + nameToUse + " skype name?", "Enter " + nameToUse
+            + " skype name:", context, context.getKeyboard());
       }
 
       @Override
@@ -767,7 +711,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       public NextPersonAdjacencyPair (final EnrollStateContext context) {
          super("Do you want to tell me about someone else?", context);
-         choice("No.", new DialogStateTransition() {
+         choice("No", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new DoneCurrentPersonAdjacencyPair(getContext());
@@ -779,12 +723,6 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new PersonNameAdjacencyPair(getContext());
             }
          });
-         choice("Repeat the question", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
-               return new NextPersonAdjacencyPair(getContext());
-            }
-         });
       }
    }
 
@@ -792,27 +730,20 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          AdjacencyPairBase<EnrollStateContext> {
 
       public DoneCurrentPersonAdjacencyPair (final EnrollStateContext context) {
-         super("Now I know about " + name
-            + "Do you want to back to main menu now", context);
-         choice("Go Back.", new DialogStateTransition() {
+         super("Ok, now I know about " + nameForLastState
+            + ". Would you like to introduce someone else to me?", context);
+         choice("Yes, I do", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new InitialEnroll(getContext());
+               return new PersonNameAdjacencyPair(getContext());
             }
          });
-         choice("I changed my mind and want to add another person",
-               new DialogStateTransition() {
-                  @Override
-                  public AdjacencyPair run () {
-                     return new PersonNameAdjacencyPair(getContext());
-                  }
-               });
-         choice("Repeat the question", new DialogStateTransition() {
+         choice("No, that's it for now", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new DoneCurrentPersonAdjacencyPair(getContext());
+               return new InitialEnroll.DialogEndEvent(getContext());
             }
          });
-      }
+     }
    }
 }

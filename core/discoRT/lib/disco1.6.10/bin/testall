@@ -22,11 +22,11 @@ if [ ! -e "$testdir" ]; then
 fi
 all_start=`date +%s`
 result=0
-for f in `find $testdir -maxdepth 1 -not -name '*.*' -type f -print`
+for f in `find $testdir -maxdepth 1 -name '*.test' -type f -print`
   do
-    if [ -f $f.test ]; then
-      $command $f
-     result=`expr $result + $?`
+    $command ${f%.test}
+    if [ $? != 0 ]; then
+       result=`expr $result + 1`
     fi
   done
 all_end=`date +%s`

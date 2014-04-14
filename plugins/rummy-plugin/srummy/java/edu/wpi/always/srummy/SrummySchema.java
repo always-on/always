@@ -10,7 +10,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public class SrummySchema extends ActivityStateMachineSchema {
+public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext> {
 
    private String randomStmnt = "";
    private boolean saidFirstYourTurn = false;
@@ -22,7 +22,7 @@ public class SrummySchema extends ActivityStateMachineSchema {
          MenuPerceptor menuPerceptor, Keyboard keyboard, SrummyUI SrummyUI,
          UIMessageDispatcher dispatcher, PlaceManager placeManager,
          PeopleManager peopleManager) {
-      super(new StartGamingSequence(new SrummyStateContext(keyboard, SrummyUI, dispatcher,
+      super(new SrummyInitial(new SrummyStateContext(keyboard, SrummyUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor);
       
@@ -41,6 +41,12 @@ public class SrummySchema extends ActivityStateMachineSchema {
                "$ "+StartGamingSequence.getCurrentAgentComment()+" $",
                GazeBehavior.USER)
          .build());  
+      }
+      if(SrummyClient.gazeDirection.equals("sayandgazeresp")){
+         propose(new SyncSayBuilder(
+               "$ "+StartGamingSequence.getCurrentAgentResponse()+" $",
+               GazeBehavior.USER)
+         .build());
       }
       if(SrummyClient.gazeDirection.equals("sayandgazegameover")){
          propose(new SyncSayBuilder(

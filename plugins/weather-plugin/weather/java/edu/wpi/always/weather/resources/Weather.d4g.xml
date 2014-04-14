@@ -27,12 +27,13 @@
 		                       (date == undefined ? todayDate() : date)+".json");
       }
       
-      function todayDate () { // return today's date, e.g., 02_14_2012
+      // return today's date in same format as timestamped log files, e.g., 2014_02_14
+      function todayDate () { 
 	      var currentTime = new Date();
 	      var month = currentTime.getMonth() + 1;
 	      var day = currentTime.getDate();
 	      var year = currentTime.getFullYear();	
-	      return (pad2(month) + "_" + pad2(day) + "_" + year);
+	      return (year+"_"+pad2(month)+"_"+pad2(day));
       }
       
       function pad2 (number) { return (10 > number ? '0' : '') + number; }
@@ -108,7 +109,7 @@
 
   <!-- note we are not displaying radarURL -->
     
-  <agent id="WeatherLocal" text="Today in {$W.currentWeather.locationName} it is going to be {$W.currentWeather.temperature} fahrenheit and it is {$W.currentWeather.weatherCondition}">
+  <agent id="WeatherLocal" text="Today in Boston, it is going to be {$W.currentWeather.temperature} fahrenheit and it is {$W.currentWeather.weatherCondition}">
       <user text="How does it feel outside?">
 	<agent text="With {$W.currentWeather.humidity} humidity, it feels like {$W.currentWeather.temperature} fahrenheit.">
 	  <agent ref="WeatherLocal"/>
@@ -123,7 +124,7 @@
       </user>	
   </agent>
     
-  <agent id="WeatherAlert" text="Let me check if there's a severe weather alert in your area.">
+  <agent id="WeatherAlert" text="Let me check to see if there's a severe weather alert in your area.">
       <user text="That would be helpful.">
 	<agent text="{$W.alert.alertMessage}">
 	  <user text="Good to know."/>
@@ -133,9 +134,9 @@
       </user>
   </agent>  
      
-  <agent id="WeatherAlmanac"  text="Are you interested in knowing the record weather for today in the history?">
+  <agent id="WeatherAlmanac"  text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Are you interested in knowing the record weather for today in the history? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;">
       <user id="talk_stats_bad_option" text="No, I don't want to">
-	<agent text="Come on.  It is interesting to know those things!">
+	<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Come on.  It is interesting to know those things! &lt;FACE EXPR=\&quot;WARM\&quot;&gt;">
 	  <user text="Alright. What's the record weather?">
 	    <do task="DoAlmanac" />
 	  </user>
@@ -154,9 +155,9 @@
       </user>
   </agent>
     
-  <agent id="DoAlmanac" text="The record high is {$W.almanac.recordHigh.extremeTemp} F. It happened in {$W.almanac.recordHigh.year}.">
+  <agent id="DoAlmanac" text="The record high is {$W.almanac.recordHigh.extremeTemp} fahrenheit. It happened in {$W.almanac.recordHigh.year}.">
     	<user text="Wow, go on.">
-	  <agent text="The record low is {$W.almanac.recordLow.extremeTemp} F. It happened in  {$W.almanac.recordLow.year}.">
+	  <agent text="The record low is {$W.almanac.recordLow.extremeTemp} fahrenheit. It happened in  {$W.almanac.recordLow.year}.">
 	    <user text="That's pretty cold.">
 	      <agent text="Yeah.  Compared to the average temperatures of {$W.almanac.recordLow.averageTemp} (low) and {$W.almanac.recordHigh.averageTemp} (high), you can judge the difference.">
 		<user text="yeh, thanks for telling me." />
@@ -208,12 +209,13 @@
       </t:subtasks>     
   </t:task>
 
-  <agent id="_Ending" text="well, weather sure is interesting.">
+  <agent id="_Ending" 
+  	text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="yes. I love talking about weather">
-      <agent text="yeh, me too. That's it for now "/>
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;&gt; yeh, me too. That's it for now &lt;FACE EXPR=\&quot;WARM\&quot;&gt;"/>
     </user>
     <user text="yes, I need to know the weather before I go out">
-      <agent text="Feel free to ask me!" />
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;&gt; Feel free to ask me! &lt;FACE EXPR=\&quot;WARM\&quot;&gt;" />
     </user>
     <user text="yes, but I only want to know about it sometimes">
       <agent text="I'm ready to talk about it whenever you want"/>

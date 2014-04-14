@@ -17,6 +17,9 @@ public class CheckersLegalMoveAnnotator implements LegalMoveAnnotator{
    public List<AnnotatedLegalMove> annotate(
          List<CheckersLegalMove> moves, CheckersGameState state){
 
+      if(moves == null || moves.isEmpty())
+         return null;
+      
       List<AnnotatedLegalMove> annotatedMoves = 
             new ArrayList<AnnotatedLegalMove>();
       

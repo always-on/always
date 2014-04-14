@@ -9,7 +9,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
-public class TTTSchema extends ActivityStateMachineSchema {
+public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
 
    public TTTSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -29,6 +29,12 @@ public class TTTSchema extends ActivityStateMachineSchema {
       if(TTTClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
                "$ "+WhoPlaysFirst.getCurrentAgentComment()+" $",
+               GazeBehavior.USER)
+         .build());
+      }
+      if(TTTClient.gazeDirection.equals("sayandgazeresp")){
+         propose(new SyncSayBuilder(
+               "$ "+WhoPlaysFirst.getCurrentAgentResponse()+" $",
                GazeBehavior.USER)
          .build());
       }

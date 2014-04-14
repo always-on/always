@@ -155,11 +155,6 @@ ObjectPropertyDomain(<#PersonLivesIn> <#Person>)
 ObjectPropertyRange(<#PersonLivesIn> <#Place>)
 SubClassOf(<#Person> ObjectMaxCardinality(1 <#PersonLivesIn> <#Place>))
 
-Declaration(DataProperty(<#PersonPhoneNumber>))
-DataPropertyDomain(<#PersonPhoneNumber> <#Person>)
-DataPropertyRange(<#PersonPhoneNumber> xsd:string)
-SubClassOf(<#Person> DataMaxCardinality(1 <#PersonPhoneNumber> xsd:string))
-
 Declaration(DataProperty(<#PersonSkypeNumber>))
 DataPropertyDomain(<#PersonSkypeNumber> <#Person>)
 DataPropertyRange(<#PersonSkypeNumber> xsd:string)

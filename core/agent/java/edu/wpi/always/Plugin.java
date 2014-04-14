@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.joda.time.LocalTime;
 import org.picocontainer.Characteristics;
 import org.picocontainer.MutablePicoContainer;
 
+import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.*;
 import edu.wpi.always.user.UserModel;
@@ -50,7 +52,7 @@ public abstract class Plugin {
          stream = getClass().getResourceAsStream(name+".owl");
       if ( stream != null ) {
          System.out.println("Loading "+name+".owl");
-         ((OntologyUserModel) userModel).addAxioms(stream);
+         ((OntologyUserModel) userModel).addAxioms(stream, true);
       }
    }
    
@@ -73,6 +75,7 @@ public abstract class Plugin {
          model.setUserName("TestPluginUser");
          System.out.println("User name: "+model.getUserName());
       }
+      SessionSchema.HOUR = LocalTime.now().getHourOfDay();
       always.start();
       return always;
    }
@@ -81,6 +84,13 @@ public abstract class Plugin {
     * Show the related UI plugin, if any
     */
    public void show () {}
+   
+   /**
+    * Hide the related UI plugin, if any
+    */
+   public void hide () { 
+      ClientPluginUtils.hidePlugin(container.getComponent(UIMessageDispatcher.class));
+   }
    
    /**
     * Get user property associated with this plugin.  Property is stored
@@ -267,8 +277,10 @@ public abstract class Plugin {
       ActivitySchema activity = null;
       for (Class<? extends Schema> schema : schemas.get(name)) {
         Schema instance = cm.getContainer().getComponent(SchemaManager.class).start(schema);
-        if ( instance instanceof ActivitySchema ) 
+        if ( instance instanceof ActivitySchema ) {
            activity = (ActivitySchema) instance;
+           activity.setPlugin(this);
+        }
       }
       if ( activity == null ) throw new IllegalStateException("No activity schema for: "+name);
       return activity;
@@ -356,7 +368,7 @@ public abstract class Plugin {
       String plugin = task.getEngine().getProperty(getActivity(task)+"@plugin");
       try { 
          Class<? extends Plugin> cls = (Class<? extends Plugin>) Class.forName(plugin);
-         plugins.add(cls);
+         if ( !plugins.contains(cls) ) plugins.add(cls);
          return cls;
       } catch (ClassNotFoundException e) {
          throw new RuntimeException("Plugin not found for task "+task, e);

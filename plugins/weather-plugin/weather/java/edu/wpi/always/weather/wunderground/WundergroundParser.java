@@ -10,12 +10,12 @@ import java.util.Date;
 public class WundergroundParser {
 
    // default
-   private static String zip = "01609";
+   private static String zip = "02115";
 
    /**
     * @param args [zip model] NB: Case-sensitive!
     *           <p>
-    *           zip: 5-digits (default 01609)<br>
+    *           zip: 5-digits (default 02115)<br>
     *           model: file in always/user (default TestUser.owl)
     */
    public static void main (String[] args) {

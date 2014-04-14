@@ -1,7 +1,7 @@
 package edu.wpi.always;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.util.*;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
@@ -51,6 +51,10 @@ public class Always {
    
    public static AgentType getAgentType () { return agentType; }
    
+   private static Date sessionDate;
+   
+   public static Date getSessionDate () { return sessionDate; }
+   
    /**
     * Factory method for Always.  
     * 
@@ -64,6 +68,7 @@ public class Always {
          if ( args.length > 1 ) UserUtils.USER_FILE = args[1];
          if ( args.length > 2 ) agentType = AgentType.valueOf(args[2]);
       }
+      System.out.println("Agent type = "+agentType);
       Always always = new Always(true, plugin == null);
       if ( args != null && args.length > 0 ) {
          Closeness closeness = Closeness.valueOf(args[0]);
@@ -86,7 +91,7 @@ public class Always {
             new Agent("agent"), 
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
-         UserUtils.USER_FILE = "TestUser.owl";  // no way to change for now
+         UserUtils.USER_FILE = "User.owl";  // no way to change for now
          // to get plugin classes 
          for (TaskClass task : new TaskEngine().load("Activities.xml").getTaskClasses())
             Plugin.getPlugin(task);
@@ -138,8 +143,18 @@ public class Always {
       return container;
    }
    
+   public static boolean ALL_PLUGINS;
+   
    public Always (boolean logToConsole, boolean allPlugins) {
+      ALL_PLUGINS = allPlugins;
       THIS = this;
+      sessionDate = new Date();
+      // initialize user folder location for Eclipse development
+      // change to c:\Dropbox subfolder later
+      if ( UserUtils.USER_DIR == null 
+            || !new File(UserUtils.USER_DIR, UserUtils.USER_FILE).exists() ) 
+         UserUtils.USER_DIR = new File("../../user").exists() ? "../../user" : 
+            new File("../../../user").exists() ? "../../../user" : ".";
       if ( logToConsole )
          BasicConfigurator.configure();
       else

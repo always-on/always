@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Timers;
 using FormsControl = System.Windows.Forms.Control;
 using FormsPanel = System.Windows.Forms.Panel;
+using System.Windows.Forms;
 using System.Threading;
 //using RagClient.Agent.Flash;
 using System.Diagnostics;
@@ -29,13 +30,17 @@ using UnityUserControl;
 
 namespace Agent.UI
 {
-	public partial class AgentControl : UserControl, IAgentControl
+	public partial class AgentControl : System.Windows.Controls.UserControl, IAgentControl
 	{
         public enum AgentType { Unity, Reeti, Mirror };
 
-		public static AgentType agentType = AgentType.Unity;
+        public static AgentType agentType = AgentType.Unity;
+
+        private ReetiTranslation AgentTranslate;
 
         UnityUserControl.UnityUserControl agent;
+
+        System.Windows.Forms.WebBrowser page;
 		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
         public event EventHandler LoadComplete;
         XmlDocument xmlMessage = new XmlDocument();
@@ -44,16 +49,30 @@ namespace Agent.UI
         public AgentControl()
         {
             Console.WriteLine("Starting AgentControl...");
+			Console.WriteLine("agentType = " + agentType);
             Buttons = new NullChoiceButtons();
 
             InitializeComponent();
 
+            //InitPage();
+
             InitAgent();
+
+            Agent.Tcp.AgentControlJsonAdapter.ReetiIPReceived += (s, e) =>
+            {
+				if (agentType == AgentType.Unity)
+				{
+					agentType = AgentType.Reeti;
+					Console.WriteLine("Received REETI_IP "+Agent.Tcp.AgentControlJsonAdapter.REETI_IP+" (agentType = Reeti)");
+				}
+                if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                    AgentTranslate = new ReetiTranslation();
+            };
         }
 
         private void agentCallbackListener(object sender, AgentEvent e)
         {
-            if(e.value == "LoadComplete")
+            if (e.value == "LoadComplete")
                 LoadComplete(this, null);
         }
 
@@ -62,13 +81,18 @@ namespace Agent.UI
             switch (e.eventType)
             {
                 case "viseme":
-                    //Put Reeti code here
+                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && (agentType != AgentType.Unity))
+                        AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "bookmark":
-                    //Put Reeti code here
+                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && (agentType != AgentType.Unity))
+                        AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "end":
-                    ActionDone(this,new ActionDoneEventArgs("speech",e.sourceUtterance));
+                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && (agentType != AgentType.Unity))
+                        AgentTranslate.TranslateToReetiCommand("speech", "ENDSPEECH");
+
+                    ActionDone(this, new ActionDoneEventArgs("speech", e.sourceUtterance));
                     break;
             }
         }
@@ -76,11 +100,35 @@ namespace Agent.UI
         private void InitAgent()
         {
             agent = new UnityUserControl.UnityUserControl();
-            agent.Dock = System.Windows.Forms.DockStyle.Fill; 
+            agent.Dock = System.Windows.Forms.DockStyle.Fill;
             agent.Init();
+            InitPage();
             WFHost.Child = agent;
             agent.agentEvent += agentCallbackListener;
             agent.ttsEvent += ttsCallbackListener;
+        }
+
+        private void InitPage()
+        {
+            page = new System.Windows.Forms.WebBrowser();
+            page.Dock = System.Windows.Forms.DockStyle.Fill;
+            page.Location = new System.Drawing.Point(0, 0);
+            page.MinimumSize = new System.Drawing.Size(20, 20);
+            page.Name = "webBrowser";
+            page.Size = new System.Drawing.Size(150, 150);
+            agent.Controls.Add(page);
+//            WFHost.Child = agent;
+            page.BringToFront();
+            page.Visible = false;
+            page.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.onPageLoad);
+        }
+
+        private void onPageLoad(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            if (page.ScrollBarsEnabled)
+            {
+                page.ScrollBarsEnabled = false;
+            }
         }
 
         public void Nod()
@@ -124,8 +172,21 @@ namespace Agent.UI
             t.Start();
         }*/
 
+        bool agentVisible = true;
+        public void ToggleAgent()
+        {
+            agent.Invoke((System.Windows.Forms.MethodInvoker)delegate
+            {
+                agentVisible = !agentVisible;
+                agent.Visible = agentVisible;
+            });
+        }
+
         private void Perform(string xmlCommand)
         {
+            if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && 
+                ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror)))
+                AgentTranslate.TranslateToReetiCommand("perform", xmlCommand);
             xmlMessage.LoadXml(xmlCommand);
             agent.perform(xmlMessage);
         }
@@ -143,6 +204,25 @@ namespace Agent.UI
         public void Turn(string dir, float horizontal, float vertical)
         {
             Perform("<GAZE dir=\"" + dir + "\" horizontal=\"" + horizontal + "\" vertical=\"" + vertical + "\" />");
+        }
+
+        public void ShowPage(string url)
+        {
+            agent.Invoke((MethodInvoker)delegate
+            {
+                //agent.Visible = false;
+                if (url != "")
+                {
+                    page.Visible = true;
+                    page.Navigate(url);
+                    //                page.Navigate(url);
+                    page.ScrollBarsEnabled = false;
+                }
+                else
+                {
+                    page.Visible = false;
+                }
+            });
         }
 
         public void Express(AgentFaceExpression expression)
@@ -167,57 +247,57 @@ namespace Agent.UI
             agent.stopSpeak();
         }
 
-/***********************************************UI CONTROLS*******************************/
-		private IChoiceButtons _buttons;
-		public IChoiceButtons Buttons
-		{
-			get { return _buttons; }
-			set
-			{
-				if (_buttons != null)
-				{
-					_buttons.UserSelectedButton -= Buttons_UserSelectedButton;
-				}
+        /***********************************************UI CONTROLS*******************************/
+        private IChoiceButtons _buttons;
+        public IChoiceButtons Buttons
+        {
+            get { return _buttons; }
+            set
+            {
+                if (_buttons != null)
+                {
+                    _buttons.UserSelectedButton -= Buttons_UserSelectedButton;
+                }
 
-				if (value != null)
-					_buttons = value;
-				else
-					_buttons = new NullChoiceButtons();
+                if (value != null)
+                    _buttons = value;
+                else
+                    _buttons = new NullChoiceButtons();
 
-				_buttons.UserSelectedButton += Buttons_UserSelectedButton;
-			}
-		}
+                _buttons.UserSelectedButton += Buttons_UserSelectedButton;
+            }
+        }
 
-		void Buttons_UserSelectedButton(object sender, UserSelectedButtonEventArgs e)
-		{
-			Nod();
-			UserSelectedButton(sender, e);
-		}
+        void Buttons_UserSelectedButton(object sender, UserSelectedButtonEventArgs e)
+        {
+            Nod();
+            UserSelectedButton(sender, e);
+        }
 
-		protected override Size MeasureOverride(Size constraint)
-		{
-			if (constraint.IsEmpty)
-				return base.MeasureOverride(constraint);
+        protected override Size MeasureOverride(Size constraint)
+        {
+            if (constraint.IsEmpty)
+                return base.MeasureOverride(constraint);
 
-			if (double.IsInfinity(constraint.Width) && double.IsInfinity(constraint.Height))
-				return base.MeasureOverride(constraint);
+            if (double.IsInfinity(constraint.Width) && double.IsInfinity(constraint.Height))
+                return base.MeasureOverride(constraint);
 
-			double w = constraint.Width;
-			double h = constraint.Height;
+            double w = constraint.Width;
+            double h = constraint.Height;
 
-			var minDim = Math.Min(w, h);
+            var minDim = Math.Min(w, h);
 
-			return new Size(minDim, minDim);
-		}
+            return new Size(minDim, minDim);
+        }
 
-		private IEnumerable<FormsControl> GetControlsRecursively(FormsControl c)
-		{
-			yield return c;
+        private IEnumerable<FormsControl> GetControlsRecursively(FormsControl c)
+        {
+            yield return c;
 
-			foreach (FormsControl ic in c.Controls)
-				foreach (FormsControl ctrl in GetControlsRecursively(ic))
-					yield return ctrl;
-		}
+            foreach (FormsControl ic in c.Controls)
+                foreach (FormsControl ctrl in GetControlsRecursively(ic))
+                    yield return ctrl;
+        }
 
 
         //Unused?
@@ -235,5 +315,5 @@ namespace Agent.UI
 			return p;*/
         /*    return base.ArrangeOverride(arrangeBounds);
         }*/
-	}
+    }
 }
