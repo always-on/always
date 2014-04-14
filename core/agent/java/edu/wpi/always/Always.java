@@ -87,13 +87,13 @@ public class Always {
    public static class Disco {
       
       public static void main (String[] args) { 
-         Interaction interaction = new Interaction(
+         Interaction interaction = new DiscoRT.Interaction(
             new Agent("agent"), 
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
          UserUtils.USER_FILE = "User.Diane.owl";  // no way to change for now
          // to get plugin classes 
-         for (TaskClass task : new TaskEngine().load("Activities.xml").getTaskClasses())
+         for (TaskClass task : new TaskEngine().load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
             Plugin.getPlugin(task);
          // initialize duplicate interaction created above
          new Always(true, false).init(interaction); 
