@@ -172,13 +172,22 @@ namespace Agent.UI
             t.Start();
         }*/
 
-        bool agentVisible = true;
-        public void ToggleAgent()
+        //bool agentVisible = true;
+/*        public void ToggleAgent()
         {
             agent.Invoke((System.Windows.Forms.MethodInvoker)delegate
             {
                 agentVisible = !agentVisible;
                 agent.Visible = agentVisible;
+            });
+        }*/
+
+        public void setVisible(Boolean status)
+        {
+            agent.Invoke((System.Windows.Forms.MethodInvoker)delegate
+            {
+                //agentVisible = status;
+                agent.Visible = status;
             });
         }
 

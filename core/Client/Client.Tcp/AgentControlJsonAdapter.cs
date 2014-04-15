@@ -28,7 +28,8 @@ namespace Agent.Tcp
 			dispatcher.RegisterReceiveHandler("gaze", new MessageHandlerDelegateWrapper(Gaze));
 			dispatcher.RegisterReceiveHandler("express", new MessageHandlerDelegateWrapper(Express));
 			dispatcher.RegisterReceiveHandler("idle", new MessageHandlerDelegateWrapper(Idle));
-            dispatcher.RegisterReceiveHandler("toggleAgent", new MessageHandlerDelegateWrapper(ToggleAgent));
+            //dispatcher.RegisterReceiveHandler("toggleAgent", new MessageHandlerDelegateWrapper(ToggleAgent));
+            dispatcher.RegisterReceiveHandler("setVisible", new MessageHandlerDelegateWrapper(setVisible));
             dispatcher.RegisterReceiveHandler("reetiIP", new MessageHandlerDelegateWrapper(ReetiIP));
             dispatcher.RegisterReceiveHandler("page", new MessageHandlerDelegateWrapper(ShowPage));
 		}
@@ -138,10 +139,22 @@ namespace Agent.Tcp
 				_agent.Say(args["text"].Value<string>());
 		}
 
-        private void ToggleAgent(JObject args)
+        private void setVisible(JObject args)
+        {
+            Boolean status = false;
+            if(args["text"] != null){
+                if(args["text"].Value<string>().Equals("true"))
+                    status = true;
+                else
+                    status = false;
+            }
+            _agent.setVisible(status);
+        }
+
+       /* private void ToggleAgent(JObject args)
         {
            _agent.ToggleAgent();
-        }
+        }*/
 
 		public static string REETI_IP;
         public static event EventHandler ReetiIPReceived = delegate { };
