@@ -121,7 +121,7 @@ public class CollaborationManager extends DiscoRT {
       // after DiscoRT.start() so all registries done
       ClientProxy proxy = container.getComponent(ClientProxy.class);
       if ( Always.getAgentType() != AgentType.Unity ) {
-         if ( Always.getAgentType() == AgentType.Reeti ) proxy.toggleAgent();
+         if ( Always.getAgentType() == AgentType.Reeti ) proxy.setAgentVisible(false);
          String host = container.getComponent(ReetiJsonConfiguration.class).getIP();
          proxy.reetiIP(host);
          reetiSocket = new ReetiCommandSocketConnection(host);
