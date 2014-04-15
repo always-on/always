@@ -2,7 +2,6 @@ package edu.wpi.always;
 
 import java.io.File;
 import java.util.*;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
 import org.picocontainer.*;
@@ -10,9 +9,9 @@ import org.picocontainer.behaviors.OptInCaching;
 import org.picocontainer.lifecycle.StartableLifecycleStrategy;
 import org.picocontainer.monitors.LifecycleComponentMonitor;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
-
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
+import edu.wpi.always.cm.perceptors.EngagementRegistry;
 import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.UserUtils;
@@ -88,13 +87,13 @@ public class Always {
    public static class Disco {
       
       public static void main (String[] args) { 
-         Interaction interaction = new Interaction(
+         Interaction interaction = new DiscoRT.Interaction(
             new Agent("agent"), 
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
          UserUtils.USER_FILE = "User.Diane.owl";  // no way to change for now
          // to get plugin classes 
-         for (TaskClass task : new TaskEngine().load("Activities.xml").getTaskClasses())
+         for (TaskClass task : new TaskEngine().load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
             Plugin.getPlugin(task);
          // initialize duplicate interaction created above
          new Always(true, false).init(interaction); 
@@ -150,12 +149,6 @@ public class Always {
       ALL_PLUGINS = allPlugins;
       THIS = this;
       sessionDate = new Date();
-      // initialize user folder location for Eclipse development
-      // change to c:\Dropbox subfolder later
-      if ( UserUtils.USER_DIR == null 
-            || !new File(UserUtils.USER_DIR, UserUtils.USER_FILE).exists() ) 
-         UserUtils.USER_DIR = new File("../../user").exists() ? "../../user" : 
-            new File("../../../user").exists() ? "../../../user" : ".";
       if ( logToConsole )
          BasicConfigurator.configure();
       else
@@ -163,9 +156,10 @@ public class Always {
       container.as(Characteristics.CACHE).addComponent(this);
       container.as(Characteristics.CACHE).addComponent(RelationshipManager.class);  
       addRegistry(new OntologyUserRegistry()); 
-      addCMRegistry(new ClientRegistry());
-      addCMRegistry(new StartupSchemas(allPlugins));
       register();
+      addCMRegistry(new ClientRegistry());
+      addCMRegistry(new StartupSchemas());
+      addCMRegistry(new EngagementRegistry());
       SpeechMarkupBehavior.ANALYZER = new AgentSpeechMarkupAnalyzer();
       CollaborationManager cm = new CollaborationManager(container);
       container.as(Characteristics.CACHE).addComponent(cm);
@@ -182,6 +176,8 @@ public class Always {
    private final List<OntologyRegistry> ontologyRegistries = new ArrayList<OntologyRegistry>();
    private final List<ComponentRegistry> registries = new ArrayList<ComponentRegistry>();
    private final List<Registry> cmRegistries = new ArrayList<Registry>();
+   
+   public List<Registry> getCMRegistries () { return cmRegistries; }
    
    public void addRegistry (Registry registry) {
       if ( registry instanceof ComponentRegistry )
@@ -204,13 +200,15 @@ public class Always {
       // start container first, since cm has own start method
       container.start(); 
       CollaborationManager cm = container.getComponent(CollaborationManager.class);
-      for (Registry registry : cmRegistries) cm.addRegistry(registry);
+      for (Registry registry : cmRegistries) cm.addRegistry(registry);      
       Utils.lnprint(System.out, "Starting Collaboration Manager...");
       cm.start(plugin, activity); 
       Utils.lnprint(System.out, "Always running...");
-      if ( plugin != null ) 
-         cm.setSchema(null,
-            container.getComponent(plugin).startActivity(activity).getClass());
+      if ( plugin != null ) {
+         Schema schema =  container.getComponent(plugin).startActivity(activity);
+         cm.setSchema(null, schema.getClass());
+         cm.getInteraction().setSchema(schema);
+      }
    }
 
    public void stop () { 

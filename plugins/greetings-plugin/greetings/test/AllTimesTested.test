@@ -1,6 +1,7 @@
     # Nov 19, 2013 3:17:07 PM - TaskEngine 1.5.1 / Disco 1.7.1
     Welcome to Disco! (Type 'help' for command list)
   > load java/edu/wpi/always/greetings/resources/Greetings.xml
+  > eval $disco.getInteraction().setSchema(new Packages.edu.wpi.always.greetings.GreetingsSchema(null,null,null,null,$always));
   > task _MorningGreetings
     User says "Let's achieve _MorningGreetings."
     Agent says "Good morning, Diane."

@@ -2,27 +2,20 @@
 <classpath>
 	<classpathentry kind="src" path="java">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="agent/lib/win32-x86-64"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="xagent/lib/win32-x86-64"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" output="tmp" path="USER"/>
 	<classpathentry kind="src" output="tmp" path="test"/>
-	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.17.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="http://logging.apache.org/log4j/1.2/apidocs"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="lib/activemq-all-5.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/bsh-2.0b4.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.9.0.jar"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/owlapi/aterm-java-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/jfact.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/jgrapht-jdk1.5.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-core.jar" sourcepath="lib/owlapi/src/pellet-core-src.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-datatypes.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-el.jar"/>
-	<classpathentry kind="lib" path="lib/owlapi/pellet-owlapiv3.jar" sourcepath="lib/owlapi/src/pellet-owlapiv3-src.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-rules.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/discoRT"/>
 	<classpathentry exported="true" kind="lib" path="lib/gson-2.2.4.jar">
@@ -30,9 +23,10 @@
 			<attribute name="javadoc_location" value="http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/jna-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/win32-x86-64"/>
 	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/owlapi/owlapi-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/owlapi/pellet-owlapiv3-no-PelletReasoner.jar"/>
+	<classpathentry kind="lib" path="lib/jna-4.1.0.jar"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>

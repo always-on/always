@@ -86,7 +86,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
 
       // accessed by both schema and realizer threads
-      private boolean running;
+      private volatile boolean running;
 
       @Override
       public synchronized void run () {

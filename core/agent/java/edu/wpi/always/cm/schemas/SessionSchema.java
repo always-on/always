@@ -58,7 +58,6 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       DiscoDocument session = always.getRM().getSession();
       Disco disco = interaction.getDisco();
       if ( disco.getTaskClass("_Session") == null && session != null ) { // could be restart
-         interaction.load("edu/wpi/always/greetings/resources/Greetings.xml");
          interaction.load("Relationship Manager", 
                session.getDocument(), session.getProperties(), session.getTranslate());
          interaction.push(interaction.addTop("_Session"));
@@ -142,7 +141,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          stateMachine.setState(stop);
          stateMachine.setExtension(true);
       }
-      stateMachine.setSpecificityMetadata(0.5);
+      stateMachine.setSpecificityMetadata(SPECIFICITY-0.2);
       setNeedsFocusResource(false);
       Plugin.getPlugin(plan.getType(), container).show();
    }

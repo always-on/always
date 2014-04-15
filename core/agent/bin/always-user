@@ -4,7 +4,7 @@
 #
 # always-user [USER_FILE]
 #
-# default file is User.owl in always/user or current directory
+# default file is most recent User.*.owl in log directory
 #
 dir="`dirname $0`"
 "$dir/_disco" edu.wpi.always.user.UserUtils "$@"

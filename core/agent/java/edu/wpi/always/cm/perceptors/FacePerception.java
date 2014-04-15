@@ -41,13 +41,10 @@ public class FacePerception extends Perception {
    
    public boolean isFace () { return left != -1; }
    
-   private static final int FACE_NEAR_WIDTH_THRESHOLD = 50;
-   private static final int FACE_NEAR_HEIGHT_THRESHOLD = 50;
+   public static final int FACE_NEAR_AREA_THRESHOLD = 2500;
 
    public boolean isNear () {
-      return isFace() && 
-       ( (right - left) > FACE_NEAR_WIDTH_THRESHOLD
-         || (bottom - top) > FACE_NEAR_HEIGHT_THRESHOLD );
+      return isFace() && area > FACE_NEAR_AREA_THRESHOLD; 
    }
    
    public int getBottom () { return bottom; }

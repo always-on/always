@@ -20,9 +20,14 @@ public abstract class UserUtils {
 
    /**
     * Folder where user model is stored.  
-    * See initialization in Always constructor
     */
-   public static String USER_DIR;
+   public static String USER_DIR = "/Dropbox-Always/"+System.getenv("COMPUTERNAME");
+   
+   static {
+      if ( !new File(USER_DIR).exists() )
+         USER_DIR = new File("../../user").exists() ? "../../user" : 
+            new File("../../../user").exists() ? "../../../user" : ".";
+   }
    
    /**
     * Filename in USER_DIR for user model.
@@ -35,17 +40,15 @@ public abstract class UserUtils {
     * Optional argument is USER_FILE
     */
    public static void main (String[] args) {
-      USER_DIR = new File("../../user").exists() ? "../../user" : 
-            new File("../../../user").exists() ? "../../../user" : ".";
       if ( args != null && args.length > 0 && args[0].length() > 0 ) 
          USER_FILE = args[0];
       else {
          File last = lastModified();
-         if ( last != null ) USER_FILE = last.toString();
+         if ( last != null ) USER_FILE = last.getName().toString();
       }
       Always always = new Always(true, true);
       // to get plugin classes 
-      for (TaskClass task : new TaskEngine().load("Activities.xml").getTaskClasses())
+      for (TaskClass task : new TaskEngine().load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
          Plugin.getPlugin(task);
       UserModel model = always.getUserModel();
       if ( model.getUserName() == null )
