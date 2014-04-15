@@ -87,9 +87,19 @@ public class ClientProxy {
       enqueue("express", p);
    }
 
-   public void toggleAgent () {
-      enqueue("toggleAgent");
+   public void setVisibility (boolean status) {
+	   HashMap<String, String> p = Maps.newHashMap();
+	   if(status)
+		   p.put("status", "true");
+	   else
+		   p.put("status","false");
+	   enqueue("setVisible",p);
    }
+   
+   
+/*   public void toggleAgent () {
+      enqueue("toggleAgent");
+   }*/
    
    public static float ZOOM = 1.6f;
    
