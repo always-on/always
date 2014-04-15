@@ -1,6 +1,8 @@
 package edu.wpi.always.cm.schemas;
 
 import java.util.Arrays;
+import com.sun.msv.datatype.xsd.Proxy;
+import edu.wpi.always.client.ClientProxy;
 import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
 import edu.wpi.always.cm.perceptors.EngagementPerceptor;
@@ -24,18 +26,18 @@ public class EngagementSchema extends SchemaBase {
 
    private final EngagementPerceptor engagementPerceptor;
    private final SchemaManager schemaManager;
+   private final ClientProxy proxy;
 
    public EngagementSchema (BehaviorProposalReceiver behaviorReceiver, BehaviorHistory behaviorHistory,
-         EngagementPerceptor engagementPerceptor, SchemaManager schemaManager) {
+         EngagementPerceptor engagementPerceptor, SchemaManager schemaManager, ClientProxy proxy) {
       super(behaviorReceiver, behaviorHistory);
       this.engagementPerceptor = engagementPerceptor;
       this.schemaManager = schemaManager;
+      this.proxy = proxy;
    }
 
    private EngagementState lastState;
 
-   private boolean dim = true;
-   
    private boolean started; // session started
    
    @Override
@@ -52,23 +54,20 @@ public class EngagementSchema extends SchemaBase {
                if ( lastState != EngagementState.Idle ) {
                   // TODO: need to end session
                }
-               if ( !dim) {
-                  // TODO: dim screen
-                  java.awt.Toolkit.getDefaultToolkit().beep();
-                  dim = true;
-               }
-               propose(Behavior.newInstance(new IdleBehavior(false)), m);
+               proxy.setAgentVisible(false);
+               propose(new MenuBehavior(Arrays.asList("Hello")), m);
                break;
             case Attention:
-               undim();
+               proxy.setAgentVisible(true);
+               propose(new MenuBehavior(Arrays.asList("Hi")), m);
                proposeNothing();
                break;
             case Initiation:
-               undim();
+               proxy.setAgentVisible(true);
                propose(Behavior.newInstance(new SpeechBehavior("Hi"), new MenuBehavior(Arrays.asList("Hi"))), m);
                break;
             case Engaged:
-               undim();
+               proxy.setAgentVisible(true);
                if ( !started ) { 
                   Utils.lnprint(System.out, "Starting session...");
                   schemaManager.start(SessionSchema.class);
@@ -77,7 +76,7 @@ public class EngagementSchema extends SchemaBase {
                proposeNothing();
                break;
             case Recovering:
-               undim();
+               proxy.setAgentVisible(true);
                propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), new MenuBehavior(
                      Arrays.asList("Yes"))), m);
                break;
@@ -85,15 +84,5 @@ public class EngagementSchema extends SchemaBase {
          lastState = engagementPerception.getState();
       } else
          lastState = null;
-   }
-   
-   private void undim () {
-      if ( dim ) {
-         // TODO: Un-dim screen
-         java.awt.Toolkit.getDefaultToolkit().beep();
-         try { Thread.sleep(250); } catch (InterruptedException e) {}
-         java.awt.Toolkit.getDefaultToolkit().beep();
-         dim = false;
-      }
    }
 }
