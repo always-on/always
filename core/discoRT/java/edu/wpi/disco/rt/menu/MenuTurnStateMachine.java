@@ -19,7 +19,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private final ResourceMonitor resourceMonitor;
    private final MenuTimeoutHandler timeoutHandler;
    private TimeStampedValue<Behavior> previousBehavior = new TimeStampedValue<Behavior>(Behavior.NULL);
-   private AdjacencyPair state, previousState;
+   private AdjacencyPair state, previousState, timedOutState;
    private Mode mode;
    private DateTime waitingForResponseSince;
    private boolean needsToDifferentiate;
@@ -124,8 +124,9 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
                PrimitiveBehavior.nullBehavior(Resources.SPEECH), menuBehavior));
          if ( needsFocusResource ) behavior = behavior.addFocusResource();
       }
-      if ( mode == Mode.Hearing && !extension
+      if ( mode == Mode.Hearing && !extension && state != timedOutState // don't timeout twice
            && waitingForResponseSince.isBefore(DateTime.now().minusMillis(TIMEOUT_DELAY)) ) {
+         timedOutState = state;
          AdjacencyPair newState = timeoutHandler.handle(state);
          if ( newState != null && newState != state ) {
             setState(newState);
@@ -144,8 +145,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       return state.getChoices() != null && !state.getChoices().isEmpty();
    }
    
-   private String checkMenuSelected (List<String> userChoices,
-         TimeStampedValue<Behavior> menuShownAt) {
+   private String checkMenuSelected (List<String> userChoices, TimeStampedValue<Behavior> menuShownAt) {
       MenuPerception p = menuPerceptor.getLatest();
       // ignore selection that is not in choices, since could be from 
       // menu extension (or vice versa)

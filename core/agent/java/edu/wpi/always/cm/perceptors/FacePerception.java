@@ -22,7 +22,7 @@ public class FacePerception extends Perception {
       this.center = center;
    	this.tiltcenter = tiltcenter;
    }
- 
+
    /**
     * @return null if no face
     */

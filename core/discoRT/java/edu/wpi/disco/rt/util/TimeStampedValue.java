@@ -1,6 +1,5 @@
 package edu.wpi.disco.rt.util;
 
-import org.joda.time.DateTime;
 
 public class TimeStampedValue<T> {
 
