@@ -45,30 +45,34 @@ public class EngagementSchema extends SchemaBase {
       // needs to have higher priority than session schema
       BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(ActivitySchema.SPECIFICITY+0.4)
             .build();
-      EngagementPerception engagementPerception = engagementPerceptor
-            .getLatest();
+      EngagementPerception engagementPerception = engagementPerceptor.getLatest();
       if ( engagementPerception != null ) {
          switch (engagementPerception.getState()) {
-            //TODO: Need to make it *very* hard to end session!!!!
             case Idle:
-               if ( lastState != EngagementState.Idle ) {
-                  // TODO: need to end session
+               if ( lastState == EngagementState.Recovering ) {} // System.exit(0); 
+               if ( lastState != EngagementState.Idle ) { 
+                  proxy.setAgentVisible(false);
+                  propose(new MenuBehavior(Arrays.asList("Hello")), m);
                }
-               proxy.setAgentVisible(false);
-               propose(new MenuBehavior(Arrays.asList("Hello")), m);
                break;
             case Attention:
-               proxy.setAgentVisible(true);
-               propose(new MenuBehavior(Arrays.asList("Hi")), m);
-               proposeNothing();
+               if ( started ) proposeNothing();
+               else {
+                  proxy.setAgentVisible(true);
+                  propose(new MenuBehavior(Arrays.asList("Hi")), m);
+               }
                break;
             case Initiation:
-               proxy.setAgentVisible(true);
-               propose(Behavior.newInstance(new SpeechBehavior("Hi"), new MenuBehavior(Arrays.asList("Hi"))), m);
+               if ( started ) proposeNothing();
+               else {
+                  proxy.setAgentVisible(true);
+                  propose(Behavior.newInstance(new SpeechBehavior("Hi"), 
+                                               new MenuBehavior(Arrays.asList("Hi"))), m);
+               }
                break;
             case Engaged:
-               proxy.setAgentVisible(true);
                if ( !started ) { 
+                  proxy.setAgentVisible(true);
                   Utils.lnprint(System.out, "Starting session...");
                   schemaManager.start(SessionSchema.class);
                   started = true;
@@ -77,12 +81,11 @@ public class EngagementSchema extends SchemaBase {
                break;
             case Recovering:
                proxy.setAgentVisible(true);
-               propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), new MenuBehavior(
-                     Arrays.asList("Yes"))), m);
+               propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), 
+                                            new MenuBehavior(Arrays.asList("Yes"))), m);
                break;
          }
          lastState = engagementPerception.getState();
-      } else
-         lastState = null;
+      }
    }
 }

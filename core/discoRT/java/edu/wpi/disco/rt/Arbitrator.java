@@ -36,7 +36,8 @@ public class Arbitrator implements Runnable {
       freeResources = Lists.newArrayList(Resources.values());
       proposals = filterOutEmptyCandidates(candidateBehaviors.all());
       selected = Lists.newArrayList();
-      // first assign discourse focus based on Disco
+      // first assign discourse focus based on Disco 
+      // unless there is a higher priority proposal
       Plan focusPlan = interaction.getFocusExhausted(true);
       Class<? extends Schema> schema = 
             discoRT.getSchema(focusPlan == null ? null :
@@ -46,7 +47,8 @@ public class Arbitrator implements Runnable {
          for (CandidateBehavior proposal : proposals) {
             Schema proposer = proposal.getProposer();
             if ( schema.isAssignableFrom(proposer.getClass()) ) {
-               if ( proposal.getBehavior().getResources().contains(Resources.FOCUS) ) {
+               if ( proposal.getBehavior().getResources().contains(Resources.FOCUS) 
+                     && !hasMoreSpecific(proposals, proposal) ) {
                   choose(proposal);
                   focusProposal = proposal;
                   proposer.focus();
@@ -114,7 +116,16 @@ public class Arbitrator implements Runnable {
 
    private CandidateBehavior decide (List<CandidateBehavior> candidates,
          CandidateBehavior focusedOne) {
-      return focusedOne == null ? strategy.decide(candidates) :
-         strategy.decide(candidates, focusedOne);
+      return ( focusedOne == null || hasMoreSpecific(candidates, focusedOne) )? 
+          strategy.decide(candidates) :
+          strategy.decide(candidates, focusedOne);
+   }
+   
+   private static boolean hasMoreSpecific (List<CandidateBehavior> candidates, CandidateBehavior candidate) {
+      double specificity = candidate.getMetadata().getSpecificity();
+      for (CandidateBehavior proposal : candidates) 
+         if ( proposal.getMetadata().getSpecificity() > specificity)
+            return true;
+      return false;
    }
 }

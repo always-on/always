@@ -6,11 +6,9 @@ import edu.wpi.disco.rt.menu.MenuPerception;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 import edu.wpi.disco.rt.util.Utils;
 
-// TODO Respond to touches elsewhere on screen than menu
-
 public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor {
 
-   private volatile EngagementPerception latest = new EngagementPerception(EngagementState.Idle);
+   private EngagementPerception latest = new EngagementPerception(EngagementState.Idle);
    private final FacePerceptor facePerceptor;
    private final MovementPerceptor movementPerceptor;
    private final MenuPerceptor menuPerceptor;
@@ -33,10 +31,8 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
    public void run () {
       synchronized (stateLock) {
          EngagementState currentState = null;
-         if ( latest != null )
-            currentState = latest.getState();
-         if ( currentState == null )
-            currentState = EngagementState.Idle;
+         if ( latest != null ) currentState = latest.getState();
+         if ( currentState == null ) currentState = EngagementState.Idle;
          FacePerception facePerception = facePerceptor.getLatest();
          if ( facePerception != null ) {
             if ( lastFaceChange == null
@@ -83,7 +79,7 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
 
    protected void setState (EngagementState newState) {
       synchronized (stateLock) {
-         if ( Always.TRACE ) Utils.lnprint(System.out, "Engagement Status: "
+         if ( Always.TRACE ) Utils.lnprint(System.out, "ENGAGEMENT: "
             + (latest != null ? latest.getState() : "") + " -> " + newState);
          // reset timing for new state
          if ( lastMovementChange != null )
@@ -98,9 +94,7 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
    }
 
    @Override
-   public EngagementPerception getLatest () {
-      return latest;
-   }
+   public EngagementPerception getLatest () { return latest;  }
      
    private static abstract class Transition {
       

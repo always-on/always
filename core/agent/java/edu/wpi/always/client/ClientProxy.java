@@ -3,12 +3,13 @@ package edu.wpi.always.client;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import edu.wpi.always.*;
+import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 
 public class ClientProxy {
@@ -87,10 +88,13 @@ public class ClientProxy {
       enqueue("express", p);
    }
 
-   public void setAgentVisible (boolean visible) { 
-      HashMap<String, String> p = Maps.newHashMap();
-      p.put("status", Boolean.toString(visible));
-      enqueue("setVisible", p);
+   public void setAgentVisible (boolean visible) {
+      // never make agent visible for Reeti-only mode
+      if ( !visible || Always.getAgentType() != AgentType.Reeti ) {
+         HashMap<String, String> p = Maps.newHashMap();
+         p.put("status", Boolean.toString(visible));
+         enqueue("setVisible", p);
+      }
    }
    
    public static float ZOOM = 1.6f;
