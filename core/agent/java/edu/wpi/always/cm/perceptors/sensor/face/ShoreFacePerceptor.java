@@ -65,9 +65,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
              ((float) faceAreaThreshold / timeUnit));
    }
 
-   // overridden only for virtual agent
-   protected boolean isSignificantMotion (int timeDifference) { return true; }
-
    public static class Agent extends ShoreFacePerceptor {
 
       protected final int faceHorizontalMovementThreshold = 5,
@@ -107,14 +104,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       @Override
       protected FaceInfo getFaceInfo (int debug) {
          return CPPinterface.INSTANCE.getAgentFaceInfo(debug);
-      }
-
-      @Override
-      protected boolean isSignificantMotion (int timeDifference) {
-         return ((((float) Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference) > 
-                ((float) faceHorizontalMovementThreshold / timeUnit)) || 
-                (((float) Math.abs(info.intTop - prevInfo.intTop) / timeDifference) > 
-                ((float) faceVerticalMovementThreshold / timeUnit)));
       }
    }
 
