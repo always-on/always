@@ -33,13 +33,13 @@ public class FakeMovementPerceptor implements MovementPerceptor, ItemListener {
    @Override
    public void run () {
       if ( txtX == null )
-         latest = new MovementPerception(DateTime.now(), motion, null);
+         latest = new MovementPerception(motion, null);
       else {
          Point p = tryParsePoint();
          if ( p == null )
             latest = null;
          else
-            latest = new MovementPerception(DateTime.now(), true, p);
+            latest = new MovementPerception(true, p);
       }
    }
 

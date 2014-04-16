@@ -18,7 +18,7 @@ public class PIRMovementPerceptor implements MovementPerceptor {
    @Override
    public void run () {
       // note location is unknown
-      latest = new MovementPerception(DateTime.now(), sensor.getState(), null);
+      latest = new MovementPerception(sensor.getState(), null);
    }
 
    // This main method tests the PIR sensor functionality

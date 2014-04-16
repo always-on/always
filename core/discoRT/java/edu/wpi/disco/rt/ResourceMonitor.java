@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import edu.wpi.disco.rt.behavior.PrimitiveBehavior;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.util.TimeStampedValue;
-import org.joda.time.DateTime;
 import java.util.*;
 
 public class ResourceMonitor implements PrimitiveBehaviorControlObserver {
@@ -17,12 +16,12 @@ public class ResourceMonitor implements PrimitiveBehaviorControlObserver {
    }
 
    public boolean allDone (List<PrimitiveBehavior> primitiveBehaviors,
-         DateTime since) {
+         long since) {
       List<PrimitiveBehavior> p = new ArrayList<PrimitiveBehavior>(
             primitiveBehaviors);
       for (int i = doneBehaviors.size() - 1; i >= 0; i--) {
          TimeStampedValue<PrimitiveBehavior> cur = doneBehaviors.get(i);
-         if ( cur.getTimeStamp().isBefore(since) )
+         if ( cur.getTimeStamp() < since )
             break;
          p.remove(cur.getValue());
          // If cur.getValue() was not present in p, but some other primitive
@@ -38,7 +37,7 @@ public class ResourceMonitor implements PrimitiveBehaviorControlObserver {
       return p.size() == 0;
    }
    
-   public boolean isDone (PrimitiveBehavior primitive, DateTime since) {
+   public boolean isDone (PrimitiveBehavior primitive, long since) {
       return allDone(Lists.newArrayList(primitive), since);
    }
    

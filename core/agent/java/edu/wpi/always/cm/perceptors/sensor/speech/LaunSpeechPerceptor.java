@@ -38,17 +38,17 @@ public class LaunSpeechPerceptor extends JMSMessagePerceptor<SpeechPerception>
          }
          switch (state) {
          case SpeechSilent:
-            return new SpeechPerception(DateTime.now(), SpeechState.Silent);
+            return new SpeechPerception(SpeechState.Silent);
          case SpeechNormal:
          case PunctualPositiveSpeech:
          case PunctualNegativeSpeech:
          case PunctualBackchannel:
          case PunctualAskQuestion:
-            return new SpeechPerception(DateTime.now(), SpeechState.Normal);
+            return new SpeechPerception(SpeechState.Normal);
          case SpeechLoud:
          case SpeechLoud2:
          case SpeechLoud3:
-            return new SpeechPerception(DateTime.now(), SpeechState.Loud);
+            return new SpeechPerception(SpeechState.Loud);
          }
       }
       return getLatest();

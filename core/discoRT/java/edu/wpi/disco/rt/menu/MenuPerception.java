@@ -7,14 +7,10 @@ public class MenuPerception extends Perception {
 
    private final String selected;
 
-   public MenuPerception (String selected, DateTime stamp) {
-      super(stamp);
+   public MenuPerception (String selected) {
       this.selected = selected;
    }
 
-   public MenuPerception (String selected) {
-      this(selected, DateTime.now());
-   }
    public String getSelected () { return selected; }
 
    @Override
