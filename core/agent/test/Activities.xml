@@ -1,0 +1,39 @@
+<taskModel about="urn:always.wpi.edu:Activities"
+           xmlns="http://ce.org/cea-2018">
+
+  <!-- This model is loaded at startup to register all of the activities and
+       their respective plugins.
+
+       See Activities.properties for plugin information
+  -->
+
+  <!-- **TODO** add applicability conditions to these toplevel activities if
+                they are restricted to acquaintance or companion  -->
+                                
+  <task id="GreetUser"/>
+
+  <task id="PlayTicTacToe"/>
+
+  <script init="true">
+
+    /*
+     This element contains Javascript that is evaluated when this model
+     is loaded.  This is convenient place to set parameters, etc., without
+     changing source code.  Note that all Java classes and methods can
+     be accessed from Javascript.  The variable edu.wpi.always.Always.THIS
+     contains the most recent instance of the system.
+
+     Note the 'eval' command in the Disco console window can be used
+     similarly.
+    */
+  
+    /* These variables can be changed either here or using eval command in console.  Note
+       the values here only apply to the session instance of Disco.  Tracing in Disco-based
+       plugins can be set in the plugin model or plugin console. */
+    
+    Packages.edu.wpi.always.Always.TRACE = true;
+    Packages.edu.wpi.disco.rt.DiscoRT.TRACE = false;
+    
+  </script>
+
+</taskModel>
