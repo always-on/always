@@ -53,12 +53,13 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
          boolean hadTouch = false;
          MenuPerception menuPerception = menuPerceptor.getLatest();
          if ( menuPerception != null && lastTouchChange != null ) {
-            if ( !menuPerception.getSelected().equals(lastTouchChange.selected) ) {
-               lastTouchChange = new TouchTransition(menuPerception.getSelected());
+            if ( !menuPerception.getSelected().equals(lastTouchChange.selected) 
+                  || menuPerception.getTimeStamp() > lastTouchChange.timeStamp ) {
+               lastTouchChange = new TouchTransition(menuPerception);
                hadTouch = true;
             }
          } else
-            lastTouchChange = new TouchTransition(null);
+            lastTouchChange = new TouchTransition();
          EngagementState nextState = currentState.nextState(lastMovementChange,
                lastFaceChange, lastTouchChange, hadTouch,
                System.currentTimeMillis() - lastStateChangeTime);
@@ -106,9 +107,16 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
    static class TouchTransition extends Transition {
       
       final String selected;
+      final long timeStamp;  // to distinguish same menu put up twice (for recovery)
 
-      public TouchTransition (String selected) {
-         this.selected = selected;
+      public TouchTransition () {
+         selected = null;
+         timeStamp = 0L;
+      }
+      
+      public TouchTransition (MenuPerception menu) {
+         this.selected = menu.getSelected();
+         this.timeStamp = menu.getTimeStamp();
       }
    }
 
