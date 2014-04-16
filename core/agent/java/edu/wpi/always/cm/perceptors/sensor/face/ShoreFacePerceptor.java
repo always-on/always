@@ -40,17 +40,17 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    public void run () {
       info = getFaceInfo(0);
       Long currentTime = System.currentTimeMillis();
-      if ( info != null && (prevInfo == null || isRealFace((int) (currentTime - previousTime))) )
+      if ( info == null || info.intLeft < 0 ) latest = null; // lost face
+      else if ( prevInfo == null || isRealFace((int) (currentTime - previousTime)) )
          latest = new FacePerception(DateTime.now(), info.intTop,
                info.intBottom, info.intLeft, info.intRight, info.intArea,
                info.intCenter, info.intTiltCenter);
-      else latest = null;
       prevInfo = info;
       previousTime = currentTime;
    }
 
    protected boolean isRealFace (int timeDifference) {
-      return info.intLeft >=  0 && isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
+      return isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
    }
 
    private boolean isProportionalPosition (int timeDifference) {
@@ -64,6 +64,9 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       return (((float) Math.abs(info.intArea - prevInfo.intArea) / timeDifference) <= 
              ((float) faceAreaThreshold / timeUnit));
    }
+
+   // overridden only for virtual agent
+   protected boolean isSignificantMotion (int timeDifference) { return true; }
 
    public static class Agent extends ShoreFacePerceptor {
 
@@ -107,12 +110,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
 
       @Override
-      protected boolean isRealFace (int timeDifference) {
-         return super.isRealFace(timeDifference)
-            && isSignificantMotion(timeDifference);
-      }
-
-      private boolean isSignificantMotion (int timeDifference) {
+      protected boolean isSignificantMotion (int timeDifference) {
          return ((((float) Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference) > 
                 ((float) faceHorizontalMovementThreshold / timeUnit)) || 
                 (((float) Math.abs(info.intTop - prevInfo.intTop) / timeDifference) > 
