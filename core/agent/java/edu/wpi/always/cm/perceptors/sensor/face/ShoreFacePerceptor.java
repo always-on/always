@@ -67,9 +67,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    public static class Agent extends ShoreFacePerceptor {
 
-      protected final int faceHorizontalMovementThreshold = 5,
-            faceVerticalMovementThreshold = 5;
-
       public Agent () {
          super(50, 50, 1700);
          start();
