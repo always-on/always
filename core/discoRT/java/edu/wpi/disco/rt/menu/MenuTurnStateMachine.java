@@ -107,8 +107,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       if ( alreadyDone && mode == Mode.Speaking ) setMode(Mode.Hearing);
       if ( menuBehavior != null
            && resourceMonitor.isDone(menuBehavior, previousBehavior.getTimeStamp()) ) {
-         String selected = checkMenuSelected(state.getChoices(),
-                                             previousBehavior.getTimeStamp());
+         String selected = checkMenuSelected(state.getChoices(), previousBehavior);
          if ( selected != null ) {
             // prevent infinite loop when same state, same menu and no message
             if ( state == previousState ) update(Behavior.NULL);
@@ -146,12 +145,12 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    }
    
    private String checkMenuSelected (List<String> userChoices,
-         DateTime menuShownAt) {
+         TimeStampedValue<Behavior> menuShownAt) {
       MenuPerception p = menuPerceptor.getLatest();
       // ignore selection that is not in choices, since could be from 
       // menu extension (or vice versa)
       if ( p != null && userChoices.contains(p.getSelected())
-         && p.getTimeStamp().isAfter(menuShownAt) ) {
+         && p.getTimeStamp() > menuShownAt.getTimeStamp() ) {
          return p.getSelected();
       }
       return null;

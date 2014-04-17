@@ -26,7 +26,7 @@ public class CandidateBehaviorsContainerTest {
       behaviorHistory = new BehaviorHistory() {
 
          @Override
-         public boolean isDone (CompoundBehavior behavior, DateTime since) {
+         public boolean isDone (CompoundBehavior behavior, long since) {
             // TODO Auto-generated method stub
             return false;
          }

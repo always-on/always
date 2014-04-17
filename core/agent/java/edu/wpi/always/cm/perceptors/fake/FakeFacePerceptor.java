@@ -48,13 +48,13 @@ public class FakeFacePerceptor extends PerceptorBase<FacePerception>
    @Override
    public void run () {
       if ( txtX == null) {
-         latest = new FacePerception(DateTime.now(), 0, 0, area-1, 0, area, 0, 0);
+         latest = new FacePerception(0, 0, area-1, 0, area, 0, 0);
       } else {
          Point p = tryParsePoint();
          if ( p == null )
             latest = null;
          else
-            latest = new FacePerception(DateTime.now(), p.x, p.x, p.y, p.y, 0, 0, 0);
+            latest = new FacePerception(p.x, p.x, p.y, p.y, 0, 0, 0);
       }
    }
 
