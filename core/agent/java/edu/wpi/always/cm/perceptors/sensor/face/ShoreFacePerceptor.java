@@ -8,23 +8,19 @@ import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 
 public abstract class ShoreFacePerceptor implements FacePerceptor {
 
-   private long currentTime = 0;
-
    private long previousTime = 0;
 
    private final static int timeUnit = 220;
 
-   protected FaceInfo getFaceInfo (int debug) {
-      return null;
-   }
+   protected FaceInfo getFaceInfo (int debug) { return null; }
 
    public abstract void start ();
 
    public abstract void stop ();
 
-   protected volatile FacePerception latest;
+   protected FacePerception latest;
 
-   protected volatile FaceInfo info, prevInfo;
+   protected FaceInfo info, prevInfo;
 
    private final int faceHorizontalDisplacementThreshold,
          faceVerticalDisplacementThreshold, faceAreaThreshold;
@@ -42,25 +38,20 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    @Override
    public void run () {
-
       info = getFaceInfo(0);
-      currentTime = System.currentTimeMillis();
-
-      if ( info != null ) {
-         if ( prevInfo != null ) {
-            if ( isRealFace((int) (currentTime - previousTime)) ) {
-               latest = new FacePerception(DateTime.now(), info.intTop,
-                     info.intBottom, info.intLeft, info.intRight, info.intArea,
-                     info.intCenter, info.intTiltCenter);
-            }
-         }
+      if ( info != null) {
+         Long currentTime = System.currentTimeMillis();
+         if ( prevInfo == null || isRealFace((int) (currentTime - previousTime)) )
+            latest = new FacePerception(DateTime.now(), info.intTop,
+                  info.intBottom, info.intLeft, info.intRight, info.intArea,
+                  info.intCenter, info.intTiltCenter);
          prevInfo = info;
          previousTime = currentTime;
       }
    }
 
    protected boolean isRealFace (int timeDifference) {
-      return (isProportionalPosition(timeDifference) && isProportionalArea(timeDifference));
+      return isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
    }
 
    private boolean isProportionalPosition (int timeDifference) {
@@ -76,9 +67,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
    }
 
    public static class Agent extends ShoreFacePerceptor {
-
-      protected final int faceHorizontalMovementThreshold = 5,
-            faceVerticalMovementThreshold = 5;
 
       public Agent () {
          super(50, 50, 1700);
@@ -114,19 +102,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       @Override
       protected FaceInfo getFaceInfo (int debug) {
          return CPPinterface.INSTANCE.getAgentFaceInfo(debug);
-      }
-
-      @Override
-      protected boolean isRealFace (int timeDifference) {
-         return super.isRealFace(timeDifference)
-            && isSignificantMotion(timeDifference);
-      }
-
-      private boolean isSignificantMotion (int timeDifference) {
-         return ((((float) Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference) > 
-                ((float) faceHorizontalMovementThreshold / timeUnit)) || 
-                (((float) Math.abs(info.intTop - prevInfo.intTop) / timeDifference) > 
-                ((float) faceVerticalMovementThreshold / timeUnit)));
       }
    }
 

@@ -99,7 +99,7 @@ public class ThreadPools {
          } catch (ExecutionException e) {
             t = e.getCause();
             // run exception handler before dispose
-            if ( t != null && throwable.isInstance(t) ) {
+            if ( t != null && throwable != null && throwable.isInstance(t) ) {
                handler.handle(r, t);
                t = null;
             }
@@ -118,7 +118,7 @@ public class ThreadPools {
          }
       }
       if ( t != null ) {
-         if  ( throwable.isInstance(t) ) handler.handle(r, t);
+         if  ( throwable != null && throwable.isInstance(t) ) handler.handle(r, t);
          else {
             System.out.println(); // may improve readability
             edu.wpi.cetask.Utils.rethrow(t);
