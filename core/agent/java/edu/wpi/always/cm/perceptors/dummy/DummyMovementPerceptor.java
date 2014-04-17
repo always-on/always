@@ -1,15 +1,10 @@
 package edu.wpi.always.cm.perceptors.dummy;
 
 import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.disco.rt.perceptor.PerceptorBase;
 
-public class DummyMovementPerceptor implements MovementPerceptor {
-
-   private volatile MovementPerception latest;
-
-   @Override
-   public MovementPerception getLatest () {
-      return latest;
-   }
+public class DummyMovementPerceptor extends PerceptorBase<MovementPerception>
+             implements MovementPerceptor {
 
    @Override
    public void run () {

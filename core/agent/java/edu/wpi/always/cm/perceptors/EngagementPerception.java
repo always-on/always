@@ -20,14 +20,8 @@ public class EngagementPerception extends Perception {
    
    private final EngagementState state;
 
-   public EngagementPerception (EngagementState state,
-         DateTime timeStamp) {
-      super(timeStamp);
-      this.state = state;
-   }
-
    public EngagementPerception (EngagementState state) {
-      this(state, DateTime.now());
+      this.state = state;
    }
 
    public EngagementState getState () {

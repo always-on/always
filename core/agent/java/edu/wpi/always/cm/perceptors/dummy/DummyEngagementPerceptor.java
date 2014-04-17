@@ -3,18 +3,12 @@ package edu.wpi.always.cm.perceptors.dummy;
 import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
 import edu.wpi.always.cm.perceptors.EngagementPerceptor;
+import edu.wpi.disco.rt.perceptor.PerceptorBase;
 
-public class DummyEngagementPerceptor implements EngagementPerceptor {
+public class DummyEngagementPerceptor extends PerceptorBase<EngagementPerception>
+       implements EngagementPerceptor {
 
-   private volatile EngagementPerception latest = 
-         new EngagementPerception(EngagementState.Engaged);
-
-   @Override
-   public EngagementPerception getLatest () {
-      return latest;
+   public DummyEngagementPerceptor () {
+      latest = new EngagementPerception(EngagementState.Engaged);
    }
-
-   @Override
-   public void run () {}
-
 }

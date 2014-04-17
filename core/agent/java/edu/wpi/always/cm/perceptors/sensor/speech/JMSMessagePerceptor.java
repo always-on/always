@@ -2,7 +2,6 @@ package edu.wpi.always.cm.perceptors.sensor.speech;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -12,18 +11,11 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.jms.Topic;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
+import edu.wpi.disco.rt.perceptor.*;
 
-import edu.wpi.disco.rt.perceptor.AsyncPerceptor;
-import edu.wpi.disco.rt.perceptor.AsyncPerceptorListener;
-import edu.wpi.disco.rt.perceptor.BufferablePerceptor;
-import edu.wpi.disco.rt.perceptor.Perception;
-import edu.wpi.disco.rt.perceptor.Perceptor;
-import edu.wpi.disco.rt.perceptor.PerceptorBuffer;
-import edu.wpi.disco.rt.perceptor.PerceptorBufferManager;
-
-public abstract class JMSMessagePerceptor<T extends Perception> implements
+public abstract class JMSMessagePerceptor<T extends Perception> 
+      extends PerceptorBase<T> implements
       MessageListener, Perceptor<T>, BufferablePerceptor<T>, AsyncPerceptor<T> {
 
    private ConnectionFactory connectionFactory;
@@ -44,17 +36,6 @@ public abstract class JMSMessagePerceptor<T extends Perception> implements
       } catch (JMSException e) {
          e.printStackTrace();
       }
-   }
-
-   @Override
-   public void run () {
-   }
-
-   private volatile T latest;
-
-   @Override
-   public T getLatest () {
-      return latest;
    }
 
    @Override
