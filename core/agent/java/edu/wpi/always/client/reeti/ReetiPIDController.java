@@ -4,20 +4,24 @@ import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 
 public class ReetiPIDController {
 
-   private final double kpXNeck = 0.05, kpYNeck = 0.08; // For the future
+   private final double kpXNeck = 0.03, kpYNeck = 0.04; // For the future
                                                   // improvements: kiNeck = 0,
                                                   // kdNeck = 0;
 
-   private final double kpXEye = 0.03, kpYEye = 0.03; // For the future improvements:
+   private final double kpXEye = 0.02, kpYEye = 0.02; // For the future improvements:
                                                 // kiEye = 0, kdEye = 0;
 
    private double inputXPID = 0, inputYPID = 0, neckXPIDoutput,
-         neckYPIDoutput = 50, eyeXPIDoutput, eyeYPIDoutput = 42.55;
+         neckYPIDoutput, eyeXPIDoutput, eyeYPIDoutput;
 
    private final int neckOvershootTolerancePercentage = 70;
 
    private final int eyeOvershootTolerancePercentage = 50;
 
+   private final int neckOvershootMovePercentage = 10;
+   
+   private final int eyeOvershootMovePercentage = 5;
+   
    private boolean eyeReachedXLimit = false;
 
    private boolean eyeReachedYLimit = false;
@@ -49,6 +53,11 @@ public class ReetiPIDController {
       
       setNeckXPIDoutput(this.neckInitialOutputXPID);
       setEyeXPIDoutput(this.eyeInitialOutputXPID);
+      
+      this.neckXPIDoutput = config.getNeckRotat();
+      this.neckYPIDoutput = config.getNeckTilt();
+      this.eyeXPIDoutput  = config.getLeftEyePan();
+      this.eyeYPIDoutput  = config.getLeftEyeTilt();
    }
 
    private void neckXPIDcontroller () {
@@ -64,7 +73,7 @@ public class ReetiPIDController {
          if ( (output > (((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100) + this.neckXPIDoutput))
             && ((((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100) + this.neckXPIDoutput) <= 100) ) {
             output = this.neckXPIDoutput
-               + ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100);
+               + ((neckOvershootMovePercentage * this.neckXPIDoutput) / 100);
          } else {
             output = 100;
          }
@@ -72,7 +81,7 @@ public class ReetiPIDController {
          if ( (output < (this.neckXPIDoutput - ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100)))
             && ((this.neckXPIDoutput - ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100)) >= 0) ) {
             output = this.neckXPIDoutput
-               - ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100);
+               - ((neckOvershootMovePercentage * this.neckXPIDoutput) / 100);
          } else {
             output = 0;
          }
@@ -95,7 +104,7 @@ public class ReetiPIDController {
          if ( (output > (((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100) + this.neckYPIDoutput))
             && ((((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100) + this.neckYPIDoutput) <= 100) ) {
             output = this.neckYPIDoutput
-               + ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100);
+               + ((neckOvershootMovePercentage * this.neckYPIDoutput) / 100);
          } else {
             output = 100;
          }
@@ -103,7 +112,7 @@ public class ReetiPIDController {
          if ( (output < (this.neckYPIDoutput - ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100)))
             && ((this.neckYPIDoutput - ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100)) >= 0) ) {
             output = this.neckYPIDoutput
-               - ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100);
+               - ((neckOvershootMovePercentage * this.neckYPIDoutput) / 100);
          } else {
             output = 0;
          }
@@ -126,7 +135,7 @@ public class ReetiPIDController {
          if ( (output > (((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100) + this.eyeXPIDoutput))
             && ((((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100) + this.eyeXPIDoutput) <= 60) ) {
             output = this.eyeXPIDoutput
-               + ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100);
+               + ((eyeOvershootMovePercentage * this.eyeXPIDoutput) / 100);
          } else {
             output = 60;
          }
@@ -134,7 +143,7 @@ public class ReetiPIDController {
          if ( (output < (this.eyeXPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100)))
             && ((this.eyeXPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100)) >= 20) ) {
             output = this.eyeXPIDoutput
-               - ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100);
+               - ((eyeOvershootMovePercentage * this.eyeXPIDoutput) / 100);
          } else {
             output = 20;
          }
@@ -159,7 +168,7 @@ public class ReetiPIDController {
          if ( (output > (((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100) + this.eyeYPIDoutput))
             && ((((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100) + this.eyeYPIDoutput) <= 80) ) {
             output = this.eyeYPIDoutput
-               + ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100);
+               + ((eyeOvershootMovePercentage * this.eyeYPIDoutput) / 100);
          } else {
             output = 80;
          }
@@ -167,7 +176,7 @@ public class ReetiPIDController {
          if ( (output < (this.eyeYPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100)))
             && ((this.eyeYPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100)) >= 20) ) {
             output = this.eyeYPIDoutput
-               - ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100);
+               - ((eyeOvershootMovePercentage * this.eyeYPIDoutput) / 100);
          } else {
             output = 20;
          }

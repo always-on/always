@@ -25,7 +25,7 @@ public class ReetiFaceTrackerRealizer extends
 
    private long currentLosingTime = 0;
 
-   private static long acceptableLosingTime = 2000;
+   private static long acceptableLosingTime = 3000;
 
    private boolean searchFlag = false;
 
@@ -49,6 +49,16 @@ public class ReetiFaceTrackerRealizer extends
 
       // get socket connection
       client = cm.getReetiSocket();
+
+      // This is for reseting the head position to the latest head position
+      // before leaving ReetiFaceTrackerRealizer.
+       Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(),
+             proxy.getGazeVer());
+       String Message = reetiPIDOutput.Track(point.x, point.y,
+             trackingDirections);
+       client.send(Message);
+       fireDoneMessage();
+       this.lastMessage = Message;
    }
 
    public void ReetiFaceTracking () {
@@ -84,7 +94,6 @@ public class ReetiFaceTrackerRealizer extends
             this.lastMessage = Message;
 
             this.searchFlag = true;
-
          } else {
             currentLosingTime = System.currentTimeMillis();
 
