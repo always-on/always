@@ -28,7 +28,7 @@ public class MirrorFaceTrackerRealizer extends
                }
                @Override
                public void run() {}},  // not called by realizer
-            cm, proxy, config);
+            cm, config);
    }
 
    @Override
