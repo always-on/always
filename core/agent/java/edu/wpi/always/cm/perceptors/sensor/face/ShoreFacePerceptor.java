@@ -37,7 +37,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       if ( info != null) {
          Long currentTime = System.currentTimeMillis();
          if ( prevInfo == null || isRealFace((int) (currentTime - previousTime)) )
-            latest = new FacePerception(DateTime.now(), info.intTop,
+            latest = new FacePerception(info.intTop,
                   info.intBottom, info.intLeft, info.intRight, info.intArea,
                   info.intCenter, info.intTiltCenter);
          prevInfo = info;

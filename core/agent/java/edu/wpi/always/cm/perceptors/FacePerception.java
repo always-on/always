@@ -13,8 +13,7 @@ public class FacePerception extends Perception {
    private final int tiltcenter;
    private final int area;
 
-   public FacePerception (DateTime stamp, int top, int bottom, int left, int right, int area, int center, int tiltcenter) {
-      super(stamp);
+   public FacePerception (int top, int bottom, int left, int right, int area, int center, int tiltcenter) {
       this.top = top;
       this.bottom = bottom;
       this.left = left;
@@ -24,10 +23,6 @@ public class FacePerception extends Perception {
    	this.tiltcenter = tiltcenter;
    }
  
-   public FacePerception (int top, int bottom, int left, int right, int area, int center, int tiltcenter) {
-      this(DateTime.now(), top, bottom, left, right, area, center, tiltcenter);
-   }
-   
    /**
     * @return null if no face
     */
