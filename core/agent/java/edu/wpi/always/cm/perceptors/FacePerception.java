@@ -1,7 +1,6 @@
 package edu.wpi.always.cm.perceptors;
 
 import edu.wpi.disco.rt.perceptor.Perception;
-import org.joda.time.DateTime;
 import java.awt.Point;
 
 public class FacePerception extends Perception {
@@ -19,11 +18,8 @@ public class FacePerception extends Perception {
       this.bottom = bottom;
       this.left = left;
       this.right = right;
-
       this.area = area;
-   	
       this.center = center;
-   	
    	this.tiltcenter = tiltcenter;
    }
    

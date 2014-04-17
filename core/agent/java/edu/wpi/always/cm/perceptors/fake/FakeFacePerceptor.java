@@ -1,16 +1,17 @@
 package edu.wpi.always.cm.perceptors.fake;
 
 import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.disco.rt.perceptor.PerceptorBase;
 import org.joda.time.DateTime;
 import java.awt.Point;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class FakeFacePerceptor implements FacePerceptor, ActionListener {
+public class FakeFacePerceptor extends PerceptorBase<FacePerception>
+             implements FacePerceptor, ActionListener {
 
    private final JTextField txtX;
    private final JTextField txtY;
-   private volatile FacePerception latest;
 
    public FakeFacePerceptor (JTextField txtX, JTextField txtY) {
       this.txtX = txtX;
@@ -59,10 +60,5 @@ public class FakeFacePerceptor implements FacePerceptor, ActionListener {
 
    private Point tryParsePoint () {
       return FakeMovementPerceptor.tryParsePoint(txtX.getText(), txtY.getText());
-   }
-
-   @Override
-   public FacePerception getLatest () {
-      return latest;
    }
 }
