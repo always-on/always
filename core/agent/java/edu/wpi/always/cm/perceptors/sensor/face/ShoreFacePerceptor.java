@@ -5,8 +5,10 @@ import edu.wpi.always.Always;
 import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
+import edu.wpi.disco.rt.perceptor.PerceptorBase;
 
-public abstract class ShoreFacePerceptor implements FacePerceptor {
+public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
+                      implements FacePerceptor {
 
    private long previousTime = 0;
 
@@ -18,8 +20,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
 
    public abstract void stop ();
 
-   protected FacePerception latest;
-
    protected FaceInfo info, prevInfo;
 
    private final int faceHorizontalDisplacementThreshold,
@@ -29,11 +29,6 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       faceHorizontalDisplacementThreshold = hor;
       faceVerticalDisplacementThreshold = vert;
       faceAreaThreshold = area;
-   }
-
-   @Override
-   public FacePerception getLatest () {
-      return latest;
    }
 
    @Override
@@ -50,8 +45,9 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
    }
 
-   protected boolean isRealFace (int timeDifference) {
-      return isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
+   private boolean isRealFace (int timeDifference) {
+      // avoid repeatedly creating FacePerception object when no face
+      return info.intLeft != -1 && isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
    }
 
    private boolean isProportionalPosition (int timeDifference) {
@@ -77,13 +73,13 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       private volatile boolean running;
 
       @Override
-      public synchronized void run () {
+      public synchronized void run () { // called on realizer thread
          if ( running )
             super.run();
       }
 
       @Override
-      public synchronized void start () {
+      public synchronized void start () { // called on schema thread
          if ( !running ) {
             CPPinterface.INSTANCE.initAgentShoreEngine(0);
             running = true;
@@ -91,7 +87,7 @@ public abstract class ShoreFacePerceptor implements FacePerceptor {
       }
 
       @Override
-      public synchronized void stop () {
+      public synchronized void stop () { // called on schema thread
          if ( running ) {
             latest = null;
             running = false; // before terminate

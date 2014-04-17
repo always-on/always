@@ -1,19 +1,14 @@
 package edu.wpi.always.cm.perceptors.sensor.pir;
 
 import org.joda.time.DateTime;
-
 import edu.wpi.always.cm.perceptors.MovementPerception;
 import edu.wpi.always.cm.perceptors.MovementPerceptor;
+import edu.wpi.disco.rt.perceptor.PerceptorBase;
 
-public class PIRMovementPerceptor implements MovementPerceptor {
+public class PIRMovementPerceptor extends PerceptorBase<MovementPerception>
+             implements MovementPerceptor {
 
-   private volatile MovementPerception latest;
    private final PIRSensor sensor = new PIRSensor();
-
-   @Override
-   public MovementPerception getLatest () {
-      return latest;
-   }
 
    @Override
    public void run () {
