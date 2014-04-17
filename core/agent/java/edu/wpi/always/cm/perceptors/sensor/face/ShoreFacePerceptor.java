@@ -12,8 +12,6 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    private long previousTime = 0;
 
-   private final static int timeUnit = 220;
-
    protected FaceInfo getFaceInfo (int debug) { return null; }
 
    public abstract void start ();
@@ -52,14 +50,14 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    private boolean isProportionalPosition (int timeDifference) {
       return ((((float) Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference) <= 
-             ((float) faceHorizontalDisplacementThreshold / timeUnit)) && 
+             ((float) faceHorizontalDisplacementThreshold / timeDifference)) && 
              (((float) Math.abs(info.intTop - prevInfo.intTop) / timeDifference) <= 
-             ((float) faceVerticalDisplacementThreshold / timeUnit)));
+             ((float) faceVerticalDisplacementThreshold / timeDifference)));
    }
 
    private boolean isProportionalArea (int timeDifference) {
       return (((float) Math.abs(info.intArea - prevInfo.intArea) / timeDifference) <= 
-             ((float) faceAreaThreshold / timeUnit));
+             ((float) faceAreaThreshold / timeDifference));
    }
 
    public static class Agent extends ShoreFacePerceptor {
