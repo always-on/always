@@ -124,39 +124,4 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
          CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
       }
    }
-
-   public static class Mirror extends ShoreFacePerceptor {
-
-      private final ShoreFacePerceptor reeti, agent = new Agent();
-
-      public Mirror (ReetiJsonConfiguration config) {
-         super(0, 0, 0);
-         reeti = new Reeti(config);
-      }
-
-      @Override
-      public FacePerception getLatest () {
-         return agent.getLatest();
-      }
-
-      public FacePerception getReetiLatest () {
-         return reeti.getLatest();
-      }
-
-      @Override
-      public void start () {
-         agent.start();
-      }
-
-      @Override
-      public void stop () {
-         agent.stop();
-      }
-
-      @Override
-      public void run () {
-         agent.run();
-         reeti.run();
-      }
-   }
 }
