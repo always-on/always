@@ -10,7 +10,11 @@ network in order to proceed further below.
 * Register Asus machines: Username: rich@wpi.edu, Pass: (same as all),
 Reseller: Directron.
 
-* Do Windows Update (***will take a long time***0
+* Do Windows Update (***will take a long time***)
+
+* Set No screensaver
+
+* In Power Options, set Sleep to Never and Turn Off Display to 15 minutes
 
 * Uninstall native trial anti-virus software(Titanium...).
 
