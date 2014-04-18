@@ -51,8 +51,7 @@ public class TcpConnection implements RemoteConnection {
          System.err.println(e+" to "+hostname+" "+port+" (retrying)"); 
          try { Thread.sleep(3000);  } catch (InterruptedException i) {}
          connect();
-      }
-        catch (Exception e) { edu.wpi.cetask.Utils.rethrow(e); }
+      } catch (Exception e) { edu.wpi.cetask.Utils.rethrow(e); }
    }
 
    protected void fireMessageReceived (String s) {
