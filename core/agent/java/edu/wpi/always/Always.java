@@ -224,12 +224,14 @@ public class Always {
          registry.register(helper);
    }
    
-   // Assumes java being called inside a restrart loop
+   public static final boolean EXIT = true;
+   
+   // Assumes java being called inside a restart loop
    public static void restart (Exception e, String message) {
       Utils.lnprint(System.out, e+message);
-      Utils.lnprint(System.out, "RESTARTING...");
-      if ( TRACE ) edu.wpi.cetask.Utils.rethrow(e); 
-      else System.exit(1); 
+      Utils.lnprint(System.out, "EXITING (FOR RESTART)...");
+      if ( EXIT ) System.exit(1); 
+      else edu.wpi.cetask.Utils.rethrow(e);  
    }
 }
 
