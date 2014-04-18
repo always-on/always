@@ -25,19 +25,19 @@ public class ResourceMonitorImplFixture {
    @Test
    public void testBehaviorWithOnePrimitive () {
       assertNotNull(realizer.observer);
-      DateTime someEarlierTime = DateTime.now().minusMinutes(1);
+      long someEarlierTime = System.currentTimeMillis()-10000;
       realizer.observer
             .primitiveDone(realizer, new SpeechBehavior("something"));
       ArrayList<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
       primitives.add(new SpeechBehavior("something"));
       assertTrue(resMon.allDone(primitives, someEarlierTime));
-      DateTime someLaterTime = DateTime.now().plusMinutes(1);
+      long someLaterTime = System.currentTimeMillis()+10000;
       assertFalse(resMon.allDone(primitives, someLaterTime));
    }
 
    @Test
    public void testWithOnePrimitive_OnePrimitiveDoneWithDifferentParameterShouldNotCount () {
-      DateTime someEarlierTime = DateTime.now().minusMinutes(1);
+      long someEarlierTime = System.currentTimeMillis()-1000;
       realizer.observer
             .primitiveDone(realizer, new SpeechBehavior("something"));
       ArrayList<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
@@ -47,7 +47,7 @@ public class ResourceMonitorImplFixture {
 
    @Test
    public void testWithTwoPrimitives () {
-      DateTime someEarlierTime = DateTime.now().minusMinutes(1);
+      long someEarlierTime = System.currentTimeMillis()-1000;
       ArrayList<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
       primitives.add(new SpeechBehavior("Good"));
       primitives.add(MenuBehavior.EMPTY);
@@ -60,7 +60,7 @@ public class ResourceMonitorImplFixture {
 
    @Test
    public void primtivesShouldRunWithNoOtherPrimitivesUsingSameResourcesInBetween () {
-      DateTime someEarlierTime = DateTime.now().minusMinutes(1);
+      long someEarlierTime = System.currentTimeMillis()-1000;
       ArrayList<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
       primitives.add(new SpeechBehavior("Good"));
       primitives.add(MenuBehavior.EMPTY);
@@ -73,7 +73,7 @@ public class ResourceMonitorImplFixture {
 
    @Test
    public void whenPrimitivesThatAreDoneTheSame_ShouldBeOk () {
-      DateTime someEarlierTime = DateTime.now().minusMinutes(1);
+      long someEarlierTime = System.currentTimeMillis()-1000;
       ArrayList<PrimitiveBehavior> primitives = new ArrayList<PrimitiveBehavior>();
       primitives.add(new SpeechBehavior("Good"));
       primitives.add(MenuBehavior.EMPTY);

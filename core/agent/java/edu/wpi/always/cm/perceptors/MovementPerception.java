@@ -11,14 +11,9 @@ public class MovementPerception extends Perception {
    private final boolean moving;
    private final Point point;
 
-   public MovementPerception (DateTime stamp, boolean moving, Point point) {
-      super(stamp);
+   public MovementPerception (boolean moving, Point point) {
       this.moving = moving;
       this.point = point;
-   }
-
-   public MovementPerception (boolean moving, Point point) {
-      this(DateTime.now(), moving, point);
    }
 
    public Point getPoint () {

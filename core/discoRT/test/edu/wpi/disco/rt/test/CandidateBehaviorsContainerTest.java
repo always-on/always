@@ -8,7 +8,6 @@ import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuBehavior;
 import edu.wpi.disco.rt.realizer.*;
 import edu.wpi.disco.rt.test.*;
-import org.joda.time.DateTime;
 import org.junit.*;
 import java.awt.Point;
 import java.util.*;
@@ -26,7 +25,7 @@ public class CandidateBehaviorsContainerTest {
       behaviorHistory = new BehaviorHistory() {
 
          @Override
-         public boolean isDone (CompoundBehavior behavior, DateTime since) {
+         public boolean isDone (CompoundBehavior behavior, long since) {
             // TODO Auto-generated method stub
             return false;
          }

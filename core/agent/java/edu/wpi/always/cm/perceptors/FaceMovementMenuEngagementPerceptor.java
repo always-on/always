@@ -4,13 +4,13 @@ import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
 import edu.wpi.disco.rt.menu.MenuPerception;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.disco.rt.perceptor.PerceptorBase;
 import edu.wpi.disco.rt.util.Utils;
 
-// TODO Respond to touches elsewhere on screen than menu
+public class FaceMovementMenuEngagementPerceptor 
+             extends PerceptorBase<EngagementPerception>
+             implements EngagementPerceptor {
 
-public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor {
-
-   private volatile EngagementPerception latest = new EngagementPerception(EngagementState.Idle);
    private final FacePerceptor facePerceptor;
    private final MovementPerceptor movementPerceptor;
    private final MenuPerceptor menuPerceptor;
@@ -25,6 +25,7 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
       this.facePerceptor = facePerceptor;
       this.movementPerceptor = movementPerceptor;
       this.menuPerceptor = menuPerceptor;
+      latest = new EngagementPerception(EngagementState.Idle);
    }
 
    private final Object stateLock = new Object();
@@ -57,8 +58,7 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
          boolean hadTouch = false;
          MenuPerception menuPerception = menuPerceptor.getLatest();
          if ( menuPerception != null && lastTouchChange != null ) {
-            if ( !menuPerception.getSelected().equals(
-                  lastTouchChange.selected) ) {
+            if ( !menuPerception.getSelected().equals(lastTouchChange.selected) ) {
                lastTouchChange = new TouchTransition(menuPerception.getSelected());
                hadTouch = true;
             }
@@ -67,8 +67,7 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
          EngagementState nextState = currentState.nextState(lastMovementChange,
                lastFaceChange, lastTouchChange, hadTouch,
                System.currentTimeMillis() - lastStateChangeTime);
-         if ( nextState != currentState )
-            setState(nextState);
+         if ( nextState != currentState ) setState(nextState);
       }
    }
 
@@ -95,11 +94,6 @@ public class FaceMovementMenuEngagementPerceptor implements EngagementPerceptor 
          lastStateChangeTime = System.currentTimeMillis();
          latest = new EngagementPerception(newState);
       }
-   }
-
-   @Override
-   public EngagementPerception getLatest () {
-      return latest;
    }
      
    private static abstract class Transition {

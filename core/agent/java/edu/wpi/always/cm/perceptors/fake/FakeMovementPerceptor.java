@@ -1,16 +1,17 @@
 package edu.wpi.always.cm.perceptors.fake;
 
 import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.disco.rt.perceptor.PerceptorBase;
 import org.joda.time.DateTime;
 import java.awt.Point;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class FakeMovementPerceptor implements MovementPerceptor, ItemListener {
+public class FakeMovementPerceptor extends PerceptorBase<MovementPerception>
+             implements MovementPerceptor, ItemListener {
 
    private final JTextField txtX;
    private final JTextField txtY;
-   private volatile MovementPerception latest;
 
    public FakeMovementPerceptor (JTextField txtX, JTextField txtY) {
       this.txtX = txtX;
@@ -33,13 +34,13 @@ public class FakeMovementPerceptor implements MovementPerceptor, ItemListener {
    @Override
    public void run () {
       if ( txtX == null )
-         latest = new MovementPerception(DateTime.now(), motion, null);
+         latest = new MovementPerception(motion, null);
       else {
          Point p = tryParsePoint();
          if ( p == null )
             latest = null;
          else
-            latest = new MovementPerception(DateTime.now(), true, p);
+            latest = new MovementPerception(true, p);
       }
    }
 
@@ -60,10 +61,5 @@ public class FakeMovementPerceptor implements MovementPerceptor, ItemListener {
          return null;
       }
       return new Point(x, y);
-   }
-
-   @Override
-   public MovementPerception getLatest () {
-      return latest;
    }
 }
