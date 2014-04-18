@@ -16,10 +16,10 @@ public class EngagementRegistry implements ComponentRegistry {
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Agent.class);
             break;
          case Reeti:
-            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);
-            break;
+         // we are not running both Reeti and virtual agent face perceptors in Mirror mode
+         // since the face tracking for virtual agent would interfere with Reeti
          case Mirror:
-            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Mirror.class);
+            container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);
             break;
       }
       // TODO: Replace dummy with real PIR below

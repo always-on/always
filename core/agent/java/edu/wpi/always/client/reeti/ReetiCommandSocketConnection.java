@@ -4,23 +4,31 @@ package edu.wpi.always.client.reeti;
 
 import java.io.*;
 import java.net.*;
+import edu.wpi.cetask.Utils;
 
 public class ReetiCommandSocketConnection {
 
-   private final Socket socket;
+   private /* final */ Socket socket;
 
-   private final PrintWriter writer;
+   private /* final */ PrintWriter writer;
 
    public ReetiCommandSocketConnection (String host) {
-
-      try {
-         socket = new Socket(host, 12045); // Was 130.215.28.4
-         writer = new PrintWriter(socket.getOutputStream(), true);
-      } catch (IOException e) {
-         throw new RuntimeException("Error opening socket to Reeti", e);
-      }
+      connect(host, 12045);
    }
 
+   private void connect (String host, int port) {
+      try {
+         socket = new Socket(host, port); // Was 130.215.28.4
+         writer = new PrintWriter(socket.getOutputStream(), true);
+      } catch (ConnectException e) {
+         System.err.println(e+" to "+host+" "+port+" (retrying)"); 
+         try { Thread.sleep(3000);  } catch (InterruptedException i) {}
+         connect(host, port);
+      } catch (Exception e) {
+         Utils.rethrow("Error opening socket to Reeti", e);
+      }
+   }
+   
    public void send (String message) {
       writer.println(message);
    }
