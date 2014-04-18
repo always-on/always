@@ -44,14 +44,14 @@ public class TcpConnection implements RemoteConnection {
                      if ( Always.TRACE ) Utils.lnprint(System.out, "Received "+ s);
                      fireMessageReceived(s);
                   }
-               } catch (Exception e) { e.printStackTrace(); }
+               } catch (Exception e) { Always.restart(e, " on "+hostname+" "+port); }
             }
          });
       } catch (ConnectException e) { 
          System.err.println(e+" to "+hostname+" "+port+" (retrying)"); 
          try { Thread.sleep(3000);  } catch (InterruptedException i) {}
          connect();
-      } catch (Exception e) { edu.wpi.cetask.Utils.rethrow(e); }
+      } catch (Exception e) { Always.restart(e, " on "+hostname+" "+port); }
    }
 
    protected void fireMessageReceived (String s) {
