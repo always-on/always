@@ -49,7 +49,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       if ( info != null && info.isFace() ) {
          Long currentTime = System.currentTimeMillis();
          // cannot reject based on proportionality if no previous real face
-         if ( prevInfo == null || isRealFace((int) (currentTime - previousTime)) ) {
+         if ( prevInfo == null || isRealFace(currentTime - previousTime) ) {
             latest = new FacePerception(info.intTop,
                   info.intBottom, info.intLeft, info.intRight, info.intArea,
                   info.intCenter, info.intTiltCenter);
@@ -59,20 +59,20 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       } else latest = null; 
    }
 
-   private boolean isRealFace (int timeDifference) {
+   private boolean isRealFace (long timeDifference) {
       return isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
    }
 
-   private boolean isProportionalPosition (int timeDifference) {
-      return ((((float) Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference) <= 
-             ((float) faceHorizontalDisplacementThreshold / timeUnit)) && 
-             (((float) Math.abs(info.intTop - prevInfo.intTop) / timeDifference) <= 
-             ((float) faceVerticalDisplacementThreshold / timeUnit)));
+   private boolean isProportionalPosition (long timeDifference) {
+      return ( Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference
+               <= faceHorizontalDisplacementThreshold / timeUnit) && 
+             ( Math.abs(info.intTop - prevInfo.intTop) / timeDifference
+               <= faceVerticalDisplacementThreshold / timeUnit );
    }
 
-   private boolean isProportionalArea (int timeDifference) {
-      return (((float) Math.abs(info.intArea - prevInfo.intArea) / timeDifference) <= 
-             ((float) faceAreaThreshold / timeUnit));
+   private boolean isProportionalArea (long timeDifference) {
+      return Math.abs(info.intArea - prevInfo.intArea) / timeDifference
+             <= faceAreaThreshold / timeUnit;
    }
 
    public static class Agent extends ShoreFacePerceptor {
