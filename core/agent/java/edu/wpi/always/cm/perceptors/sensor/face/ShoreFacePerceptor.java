@@ -10,8 +10,6 @@ import edu.wpi.disco.rt.perceptor.PerceptorBase;
 public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
                       implements FacePerceptor {
 
-   private long currentTime = 0;
-   
    private long previousTime = 0;
 
    private final static int timeUnit = 220;

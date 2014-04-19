@@ -49,6 +49,8 @@ public class ReetiPIDController {
 
    private double eyeYError = 0;
 
+   private boolean initialFlag = true;
+   
    ReetiPIDController (ReetiJsonConfiguration config) {
 
       float hor, ver;
@@ -57,20 +59,26 @@ public class ReetiPIDController {
       
       Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
       
-//      neckInitialOutputXPID = point.x;
-//      neckInitialOutputYPID = point.y;
-//      eyeInitialOutputXPID  = point.x;
-//      eyeInitialOutputYPID  = point.y;
+      if(!initialFlag)
+      {
+         neckInitialOutputXPID = point.x;
+         neckInitialOutputYPID = point.y;
+         eyeInitialOutputXPID  = point.x;
+         eyeInitialOutputYPID  = point.y;
+      }
+      else
+      {
+         neckInitialOutputXPID = config.getNeckRotat();
+         neckInitialOutputYPID = config.getNeckTilt();
+         eyeInitialOutputXPID  = config.getLeftEyePan();
+         eyeInitialOutputYPID  = config.getLeftEyeTilt();
+         initialFlag = false;
+      }
       
-      neckInitialOutputXPID = config.getNeckRotat();
-      neckInitialOutputYPID = config.getNeckTilt();
-      eyeInitialOutputXPID  = config.getLeftEyePan();
-      eyeInitialOutputYPID  = config.getLeftEyeTilt();
-      
-      setNeckXPIDoutput(this.neckInitialOutputXPID);
-      setNeckYPIDoutput(this.neckInitialOutputYPID);
-      setEyeXPIDoutput(this.eyeInitialOutputXPID);
-      setEyeYPIDoutput(this.eyeInitialOutputYPID);
+      setNeckXPIDoutput(neckInitialOutputXPID);
+      setNeckYPIDoutput(neckInitialOutputYPID);
+      setEyeXPIDoutput(eyeInitialOutputXPID);
+      setEyeYPIDoutput(eyeInitialOutputYPID);
    }
 
    private void neckXPIDcontroller () {
@@ -229,11 +237,11 @@ public class ReetiPIDController {
       }
    }
 
-   private void setEyeReachedXLimit (boolean flag) {
+   public void setEyeReachedXLimit (boolean flag) {
       this.eyeReachedXLimit = flag;
    }
 
-   private void setEyeReachedYLimit (boolean flag) {
+   public void setEyeReachedYLimit (boolean flag) {
       this.eyeReachedYLimit = flag;
    }
 
@@ -283,5 +291,25 @@ public class ReetiPIDController {
 
    public double getEyeYPIDoutput () {
       return this.eyeYPIDoutput;
+   }
+   
+   public void setNeckXError(double errorVal) {
+      this.neckXError = errorVal;
+   }
+   
+   public void setNeckYError(double errorVal) {
+      this.neckYError = errorVal;
+   }
+   
+   public void setEyeXError(double errorVal) {
+      this.eyeXError = errorVal;
+   }
+   
+   public void setEyeYError(double errorVal) {
+      this.eyeYError = errorVal;
+   }
+   
+   public void setInitialFlag(boolean initFlag) {
+      this.initialFlag = initFlag;
    }
 }

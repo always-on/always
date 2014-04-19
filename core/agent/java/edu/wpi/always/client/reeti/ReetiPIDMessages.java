@@ -154,16 +154,29 @@ public class ReetiPIDMessages {
          + " smooth:0.50s, Global.servo.rightEyeTilt="
          + config.getRightEyeTilt() + " smooth:0.50s;"; // Were 42.55
 
-      XPID.setNeckXPIDoutput(config.getNeckRotat()); // Was: 50
-
-      YPID.setNeckYPIDoutput(config.getNeckTilt()); // Was: 55.56
-
-      XPID.setEyeXPIDoutput(config.getLeftEyePan()); // Was: 50
-
-      YPID.setEyeYPIDoutput(config.getLeftEyeTilt()); // Was: 42.55
-
+      resetPIDController();
+      
       System.out.println("Search command sent...");
 
       return command;
+   }
+   
+   private void resetPIDController() {
+      
+      XPID.setNeckXPIDoutput(config.getNeckRotat());
+      YPID.setNeckYPIDoutput(config.getNeckTilt());
+      XPID.setEyeXPIDoutput(config.getLeftEyePan());
+      YPID.setEyeYPIDoutput(config.getLeftEyeTilt());
+      
+      XPID.setNeckXError(0);
+      YPID.setNeckYError(0);
+      XPID.setEyeXError(0);
+      YPID.setEyeYError(0);
+      
+      XPID.setInitialFlag(true);
+      YPID.setInitialFlag(true);
+      
+      XPID.setEyeReachedXLimit(false);
+      YPID.setEyeReachedYLimit(false);
    }
 }

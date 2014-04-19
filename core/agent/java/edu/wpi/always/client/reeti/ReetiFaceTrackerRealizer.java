@@ -36,11 +36,16 @@ public class ReetiFaceTrackerRealizer extends
    
    private int lastTiltCenter = 0;
 
+   private boolean initialFlag = true;
+   
    public ReetiFaceTrackerRealizer (FaceTrackBehavior params,
          FacePerceptor perceptor, CollaborationManager cm, ClientProxy proxy,
          ReetiJsonConfiguration config) {
 
       super(params);
+      
+      String Message;
+      
       this.perceptor = perceptor;
       reetiPIDOutput = new ReetiPIDMessages(config);
       client = cm.getReetiSocket();
@@ -48,10 +53,17 @@ public class ReetiFaceTrackerRealizer extends
       // This is for reseting the head position to the latest head position
       // before leaving ReetiFaceTrackerRealizer.
 
-      /*Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), 
-                                                    proxy.getGazeVer());
-      String Message = reetiPIDOutput.Track(point.x, point.y, trackingDirections);*/
-      String Message = reetiPIDOutput.Track(config.getNeckRotat(), config.getNeckTilt(), trackingDirections);
+      if(!initialFlag)
+      {
+         Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
+         Message = reetiPIDOutput.Track(point.x, point.y, trackingDirections);
+      }
+      else
+      {
+         Message = reetiPIDOutput.Track(config.getNeckRotat(), config.getNeckTilt(), trackingDirections);
+         initialFlag = false;
+      }
+      
       client.send(Message);
       this.lastMessage = Message;
    }
