@@ -102,7 +102,7 @@ public class EngagementSchema extends SchemaBase {
       }
    }
       
-   private void setAgentVisible(boolean visible) {
+   private void setAgentVisible (boolean visible) {
       if ( Always.getAgentType() != AgentType.Reeti ) 
          proxy.setAgentVisible(visible);
    }
