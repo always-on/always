@@ -1,5 +1,8 @@
 package edu.wpi.always.client;
 
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -11,6 +14,7 @@ import com.google.gson.JsonPrimitive;
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
+import edu.wpi.disco.rt.util.Utils;
 
 public class ClientProxy {
 
@@ -95,6 +99,21 @@ public class ClientProxy {
          p.put("status", Boolean.toString(visible));
          enqueue("setVisible", p);
       }
+   }
+   
+   private static Robot robot;
+   
+   static { 
+      try { robot = new Robot(); } 
+      catch (AWTException e) { edu.wpi.cetask.Utils.rethrow("Cannot create robot", e); }
+   }
+   
+   public void setScreenVisible (boolean visible) {
+      // use blank screen saver because reacts more quickly to touch than turning display off
+      try {
+         if ( visible ) robot.mousePress(InputEvent.BUTTON1_MASK);           
+         else Runtime.getRuntime().exec( "bin\\nircmdc screensaver");
+      } catch (IOException e) { Utils.lnprint(System.out, "Error running nircmdc: "+e); }
    }
    
    public static float ZOOM = 1.6f;

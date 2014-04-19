@@ -65,27 +65,27 @@ public class EngagementSchema extends SchemaBase {
                   System.exit(0); 
                } 
                if ( lastState != EngagementState.Idle ) { 
-                  setAgentVisible(false);
+                  proxy.setAgentVisible(false);
                   propose(HELLO, META);
                }
                break;
             case Attention:
                if ( started ) proposeNothing();
                else {
-                  setAgentVisible(true);
+                  visible();
                   propose(HI, META);
                }
                break;
             case Initiation:
                if ( started ) proposeNothing();
                else {
-                  setAgentVisible(true);
+                  visible();
                   propose(HI_HI, META);
                }
                break;
             case Engaged:
                if ( !started ) { 
-                  setAgentVisible(true);
+                  visible();
                   Utils.lnprint(System.out, "Starting session...");
                   schemaManager.start(SessionSchema.class);
                   started = true;
@@ -93,7 +93,7 @@ public class EngagementSchema extends SchemaBase {
                proposeNothing();
                break;
             case Recovering:
-               setAgentVisible(true);
+               visible();
                propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), 
                                             new MenuBehavior(Arrays.asList("Yes"))), META);
                break;
@@ -102,8 +102,9 @@ public class EngagementSchema extends SchemaBase {
       }
    }
       
-   private void setAgentVisible (boolean visible) {
+   private void visible () {
+      proxy.setScreenVisible(true);
       if ( Always.getAgentType() != AgentType.Reeti ) 
-         proxy.setAgentVisible(visible);
+         proxy.setAgentVisible(true);
    }
 }

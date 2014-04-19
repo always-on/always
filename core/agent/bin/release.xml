@@ -11,6 +11,9 @@
         <copy todir="C:/Dropbox-Always/release/images">
           <fileset dir="../images"/>
         </copy>  
+        <copy todir="C:/Dropbox-Always/release/bin">
+          <fileset file="../bin/nircmdc.exe"/>
+        </copy>  
         <copy todir="C:/Dropbox-Always/release/reeti">
           <fileset dir="../lib/reeti"/>
         </copy>   
