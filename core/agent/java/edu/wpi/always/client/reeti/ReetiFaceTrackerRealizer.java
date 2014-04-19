@@ -22,7 +22,7 @@ public class ReetiFaceTrackerRealizer extends
 
    private long currentLosingTime = 0;
 
-   private static long acceptableLosingTime = 3000;
+   private static long acceptableLosingTime = 3000L;
 
    private boolean searchFlag = false;
 
@@ -31,9 +31,13 @@ public class ReetiFaceTrackerRealizer extends
    private final ReetiCommandSocketConnection client;
 
    private String lastMessage = "";
+   
+   private int lastCenter = 0;
+   
+   private int lastTiltCenter = 0;
 
    public ReetiFaceTrackerRealizer (FaceTrackBehavior params,
-         FacePerceptor perceptor, CollaborationManager cm, 
+         FacePerceptor perceptor, CollaborationManager cm, ClientProxy proxy,
          ReetiJsonConfiguration config) {
 
       super(params);
@@ -43,13 +47,13 @@ public class ReetiFaceTrackerRealizer extends
 
       // This is for reseting the head position to the latest head position
       // before leaving ReetiFaceTrackerRealizer.
-//       Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(),
-//             proxy.getGazeVer());
-//       String Message = reetiPIDOutput.Track(point.x, point.y,
-//             trackingDirections);
-//       client.send(Message);
-//       fireDoneMessage();
-//       this.lastMessage = Message;
+
+      /*Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), 
+                                                    proxy.getGazeVer());
+      String Message = reetiPIDOutput.Track(point.x, point.y, trackingDirections);*/
+      String Message = reetiPIDOutput.Track(config.getNeckRotat(), config.getNeckTilt(), trackingDirections);
+      client.send(Message);
+      this.lastMessage = Message;
    }
 
    @Override
@@ -60,10 +64,13 @@ public class ReetiFaceTrackerRealizer extends
 
          // following is useful for debugging
          // java.awt.Toolkit.getDefaultToolkit().beep();
+
          currentTime = System.currentTimeMillis();
-         send(reetiPIDOutput.Track(perception.getCenter(),
-                                   perception.getTiltCenter(),
+
+         send(reetiPIDOutput.Track(perception.getCenter(), 
+                                   perception.getTiltCenter(), 
                                    trackingDirections));
+         
          searchFlag = true;
 
       } else {

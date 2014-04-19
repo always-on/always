@@ -1,5 +1,8 @@
 package edu.wpi.always.client.reeti;
 
+import java.awt.Point;
+import edu.wpi.always.Always;
+import edu.wpi.always.client.*;
 import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 
 public class ReetiPIDController {
@@ -26,11 +29,11 @@ public class ReetiPIDController {
 
    private boolean eyeReachedYLimit = false;
 
-   private final double neckInitialOutputXPID;
+   private final double neckInitialOutputXPID, neckInitialOutputYPID;
 
    // private double neckInitialOutputYPID = config.getNeckTilt(); // Was 55.56
 
-   private final double eyeInitialOutputXPID;
+   private final double eyeInitialOutputXPID, eyeInitialOutputYPID;
 
    // private double eyeInitialOutputYPID = config.getLeftEyeTilt(); // Was 42.55
 
@@ -48,16 +51,26 @@ public class ReetiPIDController {
 
    ReetiPIDController (ReetiJsonConfiguration config) {
 
-      neckInitialOutputXPID = config.getNeckRotat(); // Was 50
-      eyeInitialOutputXPID = config.getLeftEyePan(); // Was 50
+      float hor, ver;
+      
+      ClientProxy proxy = Always.THIS.getCM().getContainer().getComponent(ClientProxy.class);
+      
+      Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
+      
+//      neckInitialOutputXPID = point.x;
+//      neckInitialOutputYPID = point.y;
+//      eyeInitialOutputXPID  = point.x;
+//      eyeInitialOutputYPID  = point.y;
+      
+      neckInitialOutputXPID = config.getNeckRotat();
+      neckInitialOutputYPID = config.getNeckTilt();
+      eyeInitialOutputXPID  = config.getLeftEyePan();
+      eyeInitialOutputYPID  = config.getLeftEyeTilt();
       
       setNeckXPIDoutput(this.neckInitialOutputXPID);
+      setNeckYPIDoutput(this.neckInitialOutputYPID);
       setEyeXPIDoutput(this.eyeInitialOutputXPID);
-      
-      this.neckXPIDoutput = config.getNeckRotat();
-      this.neckYPIDoutput = config.getNeckTilt();
-      this.eyeXPIDoutput  = config.getLeftEyePan();
-      this.eyeYPIDoutput  = config.getLeftEyeTilt();
+      setEyeYPIDoutput(this.eyeInitialOutputYPID);
    }
 
    private void neckXPIDcontroller () {

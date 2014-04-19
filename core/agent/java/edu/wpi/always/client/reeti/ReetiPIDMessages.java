@@ -28,32 +28,32 @@ public class ReetiPIDMessages {
       SetYPID(Ycenter);
    }
 
-   private double ComputeNeckXPID () {
+   private int ComputeNeckXPID () {
       XPID.computeX();
-      return XPID.getNeckXPIDoutput();
+      return (int)XPID.getNeckXPIDoutput();
    }
 
-   private double ComputeNeckYPID () {
+   private int ComputeNeckYPID () {
       YPID.computeY();
-      return YPID.getNeckYPIDoutput();
+      return (int)YPID.getNeckYPIDoutput();
    }
 
-   private double ComputeEyeXPID () {
+   private int ComputeEyeXPID () {
       XPID.computeX();
-      return XPID.getEyeXPIDoutput();
+      return (int)XPID.getEyeXPIDoutput();
    }
 
-   private double ComputeEyeYPID () {
+   private int ComputeEyeYPID () {
       YPID.computeY();
-      return YPID.getEyeYPIDoutput();
+      return (int)YPID.getEyeYPIDoutput();
    }
 
    private String XTrack (boolean terminateCommand, boolean neededLED) {
       String Message = null;
 
-      double Xout = ComputeNeckXPID();
-      double XeyeLOut = ComputeEyeXPID();
-      double XeyeROut = XeyeLOut + 20;
+      int Xout = ComputeNeckXPID();
+      int XeyeLOut = ComputeEyeXPID();
+      int XeyeROut = XeyeLOut + 20;
 
       if ( neededLED )
       {
@@ -79,9 +79,9 @@ public class ReetiPIDMessages {
    private String YTrack (boolean neededLED) {
       String Message = "";
 
-      double Yout = ComputeNeckYPID();
-      double YeyeLOut = ComputeEyeYPID() + 2.55;
-      double YeyeROut = YeyeLOut;
+      int Yout = ComputeNeckYPID();
+      int YeyeLOut = ComputeEyeYPID() + 3;
+      int YeyeROut = YeyeLOut;
 
       if ( neededLED )
       {

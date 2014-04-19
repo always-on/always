@@ -18,7 +18,7 @@ public class ReetiCommandSocketConnection {
 
    private void connect (String host, int port) {
       try {
-         socket = new Socket(host, port); // Was 130.215.28.4
+         socket = new Socket(host, port);
          writer = new PrintWriter(socket.getOutputStream(), true);
       } catch (ConnectException e) {
          System.err.println(e+" to "+host+" "+port+" (retrying)"); 
