@@ -12,7 +12,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    private long previousTime = 0;
 
-   private final static int timeUnit = 220;
+   private final static long timeUnit = 220;
 
    protected FaceInfo getFaceInfo (int debug) { return null; }
 
@@ -22,7 +22,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    protected FaceInfo info, prevInfo;
 
-   private final int faceHorizontalDisplacementThreshold,
+   private final long faceHorizontalDisplacementThreshold,
          faceVerticalDisplacementThreshold, faceAreaThreshold;
 
    protected ShoreFacePerceptor (int hor, int vert, int area) {
@@ -64,14 +64,14 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
    }
 
    private boolean isProportionalPosition (long timeDifference) {
-      return ( Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference
+      return ( Math.abs((long) (info.intLeft - prevInfo.intLeft)) / timeDifference
                <= faceHorizontalDisplacementThreshold / timeUnit ) && 
-             ( Math.abs(info.intTop - prevInfo.intTop) / timeDifference
+             ( Math.abs((long) (info.intTop - prevInfo.intTop)) / timeDifference
                <= faceVerticalDisplacementThreshold / timeUnit );
    }
 
    private boolean isProportionalArea (long timeDifference) {
-      return Math.abs(info.intArea - prevInfo.intArea) / timeDifference
+      return Math.abs((long) (info.intArea - prevInfo.intArea)) / timeDifference
              <= faceAreaThreshold / timeUnit;
    }
 
