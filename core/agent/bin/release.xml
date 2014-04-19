@@ -9,7 +9,7 @@
           <fileset dir="../../../plugins/Plugins.Startup/bin/Debug"/>
         </copy>  
         <copy todir="C:/Dropbox-Always/release/images">
-          <fileset dir="../../../plugins/scriptbuilder-plugin/images"/>
+          <fileset dir="../images"/>
         </copy>  
         <copy todir="C:/Dropbox-Always/release/reeti">
           <fileset dir="../lib/reeti"/>
