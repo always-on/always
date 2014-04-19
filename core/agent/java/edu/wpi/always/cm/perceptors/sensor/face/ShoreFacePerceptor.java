@@ -65,7 +65,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    private boolean isProportionalPosition (long timeDifference) {
       return ( Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference
-               <= faceHorizontalDisplacementThreshold / timeUnit) && 
+               <= faceHorizontalDisplacementThreshold / timeUnit ) && 
              ( Math.abs(info.intTop - prevInfo.intTop) / timeDifference
                <= faceVerticalDisplacementThreshold / timeUnit );
    }
