@@ -40,34 +40,45 @@ public class EngagementSchema extends SchemaBase {
 
    private boolean started; // session started
    
+   // needs to have higher priority than session schema
+   private final static BehaviorMetadata META = 
+         new BehaviorMetadataBuilder().specificity(ActivitySchema.SPECIFICITY+0.4)
+            .build();
+ 
+   // optimized to reduce GC for long running
+   private final static MenuBehavior HELLO = new MenuBehavior(Arrays.asList("Hello"));
+   
+   private final static MenuBehavior HI = new MenuBehavior(Arrays.asList("Hi"));
+
+   private final static Behavior HI_HI = Behavior.newInstance(new SpeechBehavior("Hi"), HI);
+
    @Override
    public void run () {
-      // needs to have higher priority than session schema
-      BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(ActivitySchema.SPECIFICITY+0.4)
-            .build();
       EngagementPerception engagementPerception = engagementPerceptor.getLatest();
       if ( engagementPerception != null ) {
          switch (engagementPerception.getState()) {
             case Idle:
-               if ( lastState == EngagementState.Recovering ) {} // System.exit(0); 
+               if ( lastState == EngagementState.Recovering ) { 
+                  Utils.lnprint(System.out, "EXITING FOR IDLE...");
+                  System.exit(0); 
+               } 
                if ( lastState != EngagementState.Idle ) { 
                   proxy.setAgentVisible(false);
-                  propose(new MenuBehavior(Arrays.asList("Hello")), m);
+                  propose(HELLO, META);
                }
                break;
             case Attention:
                if ( started ) proposeNothing();
                else {
                   proxy.setAgentVisible(true);
-                  propose(new MenuBehavior(Arrays.asList("Hi")), m);
+                  propose(HI, META);
                }
                break;
             case Initiation:
                if ( started ) proposeNothing();
                else {
                   proxy.setAgentVisible(true);
-                  propose(Behavior.newInstance(new SpeechBehavior("Hi"), 
-                                               new MenuBehavior(Arrays.asList("Hi"))), m);
+                  propose(HI_HI, META);
                }
                break;
             case Engaged:
@@ -82,7 +93,7 @@ public class EngagementSchema extends SchemaBase {
             case Recovering:
                proxy.setAgentVisible(true);
                propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), 
-                                            new MenuBehavior(Arrays.asList("Yes"))), m);
+                                            new MenuBehavior(Arrays.asList("Yes"))), META);
                break;
          }
          lastState = engagementPerception.getState();

@@ -17,8 +17,9 @@ public class Arbitrator implements Runnable {
    private final Interaction interaction;
    private final DiscoRT discoRT;
    private Schema focusSchema;
-   private List<Resource> freeResources;
-   private List<CandidateBehavior> proposals, selected;
+   private final List<Resource> freeResources = new ArrayList<Resource>();
+   private final List<CandidateBehavior> proposals = new ArrayList<CandidateBehavior>(),
+         selected = new ArrayList<CandidateBehavior>();
 
    public Schema getFocus () { return focusSchema; }
    
@@ -31,11 +32,16 @@ public class Arbitrator implements Runnable {
       this.interaction = discoRT.getInteraction();
    }
 
+   private final static List<Resource> RESOURCES = Arrays.asList(Resources.values());
+   
    @Override
    public void run () {
-      freeResources = Lists.newArrayList(Resources.values());
-      proposals = filterOutEmptyCandidates(candidateBehaviors.all());
-      selected = Lists.newArrayList();
+      // recoded to reduce gc for long running
+      freeResources.clear();
+      freeResources.addAll(RESOURCES);
+      proposals.clear();
+      proposals.addAll(candidateBehaviors.all());
+      selected.clear();
       // first assign discourse focus based on Disco 
       // unless there is a higher priority proposal
       Plan focusPlan = interaction.getFocusExhausted(true);
@@ -95,14 +101,6 @@ public class Arbitrator implements Runnable {
       }
    }
    
-   private List<CandidateBehavior> filterOutEmptyCandidates (List<CandidateBehavior> source) {
-      List<CandidateBehavior> result = Lists.newArrayList();
-      for (CandidateBehavior c : source)
-         if ( !c.getBehavior().isEmpty() )
-            result.add(c);
-      return result;
-   }
-
    /**
     * NOT thread-safe
     */

@@ -3,11 +3,11 @@ package edu.wpi.disco.rt.test;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
 
-public class FakeSpeechSchema extends SchemaBase {
+public class DummySpeechSchema extends DummySchema {
 
    final String text;
 
-   public FakeSpeechSchema (BehaviorProposalReceiver behaviorReceiver,
+   public DummySpeechSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, String text) {
       super(behaviorReceiver, behaviorHistory);
       this.text = text;
