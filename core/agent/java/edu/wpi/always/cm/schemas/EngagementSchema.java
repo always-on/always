@@ -38,7 +38,7 @@ public class EngagementSchema extends SchemaBase {
       this.proxy = proxy;
    }
 
-   private EngagementState lastState;
+   private EngagementState state, lastState;
 
    private boolean started; // session started
    
@@ -58,7 +58,7 @@ public class EngagementSchema extends SchemaBase {
    public void run () {
       EngagementPerception engagementPerception = engagementPerceptor.getLatest();
       if ( engagementPerception != null ) {
-         switch (engagementPerception.getState()) {
+         switch (state = engagementPerception.getState()) {
             case Idle:
                if ( lastState == EngagementState.Recovering ) { 
                   Utils.lnprint(System.out, "EXITING FOR IDLE...");
@@ -72,8 +72,8 @@ public class EngagementSchema extends SchemaBase {
             case Attention:
                if ( started ) proposeNothing();
                else {
-                  visible();
                   propose(HI, META);
+                  visible();
                }
                break;
             case Initiation:
@@ -85,11 +85,11 @@ public class EngagementSchema extends SchemaBase {
                break;
             case Engaged:
                if ( !started ) { 
-                  visible();
                   Utils.lnprint(System.out, "Starting session...");
                   schemaManager.start(SessionSchema.class);
                   started = true;
                }
+               visible();
                proposeNothing();
                break;
             case Recovering:
@@ -103,7 +103,7 @@ public class EngagementSchema extends SchemaBase {
    }
       
    private void visible () {
-      proxy.setScreenVisible(true);
+      if ( lastState != state ) proxy.setScreenVisible(true);
       if ( Always.getAgentType() != AgentType.Reeti ) 
          proxy.setAgentVisible(true);
    }
