@@ -11,10 +11,13 @@ public class FaceTrackerSchema extends SchemaBase {
       super(behaviorReceiver, behaviorHistory);
    }
 
+   // reducing memory use for long-running
+   private final static FaceTrackBehavior BEHAVIOR = new FaceTrackBehavior();
+   private final static BehaviorMetadata META = new BehaviorMetadataBuilder().specificity(0.1).build(); 
+
    @Override
    public void run () {
-      // always propose behavior (realizer will take care of dropouts)
-      propose(new FaceTrackBehavior(),
-            new BehaviorMetadataBuilder().specificity(0.1).build());
+      // always propose behavior (realizer will take care of face dropouts)
+      propose(BEHAVIOR, META);
    }
 }

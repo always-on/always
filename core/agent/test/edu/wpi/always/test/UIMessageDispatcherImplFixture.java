@@ -3,18 +3,10 @@ package edu.wpi.always.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import com.google.gson.JsonObject;
-
-import edu.wpi.always.client.InvalidMessageTypeException;
-import edu.wpi.always.client.JsonMessageFormatException;
-import edu.wpi.always.client.MessageHandler;
-import edu.wpi.always.client.RemoteConnection;
-import edu.wpi.always.client.TcpConnectionObserver;
-import edu.wpi.always.client.UIMessageDispatcherImpl;
+import edu.wpi.always.client.*;
 
 //ToDo:
 // - when text passed to handleMessage() is null
@@ -22,7 +14,7 @@ import edu.wpi.always.client.UIMessageDispatcherImpl;
 
 public class UIMessageDispatcherImplFixture {
 
-	private RemoteConnection conn;
+	private TcpConnection conn;
 	private UIMessageDispatcherImpl subject;
 
 	@Before
@@ -120,17 +112,13 @@ public class UIMessageDispatcherImplFixture {
 		}
 	}
 	
-	private static class DummyConnection implements RemoteConnection {
+	private static class DummyConnection extends TcpConnection {
 
+	   public DummyConnection () { super(null, 0); }
+	   
 		@Override
-		public void connect () {
-		}
-
-		@Override
-		public boolean isConnected () {
-			return false;
-		}
-
+		public void connect (String host, int port) {}
+		
 		@Override
 		public void beginSend (String message) {
 		}

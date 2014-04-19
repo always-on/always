@@ -223,5 +223,15 @@ public class Always {
       for (OntologyRegistry registry : ontologyRegistries)
          registry.register(helper);
    }
+   
+   public static final boolean EXIT = true;
+   
+   // Assumes java being called inside a restart loop
+   public static void restart (Exception e, String message) {
+      Utils.lnprint(System.out, e+message);
+      Utils.lnprint(System.out, "EXITING (FOR RESTART)...");
+      if ( EXIT ) System.exit(1); 
+      else edu.wpi.cetask.Utils.rethrow(e);  
+   }
 }
 
