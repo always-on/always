@@ -31,23 +31,36 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       faceAreaThreshold = area;
    }
 
+   /*
+    * DESIGN NOTE: The logic below is tricky because it needs to be robust wrt
+    * to both losing the face, isFace(), and also jumping to a non-real face,
+    * isRealFace(). In the former case, latest should be set to null (for
+    * efficiency in long-running with no face), whereas in the latter case,
+    * latest should not change. However, in both cases, the value of
+    * previousInfo should contain the most recently seen real face for eventual
+    * proportional comparison. Note that if you don't see any real face for a long
+    * time, then the proportional comparison is guaranteed to succeed because
+    * the timeDifference has gotten huge.
+    */
+
    @Override
    public void run () {
       info = getFaceInfo(0);
-      if ( info != null) {
+      if ( info != null && info.isFace() ) {
          Long currentTime = System.currentTimeMillis();
-         if ( prevInfo == null || isRealFace((int) (currentTime - previousTime)) )
+         // cannot reject based on proportionality if no previous real face
+         if ( prevInfo == null || isRealFace((int) (currentTime - previousTime)) ) {
             latest = new FacePerception(info.intTop,
                   info.intBottom, info.intLeft, info.intRight, info.intArea,
                   info.intCenter, info.intTiltCenter);
-         prevInfo = info;
-         previousTime = currentTime;
-      }
+            prevInfo = info;
+            previousTime = currentTime;
+         } 
+      } else latest = null; 
    }
 
    private boolean isRealFace (int timeDifference) {
-      // avoid repeatedly creating FacePerception object when no face
-      return info.intLeft != -1 && isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
+      return isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
    }
 
    private boolean isProportionalPosition (int timeDifference) {

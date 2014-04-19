@@ -16,6 +16,8 @@ public interface CPPinterface extends Library {
       
       @Override
       protected List<String> getFieldOrder () { return fieldOrder; }
+      
+      boolean isFace () { return intLeft >= 0; }
    }
 
    public class LoadHelper {
