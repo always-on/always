@@ -31,4 +31,8 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
       try { socket.close(); }
       catch (IOException e) { e.printStackTrace(); }
    }
+   
+   public void wiggle () {
+      // TODO send command to wiggle his ears
+   }
 }
