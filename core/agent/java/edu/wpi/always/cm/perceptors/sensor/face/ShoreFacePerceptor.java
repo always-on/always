@@ -10,6 +10,8 @@ import edu.wpi.disco.rt.perceptor.PerceptorBase;
 public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
                       implements FacePerceptor {
 
+   private long currentTime = 0;
+   
    private long previousTime = 0;
 
    private final static int timeUnit = 220;
@@ -36,7 +38,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       info = getFaceInfo(0);
       if ( info != null) {
          Long currentTime = System.currentTimeMillis();
-         if ( prevInfo == null || isRealFace((int) (currentTime - previousTime)) )
+         if ( prevInfo != null && isRealFace((int) (currentTime - previousTime)) )
             latest = new FacePerception(info.intTop,
                   info.intBottom, info.intLeft, info.intRight, info.intArea,
                   info.intCenter, info.intTiltCenter);
@@ -44,7 +46,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
          previousTime = currentTime;
       }
    }
-
+   
    private boolean isRealFace (int timeDifference) {
       // avoid repeatedly creating FacePerception object when no face
       return info.intLeft != -1 && isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
