@@ -2,6 +2,8 @@ package edu.wpi.always.cm.schemas;
 
 import java.util.Arrays;
 import com.sun.msv.datatype.xsd.Proxy;
+import edu.wpi.always.*;
+import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
@@ -63,27 +65,27 @@ public class EngagementSchema extends SchemaBase {
                   System.exit(0); 
                } 
                if ( lastState != EngagementState.Idle ) { 
-                  proxy.setAgentVisible(false);
+                  setAgentVisible(false);
                   propose(HELLO, META);
                }
                break;
             case Attention:
                if ( started ) proposeNothing();
                else {
-                  proxy.setAgentVisible(true);
+                 
                   propose(HI, META);
                }
                break;
             case Initiation:
                if ( started ) proposeNothing();
                else {
-                  proxy.setAgentVisible(true);
+                  setAgentVisible(true);
                   propose(HI_HI, META);
                }
                break;
             case Engaged:
                if ( !started ) { 
-                  proxy.setAgentVisible(true);
+                  setAgentVisible(true);
                   Utils.lnprint(System.out, "Starting session...");
                   schemaManager.start(SessionSchema.class);
                   started = true;
@@ -91,12 +93,17 @@ public class EngagementSchema extends SchemaBase {
                proposeNothing();
                break;
             case Recovering:
-               proxy.setAgentVisible(true);
+               setAgentVisible(true);
                propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), 
                                             new MenuBehavior(Arrays.asList("Yes"))), META);
                break;
          }
          lastState = engagementPerception.getState();
       }
+   }
+      
+   private void setAgentVisible(boolean visible) {
+      if ( Always.getAgentType() != AgentType.Reeti ) 
+         proxy.setAgentVisible(visible);
    }
 }
