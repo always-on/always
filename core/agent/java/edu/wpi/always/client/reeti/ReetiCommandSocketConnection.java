@@ -4,41 +4,34 @@ package edu.wpi.always.client.reeti;
 
 import java.io.*;
 import java.net.*;
+import edu.wpi.always.Always;
+import edu.wpi.always.client.RemoteConnection;
 import edu.wpi.cetask.Utils;
 
-public class ReetiCommandSocketConnection {
+public class ReetiCommandSocketConnection extends RemoteConnection {
 
-   private /* final */ Socket socket;
-
-   private /* final */ PrintWriter writer;
-
+   private PrintWriter writer;
+   
    public ReetiCommandSocketConnection (String host) {
+      super(host, 12045);
       connect(host, 12045);
    }
 
-   private void connect (String host, int port) {
-      try {
-         socket = new Socket(host, port); // Was 130.215.28.4
-         writer = new PrintWriter(socket.getOutputStream(), true);
-      } catch (ConnectException e) {
-         System.err.println(e+" to "+host+" "+port+" (retrying)"); 
-         try { Thread.sleep(3000);  } catch (InterruptedException i) {}
-         connect(host, port);
-      } catch (Exception e) {
-         Utils.rethrow("Error opening socket to Reeti", e);
-      }
+   @Override
+   protected void connect (String host, int port) {
+      super.connect(host, port);
+      try { writer = new PrintWriter(socket.getOutputStream(), true); }
+      catch (Exception e) { restart(e); }
    }
    
    public void send (String message) {
-      writer.println(message);
+      try { writer.println(message); }
+      catch (Exception e) { restart(e); }
    }
 
    public void close () {
       writer.close();
-      try {
-         socket.close();
-      } catch (IOException e) {
-         throw new RuntimeException("Error closing socket to Reeti", e);
-      }
+      try { socket.close(); }
+      catch (IOException e) { e.printStackTrace(); }
    }
 }

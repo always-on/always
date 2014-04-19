@@ -9,18 +9,18 @@ public class UIMessageDispatcherImpl implements UIMessageDispatcher,
       TcpConnectionObserver {
 
    private final UIMessagingJson json = new UIMessagingJson();
-   private final RemoteConnection conn;
+   private final TcpConnection conn;
    private final HashMap<String, MessageHandler> handlers = new HashMap<String, MessageHandler>();
    private final ExecutorService receivedMessageNotifierService = ThreadPools
          .newFixedThreadPool(1);
 
-   public UIMessageDispatcherImpl (RemoteConnection connection) {
+   public UIMessageDispatcherImpl (TcpConnection connection) {
       conn = connection;
       conn.addObserver(this);
    }
 
    @Override
-   public void notifyMessageReceive (RemoteConnection sender, String text) {
+   public void notifyMessageReceive (TcpConnection sender, String text) {
       handleMessage(text);
    }
 
