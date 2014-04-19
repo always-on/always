@@ -45,7 +45,8 @@ public class ReetiFaceTrackerRealizer extends
    @Override
    public void run () {
       FacePerception perception = perceptor.getLatest();
-      Point point = perception == null ? null : perception.getPoint();
+      Point point = perception == null ? null : 
+         perception.isFace() ? perception.getPoint() : null;
       if ( point != null ) {
 
          // following is useful for debugging
