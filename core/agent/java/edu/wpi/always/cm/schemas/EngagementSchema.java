@@ -72,7 +72,7 @@ public class EngagementSchema extends SchemaBase {
             case Attention:
                if ( started ) proposeNothing();
                else {
-                 
+                  setAgentVisible(true);
                   propose(HI, META);
                }
                break;
