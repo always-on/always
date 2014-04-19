@@ -22,7 +22,8 @@ public class FacePerception extends Perception {
       this.center = center;
    	this.tiltcenter = tiltcenter;
    }
-   
+
+
    /**
     * @return null if no face
     */
@@ -30,7 +31,7 @@ public class FacePerception extends Perception {
       return isFace() ?  new Point(center, tiltcenter) : null;								//-(right + left) / 2, -(bottom + top) / 2) : null;
    }
    
-   public boolean isFace () { return left != -1; }
+   public boolean isFace () { return left >= 0; }
    
    public static final int FACE_NEAR_AREA_THRESHOLD = 2500;
 

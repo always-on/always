@@ -8,7 +8,7 @@
         <copy todir="C:/Dropbox-Always/release/plugins/Plugins.Startup/bin">
           <fileset dir="../../../plugins/Plugins.Startup/bin/Debug"/>
         </copy>  
-        <copy todir="C:/Dropbox-Always/release/core/agent/images">
+        <copy todir="C:/Dropbox-Always/release/images">
           <fileset dir="../images"/>
         </copy>  
         <copy todir="C:/Dropbox-Always/release/reeti">

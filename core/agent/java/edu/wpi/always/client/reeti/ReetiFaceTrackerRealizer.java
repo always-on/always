@@ -44,36 +44,31 @@ public class ReetiFaceTrackerRealizer extends
 
    @Override
    public void run () {
-
       FacePerception perception = perceptor.getLatest();
+      Point point = perception == null ? null : 
+         perception.isFace() ? perception.getPoint() : null;
+      if ( point != null ) {
 
-      if ( perception != null ) {
+         // following is useful for debugging
+         // java.awt.Toolkit.getDefaultToolkit().beep();
+         currentTime = System.currentTimeMillis();
+         send(reetiPIDOutput.Track(perception.getCenter(),
+                                   perception.getTiltCenter(),
+                                   trackingDirections));
+         searchFlag = true;
 
-         Point point = perception.getPoint();
+      } else {
 
-         if ( point != null ) {
-
-            // following is useful for debugging
-            // java.awt.Toolkit.getDefaultToolkit().beep();
-            currentTime = System.currentTimeMillis();
-            send(reetiPIDOutput.Track(perception.getCenter(),
-                                      perception.getTiltCenter(),
-                                      trackingDirections));
-            searchFlag = true;
-            
-         } else {
-            
-            currentLosingTime = System.currentTimeMillis();
-            // waiting for the lost face for a predefined period of time looking
-            // at the same direction.
-            if ( ((currentLosingTime - currentTime) > acceptableLosingTime) && searchFlag ) {
-               send(reetiPIDOutput.faceSearch(false));
-               searchFlag = false;
-            }
+         currentLosingTime = System.currentTimeMillis();
+         // waiting for the lost face for a predefined period of time looking
+         // at the same direction.
+         if ( ((currentLosingTime - currentTime) > acceptableLosingTime) && searchFlag ) {
+            send(reetiPIDOutput.faceSearch(false));
+            searchFlag = false;
          }
       }
    }
-   
+
    private void send (String message) {
       // making sure that the PID controller has returned different
       // control command.

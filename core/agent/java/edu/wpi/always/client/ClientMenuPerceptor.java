@@ -12,6 +12,9 @@ public class ClientMenuPerceptor extends PerceptorBase<MenuPerception>
    }
 
    @Override
+   public void run () {}
+
+   @Override
    public void notifyDone (ClientProxy sender, String action, String data) {
    }
 
