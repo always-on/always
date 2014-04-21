@@ -34,11 +34,12 @@ public class Always {
    /**
     * Main method for starting complete Always-On system. 
     * 
-    * @param args [closeness model agentType] NB: Case-sensitive!
+    * @param args [closeness model agentType login] NB: Case-sensitive!
     *  <p>
-    *  closeness: Stranger (default), Acquaintance or Companion<br>
+    *  closeness: Stranger, Acquaintance, Companion or null (default, use value in user model)<br>
     *  model: file in always/user (default most recent User.*.owl)<br>
     *  agentType: Unity (default), Reeti or Both 
+    *  login: true or false (default)
     */
    public static void main (String[] args) {
       Always always = make(args, null, null);
@@ -55,22 +56,27 @@ public class Always {
    
    public static Date getSessionDate () { return sessionDate; }
    
+   private static boolean login;
+   
+   public static boolean isLogin () { return login; }
+   
    /**
     * Factory method for Always.  
     * 
     * @param args see {@link Always#main(String[])} 
     * @param plugin Start just this plugin 
     * @param activity Start just this activity (required if plugin is non-null)
-    * @return
     */
    public static Always make (String[] args, Class<? extends Plugin> plugin, String activity) {
       if ( args != null ) {
          if ( args.length > 1 ) UserUtils.USER_FILE = args[1];
          if ( args.length > 2 ) agentType = AgentType.valueOf(args[2]);
+         if ( args.length > 3 ) login = Boolean.parseBoolean(args[3]);
       }
+      if ( login ) Utils.lnprint(System.out, "Login condition!");
       Utils.lnprint(System.out, "Agent type = "+agentType);
       Always always = new Always(true, plugin == null);
-      if ( args != null && args.length > 0 ) {
+      if ( args != null && args.length > 0 && !"null".equals(args[0]) ) {
          Closeness closeness = Closeness.valueOf(args[0]);
          always.getUserModel().setCloseness(closeness);
       }

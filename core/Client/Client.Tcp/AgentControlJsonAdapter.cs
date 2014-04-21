@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +28,7 @@ namespace Agent.Tcp
 			dispatcher.RegisterReceiveHandler("gaze", new MessageHandlerDelegateWrapper(Gaze));
 			dispatcher.RegisterReceiveHandler("express", new MessageHandlerDelegateWrapper(Express));
 			dispatcher.RegisterReceiveHandler("idle", new MessageHandlerDelegateWrapper(Idle));
-            dispatcher.RegisterReceiveHandler("toggleAgent", new MessageHandlerDelegateWrapper(ToggleAgent));
+			dispatcher.RegisterReceiveHandler("setVisible", new MessageHandlerDelegateWrapper(SetVisible));
             dispatcher.RegisterReceiveHandler("reetiIP", new MessageHandlerDelegateWrapper(ReetiIP));
             dispatcher.RegisterReceiveHandler("page", new MessageHandlerDelegateWrapper(ShowPage));
 		}
@@ -138,9 +138,16 @@ namespace Agent.Tcp
 				_agent.Say(args["text"].Value<string>());
 		}
 
-        private void ToggleAgent(JObject args)
+        private void SetVisible(JObject args)
         {
-           _agent.ToggleAgent();
+            Boolean status = false;
+            if(args["status"] != null){
+                if(args["status"].Value<string>().Equals("true"))
+                    status = true;
+                else
+                    status = false;
+            }
+            _agent.SetVisible(status);
         }
 
 		public static string REETI_IP;

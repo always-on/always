@@ -22,9 +22,7 @@ public class EngagementRegistry implements ComponentRegistry {
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);
             break;
       }
-      // TODO: Replace dummy with real PIR below
-      //container.as(Characteristics.CACHE).addComponent(PIRMovementPerceptor.class);
-      container.as(Characteristics.CACHE).addComponent(DummyMovementPerceptor.class);
+      container.as(Characteristics.CACHE).addComponent(PIRMovementPerceptor.class);
       container.as(Characteristics.CACHE).addComponent(FaceMovementMenuEngagementPerceptor.class);
    }
 }

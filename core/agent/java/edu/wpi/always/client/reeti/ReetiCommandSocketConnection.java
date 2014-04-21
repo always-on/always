@@ -3,10 +3,7 @@ package edu.wpi.always.client.reeti;
 //a Java socket client
 
 import java.io.*;
-import java.net.*;
-import edu.wpi.always.Always;
 import edu.wpi.always.client.RemoteConnection;
-import edu.wpi.cetask.Utils;
 
 public class ReetiCommandSocketConnection extends RemoteConnection {
 
@@ -33,5 +30,9 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
       writer.close();
       try { socket.close(); }
       catch (IOException e) { e.printStackTrace(); }
+   }
+   
+   public void wiggle () {
+      // TODO send command to wiggle his ears
    }
 }
