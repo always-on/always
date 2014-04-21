@@ -65,6 +65,10 @@ Control Panel > Hardware & Sound > (Sound) Manage Audio Devices
   > Playback > Speakers > Properties > Enhancements > 
 
   Scroll down in menu and check Loudness Equalization, then Apply/Ok.
+  
+Prevent the machine from going to sleep, or the screen going going dim, in power options.
+
+Set the screen server to blank (not none) and make sure the option for bringing the lock screen after screen saver is unchecked.
 
 For development machines only:
 
