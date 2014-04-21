@@ -1,8 +1,8 @@
 package edu.wpi.disco.rt;
 
-import java.util.List;
+import java.util.*;
 
 public interface ICandidateBehaviorsContainer {
    
-    List<CandidateBehavior> all ();
+    Collection<CandidateBehavior> all ();
 }

@@ -21,9 +21,11 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always, DiscoRT.Interaction interaction) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
-      // note activities append to session log
-      console = new DiscoRT.ConsoleWindow(interaction, getClass().getSimpleName(), true, null);
-      console.setVisible(true);
+      if ( behaviorReceiver != null ) { // for always_disco testing
+         // note activities append to session log
+         console = new DiscoRT.ConsoleWindow(interaction, getClass().getSimpleName(), true, null);
+         console.setVisible(true);
+      } else console = null;
    }
    
    protected void start (String id) {

@@ -3,18 +3,9 @@ package edu.wpi.always.cm.perceptors.dummy;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.disco.rt.perceptor.*;
 
-public class DummySpeechPerceptor implements SpeechPerceptor {
+public class DummySpeechPerceptor extends PerceptorBase<SpeechPerception>
+             implements SpeechPerceptor {
 
-   private volatile SpeechPerception latest;
-
-   @Override
-   public SpeechPerception getLatest () {
-      return latest;
-   }
-
-   @Override
-   public void run () {}
-   
    private final PerceptorBufferManager<SpeechPerception> bufferManager 
         = new PerceptorBufferManager<SpeechPerception>();
 

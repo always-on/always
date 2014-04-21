@@ -8,13 +8,17 @@ public interface Ontology {
    String DOCUMENT_IRI_STRING = "http://www.wpi.org/ontologies/ontology/AlwaysOntology.owl";
    IRI DOCUMENT_IRI = IRI.create(DOCUMENT_IRI_STRING);
 
-   public OWLOntologyManager getManager ();
+   OWLOntologyManager getManager ();
 
-   public OWLOntology getOntology ();
+   OWLOntology getOntology ();
 
-   public OWLDataFactory getFactory ();
+   OWLDataFactory getFactory ();
 
-   public PrefixManager getPm ();
+   PrefixManager getPm ();
 
-   public OWLReasoner getReasoner ();
+   OWLReasoner getReasoner ();
+   
+   void reset ();
+   
+   void ensureConsistency ();
 }

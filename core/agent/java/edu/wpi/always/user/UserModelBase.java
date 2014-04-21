@@ -22,7 +22,12 @@ public abstract class UserModelBase implements UserModel {
   
    @Override
    public String getUserFirstName () { return userFirstName; }
-   
+  
+   @Override
+   public void reset () {
+      userName = userFirstName = "";
+   }
+
    private static final String 
          SESSIONS = "UserSessions",
          START_TIME = "UserStartTime",

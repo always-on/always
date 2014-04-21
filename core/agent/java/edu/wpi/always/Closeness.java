@@ -1,8 +1,10 @@
 package edu.wpi.always;
 
+import edu.wpi.always.user.UserModel;
+
 /**
  * Note that corresponding integer-based closeness values are not implemented.
  * 
- * @see RelationshipManager#getCloseness()
+ * @see UserModel#getCloseness()
  */
 public enum Closeness { Stranger, Acquaintance, Companion }

@@ -14,8 +14,7 @@ public class StoryPlugin extends Plugin {
       addActivity("TellStory", 0, 0, 0, 0,
             StorySchema.class, 
             new SchemaConfig(BackChannelSchema.class, 100, false),
-            StoryManager.class,
-            DummySpeechPerceptor.class);
+            StoryManager.class);
    }
    
    /**

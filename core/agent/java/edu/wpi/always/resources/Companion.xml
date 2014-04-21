@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
+           xmlns:disco="urn:disco.wpi.edu:Disco"
+           xmlns:a="urn:always.wpi.edu:Activities"
+           about="urn:always.wpi.edu:Companion">
+   <task id="_Session">
+      <subtasks id="_s1">
+         <step name="greet" task="a:GreetUser"/>
+         <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
+         <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
+      </subtasks>
+   </task>
+</taskModel>

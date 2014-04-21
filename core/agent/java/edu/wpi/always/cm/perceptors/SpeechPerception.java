@@ -10,8 +10,7 @@ public class SpeechPerception extends Perception {
 
    private final SpeechState state;
 
-   public SpeechPerception (DateTime stamp, SpeechState state) {
-      super(stamp);
+   public SpeechPerception (SpeechState state) {
       this.state = state;
    }
 

@@ -9,25 +9,24 @@ import edu.wpi.disco.rt.perceptor.Perception;
 
 public class EngagementPerception extends Perception {
 
-   public static long IDLE_FACE_TIME = 1000;
-   public static long ATTENTION_NO_FACE_TIMEOUT = 10000;
-   public static long ATTENTION_FACE_TIME = 2000;
-   public static long INITIATION_NOT_NEAR_TIMEOUT = 20000;
-   public static long ENGAGED_NO_TOUCH_TIMEOUT = 20000;
-   public static long ENGAGED_NOT_NEAR_TIMEOUT = 15000;
-   public static long RECOVERING_NO_TOUCH_TIMEOUT = 60000;
-   public static long RECOVERING_NOT_NEAR_TIMEOUT = 10000;
+   public static long IDLE_FACE_TIME = 1000; // idle->attention after seeing (far) face for this long
+   public static long ATTENTION_NO_FACE_TIMEOUT = 10000;  // attention->idle if no face for this long
+   
+   public static long ATTENTION_FACE_TIME = 20000; // attention->initiation after seeing (far) face for this long
+   
+   public static long INITIATION_NOT_NEAR_TIMEOUT = 20000; // initiation->idle if no near face for this long
+   
+   public static long ENGAGED_NOT_NEAR_TIMEOUT = 15000; // engaged->recovering if no near face for this long   
+   public static long ENGAGED_NO_TOUCH_TIMEOUT = 20000; //   and no touch for this long (and not moving)
+
+   // TODO: Increase these a *lot*
+   public static long RECOVERING_NOT_NEAR_TIMEOUT = 1000000; // engaged->idle if no near face for this long 
+   public static long RECOVERING_NO_TOUCH_TIMEOUT = 6000000; //   and no touch for this long (and not moving) 
    
    private final EngagementState state;
 
-   public EngagementPerception (EngagementState state,
-         DateTime timeStamp) {
-      super(timeStamp);
-      this.state = state;
-   }
-
    public EngagementPerception (EngagementState state) {
-      this(state, DateTime.now());
+      this.state = state;
    }
 
    public EngagementState getState () {
@@ -46,12 +45,10 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange,
                TouchTransition lastTouch, boolean hadTouch, long timeInState) {
-            if ( lastFaceChange.isNear )
-               return Initiation;
-            if ( lastMovementChange.isMoving )
-               return Attention;
-            if ( lastFaceChange.isFace
-               && lastFaceChange.timeSinceChange() > IDLE_FACE_TIME )
+            if ( hadTouch ) return Engaged;
+            if ( lastFaceChange.isNear ) return Initiation;
+            if ( lastMovementChange.isMoving ) return Attention;
+            if ( lastFaceChange.isFace && lastFaceChange.timeSinceChange() > IDLE_FACE_TIME )
                return Attention;
             return Idle;
          }
@@ -62,14 +59,12 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange,
                TouchTransition lastTouch, boolean hadTouch, long timeInState) {
-            if ( lastFaceChange.isNear )
-               return Initiation;
-            if ( !lastFaceChange.isFace
-               && lastFaceChange.timeSinceChange() > ATTENTION_NO_FACE_TIMEOUT
-               && !lastMovementChange.isMoving )
+            if ( hadTouch ) return Engaged;
+            if ( lastFaceChange.isNear ) return Initiation;
+            if ( !lastFaceChange.isFace && lastFaceChange.timeSinceChange() > ATTENTION_NO_FACE_TIMEOUT
+                 && !lastMovementChange.isMoving )
                return Idle;
-            if ( lastFaceChange.isFace
-               && lastFaceChange.timeSinceChange() > ATTENTION_FACE_TIME )
+            if ( lastFaceChange.isFace && lastFaceChange.timeSinceChange() > ATTENTION_FACE_TIME )
                return Initiation;
             return Attention;
          }
@@ -80,12 +75,8 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange,
                TouchTransition lastTouch, boolean hadTouch, long timeInState) {
-            if ( hadTouch )
-               return Engaged;
-            if ( lastFaceChange.isNear )
-               return Engaged;
-            if ( !lastFaceChange.isNear
-               && lastFaceChange.timeSinceChange() > INITIATION_NOT_NEAR_TIMEOUT )
+            if ( hadTouch ) return Engaged;
+            if ( !lastFaceChange.isNear && lastFaceChange.timeSinceChange() > INITIATION_NOT_NEAR_TIMEOUT )
                return Idle;
             return Initiation;
          }
@@ -96,15 +87,12 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange,
                TouchTransition lastTouch, boolean hadTouch, long timeInState) {
-            if ( (!lastFaceChange.isNear && lastFaceChange.timeSinceChange()
-                  > ENGAGED_NOT_NEAR_TIMEOUT)
-               || (lastTouch.timeSinceChange() > ENGAGED_NO_TOUCH_TIMEOUT 
-                     && timeInState > ENGAGED_NO_TOUCH_TIMEOUT) ) {
-               if ( lastMovementChange.isMoving)
-                  return Recovering;
-               else
-                  return Idle;
-            }
+            if ( hadTouch ) return Engaged;
+            if ( (!lastFaceChange.isNear && lastFaceChange.timeSinceChange() > ENGAGED_NOT_NEAR_TIMEOUT)
+                 && lastTouch.timeSinceChange() > ENGAGED_NO_TOUCH_TIMEOUT 
+                 && timeInState > ENGAGED_NO_TOUCH_TIMEOUT 
+                 && !lastMovementChange.isMoving )
+               return Recovering;
             return Engaged;
          }
       },
@@ -114,12 +102,10 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange,
                TouchTransition lastTouch, boolean hadTouch, long timeInState) {
-            if ( hadTouch )
-               return Engaged;
-            if ( timeInState > RECOVERING_NO_TOUCH_TIMEOUT )
-               return Idle;
-            if ( !lastFaceChange.isNear
-               && lastFaceChange.timeSinceChange() > RECOVERING_NOT_NEAR_TIMEOUT )
+            if ( hadTouch ) return Engaged;
+            if ( timeInState > RECOVERING_NO_TOUCH_TIMEOUT 
+                 && !lastFaceChange.isNear && lastFaceChange.timeSinceChange() > RECOVERING_NOT_NEAR_TIMEOUT 
+                 && !lastMovementChange.isMoving )
                return Idle;
             return Recovering;
          }

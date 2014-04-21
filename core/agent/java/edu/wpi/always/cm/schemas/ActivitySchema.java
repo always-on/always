@@ -1,17 +1,18 @@
 package edu.wpi.always.cm.schemas;
 
+import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.Plugin;
 import edu.wpi.always.client.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuTurnStateMachine;
-import edu.wpi.disco.rt.schema.SchemaBase;
+import edu.wpi.disco.rt.schema.*;
 
 /**
  * Base schema for activities.  Each activity should have exactly one such schema. 
  */
 public abstract class ActivitySchema extends SchemaBase {
 
-   public static final double SPECIFICITY = 0.7;
+   public static final double SPECIFICITY = 0.5;
    
    protected ActivitySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory) {
@@ -43,6 +44,12 @@ public abstract class ActivitySchema extends SchemaBase {
    protected void propose (Behavior behavior) {
       propose(behavior, SPECIFICITY);
    }
+
+   private InconsistentOntologyException e;
+   
+   public InconsistentOntologyException getInconsistentOntologyException () { return e; } 
+    
+   public void setInconsistentOntologyException (InconsistentOntologyException e) { this.e = e; } 
    
    private boolean selfStop;
    

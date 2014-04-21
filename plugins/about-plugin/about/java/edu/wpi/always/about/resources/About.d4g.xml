@@ -330,7 +330,7 @@
 	      </agent>
 	    </user>
 	    <user text="No, no thanks" >
-	      <agent text="well, I hope {pronounSubj} has a good trip!"/>
+	      <agent text="well, I hope {famFriend} enjoys the trip!"/>
 	    </user>
 	  </agent>
 	</user>
@@ -486,7 +486,7 @@
 	  </agent>
 	</user>
 	<user text=" {pronounSubj} is postponing a visit to me" >
-	  <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Oh, that's too a shame.  Any chance of a visit later? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+	  <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Oh, that's too bad.  Any chance of a visit later? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
 	    <user text="Yes" >
 	      <agent text="tell me the next time we update your calendar." />
 	    </user>

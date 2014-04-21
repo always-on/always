@@ -25,7 +25,7 @@ public class MovementTrackerSchema extends SchemaBase {
    public void run () {
       MovementPerception perception = movementPerceptor.getLatest();
       if ( perception != null && perception.getPoint() != null ) {
-         BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0)
+         BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0.1)
                .dueIn(100).timeRemaining(0.01).build();
          propose(new GazeBehavior(perception.getPoint()), m);
       } else {

@@ -38,7 +38,7 @@
 			<response>yes, now what are you going to do?</response>
 		</comment>
 		<comment competitiveness='0.2' tags="AgentWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="human">
-			<content> Haha! smart move </content>
+			<content> Oh! smart move </content>
 			<response>thank you!</response>
 			<response>I couldn't let you win so easily</response>
 			<response>What is your next move?</response>
@@ -60,7 +60,7 @@
 			<response>Still your turn</response>
 		</comment>
 		<comment competitiveness='0.2' tags="HumanWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="agent">
-			<content>Smart ha? Taking the center cell</content>
+			<content>Well, that was a good choice!</content>
 			<response>exactly!</response>
 			<response>oh yes!</response>
 			<response>haha, might not be that important</response>

@@ -3,6 +3,7 @@ package edu.wpi.always.greetings;
 import org.joda.time.LocalTime;
 import edu.wpi.always.Always;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
+import edu.wpi.always.user.UserModel;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
@@ -19,11 +20,15 @@ public class GreetingsSchema extends DiscoActivitySchema {
       running = false; 
    } 
    
+   private final UserModel model;
+   
    public GreetingsSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
             GreetingsPlugin.greetingsInteraction);
+      model = always.getUserModel();
+      if ( behaviorReceiver == null ) return; // for always_disco testing
       if ( running ) throw new IllegalStateException("GreetingsSchema already running!");
       running = true;
       setSelfStop(true);
@@ -43,5 +48,10 @@ public class GreetingsSchema extends DiscoActivitySchema {
           start( (HOUR <= 4 || HOUR > 22) ? "_NightGreetings" : 
                  HOUR > 18 ? "_EveningGreetings" :
                  "_AfternoonGreetings" );
+   }
+   
+   // to support calling properly from JavaScript
+   public void setPoorSleepReports (double n) {
+      model.setProperty(GreetingsPlugin.POOR_SLEEP_REPORTS, (int) n);
    }
 }

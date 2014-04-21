@@ -4,13 +4,11 @@ import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 
 public class ReetiPIDController {
 
-   private ReetiJsonConfiguration config;
-
-   private double kpXNeck = 0.05, kpYNeck = 0.08; // For the future
+   private final double kpXNeck = 0.05, kpYNeck = 0.08; // For the future
                                                   // improvements: kiNeck = 0,
                                                   // kdNeck = 0;
 
-   private double kpXEye = 0.03, kpYEye = 0.03; // For the future improvements:
+   private final double kpXEye = 0.03, kpYEye = 0.03; // For the future improvements:
                                                 // kiEye = 0, kdEye = 0;
 
    private double inputXPID = 0, inputYPID = 0, neckXPIDoutput,
@@ -24,11 +22,11 @@ public class ReetiPIDController {
 
    private boolean eyeReachedYLimit = false;
 
-   private double neckInitialOutputXPID = config.getNeckRotat(); // Was 50
+   private final double neckInitialOutputXPID;
 
    // private double neckInitialOutputYPID = config.getNeckTilt(); // Was 55.56
 
-   private double eyeInitialOutputXPID = config.getLeftEyePan(); // Was 50
+   private final double eyeInitialOutputXPID;
 
    // private double eyeInitialOutputYPID = config.getLeftEyeTilt(); // Was 42.55
 
@@ -45,10 +43,12 @@ public class ReetiPIDController {
    private double eyeYError = 0;
 
    ReetiPIDController (ReetiJsonConfiguration config) {
+
+      neckInitialOutputXPID = config.getNeckRotat(); // Was 50
+      eyeInitialOutputXPID = config.getLeftEyePan(); // Was 50
+      
       setNeckXPIDoutput(this.neckInitialOutputXPID);
       setEyeXPIDoutput(this.eyeInitialOutputXPID);
-
-      this.config = config;
    }
 
    private void neckXPIDcontroller () {

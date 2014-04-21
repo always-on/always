@@ -245,7 +245,7 @@
          <step name="_d4e57_ref" task="_d4e57_tree"/>
          <applicable>poorSleepreports &lt; 5</applicable>
          <binding slot="$_d4e57_step.text"
-                  value="&#34;&lt;EYEBROWS DIR=\&#34;UP\&#34;/&gt; Gee, that's rare for you.   Are you feeling okay? &lt;EYEBROWS DIR=\&#34;DOWN\&#34;/&gt;&#34;"/>
+                  value="&#34;&lt;EYEBROWS DIR=\&#34;UP\&#34;/&gt; Gee, that's unusual for you.   Are you feeling okay? &lt;EYEBROWS DIR=\&#34;DOWN\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e57_step.external" value="false"/>
       </subtasks>
    </task>
@@ -529,8 +529,7 @@
     }
     
     function setPoorSleepReports (n) {
-       $always.getUserModel().setProperty(edu.wpi.always.greetings.GreetingsPlugin.POOR_SLEEP_REPORTS,
-                    new java.lang.Integer(n));
+       $schema.setPoorSleepReports(n);
     } 
     
     function getUserName () {

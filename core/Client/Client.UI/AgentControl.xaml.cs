@@ -81,15 +81,18 @@ namespace Agent.UI
             switch (e.eventType)
             {
                 case "viseme":
-                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && (agentType != AgentType.Unity))
+                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) &&
+                        (agentType != AgentType.Unity) && (AgentTranslate != null))
                         AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "bookmark":
-                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && (agentType != AgentType.Unity))
+                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) &&
+                        (agentType != AgentType.Unity) && (AgentTranslate != null))
                         AgentTranslate.TranslateToReetiCommand("speech", e.eventValue);
                     break;
                 case "end":
-                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && (agentType != AgentType.Unity))
+                    if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) &&
+                        (agentType != AgentType.Unity) && (AgentTranslate != null))
                         AgentTranslate.TranslateToReetiCommand("speech", "ENDSPEECH");
 
                     ActionDone(this, new ActionDoneEventArgs("speech", e.sourceUtterance));
@@ -172,13 +175,11 @@ namespace Agent.UI
             t.Start();
         }*/
 
-        bool agentVisible = true;
-        public void ToggleAgent()
+        public void SetVisible(Boolean status)
         {
             agent.Invoke((System.Windows.Forms.MethodInvoker)delegate
             {
-                agentVisible = !agentVisible;
-                agent.Visible = agentVisible;
+				agent.Visible = status;
             });
         }
 

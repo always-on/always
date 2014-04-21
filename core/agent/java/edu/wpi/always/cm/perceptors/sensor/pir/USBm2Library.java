@@ -1,8 +1,7 @@
 package edu.wpi.always.cm.perceptors.sensor.pir;
 
-import com.sun.jna.*;
-import edu.wpi.always.cm.perceptors.sensor.NativeUtil;
 import java.util.*;
+import com.sun.jna.*;
 
 public interface USBm2Library extends Library {
 

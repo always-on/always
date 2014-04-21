@@ -2,7 +2,8 @@ package edu.wpi.disco.rt.util;
 
 import java.util.*;
 import java.util.concurrent.*;
-import edu.wpi.disco.rt.DiscoRT;
+import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.Scheduler.ExceptionHandler;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.realizer.CompoundRealizer;
 import edu.wpi.disco.rt.schema.Schema;
@@ -31,7 +32,7 @@ public class ThreadPools {
    }
    
    public static ScheduledExecutorService newScheduledThreadPool (int corePoolSize, 
-         final Class<? extends Throwable> handle, final Runnable handler) {
+         final Class<? extends Throwable> throwable, final ExceptionHandler handler) {
       
       return new ScheduledThreadPoolExecutor(corePoolSize) {
 
@@ -52,7 +53,7 @@ public class ThreadPools {
          @Override
          protected void afterExecute (Runnable r, Throwable t) {
             super.afterExecute(r, t);
-            ThreadPools.afterExecute(r, t, handle, handler);
+            ThreadPools.afterExecute(r, t, throwable, handler);
          }
       };
    }
@@ -88,7 +89,7 @@ public class ThreadPools {
    }
 
    private static void afterExecute (Runnable r, Throwable t, 
-         Class<? extends Throwable> handle, Runnable handler) {
+         Class<? extends Throwable> throwable, ExceptionHandler handler) {
       if ( t == null && r instanceof Future<?> ) {
          if ( !((Future<?>) r).isDone() ) return;
          try {
@@ -97,6 +98,11 @@ public class ThreadPools {
             if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Cancelled " + getName(r));
          } catch (ExecutionException e) {
             t = e.getCause();
+            // run exception handler before dispose
+            if ( t != null && throwable != null && throwable.isInstance(t) ) {
+               handler.handle(r, t);
+               t = null;
+            }
          } catch (InterruptedException e) {
             Thread.currentThread().interrupt(); // ignore/reset
          } catch (TimeoutException e) {
@@ -112,7 +118,7 @@ public class ThreadPools {
          }
       }
       if ( t != null ) {
-         if ( handle.isInstance(t) ) handler.run();
+         if  ( throwable != null && throwable.isInstance(t) ) handler.handle(r, t);
          else {
             System.out.println(); // may improve readability
             edu.wpi.cetask.Utils.rethrow(t);
@@ -143,7 +149,7 @@ public class ThreadPools {
       public Runnable getInner () { return inner; }
    }
 
-   private static class ScheduledFutureTask<V> implements RunnableScheduledFuture<V> {
+   public static class ScheduledFutureTask<V> implements RunnableScheduledFuture<V> {
 
       private final RunnableScheduledFuture<V> task;
       private final Runnable inner;
