@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="release" name="Release Always-On">
+    <property environment="env"/>
     <target name="release">
         <copy todir="C:/Dropbox-Always/release">
           <fileset excludes="FaceDetection.dll,USBm2-64.dll" dir="../lib/win32-x86-64"/>
@@ -17,6 +18,9 @@
         <copy todir="C:/Dropbox-Always/release/reeti">
           <fileset dir="../lib/reeti"/>
         </copy>   
+        <copy todir="C:/Dropbox-Always/${env.COMPUTERNAME}/weatherData">
+          <fileset file="../../../user/weatherData/testing.json"/>
+        </copy> 
         <jar destfile="C:/Dropbox-Always/release/always.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="edu.wpi.always.Always"/>
