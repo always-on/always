@@ -12,7 +12,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    private long previousTime = 0;
 
-   private final static int timeUnit = 220;
+   private final static long timeUnit = 220;
 
    protected FaceInfo getFaceInfo (int debug) { return null; }
 
@@ -22,7 +22,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    protected FaceInfo info, prevInfo;
 
-   private final int faceHorizontalDisplacementThreshold,
+   private final long faceHorizontalDisplacementThreshold,
          faceVerticalDisplacementThreshold, faceAreaThreshold;
 
    protected ShoreFacePerceptor (int hor, int vert, int area) {
@@ -31,35 +31,48 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       faceAreaThreshold = area;
    }
 
+   /*
+    * DESIGN NOTE: The logic below is tricky because it needs to be robust wrt
+    * to both losing the face, isFace(), and also jumping to a non-real face,
+    * isRealFace(). In the former case, latest should be set to null (for
+    * efficiency in long-running with no face), whereas in the latter case,
+    * latest should not change. However, in both cases, the value of
+    * previousInfo should contain the most recently seen real face for eventual
+    * proportional comparison. Note that if you don't see any real face for a long
+    * time, then the proportional comparison is guaranteed to succeed because
+    * the timeDifference has gotten huge.
+    */
+
    @Override
    public void run () {
       info = getFaceInfo(0);
-      if ( info != null) {
+      if ( info != null && info.isFace() ) {
          Long currentTime = System.currentTimeMillis();
-         if ( prevInfo == null || isRealFace((int) (currentTime - previousTime)) )
+         // cannot reject based on proportionality if no previous real face
+         if ( prevInfo == null || isRealFace(currentTime - previousTime) ) {
             latest = new FacePerception(info.intTop,
                   info.intBottom, info.intLeft, info.intRight, info.intArea,
                   info.intCenter, info.intTiltCenter);
-         prevInfo = info;
-         previousTime = currentTime;
-      }
+            prevInfo = info;
+            previousTime = currentTime;
+         } 
+      } else latest = null; 
    }
 
-   private boolean isRealFace (int timeDifference) {
-      // avoid repeatedly creating FacePerception object when no face
-      return info.intLeft != -1 && isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
+   private boolean isRealFace (long timeDifference) {
+      return isProportionalPosition(timeDifference) && isProportionalArea(timeDifference);
    }
 
-   private boolean isProportionalPosition (int timeDifference) {
-      return ((((float) Math.abs(info.intLeft - prevInfo.intLeft) / timeDifference) <= 
-             ((float) faceHorizontalDisplacementThreshold / timeUnit)) && 
-             (((float) Math.abs(info.intTop - prevInfo.intTop) / timeDifference) <= 
-             ((float) faceVerticalDisplacementThreshold / timeUnit)));
+   private boolean isProportionalPosition (long timeDifference) {
+      return ( Math.abs((long) (info.intLeft - prevInfo.intLeft)) / timeDifference
+               <= faceHorizontalDisplacementThreshold / timeUnit ) && 
+             ( Math.abs((long) (info.intTop - prevInfo.intTop)) / timeDifference
+               <= faceVerticalDisplacementThreshold / timeUnit );
    }
 
-   private boolean isProportionalArea (int timeDifference) {
-      return (((float) Math.abs(info.intArea - prevInfo.intArea) / timeDifference) <= 
-             ((float) faceAreaThreshold / timeUnit));
+   private boolean isProportionalArea (long timeDifference) {
+      return Math.abs((long) (info.intArea - prevInfo.intArea)) / timeDifference
+             <= faceAreaThreshold / timeUnit;
    }
 
    public static class Agent extends ShoreFacePerceptor {

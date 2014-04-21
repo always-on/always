@@ -34,10 +34,8 @@ public class FaceMovementMenuEngagementPerceptor
    public void run () {
       synchronized (stateLock) {
          EngagementState currentState = null;
-         if ( latest != null )
-            currentState = latest.getState();
-         if ( currentState == null )
-            currentState = EngagementState.Idle;
+         if ( latest != null ) currentState = latest.getState();
+         if ( currentState == null ) currentState = EngagementState.Idle;
          FacePerception facePerception = facePerceptor.getLatest();
          if ( facePerception != null ) {
             if ( lastFaceChange == null
@@ -58,12 +56,13 @@ public class FaceMovementMenuEngagementPerceptor
          boolean hadTouch = false;
          MenuPerception menuPerception = menuPerceptor.getLatest();
          if ( menuPerception != null && lastTouchChange != null ) {
-            if ( !menuPerception.getSelected().equals(lastTouchChange.selected) ) {
-               lastTouchChange = new TouchTransition(menuPerception.getSelected());
+            if ( !menuPerception.getSelected().equals(lastTouchChange.selected) 
+                  || menuPerception.getTimeStamp() > lastTouchChange.timeStamp ) {
+               lastTouchChange = new TouchTransition(menuPerception);
                hadTouch = true;
             }
          } else
-            lastTouchChange = new TouchTransition(null);
+            lastTouchChange = new TouchTransition();
          EngagementState nextState = currentState.nextState(lastMovementChange,
                lastFaceChange, lastTouchChange, hadTouch,
                System.currentTimeMillis() - lastStateChangeTime);
@@ -82,7 +81,7 @@ public class FaceMovementMenuEngagementPerceptor
 
    protected void setState (EngagementState newState) {
       synchronized (stateLock) {
-         if ( Always.TRACE ) Utils.lnprint(System.out, "Engagement Status: "
+         if ( Always.TRACE ) Utils.lnprint(System.out, "ENGAGEMENT: "
             + (latest != null ? latest.getState() : "") + " -> " + newState);
          // reset timing for new state
          if ( lastMovementChange != null )
@@ -108,9 +107,16 @@ public class FaceMovementMenuEngagementPerceptor
    static class TouchTransition extends Transition {
       
       final String selected;
+      final long timeStamp;  // to distinguish same menu put up twice (for recovery)
 
-      public TouchTransition (String selected) {
-         this.selected = selected;
+      public TouchTransition () {
+         selected = null;
+         timeStamp = 0L;
+      }
+      
+      public TouchTransition (MenuPerception menu) {
+         this.selected = menu.getSelected();
+         this.timeStamp = menu.getTimeStamp();
       }
    }
 

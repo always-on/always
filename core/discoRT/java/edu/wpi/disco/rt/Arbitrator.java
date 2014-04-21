@@ -17,8 +17,9 @@ public class Arbitrator implements Runnable {
    private final Interaction interaction;
    private final DiscoRT discoRT;
    private Schema focusSchema;
-   private List<Resource> freeResources;
-   private List<CandidateBehavior> proposals, selected;
+   private final List<Resource> freeResources = new ArrayList<Resource>();
+   private final List<CandidateBehavior> proposals = new ArrayList<CandidateBehavior>(),
+         selected = new ArrayList<CandidateBehavior>();
 
    public Schema getFocus () { return focusSchema; }
    
@@ -31,12 +32,18 @@ public class Arbitrator implements Runnable {
       this.interaction = discoRT.getInteraction();
    }
 
+   private final static List<Resource> RESOURCES = Arrays.asList(Resources.values());
+   
    @Override
    public void run () {
-      freeResources = Lists.newArrayList(Resources.values());
-      proposals = filterOutEmptyCandidates(candidateBehaviors.all());
-      selected = Lists.newArrayList();
-      // first assign discourse focus based on Disco
+      // recoded to reduce gc for long running
+      freeResources.clear();
+      freeResources.addAll(RESOURCES);
+      proposals.clear();
+      proposals.addAll(candidateBehaviors.all());
+      selected.clear();
+      // first assign discourse focus based on Disco 
+      // unless there is a higher priority proposal
       Plan focusPlan = interaction.getFocusExhausted(true);
       Class<? extends Schema> schema = 
             discoRT.getSchema(focusPlan == null ? null :
@@ -46,7 +53,8 @@ public class Arbitrator implements Runnable {
          for (CandidateBehavior proposal : proposals) {
             Schema proposer = proposal.getProposer();
             if ( schema.isAssignableFrom(proposer.getClass()) ) {
-               if ( proposal.getBehavior().getResources().contains(Resources.FOCUS) ) {
+               if ( proposal.getBehavior().getResources().contains(Resources.FOCUS) 
+                     && !hasMoreSpecific(proposals, proposal) ) {
                   choose(proposal);
                   focusProposal = proposal;
                   proposer.focus();
@@ -93,14 +101,6 @@ public class Arbitrator implements Runnable {
       }
    }
    
-   private List<CandidateBehavior> filterOutEmptyCandidates (List<CandidateBehavior> source) {
-      List<CandidateBehavior> result = Lists.newArrayList();
-      for (CandidateBehavior c : source)
-         if ( !c.getBehavior().isEmpty() )
-            result.add(c);
-      return result;
-   }
-
    /**
     * NOT thread-safe
     */
@@ -114,7 +114,16 @@ public class Arbitrator implements Runnable {
 
    private CandidateBehavior decide (List<CandidateBehavior> candidates,
          CandidateBehavior focusedOne) {
-      return focusedOne == null ? strategy.decide(candidates) :
-         strategy.decide(candidates, focusedOne);
+      return ( focusedOne == null || hasMoreSpecific(candidates, focusedOne) )? 
+          strategy.decide(candidates) :
+          strategy.decide(candidates, focusedOne);
+   }
+   
+   private static boolean hasMoreSpecific (List<CandidateBehavior> candidates, CandidateBehavior candidate) {
+      double specificity = candidate.getMetadata().getSpecificity();
+      for (CandidateBehavior proposal : candidates) 
+         if ( proposal.getMetadata().getSpecificity() > specificity)
+            return true;
+      return false;
    }
 }

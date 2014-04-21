@@ -20,12 +20,15 @@ public class CandidateBehaviorsContainer implements
    }
    
    @Override
-   public List<CandidateBehavior> all () {
+   public Collection<CandidateBehavior> all () {
       copyNewProposalsToCandidatesList();
       Iterator<Map.Entry<Schema,CandidateBehavior>> i = candidates.entrySet().iterator();
-      while (i.hasNext())
-         if ( i.next().getKey().isDone() ) i.remove();
-      return ImmutableList.copyOf(candidates.values());
+      while (i.hasNext()) {
+         Map.Entry<Schema,CandidateBehavior> entry = i.next();
+         // behaviors with no resources do not need to be scheduled
+         if ( entry.getKey().isDone() || entry.getValue().getBehavior().isEmpty() ) i.remove();
+      }
+      return candidates.values();
    }
 
    // thread-safe, but not intended to be called from multiple threads

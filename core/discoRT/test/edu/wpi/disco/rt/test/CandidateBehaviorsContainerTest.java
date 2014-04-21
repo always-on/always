@@ -39,7 +39,7 @@ public class CandidateBehaviorsContainerTest {
       BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(
             ANY_PRIORITY).build();
       container.add(schema, behavior, m);
-      List<CandidateBehavior> candidates = container.all();
+      Collection<CandidateBehavior> candidates = container.all();
       assertContainsOneCandidate(candidates, schema, behavior);
    }
 
@@ -47,11 +47,12 @@ public class CandidateBehaviorsContainerTest {
       return new DummySchema(container, behaviorHistory);
    }
 
-   private void assertContainsOneCandidate (List<CandidateBehavior> candidates,
+   private void assertContainsOneCandidate (Collection<CandidateBehavior> candidates,
          DummySchema schema, Behavior behavior) {
       assertEquals(1, candidates.size());
-      assertSame(schema, candidates.get(0).getProposer());
-      assertEquals(behavior, candidates.get(0).getBehavior());
+      CandidateBehavior candidate = (CandidateBehavior) candidates.toArray()[0];
+      assertSame(schema, candidate.getProposer());
+      assertEquals(behavior, candidate.getBehavior());
    }
 
    @Test
@@ -63,7 +64,7 @@ public class CandidateBehaviorsContainerTest {
             ANY_PRIORITY).build();
       container.add(schema, behavior1, m);
       container.add(schema, behavior2, m);
-      List<CandidateBehavior> candidates = container.all();
+      Collection<CandidateBehavior> candidates = container.all();
       assertContainsOneCandidate(candidates, schema, behavior2);
    }
 
@@ -74,7 +75,7 @@ public class CandidateBehaviorsContainerTest {
       ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
       List<ScheduledFuture<?>> schemaTasks = Lists.newArrayListWithCapacity(3);
       for (int i = 0; i < texts.size(); i++) {
-         FakeSpeechSchema schema = new FakeSpeechSchema(container, behaviorHistory,
+         DummySpeechSchema schema = new DummySpeechSchema(container, behaviorHistory,
                texts.get(i));
          int period = rnd.nextInt(201) + 100;
          ScheduledFuture<?> future = executor.scheduleAtFixedRate(schema, 0,
@@ -86,7 +87,7 @@ public class CandidateBehaviorsContainerTest {
          // making sure schemas are still running
          for (int j = 0; j < schemaTasks.size(); j++)
             assertFalse(schemaTasks.get(j).isDone());
-         List<CandidateBehavior> candidates = container.all();
+         Collection<CandidateBehavior> candidates = container.all();
          assertEquals(3, candidates.size());
          Iterable<String> textsFromBehaviors = Iterables.transform(candidates,
                new Function<CandidateBehavior, String>() {
