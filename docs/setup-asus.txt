@@ -10,11 +10,39 @@ network in order to proceed further below.
 * Register Asus machines: Username: rich@wpi.edu, Pass: (same as all),
 Reseller: Directron.
 
+* Put a piece of dark black tape over power light (for nighttime)
+
+* Put WPI and NEU stickers on front (over ASUS logo?)
+
 * Do Windows Update (***will take a long time***)
 
-* Set No screensaver
+* In Control Panel > Power Options > Change advanced power settings:
 
-* In Power Options, set Sleep to Never and Turn Off Display to 15 minutes
+  > Require a password on wakeup (under current plan): NO
+
+  > Turn off hard disk after: 20 minutes (is this a good idea?)
+
+  > Sleep
+
+    + Sleep after: NEVER
+    + Allow hybrid sleep: OFF
+    + Hibernate after: NEVER
+    + Allow wake timers: DISABLE
+
+  > USB selective suspend: DISABLED
+
+  > Power buttons and lid
+    
+    + Power button action: DO NOTHING
+    + Sleep button action: DO NOTHING
+
+  > Turn off display after: NEVER
+
+* In Control Panel > Personalization > Screen Saver
+
+  Select "Blank" 
+  Select Wait 20 minutes
+  Do not select On Resume Display Login Screen
 
 * Uninstall native trial anti-virus software(Titanium...).
 
@@ -37,7 +65,7 @@ Control Panel > Hardware & Sound > (Sound) Manage Audio Devices
   > Playback > Speakers > Properties > Enhancements > 
 
   Scroll down in menu and check Loudness Equalization, then Apply/Ok.
-
+  
 For development machines only:
 
 * install Eclipse Juno SR1 (put extracted folder in C:)
