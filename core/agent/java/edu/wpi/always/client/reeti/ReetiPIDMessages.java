@@ -1,17 +1,16 @@
 package edu.wpi.always.client.reeti;
 
-import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
+import edu.wpi.always.client.ClientProxy;
 
-public class ReetiPIDMessages {
+class ReetiPIDMessages {
 
    private final ReetiPIDController XPID, YPID;
+   private final ReetiJsonConfiguration config;
 
-   public ReetiPIDMessages (ReetiJsonConfiguration config) {
-      XPID = new ReetiPIDController(config);
-      YPID = new ReetiPIDController(config);
-
-      this.resetPIDController(config);
-      //this.config = config;
+   ReetiPIDMessages (ReetiJsonConfiguration config, ClientProxy proxy) {
+      XPID = new ReetiPIDController(config, proxy);
+      YPID = new ReetiPIDController(config, proxy);
+      this.config = config;
    };
 
    private void SetXPID (double center) {
@@ -48,22 +47,13 @@ public class ReetiPIDMessages {
    }
 
    private String XTrack (boolean terminateCommand, boolean neededLED) {
-      String Message = null;
+      double Xout = ComputeNeckXPID();
+      double XeyeLOut = ComputeEyeXPID();
+      double XeyeROut = XeyeLOut + 20;
 
-      int Xout = ComputeNeckXPID();
-      int XeyeLOut = ComputeEyeXPID();
-      int XeyeROut = XeyeLOut + 20;
+      String Message = neededLED ? "Global.servo.color=\"green\",Global.servo.neckRotat=" : "Global.servo.neckRotat="; 
 
-      if ( neededLED )
-      {
-         Message = "Global.servo.color=\"green\",";
-         Message += "Global.servo.neckRotat=";
-      }
-      else
-      {
-         Message = "Global.servo.neckRotat=";
-      }
-      
+      Message += "Global.servo.neckRotat=";
       Message += Xout;
       Message += ",Global.servo.leftEyePan=";
       Message += XeyeLOut;
@@ -76,22 +66,12 @@ public class ReetiPIDMessages {
    }
 
    private String YTrack (boolean neededLED) {
-      String Message = "";
+      double Yout = ComputeNeckYPID();
+      double YeyeLOut = ComputeEyeYPID() + 2.55;
+      double YeyeROut = YeyeLOut;
 
-      int Yout = ComputeNeckYPID();
-      int YeyeLOut = ComputeEyeYPID() + 3;
-      int YeyeROut = YeyeLOut;
-
-      if ( neededLED )
-      {
-         Message = "Global.servo.color=\"green\",";
-         Message += "Global.servo.neckTilt=";
-      }
-      else
-      {
-         Message = "Global.servo.neckTilt=";
-      }
-
+      String Message = neededLED ? "Global.servo.color=\"green\",Global.servo.neckTilt=" : "Global.servo.neckTilt=";
+      
       Message += Yout;
       Message += ",Global.servo.leftEyeTilt=";
       Message += YeyeLOut;
@@ -102,7 +82,7 @@ public class ReetiPIDMessages {
       return Message;
    }
 
-   public String Track (double Xcenter, double Ycenter, Directions direction) {
+   String Track (double Xcenter, double Ycenter, Directions direction) {
       String Message = "";
 
       switch (direction) {
@@ -126,20 +106,10 @@ public class ReetiPIDMessages {
       return Message;
    }
 
-   public String faceSearch (ReetiJsonConfiguration config, boolean neededLED) {
-      String command = null;
-
-      if ( neededLED )
-      {
-         command = "Global.servo.color=\"red\",";
-         command += "Global.servo.neckRotat=";
-      }
-      else
-      {
-         command = "Global.servo.neckRotat=";
-      }
+   public String faceSearch (boolean neededLED) {
       
-      command += config.getNeckRotat()
+      String command = neededLED ? "Global.servo.color=\"red\",Global.servo.neckRotat=" : "Global.servo.neckRotat=";   
+      command = + config.getNeckRotat()
          + " smooth:0.50s; " // Was 50
          + "Global.servo.leftEyePan="
          + config.getLeftEyePan()
@@ -153,29 +123,33 @@ public class ReetiPIDMessages {
          + " smooth:0.50s, Global.servo.rightEyeTilt="
          + config.getRightEyeTilt() + " smooth:0.50s;"; // Were 42.55
 
-      resetPIDController(config);
       
       System.out.println("Search command sent...");
 
+      // since we are about to change all motor positions to neutral
+      // outside of PID loop we need to inform and reset the controllers
+      XPID.reset(config, null);
+      YPID.reset(config, null);
+      
       return command;
    }
    
-   private void resetPIDController(ReetiJsonConfiguration config) {
-      
-      XPID.setNeckXPIDoutput(config.getNeckRotat());
-      YPID.setNeckYPIDoutput(config.getNeckTilt());
-      XPID.setEyeXPIDoutput(config.getLeftEyePan());
-      YPID.setEyeYPIDoutput(config.getLeftEyeTilt());
-      
-      XPID.setNeckXError(0);
-      YPID.setNeckYError(0);
-      XPID.setEyeXError(0);
-      YPID.setEyeYError(0);
-      
-      XPID.setInitialFlag(true);
-      YPID.setInitialFlag(true);
-      
-      XPID.setEyeReachedXLimit(false);
-      YPID.setEyeReachedYLimit(false);
-   }
+//   private void resetPIDController(ReetiJsonConfiguration config) {
+//      
+//      XPID.setNeckXPIDoutput(config.getNeckRotat());
+//      YPID.setNeckYPIDoutput(config.getNeckTilt());
+//      XPID.setEyeXPIDoutput(config.getLeftEyePan());
+//      YPID.setEyeYPIDoutput(config.getLeftEyeTilt());
+//      
+//      XPID.setNeckXError(0);
+//      YPID.setNeckYError(0);
+//      XPID.setEyeXError(0);
+//      YPID.setEyeYError(0);
+//      
+//      XPID.setInitialFlag(true);
+//      YPID.setInitialFlag(true);
+//      
+//      XPID.setEyeReachedXLimit(false);
+//      YPID.setEyeReachedYLimit(false);
+//   }
 }

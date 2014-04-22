@@ -67,10 +67,17 @@ public class ClientProxy {
       enqueue("speech", p);
    }
 
+   // ideally should initialize these from neutral positions of config,
+   // but it doesn't really matter since only happens once at system startup
+   // and face tracker will automatically sync to this position
    private float hor, ver;
    
    //TODO need to get information back for gaze changes
    //     do to html markup
+   
+   public void setGazeHor (float hor) { this.hor = hor; }
+   public void setGazeVer (float ver) { this.ver = ver; }
+   
    public float getGazeHor () { return hor; }
    public float getGazeVer () { return ver; }
    

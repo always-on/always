@@ -1,239 +1,241 @@
 package edu.wpi.always.client.reeti;
 
-import java.awt.Point;
-import edu.wpi.always.Always;
-import edu.wpi.always.client.*;
-import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
+//      if(!initialFlag)
+//      {
+//         ClientProxy proxy = Always.THIS.getCM().getContainer().getComponent(ClientProxy.class);
+//         Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
+//         neckInitialOutputXPID = point.x;
+//         neckInitialOutputYPID = point.y;
+//         eyeInitialOutputXPID  = point.x;
+//         eyeInitialOutputYPID  = point.y;
+//         System.out.println("PID Controller-nonInitial-x= " + point.x + ", y= " + point.y);
+//      }
+//      else
+//      {
+//         neckInitialOutputXPID = config.getNeckRotat();
+//         neckInitialOutputYPID = config.getNeckTilt();
+//         eyeInitialOutputXPID  = config.getLeftEyePan();
+//         eyeInitialOutputYPID  = config.getLeftEyeTilt();
+//         initialFlag = false;
+//         System.out.println("PID Controller-Initial-x= " + config.getNeckRotat() + ", y= " + config.getNeckTilt());
+//      }
+//      
+//      setNeckXPIDoutput(neckInitialOutputXPID);
+//      setNeckYPIDoutput(neckInitialOutputYPID);
+//      setEyeXPIDoutput(eyeInitialOutputXPID);
+//      setEyeYPIDoutput(eyeInitialOutputYPID);
 
-public class ReetiPIDController {
+import edu.wpi.always.client.ClientProxy;
 
-   private final double kpXNeck = 0.03, kpYNeck = 0.04; // For the future
-                                                  // improvements: kiNeck = 0,
-                                                  // kdNeck = 0;
+class ReetiPIDController {
 
-   private final double kpXEye = 0.02, kpYEye = 0.02; // For the future improvements:
-                                                // kiEye = 0, kdEye = 0;
-
-   private double inputXPID = 0, inputYPID = 0, neckXPIDoutput,
-         neckYPIDoutput, eyeXPIDoutput, eyeYPIDoutput;
-
-   private final int neckOvershootTolerancePercentage = 70;
-
-   private final int eyeOvershootTolerancePercentage = 50;
-
-   private final int neckOvershootMovePercentage = 10;
+   // For the future improvements: kiNeck = 0, kdNeck = 0;
+   private final double kpXNeck = 0.05, kpYNeck = 0.08; 
+   // For the future improvements: kiEye = 0, kdEye = 0;
+   private final double kpXEye = 0.03, kpYEye = 0.03; 
    
-   private final int eyeOvershootMovePercentage = 5;
+   private final int neckOvershootTolerancePercentage = 70,
+                     eyeOvershootTolerancePercentage = 50;
    
-   private boolean eyeReachedXLimit = false;
-
-   private boolean eyeReachedYLimit = false;
-
-   private final double neckInitialOutputXPID, neckInitialOutputYPID;
-
-   // private double neckInitialOutputYPID = config.getNeckTilt(); // Was 55.56
-
-   private final double eyeInitialOutputXPID, eyeInitialOutputYPID;
-
-   // private double eyeInitialOutputYPID = config.getLeftEyeTilt(); // Was 42.55
-
-   private final int setPointXPID = 160;
-
-   private final int setPointYPID = 120;
-
-   private double neckXError = 0;
-
-   private double neckYError = 0;
-
-   private double eyeXError = 0;
-
-   private double eyeYError = 0;
-
-   private boolean initialFlag = true;
+   private final int neckOvershootMovePercentage = 10,
+                     eyeOvershootMovePercentage = 5;
    
-   ReetiPIDController (ReetiJsonConfiguration config) {
+   private final int setPointXPID = 160, setPointYPID = 120;
+   
+   private boolean eyeReachedXLimit = false, eyeReachedYLimit = false;
 
-      if(!initialFlag)
-      {
-         ClientProxy proxy = Always.THIS.getCM().getContainer().getComponent(ClientProxy.class);
-         Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
-         neckInitialOutputXPID = point.x;
-         neckInitialOutputYPID = point.y;
-         eyeInitialOutputXPID  = point.x;
-         eyeInitialOutputYPID  = point.y;
-         System.out.println("PID Controller-nonInitial-x= " + point.x + ", y= " + point.y);
-      }
-      else
-      {
-         neckInitialOutputXPID = config.getNeckRotat();
-         neckInitialOutputYPID = config.getNeckTilt();
-         eyeInitialOutputXPID  = config.getLeftEyePan();
-         eyeInitialOutputYPID  = config.getLeftEyeTilt();
-         initialFlag = false;
-         System.out.println("PID Controller-Initial-x= " + config.getNeckRotat() + ", y= " + config.getNeckTilt());
-      }
-      
-      setNeckXPIDoutput(neckInitialOutputXPID);
-      setNeckYPIDoutput(neckInitialOutputYPID);
-      setEyeXPIDoutput(eyeInitialOutputXPID);
-      setEyeYPIDoutput(eyeInitialOutputYPID);
+   private double inputXPID = 0, inputYPID = 0, 
+         neckXPIDoutput, neckYPIDoutput, eyeXPIDoutput, eyeYPIDoutput;
+
+   private double neckXError = 0, neckYError = 0, eyeXError = 0, eyeYError = 0;
+   
+   ReetiPIDController (ReetiJsonConfiguration config, ClientProxy proxy) {
+      // initialize controller with current reality from proxy
+      reset(config, proxy);
+   }
+   
+   // if proxy is null then use all neutral positions from config
+   // otherwise only neutral eye positions
+   void reset (ReetiJsonConfiguration config, ClientProxy proxy) {
+      // eyes in neutral position
+      eyeXPIDoutput = config.getLeftEyePan();
+      eyeYPIDoutput = config.getLeftEyeTilt();
+      // neck to neutral or proxy gaze position
+      neckXPIDoutput = proxy == null ? config.getNeckRotat() : ReetiTranslationHor(proxy.getGazeHor());
+      neckYPIDoutput = proxy == null ? config.getNeckTilt() : ReetiTranslationVer(proxy.getGazeVer());
+      // reset all error terms (since this is true current position)
+      eyeXError = eyeYError = neckXError = neckYError = 0;
+   }
+
+   // Note: Formulae in following two methods copied from ReetiTranslation.cs
+   
+   private static double ReetiTranslationHor (double hor) {
+      return hor > 0 ? ((hor * 25) + 45) :
+         hor < 0 ? (hor * 25) : 50;
+   }
+   
+   private static double ReetiTranslationVer (double ver) {
+      return ver < 0 ? -(ver * 25) :
+         ver > 0 ? ((ver * 25) + 55) : 55.56;
    }
 
    private void neckXPIDcontroller () {
 
-      double output = this.kpXNeck * this.neckXError + this.neckXPIDoutput;
+      double output = kpXNeck * neckXError + neckXPIDoutput;
 
       // These can be used in the future if Integral and Derivative terms of the
       // PID controller are required.
-      // output += this.ki * errorAccumulation;
-      // output += this.kd * (error - lastError);
+      // output += ki * errorAccumulation;
+      // output += kd * (error - lastError);
 
       if ( output > 100 ) {
-         if ( (output > (((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100) + this.neckXPIDoutput))
-            && ((((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100) + this.neckXPIDoutput) <= 100) ) {
-            output = this.neckXPIDoutput
-               + ((neckOvershootMovePercentage * this.neckXPIDoutput) / 100);
+         if ( (output > (((neckOvershootTolerancePercentage * neckXPIDoutput) / 100) + neckXPIDoutput))
+            && ((((neckOvershootTolerancePercentage * neckXPIDoutput) / 100) + neckXPIDoutput) <= 100) ) {
+            output = neckXPIDoutput
+               + ((neckOvershootMovePercentage * neckXPIDoutput) / 100);
          } else {
             output = 100;
          }
       } else if ( output < 0 ) {
-         if ( (output < (this.neckXPIDoutput - ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100)))
-            && ((this.neckXPIDoutput - ((neckOvershootTolerancePercentage * this.neckXPIDoutput) / 100)) >= 0) ) {
-            output = this.neckXPIDoutput
-               - ((neckOvershootMovePercentage * this.neckXPIDoutput) / 100);
+         if ( (output < (neckXPIDoutput - ((neckOvershootTolerancePercentage * neckXPIDoutput) / 100)))
+            && ((neckXPIDoutput - ((neckOvershootTolerancePercentage * neckXPIDoutput) / 100)) >= 0) ) {
+            output = neckXPIDoutput
+               - ((neckOvershootMovePercentage * neckXPIDoutput) / 100);
          } else {
             output = 0;
          }
       }
-
-      setNeckXPIDoutput(output);
-      setEyeReachedXLimit(false);
+      neckXPIDoutput = output;
+      eyeReachedXLimit = false;
    }
 
    private void neckYPIDcontroller () {
 
-      double output = this.kpYNeck * this.neckYError + this.neckYPIDoutput;
+      double output = kpYNeck * neckYError + neckYPIDoutput;
 
       // These can be used in the future if Integral and Derivative terms of the
       // PID controller are required.
-      // output += this.ki * errorAccumulation;
-      // output += this.kd * (error - lastError);
+      // output += ki * errorAccumulation;
+      // output += kd * (error - lastError);
 
       if ( output > 100 ) {
-         if ( (output > (((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100) + this.neckYPIDoutput))
-            && ((((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100) + this.neckYPIDoutput) <= 100) ) {
-            output = this.neckYPIDoutput
-               + ((neckOvershootMovePercentage * this.neckYPIDoutput) / 100);
+         if ( (output > (((neckOvershootTolerancePercentage * neckYPIDoutput) / 100) + neckYPIDoutput))
+            && ((((neckOvershootTolerancePercentage * neckYPIDoutput) / 100) + neckYPIDoutput) <= 100) ) {
+            output = neckYPIDoutput
+               + ((neckOvershootMovePercentage * neckYPIDoutput) / 100);
          } else {
             output = 100;
          }
       } else if ( output < 0 ) {
-         if ( (output < (this.neckYPIDoutput - ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100)))
-            && ((this.neckYPIDoutput - ((neckOvershootTolerancePercentage * this.neckYPIDoutput) / 100)) >= 0) ) {
-            output = this.neckYPIDoutput
-               - ((neckOvershootMovePercentage * this.neckYPIDoutput) / 100);
+         if ( (output < (neckYPIDoutput - ((neckOvershootTolerancePercentage * neckYPIDoutput) / 100)))
+            && ((neckYPIDoutput - ((neckOvershootTolerancePercentage * neckYPIDoutput) / 100)) >= 0) ) {
+            output = neckYPIDoutput
+               - ((neckOvershootMovePercentage * neckYPIDoutput) / 100);
          } else {
             output = 0;
          }
       }
 
-      setNeckYPIDoutput(output);
-      setEyeReachedYLimit(false);
+      neckYPIDoutput = output;
+      eyeReachedYLimit = false;
    }
 
    private void eyeXPIDcontroller () {
 
-      double output = this.kpXEye * this.eyeXError + this.eyeXPIDoutput;
+      double output = kpXEye * eyeXError + eyeXPIDoutput;
 
       // These can be used in the future if Integral and Derivative terms of the
       // PID controller are required.
-      // output += this.ki * errorAccumulation;
-      // output += this.kd * (error - lastError);
+      // output += ki * errorAccumulation;
+      // output += kd * (error - lastError);
 
       if ( output > 60 ) {
-         if ( (output > (((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100) + this.eyeXPIDoutput))
-            && ((((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100) + this.eyeXPIDoutput) <= 60) ) {
-            output = this.eyeXPIDoutput
-               + ((eyeOvershootMovePercentage * this.eyeXPIDoutput) / 100);
+         if ( (output > (((eyeOvershootTolerancePercentage * eyeXPIDoutput) / 100) + eyeXPIDoutput))
+            && ((((eyeOvershootTolerancePercentage * eyeXPIDoutput) / 100) + eyeXPIDoutput) <= 60) ) {
+            output = eyeXPIDoutput
+               + ((eyeOvershootMovePercentage * eyeXPIDoutput) / 100);
          } else {
             output = 60;
          }
       } else if ( output < 20 ) {
-         if ( (output < (this.eyeXPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100)))
-            && ((this.eyeXPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeXPIDoutput) / 100)) >= 20) ) {
-            output = this.eyeXPIDoutput
-               - ((eyeOvershootMovePercentage * this.eyeXPIDoutput) / 100);
+         if ( (output < (eyeXPIDoutput - ((eyeOvershootTolerancePercentage * eyeXPIDoutput) / 100)))
+            && ((eyeXPIDoutput - ((eyeOvershootTolerancePercentage * eyeXPIDoutput) / 100)) >= 20) ) {
+            output = eyeXPIDoutput
+               - ((eyeOvershootMovePercentage * eyeXPIDoutput) / 100);
          } else {
             output = 20;
          }
       }
 
       if ( (output == 20) || (output == 60) )
-         setEyeReachedXLimit(true);
+         eyeReachedXLimit = true;
 
-      setEyeXPIDoutput(output);
+      eyeXPIDoutput = output;
    }
 
    private void eyeYPIDcontroller () {
 
-      double output = this.kpYEye * this.eyeYError + this.eyeYPIDoutput;
+      double output = kpYEye * eyeYError + eyeYPIDoutput;
 
       // These can be used in the future if Integral and Derivative terms of the
       // PID controller are required.
-      // output += this.ki * errorAccumulation;
-      // output += this.kd * (error - lastError);
+      // output += ki * errorAccumulation;
+      // output += kd * (error - lastError);
 
       if ( output > 80 ) {
-         if ( (output > (((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100) + this.eyeYPIDoutput))
-            && ((((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100) + this.eyeYPIDoutput) <= 80) ) {
-            output = this.eyeYPIDoutput
-               + ((eyeOvershootMovePercentage * this.eyeYPIDoutput) / 100);
+         if ( (output > (((eyeOvershootTolerancePercentage * eyeYPIDoutput) / 100) + eyeYPIDoutput))
+            && ((((eyeOvershootTolerancePercentage * eyeYPIDoutput) / 100) + eyeYPIDoutput) <= 80) ) {
+            output = eyeYPIDoutput
+               + ((eyeOvershootMovePercentage * eyeYPIDoutput) / 100);
          } else {
             output = 80;
          }
       } else if ( output < 20 ) {
-         if ( (output < (this.eyeYPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100)))
-            && ((this.eyeYPIDoutput - ((eyeOvershootTolerancePercentage * this.eyeYPIDoutput) / 100)) >= 20) ) {
-            output = this.eyeYPIDoutput
-               - ((eyeOvershootMovePercentage * this.eyeYPIDoutput) / 100);
+         if ( (output < (eyeYPIDoutput - ((eyeOvershootTolerancePercentage * eyeYPIDoutput) / 100)))
+            && ((eyeYPIDoutput - ((eyeOvershootTolerancePercentage * eyeYPIDoutput) / 100)) >= 20) ) {
+            output = eyeYPIDoutput
+               - ((eyeOvershootMovePercentage * eyeYPIDoutput) / 100);
          } else {
             output = 20;
          }
       }
 
       if ( (output == 20) || (output == 80) )
-         setEyeReachedYLimit(true);
+         eyeReachedYLimit = true;
 
-      setEyeYPIDoutput(output);
+      eyeYPIDoutput = output;
    }
 
-   public void computeX () {
+   void computeX () {
 
-      double error = this.setPointXPID - this.inputXPID;
+      double error = setPointXPID - inputXPID;
 
-      if ( this.eyeReachedXLimit == true ) {
-         this.neckXError = error;
+      if ( eyeReachedXLimit == true ) {
+         neckXError = error;
          neckXPIDcontroller();
 
       } else if ( Math.abs(error) > 10 ) {
-         this.eyeXError = error;
+         eyeXError = error;
          eyeXPIDcontroller();
       }
    }
 
-   public void computeY () {
+   void computeY () {
 
-      double error = this.setPointYPID - this.inputYPID;
+      double error = setPointYPID - inputYPID;
 
-      if ( this.eyeReachedYLimit == true ) {
-         this.neckYError = error;
+      if ( eyeReachedYLimit == true ) {
+         neckYError = error;
          neckYPIDcontroller();
 
       } else if ( Math.abs(error) > 10 ) {
-         this.eyeYError = error;
+         eyeYError = error;
          eyeYPIDcontroller();
       }
    }
+  
+   void setXinput (double input) { inputXPID = input; }
+   void setYinput (double input) { inputYPID = input; }
 
    public void setEyeReachedXLimit (boolean flag) {
       this.eyeReachedXLimit = flag;
@@ -241,14 +243,6 @@ public class ReetiPIDController {
 
    public void setEyeReachedYLimit (boolean flag) {
       this.eyeReachedYLimit = flag;
-   }
-
-   public void setXinput (double input) {
-      this.inputXPID = input;
-   }
-
-   public void setYinput (double input) {
-      this.inputYPID = input;
    }
 
    public double getXInput () {
@@ -263,51 +257,20 @@ public class ReetiPIDController {
       this.neckXPIDoutput = output;
    }
 
-   public double getNeckXPIDoutput () {
-      return this.neckXPIDoutput;
-   }
-
    public void setNeckYPIDoutput (double output) {
       this.neckYPIDoutput = output;
-   }
-
-   public double getNeckYPIDoutput () {
-      return this.neckYPIDoutput;
    }
 
    public void setEyeXPIDoutput (double output) {
       this.eyeXPIDoutput = output;
    }
 
-   public double getEyeXPIDoutput () {
-      return this.eyeXPIDoutput;
-   }
-
    public void setEyeYPIDoutput (double output) {
       this.eyeYPIDoutput = output;
    }
 
-   public double getEyeYPIDoutput () {
-      return this.eyeYPIDoutput;
-   }
-   
-   public void setNeckXError(double errorVal) {
-      this.neckXError = errorVal;
-   }
-   
-   public void setNeckYError(double errorVal) {
-      this.neckYError = errorVal;
-   }
-   
-   public void setEyeXError(double errorVal) {
-      this.eyeXError = errorVal;
-   }
-   
-   public void setEyeYError(double errorVal) {
-      this.eyeYError = errorVal;
-   }
-   
-   public void setInitialFlag(boolean initFlag) {
-      this.initialFlag = initFlag;
-   }
+   double getNeckYPIDoutput () { return neckYPIDoutput; }
+   double getNeckXPIDoutput () { return neckXPIDoutput; }
+   double getEyeXPIDoutput () { return eyeXPIDoutput; }
+   double getEyeYPIDoutput () { return eyeYPIDoutput; }
 }

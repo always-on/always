@@ -20,6 +20,28 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       fireDoneMessage();
    }
 
+   public static void main (String[] args) {
+      // for testing
+      checkTurn(0, 0); checkTurn(.5F, .5F); checkTurn(-.5F, .5F); checkTurn(.5F, -.5F);
+      checkTurn(1, 1); checkTurn(-1, -1); checkTurn(-1, 1); checkTurn(1, -1);
+      checkToTurn(new Point(0,0)); checkToTurn(new Point(50,50)); checkToTurn(new Point(100,50));
+      checkToTurn(new Point(50,100)); checkToTurn(new Point(150,150));
+   }
+   
+   private static void checkTurn (float hor1, float ver1) {
+      Point p = translateAgentTurn(hor1, ver1);
+      float hor2 = translateToAgentTurnHor(p),
+            ver2 = translateToAgentTurnVer(p);
+      if ( Math.abs(hor1-hor2) > 0.1F ) System.out.println("CheckTurn failed: "+hor1+" != "+hor2);
+      if ( Math.abs(ver1-ver2) > 0.1F ) System.out.println("CheckTurn failed: "+ver1+" != "+ver2);
+   }
+   
+   private static void checkToTurn (Point p1) {
+      Point p2 = new Point(translateAgentTurn(translateToAgentTurnHor(p1),
+                                              translateToAgentTurnVer(p1)));
+      if ( !p1.equals(p2) ) System.out.println("CheckToTurn failed: "+p1+" != "+p2);
+   }
+   
    /**
     * Inverse of {@link #translateToAgentTurnHor} and
     * {@link #translateToAgentTurnVer}.
