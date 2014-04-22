@@ -22,7 +22,7 @@ public class ReetiFaceTrackerRealizer extends
 
    private long currentLosingTime = 0;
 
-   private static long acceptableLosingTime = 3000L;
+   private static long acceptableLosingTime = 4000L;
 
    private boolean searchFlag = false;
 
@@ -32,11 +32,11 @@ public class ReetiFaceTrackerRealizer extends
 
    private String lastMessage = "";
    
-   private int lastCenter = 0;
-   
-   private int lastTiltCenter = 0;
-
    private boolean initialFlag = true;
+   
+   private ReetiJsonConfiguration config;
+   
+   private ClientProxy proxy;
    
    public ReetiFaceTrackerRealizer (FaceTrackBehavior params,
          FacePerceptor perceptor, CollaborationManager cm, ClientProxy proxy,
@@ -53,19 +53,24 @@ public class ReetiFaceTrackerRealizer extends
       // This is for reseting the head position to the latest head position
       // before leaving ReetiFaceTrackerRealizer.
 
-      if(!initialFlag)
-      {
-         Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
-         Message = reetiPIDOutput.Track(point.x, point.y, trackingDirections);
-      }
-      else
-      {
-         Message = reetiPIDOutput.Track(config.getNeckRotat(), config.getNeckTilt(), trackingDirections);
-         initialFlag = false;
-      }
+//      if(!initialFlag)
+//      {
+//         Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
+//         Message = reetiPIDOutput.Track(point.x, point.y, trackingDirections);
+//         System.out.println("Realizer-nonInitial-x= " + point.x + ", y= " + point.y);
+//      }
+//      else
+//      {
+//         Message = reetiPIDOutput.Track(config.getNeckRotat(), config.getNeckTilt(), trackingDirections);
+//         initialFlag = false;
+//         System.out.println("Realizer-Initial-x= " + config.getNeckRotat() + ", y= " + config.getNeckTilt());
+//      }
+//      
+//      client.send(Message);
+//      this.lastMessage = Message;
       
-      client.send(Message);
-      this.lastMessage = Message;
+      this.config = config;
+      this.proxy = proxy;
    }
 
    @Override
@@ -80,10 +85,18 @@ public class ReetiFaceTrackerRealizer extends
 
          currentTime = System.currentTimeMillis();
 
-         send(reetiPIDOutput.Track(perception.getCenter(), 
-                                   perception.getTiltCenter(), 
-                                   trackingDirections));
+         send(reetiPIDOutput.Track(perception.getCenter(), perception.getTiltCenter(), trackingDirections));
          
+//         int center = perception.getCenter();
+//         int tiltCenter = perception.getTiltCenter();
+//         
+//         if( (Math.abs(center-lastCenter) > 1) || (Math.abs(tiltCenter-lastTiltCenter) > 1) )
+//         {
+//            send(reetiPIDOutput.Track(center, tiltCenter, trackingDirections));
+//            lastCenter = center;
+//            lastTiltCenter = tiltCenter;
+//         }
+
          searchFlag = true;
 
       } else {
@@ -92,7 +105,9 @@ public class ReetiFaceTrackerRealizer extends
          // waiting for the lost face for a predefined period of time looking
          // at the same direction.
          if ( ((currentLosingTime - currentTime) > acceptableLosingTime) && searchFlag ) {
-            send(reetiPIDOutput.faceSearch(false));
+            send(reetiPIDOutput.faceSearch(config, false));
+//            this.proxy.setGazeHor((float)this.config.getNeckRotat());
+//            this.proxy.setGazeVer((float)this.config.getNeckTilt());
             searchFlag = false;
          }
       }
@@ -101,7 +116,8 @@ public class ReetiFaceTrackerRealizer extends
    private void send (String message) {
       // making sure that the PID controller has returned different
       // control command.
-      if ( !lastMessage.equals(message) ) client.send(message);
+      if ( !lastMessage.equals(message) ) 
+         client.send(message);
       lastMessage = message;
    }
 }

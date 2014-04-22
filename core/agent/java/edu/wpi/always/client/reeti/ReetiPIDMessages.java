@@ -6,13 +6,12 @@ public class ReetiPIDMessages {
 
    private final ReetiPIDController XPID, YPID;
 
-   private ReetiJsonConfiguration config;
-
    public ReetiPIDMessages (ReetiJsonConfiguration config) {
       XPID = new ReetiPIDController(config);
       YPID = new ReetiPIDController(config);
 
-      this.config = config;
+      this.resetPIDController(config);
+      //this.config = config;
    };
 
    private void SetXPID (double center) {
@@ -127,7 +126,7 @@ public class ReetiPIDMessages {
       return Message;
    }
 
-   public String faceSearch (boolean neededLED) {
+   public String faceSearch (ReetiJsonConfiguration config, boolean neededLED) {
       String command = null;
 
       if ( neededLED )
@@ -154,14 +153,14 @@ public class ReetiPIDMessages {
          + " smooth:0.50s, Global.servo.rightEyeTilt="
          + config.getRightEyeTilt() + " smooth:0.50s;"; // Were 42.55
 
-      resetPIDController();
+      resetPIDController(config);
       
       System.out.println("Search command sent...");
 
       return command;
    }
    
-   private void resetPIDController() {
+   private void resetPIDController(ReetiJsonConfiguration config) {
       
       XPID.setNeckXPIDoutput(config.getNeckRotat());
       YPID.setNeckYPIDoutput(config.getNeckTilt());

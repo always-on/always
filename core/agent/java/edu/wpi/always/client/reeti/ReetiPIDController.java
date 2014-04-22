@@ -53,18 +53,15 @@ public class ReetiPIDController {
    
    ReetiPIDController (ReetiJsonConfiguration config) {
 
-      float hor, ver;
-      
-      ClientProxy proxy = Always.THIS.getCM().getContainer().getComponent(ClientProxy.class);
-      
-      Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
-      
       if(!initialFlag)
       {
+         ClientProxy proxy = Always.THIS.getCM().getContainer().getComponent(ClientProxy.class);
+         Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
          neckInitialOutputXPID = point.x;
          neckInitialOutputYPID = point.y;
          eyeInitialOutputXPID  = point.x;
          eyeInitialOutputYPID  = point.y;
+         System.out.println("PID Controller-nonInitial-x= " + point.x + ", y= " + point.y);
       }
       else
       {
@@ -73,6 +70,7 @@ public class ReetiPIDController {
          eyeInitialOutputXPID  = config.getLeftEyePan();
          eyeInitialOutputYPID  = config.getLeftEyeTilt();
          initialFlag = false;
+         System.out.println("PID Controller-Initial-x= " + config.getNeckRotat() + ", y= " + config.getNeckTilt());
       }
       
       setNeckXPIDoutput(neckInitialOutputXPID);
