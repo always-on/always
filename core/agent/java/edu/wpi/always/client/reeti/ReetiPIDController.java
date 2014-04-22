@@ -237,37 +237,16 @@ class ReetiPIDController {
    void setXinput (double input) { inputXPID = input; }
    void setYinput (double input) { inputYPID = input; }
 
-   public void setEyeReachedXLimit (boolean flag) {
-      this.eyeReachedXLimit = flag;
-   }
+   public void setEyeReachedXLimit (boolean flag) { eyeReachedXLimit = flag; }
+   public void setEyeReachedYLimit (boolean flag) { eyeReachedYLimit = flag; }
 
-   public void setEyeReachedYLimit (boolean flag) {
-      this.eyeReachedYLimit = flag;
-   }
+   public double getXInput () { return inputXPID; }
+   public double getYInput () { return inputYPID; }
 
-   public double getXInput () {
-      return this.inputXPID;
-   }
-
-   public double getYInput () {
-      return this.inputYPID;
-   }
-
-   public void setNeckXPIDoutput (double output) {
-      this.neckXPIDoutput = output;
-   }
-
-   public void setNeckYPIDoutput (double output) {
-      this.neckYPIDoutput = output;
-   }
-
-   public void setEyeXPIDoutput (double output) {
-      this.eyeXPIDoutput = output;
-   }
-
-   public void setEyeYPIDoutput (double output) {
-      this.eyeYPIDoutput = output;
-   }
+   public void setNeckXPIDoutput (double output) { neckXPIDoutput = output; }
+   public void setNeckYPIDoutput (double output) { neckYPIDoutput = output; }
+   public void setEyeXPIDoutput (double output) { eyeXPIDoutput = output; }
+   public void setEyeYPIDoutput (double output) { eyeYPIDoutput = output; }
 
    double getNeckYPIDoutput () { return neckYPIDoutput; }
    double getNeckXPIDoutput () { return neckXPIDoutput; }

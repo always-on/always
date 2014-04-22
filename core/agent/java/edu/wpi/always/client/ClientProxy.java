@@ -81,9 +81,6 @@ public class ClientProxy {
    public float getGazeHor () { return hor; }
    public float getGazeVer () { return ver; }
    
-//   public void setGazeHor (float hor) { this.hor = hor; }
-//   public void setGazeVer (float ver) { this.ver = ver; }
-   
    public void gaze (float hor, float ver) {
       // allow fudge for round-off and coercion
       if ( Math.abs(hor) > 1.01f || Math.abs(ver) > 1.01f )
