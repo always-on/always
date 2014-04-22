@@ -1,44 +1,58 @@
 package edu.wpi.always.client.reeti;
 
+import java.awt.Point;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
 import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
-import java.awt.Point;
 
 enum Directions {
    xDIRECTION, yDIRECTION, bothDIRECTIONS
 }
 
-public class ReetiFaceTrackerRealizer extends
-      PrimitiveRealizerBase<FaceTrackBehavior> {
+/* DESIGN NOTE: Reeti code related to face and gaze is complicated because
+ * there are *three* coordinate systems in use:
+ * 
+ *     -image coordinates ( 0 <= x <= 160, 0 <= y <= 120 ) 
+ *     -client coordinates ( -1 <= x <= +1, -1 <= y <= +1 ) 
+ *     -Reeti coordinates  ( 0 <= x <= 100, 0 <= y <= 100 )
+ */
+
+public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBehavior> {
 
    private final FacePerceptor perceptor;
-
-   private final Directions trackingDirections = Directions.bothDIRECTIONS;
-
-   private long currentTime = 0;
-
-   private long currentLosingTime = 0;
-
-   private static long acceptableLosingTime = 2000;
-
-   private boolean searchFlag = false;
-
    private final ReetiPIDMessages reetiPIDOutput;
-
    private final ReetiCommandSocketConnection client;
+   private final Directions trackingDirections = Directions.bothDIRECTIONS;
+   private final static long acceptableLosingTime = 2000;
 
-   private String lastMessage = "";
+   private long currentTime, currentLosingTime;
+   private boolean searchFlag;
+   private String lastMessage;
 
+   /* DESIGN NOTE: The call to proxy.gaze() below is redundant
+    * except for three situations:
+    * 
+    * (1) System startup (when it is useful to put neck in a known
+    *     configuration, even if the neck is not exactly neutral)
+    *     
+    * (2) There was a gaze change hidden in an html markup (not
+    *     currently used)
+    * 
+    * (3) If a higher-priority schema "stole" the gaze resource
+    *     but didn't actually change the gaze (unlikely), in which case
+    *     the gaze would re-sync to the most recent explicit gaze
+    *     command.
+    */
    public ReetiFaceTrackerRealizer (FaceTrackBehavior params,
          FacePerceptor perceptor, CollaborationManager cm, 
-         ReetiJsonConfiguration config) {
-
+         ReetiJsonConfiguration config, ClientProxy proxy) {
       super(params);
       this.perceptor = perceptor;
-      reetiPIDOutput = new ReetiPIDMessages(config);
+      proxy.gaze(proxy.getGazeHor(), proxy.getGazeVer());
+      // see ReetiPIDControllers initialized using proxy
+      reetiPIDOutput = new ReetiPIDMessages(config, proxy);
       client = cm.getReetiSocket();
    }
 
@@ -68,11 +82,11 @@ public class ReetiFaceTrackerRealizer extends
          }
       }
    }
-
+   
    private void send (String message) {
       // making sure that the PID controller has returned different
       // control command.
-      if ( !lastMessage.equals(message) ) client.send(message);
+      if ( !message.equals(lastMessage) ) client.send(message);
       lastMessage = message;
    }
 }
