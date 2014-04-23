@@ -232,7 +232,7 @@ FaceInfo getAgentFaceInfo( int intDebug )
 									image.Width(), //frame.cols+1 //frame.size().width
 									0,
 									"GRAYSCALE" );
-
+		
 		if ( content->GetObjectCount() > 0 )
 		{
 			for( int i = 0 ; i < content->GetObjectCount() ; i++ )
@@ -288,6 +288,7 @@ FaceInfo getAgentFaceInfo( int intDebug )
 			faceInfo.intTiltCenter = -1;
 			faceInfo.intArea = -1;
 		}
+		cvReleaseImage(&im);
 	}
 	else
 	{
