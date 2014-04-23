@@ -26,7 +26,7 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
    private final ReetiCommandSocketConnection client;
 
    private final Directions trackingDirections = Directions.bothDIRECTIONS;
-   private final static long acceptableLosingTime = 2000;
+   private final static long acceptableLosingTime = 3000L;
 
    private long currentTime, currentLosingTime;
    private boolean searchFlag;

@@ -109,6 +109,7 @@ class ReetiPIDMessages {
    public String faceSearch (boolean neededLED) {
       
       String command = neededLED ? "Global.servo.color=\"red\",Global.servo.neckRotat=" : "Global.servo.neckRotat=";   
+      
       command = + config.getNeckRotat()
          + " smooth:0.50s; " // Was 50
          + "Global.servo.leftEyePan="
@@ -123,13 +124,12 @@ class ReetiPIDMessages {
          + " smooth:0.50s, Global.servo.rightEyeTilt="
          + config.getRightEyeTilt() + " smooth:0.50s;"; // Were 42.55
 
-      
-      System.out.println("Search command sent...");
-
       // since we are about to change all motor positions to neutral
       // outside of PID loop we need to inform and reset the controllers
       XPID.reset(config, null);
       YPID.reset(config, null);
+      
+      System.out.println("Searching for the face...");
       
       return command;
    }

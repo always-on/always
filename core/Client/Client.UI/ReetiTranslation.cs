@@ -302,15 +302,16 @@ namespace Agent.UI
         {
             mut.WaitOne();
 
-            if (Command.Contains("HEADNOD"))
-            {
-                if (blnHeadNod)
-                {
-                    SendCommand(headNod);
-                    updateRobotState("HeadNod");
-                }
-            }
-            else if (Command.Contains("DELAY"))
+            //if (Command.Contains("HEADNOD"))
+            //{
+            //    if (blnHeadNod)
+            //    {
+            //        SendCommand(headNod);
+            //        updateRobotState("HeadNod");
+            //    }
+            //}
+            //else 
+            if (Command.Contains("DELAY"))
             {
                 if (blnDelay)
                 {
