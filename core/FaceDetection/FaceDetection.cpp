@@ -394,6 +394,7 @@ FaceInfo getReetiFaceInfo( int intDebug )
 		faceInfo.intTiltCenter = -1;
 		faceInfo.intArea = -1;
 	}
+	cvReleaseImage(&im);
 	return faceInfo;
 }
 
