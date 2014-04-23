@@ -20,8 +20,16 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       fireDoneMessage();
    }
 
+   private static boolean testPluginVisible;
+   
    public static void main (String[] args) {
       // for testing
+      check();
+      testPluginVisible = true; 
+      check();
+   }
+   
+   private static void check () {
       checkTurn(0, 0); checkTurn(.5F, .5F); checkTurn(-.5F, .5F); checkTurn(.5F, -.5F);
       checkTurn(1, 1); checkTurn(-1, -1); checkTurn(-1, 1); checkTurn(1, -1);
       checkToTurn(new Point(0,0)); checkToTurn(new Point(50,50)); checkToTurn(new Point(100,50));
@@ -55,7 +63,7 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       
       int offset;
 
-      if (ClientPluginUtils.isPluginVisible())
+      if (ClientPluginUtils.isPluginVisible() || testPluginVisible)
       {
          if (hor < -0.0375)
          {
@@ -112,7 +120,7 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
 
       int offset;
       
-      if (ClientPluginUtils.isPluginVisible())
+      if (ClientPluginUtils.isPluginVisible() || testPluginVisible)
       {
          if (p.x > 190)
          {
