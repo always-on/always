@@ -33,7 +33,10 @@ class ReetiPIDController {
       // neck to neutral or proxy gaze position
       neckXPIDoutput = proxy == null ? config.getNeckRotat() : ReetiTranslationHor(proxy.getGazeHor());
       neckYPIDoutput = proxy == null ? config.getNeckTilt() : ReetiTranslationVer(proxy.getGazeVer());
-      // reset all error terms (since this is true current position)
+      // no new input
+      inputXPID = neckXPIDoutput;
+      inputYPID = neckYPIDoutput;
+      // reset all error terms to zero since in correct position
       eyeXError = eyeYError = neckXError = neckYError = 0;
    }
 
