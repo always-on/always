@@ -1,0 +1,177 @@
+Log file (CSV) entry formats (Version of 23-Apr-14) -CR
+
+<DATE>,<TIME>,<TYPE>,...
+
+* <DATE> and <TIME> in format automatically recognized by Excel, e.g.,
+
+  4/23/14,09:15:33,...
+
+* <TYPE> = SESSION or ACTIVITY
+
+-------------------------------------------------------
+
+<DATE>,<TIME>,SESSION,ATTEMPTED,<STATE>
+
+* <STATE> = ATTENTION or INITIATING
+            (state reached before going back to idle)
+            (there will be no such entries for login condition)
+
+<DATE>,<TIME>,SESSION,START
+<DATE>,<TIME>,SESSION,END,<DURATION>,<REPEATS>,<DISENGAGMENT>
+
+* <DURATION> in minutes
+* <REPEATS> number of times user clicked "What did you say?"
+* <DISENGAGEMENT> = GOODBYE or TIMEOUT
+
+<DATE>,<TIME>,SESSION,CLOSENESS,<LEVEL>
+
+* <LEVEL> = STRANGER or ACQUAINTANCE or COMPANION
+
+<DATE>,<TIME>,SESSION,REMINDER,<EVENT>
+
+* <EVENT> = "..."
+
+<DATE>,<TIME>,SESSION,AGENT,<UTTERANCE>
+<DATE>,<TIME>,SESSION,MENU,<CHOSEN>,<CHOICES>...
+
+* <UTTERANCE> = "..."
+
+* <CHOSEN> = "..."
+
+* <CHOICES> = "...",...
+
+---------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,<PLUGIN>,...
+
+* <PLUGIN> = ABOUT or
+             ANECDOTES or
+             CALENDAR or 
+             CHECKERS or 
+             ENROLL or
+             EXERCISE or
+             EXPLAIN or
+             GREETINGS or 
+             HEALTH or
+             NUTRITION or
+             RUMMY or 
+             SKYPE or
+             STORY or 
+             TTT or
+             WEATHER
+
+<DATE>,<TIME>,ACTIVITY,<PLUGIN>,PROPOSED,<ACCEPTED>
+
+* <ACCEPTED> = ACCEPTED or NOT-ACCEPTED
+
+<DATE>,<TIME>,ACTIVITY,<PLUGIN>,START
+<DATE>,<TIME>,ACTIVITY,<PLUGIN>,END,<DURATION>,<REPEATS>
+
+<DATE>,<TIME>,ACTIVITY,AGENT,<UTTERANCE>
+<DATE>,<TIME>,ACTIVITY,MENU,<CHOSEN>,<CHOICES>...
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,ABOUT,<POSITIVE>,<NEGATIVE>,<EXIT>
+
+<POSITIVE> = POSITIVE or NOT-POSITIVE
+<NEGATIVE> = NEGATIVE or NOT-NEGATIVE
+<EXIT> = EARLY or NORMAL
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,ANECDOTES,<TITLE>,<FINISHED>
+
+* <TITLE> = "..."
+* <FINISHED> = FINISHED or NOT-FINISHED
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,CALENDAR,EVENT,<TITLE>
+
+* <TITLE> = "..." (see details of event in user model printout)
+
+<DATE>,<TIME>,ACTIVITY,CALENDAR,VIEW,<WEEK>
+
+* <WEEK> = CURRENT or NEXT
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,CHECKERS,<WON>,<JUMPS>,<DOUBLES>
+
+* <WON> = USER or AGENT or NOT (finished)
+* <JUMPS> = total number of jumps in game
+* <DOUBLES> = total number of double jumps in game
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,ENROLL,PERSON,<NAME>
+
+* <NAME> = "..."  (see details of person in user model printout)
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,EXERCISE,<GOALS>,<ACTIVITIES>,<SERVINGS>
+
+* <GOALS> = GOALS or NOT-GOALS
+* <ACTIVITIES> = ACTIVITIES or NOT-ACTIVITIES
+* <SERVINGS> = SERVINGS or NOT-SERVINGS
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,EXPLAIN,<PLUGIN>
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,GREETINGS,<TOD>
+
+* <TOD> = MORNING or AFTERNOON or EVENING or NIGHT
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,HEALTH,...
+
+* TBD
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,NUTRITION,...
+
+* TBD
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,RUMMY,<WON>,<MELDS>
+
+* <MELDS> = total number of melds in game
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,SKYPE,CALL,<WHO>,<DURATION>,<APPT>,<DIRECTION>
+
+* <WHO> = Skype name
+* <APPT> = APPT or NOT-APPT
+* <DIRECTION> = INCOMING or OUTGOING
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,STORY,TOLD,<TITLE>,<DURATION>,<SAVED>,<SENT>
+
+* <TITLE> = "..."
+* <SAVED> = SAVED or NOT-SAVED
+* <SENT> = SENT or NOT-SENT
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,TTT,<WON>,<FIRST>
+
+* <FIRST> = USER or AGENT
+
+---------------------------------------------------------
+
+<DATE>,<TIME>,ACTIVITY,WEATHER,<CITIES>,<FRIENDS>
+
+* <CITIES> = CITIES or NOT-CITIES
+* <FRIENDS> = FRIENDS or NOT-FRIENDS
+
+---------------------------------------------------------
