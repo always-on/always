@@ -76,30 +76,32 @@ namespace Agent.UI
         {
             if (HorOrVer.Equals(HORIZONTAL))
             {
-                if (output > 0)
-                {
-                    output = (output * 25) + 45;
-                }
-                else if (output < 0)
-                {
-                    output = (output * 25);
-                }
-                else
-                    output = 50;
+                output = ((output + 1) * 50);
+                //if (output > 0)
+                //{
+                //    output = (output * 25) + 45;
+                //}
+                //else if (output < 0)
+                //{
+                //    output = (output * 25);
+                //}
+                //else
+                //    output = 50;
             }
             else if (HorOrVer.Equals(VERTICAL))
             {
-                if (output < 0)
-                {
-                    output *= -1;
-                    output = (output * 25);
-                }
-                else if (output > 0)
-                {
-                    output = (output * 25) + 55;
-                }
-                else
-                    output = 55.56;
+                output = ((output + 1) * 50);
+                //if (output < 0)
+                //{
+                //    output *= -1;
+                //    output = (output * 25);
+                //}
+                //else if (output > 0)
+                //{
+                //    output = (output * 25) + 55;
+                //}
+                //else
+                //    output = 55.56;
             }
             return output;
         }

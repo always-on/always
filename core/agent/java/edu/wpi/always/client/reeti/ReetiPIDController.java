@@ -64,23 +64,34 @@ class ReetiPIDController {
       neckXPIDoutput = proxy == null ? config.getNeckRotat() : ReetiTranslationHor(proxy.getGazeHor());
       neckYPIDoutput = proxy == null ? config.getNeckTilt() : ReetiTranslationVer(proxy.getGazeVer());
       // no new input
-      inputXPID = neckXPIDoutput;
-      inputYPID = neckYPIDoutput;
+      inputXPID = TranslateReetiToImageX(neckXPIDoutput);
+      inputYPID = TranslateReetiToImageY(neckYPIDoutput);
       // reset all error terms to zero since in correct position
       eyeXError = eyeYError = neckXError = neckYError = 0;
+      
+      System.out.println("\ninputXPID: " + inputXPID);
+      System.out.println("\ninputYPID: " + inputYPID);
       
 //      System.out.println("\nEye X: " + eyeXPIDoutput);
 //      System.out.println("\nEye Y: " + eyeYPIDoutput);
 //      System.out.println("\nNeck X: " + neckXPIDoutput);
 //      System.out.println("\nNeck Y: " + neckYPIDoutput);
       
-      inputXPID = 160;
-      inputYPID = 120;
+//      inputXPID = 160;
+//      inputYPID = 120;
       
       eyeReachedXLimit = false;
       eyeReachedYLimit = false;
    }
 
+   private static int TranslateReetiToImageX(double rotatValue) {
+      return (int) Math.round(320 - 3.2*rotatValue);
+   }
+   
+   private static int TranslateReetiToImageY(double tiltValue) {
+      return (int) Math.round(240 - 2.4*tiltValue);
+   }
+   
    // Note: Formulae in following two methods copied from ReetiTranslation.cs
    
    private static double ReetiTranslationHor (double hor) {
