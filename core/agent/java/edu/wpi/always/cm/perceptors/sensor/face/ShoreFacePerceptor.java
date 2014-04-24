@@ -12,6 +12,8 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    private long previousTime = 0;
 
+   //private final static int JITTER_THRESHOLD = 1;
+   
    private final static long timeUnit = 220;
 
    protected FaceInfo getFaceInfo (int debug) { return null; }
@@ -49,14 +51,16 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       if ( info != null && info.isFace() ) {
          Long currentTime = System.currentTimeMillis();
          // cannot reject based on proportionality if no previous real face
-         if ( prevInfo == null || isRealFace(currentTime - previousTime) ) {
+         if ( prevInfo == null || (isRealFace(currentTime - previousTime) 
+            // checking whether the center move is enough
+            /*&& Math.abs(info.intCenter-prevInfo.intCenter) > JITTER_THRESHOLD*/) ) {
             latest = new FacePerception(info.intTop,
                   info.intBottom, info.intLeft, info.intRight, info.intArea,
                   info.intCenter, info.intTiltCenter);
             prevInfo = info;
             previousTime = currentTime;
          } 
-      } else latest = null; 
+      } else latest = null;
    }
 
    private boolean isRealFace (long timeDifference) {

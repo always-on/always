@@ -110,7 +110,7 @@ class ReetiPIDMessages {
       
       String command = neededLED ? "Global.servo.color=\"red\",Global.servo.neckRotat=" : "Global.servo.neckRotat=";   
       
-      command = + config.getNeckRotat()
+      command += config.getNeckRotat()
          + " smooth:0.50s; " // Was 50
          + "Global.servo.leftEyePan="
          + config.getLeftEyePan()

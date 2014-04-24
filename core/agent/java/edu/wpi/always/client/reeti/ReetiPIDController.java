@@ -1,30 +1,5 @@
 package edu.wpi.always.client.reeti;
 
-//      if(!initialFlag)
-//      {
-//         ClientProxy proxy = Always.THIS.getCM().getContainer().getComponent(ClientProxy.class);
-//         Point point = GazeRealizer.translateAgentTurn(proxy.getGazeHor(), proxy.getGazeVer());
-//         neckInitialOutputXPID = point.x;
-//         neckInitialOutputYPID = point.y;
-//         eyeInitialOutputXPID  = point.x;
-//         eyeInitialOutputYPID  = point.y;
-//         System.out.println("PID Controller-nonInitial-x= " + point.x + ", y= " + point.y);
-//      }
-//      else
-//      {
-//         neckInitialOutputXPID = config.getNeckRotat();
-//         neckInitialOutputYPID = config.getNeckTilt();
-//         eyeInitialOutputXPID  = config.getLeftEyePan();
-//         eyeInitialOutputYPID  = config.getLeftEyeTilt();
-//         initialFlag = false;
-//         System.out.println("PID Controller-Initial-x= " + config.getNeckRotat() + ", y= " + config.getNeckTilt());
-//      }
-//      
-//      setNeckXPIDoutput(neckInitialOutputXPID);
-//      setNeckYPIDoutput(neckInitialOutputYPID);
-//      setEyeXPIDoutput(eyeInitialOutputXPID);
-//      setEyeYPIDoutput(eyeInitialOutputYPID);
-
 import edu.wpi.always.client.ClientProxy;
 
 class ReetiPIDController {
@@ -37,14 +12,14 @@ class ReetiPIDController {
    private final int neckOvershootTolerancePercentage = 70,
                      eyeOvershootTolerancePercentage = 50;
    
-   private final int neckOvershootMovePercentage = 10,
+   private final int neckOvershootMovePercentage = 5,
                      eyeOvershootMovePercentage = 5;
    
    private final int setPointXPID = 160, setPointYPID = 120;
    
    private boolean eyeReachedXLimit = false, eyeReachedYLimit = false;
 
-   private double inputXPID = 0, inputYPID = 0, 
+   private double inputXPID = 160, inputYPID = 120, 
          neckXPIDoutput, neckYPIDoutput, eyeXPIDoutput, eyeYPIDoutput;
 
    private double neckXError = 0, neckYError = 0, eyeXError = 0, eyeYError = 0;
@@ -61,24 +36,24 @@ class ReetiPIDController {
       eyeXPIDoutput = config.getLeftEyePan();
       eyeYPIDoutput = config.getLeftEyeTilt();
       // neck to neutral or proxy gaze position
-      neckXPIDoutput = proxy == null ? config.getNeckRotat() : ReetiTranslationHor(proxy.getGazeHor());
-      neckYPIDoutput = proxy == null ? config.getNeckTilt() : ReetiTranslationVer(proxy.getGazeVer());
+      double reetiHor = ReetiTranslationHor(proxy.getGazeHor());
+      double reetiVer = ReetiTranslationVer(proxy.getGazeVer());
+      neckXPIDoutput = proxy == null ? config.getNeckRotat() : ((reetiHor != -1) ? reetiHor : config.getNeckRotat());
+      neckYPIDoutput = proxy == null ? config.getNeckTilt()  : ((reetiVer != -1) ? reetiVer : config.getNeckTilt());
       // no new input
       inputXPID = TranslateReetiToImageX(neckXPIDoutput);
       inputYPID = TranslateReetiToImageY(neckYPIDoutput);
-      // reset all error terms to zero since in correct position
-      eyeXError = eyeYError = neckXError = neckYError = 0;
+      // reset all error terms to new error value since in correct position
+      eyeXError = neckXError = setPointXPID - inputXPID;
+      eyeYError = neckYError = setPointYPID - inputYPID;
       
+      System.out.println(neckXError + " and " + neckYError);
       System.out.println("\ninputXPID: " + inputXPID);
       System.out.println("\ninputYPID: " + inputYPID);
-      
 //      System.out.println("\nEye X: " + eyeXPIDoutput);
 //      System.out.println("\nEye Y: " + eyeYPIDoutput);
-//      System.out.println("\nNeck X: " + neckXPIDoutput);
-//      System.out.println("\nNeck Y: " + neckYPIDoutput);
-      
-//      inputXPID = 160;
-//      inputYPID = 120;
+      System.out.println("\nNeck X: " + neckXPIDoutput);
+      System.out.println("\nNeck Y: " + neckYPIDoutput);
       
       eyeReachedXLimit = false;
       eyeReachedYLimit = false;
@@ -95,17 +70,13 @@ class ReetiPIDController {
    // Note: Formulae in following two methods copied from ReetiTranslation.cs
    
    private static double ReetiTranslationHor (double hor) {
-      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>Horizontal: " + hor);
-      return ((hor + 1) * 50);
-//      return hor > 0 ? ((hor * 25) + 45) :
-//         hor < 0 ? (hor * 25) : 50;
+      if ( (hor >= -1) && (hor <=1) ) return ((hor + 1) * 50);
+      else { System.out.println("Invalid Reeti horizontal command value."); return -1; }
    }
    
    private static double ReetiTranslationVer (double ver) {
-      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>Vertical: " + ver);
-      return ((ver + 1) * 50);
-//      return ver < 0 ? -(ver * 25) :
-//         ver > 0 ? ((ver * 25) + 55) : 55.56;
+      if ( (ver >= -1) && (ver <=1) ) return ((ver + 1) * 50);
+      else {  System.out.println("Invalid Reeti vertical command value."); return -1; }
    }
 
    private void neckXPIDcontroller () {
@@ -239,13 +210,16 @@ class ReetiPIDController {
 
       double error = setPointXPID - inputXPID;
 
-      if ( eyeReachedXLimit == true ) {
-         neckXError = error;
-         neckXPIDcontroller();
-
-      } else if ( Math.abs(error) > 10 ) {
-         eyeXError = error;
-         eyeXPIDcontroller();
+      if ( Math.abs(error) > 20 )
+      {
+         if ( eyeReachedXLimit == true ) {
+            neckXError = error;
+            neckXPIDcontroller();
+   
+         } else {
+            eyeXError = error;
+            eyeXPIDcontroller();
+         }
       }
    }
 
@@ -253,29 +227,31 @@ class ReetiPIDController {
 
       double error = setPointYPID - inputYPID;
 
-      if ( eyeReachedYLimit == true ) {
-         neckYError = error;
-         neckYPIDcontroller();
-
-      } else if ( Math.abs(error) > 10 ) {
-         eyeYError = error;
-         eyeYPIDcontroller();
+      if ( Math.abs(error) > 20 ) {
+         if ( eyeReachedYLimit == true ) {
+            neckYError = error;
+            neckYPIDcontroller();
+   
+         } else {
+            eyeYError = error;
+            eyeYPIDcontroller();
+         }
       }
    }
   
    void setXinput (double input) { inputXPID = input; }
    void setYinput (double input) { inputYPID = input; }
 
-   public void setEyeReachedXLimit (boolean flag) { eyeReachedXLimit = flag; }
-   public void setEyeReachedYLimit (boolean flag) { eyeReachedYLimit = flag; }
+//   public void setEyeReachedXLimit (boolean flag) { eyeReachedXLimit = flag; }
+//   public void setEyeReachedYLimit (boolean flag) { eyeReachedYLimit = flag; }
 
-   public double getXInput () { return inputXPID; }
-   public double getYInput () { return inputYPID; }
+//   public double getXInput () { return inputXPID; }
+//   public double getYInput () { return inputYPID; }
 
-   public void setNeckXPIDoutput (double output) { neckXPIDoutput = output; }
-   public void setNeckYPIDoutput (double output) { neckYPIDoutput = output; }
-   public void setEyeXPIDoutput (double output) { eyeXPIDoutput = output; }
-   public void setEyeYPIDoutput (double output) { eyeYPIDoutput = output; }
+//   public void setNeckXPIDoutput (double output) { neckXPIDoutput = output; }
+//   public void setNeckYPIDoutput (double output) { neckYPIDoutput = output; }
+//   public void setEyeXPIDoutput (double output) { eyeXPIDoutput = output; }
+//   public void setEyeYPIDoutput (double output) { eyeYPIDoutput = output; }
 
    double getNeckYPIDoutput () { return neckYPIDoutput; }
    double getNeckXPIDoutput () { return neckXPIDoutput; }

@@ -14,8 +14,6 @@ namespace Agent.UI
 
         private ReetiCommunication reeti = new ReetiCommunication();
 
-        private const String HORIZONTAL      = "horizontal";
-        private const String VERTICAL        = "vertical";
         private const String headNod         = "aa"; // smallNod
         private const String moveMouth       = "bb"; // startTalking
         private const String stopMouthMove   = "cc"; // stopTalking
@@ -26,7 +24,7 @@ namespace Agent.UI
         private const String expressHappy    = "hh"; // expressHappy
         private const String expressSad      = "ii"; // expressSad
         private const String bigNod          = "jj"; // bigNod
-        private const String neutralPosition = "kk"; // Global.servo.neutralPosition()
+        private const String expressWarm     = "kk"; // Global.servo.neutralPosition()
         private const String delay           = "ll"; // delay
 
         private bool blnHeadNod         = true;
@@ -50,21 +48,21 @@ namespace Agent.UI
             double output;
             int start = 0, end = 0;
 
-            if (HorOrVer.Equals(HORIZONTAL))
+            if (HorOrVer.Equals("horizontal"))
             {
-                start = cmd.IndexOf(HORIZONTAL) + 12;
-                end = cmd.IndexOf(VERTICAL) - 2;
+                start = cmd.IndexOf("horizontal") + 12;
+                end = cmd.IndexOf("vertical") - 2;
             }
-            else if (HorOrVer.Equals(VERTICAL))
+            else if (HorOrVer.Equals("vertical"))
             {
                 if (cmd.Contains("bookmark"))
                 {
-                    start = cmd.IndexOf(VERTICAL) + 10;
+                    start = cmd.IndexOf("vertical") + 10;
                     end = cmd.IndexOf("</bookmark>") - 1;
                 }
                 else
                 {
-                    start = cmd.IndexOf(VERTICAL) + 10;
+                    start = cmd.IndexOf("vertical") + 10;
                     end = cmd.IndexOf("/>") - 2;
                 }
             }
@@ -74,7 +72,7 @@ namespace Agent.UI
 
         private double mapOutput(String HorOrVer, double output)
         {
-            if (HorOrVer.Equals(HORIZONTAL))
+            if (HorOrVer.Equals("horizontal"))
             {
                 output = ((output + 1) * 50);
                 //if (output > 0)
@@ -88,7 +86,7 @@ namespace Agent.UI
                 //else
                 //    output = 50;
             }
-            else if (HorOrVer.Equals(VERTICAL))
+            else if (HorOrVer.Equals("vertical"))
             {
                 output = ((output + 1) * 50);
                 //if (output < 0)
@@ -334,8 +332,8 @@ namespace Agent.UI
             //TODO: check if face tracking!!!
             else if (Command.Contains("GAZE"))
             {
-                double HorOutput = mapOutput(HORIZONTAL, findOutput(HORIZONTAL, Command));
-                double VerOutput = mapOutput(VERTICAL, findOutput(VERTICAL, Command));
+                double HorOutput = mapOutput("horizontal", findOutput("horizontal", Command));
+                double VerOutput = mapOutput("vertical", findOutput("vertical", Command));
 
                 if( (VerOutput <= 78) && (VerOutput > 60) ) {
                     if (blnLookAwayThink)
@@ -389,7 +387,7 @@ namespace Agent.UI
             {
                 if (blnWarm)
                 {
-                    SendCommand(neutralPosition);
+                    SendCommand(expressWarm);
                     updateRobotState("Warm");
                 }
             }
