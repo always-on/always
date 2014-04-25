@@ -22,15 +22,14 @@ public class ClientProxy {
    private final List<ClientProxyObserver> observers;
    private final UIMessageDispatcher dispatcher;
 
-   public ClientProxy (UIMessageDispatcher dispatcher, Always always, ReetiPIDController controller) {
+   public ClientProxy (UIMessageDispatcher dispatcher, Always always) {
       this.dispatcher = dispatcher;
       observers = new CopyOnWriteArrayList<ClientProxyObserver>();
       registerOnDispatcher();
-      if(Always.getAgentType() != AgentType.Unity)
-      {
+      if ( Always.getAgentType() != AgentType.Unity ) {
          ReetiJsonConfiguration config = always.getCM().getContainer().getComponent(ReetiJsonConfiguration.class);
-         hor = controller.translateReetiToAgentX(config.getNeckRotat());
-         ver = controller.translateReetiToAgentY(config.getNeckTilt());
+         hor = ReetiPIDController.translateReetiToAgentX(config.getNeckRotat());
+         ver = ReetiPIDController.translateReetiToAgentY(config.getNeckTilt());
       }
    }
    
@@ -74,9 +73,6 @@ public class ClientProxy {
       enqueue("speech", p);
    }
 
-   // ideally should initialize these from neutral positions of config,
-   // but it doesn't really matter since only happens once at system startup
-   // and face tracker will automatically sync to this position
    private float hor, ver;
    
    //TODO need to get information back for gaze changes
