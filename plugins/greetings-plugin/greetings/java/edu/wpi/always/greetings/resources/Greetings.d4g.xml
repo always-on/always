@@ -36,7 +36,7 @@
   </t:task>
 
   <agent id="_Morning" text="Good morning, {getUserName()}.">
-    <user text="Good morning."/>
+    <user text="Good morning, Karen."/>
     <user text="oh morning already!  Good morning!"/>
   </agent>
 
@@ -176,7 +176,7 @@
   </agent>
 
   <agent id="_NightGreetings" text="Guess it's time to say good night|It's about time to say good night">
-    <user id="affirmGoodNight" text="Yes, good night">  
+    <user id="affirmGoodNight" text="Yes, good night, Karen.">  
       <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
     </user>
     <user text="No yet.  I got things to do.">
@@ -185,17 +185,17 @@
         <user text="Good night">
           <agent text="Good night!" />
         </user>
-        <user text="Will do. Good night" >
+        <user text="Will do. Good night, Karen." >
           <agent text="Good night!" />
         </user>
-        <user text="Hope so. Good night" >
+        <user text="Hope so. Good night, Karen." >
           <agent text="Good night!" />
         </user>
       </agent>
     </user>
     <user text="No.  I plan to read a bit yet">
       <agent text="Oh, well good night for later!">
-        <user text="Thanks, Good night"/>
+        <user text="Thanks, Good night, Karen."/>
         <user text="Sleep well">
           <agent text="You know, I don't really go to sleep.  But good night" />
         </user>

@@ -57,7 +57,9 @@ Reseller: Directron.
 
 * install Unity Web Player for Windows from: http://unity3d.com/webplayer
 
-* install DropBox (details to be provided)
+* install DropBox using account 'always-on@wpi.edu' (password provided) and
+  under Preferences, select Selective Sync and just sync the folder with
+  name of this machine.
 
 To improve low speaker volume:
 

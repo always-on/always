@@ -21,7 +21,7 @@ public abstract class UserUtils {
    /**
     * Folder where user model is stored.  
     */
-   public static String USER_DIR = "/Dropbox-Always/"+System.getenv("COMPUTERNAME");
+   public static String USER_DIR = "/Dropbox/"+System.getenv("COMPUTERNAME");
    
    static {
       if ( !new File(USER_DIR).exists() )
