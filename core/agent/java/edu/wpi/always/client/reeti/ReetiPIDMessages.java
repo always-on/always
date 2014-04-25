@@ -133,23 +133,4 @@ class ReetiPIDMessages {
       
       return command;
    }
-   
-//   private void resetPIDController(ReetiJsonConfiguration config) {
-//      
-//      XPID.setNeckXPIDoutput(config.getNeckRotat());
-//      YPID.setNeckYPIDoutput(config.getNeckTilt());
-//      XPID.setEyeXPIDoutput(config.getLeftEyePan());
-//      YPID.setEyeYPIDoutput(config.getLeftEyeTilt());
-//      
-//      XPID.setNeckXError(0);
-//      YPID.setNeckYError(0);
-//      XPID.setEyeXError(0);
-//      YPID.setEyeYError(0);
-//      
-//      XPID.setInitialFlag(true);
-//      YPID.setInitialFlag(true);
-//      
-//      XPID.setEyeReachedXLimit(false);
-//      YPID.setEyeReachedYLimit(false);
-//   }
 }

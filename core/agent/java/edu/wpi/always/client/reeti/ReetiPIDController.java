@@ -2,7 +2,7 @@ package edu.wpi.always.client.reeti;
 
 import edu.wpi.always.client.ClientProxy;
 
-class ReetiPIDController {
+public class ReetiPIDController {
 
    // For the future improvements: kiNeck = 0, kdNeck = 0;
    private final double kpXNeck = 0.05, kpYNeck = 0.08; 
@@ -20,7 +20,7 @@ class ReetiPIDController {
    private boolean eyeReachedXLimit = false, eyeReachedYLimit = false;
 
    private double inputXPID = 160, inputYPID = 120, 
-         neckXPIDoutput = 50, neckYPIDoutput = 55, eyeXPIDoutput, eyeYPIDoutput;
+         neckXPIDoutput, neckYPIDoutput, eyeXPIDoutput, eyeYPIDoutput;
 
    private double neckXError = 0, neckYError = 0, eyeXError = 0, eyeYError = 0;
    
@@ -65,9 +65,7 @@ class ReetiPIDController {
    private static int TranslateReetiToImageY(double tiltValue) {
       return (int) Math.round(240 - 2.4*tiltValue);
    }
-   
-   // Note: Formulae in following two methods copied from ReetiTranslation.cs
-   
+
    private static double ReetiTranslationHor (double hor) {
       return ((hor + 1) * 50);
    }
@@ -76,6 +74,14 @@ class ReetiPIDController {
       return ((ver + 1) * 50);
    }
 
+   public static float translateReetiToAgentX(double rotatValue) {
+      return (((float)(rotatValue/50)) - 1);
+   }
+
+   public static float translateReetiToAgentY(double tiltValue) {
+      return (((float)(tiltValue/50)) - 1);
+   }
+   
    private void neckXPIDcontroller () {
 
       double output = kpXNeck * neckXError + neckXPIDoutput;
@@ -203,14 +209,6 @@ class ReetiPIDController {
       eyeYPIDoutput = output;
    }
    
-   private float translateReetiToAgentX(double rotatValue) {
-      return (((float)(rotatValue/50)) - 1);
-   }
-
-   private float translateReetiToAgentY(double tiltValue) {
-      return (((float)(tiltValue/50)) - 1);
-   }
-   
    public void computeX () {
 
       double error = setPointXPID - inputXPID;
@@ -246,17 +244,6 @@ class ReetiPIDController {
   
    void setXinput (double input) { inputXPID = input; }
    void setYinput (double input) { inputYPID = input; }
-
-//   public void setEyeReachedXLimit (boolean flag) { eyeReachedXLimit = flag; }
-//   public void setEyeReachedYLimit (boolean flag) { eyeReachedYLimit = flag; }
-
-//   public double getXInput () { return inputXPID; }
-//   public double getYInput () { return inputYPID; }
-
-//   public void setNeckXPIDoutput (double output) { neckXPIDoutput = output; }
-//   public void setNeckYPIDoutput (double output) { neckYPIDoutput = output; }
-//   public void setEyeXPIDoutput (double output) { eyeXPIDoutput = output; }
-//   public void setEyeYPIDoutput (double output) { eyeYPIDoutput = output; }
 
    double getNeckYPIDoutput () { return neckYPIDoutput; }
    double getNeckXPIDoutput () { return neckXPIDoutput; }
