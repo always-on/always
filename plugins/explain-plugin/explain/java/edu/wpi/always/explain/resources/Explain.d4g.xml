@@ -38,7 +38,7 @@
          PlayGames : new Activity("PLAY_GAMES", "Playing a social game of Rummy, checkers or TicTacToe"),
          TellStory : new Activity("TELL_STORY", "Telling one of my life stories "),
          DiscussWeather : new Activity("DISCUSS_WEATHER", "Telling weather where my friends and family live"),
-         HearAnecdotes : new Activity("HEAR_ANECDOTES", "Hearing a short humorous story"),
+         HearAnecdotes : new Activity("HEAR_ANECDOTES", "Hearing a short interesting story"),
          AdviseNutrition : new Activity("ADVISE_NUTRITION", "Getting advice on healthy foods to eat"),
          UseSkype : new Activity("USE_SKYPE", "Arranging videos calls with friends and family")
     }
@@ -142,10 +142,15 @@
 
   <agent id="_ExplainAboutAgent" text="Let me tell you a bit about myself">
     <user text="Ok, go ahead">
-    	<agent text="In the late evening I will only talk to you if you wake me up."
+    <agent text="I'm always happy to talk to you whenever you are around.">
+        <user text="ok">
+            <agent text="I will provide you with a list of things we can do if you want." >
+                <user text="ok.">
+                
+    	           <agent text="In the late evening I will only talk to you if you wake me up."
     	eval="Activity.ALL.AboutAgent.setFlag()">
     		<user text="ok, go on">
-    			<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Also, I can only see your face, when we talk.  I don't see anything else around you, so you can wear whatever you like during our conversations. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
+    			<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Also, I can only see your face, when we talk.  I don't see anything else around you.  My sight is really limited! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
     				<user text="Good!">
     					<agent text="I also will not keep any photos or videos of you unless you want to record a story.  Even then, I will ask you after if you want to keep the video story.">
     						<user text="ok, I see"/>
@@ -161,6 +166,10 @@
     			</agent>
     		</user>
     	</agent>
+    	   </user>
+    	   </agent>
+    	   </user>
+    	   </agent>
     </user>
     <user text="not right now"/>	
   </agent>
@@ -299,13 +308,13 @@
     </user>
   </agent>
 
-  <agent id="_ExplainFunnyStories" text="I know a lot of short and funny stories.  I can tell you one or more whenever we talk" 
+  <agent id="_ExplainFunnyStories" text="I know a lot of short and interesting stories.  I can tell you one or more whenever we talk" 
          eval="Activity.ALL.HearAnecdotes.setFlag()">
     <user text="ok"/>
     <user text="I think I will try that sometime">
       <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; good.  I like telling stories! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
     </user>
-    <user text="I see;  funny stories aren't for me, but maybe sometime I'll ask you" >
+    <user text="I see;  stories aren't for me, but maybe sometime I'll ask you" >
       <agent text="okay, I'll be ready if you do" />
     </user>
   </agent>

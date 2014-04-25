@@ -1,28 +1,47 @@
 package edu.wpi.always.cm.perceptors.fake;
 
 import edu.wpi.always.cm.perceptors.*;
+import edu.wpi.disco.rt.perceptor.PerceptorBase;
 import org.joda.time.DateTime;
 import java.awt.Point;
-import javax.swing.JTextField;
+import java.awt.event.*;
+import javax.swing.*;
 
-public class FakeMovementPerceptor implements MovementPerceptor {
+public class FakeMovementPerceptor extends PerceptorBase<MovementPerception>
+             implements MovementPerceptor, ItemListener {
 
    private final JTextField txtX;
    private final JTextField txtY;
-   private volatile MovementPerception latest;
 
    public FakeMovementPerceptor (JTextField txtX, JTextField txtY) {
       this.txtX = txtX;
       this.txtY = txtY;
    }
 
+   public FakeMovementPerceptor (JCheckBox box) {
+      this(null, null);
+      box.addItemListener(this);
+   }
+   
+   private boolean motion;
+   
+   @Override
+   public void itemStateChanged(ItemEvent e) {
+      if (e.getStateChange() == ItemEvent.DESELECTED) motion = false;
+      else motion = true;
+   }
+   
    @Override
    public void run () {
-      Point p = tryParsePoint();
-      if ( p == null )
-         latest = null;
-      else
-         latest = new MovementPerception(DateTime.now(), true, p);
+      if ( txtX == null )
+         latest = new MovementPerception(motion, null);
+      else {
+         Point p = tryParsePoint();
+         if ( p == null )
+            latest = null;
+         else
+            latest = new MovementPerception(true, p);
+      }
    }
 
    private Point tryParsePoint () {
@@ -42,10 +61,5 @@ public class FakeMovementPerceptor implements MovementPerceptor {
          return null;
       }
       return new Point(x, y);
-   }
-
-   @Override
-   public MovementPerception getLatest () {
-      return latest;
    }
 }

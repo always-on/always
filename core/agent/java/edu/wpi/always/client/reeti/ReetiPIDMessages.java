@@ -1,17 +1,15 @@
 package edu.wpi.always.client.reeti;
 
-import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
+import edu.wpi.always.client.ClientProxy;
 
-public class ReetiPIDMessages {
+class ReetiPIDMessages {
 
    private final ReetiPIDController XPID, YPID;
+   private final ReetiJsonConfiguration config;
 
-   private ReetiJsonConfiguration config;
-
-   public ReetiPIDMessages (ReetiJsonConfiguration config) {
-      XPID = new ReetiPIDController(config);
-      YPID = new ReetiPIDController(config);
-
+   ReetiPIDMessages (ReetiJsonConfiguration config, ClientProxy proxy) {
+      XPID = new ReetiPIDController(config, proxy);
+      YPID = new ReetiPIDController(config, proxy);
       this.config = config;
    };
 
@@ -48,15 +46,14 @@ public class ReetiPIDMessages {
       return YPID.getEyeYPIDoutput();
    }
 
-   private String XTrack (boolean terminateCommand) {
-      String Message = null;
-
+   private String XTrack (boolean terminateCommand, boolean neededLED) {
       double Xout = ComputeNeckXPID();
       double XeyeLOut = ComputeEyeXPID();
       double XeyeROut = XeyeLOut + 20;
 
-      Message = "Global.servo.color=\"green\"";
-      Message += ",Global.servo.neckRotat=";
+      String Message = neededLED ? "Global.servo.color=\"green\"," : ""; 
+
+      Message += "Global.servo.neckRotat=";
       Message += Xout;
       Message += ",Global.servo.leftEyePan=";
       Message += XeyeLOut;
@@ -69,15 +66,12 @@ public class ReetiPIDMessages {
    }
 
    private String YTrack (boolean neededLED) {
-      String Message = "";
-
       double Yout = ComputeNeckYPID();
       double YeyeLOut = ComputeEyeYPID() + 2.55;
       double YeyeROut = YeyeLOut;
 
-      if ( neededLED )
-         Message = "Global.servo.color=\"green\",";
-
+      String Message = neededLED ? "Global.servo.color=\"green\"," : "";
+      
       Message += "Global.servo.neckTilt=";
       Message += Yout;
       Message += ",Global.servo.leftEyeTilt=";
@@ -89,23 +83,23 @@ public class ReetiPIDMessages {
       return Message;
    }
 
-   public String Track (double Xcenter, double Ycenter, Directions direction) {
+   String Track (double Xcenter, double Ycenter, Directions direction) {
       String Message = "";
 
       switch (direction) {
          case xDIRECTION:
             SetXPID(Xcenter);
-            Message = XTrack(true);
+            Message = XTrack(true, false);
             break;
 
          case yDIRECTION:
             SetYPID(Ycenter);
-            Message = YTrack(true);
+            Message = YTrack(false);
             break;
 
          case bothDIRECTIONS:
             SetXYPID(Xcenter, Ycenter);
-            Message = XTrack(false);
+            Message = XTrack(false, false);
             Message += YTrack(false);
             break;
       }
@@ -113,10 +107,8 @@ public class ReetiPIDMessages {
       return Message;
    }
 
-   public String faceSearch () {
-      String command;
-
-      command = "Global.servo.color=\"red\",Global.servo.neckRotat="
+   String faceSearch (boolean neededLED) {
+      String command = "Global.servo.neckRotat="
          + config.getNeckRotat()
          + " smooth:0.50s; " // Was 50
          + "Global.servo.leftEyePan="
@@ -131,16 +123,15 @@ public class ReetiPIDMessages {
          + " smooth:0.50s, Global.servo.rightEyeTilt="
          + config.getRightEyeTilt() + " smooth:0.50s;"; // Were 42.55
 
-      XPID.setNeckXPIDoutput(config.getNeckRotat()); // Was: 50
+      if ( neededLED ) command += "Global.servo.color=\"red\",";
 
-      YPID.setNeckYPIDoutput(config.getNeckTilt()); // Was: 55.56
+      System.out.println("Face search command sent...");
 
-      XPID.setEyeXPIDoutput(config.getLeftEyePan()); // Was: 50
-
-      YPID.setEyeYPIDoutput(config.getLeftEyeTilt()); // Was: 42.55
-
-      System.out.println("Search command sent...");
-
+      // since we are about to change all motor positions to neutral
+      // outside of PID loop we need to inform and reset the controllers
+      XPID.reset(config, null);
+      YPID.reset(config, null);
+      
       return command;
    }
 }

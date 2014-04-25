@@ -259,22 +259,23 @@
   
       var date; // initialize with date to use (today if undefined)
       
-      // load data from always/user (must be on classpath!)
+      // load data from USER_DIR
 
-      var resource = getResource(); 
-      if ( resource == null ) {
+      var data = newFile(todayDate());
+                      
+      if ( !data.exists() ) {
 		 println("\nCannot find weather data for "+todayDate());
 		 println("Using testing data...");
-		 date = "testing";
-		 resource = getResource();
+		 data =  newFile("testing");
       } 
 		
-      var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(resource.openStream()));
-
-      function getResource () {
-         return java.lang.ClassLoader.getSystemResource("weatherData/"+
-		                       (date == undefined ? todayDate() : date)+".json");
-      }
+	  function newFile (name) {
+	     return new java.io.File(Packages.edu.wpi.always.user.UserUtils.USER_DIR
+	           +"/weatherData/"+name+".json");
+	  }
+	  
+      var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(
+                     new java.io.FileInputStream(data)));
       
       // return today's date in same format as timestamped log files, e.g., 2014_02_14
       function todayDate () { 

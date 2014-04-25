@@ -1,7 +1,6 @@
 package edu.wpi.always.cm.perceptors;
 
 import edu.wpi.disco.rt.perceptor.Perception;
-import org.joda.time.DateTime;
 import java.awt.Point;
 
 public class FacePerception extends Perception {
@@ -14,24 +13,17 @@ public class FacePerception extends Perception {
    private final int tiltcenter;
    private final int area;
 
-   public FacePerception (DateTime stamp, int top, int bottom, int left, int right, int area, int center, int tiltcenter) {
-      super(stamp);
+   public FacePerception (int top, int bottom, int left, int right, int area, int center, int tiltcenter) {
       this.top = top;
       this.bottom = bottom;
       this.left = left;
       this.right = right;
-
       this.area = area;
-   	
       this.center = center;
-   	
    	this.tiltcenter = tiltcenter;
    }
- 
-   public FacePerception (int top, int bottom, int left, int right, int area, int center, int tiltcenter) {
-      this(DateTime.now(), top, bottom, left, right, area, center, tiltcenter);
-   }
-   
+
+
    /**
     * @return null if no face
     */
@@ -39,15 +31,12 @@ public class FacePerception extends Perception {
       return isFace() ?  new Point(center, tiltcenter) : null;								//-(right + left) / 2, -(bottom + top) / 2) : null;
    }
    
-   public boolean isFace () { return left != -1; }
+   public boolean isFace () { return left >= 0; }
    
-   private static final int FACE_NEAR_WIDTH_THRESHOLD = 50;
-   private static final int FACE_NEAR_HEIGHT_THRESHOLD = 50;
+   public static final int FACE_NEAR_AREA_THRESHOLD = 2500;
 
    public boolean isNear () {
-      return isFace() && 
-       ( (right - left) > FACE_NEAR_WIDTH_THRESHOLD
-         || (bottom - top) > FACE_NEAR_HEIGHT_THRESHOLD );
+      return isFace() && area > FACE_NEAR_AREA_THRESHOLD; 
    }
    
    public int getBottom () { return bottom; }

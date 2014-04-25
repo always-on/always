@@ -27,6 +27,12 @@ address 192.168.1.2
 netmask 255.255.255.0
 gateway 192.168.1.1
 
+2.e. Do the following to take the robot's network down and to bring it up 
+again to activate robot's network with the new setting:
+
+   > sudo ifdown eth0
+   > sudo ifup eth0
+
 3. To assign a static IP address to the PC:
 
 3.a. Go to the Local Area Connection Properties and add the following

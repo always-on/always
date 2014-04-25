@@ -15,6 +15,7 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
    private static String Level7Button1 = "That sounds pretty odd, but I'll try it";
    private static String Level7Button2 = "Okay, will do.";
    private static int explainingLine = 1;
+   private boolean HasAlreadBeenHere = false;
 
    public SrummyInitial (SrummyStateContext context) {
       super("Let's play rummy", context);
@@ -45,9 +46,12 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
    
    @Override
    public void enter(){
-      getContext().getSrummyUI().startPluginForTheFirstTime(this);
-      getContext().getSrummyUI().setUpGame();
-      getContext().getSrummyUI().makeBoardUnplayable();
+      if(!HasAlreadBeenHere){
+         getContext().getSrummyUI().startPluginForTheFirstTime(this);
+         getContext().getSrummyUI().setUpGame();
+         getContext().getSrummyUI().makeBoardUnplayable();
+         HasAlreadBeenHere = true;
+      }
    }
 
    public class AskIfWantTutorial extends SrummyAdjacencyPairImpl{

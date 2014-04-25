@@ -1,17 +1,31 @@
 package edu.wpi.always.client;
 
-public interface RemoteConnection {
+import java.io.PrintWriter;
+import java.net.*;
+import edu.wpi.always.Always;
+import edu.wpi.disco.rt.util.Utils;
 
-   void connect ();
+public abstract class RemoteConnection {
 
-   boolean isConnected ();
-
-   /**
-    * non-blocking send
-    */
-   void beginSend (String message);
-
-   void removeObserver (TcpConnectionObserver o);
-
-   void addObserver (TcpConnectionObserver o);
+   protected final String host;
+   protected final int port;
+   protected Socket socket;
+   
+   protected RemoteConnection (String host, int port) {
+      this.host = host;
+      this.port = port;
+   }
+   
+   protected void connect (String host, int port) {
+      // loop to avoid stack overflow
+      while ( socket == null ) { 
+         try { socket = new Socket(host, port); } 
+         catch (ConnectException e) { 
+            Utils.lnprint(System.out, e+" to "+host+" "+port+" (retrying)"); 
+            try { Thread.sleep(10000);  } catch (InterruptedException i) {} }
+         catch (Exception e) { restart(e); }
+      }
+   }
+   
+   protected void restart (Exception e) { Always.restart(e, " on "+host+" "+port); }
 }

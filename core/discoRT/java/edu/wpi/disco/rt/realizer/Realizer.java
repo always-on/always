@@ -3,7 +3,6 @@ package edu.wpi.disco.rt.realizer;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.util.*;
-import org.joda.time.DateTime;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
@@ -107,12 +106,12 @@ public class Realizer implements IRealizer, BehaviorHistory {
    }
 
    @Override
-   public boolean isDone (CompoundBehavior behavior, DateTime since) {
+   public boolean isDone (CompoundBehavior behavior, long since) {
       historyShrinkLock.readLock().lock();
       try {
          for (int i = history.size() - 1; i >= 0; i--) {
             TimeStampedValue<CompoundBehavior> cur = history.get(i);
-            if ( cur.getTimeStamp().isBefore(since) )
+            if ( cur.getTimeStamp() < since )
                break;
             if ( cur.getValue().equals(behavior) ) {
                return true;

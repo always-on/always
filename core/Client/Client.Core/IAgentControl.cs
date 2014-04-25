@@ -45,8 +45,7 @@ namespace Agent.Core
 		void NormalExpression();
 		void ShowConcern(int mseconds);
 		void Smile(int mseconds);
-        void setVisible(Boolean status);
-        //void ToggleAgent();
+		void SetVisible(Boolean status);
 		void Turn(string dir, float horizontal, float vertical);
 		void Express(Agent.Core.AgentFaceExpression expression);
         void ShowPage(string url);

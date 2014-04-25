@@ -29,9 +29,9 @@ public class AizulaSpeechPerceptor extends
          int code = Integer.parseInt(matcher.group(1));
          switch (code) {
          case 10:
-            return new SpeechPerception(DateTime.now(), SpeechState.Silent);
+            return new SpeechPerception(SpeechState.Silent);
          case 11:
-            return new SpeechPerception(DateTime.now(), SpeechState.Normal);
+            return new SpeechPerception(SpeechState.Normal);
          }
       }
       return getLatest();

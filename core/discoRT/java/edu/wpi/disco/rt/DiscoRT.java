@@ -41,9 +41,13 @@ public class DiscoRT implements Startable {
    
    public static class Interaction extends edu.wpi.disco.Interaction {
       
+      public Interaction (Actor system, Actor external, String from) {
+         super(system, external, from, true, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
+         getConsole().THROW = true; // so exceptions thrown
+      }
+      
       public Interaction (Actor system, Actor external) {
-         super(system, external);
-         setName("edu.wpi.disco.rt.DiscoRT.Interaction");
+         super(system, external, null, false, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
          getConsole().THROW = true; // so exceptions thrown
       }
       

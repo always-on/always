@@ -1,15 +1,20 @@
 package edu.wpi.always.client;
 
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import edu.wpi.always.*;
+import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
+import edu.wpi.disco.rt.util.Utils;
 
 public class ClientProxy {
 
@@ -62,10 +67,17 @@ public class ClientProxy {
       enqueue("speech", p);
    }
 
+   // ideally should initialize these from neutral positions of config,
+   // but it doesn't really matter since only happens once at system startup
+   // and face tracker will automatically sync to this position
    private float hor, ver;
    
    //TODO need to get information back for gaze changes
    //     do to html markup
+   
+   public void setGazeHor (float hor) { this.hor = hor; }
+   public void setGazeVer (float ver) { this.ver = ver; }
+   
    public float getGazeHor () { return hor; }
    public float getGazeVer () { return ver; }
    
@@ -87,19 +99,29 @@ public class ClientProxy {
       enqueue("express", p);
    }
 
-   public void setVisibility (boolean status) {
-	   HashMap<String, String> p = Maps.newHashMap();
-	   if(status)
-		   p.put("status", "true");
-	   else
-		   p.put("status","false");
-	   enqueue("setVisible",p);
+   public void setAgentVisible (boolean visible) {
+      // never make agent visible for Reeti-only mode
+      if ( !visible || Always.getAgentType() != AgentType.Reeti ) {
+         HashMap<String, String> p = Maps.newHashMap();
+         p.put("status", Boolean.toString(visible));
+         enqueue("setVisible", p);
+      }
    }
    
+   private static Robot robot;
    
-/*   public void toggleAgent () {
-      enqueue("toggleAgent");
-   }*/
+   static { 
+      try { robot = new Robot(); } 
+      catch (AWTException e) { edu.wpi.cetask.Utils.rethrow("Cannot create robot", e); }
+   }
+   
+   public void setScreenVisible (boolean visible) {
+      // use blank screen saver because reacts more quickly to touch than turning display off
+      try {
+         if ( visible ) robot.mousePress(InputEvent.BUTTON1_MASK);           
+         else Runtime.getRuntime().exec( "bin\\nircmdc screensaver");
+      } catch (IOException e) { Utils.lnprint(System.out, "Error running nircmdc: "+e); }
+   }
    
    public static float ZOOM = 1.6f;
    

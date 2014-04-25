@@ -1,32 +1,23 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
-import edu.wpi.disco.rt.Scheduler;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.schema.SchemaBase;
-import edu.wpi.always.*;
 
 public class FaceTrackerSchema extends SchemaBase {
-
-   private final FacePerceptor facePerceptor;
    
    public FaceTrackerSchema (BehaviorProposalReceiver behaviorReceiver,
-         BehaviorHistory behaviorHistory, FacePerceptor facePerceptor) {
+         BehaviorHistory behaviorHistory) {
       super(behaviorReceiver, behaviorHistory);
-      this.facePerceptor = facePerceptor;
    }
+
+   // reducing memory use for long-running
+   private final static FaceTrackBehavior BEHAVIOR = new FaceTrackBehavior();
+   private final static BehaviorMetadata META = new BehaviorMetadataBuilder().specificity(0.1).build(); 
 
    @Override
    public void run () {
-      FacePerception perception = facePerceptor.getLatest();
-      
-      if ( perception != null ) {
-         BehaviorMetadata m = new BehaviorMetadataBuilder().specificity(0.05)
-               .build();
-         propose(new FaceTrackBehavior(), m);
-      } else {
-         proposeNothing();
-      } 
+      // always propose behavior (realizer will take care of face dropouts)
+      propose(BEHAVIOR, META);
    }
 }

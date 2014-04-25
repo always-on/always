@@ -3,34 +3,36 @@ package edu.wpi.always.client.reeti;
 //a Java socket client
 
 import java.io.*;
-import java.net.*;
+import edu.wpi.always.client.RemoteConnection;
 
-public class ReetiCommandSocketConnection {
+public class ReetiCommandSocketConnection extends RemoteConnection {
 
-   private final Socket socket;
-
-   private final PrintWriter writer;
-
+   private PrintWriter writer;
+   
    public ReetiCommandSocketConnection (String host) {
-
-      try {
-         socket = new Socket(host, 12045); // Was 130.215.28.4
-         writer = new PrintWriter(socket.getOutputStream(), true);
-      } catch (IOException e) {
-         throw new RuntimeException("Error opening socket to Reeti", e);
-      }
+      super(host, 12045);
+      connect(host, 12045);
    }
 
+   @Override
+   protected void connect (String host, int port) {
+      super.connect(host, port);
+      try { writer = new PrintWriter(socket.getOutputStream(), true); }
+      catch (Exception e) { restart(e); }
+   }
+   
    public void send (String message) {
-      writer.println(message);
+      try { writer.println(message); }
+      catch (Exception e) { restart(e); }
    }
 
    public void close () {
       writer.close();
-      try {
-         socket.close();
-      } catch (IOException e) {
-         throw new RuntimeException("Error closing socket to Reeti", e);
-      }
+      try { socket.close(); }
+      catch (IOException e) { e.printStackTrace(); }
+   }
+   
+   public void wiggle () {
+      // TODO send command to wiggle his ears
    }
 }

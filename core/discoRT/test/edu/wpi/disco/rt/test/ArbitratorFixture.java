@@ -62,25 +62,20 @@ public class ArbitratorFixture {
    public void whenTwoSchemasGiveNonConflictingProposals_ShouldListenToBoth () {
       SpeechBehavior speech = new SpeechBehavior("something");
       MenuBehavior menu = new MenuBehavior(new ArrayList<String>());
-      FocusRequestBehavior focus = new FocusRequestBehavior();
+      MenuBehavior ext = new MenuBehavior(new ArrayList<String>(), false, true);
       BehaviorMetadata m3 = new BehaviorMetadataBuilder().specificity(1)
             .build();
       BehaviorMetadata m2 = new BehaviorMetadataBuilder().specificity(0.7)
             .build();
       BehaviorMetadata m1 = new BehaviorMetadataBuilder().specificity(0.5)
             .build();
-      container
-            .changeTo(new CandidateBehavior(Behavior.newInstance(speech, menu),
-                  someSchema(), m3),
-                  new CandidateBehavior(Behavior.newInstance(focus),
-                        someSchema(), m2), new CandidateBehavior(Behavior.NULL,
-                        someSchema(), m1) // caught
-            // a bug
-            // with
-            // this
-            );
+      // caught a bug with this
+      container.changeTo(
+            new CandidateBehavior(Behavior.newInstance(speech, menu), someSchema(), m3),
+            new CandidateBehavior(Behavior.newInstance(ext), someSchema(), m2), 
+            new CandidateBehavior(Behavior.NULL, someSchema(), m1));
       arbitrator.run();
-      assertBehaviorsRealized(realizer.realizedBehaviors, focus, speech, menu);
+      assertBehaviorsRealized(realizer.realizedBehaviors, ext, speech, menu);
    }
 
    private void assertBehaviorsRealized (
@@ -98,7 +93,7 @@ public class ArbitratorFixture {
             stillLooking.remove(p);
          }
       }
-      assertEquals("More primitives realized than expected", behaviors.length,
+      assertEquals("Different number primitives realized than expected", behaviors.length,
             n);
       assertTrue(stillLooking.size() + " behaviors not realized: "
          + stillLooking, stillLooking.size() == 0);
@@ -123,7 +118,7 @@ public class ArbitratorFixture {
 
    public static class FakeContainer implements ICandidateBehaviorsContainer {
 
-      java.util.List<CandidateBehavior> list = newArrayList();
+      List<CandidateBehavior> list = newArrayList();
 
       public void changeTo (CandidateBehavior... behaviors) {
          ArrayList<CandidateBehavior> l = Lists.newArrayList();
@@ -133,7 +128,9 @@ public class ArbitratorFixture {
       }
 
       @Override
-      public java.util.List<CandidateBehavior> all () {
+      public List<CandidateBehavior> all () {
+         Iterator<CandidateBehavior> i = list.iterator();
+         while (i.hasNext()) if ( i.next().getBehavior().isEmpty() ) i.remove();
          return list;
       }
    }
