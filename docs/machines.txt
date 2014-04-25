@@ -1,22 +1,44 @@
-April 15
+April 23, 2014
 
-Machine in Paris:
+---MACHINE IN PARIS---
 
-ASUS ASUS-RICH 
+ASUS-RICH (ASUS) Development
 
-Machines at WPI:
+---MACHINES AT WPI---
 
-HP “Always2” // it is upper case (A) and others are not.
-Asus “always4"
-Asus "always5"
-Asus “always8”
+ALWAYS2 (HP) Development
 
-Machines at NEU (unpacked)
+** ALWAYS4 (ASUS)
+* ALWAYS5 (ASUS)
+* ALWAYS8 (ASUS)
 
-???
+---MACHINES AT NEU (unpacked)---
 
-In Boxes
+TOUCHSMART2-HP (HP) Development
 
-???
+** RAGTOUCH2 (ASUS)
 
+** ALWAYS3 (ASUS)
 
+---IN BOXES AT NEU---
+
+10 in storeroom
+1 in lab
+
+** ALWAYS1
+
+* ALWAYS6
+* ALWAYS7
+* ALWAYS9
+* ALWAYS10
+* ALWAYS11
+* ALWAYS12
+* ALWAYS13
+* ALWAYS14
+* ALWAYS15
+* ALWAYS16
+
+* = use in main study (12)  ALWAYS5-16
+** = use in Reeti study (4) ALWAYS1,RAGTOUCH2,ALWAYS3,ALWAYS4
+
+[Also: RAG-PC-PHD-4 - Lazlo's PC (not a touchscreen)

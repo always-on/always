@@ -67,7 +67,7 @@
    <task id="__Morning_tree">
       <subtasks id="_d4e13_subtasks">
          <step name="_d4e13_step" task="disco:Say"/>
-         <binding slot="$_d4e13_step.text" value="&#34;Good morning.&#34;"/>
+         <binding slot="$_d4e13_step.text" value="&#34;Good morning, Karen.&#34;"/>
          <binding slot="$_d4e13_step.external" value="true"/>
       </subtasks>
       <subtasks id="_d4e14_subtasks">
@@ -433,7 +433,7 @@
       <subtasks id="_affirmGoodNight_subtasks">
          <step name="_affirmGoodNight_step" task="disco:Say"/>
          <step name="_d4e91_step" task="disco:Say"/>
-         <binding slot="$_affirmGoodNight_step.text" value="&#34;Yes, good night&#34;"/>
+         <binding slot="$_affirmGoodNight_step.text" value="&#34;Yes, good night, Karen.&#34;"/>
          <binding slot="$_affirmGoodNight_step.external" value="true"/>
          <binding slot="$_d4e91_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
@@ -471,7 +471,7 @@
       <subtasks id="_d4e96_subtasks">
          <step name="_d4e96_step" task="disco:Say"/>
          <step name="_d4e97_step" task="disco:Say"/>
-         <binding slot="$_d4e96_step.text" value="&#34;Will do. Good night&#34;"/>
+         <binding slot="$_d4e96_step.text" value="&#34;Will do. Good night, Karen.&#34;"/>
          <binding slot="$_d4e96_step.external" value="true"/>
          <binding slot="$_d4e97_step.text" value="&#34;Good night!&#34;"/>
          <binding slot="$_d4e97_step.external" value="false"/>
@@ -479,7 +479,7 @@
       <subtasks id="_d4e98_subtasks">
          <step name="_d4e98_step" task="disco:Say"/>
          <step name="_d4e99_step" task="disco:Say"/>
-         <binding slot="$_d4e98_step.text" value="&#34;Hope so. Good night&#34;"/>
+         <binding slot="$_d4e98_step.text" value="&#34;Hope so. Good night, Karen.&#34;"/>
          <binding slot="$_d4e98_step.external" value="true"/>
          <binding slot="$_d4e99_step.text" value="&#34;Good night!&#34;"/>
          <binding slot="$_d4e99_step.external" value="false"/>
@@ -488,7 +488,7 @@
    <task id="_d4e101_tree">
       <subtasks id="_d4e102_subtasks">
          <step name="_d4e102_step" task="disco:Say"/>
-         <binding slot="$_d4e102_step.text" value="&#34;Thanks, Good night&#34;"/>
+         <binding slot="$_d4e102_step.text" value="&#34;Thanks, Good night, Karen.&#34;"/>
          <binding slot="$_d4e102_step.external" value="true"/>
       </subtasks>
       <subtasks id="_d4e103_subtasks">
