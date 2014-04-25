@@ -26,8 +26,6 @@ namespace Agent.UI
         private const String bigNod          = "jj"; // bigNod
         private const String expressWarm     = "kk"; // Global.servo.neutralPosition()
         private const String delay           = "ll"; // delay
-        private const String rebootRobot     = "mm"; // rebootRobot
-        private const String wiggleEars      = "nn"; // wiggleEars
 
         private bool blnHeadNod         = true;
         private bool blnDelay           = true;
