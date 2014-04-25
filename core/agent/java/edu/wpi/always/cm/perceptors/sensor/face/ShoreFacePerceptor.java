@@ -12,7 +12,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    private long previousTime = 0;
 
-   //private final static int JITTER_THRESHOLD = 1;
+//   private final static int JITTER_THRESHOLD = 60;
    
    private final static long timeUnit = 220;
 
@@ -27,8 +27,8 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
    private final long faceHorizontalDisplacementThreshold,
          faceVerticalDisplacementThreshold, faceAreaThreshold;
 
-   protected ShoreFacePerceptor (int hor, int vert, int area) {
-      faceHorizontalDisplacementThreshold = hor;
+   protected ShoreFacePerceptor (int horz, int vert, int area) {
+      faceHorizontalDisplacementThreshold = horz;
       faceVerticalDisplacementThreshold = vert;
       faceAreaThreshold = area;
    }

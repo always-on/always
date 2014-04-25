@@ -20,12 +20,15 @@ class ReetiPIDController {
    private boolean eyeReachedXLimit = false, eyeReachedYLimit = false;
 
    private double inputXPID = 160, inputYPID = 120, 
-         neckXPIDoutput, neckYPIDoutput, eyeXPIDoutput, eyeYPIDoutput;
+         neckXPIDoutput = 50, neckYPIDoutput = 55, eyeXPIDoutput, eyeYPIDoutput;
 
    private double neckXError = 0, neckYError = 0, eyeXError = 0, eyeYError = 0;
    
+   private ClientProxy proxy;
+   
    ReetiPIDController (ReetiJsonConfiguration config, ClientProxy proxy) {
       // initialize controller with current reality from proxy
+      this.proxy = proxy;
       reset(config, proxy);
    }
    
@@ -36,10 +39,8 @@ class ReetiPIDController {
       eyeXPIDoutput = config.getLeftEyePan();
       eyeYPIDoutput = config.getLeftEyeTilt();
       // neck to neutral or proxy gaze position
-      double reetiHor = ReetiTranslationHor(proxy.getGazeHor());
-      double reetiVer = ReetiTranslationVer(proxy.getGazeVer());
-      neckXPIDoutput = proxy == null ? config.getNeckRotat() : ((reetiHor != -1) ? reetiHor : config.getNeckRotat());
-      neckYPIDoutput = proxy == null ? config.getNeckTilt()  : ((reetiVer != -1) ? reetiVer : config.getNeckTilt());
+      neckXPIDoutput = proxy == null ? config.getNeckRotat() : ReetiTranslationHor(proxy.getGazeHor());
+      neckYPIDoutput = proxy == null ? config.getNeckTilt()  : ReetiTranslationVer(proxy.getGazeVer());
       // no new input
       inputXPID = TranslateReetiToImageX(neckXPIDoutput);
       inputYPID = TranslateReetiToImageY(neckYPIDoutput);
@@ -47,13 +48,11 @@ class ReetiPIDController {
       eyeXError = neckXError = setPointXPID - inputXPID;
       eyeYError = neckYError = setPointYPID - inputYPID;
       
-      System.out.println(neckXError + " and " + neckYError);
-      System.out.println("\ninputXPID: " + inputXPID);
-      System.out.println("\ninputYPID: " + inputYPID);
-//      System.out.println("\nEye X: " + eyeXPIDoutput);
-//      System.out.println("\nEye Y: " + eyeYPIDoutput);
-      System.out.println("\nNeck X: " + neckXPIDoutput);
-      System.out.println("\nNeck Y: " + neckYPIDoutput);
+//      System.out.println(neckXError + " and " + neckYError);
+//      System.out.println("\ninputXPID: " + inputXPID);
+//      System.out.println("\ninputYPID: " + inputYPID);
+//      System.out.println("\nNeck X: " + neckXPIDoutput);
+//      System.out.println("\nNeck Y: " + neckYPIDoutput);
       
       eyeReachedXLimit = false;
       eyeReachedYLimit = false;
@@ -70,13 +69,11 @@ class ReetiPIDController {
    // Note: Formulae in following two methods copied from ReetiTranslation.cs
    
    private static double ReetiTranslationHor (double hor) {
-      if ( (hor >= -1) && (hor <=1) ) return ((hor + 1) * 50);
-      else { System.out.println("Invalid Reeti horizontal command value."); return -1; }
+      return ((hor + 1) * 50);
    }
    
    private static double ReetiTranslationVer (double ver) {
-      if ( (ver >= -1) && (ver <=1) ) return ((ver + 1) * 50);
-      else {  System.out.println("Invalid Reeti vertical command value."); return -1; }
+      return ((ver + 1) * 50);
    }
 
    private void neckXPIDcontroller () {
@@ -205,17 +202,25 @@ class ReetiPIDController {
 
       eyeYPIDoutput = output;
    }
+   
+   private float translateReetiToAgentX(double rotatValue) {
+      return (((float)(rotatValue/50)) - 1);
+   }
 
-   void computeX () {
+   private float translateReetiToAgentY(double tiltValue) {
+      return (((float)(tiltValue/50)) - 1);
+   }
+   
+   public void computeX () {
 
       double error = setPointXPID - inputXPID;
 
-      if ( Math.abs(error) > 20 )
+      if ( Math.abs(error) > 40 )
       {
          if ( eyeReachedXLimit == true ) {
             neckXError = error;
             neckXPIDcontroller();
-   
+            proxy.setGazeHor(translateReetiToAgentX(neckXPIDoutput));
          } else {
             eyeXError = error;
             eyeXPIDcontroller();
@@ -223,15 +228,15 @@ class ReetiPIDController {
       }
    }
 
-   void computeY () {
+   public void computeY () {
 
       double error = setPointYPID - inputYPID;
 
-      if ( Math.abs(error) > 20 ) {
+      if ( Math.abs(error) > 40 ) {
          if ( eyeReachedYLimit == true ) {
             neckYError = error;
             neckYPIDcontroller();
-   
+            proxy.setGazeVer(translateReetiToAgentY(neckYPIDoutput));
          } else {
             eyeYError = error;
             eyeYPIDcontroller();
