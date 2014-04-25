@@ -310,8 +310,7 @@ namespace Agent.UI
                     updateRobotState("HeadNod");
                 }
             }
-            else 
-            if (Command.Contains("DELAY"))
+            else if (Command.Contains("DELAY"))
             {
                 if (blnDelay)
                 {
