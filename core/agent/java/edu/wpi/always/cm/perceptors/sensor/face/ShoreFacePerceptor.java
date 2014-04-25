@@ -25,8 +25,8 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
    private final long faceHorizontalDisplacementThreshold,
          faceVerticalDisplacementThreshold, faceAreaThreshold;
 
-   protected ShoreFacePerceptor (int hor, int vert, int area) {
-      faceHorizontalDisplacementThreshold = hor;
+   protected ShoreFacePerceptor (int horz, int vert, int area) {
+      faceHorizontalDisplacementThreshold = horz;
       faceVerticalDisplacementThreshold = vert;
       faceAreaThreshold = area;
    }
@@ -56,7 +56,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
             prevInfo = info;
             previousTime = currentTime;
          } 
-      } else latest = null; 
+      } else latest = null;
    }
 
    private boolean isRealFace (long timeDifference) {

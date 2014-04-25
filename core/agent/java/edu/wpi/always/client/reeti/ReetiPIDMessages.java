@@ -26,24 +26,24 @@ class ReetiPIDMessages {
       SetYPID(Ycenter);
    }
 
-   private double ComputeNeckXPID () {
+   private int ComputeNeckXPID () {
       XPID.computeX();
-      return XPID.getNeckXPIDoutput();
+      return (int)XPID.getNeckXPIDoutput();
    }
 
-   private double ComputeNeckYPID () {
+   private int ComputeNeckYPID () {
       YPID.computeY();
-      return YPID.getNeckYPIDoutput();
+      return (int)YPID.getNeckYPIDoutput();
    }
 
-   private double ComputeEyeXPID () {
+   private int ComputeEyeXPID () {
       XPID.computeX();
-      return XPID.getEyeXPIDoutput();
+      return (int)XPID.getEyeXPIDoutput();
    }
 
-   private double ComputeEyeYPID () {
+   private int ComputeEyeYPID () {
       YPID.computeY();
-      return YPID.getEyeYPIDoutput();
+      return (int)YPID.getEyeYPIDoutput();
    }
 
    private String XTrack (boolean terminateCommand, boolean neededLED) {
@@ -51,7 +51,8 @@ class ReetiPIDMessages {
       double XeyeLOut = ComputeEyeXPID();
       double XeyeROut = XeyeLOut + 20;
 
-      String Message = neededLED ? "Global.servo.color=\"green\"," : ""; 
+      String Message = neededLED ? "Global.servo.color=\"green\",Global.servo.neckRotat=" : 
+                                   "Global.servo.neckRotat="; 
 
       Message += "Global.servo.neckRotat=";
       Message += Xout;
@@ -70,9 +71,9 @@ class ReetiPIDMessages {
       double YeyeLOut = ComputeEyeYPID() + 2.55;
       double YeyeROut = YeyeLOut;
 
-      String Message = neededLED ? "Global.servo.color=\"green\"," : "";
+      String Message = neededLED ? "Global.servo.color=\"green\",Global.servo.neckTilt=" : 
+                                   "Global.servo.neckTilt=";
       
-      Message += "Global.servo.neckTilt=";
       Message += Yout;
       Message += ",Global.servo.leftEyeTilt=";
       Message += YeyeLOut;
@@ -107,9 +108,12 @@ class ReetiPIDMessages {
       return Message;
    }
 
-   String faceSearch (boolean neededLED) {
-      String command = "Global.servo.neckRotat="
-         + config.getNeckRotat()
+   public String faceSearch (boolean neededLED) {
+      
+      String command = neededLED ? "Global.servo.color=\"red\",Global.servo.neckRotat=" : 
+                                   "Global.servo.neckRotat=";   
+      
+      command += config.getNeckRotat()
          + " smooth:0.50s; " // Was 50
          + "Global.servo.leftEyePan="
          + config.getLeftEyePan()
@@ -123,14 +127,12 @@ class ReetiPIDMessages {
          + " smooth:0.50s, Global.servo.rightEyeTilt="
          + config.getRightEyeTilt() + " smooth:0.50s;"; // Were 42.55
 
-      if ( neededLED ) command += "Global.servo.color=\"red\",";
-
-      System.out.println("Face search command sent...");
-
       // since we are about to change all motor positions to neutral
       // outside of PID loop we need to inform and reset the controllers
       XPID.reset(config, null);
       YPID.reset(config, null);
+      
+      System.out.println("Searching for the face...");
       
       return command;
    }

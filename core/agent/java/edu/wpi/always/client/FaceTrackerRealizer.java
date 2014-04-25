@@ -35,7 +35,7 @@ public class FaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBehavior
          // following is useful for debugging
          // java.awt.Toolkit.getDefaultToolkit().beep();
          lastSeen = System.currentTimeMillis();
-         if ( previous == null || !isClose(previous.x, point.x) || !isClose(previous.y, point. y) ) {
+         if ( previous == null || !isClose(previous.x, point.x) || !isClose(previous.y, point.y) ) {
             proxy.gaze(GazeRealizer.translateToAgentTurnHor(point),
                        GazeRealizer.translateToAgentTurnVer(point));
             previous = point;
