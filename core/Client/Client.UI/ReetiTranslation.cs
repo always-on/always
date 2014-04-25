@@ -27,6 +27,7 @@ namespace Agent.UI
         private const String expressWarm     = "kk"; // Global.servo.neutralPosition()
         private const String delay           = "ll"; // delay
         private const String rebootRobot     = "mm"; // rebootRobot
+        private const String wiggleEars      = "nn"; // wiggleEars
 
         private bool blnHeadNod         = true;
         private bool blnDelay           = true;
@@ -75,32 +76,32 @@ namespace Agent.UI
         {
             if (HorOrVer.Equals("horizontal"))
             {
-                output = ((output + 1) * 50);
-                //if (output > 0)
-                //{
-                //    output = (output * 25) + 45;
-                //}
-                //else if (output < 0)
-                //{
-                //    output = (output * 25);
-                //}
-                //else
-                //    output = 50;
+                //output = ((output + 1) * 50);
+                if (output > 0)
+                {
+                    output = (output * 25) + 45;
+                }
+                else if (output < 0)
+                {
+                    output = (output * 25);
+                }
+                else
+                    output = 50;
             }
             else if (HorOrVer.Equals("vertical"))
             {
-                output = ((output + 1) * 50);
-                //if (output < 0)
-                //{
-                //    output *= -1;
-                //    output = (output * 25);
-                //}
-                //else if (output > 0)
-                //{
-                //    output = (output * 25) + 55;
-                //}
-                //else
-                //    output = 55.56;
+                //output = ((output + 1) * 50);
+                if (output < 0)
+                {
+                    output *= -1;
+                    output = (output * 25);
+                }
+                else if (output > 0)
+                {
+                    output = (output * 25) + 55;
+                }
+                else
+                    output = 55.56;
             }
             return output;
         }
@@ -303,15 +304,15 @@ namespace Agent.UI
         {
             mut.WaitOne();
 
-            //if (Command.Contains("HEADNOD"))
-            //{
-            //    if (blnHeadNod)
-            //    {
-            //        SendCommand(headNod);
-            //        updateRobotState("HeadNod");
-            //    }
-            //}
-            //else 
+            if (Command.Contains("HEADNOD"))
+            {
+                if (blnHeadNod)
+                {
+                    SendCommand(headNod);
+                    updateRobotState("HeadNod");
+                }
+            }
+            else 
             if (Command.Contains("DELAY"))
             {
                 if (blnDelay)
