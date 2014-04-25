@@ -51,7 +51,8 @@ class ReetiPIDMessages {
       double XeyeLOut = ComputeEyeXPID();
       double XeyeROut = XeyeLOut + 20;
 
-      String Message = neededLED ? "Global.servo.color=\"green\",Global.servo.neckRotat=" : "Global.servo.neckRotat="; 
+      String Message = neededLED ? "Global.servo.color=\"green\",Global.servo.neckRotat=" : 
+                                   "Global.servo.neckRotat="; 
 
       Message += "Global.servo.neckRotat=";
       Message += Xout;
@@ -70,7 +71,8 @@ class ReetiPIDMessages {
       double YeyeLOut = ComputeEyeYPID() + 2.55;
       double YeyeROut = YeyeLOut;
 
-      String Message = neededLED ? "Global.servo.color=\"green\",Global.servo.neckTilt=" : "Global.servo.neckTilt=";
+      String Message = neededLED ? "Global.servo.color=\"green\",Global.servo.neckTilt=" : 
+                                   "Global.servo.neckTilt=";
       
       Message += Yout;
       Message += ",Global.servo.leftEyeTilt=";
@@ -108,7 +110,8 @@ class ReetiPIDMessages {
 
    public String faceSearch (boolean neededLED) {
       
-      String command = neededLED ? "Global.servo.color=\"red\",Global.servo.neckRotat=" : "Global.servo.neckRotat=";   
+      String command = neededLED ? "Global.servo.color=\"red\",Global.servo.neckRotat=" : 
+                                   "Global.servo.neckRotat=";   
       
       command += config.getNeckRotat()
          + " smooth:0.50s; " // Was 50

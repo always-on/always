@@ -52,8 +52,6 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
 
       super(params);
       
-      String Message;
-      
       this.perceptor = perceptor;
       proxy.gaze(proxy.getGazeHor(), proxy.getGazeVer());
       // see ReetiPIDControllers initialized using proxy
@@ -72,8 +70,9 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
          // java.awt.Toolkit.getDefaultToolkit().beep();
 
          currentTime = System.currentTimeMillis();
-
-         send(reetiPIDOutput.Track(perception.getCenter(), perception.getTiltCenter(), trackingDirections));
+         send(reetiPIDOutput.Track(perception.getCenter(), 
+                                   perception.getTiltCenter(), 
+                                   trackingDirections));
          
          searchFlag = true;
 

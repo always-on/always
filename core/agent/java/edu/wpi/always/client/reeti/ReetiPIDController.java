@@ -40,19 +40,13 @@ public class ReetiPIDController {
       eyeYPIDoutput = config.getLeftEyeTilt();
       // neck to neutral or proxy gaze position
       neckXPIDoutput = proxy == null ? config.getNeckRotat() : ReetiTranslationHor(proxy.getGazeHor());
-      neckYPIDoutput = proxy == null ? config.getNeckTilt()  : ReetiTranslationVer(proxy.getGazeVer());
+      neckYPIDoutput = proxy == null ? config.getNeckTilt() : ReetiTranslationVer(proxy.getGazeVer());
       // no new input
       inputXPID = TranslateReetiToImageX(neckXPIDoutput);
       inputYPID = TranslateReetiToImageY(neckYPIDoutput);
       // reset all error terms to new error value since in correct position
       eyeXError = neckXError = setPointXPID - inputXPID;
       eyeYError = neckYError = setPointYPID - inputYPID;
-      
-//      System.out.println(neckXError + " and " + neckYError);
-//      System.out.println("\ninputXPID: " + inputXPID);
-//      System.out.println("\ninputYPID: " + inputYPID);
-//      System.out.println("\nNeck X: " + neckXPIDoutput);
-//      System.out.println("\nNeck Y: " + neckYPIDoutput);
       
       eyeReachedXLimit = false;
       eyeReachedYLimit = false;
