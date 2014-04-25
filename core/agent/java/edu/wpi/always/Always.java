@@ -36,10 +36,10 @@ public class Always {
     * 
     * @param args [agentType closeness login model] NB: Case-sensitive!
     *  <p>
-    *  agentType: Unity (default), Reeti or Mirror 
+    *  agentType: Unity (default), Reeti or Mirror<br> 
     *  closeness: Stranger, Acquaintance, Companion or null (default, use value in user model)<br>
-    *  login: true or false (default)
-    *  model: file in always/user (default most recent User.*.owl)<br>
+    *  login: true or false (default)<br>
+    *  model: file in always/user (default most recent User.*.owl)
     */
    public static void main (String[] args) {
       Always always = make(args, null, null);
