@@ -7,14 +7,24 @@ using System.Windows.Threading;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
 using System.Windows.Controls;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace Story.UI
 {
     class StoryPlugin : IPlugin
     {
-		//StoryPage story;
+        StoryPage story;
         IMessageDispatcher _remote;
         IUIThreadDispatcher _uiThreadDispatcher;
+        Viewbox pluginContainer;
+
+        private byte[] imageData;
+        private bool capturing = false;
+        private string filename = "";
+
 
         public StoryPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
@@ -22,23 +32,91 @@ namespace Story.UI
             this._uiThreadDispatcher = uiThreadDispatcher;
             uiThreadDispatcher.BlockingInvoke(() =>
             {
-                // story = new StoryPage();
+                story = new StoryPage();
+                pluginContainer = new Viewbox();
+                pluginContainer.Child = story;
+                initCamera();
+                startVideoCapture("testVideo");
             });
-            //
-            //_remote.RegisterReceiveHandler("calendar.display",
-			//	  new MessageHandlerDelegateWrapper(m => display(m)));
+            _remote.RegisterReceiveHandler("story.stopRecording",
+                new MessageHandlerDelegateWrapper(m => endVideoCapture()));
         }
 
-		public void Dispose()
-		{
-			//_remote.RemoveReceiveHandler("calendar.display");
-		}
+        public void Dispose()
+        {
+            endCapture();
+        }
 
         public Viewbox GetPluginContainer()
         {
-            //null
-            //TODO
-            return null;
+            return pluginContainer;
         }
+
+        Thread captureThread;
+
+        private void startVideoCapture(string filename)
+        {
+            this.filename = filename;
+            captureThread = new Thread(videoCaptureThread);
+            captureThread.Name = "CaptureThread";
+            captureThread.SetApartmentState(ApartmentState.STA);
+            captureThread.Start();
+        }
+
+        private void initCamera()
+        {
+            if (init() != 0)
+                Console.WriteLine("failed to call init");
+        }
+
+        public void videoCaptureThread()
+        {
+            capturing = true;
+            if (startCapture(filename) != 0)
+            {
+                Console.WriteLine("Failed to start video capture");
+            }
+            imageData = new byte[921654];
+            Thread.Sleep(100);
+            MemoryStream ms;
+            BitmapImage bitmapImage;
+            while (capturing)
+            {
+                _uiThreadDispatcher.BlockingInvoke(() =>
+                {
+                    getImage(imageData);
+                    ms = new MemoryStream(imageData);
+                    bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = ms;
+                    bitmapImage.EndInit();
+                    story.captureImage.Source = bitmapImage;
+                });
+                Thread.Sleep(35);
+            }
+        }
+
+        public void endVideoCapture()
+        {
+            capturing = false;
+            endCapture();
+            if (captureThread.IsAlive)
+                captureThread.Join();
+            end();
+        }
+
+
+        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int init();
+        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int startCapture(string filename);
+        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int endCapture();
+        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void getImage(byte[] imageData);
+        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void end();
+
     }
 }
+
