@@ -35,15 +35,17 @@ namespace Story.UI
                 story = new StoryPage();
                 pluginContainer = new Viewbox();
                 pluginContainer.Child = story;
-                initCamera();
-                startVideoCapture("testVideo");
             });
             _remote.RegisterReceiveHandler("story.stopRecording",
                 new MessageHandlerDelegateWrapper(m => endVideoCapture()));
+            _remote.RegisterReceiveHandler("story.startRecording",
+                new MessageHandlerDelegateWrapper(m => startVideoCapture(m)));
         }
 
         public void Dispose()
         {
+            _remote.RemoveReceiveHandler("story.stopRecording");
+            _remote.RemoveReceiveHandler("story.startRecording");
             endCapture();
         }
 
@@ -54,9 +56,10 @@ namespace Story.UI
 
         Thread captureThread;
 
-        private void startVideoCapture(string filename)
+        private void startVideoCapture(JObject m)
         {
-            this.filename = filename;
+            initCamera();
+            this.filename = "testVideo";
             captureThread = new Thread(videoCaptureThread);
             captureThread.Name = "CaptureThread";
             captureThread.SetApartmentState(ApartmentState.STA);
