@@ -6,14 +6,15 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-public class ScriptbuilderSchema extends ActivityStateMachineSchema<RAGStateContext> {
-	
+public class ScriptbuilderSchema extends
+		ActivityStateMachineSchema<RAGStateContext> {
+
 	private final RAGStateContext context;
-	
+
 	public ScriptbuilderSchema(ScriptbuilderCoreScript init,
 			BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-			MenuPerceptor menuPerceptor,  UIMessageDispatcher dispatcher) {
+			MenuPerceptor menuPerceptor, UIMessageDispatcher dispatcher) {
 		super(init, behaviorReceiver, behaviorHistory, resourceMonitor,
 				menuPerceptor);
 		this.context = init.context;
@@ -21,11 +22,17 @@ public class ScriptbuilderSchema extends ActivityStateMachineSchema<RAGStateCont
 
 	@Override
 	public void run() {
-	   if( context.isDone ){
-		   context.firstRun = true;
-		   context.isDone = false;
-		   stop();
-	   }
-		else super.run();
+		if (context.isDone) {
+			context.resetPluginStatus();
+			stop();
+		} else
+			super.run();
 	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		context.resetPluginStatus();
+	}
+
 }
