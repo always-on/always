@@ -6,8 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-       <Frame Margin="12" Source="/Story.UI;component/SwfContainer.html" />
+        <Image Height="300" HorizontalAlignment="Left" Name="captureImage" Stretch="Fill" VerticalAlignment="Top" Width="300" />
     </Grid>
-    
-    
 </UserControl>

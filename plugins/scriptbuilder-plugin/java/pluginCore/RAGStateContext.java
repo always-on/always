@@ -8,7 +8,9 @@ import DialogueRuntime.*;
 import alwaysAvailableCore.*;
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
+import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.client.Message.Builder;
+import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
@@ -38,8 +40,10 @@ public class RAGStateContext extends AdjacencyPair.Context {
 	
 	public static String module;
 	
+	public static ShoreFacePerceptor shore;
+	
 	public RAGStateContext(Keyboard keyboard, UIMessageDispatcher dispatcher,
-			PlaceManager placeManager, PeopleManager peopleManager,Always always, String module) {
+			PlaceManager placeManager, PeopleManager peopleManager,Always always, ShoreFacePerceptor shore, String module) {
 		this.firstRun = true;
 		this.keyboard = keyboard;
 		this.dispatcher = dispatcher;
@@ -47,6 +51,7 @@ public class RAGStateContext extends AdjacencyPair.Context {
 		this.peopleManager = peopleManager;
 		this.userModel = always.getUserModel();
 		this.module = module;
+		this.shore = shore;
 	}
 
 	public Keyboard getKeyboard() {
@@ -77,6 +82,9 @@ public class RAGStateContext extends AdjacencyPair.Context {
 				break;
 			case "Education":
 				topScript = "EducationTop";
+				break;
+			case "Storytelling":
+				topScript = "StorytellingTop";
 				break;
 		}
 		
@@ -128,6 +136,7 @@ public class RAGStateContext extends AdjacencyPair.Context {
 //		    Message test = Message.builder("page").add("url", "file:///C:/AlwaysAvailable/WWW/pillbox.jpg").build();
 //		    dispatcher.send(test);
 		    //End of Test
+			Message msg;
 			for(int i = 0; i < nodeList.getLength(); i++){
 				Node tempNode = nodeList.item(i);
 				//System.out.println(tempNode.getNodeName());
@@ -136,8 +145,19 @@ public class RAGStateContext extends AdjacencyPair.Context {
 					case "#TEXT":
 						speechText += tempNode.getTextContent() + " ";
 						break;
+					case "RECORD":
+						if ( shore != null ) shore.stop(); 
+				         ClientPluginUtils.startPlugin(dispatcher, "story",
+				                 InstanceReuseMode.Reuse, null);
+						break;
+					case "STOPRECORD":
+						if ( shore != null ) shore.start(); 
+						ClientPluginUtils.hidePlugin(dispatcher);
+					    msg = Message.builder("story.stopRecording").build();
+					    dispatcher.send(msg);
+						break;
 					case "PAGE":
-					    Message msg = Message.builder("page").add("url", tempNode.getAttributes().getNamedItem("URL").getNodeValue()).build();
+					    msg = Message.builder("page").add("url", tempNode.getAttributes().getNamedItem("URL").getNodeValue()).build();
 					    dispatcher.send(msg);
 						break;
 					case "POSTURE":
