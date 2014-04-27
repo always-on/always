@@ -6,6 +6,7 @@ import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 import edu.wpi.disco.rt.perceptor.PerceptorBase;
+import edu.wpi.disco.rt.util.Utils;
 
 public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
                       implements FacePerceptor {
@@ -128,13 +129,13 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       }
 
       @Override
-      public void start () {
-         throw new UnsupportedOperationException();
+      public void start () { 
+         Utils.lnprint(System.out, "Ignoring ShoreFaceperceptor.Reeti.start()");
       }
 
       @Override
       public void stop () {
-         CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
+         Utils.lnprint(System.out, "Ignoring ShoreFaceperceptor.Reeti.stop()");
       }
    }
 }
