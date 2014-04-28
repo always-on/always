@@ -2,26 +2,28 @@
 <project default="release" name="Release Always-On">
     <property environment="env"/>
     <target name="release">
-        <copy todir="C:/Dropbox-Always/release">
+        <copy todir="C:/Dropbox/release">
           <fileset excludes="FaceDetection.dll,USBm2-64.dll" dir="../lib/win32-x86-64"/>
-          <fileset file="always.bat"/>
         </copy>
-        <copy todir="C:/Dropbox-Always/release/plugins/Plugins.Startup/bin">
+        <copy todir="C:/Dropbox/release/plugins/Plugins.Startup/bin">
           <fileset dir="../../../plugins/Plugins.Startup/bin/Debug"/>
         </copy>  
-        <copy todir="C:/Dropbox-Always/release/images">
+        <copy todir="C:/Dropbox/release/images">
           <fileset dir="../images"/>
         </copy>  
-        <copy todir="C:/Dropbox-Always/release/bin">
+        <copy todir="C:/Dropbox/release/bin">
           <fileset file="../bin/nircmdc.exe"/>
+          <fileset file="always-unity.bat"/>
+          <fileset file="always-reeti.bat"/>
+          <fileset file="always-login.bat"/>
         </copy>  
-        <copy todir="C:/Dropbox-Always/release/reeti">
+        <copy todir="C:/Dropbox/release/reeti">
           <fileset dir="../lib/reeti"/>
         </copy>   
-        <copy todir="C:/Dropbox-Always/${env.COMPUTERNAME}/weatherData">
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/weatherData">
           <fileset file="../../../user/weatherData/testing.json"/>
         </copy> 
-        <jar destfile="C:/Dropbox-Always/release/always.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="C:/Dropbox/release/always.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="edu.wpi.always.Always"/>
             </manifest>
@@ -37,7 +39,6 @@
             <fileset dir="../../../plugins/rummy-plugin/srummy/class"/>
             <fileset dir="../../../plugins/scriptbuilder-plugin/class"/>
             <fileset dir="../../../plugins/skype-plugin/skype/class"/>
-            <fileset dir="../../../plugins/story-plugin/story/class"/>
             <fileset dir="../../../plugins/weather-plugin/weather/class"/>
             <fileset dir="../../../plugins/ttt-plugin/ttt/class"/>
             <fileset includes="win32-x86-64/FaceDetection.dll,win32-x86-64/USBm2-64.dll" dir="../lib"/>

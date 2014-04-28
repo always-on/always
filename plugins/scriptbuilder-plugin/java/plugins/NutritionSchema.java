@@ -2,6 +2,7 @@ package plugins;
 
 import edu.wpi.always.Always;
 import edu.wpi.always.client.*;
+import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -15,9 +16,9 @@ public class NutritionSchema extends ScriptbuilderSchema {
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor, Keyboard keyboard,
 			UIMessageDispatcher dispatcher, PlaceManager placeManager,
-			PeopleManager peopleManager,Always always) {
+			PeopleManager peopleManager, Always always) {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
-	               keyboard, dispatcher, placeManager, peopleManager, always,"Nutrition")),
+	               keyboard, dispatcher, placeManager, peopleManager, always, "Nutrition")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
 	}
 

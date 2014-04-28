@@ -14,6 +14,7 @@ import com.google.gson.JsonPrimitive;
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
+import edu.wpi.always.client.reeti.*;
 import edu.wpi.disco.rt.util.Utils;
 
 public class ClientProxy {
@@ -21,12 +22,17 @@ public class ClientProxy {
    private final List<ClientProxyObserver> observers;
    private final UIMessageDispatcher dispatcher;
 
-   public ClientProxy (UIMessageDispatcher dispatcher) {
+   public ClientProxy (UIMessageDispatcher dispatcher, Always always) {
       this.dispatcher = dispatcher;
       observers = new CopyOnWriteArrayList<ClientProxyObserver>();
       registerOnDispatcher();
+      if ( Always.getAgentType() != AgentType.Unity ) {
+         ReetiJsonConfiguration config = always.getCM().getContainer().getComponent(ReetiJsonConfiguration.class);
+         hor = ReetiPIDController.translateReetiToAgentX(config.getNeckRotat());
+         ver = ReetiPIDController.translateReetiToAgentY(config.getNeckTilt());
+      }
    }
-
+   
    private void registerOnDispatcher () {
       this.dispatcher.registerReceiveHandler("done", new MessageHandler() {
 

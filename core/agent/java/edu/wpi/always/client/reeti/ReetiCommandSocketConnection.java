@@ -35,4 +35,8 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
    public void wiggle () {
       // TODO send command to wiggle his ears
    }
+   
+   public void reboot () {
+      // TODO send command to reboot Ubuntu
+   }
 }

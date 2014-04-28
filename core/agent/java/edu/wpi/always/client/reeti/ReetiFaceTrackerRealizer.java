@@ -24,8 +24,9 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
    private final FacePerceptor perceptor;
    private final ReetiPIDMessages reetiPIDOutput;
    private final ReetiCommandSocketConnection client;
+
    private final Directions trackingDirections = Directions.bothDIRECTIONS;
-   private final static long acceptableLosingTime = 2000;
+   private final static long acceptableLosingTime = 3000L;
 
    private long currentTime, currentLosingTime;
    private boolean searchFlag;
@@ -48,7 +49,10 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
    public ReetiFaceTrackerRealizer (FaceTrackBehavior params,
          FacePerceptor perceptor, CollaborationManager cm, 
          ReetiJsonConfiguration config, ClientProxy proxy) {
+
+
       super(params);
+      
       this.perceptor = perceptor;
       proxy.gaze(proxy.getGazeHor(), proxy.getGazeVer());
       // see ReetiPIDControllers initialized using proxy
@@ -65,10 +69,12 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
 
          // following is useful for debugging
          // java.awt.Toolkit.getDefaultToolkit().beep();
+
          currentTime = System.currentTimeMillis();
-         send(reetiPIDOutput.Track(perception.getCenter(),
-                                   perception.getTiltCenter(),
+         send(reetiPIDOutput.Track(perception.getCenter(), 
+                                   perception.getTiltCenter(), 
                                    trackingDirections));
+         
          searchFlag = true;
 
       } else {
