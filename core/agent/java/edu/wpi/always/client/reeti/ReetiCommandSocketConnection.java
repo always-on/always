@@ -9,11 +9,6 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
 
    private PrintWriter writer;
    
-   public static void main (String[] args) {
-      ReetiCommandSocketConnection test = new ReetiCommandSocketConnection("192.168.1.2");
-      test.wiggleEars();
-   }
-   
    public ReetiCommandSocketConnection (String host) {
       super(host, 12045);
       connect(host, 12045);
