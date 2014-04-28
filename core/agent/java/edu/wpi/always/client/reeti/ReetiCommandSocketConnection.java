@@ -9,6 +9,11 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
 
    private PrintWriter writer;
    
+   public static void main (String[] args) {
+      ReetiCommandSocketConnection test = new ReetiCommandSocketConnection("192.168.1.2");
+      test.wiggleEars();
+   }
+   
    public ReetiCommandSocketConnection (String host) {
       super(host, 12045);
       connect(host, 12045);
@@ -32,11 +37,11 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
       catch (IOException e) { e.printStackTrace(); }
    }
    
-   public void wiggle () {
+   public void wiggleEars () {
       send("Object.wiggleEars();");
    }
    
    public void rebootReeti () {
-      send("Global.server.launch(\"var p = new Process(\"reboot\",[]); wall(p.status); wall(p.run);\");");
+      send("var p = new Process(\"reboot\",[]); wall(p.status); wall(p.run);");
    }
 }
