@@ -16,9 +16,9 @@ public class StorytellingSchema extends ScriptbuilderSchema {
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor, Keyboard keyboard,
 			UIMessageDispatcher dispatcher, PlaceManager placeManager,
-			PeopleManager peopleManager,Always always, ShoreFacePerceptor shore) {
+			PeopleManager peopleManager, Always always, ShoreFacePerceptor shore) {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
-	               keyboard, dispatcher, placeManager, peopleManager, always,shore,"Storytelling")),
+	               keyboard, dispatcher, placeManager, peopleManager, always, shore,"Storytelling")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
 	}
 

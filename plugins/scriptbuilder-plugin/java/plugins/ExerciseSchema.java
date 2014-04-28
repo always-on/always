@@ -16,9 +16,9 @@ public class ExerciseSchema extends ScriptbuilderSchema {
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor, Keyboard keyboard,
 			UIMessageDispatcher dispatcher, PlaceManager placeManager,
-			PeopleManager peopleManager,Always always, ShoreFacePerceptor shore) {
+			PeopleManager peopleManager, Always always) {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
-	               keyboard, dispatcher, placeManager, peopleManager, always, shore, "Exercise")),
+	               keyboard, dispatcher, placeManager, peopleManager, always, "Exercise")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
 	}
 

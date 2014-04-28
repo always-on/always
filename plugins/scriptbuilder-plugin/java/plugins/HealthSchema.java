@@ -16,9 +16,9 @@ public class HealthSchema extends ScriptbuilderSchema {
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor, Keyboard keyboard,
 			UIMessageDispatcher dispatcher, PlaceManager placeManager,
-			PeopleManager peopleManager,Always always, ShoreFacePerceptor shore) {
+			PeopleManager peopleManager, Always always) {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
-	               keyboard, dispatcher, placeManager, peopleManager, always, shore, "Education")),
+	               keyboard, dispatcher, placeManager, peopleManager, always, "Education")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
 	}
 

@@ -43,6 +43,12 @@ public class RAGStateContext extends AdjacencyPair.Context {
 	public static ShoreFacePerceptor shore;
 
 	public RAGStateContext(Keyboard keyboard, UIMessageDispatcher dispatcher,
+	         PlaceManager placeManager, PeopleManager peopleManager,
+	         Always always, String module) {
+	   this(keyboard, dispatcher, placeManager, peopleManager, always, null, module);
+	}
+	
+	public RAGStateContext(Keyboard keyboard, UIMessageDispatcher dispatcher,
 			PlaceManager placeManager, PeopleManager peopleManager,
 			Always always, ShoreFacePerceptor shore, String module) {
 		this.firstRun = true;
