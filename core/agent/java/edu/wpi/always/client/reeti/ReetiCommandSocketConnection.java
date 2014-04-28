@@ -33,6 +33,10 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
    }
    
    public void wiggle () {
-      // TODO send command to wiggle his ears
+      send("Object.wiggleEars();");
+   }
+   
+   public void rebootReeti () {
+      send("Global.server.launch(\"var p = new Process(\"reboot\",[]); wall(p.status); wall(p.run);\");");
    }
 }
