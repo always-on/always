@@ -8,7 +8,7 @@ ASUS-RICH (ASUS) Development
 
 ALWAYS2 (HP) Development
 
-** ALWAYS4 (ASUS)
+** ALWAYS4 (ASUS) - Reeti Kili
 * ALWAYS5 (ASUS)
 * ALWAYS8 (ASUS)
 
@@ -16,16 +16,17 @@ ALWAYS2 (HP) Development
 
 TOUCHSMART2-HP (HP) Development
 
-** RAGTOUCH2 (ASUS)
+** RAGTOUCH2 (ASUS) - Reeti Fili
 
-** ALWAYS3 (ASUS)
+** ALWAYS3 (ASUS) - Reeti Dori
 
----IN BOXES AT NEU---
+--- (ASUS) IN BOXES AT NEU---
 
-10 in storeroom
 1 in lab
 
-** ALWAYS1
+** ALWAYS1 - Reeti Nori
+
+10 in storeroom
 
 * ALWAYS6
 * ALWAYS7

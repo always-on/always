@@ -6,6 +6,7 @@ import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 import edu.wpi.disco.rt.perceptor.PerceptorBase;
+import edu.wpi.disco.rt.util.Utils;
 
 public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
                       implements FacePerceptor {
@@ -25,8 +26,8 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
    private final long faceHorizontalDisplacementThreshold,
          faceVerticalDisplacementThreshold, faceAreaThreshold;
 
-   protected ShoreFacePerceptor (int hor, int vert, int area) {
-      faceHorizontalDisplacementThreshold = hor;
+   protected ShoreFacePerceptor (int horz, int vert, int area) {
+      faceHorizontalDisplacementThreshold = horz;
       faceVerticalDisplacementThreshold = vert;
       faceAreaThreshold = area;
    }
@@ -56,7 +57,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
             prevInfo = info;
             previousTime = currentTime;
          } 
-      } else latest = null; 
+      } else latest = null;
    }
 
    private boolean isRealFace (long timeDifference) {
@@ -128,13 +129,13 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       }
 
       @Override
-      public void start () {
-         throw new UnsupportedOperationException();
+      public void start () { 
+         Utils.lnprint(System.out, "Ignoring ShoreFaceperceptor.Reeti.start()");
       }
 
       @Override
       public void stop () {
-         CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
+         Utils.lnprint(System.out, "Ignoring ShoreFaceperceptor.Reeti.stop()");
       }
    }
 }

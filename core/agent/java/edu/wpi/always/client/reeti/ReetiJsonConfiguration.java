@@ -122,6 +122,8 @@ public class ReetiJsonConfiguration {
          this.IP = (String) jsonObject.get("IP");
 
          this.name = (String) jsonObject.get("name");
+         
+         Utils.lnprint(System.out, "Reeti name = "+name);
 
          this.leftEar = Double.valueOf((String) jsonObject.get("leftEar"));
 
