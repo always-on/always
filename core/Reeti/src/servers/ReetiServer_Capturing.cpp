@@ -65,7 +65,7 @@ char* Communication::receiveSocket()
 
 	if (n < 0)
 	{
-		error("ERROR: could not read from socket!");
+		error("ERROR: could not read from socket, restarting the socket server...");
 		return 0;
 	}
 
@@ -157,6 +157,14 @@ int main(int argc, char** argv)
 	while(1)
 	{
 		data = Com.receiveSocket();
+		
+		if(data == 0)
+		{
+			Com.closeSocket();
+			Communication Com(argc, argv);
+			continue;
+		}
+		
 		String message(data);
 		
 		if(message == "Capture")
