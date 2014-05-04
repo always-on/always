@@ -2,37 +2,33 @@ var Object.permissionToTalk = true;
 var Object.agentTalking = false;
 var mouth = Tag.new("mouth");
 var Object.serverMirroring;
+var Object.lastData = "";
 var Object.myMutex = Mutex.new|;
-
-function Object.initMouthMove()
-{
-   mouth:detach({Global.servo.bottomLip = 50 sin:0.6s ampli:25;});
-   mouth.freeze;
-   Global.servo.bottomLip = 65;
-};
 
 function Object.stopMouthMove()
 {
    Object.permissionToTalk = false;
-   mouth.freeze;
-   Global.servo.bottomLip = 65 smooth:0.15s;
+   Global.servo.bottomLip = 80 smooth:0.1s;
 };
 
 function Object.moveMouth()
 {
    Object.permissionToTalk = true;
 
-   whenever(Object.permissionToTalk)
+   while(Object.permissionToTalk)
    {
-      mouth.unfreeze;
-   }
+      Global.servo.bottomLip=30 smooth:0.2s;
+      sleep(0.1s);
+      Global.servo.bottomLip=80 smooth:0.2s;
+      sleep(0.1s);
+   };
 };
 
 function Object.smallNod()
 {
-   Global.servo.neckTilt=55.56 smooth:0.2s,
-   Global.servo.neckTilt=25 smooth:0.35s;
-   Global.servo.neckTilt=55.56 smooth:0.15s;
+   Global.servo.neckTilt = 55.56 smooth:0.2s,
+   Global.servo.neckTilt = 25 smooth:0.35s;
+   Global.servo.neckTilt = 55.56 smooth:0.15s;
 };
 
 function Object.lookAwayThink()
@@ -77,34 +73,44 @@ function Object.lookAwayAtRight()
 
 function Object.expressSad()
 {
-   Global.servo.neckRotat = 50 smooth:1s,
+   /*Global.servo.neckRotat = 50 smooth:1s,
    Global.servo.neckTilt = 0 smooth:1s,
    Global.servo.neckPan = 50 smooth:1s,
-   Global.servo.leftLC = 0 smooth:1s,
-   Global.servo.rightLC = 0 smooth:1s,
-   Global.servo.leftEyeTilt = 30 smooth:1s,
-   Global.servo.rightEyeTilt = 30 smooth:1s,
    Global.servo.leftEyeLid = 90 smooth:0.5s,
    Global.servo.rightEyeLid = 90 smooth:0.5s,
+   Global.servo.leftEyeTilt = 30 smooth:1s,
+   Global.servo.rightEyeTilt = 30 smooth:1s,*/
    Global.servo.topLip = 0 smooth:1s,
    Global.servo.bottomLip = 100 smooth:1s,
    Global.servo.leftEar = 0 smooth:1s,
-   Global.servo.rightEar = 0 smooth:1s;
+   Global.servo.rightEar = 0 smooth:1s,
+   Global.servo.leftLC = 0 smooth:1s,
+   Global.servo.rightLC = 0 smooth:1s;
 };
 
 function Object.expressHappy()
 {
-   Global.servo.neckRotat = 50 smooth:1s,
+   /*Global.servo.neckRotat = 50 smooth:1s,
    Global.servo.neckTilt = 50 smooth:1s,
    Global.servo.neckPan = 50 smooth:1s,
-   Global.servo.leftLC = 100 smooth:1s,
-   Global.servo.rightLC = 100 smooth:1s,
    Global.servo.leftEyeLid = 90 smooth:0.5s,
-   Global.servo.rightEyeLid = 90 smooth:0.5s;
+   Global.servo.rightEyeLid = 90 smooth:0.5s;*/
    Global.servo.topLip = 80 smooth:1s,
    Global.servo.bottomLip = 50 smooth:1s,
    Global.servo.leftEar = 100 smooth:1s,
    Global.servo.rightEar = 100 smooth:1s,
+   Global.servo.leftLC = 100 smooth:1s,
+   Global.servo.rightLC = 100 smooth:1s;
+};
+
+function Object.expressWarm()
+{
+   Global.servo.topLip = 50 smooth:1s,
+   Global.servo.bottomLip = 80 smooth:1s,
+   Global.servo.leftEar = 80 smooth:1s,
+   Global.servo.rightEar = 80 smooth:1s,
+   Global.servo.leftLC = 45 smooth:1s,
+   Global.servo.rightLC = 45 smooth:1s;
 };
 
 function Object.bigNod()
@@ -183,8 +189,8 @@ function Object.executeCommand(var command)
    }
    else if(command[0,2] == "kk")
    {
-      Global.servo.neutralPosition();
-      echo("Neutral Position");
+      Object.expressWarm();
+      echo("Express Warm");
    }
    else if(command[0,2] == "ll")
    {
@@ -253,21 +259,26 @@ function Object.socketConnectionMirroring()
             //echo ("received data = " + data);
             Object.myMutex:
             {
-               if(data.length > 2)
+               if(Object.lastData.asString != data.asString)
                {
-                  Object.separateCommands(data);
+                  if(data.length > 2)
+                  {
+                     Object.separateCommands(data);
+                  }
+                  else
+                  {
+                     Object.executeCommand(data);
+                     echo("Single command: " + data);
+                  };
+                  Object.lastData = data;
                }
                else
-               {
-                  Object.executeCommand(data);
-                  echo("Single command: " + data);
-               };
+                  echo("Last command is equal to the current!");
             };
          };
       };
    };
 };
 
-Object.initMouthMove();
 Object.socketConnectionMirroring();
 Object.listeningMirroringSocket();
