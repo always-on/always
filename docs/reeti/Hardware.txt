@@ -1,0 +1,38 @@
+Hardware need to go to the NEU:
+
+1. SIX robots, each with:
+
+a) Boxes
+b) Power Adaptors (with US standard power cord)
+c) Audio Cable
+d) Crossover Cable
+
+No KB, mouse or monitors
+
+===========================================
+
+2. THREE ASUS machines (ALWAYS4,5,8), each with:
+
+a) Box
+b) Adaptor
+c) Keyboard
+d) Mouse
+
+KB and mouse for configuration (e.g., Kiosk Pro)
+Keeping HP at WPI for development (Morteza)
+
+===========================================
+
+3. 19 PIR sensors (all are tested and prepared 
+to be mounted on the PCs), plus
+
+a) Velcro mounting tape (enough for 16 machines)
+
+Do sample mount at NEU.
+Leave one PIR sensor at WPI for testing mounted on HP.
+
+===========================================
+
+4. Cardboard positioning template for Reeti's
+
+===========================================
