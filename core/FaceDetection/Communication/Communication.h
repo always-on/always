@@ -119,7 +119,7 @@ public:
 		//printf("Sending\n");
 		iResult = send( ConnectSocket, sendbuf, (int)strlen(sendbuf), 0 );
 		if (iResult == SOCKET_ERROR) {
-			printf("send failed with error: %d\n", WSAGetLastError());
+			printf("send failed with error: %d\n, will send exit/restart message to Java", WSAGetLastError());
 			closesocket(ConnectSocket);
 			WSACleanup();
 			return 1;

@@ -18,6 +18,9 @@ public interface CPPinterface extends Library {
       protected List<String> getFieldOrder () { return fieldOrder; }
       
       boolean isFace () { return intLeft >= 0; }
+      
+      //-2 (or less) is used as a signal to exit and restart as a results of a socket failure
+      boolean isRestart () { return intHappiness <= -2; }
    }
 
    public class LoadHelper {

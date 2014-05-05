@@ -304,7 +304,7 @@ FaceInfo getReetiFaceInfo( int intDebug )
 	FaceInfo faceInfo;
 
 	//Request Image
-	Com.sendSocket("Capture");
+	int sendingResult = Com.sendSocket("Capture");
 	
 	//Receive Image over Socket
 	char* data = Com.receiveSocket();
@@ -394,6 +394,14 @@ FaceInfo getReetiFaceInfo( int intDebug )
 		faceInfo.intTiltCenter = -1;
 		faceInfo.intArea = -1;
 	}
+	
+	//if sending raised an error,
+	if(sendingResult == 1){
+		/*use happiness value holder, as a signal
+		to Java to exit itself and cause a restart*/
+		faceInfo.intHappiness = -2;
+	}
+
 	cvReleaseImage(&im);
 	return faceInfo;
 }
