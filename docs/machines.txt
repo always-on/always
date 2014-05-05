@@ -42,7 +42,7 @@ TOUCHSMART2-HP (HP) Development
 * = use in main study (12)  ALWAYS5-ALWAYS16
 
     *a = AlwaysOn condition (6): ALWAYS5-ALWAYS10
-	     *l = Login condition (6): ALWAYS11-ALWAYS16
+    *l = Login condition (6): ALWAYS11-ALWAYS16
 
 ** = use in Reeti study (4) ALWAYS1,RAGTOUCH2,ALWAYS3,ALWAYS4
 
