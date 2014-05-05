@@ -169,13 +169,17 @@ namespace AgentApp
 			SetGridPos(Buttons, 0, 2, 2);
 			Agent.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
 			Agent.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
+            Buttons.VerticalAlignment = System.Windows.VerticalAlignment.Center;
 
 			MainGrid.RowDefinitions[0].ClearValue(RowDefinition.HeightProperty);
 			MainGrid.RowDefinitions[1].Height = GridLength.Auto;
 
 			MainGrid.ColumnDefinitions[0].Width = GridLength.Auto;
-			MainGrid.ColumnDefinitions[1].ClearValue(ColumnDefinition.WidthProperty);
-			MainGrid.ColumnDefinitions[1].ClearValue(ColumnDefinition.MaxWidthProperty);
+            MainGrid.ColumnDefinitions[1].ClearValue(ColumnDefinition.WidthProperty);
+			MainGrid.ColumnDefinitions[1].ClearValue(ColumnDefinition.MinWidthProperty);
+            MainGrid.ColumnDefinitions[1].ClearValue(ColumnDefinition.MaxWidthProperty);
+
+            UpdateLayout();
 		}
 
 		private void SetGridPos(UIElement element, int row, int col, int rowSpan)
