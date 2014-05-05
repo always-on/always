@@ -36,11 +36,7 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
       send("Object.wiggleEars();");
    }
    
-   public void rebootReeti () {
-      send("var p = new Process(\"reboot\",[]); wall(p.status); wall(p.run);");
-   }
-   
    public void reboot () {
-      // TODO send command to reboot Ubuntu
+      send("var p = new Process(\"reboot\",[]); wall(p.status); wall(p.run);");
    }
 }

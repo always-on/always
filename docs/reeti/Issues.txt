@@ -1,0 +1,39 @@
+Issues need to take care of: (to be used as a punch-list)
+
++ Make cardboard placement template as per Reeti-Position.jpeg
+
++ Put small black position markers on two sides of each Reeti, as per
+  Reeti-Position.jpeg
+
++ Sticking robot name tags on the back side of the robots (below 'backpack')
+
++ Finalizing bash scripts to restart Urbi server and Capturing server 
+whenever they are crashed
+
++ Choosing four out of six robots for the study
+
++ Tag robots with any issue
+
++ Figuring out the reason causing the camera error on robots 
+(pursuing the answer from Christophe)
+
++ Confirming Left-ear-move (on init) removal on all robots
+
++ Remove the Reeti's GUI-based Launcher program from the Ubuntu's start up
+
++ Editing /etc/sudoers file on all robots
+
++ Confirming automatic 3:00 AM restart on all robots using a bash script
+
++ Setting up all the robots' time to the NEW York time zone
+
++ Organizing all the required restarting bash script files in a folder 
+on robots
+
++ Sending a pull request for the latest tested bash scripts
+
++ Testing robots for the engagement process (ask Prof. Rich)
+
++ Updating Always-On git hub repository on all robots
+
++ Running and testing all the robots with the latest changes
