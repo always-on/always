@@ -1,41 +1,58 @@
 Issues need to take care of: (to be used as a punch-list)
 
-+ Make cardboard placement template as per Reeti-Position.jpeg
++ Testing robots for the engagement process [waiting for Chuck]
+
++ Try running scriptbuilder plugins (anecdotes, exercise, nutrition,
+  health) in Reeti mode. [Mohammad--after Chuck merges latest pull
+  from LRing]
+
++ Set all Reeti volumes to good level [Mohammad verify Ayesha done]
+  Windows already at max (from docs/setup-asus):
+
+  Control Panel > Hardware & Sound > (Sound) Manage Audio Devices 
+  > Playback > Speakers > Properties > Enhancements > 
+
+  Scroll down in menu and check Loudness Equalization, then Apply/Ok
 
 + Put small black position markers on two sides of each Reeti, as per
-  Reeti-Position.jpeg
+  Reeti-Position.jpeg [todo]
 
-+ Sticking robot name tags on the back side of the robots (below 'backpack')
++ Sticking robot name tags on the back side of the robots (below
+'backpack') [todo]
 
 + Finalizing bash scripts to restart Urbi server and Capturing server 
-whenever they are crashed
+whenever they are crashed [Mohammad working on]
 
-+ Choosing four out of six robots for the study
++ Paper tag robots with any issue [all]
 
-+ Tag robots with any issue
++ Figuring out the reason causing the camera error on robots xterm 
+  [Mohammad pursuing the answer from Christophe]
 
-+ Figuring out the reason causing the camera error on robots 
-(pursuing the answer from Christophe)
++ Confirming Left-ear-move (on init) removal on all robots [Mohammad
+  verify Ayesha done]
 
-+ Confirming Left-ear-move (on init) removal on all robots
++ Remove the Reeti's GUI-based Launcher program from the Ubuntu's
+  start up [Mohammad verify Ayesha done]
 
-+ Remove the Reeti's GUI-based Launcher program from the Ubuntu's start up
++ Editing /etc/sudoers file on all robots [Mohammad verify Ayesha done]
 
-+ Editing /etc/sudoers file on all robots
++ Remove login on all robots [Mohammad verify Ayesha done]
 
-+ Confirming automatic 3:00 AM restart on all robots using a bash script
++ Confirming automatic 3:00 AM restart on all robots using a bash
+  script [Mohammad use Ubuntu schedule]
 
-+ Setting up all the robots' time to the NEW York time zone
++ Setting up all the robots' time to the NEW York time zone [Mohammad
+  verify Ayesah done]
 
 + Organizing all the required restarting bash script files in a folder 
-on robots
+  on robots [Mohammad put in repository]
 
-+ Sending a pull request for the latest tested bash scripts
++ Sending a pull request for the latest tested bash scripts [Mohammad]
 
-+ Testing robots for the engagement process (ask Prof. Rich)
++ Updating Always-On git hub repository on all robots [Mohammad]
 
-+ Updating Always-On git hub repository on all robots
++ Running and testing all the robots with the latest changes [Mohammad]
 
-+ Running and testing all the robots with the latest changes
 
-+ Testing integrated ear wiggle and Reeti restart command in Always-On.
+
++ Choosing four out of six robots for the study [do last]

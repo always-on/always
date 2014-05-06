@@ -1,7 +1,7 @@
 NOTES:
 
-1. All of the scripts need to be tailored in a certain way to be able to run properly
-on robot. Examples are provided in Reeti's folder.
+1. All of the dialogue need to be tailored in a certain way to be able
+to run properly on robot. Examples are provided in Reeti's folder.
 
 2. Whoever is responsible for the robots in the field needs to be "careful" and 
 "precise" on reading the given "instructions" in the Reeti folder (and my verbal 
