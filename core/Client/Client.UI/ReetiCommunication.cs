@@ -55,19 +55,26 @@ namespace Agent.UI
         private static void StartClient()
         {
             // Connect to a remote device.
-            try
-            {
-                IPAddress ipAddress = IPAddress.Parse(Agent.Tcp.AgentControlJsonAdapter.REETI_IP);
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+            IPAddress ipAddress = IPAddress.Parse(Agent.Tcp.AgentControlJsonAdapter.REETI_IP);
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
-                // Connect to the remote endpoint.
-                client.BeginConnect(remoteEP,
-                    new AsyncCallback(ConnectCallback), client);
-                connectDone.WaitOne();
-            }
-            catch (Exception e)
+            bool connected = false;
+
+            // Connect to the remote endpoint.	
+            while (!connected)
             {
-                Console.WriteLine(e.ToString());
+                try
+                {
+                    client.BeginConnect(remoteEP,
+                    new AsyncCallback(ConnectCallback), client);
+                    connectDone.WaitOne();
+                    connected = true;
+                }
+                catch (SocketException)
+                {
+                    Console.WriteLine("Could not connect to the server, retrying in 10s...");
+                    System.Threading.Thread.Sleep(10000);
+                }
             }
         }
 
