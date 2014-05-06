@@ -190,6 +190,7 @@ namespace Agent.UI
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                Environment.Exit(0);
             }
         }
     }
