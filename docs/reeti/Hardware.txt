@@ -9,7 +9,7 @@ d) Crossover Cable
 
 No KB, mouse or monitors
 
-===========================================
+======================================================
 
 2. THREE ASUS machines (ALWAYS4,5,8), each with:
 
@@ -21,18 +21,21 @@ d) Mouse
 KB and mouse for configuration (e.g., Kiosk Pro)
 Keeping HP at WPI for development (Morteza)
 
-===========================================
+======================================================
 
 3. 19 PIR sensors (all are tested and prepared 
 to be mounted on the PCs), plus
 
-a) Velcro mounting tape (enough for 16 machines)
+NOTE: Velcro mounting tape is already attached to the 
+PIR sensors. You only need to peel and mount it on the
+lower left corner of the PC. (will be demonstrated by 
+Mohammad)
 
 Do sample mount at NEU.
 Leave one PIR sensor at WPI for testing mounted on HP.
 
-===========================================
+======================================================
 
 4. Cardboard positioning template for Reeti's
 
-===========================================
+======================================================

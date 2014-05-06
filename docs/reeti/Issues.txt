@@ -37,3 +37,5 @@ on robots
 + Updating Always-On git hub repository on all robots
 
 + Running and testing all the robots with the latest changes
+
++ Testing integrated ear wiggle and Reeti restart command in Always-On.
