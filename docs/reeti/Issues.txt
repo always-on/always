@@ -3,8 +3,7 @@ Issues need to take care of: (to be used as a punch-list)
 + Testing robots for the engagement process [waiting for Chuck]
 
 + Try running scriptbuilder plugins (anecdotes, exercise, nutrition,
-  health) in Reeti mode. [Mohammad--after Chuck merges latest pull
-  from LRing]
+  health) in Reeti mode. [Mohammad]
 
 + Set all Reeti volumes to good level [Mohammad verify Ayesha done]
   Windows already at max (from docs/setup-asus):
