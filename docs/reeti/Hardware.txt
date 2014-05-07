@@ -12,7 +12,7 @@ No KB, mouse or monitors
 
 ======================================================
 
-2. THREE ASUS machines (ALWAYS4,5,8), each with:
+2. TWO ASUS machines (ALWAYS5 and ALWAYS8), each with:
 
 a) Box
 b) Adaptor
@@ -20,7 +20,10 @@ c) Keyboard
 d) Mouse
 
 KB and mouse for configuration (e.g., Kiosk Pro)
-Keeping HP at WPI for development (Morteza)
+
+Keeping ALWAYS4 and HP at WPI for testing and development (Morteza).
+
+ALWAYS4 will be delivered to NEU around June 15.
 
 ======================================================
 
