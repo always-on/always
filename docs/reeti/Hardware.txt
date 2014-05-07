@@ -6,6 +6,7 @@ a) Boxes
 b) Power Adaptors (with US standard power cord)
 c) Audio Cable
 d) Crossover Cable
+e) Positioning Template
 
 No KB, mouse or monitors
 
@@ -33,9 +34,5 @@ Mohammad)
 
 Do sample mount at NEU.
 Leave one PIR sensor at WPI for testing mounted on HP.
-
-======================================================
-
-4. Cardboard positioning template for Reeti's
 
 ======================================================

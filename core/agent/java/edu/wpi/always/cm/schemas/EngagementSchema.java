@@ -5,6 +5,8 @@ import com.sun.msv.datatype.xsd.Proxy;
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientProxy;
+import edu.wpi.always.client.reeti.ReetiCommandSocketConnection;
+import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
 import edu.wpi.always.cm.perceptors.EngagementPerceptor;
@@ -29,13 +31,16 @@ public class EngagementSchema extends SchemaBase {
    private final EngagementPerceptor engagementPerceptor;
    private final SchemaManager schemaManager;
    private final ClientProxy proxy;
+   private final CollaborationManager cm;
 
    public EngagementSchema (BehaviorProposalReceiver behaviorReceiver, BehaviorHistory behaviorHistory,
-         EngagementPerceptor engagementPerceptor, SchemaManager schemaManager, ClientProxy proxy) {
+         EngagementPerceptor engagementPerceptor, SchemaManager schemaManager, 
+         ClientProxy proxy, CollaborationManager cm) {
       super(behaviorReceiver, behaviorHistory);
       this.engagementPerceptor = engagementPerceptor;
       this.schemaManager = schemaManager;
       this.proxy = proxy;
+      this.cm = cm;
    }
 
    private EngagementState state, lastState;
@@ -74,6 +79,10 @@ public class EngagementSchema extends SchemaBase {
                else {
                   propose(HI, META);
                   visible();
+                  // socket not initialized until after this schema started
+                  ReetiCommandSocketConnection reeti = cm.getReetiSocket();
+                  if ( reeti != null && lastState != EngagementState.Attention) 
+                     reeti.wiggleEars();
                }
                break;
             case Initiation:

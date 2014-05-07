@@ -77,7 +77,7 @@ public class Always {
       Utils.lnprint(System.out, "Agent type = "+agentType);
       Always always = new Always(true, plugin == null);
       if ( args != null && args.length > 1 && !"null".equals(args[1]) ) {
-         Closeness closeness = Closeness.valueOf(args[0]);
+         Closeness closeness = Closeness.valueOf(args[1]);
          always.getUserModel().setCloseness(closeness);
       }
       Utils.lnprint(System.out, "Using closeness = "+always.getUserModel().getCloseness());
