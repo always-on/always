@@ -32,6 +32,7 @@ public class EngagementSchema extends SchemaBase {
    private final SchemaManager schemaManager;
    private final ClientProxy proxy;
    private final CollaborationManager cm;
+   private ReetiCommandSocketConnection reeti;
 
    public EngagementSchema (BehaviorProposalReceiver behaviorReceiver, BehaviorHistory behaviorHistory,
          EngagementPerceptor engagementPerceptor, SchemaManager schemaManager, 
@@ -62,12 +63,17 @@ public class EngagementSchema extends SchemaBase {
    @Override
    public void run () {
       EngagementPerception engagementPerception = engagementPerceptor.getLatest();
+      // socket not initialized until after this schema started
+      reeti = cm.getReetiSocket();
       if ( engagementPerception != null ) {
          switch (state = engagementPerception.getState()) {
             case Idle:
                if ( lastState == EngagementState.Recovering ) {
                   proxy.showMenu(null, false, false);
                   proxy.setAgentVisible(false);
+                  if ( reeti != null ) reeti.reboot(); 
+                  // wait for socket messages to complete (no rush :-)
+                  try { Thread.sleep(2000); } catch (InterruptedException e) {}
                   // note call to turn on screensaver in batch script
                   // when exit code is zero
                   Utils.lnprint(System.out, "EXITING FOR IDLE...");
@@ -83,8 +89,6 @@ public class EngagementSchema extends SchemaBase {
                else {
                   propose(HI, META);
                   visible();
-                  // socket not initialized until after this schema started
-                  ReetiCommandSocketConnection reeti = cm.getReetiSocket();
                   if ( reeti != null && lastState != EngagementState.Attention) 
                      reeti.wiggleEars();
                }
