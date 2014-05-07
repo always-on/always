@@ -74,7 +74,7 @@ public class EngagementSchema extends SchemaBase {
                   if ( reeti != null ) reeti.reboot(); 
                   // wait for socket messages to complete (no rush :-)
                   try { Thread.sleep(2000); } catch (InterruptedException e) {}
-                  // note call to turn on screensaver in batch script
+                  // note call to turn on screensaver in bin/always-java
                   // when exit code is zero
                   Utils.lnprint(System.out, "EXITING FOR IDLE...");
                   Always.exit(0); 
