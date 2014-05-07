@@ -37,24 +37,21 @@ public class FaceMovementMenuEngagementPerceptor
          if ( latest != null ) currentState = latest.getState();
          if ( currentState == null ) currentState = EngagementState.Idle;
          FacePerception facePerception = facePerceptor.getLatest();
+         boolean isFace = false, isNear = false;
          if ( facePerception != null ) {
-            if ( lastFaceChange == null
-                  || lastFaceChange.isFace != facePerception.isFace()
-                  || lastFaceChange.isNear != facePerception.isNear() )
-               lastFaceChange = new FaceTransition(facePerception.isFace(),
-                     facePerception.isNear());
-         } else
-            lastFaceChange = new FaceTransition(false, false);
+            isFace = facePerception.isFace();
+            isNear = facePerception.isNear();
+         }
+         if ( lastFaceChange == null
+               || lastFaceChange.isFace != isFace
+               || lastFaceChange.isNear != isNear )
+            lastFaceChange = new FaceTransition(isFace, isNear);
          MovementPerception movementPerception = movementPerceptor.getLatest();
-         if ( movementPerception != null ) {
-            if ( lastMovementChange == null
-               || lastMovementChange.isMoving != movementPerception.isMoving() )
-               lastMovementChange = new MovementTransition(
-                     movementPerception.isMoving());
-         } else
-            lastMovementChange = new MovementTransition(false);
-         boolean hadTouch = false;
+         boolean isMoving = movementPerception != null && movementPerception.isMoving();
+         if ( lastMovementChange == null || lastMovementChange.isMoving != isMoving )	
+            lastMovementChange = new MovementTransition(isMoving);
          MenuPerception menuPerception = menuPerceptor.getLatest();
+         boolean hadTouch = false;
          if ( menuPerception != null && lastTouchChange != null ) {
             if ( !menuPerception.getSelected().equals(lastTouchChange.selected) 
                   || menuPerception.getTimeStamp() > lastTouchChange.timeStamp ) {

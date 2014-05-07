@@ -16,12 +16,15 @@ public class EngagementPerception extends Perception {
    
    public static long INITIATION_NOT_NEAR_TIMEOUT = 20000; // initiation->idle if no near face for this long
    
-   public static long ENGAGED_NOT_NEAR_TIMEOUT = 15000; // engaged->recovering if no near face for this long   
-   public static long ENGAGED_NO_TOUCH_TIMEOUT = 20000; //   and no touch for this long (and not moving)
+   // Note these two timeouts should be larger than @link{MenuTurnStateMachine#TIMEOUT_DELAY} to let the agent
+   // repeat once first if it is waiting for menu response.  However, this timeout is *not* restarted
+   // when agent repeats
+   public static long ENGAGED_NOT_NEAR_TIMEOUT = 60000; // engaged->recovering if no near face for this long   
+   public static long ENGAGED_NO_TOUCH_TIMEOUT = 60000; //   and no touch for this long (and not moving)
 
    // TODO: Increase these a *lot*
-   public static long RECOVERING_NOT_NEAR_TIMEOUT = 1000000; // engaged->idle if no near face for this long 
-   public static long RECOVERING_NO_TOUCH_TIMEOUT = 6000000; //   and no touch for this long (and not moving) 
+   public static long RECOVERING_NOT_NEAR_TIMEOUT = 60000; // engaged->idle if no near face for this long 
+   public static long RECOVERING_NO_TOUCH_TIMEOUT = 60000; //   and no touch for this long (and not moving) 
    
    private final EngagementState state;
 

@@ -65,9 +65,13 @@ public class EngagementSchema extends SchemaBase {
       if ( engagementPerception != null ) {
          switch (state = engagementPerception.getState()) {
             case Idle:
-               if ( lastState == EngagementState.Recovering ) { 
+               if ( lastState == EngagementState.Recovering ) {
+                  proxy.showMenu(null, false, false);
+                  proxy.setAgentVisible(false);
+                  // note call to turn on screensaver in batch script
+                  // when exit code is zero
                   Utils.lnprint(System.out, "EXITING FOR IDLE...");
-                  System.exit(0); 
+                  Always.exit(0); 
                } 
                if ( lastState != EngagementState.Idle ) { 
                   proxy.setAgentVisible(false);
