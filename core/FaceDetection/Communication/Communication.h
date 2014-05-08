@@ -78,13 +78,13 @@ public:
 			return 1;
 		}
 		  // Attempt to connect to an address until one succeeds
-		for(ptr=result; ptr != NULL ;ptr=ptr->ai_next) {
-
+		ptr = result;
+		while(true){
 			// Create a SOCKET for connecting to server
 			ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, 
 				ptr->ai_protocol);
 			if (ConnectSocket == INVALID_SOCKET) {
-				printf("socket failed with error: %ld\n", WSAGetLastError());
+				printf("Face detection socket creating (not connecting) failed with error: %ld\n", WSAGetLastError());
 				WSACleanup();
 				return 1;
 			}
@@ -94,12 +94,14 @@ public:
 			if (iResult == SOCKET_ERROR) {
 				closesocket(ConnectSocket);
 				ConnectSocket = INVALID_SOCKET;
+				printf("\nFaceDetection.DLL: Could not connect socket, retrying in 10s...");
+				Sleep(10000);
+				ptr = result;
 				continue;
 			}
 			break;
 		}
 		freeaddrinfo(result);
-
 		if (ConnectSocket == INVALID_SOCKET) {
 			printf("Unable to connect to server!\n");
 			WSACleanup();
