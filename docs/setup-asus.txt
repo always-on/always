@@ -65,6 +65,8 @@ Reseller: Directron.
   under Preferences, select Selective Sync and just sync the folder with
   name of this machine.
 
+* Install Ivona (update license file in docs/ivona.txt)
+
 To improve low speaker volume:
 
 Control Panel > Hardware & Sound > (Sound) Manage Audio Devices 

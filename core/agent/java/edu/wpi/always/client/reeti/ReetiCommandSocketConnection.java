@@ -32,11 +32,11 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
       catch (IOException e) { e.printStackTrace(); }
    }
    
-   public void wiggle () {
-      // TODO send command to wiggle his ears
+   public void wiggleEars () {
+      send("Object.wiggleEars();");
    }
    
    public void reboot () {
-      // TODO send command to reboot Ubuntu
+      send("var p = new Process(\"reboot\",[]); wall(p.status); wall(p.run);");
    }
 }

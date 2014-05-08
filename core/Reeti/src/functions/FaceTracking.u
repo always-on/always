@@ -1,4 +1,14 @@
 var Object.serverFaceTracking;
+var Object.lastCommand = "";
+
+function Object.wiggleEars()
+{
+   Global.servo.leftEar = 30,
+   Global.servo.rightEar = 30;
+   sleep(0.3s);
+   Global.servo.leftEar = 80,
+   Global.servo.rightEar = 80;
+};
 
 function Object.listeningFaceTrackingSocket()
 {
@@ -34,8 +44,14 @@ function Object.socketConnectionFaceTracking()
 
          at (socketFaceTracking.received?(var command))
          {
-            detach({command});
-            echo ("Received command = " + command);
+            if(Object.lastCommand.asString != command.asString)
+            {
+               detach({server.launch(command);});
+               echo ("Received command = " + command);
+               Object.lastCommand = command;
+            }
+            else
+               echo("Last command is equal to the current!");
          };
       };
    };
