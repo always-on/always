@@ -27,7 +27,7 @@ ALWAYS4 will be delivered to NEU around June 15.
 
 ======================================================
 
-3. 19 PIR sensors (all are tested and prepared 
+3. 18 PIR sensors (all are tested and prepared 
 to be mounted on the PCs), plus
 
 NOTE: Velcro mounting tape is already attached to the 
@@ -36,6 +36,7 @@ lower left corner of the PC. (will be demonstrated by
 Mohammad)
 
 Do sample mount at NEU.
-Leave one PIR sensor at WPI for testing mounted on HP.
+
+Leave two PIR sensors at WPI mounted on HP and ALWAYS4 for testing.
 
 ======================================================

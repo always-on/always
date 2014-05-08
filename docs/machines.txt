@@ -51,6 +51,8 @@ TOUCHSMART2-HP (HP) Development
     *a = AlwaysOn condition (6): ALWAYS5-ALWAYS10
     *l = Login condition (6): ALWAYS11-ALWAYS16
 
+NB: login condition machines do *not* need IR boxes!
+
 ** = use in Reeti study (4) ALWAYS1,RAGTOUCH2,ALWAYS3,ALWAYS4
 
 [Also: RAG-PC-PHD-4 - Lazlo's PC (not a touchscreen)
