@@ -121,7 +121,7 @@ public:
 		//printf("Sending\n");
 		iResult = send( ConnectSocket, sendbuf, (int)strlen(sendbuf), 0 );
 		if (iResult == SOCKET_ERROR) {
-			printf("Send failed with error: %d\n, will send exit/restart message to Java...", WSAGetLastError());
+			printf("\nFaceDetection.DLL: Socket send failed, will send exit/restart message to Java...");
 			closesocket(ConnectSocket);
 			WSACleanup();
 			return 1;
@@ -159,7 +159,7 @@ public:
 			}
 			else
 			{
-				printf("recv failed with error: %d\n", WSAGetLastError());
+				printf("\n FaceDetection.DLL: socket receive failed with error: %d\n", WSAGetLastError());
 				exit(0);
 			}
 		}while(1);
