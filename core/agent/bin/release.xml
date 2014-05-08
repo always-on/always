@@ -2,28 +2,30 @@
 <project default="release" name="Release Always-On">
     <property environment="env"/>
     <target name="release">
-        <copy todir="C:/Dropbox/release">
+        <copy todir="C:/Dropbox/release.new">
           <fileset excludes="FaceDetection.dll,USBm2-64.dll" dir="../lib/win32-x86-64"/>
         </copy>
-        <copy todir="C:/Dropbox/release/plugins/Plugins.Startup/bin">
+        <copy todir="C:/Dropbox/release.new/plugins/Plugins.Startup/bin">
           <fileset dir="../../../plugins/Plugins.Startup/bin/Debug"/>
         </copy>  
-        <copy todir="C:/Dropbox/release/images">
+        <copy todir="C:/Dropbox/release.new/images">
           <fileset dir="../images"/>
         </copy>  
-        <copy todir="C:/Dropbox/release/bin">
+        <copy todir="C:/Dropbox/release.new/bin">
           <fileset file="../bin/nircmdc.exe"/>
           <fileset file="always-unity.bat"/>
           <fileset file="always-reeti.bat"/>
           <fileset file="always-login.bat"/>
+          <fileset file="always-java.bat"/>
+          <fileset file="always-client.bat"/>
         </copy>  
-        <copy todir="C:/Dropbox/release/reeti">
+        <copy todir="C:/Dropbox/release.new/reeti">
           <fileset dir="../lib/reeti"/>
         </copy>   
         <copy todir="C:/Dropbox/${env.COMPUTERNAME}/weatherData">
           <fileset file="../../../user/weatherData/testing.json"/>
         </copy> 
-        <jar destfile="C:/Dropbox/release/always.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="C:/Dropbox/release.new/always.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="edu.wpi.always.Always"/>
             </manifest>

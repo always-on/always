@@ -48,7 +48,7 @@ public class FakeFacePerceptor extends PerceptorBase<FacePerception>
    @Override
    public void run () {
       if ( txtX == null) {
-         latest = new FacePerception(0, 0, area-1, 0, area, 0, 0);
+         latest = area == 0 ? null : new FacePerception(0, 0, 0, 0, area, 0, 0);
       } else {
          Point p = tryParsePoint();
          if ( p == null )

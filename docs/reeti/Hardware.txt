@@ -1,0 +1,42 @@
+Hardware need to go to the NEU:
+
+1. SIX robots, each with:
+
+a) Boxes
+b) Power Adaptors (with US standard power cord)
+c) Audio Cable
+d) Crossover Cable
+e) Positioning Template
+
+No KB, mouse or monitors
+
+======================================================
+
+2. TWO ASUS machines (ALWAYS5 and ALWAYS8), each with:
+
+a) Box
+b) Adaptor
+c) Keyboard
+d) Mouse
+
+KB and mouse for configuration (e.g., Kiosk Pro)
+
+Keeping ALWAYS4 and HP at WPI for testing and development (Morteza).
+
+ALWAYS4 will be delivered to NEU around June 15.
+
+======================================================
+
+3. 18 PIR sensors (all are tested and prepared 
+to be mounted on the PCs), plus
+
+NOTE: Velcro mounting tape is already attached to the 
+PIR sensors. You only need to peel and mount it on the
+lower left corner of the PC. (will be demonstrated by 
+Mohammad)
+
+Do sample mount at NEU.
+
+Leave two PIR sensors at WPI mounted on HP and ALWAYS4 for testing.
+
+======================================================
