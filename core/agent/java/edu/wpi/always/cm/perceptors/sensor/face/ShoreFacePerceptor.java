@@ -126,7 +126,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       @Override
       protected FaceInfo getFaceInfo (int debug) {
          FaceInfo info = CPPinterface.INSTANCE.getReetiFaceInfo(debug);
-         if( info.isRestart() ) { System.exit(-1); }
+         if( info.isRestart() ) { System.exit(1); }
          return info;
       }
 
