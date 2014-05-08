@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rummy.Game", "rummy-plugin\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rummy.UI", "rummy-plugin\Rummy.UI\Rummy.UI.csproj", "{DBD0F6EC-9979-4120-B379-9221CCB12309}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Story.UI", "story-plugin\Story.UI\Story.UI.csproj", "{8E57E514-62EF-4DAE-A305-246EC4828603}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.Startup", "Plugins.Startup\Plugins.Startup.csproj", "{2AF75B52-B93A-4108-9415-2F1840ED9E21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enroll.UI", "enroll-plugin\Enroll.UI\Enroll.UI.csproj", "{1E33773D-EA6F-4AF0-B852-FBA2DB98E7E6}"
@@ -105,6 +107,18 @@ Global
 		{DBD0F6EC-9979-4120-B379-9221CCB12309}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DBD0F6EC-9979-4120-B379-9221CCB12309}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DBD0F6EC-9979-4120-B379-9221CCB12309}.Release|x86.ActiveCfg = Release|Any CPU
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Debug|x86.ActiveCfg = Debug|x86
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Debug|x86.Build.0 = Debug|x86
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Release|x86.ActiveCfg = Release|x86
+		{8E57E514-62EF-4DAE-A305-246EC4828603}.Release|x86.Build.0 = Release|x86
 		{2AF75B52-B93A-4108-9415-2F1840ED9E21}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{2AF75B52-B93A-4108-9415-2F1840ED9E21}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{2AF75B52-B93A-4108-9415-2F1840ED9E21}.Debug|Mixed Platforms.Build.0 = Debug|x86
