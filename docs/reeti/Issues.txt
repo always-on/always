@@ -52,6 +52,5 @@ whenever they are crashed [Mohammad working on]
 
 + Running and testing all the robots with the latest changes [Mohammad]
 
-
-
-+ Choosing four out of six robots for the study [do last]
++ Choosing four out of six robots for the study.  Copy appropriate Reeti.json 
+  files to appropriate Dropbox folders [do last]
