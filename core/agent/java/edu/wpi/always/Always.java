@@ -235,10 +235,10 @@ public class Always {
    
    // Assumes java being called inside a restart loop
    public static void restart (Exception e, String message) {
-      Utils.lnprint(System.out, e+message);
+      Utils.lnprint(System.out, (e == null ? "" : e)+message);
       Utils.lnprint(System.out, "EXITING (FOR RESTART)...");
       if ( EXIT ) exit(1); 
-      else edu.wpi.cetask.Utils.rethrow(e);  
+      else if ( e != null ) edu.wpi.cetask.Utils.rethrow(e);  
    }
    
    public static void exit (int code) {

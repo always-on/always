@@ -23,11 +23,11 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
    private final long faceHorizontalDisplacementThreshold,
          faceVerticalDisplacementThreshold, faceAreaThreshold;
 
-   protected ShoreFacePerceptor (int horz, int vert, int area) {
+   protected ShoreFacePerceptor (int horz, int vert, int area, Object start) {
       faceHorizontalDisplacementThreshold = horz;
       faceVerticalDisplacementThreshold = vert;
       faceAreaThreshold = area;
-      start();
+      start(start);
    }
    
    // accessed by both schema and realizer threads
@@ -78,14 +78,14 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
              <= faceAreaThreshold / timeUnit;
    }
 
-   public synchronized void start () { // called on schema thread
+   public synchronized void start (Object start) { // called on schema thread
       if ( !running ) {
-         startEngine();
+         startEngine(start);
          running = true;
       }
    }
 
-   abstract protected void startEngine ();
+   abstract protected void startEngine (Object start);
 
    public synchronized void stop () { // called on schema thread
       if ( running ) {
@@ -99,10 +99,10 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    public static class Agent extends ShoreFacePerceptor {
 
-      public Agent () { super(50, 50, 1700); }
+      public Agent () { super(50, 50, 1700, null); }
 
       @Override
-      protected void startEngine () {
+      protected void startEngine (Object start) {
          CPPinterface.INSTANCE.initAgentShoreEngine(0);
       }
 
@@ -119,11 +119,8 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    public static class Reeti extends ShoreFacePerceptor {
 
-      private final ReetiJsonConfiguration config;
-      
       public Reeti (ReetiJsonConfiguration config) { 
-         super(50, 50, 1700);
-         this.config = config;
+         super(50, 50, 1700, config);
       }
 
       @Override
@@ -134,8 +131,9 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       }
 
       @Override
-      protected void startEngine () {
-         CPPinterface.INSTANCE.initReetiShoreEngine(new String[] { config.getIP() }, 0);
+      protected void startEngine (Object start) {
+         CPPinterface.INSTANCE.initReetiShoreEngine(
+               new String[] { ((ReetiJsonConfiguration) start).getIP() }, 0);
       }
 
       @Override
