@@ -23,7 +23,8 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
 
    private final FacePerceptor perceptor;
    private final ReetiPIDMessages reetiPIDOutput;
-   private final ReetiCommandSocketConnection client;
+   private final CollaborationManager cm;
+   private ReetiCommandSocketConnection client;
 
    private final Directions trackingDirections = Directions.bothDIRECTIONS;
    private final static long acceptableLosingTime = 3000L;
@@ -53,14 +54,19 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
       super(params);
       
       this.perceptor = perceptor;
+      this.cm = cm;
       proxy.gaze(proxy.getGazeHor(), proxy.getGazeVer());
       // see ReetiPIDControllers initialized using proxy
       reetiPIDOutput = new ReetiPIDMessages(config, proxy);
-      client = cm.getReetiSocket();
    }
 
    @Override
    public void run () {
+      if ( client == null ) {
+         // may be waiting for connection
+         client = cm.getReetiSocket();
+         if ( client == null ) return;
+      }
       FacePerception perception = perceptor.getLatest();
       Point point = perception == null ? null : 
          perception.isFace() ? perception.getPoint() : null;
