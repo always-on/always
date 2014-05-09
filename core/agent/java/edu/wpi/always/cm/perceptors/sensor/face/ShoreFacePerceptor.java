@@ -6,6 +6,7 @@ import edu.wpi.always.client.reeti.ReetiJsonConfiguration;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.CPPinterface.FaceInfo;
 import edu.wpi.disco.rt.perceptor.PerceptorBase;
+import edu.wpi.disco.rt.util.NullArgumentException;
 import edu.wpi.disco.rt.util.Utils;
 
 public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
@@ -128,7 +129,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       @Override
       protected FaceInfo getFaceInfo (int debug) {
          FaceInfo info = CPPinterface.INSTANCE.getReetiFaceInfo(debug);
-         if( info.isRestart() ) { System.exit(1); }
+         if( info.isRestart() ) { Always.restart(null, "Restart from FaceDetection.DLL"); }
          return info;
       }
 
