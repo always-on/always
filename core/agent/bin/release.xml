@@ -16,6 +16,8 @@
           <fileset file="always-unity.bat"/>
           <fileset file="always-reeti.bat"/>
           <fileset file="always-login.bat"/>
+          <fileset file="always-java.bat"/>
+          <fileset file="always-client.bat"/>
         </copy>  
         <copy todir="C:/Dropbox/release.new/reeti">
           <fileset dir="../lib/reeti"/>

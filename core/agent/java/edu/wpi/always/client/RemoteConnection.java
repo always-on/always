@@ -25,6 +25,7 @@ public abstract class RemoteConnection {
             try { Thread.sleep(10000);  } catch (InterruptedException i) {} }
          catch (Exception e) { restart(e); }
       }
+      Utils.lnprint(System.out, "Successfully connected to "+host+" "+port);
    }
    
    protected void restart (Exception e) { Always.restart(e, " on "+host+" "+port); }

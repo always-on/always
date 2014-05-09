@@ -12,6 +12,7 @@ import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.EngagementRegistry;
+import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.schemas.StartupSchemas;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.UserUtils;
@@ -230,14 +231,20 @@ public class Always {
          registry.register(helper);
    }
    
-   public static final boolean EXIT = true;
+   public static final boolean EXIT = true;  // for debugging
    
    // Assumes java being called inside a restart loop
    public static void restart (Exception e, String message) {
       Utils.lnprint(System.out, e+message);
       Utils.lnprint(System.out, "EXITING (FOR RESTART)...");
-      if ( EXIT ) System.exit(1); 
+      if ( EXIT ) exit(1); 
       else edu.wpi.cetask.Utils.rethrow(e);  
+   }
+   
+   public static void exit (int code) {
+      // need to free resources held by engine which block exit
+      Always.THIS.getCM().getContainer().getComponent(ShoreFacePerceptor.class).stop();
+      System.exit(code);
    }
 }
 
