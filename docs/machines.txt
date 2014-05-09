@@ -1,5 +1,12 @@
 April 23, 2014
 
+***NB*** For all the ASUS machines below, the file in
+         c:\Dropbox\<COMPUTERNAME>\always.bat has been initialized
+         with parameters to launch correct condition as per list!
+
+         For the four Reeti machines, the correct Reeti.json needs
+		 be copied from always/core/lib/reeti
+
 ---MACHINE IN PARIS---
 
 ASUS-RICH (ASUS) Development
@@ -8,7 +15,7 @@ ASUS-RICH (ASUS) Development
 
 ALWAYS2 (HP) Development
 
-** ALWAYS4 (ASUS) - Reeti Kili
+** ALWAYS4 (ASUS) - Reeti TBD
 *a ALWAYS5 (ASUS)
 *a ALWAYS8 (ASUS)
 
@@ -16,15 +23,15 @@ ALWAYS2 (HP) Development
 
 TOUCHSMART2-HP (HP) Development
 
-** RAGTOUCH2 (ASUS) - Reeti Fili
+** RAGTOUCH2 (ASUS) - Reeti TBD
 
-** ALWAYS3 (ASUS) - Reeti Dori
+** ALWAYS3 (ASUS) - Reeti TBD
 
 --- (ASUS) IN BOXES AT NEU---
 
 1 in lab
 
-** ALWAYS1 - Reeti Nori
+** ALWAYS1 - Reeti TBD
 
 10 in storeroom
 
@@ -43,6 +50,8 @@ TOUCHSMART2-HP (HP) Development
 
     *a = AlwaysOn condition (6): ALWAYS5-ALWAYS10
     *l = Login condition (6): ALWAYS11-ALWAYS16
+
+NB: login condition machines do *not* need IR boxes!
 
 ** = use in Reeti study (4) ALWAYS1,RAGTOUCH2,ALWAYS3,ALWAYS4
 

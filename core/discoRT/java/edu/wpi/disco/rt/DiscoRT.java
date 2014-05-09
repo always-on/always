@@ -106,12 +106,10 @@ public class DiscoRT implements Startable {
       configure(title, log);
       SchemaManager schemaManager = new SchemaManager(container); 
       container.as(Characteristics.CACHE).addComponent(schemaManager);
-      for (ComponentRegistry registry : registries) {
+      for (ComponentRegistry registry : registries) 
          registry.register(container);
-      }
-      for (SchemaRegistry registry : schemaRegistries) {
+      for (SchemaRegistry registry : schemaRegistries)
          registry.register(schemaManager);
-      }
       PrimitiveRealizerFactory realizerFactory = new PrimitiveRealizerFactory(container);
       container.as(Characteristics.CACHE).addComponent(realizerFactory);
       realizerFactory.registerAllRealizerInContainer();
@@ -120,9 +118,8 @@ public class DiscoRT implements Startable {
       List<Perceptor> perceptors = container.getComponents(Perceptor.class);
       Scheduler scheduler = container.getComponent(Scheduler.class);
       scheduler.schedule(arbitrator, ARBITRATOR_INTERVAL);
-      for (Perceptor<?> p : perceptors) {
+      for (Perceptor<?> p : perceptors) 
          scheduler.schedule(p, PERCEPTOR_INTERVAL);
-      }
       schemaManager.startUp();
    }
    
