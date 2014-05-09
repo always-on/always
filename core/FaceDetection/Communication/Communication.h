@@ -154,7 +154,7 @@ public:
 			}
 			else if ( iResult == 0 )
 			{
-				printf("Connection closed\n");
+				printf("\nFaceDetection.DLL: Connection closed\n");
 				exit(0);
 			}
 			else
