@@ -26,6 +26,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       faceHorizontalDisplacementThreshold = horz;
       faceVerticalDisplacementThreshold = vert;
       faceAreaThreshold = area;
+      start();
    }
    
    // accessed by both schema and realizer threads
@@ -97,10 +98,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    public static class Agent extends ShoreFacePerceptor {
 
-      public Agent () {
-         super(50, 50, 1700);
-         start();
-      }
+      public Agent () { super(50, 50, 1700); }
 
       @Override
       protected void startEngine () {
@@ -120,10 +118,11 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    public static class Reeti extends ShoreFacePerceptor {
 
-      public Reeti (ReetiJsonConfiguration config) {
+      private final ReetiJsonConfiguration config;
+      
+      public Reeti (ReetiJsonConfiguration config) { 
          super(50, 50, 1700);
-         CPPinterface.INSTANCE.initReetiShoreEngine(
-               new String[] { config.getIP() }, 0);
+         this.config = config;
       }
 
       @Override
@@ -135,7 +134,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
       @Override
       protected void startEngine () {
-         Utils.lnprint(System.out, "Ignoring ShoreFaceperceptor.Reeti.start()");
+         CPPinterface.INSTANCE.initReetiShoreEngine(new String[] { config.getIP() }, 0);
       }
 
       @Override
