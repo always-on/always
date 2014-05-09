@@ -1,0 +1,45 @@
+#!/bin/sh 
+
+start() {
+   sudo /home/reeti/Always-On/always/core/Reeti/CapturingRestarter/restartCaptureServer.sh
+}
+
+stop() {
+   sudo pkill restartCaptureServer
+}
+
+restart() {
+   stop
+   start
+}
+
+status() {
+   echo "ReetiServer_Cap Process:"
+   pgrep ReetiServer_Cap
+
+   echo "restartCaptureServer Script Process:"
+   pgrep restartCaptureServer
+}
+
+case "$1" in
+start)
+	start
+;;
+stop)
+	stop
+;;
+restart)
+	restart
+;;
+status)
+	status
+;;
+*)
+
+echo $"Usage: $0 {start|stop|restart|status}"
+
+exit 1
+
+esac
+
+exit $RETVAL

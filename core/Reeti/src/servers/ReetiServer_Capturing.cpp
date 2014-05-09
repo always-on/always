@@ -35,6 +35,12 @@ void Communication::initSocket(int argc, char **argv)
 	serv_addr.sin_addr.s_addr = INADDR_ANY;
 	serv_addr.sin_port        = htons(portno);
 
+	// NB: This condition checks whether the port is in use because of a crash or any other
+	// reason and makes it reusable for a restarted capturing server.
+	int yes = 1;
+	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) == -1)
+		error("ERROR: could not prepare the same port to be reused!");
+
 	if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
 		error("ERROR: could not bind the socket!");
 

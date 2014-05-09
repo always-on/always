@@ -28,6 +28,7 @@ target_link_libraries(ReetiServer_Capturing
 
 FILE(COPY /home/reeti/Always-On/always/core/Reeti/conf/. DESTINATION /home/reeti/reetiPrograms/load)
 FILE(COPY /home/reeti/Always-On/always/core/Reeti/src/functions/. DESTINATION /home/reeti/reetiPrograms/functions)
+FILE(COPY /home/reeti/Always-On/always/core/Reeti/CapturingRestarter/RestartReetiServerCapturingService DESTINATION /etc/init.d/)
 
 
 
