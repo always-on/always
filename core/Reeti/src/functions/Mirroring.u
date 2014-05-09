@@ -250,7 +250,7 @@ function Object.socketConnectionMirroring()
 
          at (socketMirroring.disconnected?)
          {
-            echo("socket disconnected");
+            echo("socket disconnected, waiting for connection again.");
             this.serverConnections();
          };
 
