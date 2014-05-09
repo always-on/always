@@ -5,13 +5,7 @@ Issues need to take care of: (to be used as a punch-list)
 
 + Finish Matrix checklist [Mohammad verify Ayesha done - FRI]
 
-+ Testing robots for the engagement process [M & M - FRI]
-
-+ Finalizing bash scripts to restart Urbi server and Capturing server 
-whenever they are crashed [Mohammad working on - FRI]
-
-+ Confirming automatic 3:00 AM restart on all robots using a bash
-  script [Mohammad use Ubuntu schedule - FRI]
++ Testing robots for the engagement process (start/end session) [Morteza - FRI]
 
 + Organizing all the required restarting bash script files in a folder 
   on robots [Mohammad put in repository - FRI]
