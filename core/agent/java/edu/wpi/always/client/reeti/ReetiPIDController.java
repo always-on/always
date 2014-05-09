@@ -220,7 +220,7 @@ public class ReetiPIDController {
       }
    }
 
-   void computeY () {
+   public void computeY () {
 
       double error = setPointYPID - inputYPID;
 
