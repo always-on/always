@@ -51,7 +51,6 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
          FacePerceptor perceptor, CollaborationManager cm, 
          ReetiJsonConfiguration config, ClientProxy proxy) {
 
-
       super(params);
       
       this.perceptor = perceptor;
