@@ -141,14 +141,9 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 ---------------------------------------------------------
 
-<<<<<<< HEAD
-<DATE>,<TIME>,ACTIVITY,RUMMY,<WON>,<MELDS>
-
-=======
 <DATE>,<TIME>,ACTIVITY,RUMMY,<WON>,<FIRST><MELDS>
 
 * <FIRST> = USER or AGENT
->>>>>>> upstream/develop
 * <MELDS> = total number of melds in game
 
 ---------------------------------------------------------
@@ -171,11 +166,6 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 <DATE>,<TIME>,ACTIVITY,TTT,<WON>,<FIRST>
 
-<<<<<<< HEAD
-* <FIRST> = USER or AGENT
-
-=======
->>>>>>> upstream/develop
 ---------------------------------------------------------
 
 <DATE>,<TIME>,ACTIVITY,WEATHER,<CITIES>,<FRIENDS>
