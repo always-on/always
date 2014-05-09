@@ -17,10 +17,6 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    protected FaceInfo getFaceInfo (int debug) { return null; }
 
-   public abstract void start ();
-
-   public abstract void stop ();
-
    protected FaceInfo info, prevInfo;
 
    private final long faceHorizontalDisplacementThreshold,
@@ -31,6 +27,9 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       faceVerticalDisplacementThreshold = vert;
       faceAreaThreshold = area;
    }
+   
+   // accessed by both schema and realizer threads
+   protected volatile boolean running;
 
    /*
     * DESIGN NOTE: The logic below is tricky because it needs to be robust wrt
@@ -46,6 +45,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    @Override
    public void run () {
+      if ( !running ) return;
       info = getFaceInfo(0);
       if ( info != null && info.isFace() ) {
          Long currentTime = System.currentTimeMillis();
@@ -76,6 +76,25 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
              <= faceAreaThreshold / timeUnit;
    }
 
+   public synchronized void start () { // called on schema thread
+      if ( !running ) {
+         startEngine();
+         running = true;
+      }
+   }
+
+   abstract protected void startEngine ();
+
+   public synchronized void stop () { // called on schema thread
+      if ( running ) {
+         latest = null;
+         running = false; // before terminate
+         stopEngine();
+      }
+   }
+
+   abstract protected void stopEngine (); 
+
    public static class Agent extends ShoreFacePerceptor {
 
       public Agent () {
@@ -83,30 +102,14 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
          start();
       }
 
-      // accessed by both schema and realizer threads
-      private volatile boolean running;
-
       @Override
-      public synchronized void run () { // called on realizer thread
-         if ( running )
-            super.run();
+      protected void startEngine () {
+         CPPinterface.INSTANCE.initAgentShoreEngine(0);
       }
 
       @Override
-      public synchronized void start () { // called on schema thread
-         if ( !running ) {
-            CPPinterface.INSTANCE.initAgentShoreEngine(0);
-            running = true;
-         }
-      }
-
-      @Override
-      public synchronized void stop () { // called on schema thread
-         if ( running ) {
-            latest = null;
-            running = false; // before terminate
-            CPPinterface.INSTANCE.terminateAgentShoreEngine(0);
-         }
+      protected void stopEngine () {
+         CPPinterface.INSTANCE.terminateAgentShoreEngine(0);
       }
 
       @Override
@@ -129,13 +132,13 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       }
 
       @Override
-      public void start () { 
+      protected void startEngine () {
          Utils.lnprint(System.out, "Ignoring ShoreFaceperceptor.Reeti.start()");
       }
 
       @Override
-      public void stop () {
-         Utils.lnprint(System.out, "Ignoring ShoreFaceperceptor.Reeti.stop()");
+      protected void stopEngine () {
+         CPPinterface.INSTANCE.terminateReetiShoreEngine(0);
       }
    }
 }
