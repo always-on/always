@@ -38,7 +38,7 @@ function Object.socketConnectionFaceTracking()
 
          at (socketFaceTracking.disconnected?)
          {
-            echo("socket disconnected");
+            echo("socket disconnected, waiting for connection again.");
             this.serverConnections();
          };
 
