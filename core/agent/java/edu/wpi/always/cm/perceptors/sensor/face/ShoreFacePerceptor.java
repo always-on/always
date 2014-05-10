@@ -80,7 +80,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    public synchronized void start (Object start) { // called on schema thread
       if ( !running ) {
-         startEngine(null);
+         startEngine(start);
          running = true;
       }
    }
