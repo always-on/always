@@ -101,9 +101,10 @@ namespace Agent.UI
             catch (SocketException)
             {
                 connected = false;
+                client.Disconnect(true);
                 Console.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
-                if(!connected)
+                if (!connected)
                     StartClient();
             }
             catch (Exception e)
@@ -123,6 +124,15 @@ namespace Agent.UI
                 // Begin receiving the data from the remote device.
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                     new AsyncCallback(ReceiveCallback), state);
+            }
+            catch (SocketException)
+            {
+                connected = false;
+                client.Disconnect(true);
+                Console.WriteLine("Could not connect to the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                if (!connected)
+                    StartClient();
             }
             catch (Exception e)
             {
@@ -162,12 +172,13 @@ namespace Agent.UI
                     receiveDone.Set();
                 }
             }
-            catch(SocketException)
+            catch (SocketException)
             {
                 connected = false;
+                client.Disconnect(true);
                 Console.WriteLine("Could not receive from the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
-                if(!connected)
+                if (!connected)
                     StartClient();
             }
             catch (Exception e)
@@ -182,8 +193,24 @@ namespace Agent.UI
             byte[] byteData = Encoding.ASCII.GetBytes(data);
 
             // Begin sending the data to the remote device.
-            client.BeginSend(byteData, 0, byteData.Length, 0,
-                new AsyncCallback(SendCallback), client);
+            try
+            {
+                client.BeginSend(byteData, 0, byteData.Length, 0,
+                    new AsyncCallback(SendCallback), client);
+            }
+            catch (SocketException)
+            {
+                connected = false;
+                client.Disconnect(true);
+                Console.WriteLine("Could not send to the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                if (!connected)
+                    StartClient();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
         }
 
         private static void SendCallback(IAsyncResult ar)
@@ -203,9 +230,10 @@ namespace Agent.UI
             catch (SocketException)
             {
                 connected = false;
+                client.Disconnect(true);
                 Console.WriteLine("Could not send to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
-                if(!connected)
+                if (!connected)
                     StartClient();
             }
             catch (Exception e)
