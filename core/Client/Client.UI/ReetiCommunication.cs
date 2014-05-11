@@ -100,12 +100,12 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
+                if (connected)
+                    client.Disconnect(true);
                 connected = false;
-                client.Disconnect(true);
                 Console.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
-                if (!connected)
-                    StartClient();
+                StartClient();
             }
             catch (Exception e)
             {
@@ -127,12 +127,12 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
+                if (connected)
+                    client.Disconnect(true);
                 connected = false;
-                client.Disconnect(true);
                 Console.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
-                if (!connected)
-                    StartClient();
+                StartClient();
             }
             catch (Exception e)
             {
@@ -174,12 +174,12 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
+                if (connected)
+                    client.Disconnect(true);
                 connected = false;
-                client.Disconnect(true);
                 Console.WriteLine("Could not receive from the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
-                if (!connected)
-                    StartClient();
+                StartClient();
             }
             catch (Exception e)
             {
@@ -200,12 +200,12 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
+                if (connected)
+                    client.Disconnect(true);
                 connected = false;
-                client.Disconnect(true);
                 Console.WriteLine("Could not send to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
-                if (!connected)
-                    StartClient();
+                StartClient();
             }
             catch (Exception e)
             {
@@ -229,12 +229,12 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
+                if (connected)
+                    client.Disconnect(true);
                 connected = false;
-                client.Disconnect(true);
                 Console.WriteLine("Could not send to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
-                if (!connected)
-                    StartClient();
+                StartClient();
             }
             catch (Exception e)
             {
