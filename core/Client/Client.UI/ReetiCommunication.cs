@@ -70,7 +70,7 @@ namespace Agent.UI
                     connectDone.WaitOne();
                     connected = true;
                 }
-                catch (SocketException)
+                catch (Exception)
                 {
                     Console.WriteLine("Could not connect to the server, retrying in 10s...");
                     System.Threading.Thread.Sleep(10000);
@@ -101,9 +101,11 @@ namespace Agent.UI
                 // Signal that the connection has been made.
                 connectDone.Set();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine("Could not connect to the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                StartClient();
             }
         }
 
