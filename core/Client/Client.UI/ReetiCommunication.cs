@@ -42,6 +42,8 @@ namespace Agent.UI
         // The response from the remote device.
         private static String response = String.Empty;
 
+        private static bool connected = false;
+
         public ReetiCommunication()
         {
             StartClient();
@@ -93,12 +95,16 @@ namespace Agent.UI
 
                 // Signal that the connection has been made.
                 connectDone.Set();
+
+                connected = true;
             }
             catch (SocketException)
             {
+                connected = false;
                 Console.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
-                StartClient();
+                if(!connected)
+                    StartClient();
             }
             catch (Exception e)
             {
@@ -156,6 +162,14 @@ namespace Agent.UI
                     receiveDone.Set();
                 }
             }
+            catch(SocketException)
+            {
+                connected = false;
+                Console.WriteLine("Could not receive from the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                if(!connected)
+                    StartClient();
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
@@ -186,10 +200,17 @@ namespace Agent.UI
                 // Signal that all bytes have been sent.
                 sendDone.Set();
             }
+            catch (SocketException)
+            {
+                connected = false;
+                Console.WriteLine("Could not send to the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                if(!connected)
+                    StartClient();
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                Environment.Exit(1);
             }
         }
     }
