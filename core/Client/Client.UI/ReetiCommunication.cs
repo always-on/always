@@ -100,8 +100,7 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
-                if (connected)
-                    client.Disconnect(true);
+                try { client.Disconnect(true); } catch (Exception) { }
                 connected = false;
                 Console.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
@@ -127,8 +126,7 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
-                if (connected)
-                    client.Disconnect(true);
+                try { client.Disconnect(true); } catch (Exception) { }
                 connected = false;
                 Console.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
@@ -174,8 +172,7 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
-                if (connected)
-                    client.Disconnect(true);
+                try { client.Disconnect(true); } catch (Exception) { }
                 connected = false;
                 Console.WriteLine("Could not receive from the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
@@ -200,8 +197,7 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
-                if (connected)
-                    client.Disconnect(true);
+                try { client.Disconnect(true); } catch(Exception){}
                 connected = false;
                 Console.WriteLine("Could not send to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
@@ -229,8 +225,7 @@ namespace Agent.UI
             }
             catch (SocketException)
             {
-                if (connected)
-                    client.Disconnect(true);
+                try { client.Disconnect(true); } catch (Exception) { }
                 connected = false;
                 Console.WriteLine("Could not send to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
