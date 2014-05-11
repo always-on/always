@@ -58,23 +58,16 @@ namespace Agent.UI
             IPAddress ipAddress = IPAddress.Parse(Agent.Tcp.AgentControlJsonAdapter.REETI_IP);
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
-            bool connected = false;
-
             // Connect to the remote endpoint.	
-            while (!connected)
+            try
             {
-                try
-                {
-                    client.BeginConnect(remoteEP,
-                    new AsyncCallback(ConnectCallback), client);
-                    connectDone.WaitOne();
-                    connected = true;
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Could not connect to the server, retrying in 10s...");
-                    System.Threading.Thread.Sleep(10000);
-                }
+                client.BeginConnect(remoteEP,
+                new AsyncCallback(ConnectCallback), client);
+                connectDone.WaitOne();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
             }
         }
 
@@ -101,11 +94,15 @@ namespace Agent.UI
                 // Signal that the connection has been made.
                 connectDone.Set();
             }
-            catch (Exception)
+            catch (SocketException)
             {
                 Console.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
             }
         }
 
