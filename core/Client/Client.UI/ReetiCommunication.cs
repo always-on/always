@@ -42,8 +42,6 @@ namespace Agent.UI
         // The response from the remote device.
         private static String response = String.Empty;
 
-        private static bool connected = false;
-
         public ReetiCommunication()
         {
             StartClient();
@@ -96,12 +94,10 @@ namespace Agent.UI
                 // Signal that the connection has been made.
                 connectDone.Set();
 
-                connected = true;
             }
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch (Exception) { }
-                connected = false;
                 Console.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
@@ -127,7 +123,6 @@ namespace Agent.UI
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch (Exception) { }
-                connected = false;
                 Console.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
@@ -173,7 +168,6 @@ namespace Agent.UI
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch (Exception) { }
-                connected = false;
                 Console.WriteLine("Could not receive from the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
@@ -198,7 +192,6 @@ namespace Agent.UI
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch(Exception){}
-                connected = false;
                 Console.WriteLine("Could not send to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
@@ -226,7 +219,6 @@ namespace Agent.UI
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch (Exception) { }
-                connected = false;
                 Console.WriteLine("Could not send to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
