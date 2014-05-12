@@ -55,14 +55,14 @@ namespace Agent.UI
         private static void StartClient()
         {
             // Connect to a remote device.
+            IPAddress ipAddress = IPAddress.Parse(Agent.Tcp.AgentControlJsonAdapter.REETI_IP);
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+
+            // Connect to the remote endpoint.	
             try
             {
-                IPAddress ipAddress = IPAddress.Parse(Agent.Tcp.AgentControlJsonAdapter.REETI_IP);
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
-
-                // Connect to the remote endpoint.
                 client.BeginConnect(remoteEP,
-                    new AsyncCallback(ConnectCallback), client);
+                new AsyncCallback(ConnectCallback), client);
                 connectDone.WaitOne();
             }
             catch (Exception e)
@@ -93,6 +93,14 @@ namespace Agent.UI
 
                 // Signal that the connection has been made.
                 connectDone.Set();
+
+            }
+            catch (SocketException)
+            {
+                try { client.Disconnect(true); } catch (Exception) { }
+                Console.WriteLine("Could not connect to the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                StartClient();
             }
             catch (Exception e)
             {
@@ -111,6 +119,13 @@ namespace Agent.UI
                 // Begin receiving the data from the remote device.
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                     new AsyncCallback(ReceiveCallback), state);
+            }
+            catch (SocketException)
+            {
+                try { client.Disconnect(true); } catch (Exception) { }
+                Console.WriteLine("Could not connect to the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                StartClient();
             }
             catch (Exception e)
             {
@@ -150,6 +165,13 @@ namespace Agent.UI
                     receiveDone.Set();
                 }
             }
+            catch (SocketException)
+            {
+                try { client.Disconnect(true); } catch (Exception) { }
+                Console.WriteLine("Could not receive from the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                StartClient();
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
@@ -162,8 +184,22 @@ namespace Agent.UI
             byte[] byteData = Encoding.ASCII.GetBytes(data);
 
             // Begin sending the data to the remote device.
-            client.BeginSend(byteData, 0, byteData.Length, 0,
-                new AsyncCallback(SendCallback), client);
+            try
+            {
+                client.BeginSend(byteData, 0, byteData.Length, 0,
+                    new AsyncCallback(SendCallback), client);
+            }
+            catch (SocketException)
+            {
+                try { client.Disconnect(true); } catch(Exception){}
+                Console.WriteLine("Could not send to the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                StartClient();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
         }
 
         private static void SendCallback(IAsyncResult ar)
@@ -179,6 +215,13 @@ namespace Agent.UI
 
                 // Signal that all bytes have been sent.
                 sendDone.Set();
+            }
+            catch (SocketException)
+            {
+                try { client.Disconnect(true); } catch (Exception) { }
+                Console.WriteLine("Could not send to the server, retrying in 10s...");
+                System.Threading.Thread.Sleep(10000);
+                StartClient();
             }
             catch (Exception e)
             {

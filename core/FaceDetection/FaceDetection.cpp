@@ -304,97 +304,109 @@ FaceInfo getReetiFaceInfo( int intDebug )
 	FaceInfo faceInfo;
 
 	//Request Image
-	Com.sendSocket("Capture");
+	int sendingResult = Com.sendSocket("Capture");
 	
-	//Receive Image over Socket
-	char* data = Com.receiveSocket();
-
-	int intPrevWidth = 0;
-	int intPrevHeight = 0;
-	int intCurrWidth = 0;
-	int intCurrHeight = 0;
-	int intSelectedFaceIndex = -1;
-
-	//Declare Shore Content
-	Shore::Content const* content = 0;
-
-	//Declare Matrix Frames for Processing
-	Mat gray_frame( FRAME_HEIGHT,FRAME_WIDTH, CV_8UC1, data );
-
-	//Declare IPL Image for Processing
-	
-	IplImage* im = cvCreateImage( cvSize(FRAME_WIDTH,FRAME_HEIGHT), IPL_DEPTH_8U, 1 );
-
-	//Convert Matrix to IPL Image
-	im->imageData = ( char * ) gray_frame.data;
-
-	//Declare Image for Displaying
-	Image image( FRAME_WIDTH,FRAME_HEIGHT,im );
-
-	//Setting Engine
-	content = ReetiEngine->Process(  image.LeftTop(),
-								image.Width(),
-								image.Height(),
-								1,
-								1,
-								image.Width(), //frame.cols+1 //frame.size().width
-								0,
-								"GRAYSCALE" );
-	//Getting Content 
-	if ( content->GetObjectCount() > 0 )
+	if(sendingResult != 1)
 	{
-		for( int i = 0 ; i < content->GetObjectCount() ; i++ )
-		{
-			intCurrWidth = abs(content->GetObject(i)->GetRegion()->GetRight() - content->GetObject(i)->GetRegion()->GetLeft());
-			intCurrHeight = abs(content->GetObject(i)->GetRegion()->GetBottom() - content->GetObject(i)->GetRegion()->GetTop());
-					
-			if(( intPrevWidth*intPrevHeight ) < ( intCurrWidth*intCurrHeight ))
-			{
-				intSelectedFaceIndex = i;
-			}
-			intPrevWidth = intCurrWidth;
-			intPrevHeight = intCurrHeight;
-		}
-					
-		if( intSelectedFaceIndex != -1 )
-		{
-			faceInfo.intBottom = content->GetObject(intSelectedFaceIndex)->GetRegion()->GetBottom();
-			faceInfo.intTop    = content->GetObject(intSelectedFaceIndex)->GetRegion()->GetTop();
-			faceInfo.intLeft   = content->GetObject(intSelectedFaceIndex)->GetRegion()->GetLeft();
-			faceInfo.intRight  = content->GetObject(intSelectedFaceIndex)->GetRegion()->GetRight();
+		//Receive Image over Socket
+		char* data = Com.receiveSocket();
 
-			faceInfo.intCenter = (faceInfo.intRight-faceInfo.intLeft)/2;
-			faceInfo.intCenter += faceInfo.intLeft;
-			faceInfo.intTiltCenter = (faceInfo.intBottom-faceInfo.intTop)/2;
-			faceInfo.intTiltCenter += faceInfo.intTop;
+		int intPrevWidth = 0;
+		int intPrevHeight = 0;
+		int intCurrWidth = 0;
+		int intCurrHeight = 0;
+		int intSelectedFaceIndex = -1;
+
+		//Declare Shore Content
+		Shore::Content const* content = 0;
+
+		//Declare Matrix Frames for Processing
+		Mat gray_frame( FRAME_HEIGHT,FRAME_WIDTH, CV_8UC1, data );
+
+		//Declare IPL Image for Processing
+	
+		IplImage* im = cvCreateImage( cvSize(FRAME_WIDTH,FRAME_HEIGHT), IPL_DEPTH_8U, 1 );
+
+		//Convert Matrix to IPL Image
+		im->imageData = ( char * ) gray_frame.data;
+
+		//Declare Image for Displaying
+		Image image( FRAME_WIDTH,FRAME_HEIGHT,im );
+
+		//Setting Engine
+		content = ReetiEngine->Process(  image.LeftTop(),
+									image.Width(),
+									image.Height(),
+									1,
+									1,
+									image.Width(), //frame.cols+1 //frame.size().width
+									0,
+									"GRAYSCALE" );
+		//Getting Content 
+		if ( content->GetObjectCount() > 0 )
+		{
+			for( int i = 0 ; i < content->GetObjectCount() ; i++ )
+			{
+				intCurrWidth = abs(content->GetObject(i)->GetRegion()->GetRight() - content->GetObject(i)->GetRegion()->GetLeft());
+				intCurrHeight = abs(content->GetObject(i)->GetRegion()->GetBottom() - content->GetObject(i)->GetRegion()->GetTop());
+					
+				if(( intPrevWidth*intPrevHeight ) < ( intCurrWidth*intCurrHeight ))
+				{
+					intSelectedFaceIndex = i;
+				}
+				intPrevWidth = intCurrWidth;
+				intPrevHeight = intCurrHeight;
+			}
+					
+			if( intSelectedFaceIndex != -1 )
+			{
+				faceInfo.intBottom = content->GetObject(intSelectedFaceIndex)->GetRegion()->GetBottom();
+				faceInfo.intTop    = content->GetObject(intSelectedFaceIndex)->GetRegion()->GetTop();
+				faceInfo.intLeft   = content->GetObject(intSelectedFaceIndex)->GetRegion()->GetLeft();
+				faceInfo.intRight  = content->GetObject(intSelectedFaceIndex)->GetRegion()->GetRight();
+
+				faceInfo.intCenter = (faceInfo.intRight-faceInfo.intLeft)/2;
+				faceInfo.intCenter += faceInfo.intLeft;
+				faceInfo.intTiltCenter = (faceInfo.intBottom-faceInfo.intTop)/2;
+				faceInfo.intTiltCenter += faceInfo.intTop;
 						
-			faceInfo.intArea = (faceInfo.intRight-faceInfo.intLeft)*(faceInfo.intBottom-faceInfo.intTop);
+				faceInfo.intArea = (faceInfo.intRight-faceInfo.intLeft)*(faceInfo.intBottom-faceInfo.intTop);
 
-			if( intDebug )
-			{
-				Mat markedFace;
-				std::cout << ContentToText( content ) << "\n\n";
-				image.DrawContent( content );
-				image.SavePgm( "face.pgm" );
-				markedFace = cvLoadImage( "face.pgm", CV_LOAD_IMAGE_UNCHANGED );
-				namedWindow( "Display window", CV_WINDOW_AUTOSIZE );
-				imshow( "Display window", markedFace );
-				cvWaitKey( 500 );
+				if( intDebug )
+				{
+					Mat markedFace;
+					std::cout << ContentToText( content ) << "\n\n";
+					image.DrawContent( content );
+					image.SavePgm( "face.pgm" );
+					markedFace = cvLoadImage( "face.pgm", CV_LOAD_IMAGE_UNCHANGED );
+					namedWindow( "Display window", CV_WINDOW_AUTOSIZE );
+					imshow( "Display window", markedFace );
+					cvWaitKey( 500 );
+				}
 			}
 		}
+		else
+		{
+			faceInfo.intBottom    = -1;
+			faceInfo.intTop       = -1;
+			faceInfo.intLeft      = -1;
+			faceInfo.intRight     = -1;
+			faceInfo.intHappiness = -1;
+			faceInfo.intCenter = -1;
+			faceInfo.intTiltCenter = -1;
+			faceInfo.intArea = -1;
+		}
+		cvReleaseImage(&im);
 	}
+
+	//if sending had raised an error,
 	else
 	{
-		faceInfo.intBottom    = -1;
-		faceInfo.intTop       = -1;
-		faceInfo.intLeft      = -1;
-		faceInfo.intRight     = -1;
-		faceInfo.intHappiness = -1;
-		faceInfo.intCenter = -1;
-		faceInfo.intTiltCenter = -1;
-		faceInfo.intArea = -1;
+		/*use happiness value holder, as a signal
+		to Java to exit itself and cause a restart*/
+		faceInfo.intHappiness = -2;
 	}
-	cvReleaseImage(&im);
+
 	return faceInfo;
 }
 
