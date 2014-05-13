@@ -41,14 +41,23 @@ public class DiscoRT implements Startable {
    
    public static class Interaction extends edu.wpi.disco.Interaction {
       
+      private final ConsoleWindow console;
+      
+      public ConsoleWindow getConsoleWindow () { return console; }
+      
       public Interaction (Actor system, Actor external, String from) {
-         super(system, external, from, true, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
-         getConsole().THROW = true; // so exceptions thrown
+         this(system, external, from, true, false);
       }
       
       public Interaction (Actor system, Actor external) {
-         super(system, external, null, false, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
-         getConsole().THROW = true; // so exceptions thrown
+         this(system, external, null, true, true);
+      }
+      
+      public Interaction (Actor system, Actor external, String from, boolean console, boolean append) {
+         super(system, external, from, console, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
+         Console.THROW = true; // so exceptions thrown
+         this.console = console ? new ConsoleWindow(this, getClass().getSimpleName(), append, null) 
+                        : null;
       }
       
       public void setSchema (Schema schema) { setGlobal("$schema", schema); } 
