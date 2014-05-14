@@ -16,7 +16,7 @@ ASUS-RICH (ASUS) Development
 ALWAYS2 (HP) Development
 
 ** ALWAYS4 (ASUS) - Reeti TBD
-*a ALWAYS5 (ASUS)
+*a ALWAYS5 (ASUS) - Kept at WPI until June 15
 *a ALWAYS8 (ASUS)
 
 ---MACHINES AT NEU (unpacked)---
@@ -25,7 +25,7 @@ TOUCHSMART2-HP (HP) Development
 
 ** RAGTOUCH2 (ASUS) - Reeti TBD
 
-** ALWAYS3 (ASUS) - Reeti TBD
+** ALWAYS3 (ASUS) - Reeti Fili (??)
 
 --- (ASUS) IN BOXES AT NEU---
 

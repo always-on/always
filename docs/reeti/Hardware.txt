@@ -27,9 +27,9 @@ d) Mouse
 
 KB and mouse for configuration (e.g., Kiosk Pro)
 
-Keeping ALWAYS4 and HP at WPI for testing and development (Morteza).
+Keeping ALWAYS5 and HP at WPI for testing and development (Morteza).
 
-ALWAYS4 will be delivered to NEU around June 15.
+ALWAYS5 will be delivered to NEU around June 15.
 
 ======================================================
 

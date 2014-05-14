@@ -1,5 +1,8 @@
-* First, update the /etc/apt/source.list file (search for: ubuntu 11.10 source.list) 
-with the corresponding standard content of your Ubuntu version of the OS.
+To use Always-On git repository on Reeti:
+
+* First, update the /etc/apt/source.list file (search for: ubuntu 11.10 
+source.list) with the corresponding standard content of your Ubuntu 
+version of the OS.
 
 * Second, do: sudo apt-get update
 

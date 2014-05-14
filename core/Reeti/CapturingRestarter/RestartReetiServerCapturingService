@@ -1,11 +1,17 @@
 #!/bin/sh 
 
 start() {
-   sudo /home/reeti/Always-On/always/core/Reeti/CapturingRestarter/restartCaptureServer.sh
+   # sudo /home/reeti/Always-On/always/core/Reeti/CapturingRestarter/restartCaptureServer.sh
+   export LD_LIBRARY_PATH="/usr/local/gostai/lib"
+
+   until /home/reeti/Always-On/always/core/Reeti/build/src/ReetiServer_Capturing 192.168.1.1 27017; do
+      echo "Server crashed with exit code $?. Respawning..." >&2
+      sleep 1
+   done
 }
 
 stop() {
-   sudo pkill restartCaptureServer
+   sudo pkill ReetiServer_Cap
 }
 
 restart() {
@@ -16,9 +22,6 @@ restart() {
 status() {
    echo "ReetiServer_Cap Process:"
    pgrep ReetiServer_Cap
-
-   echo "restartCaptureServer Script Process:"
-   pgrep restartCaptureServer
 }
 
 case "$1" in
