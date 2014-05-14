@@ -11,4 +11,5 @@ To compile and build all executable and library files:
 
 3. All created executable and library files will be created in: /build/src/
 
-4. Two configuration files, InitVar.u and InitModule.u, will be copied to: reetiPrograms/load/
+4. Two configuration files, InitVar.u and InitModule.u, will be copied to: 
+reetiPrograms/load/
