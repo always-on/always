@@ -35,11 +35,11 @@ without urbi.desktop).
 
 
 NOTE:
-+ To test whether urbi rstarter works or not:
++ To test whether urbi restarter works or not:
 
 a) Restart the Ubuntu on robot.
 
-b) Wait for 30 seconds after Ubuntu boots up.
+b) Wait for 30-40 seconds after Ubuntu boots up.
 
 c) Open a terminal and see whether the urbi server process is 
 running in back ground:
@@ -66,19 +66,20 @@ above.
 + ReetiServer_Capturing
 =======================
 
-1. Compile Reeti's code in ALways on project using CMake (see 
-build instruction).
+1. Compile Reeti's code in Always on project using cmake (see 
+build instruction file).
 
 2. Give execute permission to "RestartReetiServerCapturingService"
-file in "CapturingRestarter" folder in Reeti folder on Github:
+file in /etc/init.d/ folder:
 
    > sudo chmod a+x RestartReetiServerCapturingService
 
 3. Give execute permission to "restartCaptureServer.sh" file in 
-/etc/init.d/
+"CapturingRestarter" folder in Reeti folder on Github:
+
    > sudo chmod a+x restartCaptureServer.sh
 
-4. Update "RestartReetiServerCapturingService" in all run levels to
+4. Update "RestartReetiServerCapturingService" in all "run levels" to
 make Capturing Server process to automatically restart on Ubuntu 
 reboot.
 
