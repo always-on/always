@@ -62,8 +62,8 @@ Reseller: Directron.
   C:\Users\<USERNAME>\AppData\LocalLow\Unity\WebPlayer\UnityBugReporter.exe
 
 * install DropBox using account 'always-on@wpi.edu' (password provided) and
-  under Preferences, select Selective Sync and just sync the folder with
-  name of this machine.
+  under Preferences, select Selective Sync and just sync the 'release' folder,
+  the 'release.new' folder and the folder with name of this machine.
 
 * Install Ivona (update license file in docs/ivona.txt)
 
