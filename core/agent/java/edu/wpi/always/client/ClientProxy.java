@@ -3,7 +3,7 @@ package edu.wpi.always.client;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import com.google.common.collect.Maps;
@@ -31,6 +31,10 @@ public class ClientProxy {
          hor = ReetiPIDController.translateReetiToAgentX(config.getNeckRotat());
          ver = ReetiPIDController.translateReetiToAgentY(config.getNeckTilt());
       }
+      // make sure client in default state
+      showMenu(Collections.<String>emptyList(), false, false);
+      showMenu(Collections.<String>emptyList(), false, true); 
+      hidePlugin();
    }
    
    private void registerOnDispatcher () {
