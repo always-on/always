@@ -57,9 +57,13 @@ public class DiscoRT implements Startable {
       }
       
       public Interaction (Actor system, Actor external, String from, boolean console, File log) {
-         super(system, external, from, false, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
+         super(system, external, from, console && isHeadless(), null, "edu.wpi.disco.rt.DiscoRT.Interaction");
          Console.THROW = true; // so exceptions thrown
-         this.console = console ? new ConsoleWindow(this, "DiscoRT", log) : null;
+         this.console = (console && !isHeadless()) ? new ConsoleWindow(this, "DiscoRT", log) : null;
+      }
+      
+      private static boolean isHeadless () {
+         return Boolean.parseBoolean(System.getProperty("java.awt.headless"));
       }
       
       public void setSchema (Schema schema) { 
