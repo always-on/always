@@ -26,6 +26,8 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
          // since reusing interaction, reuse thread and console also
          console = interaction.getConsoleWindow();
          console.setVisible(true);
+         // share main log for all Disco plugins
+         interaction.getConsole().setAppend(always.getCM().getInteraction().getConsole().getLogStream());
       } else console = null;
    }
    

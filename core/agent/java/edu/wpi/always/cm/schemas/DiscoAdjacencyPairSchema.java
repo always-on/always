@@ -38,7 +38,7 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<Adjacen
    }
    
    protected void history () {
-      final Console console = interaction.getConsole();
+      Console console = interaction.getConsole();
       if ( console != null ) console.history(null);
    }
 }
