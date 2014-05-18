@@ -30,7 +30,8 @@ public class CollaborationManager extends DiscoRT {
    private final TaskModel activities;
    
    public CollaborationManager (MutablePicoContainer parent) {
-      super(parent);
+      super(parent, 
+            new File(UserUtils.USER_DIR, "User."+UserUtils.formatDate()+".txt"));
       this.parent = parent;
       SCHEMA_INTERVAL = 500;
       container.removeComponent(Resources.class);
@@ -116,8 +117,7 @@ public class CollaborationManager extends DiscoRT {
             Utils.lnprint(System.out, "Loaded plugin: "+instance);
          } 
       loadPluginOntologies(plugin);
-      start(plugin == null ? "Session" : null,
-         new File(UserUtils.USER_DIR, "User."+UserUtils.formatDate()+".txt"));
+      start(plugin == null ? "Session" : null);
       // after DiscoRT.start() so all registries done
       ClientProxy proxy = container.getComponent(ClientProxy.class);
       // agent always starts not visible (and stays that way for Reeti-only mode)
@@ -144,7 +144,7 @@ public class CollaborationManager extends DiscoRT {
    }
    
    @Override
-   protected void configure (String title, File log) {
+   protected void configure (String title) {
       // handle inconsistent user model in activity schemas
       Scheduler scheduler = new Scheduler(InconsistentOntologyException.class,
             new Scheduler.ExceptionHandler () {
@@ -156,7 +156,7 @@ public class CollaborationManager extends DiscoRT {
                        ((ActivitySchema) r).setInconsistentOntologyException((InconsistentOntologyException) e); 
                  }}}); 
       container.as(Characteristics.CACHE).addComponent(scheduler);
-      super.configure(title, log);
+      super.configure(title);
    }
    
    @Override
