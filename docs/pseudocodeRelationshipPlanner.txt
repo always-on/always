@@ -1,0 +1,75 @@
+If ((About is.member PerformedTasks) 
+   OR (Exercise is.member PerformedTasks) OR (StoryTelling is.member PerformedTasks) OR (Skype is.member Performed Tasks)
+   OR [(Enrolled more than user) AND (Made a Calendar entry)])
+ then   Closeness = Companion
+
+ElseIf ((Enrolled more than user) 
+    OR (Made a Calendar entry)
+    OR [(Day > 6) 
+       AND (NumberSessions > .5 * NumberDays) 
+       AND (there-exists x: x is.member PerformedTasks AND (x not.member '(Greetings Weather)))])  
+       //this says the user had at least 3 sessions and did some activity besides greetings and weather
+ then  Closeness = Acquaintance
+
+Else Closeness = Stranger
+
+NOTE:  plans below are ordered as presented.  I just listed menu activities.
+
+FOR STRANGER CLOSENESS:
+
+plan:  Greetings, Weather, TTT, Rummy, Explain, ExcourageUserExplain (if day > 2 AND Explain not.member PerformedTasks)
+
+Menu: Checkers (if day > 1)
+      task (x) (for all x: x not.member '(Exercise SKYPE StoryTelling) AND  	       	        	                x is.member ExplainedTasks) 
+      Explain
+      TTT
+      Rummy
+      Enroll (if day > 2 and (Enroll not.member ExplainedTasks ))
+      About (if day > 2 AND (Enroll is.member PerformedTasks) AND (About not.member ExplainedTasks)
+      Calendar (if day > 3 AND (Calendar not.member ExplainedTasks))
+
+FOR ACQUAINTANCE CLOSENESS:
+
+plan: Greetings, Weather, ExcourageUserExplain (if day > 2 AND Explain not.member PerformedTasks)
+Menu: Explain (if !AllTasksExplained)
+      Calendar
+      Enroll
+      Health 
+      Nutrition
+      Checkers
+      Rummy
+      TTT
+      About
+      Exercise (if day > 7 AND (NumberSessions > .5 * NumberDays))
+      StoryTelling (if day > 8 AND (NumberSessions > .5 * NumberDays))
+      Skype (if day > 9 AND (NumberSessions > .5 * NumberDays))
+
+FOR COMPANION CLOSENESS:
+
+plan: Greetings, Weather
+menu: Explain (if !AllTasksExplained)
+      Calendar
+      Enroll
+      Health 
+      Nutrition
+      Checkers
+      Rummy
+      TTT
+      About
+      StoryTelling
+      SKYPE
+      Exercise
+    
+
+<agent id="_EncourageUserExplain" text="You have not ever listened to me explain about all the activities we can do together">
+    <user text="Oh, really?  Okay, I'll try that">
+    </user>
+    <user text="I don't want to hear about this now">
+    </user>
+    <user text="I guess I will listen">
+    	<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; You can always stop when you've heard enough and listen again later lt;FACE EXPR=\&quot;WARM\&quot;/&gt; ">
+   	</agent>
+    </user>
+    <user text="maybe tomorrow">
+    </user>	
+ </agent>

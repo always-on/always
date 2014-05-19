@@ -23,8 +23,11 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
       if ( behaviorReceiver != null ) { // for always_disco testing
          // note activities append to session log
-         console = new DiscoRT.ConsoleWindow(interaction, getClass().getSimpleName(), true, null);
+         // since reusing interaction, reuse thread and console also
+         console = interaction.getConsoleWindow();
          console.setVisible(true);
+         // share main log for all Disco plugins
+         interaction.getConsole().setAppend(always.getCM().getInteraction().getConsole().getLogStream());
       } else console = null;
    }
    
@@ -42,8 +45,8 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    
    @Override
    public void dispose () { 
+      console.setVisible(false);
       history(); // before dispose
       super.dispose();
-      console.close();
    }
 }

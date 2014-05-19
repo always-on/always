@@ -32,7 +32,7 @@ public class DiscoRT implements Startable {
     */
    public static boolean TRACE;
    
-   protected final DiscoRT.Interaction interaction =  new DiscoRT.Interaction(new Agent("agent"), new User("user"));
+   protected final DiscoRT.Interaction interaction;
    protected final MutablePicoContainer container;
    protected final Set<SchemaRegistry> schemaRegistries = new HashSet<SchemaRegistry>();
    protected final Set<ComponentRegistry> registries = new HashSet<ComponentRegistry>();
@@ -41,36 +41,60 @@ public class DiscoRT implements Startable {
    
    public static class Interaction extends edu.wpi.disco.Interaction {
       
+      private final ConsoleWindow console;
+      
+      public ConsoleWindow getConsoleWindow () { return console; }
+      
       public Interaction (Actor system, Actor external, String from) {
+         // sic do not use this()
          super(system, external, from, true, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
-         getConsole().THROW = true; // so exceptions thrown
+         Console.THROW = true; // so exceptions thrown
+         console = null;
       }
       
       public Interaction (Actor system, Actor external) {
-         super(system, external, null, false, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
-         getConsole().THROW = true; // so exceptions thrown
+         this(system, external, null, true, null);
       }
       
-      public void setSchema (Schema schema) { setGlobal("$schema", schema); } 
+      public Interaction (Actor system, Actor external, String from, boolean console, File log) {
+         super(system, external, from, console && isHeadless(), null, "edu.wpi.disco.rt.DiscoRT.Interaction");
+         Console.THROW = true; // so exceptions thrown
+         this.console = (console && !isHeadless()) ? new ConsoleWindow(this, "DiscoRT", log) : null;
+      }
+      
+      private static boolean isHeadless () {
+         return Boolean.parseBoolean(System.getProperty("java.awt.headless"));
+      }
+      
+      public void setSchema (Schema schema) { 
+         setGlobal("$schema", schema);
+         if ( console != null ) console.setTitle(schema.getClass().getSimpleName());
+      } 
    }
    
-   public DiscoRT () {
-      container = new PicoBuilder().withBehaviors(new OptInCaching())
-            .withLifecycle(new StartableLifecycleStrategy(new LifecycleComponentMonitor()))
-            .withConstructorInjection().build();
+   private DiscoRT (File log, MutablePicoContainer container) {
+      interaction = new DiscoRT.Interaction(new Agent("agent"), new User("user"), null, true, log);
+      this.container = container;
       container.as(Characteristics.CACHE).addComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(interaction);
    }
 
-   public DiscoRT (MutablePicoContainer parent) {
-      container = new DefaultPicoContainer(new OptInCaching(), 
-            new StartableLifecycleStrategy(new LifecycleComponentMonitor()), 
-            parent);
-      container.as(Characteristics.CACHE).addComponent(Resources.class);
-      container.as(Characteristics.CACHE).addComponent(interaction);
+   public DiscoRT () { 
+      this(null,
+           new PicoBuilder().withBehaviors(
+            new OptInCaching()).withLifecycle(
+                  new StartableLifecycleStrategy(new LifecycleComponentMonitor()))
+                    .withConstructorInjection().build()); 
    }
    
-   protected void configure (String title, File log) {
+   public DiscoRT (MutablePicoContainer parent, File log) {
+      this(log,
+           new DefaultPicoContainer(
+              new OptInCaching(), 
+              new StartableLifecycleStrategy(new LifecycleComponentMonitor()), parent)); 
+   }
+   
+   protected void configure (String title) {
       container.as(Characteristics.CACHE).addComponent(PrimitiveBehaviorManager.class);
       container.as(Characteristics.CACHE).addComponent(Realizer.class);
       container.addComponent(FocusRequestRealizer.class);
@@ -81,14 +105,13 @@ public class DiscoRT implements Startable {
       // allow easy overriding of this
       if ( container.getComponent(Scheduler.class) == null )
          container.as(Characteristics.CACHE).addComponent(Scheduler.class);
-      if ( title != null ) 
-         new DiscoRT.ConsoleWindow(interaction, title, false, log).setVisible(true);
+      if ( interaction.console != null ) interaction.console.setVisible(true);
    }
 
    public static class ConsoleWindow extends edu.wpi.disco.ConsoleWindow {
       
-      public ConsoleWindow (Interaction interaction, String title, boolean append, File log) {
-         super(interaction, 600, 500, 14, append, log);
+      public ConsoleWindow (Interaction interaction, String title, File log) {
+         super(interaction, 600, 500, 14, log);
          setExtendedState(Frame.ICONIFIED);
          setTitle(title);
       }
@@ -102,8 +125,8 @@ public class DiscoRT implements Startable {
       else throw new IllegalArgumentException("Unknown registry type: "+registry);
    }
 
-   public void start (String title, File log) {
-      configure(title, log);
+   public void start (String title) {
+      configure(title);
       SchemaManager schemaManager = new SchemaManager(container); 
       container.as(Characteristics.CACHE).addComponent(schemaManager);
       for (ComponentRegistry registry : registries) 
