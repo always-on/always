@@ -5,5 +5,5 @@
 dir="`dirname $0`"
 box="C:/Dropbox/$COMPUTERNAME"
 if [ ! -e $box ]; then box="$dir/../../../user"; fi
-cp -f "$dir/../test/TestUser.owl" "$box/User.Diane.owl"
-echo "Restored User.Diane.owl from always/core/agent/test/TestUser.owl"
+cp -f "$dir/../test/User.Diane.owl" "$box/User.Diane.owl"
+echo "Restored User.Diane.owl from always/core/agent/test"
