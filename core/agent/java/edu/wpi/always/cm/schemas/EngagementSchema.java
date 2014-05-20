@@ -60,23 +60,21 @@ public class EngagementSchema extends SchemaBase {
 
    private final static Behavior HI_HI = Behavior.newInstance(new SpeechBehavior("Hi"), HI);
 
+   public static volatile boolean EXIT; // for GoodbyeSchema
+   
    @Override
    public void run () {
       EngagementPerception engagementPerception = engagementPerceptor.getLatest();
       // socket not initialized until after this schema started
       reeti = cm.getReetiSocket();
       if ( engagementPerception != null ) {
-         switch (state = engagementPerception.getState()) {
+         switch (state = EXIT ? EngagementState.Idle : engagementPerception.getState()) {
             case Idle:
-               if ( lastState == EngagementState.Recovering ) {
-                  proxy.showMenu(null, false, false);
-                  proxy.setAgentVisible(false);
+               if ( EXIT || lastState == EngagementState.Recovering ) {
                   if ( reeti != null ) reeti.reboot(); 
-                  // wait for socket messages to complete (no rush :-)
-                  try { Thread.sleep(2000); } catch (InterruptedException e) {}
                   // note call to turn on screensaver in bin/always-java
                   // when exit code is zero
-                  Utils.lnprint(System.out, "EXITING FOR IDLE...");
+                  Utils.lnprint(System.out, "ENGAGEMENT: Idle");
                   Always.exit(0); 
                } 
                if ( lastState != EngagementState.Idle ) { 

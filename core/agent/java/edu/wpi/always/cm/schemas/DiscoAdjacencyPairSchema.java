@@ -23,7 +23,14 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<Adjacen
    public DiscoAdjacencyPairSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always, DiscoRT.Interaction interaction) {
-      super(new DiscoAdjacencyPair(interaction), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
+      this(new DiscoAdjacencyPair(interaction), behaviorReceiver, behaviorHistory, 
+           resourceMonitor, menuPerceptor, always, interaction);
+   }
+   
+   public DiscoAdjacencyPairSchema (DiscoAdjacencyPair initial, BehaviorProposalReceiver behaviorReceiver,
+         BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
+         MenuPerceptor menuPerceptor, Always always, DiscoRT.Interaction interaction) {
+      super(initial, behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
       this.discoAdjacencyPair = (DiscoAdjacencyPair) stateMachine.getState();     
       this.interaction = interaction;
       interaction.setOk(false);

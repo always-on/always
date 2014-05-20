@@ -11,6 +11,7 @@ public class GreetingsPlugin extends Plugin {
    public GreetingsPlugin (UserModel userModel, CollaborationManager cm) {
       super("Greetings", userModel, cm);
       addActivity("GreetUser", 0, 0, 0, 0, GreetingsSchema.class); 
+      addActivity("SayGoodbye", 0, 0, 0, 0, GoodbyeSchema.class); 
    }
 
    /**

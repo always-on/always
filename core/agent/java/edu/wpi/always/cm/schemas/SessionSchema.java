@@ -12,7 +12,7 @@ import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.Agenda.Plugin.Item;
-import edu.wpi.disco.lang.Propose;
+import edu.wpi.disco.lang.*;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
@@ -37,7 +37,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          MenuPerceptor menuPerceptor, ClientProxy proxy,
          SchemaManager schemaManager, Always always, 
          DiscoRT.Interaction interaction) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
+      super(new Toplevel(interaction), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
       this.proxy = proxy;
       this.schemaManager = schemaManager;
       this.interaction = interaction;
@@ -73,6 +73,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    @Override
    public void run () {
+      if ( EngagementSchema.EXIT ) return;
       Plan plan = interaction.getFocusExhausted(true);
       ActivitySchema schema = null;
       if ( plan != null ) {
@@ -149,7 +150,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private void stop (Plan plan) {
       plan.setComplete(true);
       started.remove(plan.getGoal());
-      proxy.showMenu(Collections.<String>emptyList(), false, true); // clear extension menu
+      proxy.showMenu(null, false, true); // clear extension menu
       proxy.hidePlugin();
       Utils.lnprint(System.out, "Returning to Session...");
       history(); // before update
@@ -157,6 +158,24 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       stateMachine.setExtension(false);
       stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
       setNeedsFocusResource(true);
+   }
+   
+   public static final String TOPLEVEL = "What would you like to do together?";
+   
+   private static class Toplevel extends DiscoAdjacencyPair {
+      
+      public Toplevel (DiscoRT.Interaction interaction) {
+         super(interaction);
+      }
+      
+      @Override
+      public void update () {
+         Agent agent = (Agent) getInteraction().getSystem();
+         update(agent.respond(getInteraction(), false, true) ? agent.getLastUtterance() : 
+                  getInteraction().getFocusExhausted(true) == null ? 
+                     new Say(getInteraction().getDisco(), false, TOPLEVEL) : null,
+               getInteraction().getExternal().generate(getInteraction()));
+      }
    }
    
    private class Stop extends DiscoAdjacencyPair {
@@ -172,7 +191,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       @Override
       public void update () {
          update(null, Collections.singletonList(
-                        Agenda.newItem(new Propose.Stop(interaction.getDisco(), true, plan.getGoal()), null)));
+                        Agenda.newItem(new Propose.Stop(getInteraction().getDisco(), true, plan.getGoal()), null)));
       }
       
       @Override

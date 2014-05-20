@@ -206,4 +206,8 @@
     </user>
   </agent>
   
+  <agent id="_Goodbye" text="Ok, talk to you later. Goodbye.">
+    <user text="Goodbye" eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
+  </agent>
+
 </model>

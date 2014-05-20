@@ -41,6 +41,8 @@
   <task id="AdviseNutrition"/>
   
   <task id="TellStory"/>
+
+  <task id="SayGoodbye"/>
   
   <script init="true">
 
