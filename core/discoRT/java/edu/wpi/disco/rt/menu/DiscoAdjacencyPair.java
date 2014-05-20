@@ -20,14 +20,9 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
       this.interaction = interaction;
    }
    
-   public static final String TOPLEVEL = "What would you like to do together?";
-
    public void update () {
       Agent agent = (Agent) interaction.getSystem();
-      update(agent.respond(
-            interaction, false, true) ? agent.getLastUtterance() : 
-               interaction.getFocusExhausted(true) == null ? 
-                  new Say(interaction.getDisco(), false, TOPLEVEL) : null,
+      update(agent.respond(interaction, false, true) ? agent.getLastUtterance() : null,
             interaction.getExternal().generate(interaction));
    }
 

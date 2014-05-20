@@ -32,8 +32,8 @@ public class ClientProxy {
          ver = ReetiPIDController.translateReetiToAgentY(config.getNeckTilt());
       }
       // make sure client in default state
-      showMenu(Collections.<String>emptyList(), false, false);
-      showMenu(Collections.<String>emptyList(), false, true); 
+      showMenu(null, false, true);  // must be first
+      showMenu(null, false, false);
       hidePlugin();
    }
    

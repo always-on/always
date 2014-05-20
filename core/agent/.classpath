@@ -16,7 +16,7 @@
 	<classpathentry kind="lib" path="lib/owlapi/pellet-core.jar" sourcepath="lib/owlapi/src/pellet-core-src.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-datatypes.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi/pellet-el.jar"/>
-	<classpathentry kind="lib" path="lib/owlapi/pellet-rules.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi/pellet-rules.jar" sourcepath="lib/owlapi/src/pellet-rules-src.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/discoRT"/>
 	<classpathentry exported="true" kind="lib" path="lib/gson-2.2.4.jar">
 		<attributes>

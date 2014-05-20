@@ -236,14 +236,21 @@ public class Always {
    // Assumes java being called inside a restart loop
    public static void restart (Exception e, String message) {
       Utils.lnprint(System.out, (e == null ? "" : e)+message);
-      Utils.lnprint(System.out, "EXITING (FOR RESTART)...");
       if ( EXIT ) exit(1); 
       else if ( e != null ) edu.wpi.cetask.Utils.rethrow(e);  
    }
    
    public static void exit (int code) {
+      Utils.lnprint(System.out,  "EXITING WITH CODE "+code+" ...");
+      MutablePicoContainer container = Always.THIS.getCM().getContainer();
+      ClientProxy proxy = container.getComponent(ClientProxy.class);
+      proxy.showMenu(null, false, true); // must be first
+      proxy.showMenu(null, false, false);      
+      proxy.setAgentVisible(false);
       // need to free resources held by engine which block exit
-      Always.THIS.getCM().getContainer().getComponent(ShoreFacePerceptor.class).stop();
+      container.getComponent(ShoreFacePerceptor.class).stop();
+      // give menu clearing messages time to be sent
+      try { Thread.sleep(3000); } catch (InterruptedException e) {}
       System.exit(code);
    }
 }

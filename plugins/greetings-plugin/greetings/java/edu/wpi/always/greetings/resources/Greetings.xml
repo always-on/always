@@ -64,6 +64,14 @@
          <binding slot="$__NightGreetings_step.external" value="false"/>
       </subtasks>
    </task>
+   <task id="_Goodbye">
+      <subtasks id="__Goodbye_subtasks">
+         <step name="__Goodbye_step" task="disco:Say"/>
+         <step name="__Goodbye_ref" task="__Goodbye_tree"/>
+         <binding slot="$__Goodbye_step.text" value="&#34;Ok, talk to you later. Goodbye.&#34;"/>
+         <binding slot="$__Goodbye_step.external" value="false"/>
+      </subtasks>
+   </task>
    <task id="__Morning_tree">
       <subtasks id="_d4e13_subtasks">
          <step name="_d4e13_step" task="disco:Say"/>
@@ -508,6 +516,15 @@
          <binding slot="$_d4e105_step.external" value="true"/>
          <binding slot="$_d4e106_step.text" value="&#34;Good night&#34;"/>
          <binding slot="$_d4e106_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="__Goodbye_tree">
+      <subtasks id="_d4e108_subtasks">
+         <step name="_d4e108_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e108_step.text" value="&#34;Goodbye&#34;"/>
+         <binding slot="$_d4e108_step.external" value="true"/>
+         <binding slot="$_d4e108_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
       </subtasks>
    </task>
    <task id="_MorningGreetings">
