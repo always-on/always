@@ -27,6 +27,7 @@ public class OntologyPeopleManager implements PeopleManager {
 
    @Override
    public OntologyPerson getUser () {
+      if ( model.getUserName().isEmpty() ) return null;
       OntologyIndividual owlPerson = helper.getNamedIndividual(model
             .getUserName());
       if ( !owlPerson.hasSuperclass(OntologyPerson.USER_CLASS) ) {
