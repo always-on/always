@@ -41,7 +41,7 @@ public class CollaborationManager extends DiscoRT {
       loadUserModel();
    }
  
-   public void revertUserModel (InconsistentOntologyException e) {
+   public void inconsistentUserModel (InconsistentOntologyException e) {
       inconsistent(e);
       loadUserModel();
       loadPluginOntologies(null);
@@ -64,6 +64,14 @@ public class CollaborationManager extends DiscoRT {
          inconsistent(e); 
          loadUserModel(); // try again
       }
+      catch (Exception e) {
+         Utils.lnprint(System.out, "****************************************************************");
+         Utils.lnprint(System.out, "    Exception in "+UserUtils.USER_FILE);
+         System.out.println();
+         e.printStackTrace();
+         revertUserModel(true);
+         loadUserModel(); // try again
+      }
    }
    
    private void inconsistent (InconsistentOntologyException e) {
@@ -75,12 +83,16 @@ public class CollaborationManager extends DiscoRT {
          Utils.lnprint(System.out, cause.getMessage());
          System.out.println();
       }
+      revertUserModel(false);
+   }
+   
+   private void revertUserModel (boolean loading) {
       Utils.lnprint(System.out, "    Reverting to previous version of user model...");
       Utils.lnprint(System.out, "****************************************************************\n");
       File file = new File(UserUtils.USER_DIR, UserUtils.USER_FILE),
            bad = new File(UserUtils.USER_DIR, "BAD-"+UserUtils.USER_FILE);
       try { 
-         if ( bad.exists() ) { // already crashed once this session, so try older file 
+         if ( bad.exists() || loading ) { // already crashed once this session, so try older file 
             if ( file.exists() )
                Files.move(file.toPath(), 
                      new File(UserUtils.USER_DIR, "BAD-"+UserUtils.USER_FILE+"-AGAIN.owl").toPath(), 
@@ -140,7 +152,7 @@ public class CollaborationManager extends DiscoRT {
             for (TaskClass top : activities.getTaskClasses()) 
                Plugin.getPlugin(top, container).loadOntology();
          parent.getComponent(UserModel.class).ensureConsistency();
-      } catch (InconsistentOntologyException e) { revertUserModel(e); }
+      } catch (InconsistentOntologyException e) { inconsistentUserModel(e); }
    }
    
    @Override

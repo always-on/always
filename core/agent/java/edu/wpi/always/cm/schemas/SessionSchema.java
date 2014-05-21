@@ -54,7 +54,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       System.out.println("****************************************************************************");
       System.out.println("Agent type = "+Always.getAgentType());
       try { UserUtils.print(always.getUserModel(), System.out);}
-      catch (InconsistentOntologyException e) { cm.revertUserModel(e); }  // try once
+      catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
       DiscoDocument session = always.getRM().getSession();
       Disco disco = interaction.getDisco();
       if ( disco.getTaskClass("_Session") == null && session != null ) { // could be restart
@@ -120,7 +120,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    private void revertIfInconsistent (ActivitySchema schema) {
       InconsistentOntologyException e = schema.getInconsistentOntologyException();
-      if ( e != null) cm.revertUserModel(e);
+      if ( e != null) cm.inconsistentUserModel(e);
    }
    
    @Override
