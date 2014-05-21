@@ -53,8 +53,8 @@ public class Always {
    
    public static AgentType getAgentType () { return agentType; }
    
-   private static Date sessionDate;
-   
+   private final static Date sessionDate = new Date();
+
    public static Date getSessionDate () { return sessionDate; }
    
    private static boolean login;
@@ -155,7 +155,6 @@ public class Always {
    public Always (boolean logToConsole, boolean allPlugins) {
       ALL_PLUGINS = allPlugins;
       THIS = this;
-      sessionDate = new Date();
       if ( logToConsole )
          BasicConfigurator.configure();
       else

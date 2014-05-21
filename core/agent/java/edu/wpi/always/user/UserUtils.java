@@ -1,20 +1,18 @@
 package edu.wpi.always.user;
 
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Pattern;
-import org.joda.time.*;
-import org.picocontainer.BindKey;
 import edu.wpi.always.*;
-import edu.wpi.always.user.calendar.*;
-import edu.wpi.always.user.calendar.Calendar;
+import edu.wpi.always.user.calendar.CalendarUtils;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
 import edu.wpi.cetask.*;
+import org.joda.time.MonthDay;
+import org.picocontainer.BindKey;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.regex.Pattern;
 
 public abstract class UserUtils {
 
@@ -77,6 +75,22 @@ public abstract class UserUtils {
    
    public static String formatDate () {
       return new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss").format(Always.getSessionDate());
+   }
+   
+   public static TimeOfDay TIME_OF_DAY; // for testing
+   
+   public enum TimeOfDay { Morning, Afternoon, Evening, Night }
+   
+   public static TimeOfDay getTimeOfDay () {
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(Always.getSessionDate());
+      int hour = calendar.get(Calendar.HOUR_OF_DAY);
+      return TIME_OF_DAY != null ? TIME_OF_DAY :
+         (hour > 22) ? TimeOfDay.Night :
+            (hour > 18) ? TimeOfDay.Evening :
+               (hour > 12) ? TimeOfDay.Afternoon :
+                  (hour > 5) ? TimeOfDay.Morning :
+                     TimeOfDay.Night;
    }
    
    /**
