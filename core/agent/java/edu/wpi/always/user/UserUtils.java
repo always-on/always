@@ -41,7 +41,7 @@ public abstract class UserUtils {
       if ( args != null && args.length > 0 && args[0].length() > 0 ) 
          USER_FILE = args[0];
       else {
-         File last = lastModified();
+         File last = lastModifiedUserModel();
          if ( last != null ) USER_FILE = last.getName().toString();
       }
       Always always = new Always(true, true);
@@ -55,16 +55,20 @@ public abstract class UserUtils {
                    BindKey.bindKey(File.class, UserModel.UserOntologyLocation.class)));
       else print(model, System.out);
    }
+ 
+   public static File lastModifiedUserModel () {
+      return lastModified("User.", ".owl");
+   }
    
    /**
-    * @returns last modified file in USER_DIR starting with "User." and
-    * ending with ".owl", or null if none.
+    * @returns last modified file in USER_DIR starting/ending with
+    * specified strings, or null if none.
     */
-   public static File lastModified () {
+   public static File lastModified (String startsWith, String endsWith) {
       File last = null;
       for (File file : new File(USER_DIR).listFiles()) {
          String name = file.getName();
-         if ( name.startsWith("User.") && name.endsWith(".owl") ) {
+         if ( name.startsWith(startsWith) && name.endsWith(endsWith) ) {
             if ( last == null ) last = file;
             else if ( file.lastModified() > last.lastModified() )
                last = file;
@@ -96,7 +100,7 @@ public abstract class UserUtils {
    /**
     * Print out core information about all people
     * 
-    * @see CalendarUtils#print(Calendar,PrintStream)
+    * @see CalendarUtils#print(edu.wpi.always.user.calendar.Calendar,PrintStream)
     */
    public static void print (UserModel model, PrintStream stream) {
       stream.println();
@@ -158,11 +162,11 @@ public abstract class UserUtils {
 
    private static final String regex = "\\d{3}-\\d{3}-\\d{4}";
 
-   public static boolean isPhoneNumberValid(String phoneNumber) {
+   public static boolean isPhoneNumberValid (String phoneNumber) {
       return Pattern.matches(regex, phoneNumber);
    }
 
-   public static boolean isInteger(String s) {
+   public static boolean isInteger (String s) {
       boolean result = true;
       try { 
          int age = Integer.parseInt(s); 
@@ -175,7 +179,7 @@ public abstract class UserUtils {
       return result;
    }
 
-   public static boolean isValidDayOfMonth(int month, int day){
+   public static boolean isValidDayOfMonth (int month, int day){
       boolean result = true;
       if(1 > day || day > 31){
          result = false;

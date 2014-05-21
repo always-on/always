@@ -48,7 +48,7 @@ public class CollaborationManager extends DiscoRT {
    }
    
    private void loadUserModel () {
-      File last = UserUtils.USER_FILE == null ? UserUtils.lastModified() : 
+      File last = UserUtils.USER_FILE == null ? UserUtils.lastModifiedUserModel() : 
          new File(UserUtils.USER_DIR, UserUtils.USER_FILE);
       UserUtils.USER_FILE = "User."+UserUtils.formatDate()+".owl";
       File file = new File(UserUtils.USER_DIR, UserUtils.USER_FILE);
@@ -97,7 +97,7 @@ public class CollaborationManager extends DiscoRT {
                Files.move(file.toPath(), 
                      new File(UserUtils.USER_DIR, "BAD-"+UserUtils.USER_FILE+"-AGAIN.owl").toPath(), 
                      StandardCopyOption.ATOMIC_MOVE);
-            File last = UserUtils.lastModified();
+            File last = UserUtils.lastModifiedUserModel();
             if ( last != null ) 
                Files.move(last.toPath(), 
                      new File(UserUtils.USER_DIR, "BAD-"+last.toPath().getFileName()+"-SKIP.owl").toPath(), 
