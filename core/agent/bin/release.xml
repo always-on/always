@@ -2,15 +2,15 @@
 <project default="release" name="Release Always-On">
     <property environment="env"/>
     <target name="release">
-        <move todir="C:/Dropbox/${env.COMPUTERNAME}/release.old" failonerror="false">
-          <fileset dir="C:/Dropbox/${env.COMPUTERNAME}/release"/>
-        </move>
+        <move file="C:/Dropbox/${env.COMPUTERNAME}/release" 
+              tofile="C:/Dropbox/${env.COMPUTERNAME}/release.old" failonerror="false"/>
         <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release">
           <fileset excludes="FaceDetection.dll,USBm2-64.dll" dir="../lib/win32-x86-64"/>
         </copy>
         <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/plugins/Plugins.Startup/bin">
           <fileset dir="../../../plugins/Plugins.Startup/bin/Debug"/>
         </copy>  
+        <mkdir dir="C:/Dropbox/${env.COMPUTERNAME}/release/images"/>
         <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/images">
           <fileset dir="../images"/>
         </copy>  
