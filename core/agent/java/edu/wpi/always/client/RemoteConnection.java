@@ -1,6 +1,5 @@
 package edu.wpi.always.client;
 
-import java.io.PrintWriter;
 import java.net.*;
 import edu.wpi.always.Always;
 import edu.wpi.disco.rt.util.Utils;

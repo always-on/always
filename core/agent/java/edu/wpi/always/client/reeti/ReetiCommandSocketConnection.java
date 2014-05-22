@@ -22,8 +22,11 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
    }
    
    public void send (String message) {
-      try { writer.println(message); }
-      catch (Exception e) { restart(e); }
+      try {
+         writer.println(message); 
+         if ( writer.checkError() ) 
+            throw new IOException("ReetiCommandSocket println failed");
+      } catch (Exception e) { restart(e); } 
    }
 
    public void close () {

@@ -4,8 +4,10 @@ April 23, 2014
          c:\Dropbox\<COMPUTERNAME>\always.bat has been initialized
          with parameters to launch correct condition as per list!
 
-         For the four Reeti machines, the correct Reeti.json needs
-		 be copied from always/core/lib/reeti
+         For the four Reeti machines, the correct Reeti.json has
+		 been copied from always/core/lib/reeti
+
+         Reeti's in reserve:  Balin, Kili (eye problem)
 
 ---MACHINE IN PARIS---
 
@@ -15,23 +17,23 @@ ASUS-RICH (ASUS) Development
 
 ALWAYS2 (HP) Development
 
-** ALWAYS4 (ASUS) - Reeti TBD
-*a ALWAYS5 (ASUS) - Kept at WPI until June 15
+** ALWAYS4 (ASUS) - Reeti Nori
+*a ALWAYS5 (ASUS) - (Kept at WPI until June 15)
 *a ALWAYS8 (ASUS)
 
 ---MACHINES AT NEU (unpacked)---
 
 TOUCHSMART2-HP (HP) Development
 
-** RAGTOUCH2 (ASUS) - Reeti TBD
+** RAGTOUCH2 (ASUS) - Reeti Dori
 
-** ALWAYS3 (ASUS) - Reeti Fili (??)
+** ALWAYS3 (ASUS) - Reeti Fili
 
 --- (ASUS) IN BOXES AT NEU---
 
 1 in lab
 
-** ALWAYS1 - Reeti TBD
+** ALWAYS1 - Reeti Bombur
 
 10 in storeroom
 
@@ -56,3 +58,7 @@ NB: login condition machines do *not* need IR boxes!
 ** = use in Reeti study (4) ALWAYS1,RAGTOUCH2,ALWAYS3,ALWAYS4
 
 [Also: RAG-PC-PHD-4 - Lazlo's PC (not a touchscreen)
+
+
+
+   
