@@ -10,23 +10,23 @@ import java.util.Date;
 
 public class WundergroundParser {
 
-   // default
-   private static String zip = "02115";
+   public static String ZIP = "02115";
 
    /**
-    * @param args [zip model] NB: Case-sensitive!
+    * @param args [zip] NB: Case-sensitive!
     *           <p>
     *           zip: 5-digits (default 02115)<br>
-    *           model: file in always/user (default TestUser.owl)
     */
    public static void main (String[] args) {
-      checkArgs(args);
-      Always always = Always.make(new String[] { "Stranger",
-         args.length > 1 ? args[1] : "TestUser.owl" }, null, null);
+      if ( args.length > 0 ) {
+         if ( !args[0].matches("\\d{5}((-)?\\d{4})?") )
+               throw new IllegalArgumentException("Invalid zip code: "+args[0]);
+         ZIP = args[0];
+      }
+      Always always = Always.make(null, null, null);
       String file =  UserUtils.USER_DIR+"/weatherData/"+UserUtils.formatDate()+".json";
       try (FileWriter writer = new FileWriter(file)) {
-         WundergroundJSON weather = new WundergroundJSON(zip,
-               always.getUserModel());
+         WundergroundJSON weather = new WundergroundJSON(ZIP, always.getUserModel());
          // make easier to read for debugging
          Gson gson = new GsonBuilder().setPrettyPrinting().create();
          String json = gson.toJson(weather);
@@ -34,21 +34,4 @@ public class WundergroundParser {
          System.out.println("File written: "+file);
       } catch (Exception e) { throw new RuntimeException(e); }
    }
-      
-   /*
-    * if argument 1 is a valid zip code, use that otherwise, use the default
-    */
-   private static void checkArgs (String[] args) {
-      if ( args.length > 0 ) {
-         if ( validateZip(args[0]) )
-            zip = args[0];
-      }
-   }
-
-   /*
-    * validate zip code
-    */
-   private static boolean validateZip (String zip) {
-      return zip.matches("\\d{5}((-)?\\d{4})?");
-   }
-}
+ }

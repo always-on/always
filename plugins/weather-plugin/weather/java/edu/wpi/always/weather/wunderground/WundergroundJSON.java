@@ -4,6 +4,7 @@ import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
 import edu.wpi.always.weather.provider.*;
+import edu.wpi.disco.rt.util.Utils;
 import java.util.*;
 
 public class WundergroundJSON {
@@ -34,7 +35,7 @@ public class WundergroundJSON {
    public WundergroundJSON (String s, UserModel model) throws Exception {
       this.model = model;
       FRIENDS_ZIP_MAP = createFriendMap();
-      System.out.println("Getting weather for ZIP " + s);
+      Utils.lnprint(System.out, "Getting weather for ZIP " + s);
       fillData(s);
    }
 

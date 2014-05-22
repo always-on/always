@@ -259,7 +259,7 @@
   	  
       var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(
                      new java.io.FileInputStream(
-                       Packages.edu.wpi.always.user.UserUtils.lastModified("/weatherData", "", ".json")));
+                       Packages.edu.wpi.always.user.UserUtils.lastModified("/weatherData", "", ".json"))));
       
       // dynamically create enumerations for interesting cities 
       // and friends from JSON data
