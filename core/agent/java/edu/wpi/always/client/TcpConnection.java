@@ -76,9 +76,10 @@ public class TcpConnection extends RemoteConnection {
    
    public static int STARTS_WITH = 18; // change to 0 to disable
   
-   private void send (String message) {
+   private void send (String message) throws IOException {
       out.println(message);
-      out.flush();
+      if ( out.checkError() ) 
+         throw new IOException("TcpConnection println failed");
       // optimization to help debugging
       if ( lastMessage.equals(message) ||
             (STARTS_WITH > 0 && lastMessage.length() >= STARTS_WITH &&
