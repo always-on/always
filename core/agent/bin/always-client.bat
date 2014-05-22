@@ -1,4 +1,4 @@
-cd C:\Dropbox\release\plugins\Plugins.Startup\bin
+cd C:\Dropbox\%COMPUTERNAME%\release\plugins\Plugins.Startup\bin
 ..\..\..\bin\nircmdc screensaver
 :always
    tasklist /FI "IMAGENAME eq Plugins.Startup.exe" 2>NUL | find /I /N "Plugins.Startup.exe">NUL

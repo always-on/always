@@ -2,16 +2,19 @@
 <project default="release" name="Release Always-On">
     <property environment="env"/>
     <target name="release">
-        <copy todir="C:/Dropbox/release.new">
+        <move todir="C:/Dropbox/${env.COMPUTERNAME}/release.old" failonerror="false">
+          <fileset dir="C:/Dropbox/${env.COMPUTERNAME}/release"/>
+        </move>
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release">
           <fileset excludes="FaceDetection.dll,USBm2-64.dll" dir="../lib/win32-x86-64"/>
         </copy>
-        <copy todir="C:/Dropbox/release.new/plugins/Plugins.Startup/bin">
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/plugins/Plugins.Startup/bin">
           <fileset dir="../../../plugins/Plugins.Startup/bin/Debug"/>
         </copy>  
-        <copy todir="C:/Dropbox/release.new/images">
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/images">
           <fileset dir="../images"/>
         </copy>  
-        <copy todir="C:/Dropbox/release.new/bin">
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/bin">
           <fileset file="../bin/nircmdc.exe"/>
           <fileset file="always-unity.bat"/>
           <fileset file="always-reeti.bat"/>
@@ -21,13 +24,13 @@
           <fileset file="weather.bat"/> 
           <fileset file="power.bat"/>
         </copy>  
-        <copy todir="C:/Dropbox/release.new/reeti">
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/reeti">
           <fileset dir="../lib/reeti"/>
         </copy>   
         <copy todir="C:/Dropbox/${env.COMPUTERNAME}/weatherData">
           <fileset file="../../../user/weatherData/testing.json"/>
         </copy> 
-        <jar destfile="C:/Dropbox/release.new/always.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="C:/Dropbox/${env.COMPUTERNAME}/release/always.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="edu.wpi.always.Always"/>
             </manifest>

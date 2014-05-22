@@ -1,4 +1,4 @@
-cd C:\Dropbox\release
+cd C:\Dropbox\%COMPUTERNAME%\release
 bin\nircmdc screensaver
 :always
    java -Djava.library.path="." -jar always.jar %*
