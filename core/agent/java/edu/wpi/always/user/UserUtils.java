@@ -57,16 +57,16 @@ public abstract class UserUtils {
    }
  
    public static File lastModifiedUserModel () {
-      return lastModified("User.", ".owl");
+      return lastModified("", "User.", ".owl");
    }
    
    /**
-    * @returns last modified file in USER_DIR starting/ending with
+    * @returns last modified file in given folder of USER_DIR starting/ending with
     * specified strings, or null if none.
     */
-   public static File lastModified (String startsWith, String endsWith) {
+   public static File lastModified (String folder, String startsWith, String endsWith) {
       File last = null;
-      for (File file : new File(USER_DIR).listFiles()) {
+      for (File file : new File(USER_DIR+folder).listFiles()) {
          String name = file.getName();
          if ( name.startsWith(startsWith) && name.endsWith(endsWith) ) {
             if ( last == null ) last = file;
