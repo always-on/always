@@ -18,6 +18,8 @@
           <fileset file="always-login.bat"/>
           <fileset file="always-java.bat"/>
           <fileset file="always-client.bat"/>
+          <fileset file="weather.bat"/> 
+          <fileset file="power.bat"/>
         </copy>  
         <copy todir="C:/Dropbox/release.new/reeti">
           <fileset dir="../lib/reeti"/>

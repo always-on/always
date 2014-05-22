@@ -256,38 +256,11 @@
       </subtasks>
    </task>
    <script init="true">
-  
-      var date; // initialize with date to use (today if undefined)
-      
-      // load data from USER_DIR
-
-      var data = newFile(todayDate());
-                      
-      if ( !data.exists() ) {
-		 println("\nCannot find weather data for "+todayDate());
-		 println("Using testing data...");
-		 data =  newFile("testing");
-      } 
-		
-	  function newFile (name) {
-	     return new java.io.File(Packages.edu.wpi.always.user.UserUtils.USER_DIR
-	           +"/weatherData/"+name+".json");
-	  }
-	  
+  	  
       var $W = JSON.parse(Packages.edu.wpi.cetask.Utils.toString(
-                     new java.io.FileInputStream(data)));
+                     new java.io.FileInputStream(
+                       Packages.edu.wpi.always.user.UserUtils.lastModified("/weatherData", "", ".json"))));
       
-      // return today's date in same format as timestamped log files, e.g., 2014_02_14
-      function todayDate () { 
-	      var currentTime = new Date();
-	      var month = currentTime.getMonth() + 1;
-	      var day = currentTime.getDate();
-	      var year = currentTime.getFullYear();	
-	      return (year+"_"+pad2(month)+"_"+pad2(day));
-      }
-      
-      function pad2 (number) { return (10 &gt; number ? '0' : '') + number; }
-
       // dynamically create enumerations for interesting cities 
       // and friends from JSON data
 

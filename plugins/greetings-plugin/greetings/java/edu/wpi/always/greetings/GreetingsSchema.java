@@ -1,17 +1,14 @@
 package edu.wpi.always.greetings;
 
-import org.joda.time.LocalTime;
 import edu.wpi.always.Always;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
-import edu.wpi.always.user.UserModel;
+import edu.wpi.always.user.*;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 
 public class GreetingsSchema extends DiscoActivitySchema {
 
-   public static int HOUR = -1;  // for testing
-   
    private static boolean running;
 
    @Override
@@ -33,21 +30,26 @@ public class GreetingsSchema extends DiscoActivitySchema {
       running = true;
       setSelfStop(true);
       interaction.clear();
-      if ( HOUR < 0 ) HOUR = LocalTime.now().getHourOfDay();
-      if ( HOUR > 4 && HOUR < 12 )
-         switch (Always.THIS.getUserModel().getCloseness()) {
-            case Stranger: 
-            case Acquaintance: 
-               start("_MorningGreetings");
-               break;
-            case Companion: 
-               start("_MorningGreetingsCompanion"); 
-               break;
-         }
-      else
-          start( (HOUR <= 4 || HOUR > 22) ? "_NightGreetings" : 
-                 HOUR > 18 ? "_EveningGreetings" :
-                 "_AfternoonGreetings" );
+      switch (UserUtils.getTimeOfDay()) {
+         case Morning:
+            switch (Always.THIS.getUserModel().getCloseness()) {
+               case Stranger: 
+               case Acquaintance: 
+                  start("_MorningGreetings");
+                  break;
+               case Companion: 
+                  start("_MorningGreetingsCompanion"); 
+                  break;
+            }
+            break;
+         case Afternoon:
+            start("_AfternoonGreetings" );
+            break;
+         case Evening:
+         case Night:
+            start("_NightGreetings"); 
+            break;
+      }
    }
    
    // to support calling properly from JavaScript
