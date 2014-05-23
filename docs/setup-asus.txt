@@ -1,4 +1,4 @@
-     ASUS MACHINE SETUP INSTRUCTIONS   May 23, 2014
+     ASUS FIELD STUDY MACHINE SETUP INSTRUCTIONS   May 23, 2014
 
 See docs/machines.txt for a machine name.  MAKE CERTAIN TO ONLY USE
 THESE NAMES AND KEEP TRACK OF WHICH ONES YOU HAVE USED (File can be
@@ -68,8 +68,10 @@ Reseller: Directron.
 
   General > Turn *off* desktop notifications
 
-  Account > Select Selective Sync and *only* sync the 'release' folder
-            *and* the folder with name of this machine.
+  Account > Select Selective Sync and *only* sync the folder with name
+            of this machine.
+
+  See toplevel Dropbox README.txt file for more instructions.
 
 * Install Ivona (update license file in docs/ivona.txt)
 
