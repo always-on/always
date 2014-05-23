@@ -1,6 +1,8 @@
-     ASUS MACHINE SETUP INSTRUCTIONS   April 14, 2014
+     ASUS MACHINE SETUP INSTRUCTIONS   May 23, 2014
 
-See docs/machines.txt for a machine name (edit file to avoid duplication).
+See docs/machines.txt for a machine name.  MAKE CERTAIN TO ONLY USE
+THESE NAMES AND KEEP TRACK OF WHICH ONES YOU HAVE USED (File can be
+edited and committed).
 
 Note that the machine name will have to be authorized with the local
 network in order to proceed further below.
