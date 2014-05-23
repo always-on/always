@@ -1,4 +1,4 @@
-April 23, 2014
+May 23, 2014
 
 ***NB*** For all the ASUS machines below, the file in
          c:\Dropbox\<COMPUTERNAME>\always.bat has been initialized
@@ -17,16 +17,17 @@ ASUS-RICH (ASUS) Development
 
 ALWAYS2 (HP) Development
 
+(Following 3 machines deliverd to NEU by June 15)
+
 ** ALWAYS4 (ASUS) - Reeti Nori
-*a ALWAYS5 (ASUS) - (Kept at WPI until June 15)
-*a ALWAYS8 (ASUS)
+*  ALWAYS5 (ASUS) - AlwaysOn 
+*  ALWAYS8 (ASUS) - AlwaysOn
 
 ---MACHINES AT NEU (unpacked)---
 
 TOUCHSMART2-HP (HP) Development
 
 ** RAGTOUCH2 (ASUS) - Reeti Dori
-
 ** ALWAYS3 (ASUS) - Reeti Fili
 
 --- (ASUS) IN BOXES AT NEU---
@@ -37,21 +38,21 @@ TOUCHSMART2-HP (HP) Development
 
 10 in storeroom
 
-*a ALWAYS6
-*a ALWAYS7
-*a ALWAYS9
-*a ALWAYS10
-*l ALWAYS11
-*l ALWAYS12
-*l ALWAYS13
-*l ALWAYS14
-*l ALWAYS15
-*l ALWAYS16
+* ALWAYS6 - AlwaysOn
+* ALWAYS7 - AlwaysOn
+* ALWAYS9 - AlwaysOn
+* ALWAYS10 - AlwaysOn
+* ALWAYS11 - Login
+* ALWAYS12 - Login
+* ALWAYS13 - Login
+* ALWAYS14 - Login
+* ALWAYS15 - Login
+* ALWAYS16 - Login
 
 * = use in main study (12)  ALWAYS5-ALWAYS16
 
-    *a = AlwaysOn condition (6): ALWAYS5-ALWAYS10
-    *l = Login condition (6): ALWAYS11-ALWAYS16
+    AlwaysOn condition (6): ALWAYS5-ALWAYS10
+    Login condition (6): ALWAYS11-ALWAYS16
 
 NB: login condition machines do *not* need IR boxes!
 
