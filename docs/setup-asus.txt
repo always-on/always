@@ -63,6 +63,11 @@ Reseller: Directron.
 
   C:\Users\<USERNAME>\AppData\LocalLow\Unity\WebPlayer\UnityBugReporter.exe
 
+* Disable ASUS 3D Magnifier
+
+  Rename C:\Program Files (x86)\ASUS\ASUS Touch Tech\ASUSMagnifier3d.exe
+  to .exe.DISABLE
+
 * install DropBox using account 'always-on@wpi.edu' (password provided) and
   under Preferences:
 
@@ -82,6 +87,8 @@ Control Panel > Hardware & Sound > (Sound) Manage Audio Devices
 
   Scroll down in menu and check Loudness Equalization, then Apply/Ok.
   
+________________________________________________________________
+
 For development machines only:
 
 * install Eclipse Juno SR1 (put extracted folder in C:)
