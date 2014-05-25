@@ -1,6 +1,7 @@
 package edu.wpi.always.enroll.schema;
 
 import edu.wpi.always.client.KeyboardAdjacencyPair;
+import edu.wpi.always.enroll.EnrollPlugin;
 import edu.wpi.always.enroll.schema.ErrorCheckState.CheckCorrectionAdjacencyPair;
 import edu.wpi.always.user.UserUtils;
 import edu.wpi.always.user.people.*;
@@ -24,6 +25,12 @@ public abstract class EnrollAdjacencyPairs{
    protected static Place location;
    protected static Person person, spouse;
    protected static String personState;
+   
+   private static void addPerson (EnrollStateContext context) {
+      person = context.getPeopleManager().addPerson(name, relationship, gender, 
+               age, skype, location, spouse, personBirthday);
+      context.getUserModel().setProperty(EnrollPlugin.PERFORMED, true);
+   }
 
    public static class PersonNameAdjacencyPair extends 
    KeyboardAdjacencyPair<EnrollStateContext> {
@@ -756,16 +763,14 @@ public abstract class EnrollAdjacencyPairs{
          choice("No", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               person = getContext().getPeopleManager().addPerson(name, relationship, gender, 
-                     age, skype, location, spouse, personBirthday);
+               addPerson(getContext());
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
          choice("Never Mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               person = getContext().getPeopleManager().addPerson(name, relationship, gender, 
-                     age, skype, location, spouse, personBirthday);
+               addPerson(getContext());
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
@@ -799,16 +804,14 @@ public abstract class EnrollAdjacencyPairs{
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
          skype = text;
-         person = getContext().getPeopleManager().addPerson(name, relationship, gender, 
-               age, skype, location, spouse, personBirthday);
+         addPerson(getContext());
          return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
 
       @Override
       public AdjacencyPair cancel() {
          getContext().hideKeyboard();
-         person = getContext().getPeopleManager().addPerson(name, relationship, gender, 
-               age, skype, location, spouse, personBirthday);
+         addPerson(getContext());
          return new CheckCorrectionAdjacencyPair(getContext(), person);
       }
    }

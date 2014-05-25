@@ -1,5 +1,6 @@
 package edu.neu.always.skype;
 
+import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -14,10 +15,11 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
    
    public SkypeSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, ShoreFacePerceptor shore) {
+         MenuPerceptor menuPerceptor, ShoreFacePerceptor shore, Always always) {
       super(new Test(shore),
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
+      always.getUserModel().setProperty(SkypePlugin.PERFORMED, true);
    }
 
    @Override

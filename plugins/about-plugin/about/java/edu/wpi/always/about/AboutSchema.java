@@ -24,6 +24,7 @@ public class AboutSchema extends DiscoActivitySchema {
             AboutPlugin.aboutInteraction);
       if ( running ) throw new IllegalStateException("GreetingsSchema already running!");
       running = true;
+      always.getUserModel().setProperty(AboutPlugin.PERFORMED, true);
       interaction.clear();
       start("_TalkAbout");
               
