@@ -12,6 +12,17 @@ public class CalendarPlugin extends Plugin {
       addActivity("UseCalendar", 0, 0, 0, 0, CalendarSchema.class, CalendarClient.class); 
    }
    
+   public static final String PERFORMED = "CalendarPerformed";
+
+   public static String[] getProperties () { return new String[] {PERFORMED}; }
+
+   /**
+    * For this plugin performed means that a calendar entry has been added.
+    */
+   public static boolean isPerformed () {
+      return Always.THIS.getUserModel().isProperty(PERFORMED);
+   }
+   
    /**
     * For testing Calendar by itself
     */

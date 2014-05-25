@@ -13,6 +13,10 @@ public class ExplainPlugin extends Plugin {
       addActivity("ExplainSelf", 0, 0, 0, 0, ExplainSchema.class); 
    }
 
+   public static boolean isPerformed () {
+      return Always.THIS.getUserModel().isProperty(PERFORMED);
+   }
+   
    /**
     * For testing Explain by itself
     */
@@ -29,6 +33,7 @@ public class ExplainPlugin extends Plugin {
    // plugin-specific properties
    
    public static final String
+      PERFORMED = "ExplainPerformed",
       ABOUT_AGENT = "ExplainAboutAgent",
       PREVIOUS_TALK = "ExplainPreviousTalk",
       PLAN_EXERCISE = "ExplainPlanExercise",
@@ -42,7 +47,7 @@ public class ExplainPlugin extends Plugin {
       USE_SKYPE = "ExplainUseSkype";
             
    public static String[] getProperties () {
-      return new String[] { ABOUT_AGENT, PREVIOUS_TALK, PLAN_EXERCISE, TALK_ABOUT, USE_CALENDAR,
+      return new String[] { PERFORMED, ABOUT_AGENT, PREVIOUS_TALK, PLAN_EXERCISE, TALK_ABOUT, USE_CALENDAR,
                             PLAY_GAMES, TELL_STORY, DISCUSS_WEATHER,
                             HEAR_ANECDOTES, ADVISE_NUTRITION, USE_SKYPE};
    }

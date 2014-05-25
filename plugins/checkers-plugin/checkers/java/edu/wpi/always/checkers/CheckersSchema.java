@@ -1,5 +1,6 @@
 package edu.wpi.always.checkers;
 
+import edu.wpi.always.Always;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -15,10 +16,11 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, CheckersUI CheckersUI,
          UIMessageDispatcher dispatcher, PlaceManager placeManager,
-         PeopleManager peopleManager) {
+         PeopleManager peopleManager, Always always) {
       super(new StartGamingSequence(new CheckersStateContext(keyboard, CheckersUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor);
+      always.getUserModel().setProperty(CheckersPlugin.PERFORMED, true);
    }
 
    @Override
