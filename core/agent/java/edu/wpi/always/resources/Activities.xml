@@ -64,6 +64,35 @@
     Packages.edu.wpi.always.Always.TRACE = true;
     Packages.edu.wpi.disco.rt.DiscoRT.TRACE = false;
     
+    /* Rules for progressing through closeness levels.  These are here rather than in
+       RelationshipManager.java in order to avoid compile dependency on plugin projects
+    */
+
+    model = Packages.edu.wpi.always.Always.THIS.getUserModel();
+    if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Companion ) {
+       if ( Packages.edu.wpi.always.about.AboutPlugin.isPerformed() ||
+            Packages.plugins.ExercisePlugin.isPerformed() ||
+            Packages.plugins.StorytellingPlugin.isPerformed() ||
+            Packages.edu.neu.always.skype.SkypePlugin.isPerformed() ||
+            ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;	
+              Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ) )
+          model.setCloseness(Packages.edu.wpi.always.Closeness.Companion)
+        else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Acquaintance ) {
+           if ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||
+                  Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
+                  ( Packages.edu.wpi.always.user.UserUtils.getDays(model) > 6 &amp;&amp;
+                    model.getSessions() > 3 &amp;&amp;
+                    ( Packages.edu.wpi.always.about.CheckersPlugin.isPerformed() ||
+                      Packages.plugins.ExplainPlugin.isPerformed() ||
+                      plugins.AnecdotesPlugin.isPerformed() ||
+                      plugins.HealthPlugin.isPerformed() ||
+                      plugins.NutritionPlugin.isPerformed() ||	
+                      Packages.edu.wpi.always.srummy.SrummyPlugin.isPerformed() ||
+                      Packages.edu.wpi.always.ttt.TTTPlugin.isPerformed() ) ) )
+                model.setCloseness(Packages.edu.wpi.always.Closeness.Acquaintance);
+         }
+    }
+    
   </script>
 
 </taskModel>

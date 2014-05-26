@@ -7,12 +7,13 @@ import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
 import edu.wpi.cetask.*;
-import org.joda.time.MonthDay;
+import org.joda.time.*;
 import org.picocontainer.BindKey;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Pattern;
+
 
 public abstract class UserUtils {
 
@@ -95,6 +96,10 @@ public abstract class UserUtils {
                (hour > 12) ? TimeOfDay.Afternoon :
                   (hour > 5) ? TimeOfDay.Morning :
                      TimeOfDay.Night;
+   }
+   
+   public static int getDays (UserModel model) {
+      return Days.daysBetween(new DateTime(model.getStartTime()), new DateTime()).getDays();
    }
    
    /**
