@@ -17,20 +17,35 @@
       <step name="enroll" task="a:EnrollUser"/>	
       <step name="greet" task="a:GreetUser"/>
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
-      <step name="explain" task="a:ExplainSelf" minOccurs="0"/>	
+      <step name="ttt" task="a:PlayTicTacToe" minOccurs="0"/>
       <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
+      <step name="explain" task="a:ExplainSelf" minOccurs="0"/>	
+      <step name="encourage" task="_EncourageExplain" minOccurs="0"/>
       <applicable> $always.getUserModel().getUserName().isEmpty() </applicable>
     </subtasks>
 
     <subtasks id="_later">
       <step name="greet" task="a:GreetUser"/>
-      <step name="enroll" task="a:EnrollUser" minOccurs="0"/>	
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
-      <step name="explain" task="a:ExplainSelf" minOccurs="0"/>	
+      <step name="ttt" task="a:PlayTicTacToe" minOccurs="0"/>
       <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
+      <step name="explain" task="a:ExplainSelf" minOccurs="0"/>	
+      <step name="encourage" task="_EncourageExplain" minOccurs="0"/>
       <applicable> !$always.getUserModel().getUserName().isEmpty() </applicable>
     </subtasks>
 
   </task>
+
+  <d:agent id="_EncourageExplain" 
+           text="You have not ever listened to me explain about all the activities we can do together"
+           precondition="!Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;
+              Packages.edu.wpi.always.user.UserUtils.getDays($always.getUserModel()) &gt; 2">
+    <d:user text="Oh, really?  Okay, I'll try that"/>
+    <d:user text="I don't want to hear about this now"/>
+    <d:user text="I guess I will listen">
+      <d:agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; You can always stop when you've heard enough and listen again later lt;FACE EXPR=\&quot;WARM\&quot;/&gt; "/>
+    </d:user>
+    <d:user text="Maybe tomorrow"/>
+  </d:agent>
 
 </d:model>

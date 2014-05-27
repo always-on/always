@@ -99,11 +99,12 @@ public class Always {
             new User("user"),
             args.length > 0 && args[0].length() > 0 ? args[0] : null);
          UserUtils.USER_FILE = "User.Diane.owl";  // no way to change for now
+         // initialize duplicate interaction created above
+         // before Activities so $always initialized
+         new Always(true, false).init(interaction); 
          // to get plugin classes 
          for (TaskClass task : new TaskEngine().load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
             Plugin.getPlugin(task);
-         // initialize duplicate interaction created above
-         new Always(true, false).init(interaction); 
          interaction.start(true);  
       }
    }
