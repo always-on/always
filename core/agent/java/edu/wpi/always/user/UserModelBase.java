@@ -1,6 +1,7 @@
 package edu.wpi.always.user;
 
 import edu.wpi.always.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public abstract class UserModelBase implements UserModel {
    
@@ -55,7 +56,9 @@ public abstract class UserModelBase implements UserModel {
 
    @Override
    public void setCloseness (Closeness closeness) { 
-      setProperty(CLOSENESS, closeness.name()); 
+      String name = closeness.name();
+      setProperty(CLOSENESS, name);
+      Utils.lnprint(System.out, "Setting closeness to "+name);
    }
   
 }
