@@ -17,7 +17,8 @@ NOTE:  plans below are ordered as presented.  I just listed menu activities.
 
 FOR STRANGER CLOSENESS:
 
-plan:  Greetings, Weather, TTT, Rummy, Explain, ExcourageUserExplain (if day > 2 AND Explain not.member PerformedTasks)
+plan:  Greetings, Weather, TTT, Rummy, Explain, EncourageUserExplain (if day > 2 AND Explain not.member PerformedTasks)
+ //EncourageUserExplain is a short dialog which tells the user to try learning about all the activities that the user and agent can do together (see below)
 
 Menu: Checkers (if day > 1)
       task (x) (for all x: x not.member '(Exercise SKYPE StoryTelling) AND  	       	        	                x is.member ExplainedTasks) 
@@ -30,7 +31,7 @@ Menu: Checkers (if day > 1)
 
 FOR ACQUAINTANCE CLOSENESS:
 
-plan: Greetings, Weather, ExcourageUserExplain (if day > 2 AND Explain not.member PerformedTasks)
+plan: Greetings, Weather, EncourageUserExplain (if day > 2 AND Explain not.member PerformedTasks)
 Menu: Explain (if !AllTasksExplained)
       Calendar
       Enroll

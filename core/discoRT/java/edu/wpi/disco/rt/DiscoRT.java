@@ -105,7 +105,10 @@ public class DiscoRT implements Startable {
       // allow easy overriding of this
       if ( container.getComponent(Scheduler.class) == null )
          container.as(Characteristics.CACHE).addComponent(Scheduler.class);
-      if ( interaction.console != null ) interaction.console.setVisible(true);
+      if ( interaction.console != null ) {
+         interaction.console.setTitle(title);
+         interaction.console.setVisible(true);
+      }
    }
 
    public static class ConsoleWindow extends edu.wpi.disco.ConsoleWindow {

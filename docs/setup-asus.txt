@@ -1,6 +1,8 @@
-     ASUS MACHINE SETUP INSTRUCTIONS   April 14, 2014
+     ASUS FIELD STUDY MACHINE SETUP INSTRUCTIONS   May 23, 2014
 
-See docs/machines.txt for a machine name (edit file to avoid duplication).
+See docs/machines.txt for a machine name.  MAKE CERTAIN TO ONLY USE
+THESE NAMES AND KEEP TRACK OF WHICH ONES YOU HAVE USED (File can be
+edited and committed).
 
 Note that the machine name will have to be authorized with the local
 network in order to proceed further below.
@@ -61,13 +63,20 @@ Reseller: Directron.
 
   C:\Users\<USERNAME>\AppData\LocalLow\Unity\WebPlayer\UnityBugReporter.exe
 
+* Disable ASUS 3D Magnifier
+
+  Rename C:\Program Files (x86)\ASUS\ASUS Touch Tech\ASUSMagnifier3d.exe
+  to .exe.DISABLE
+
 * install DropBox using account 'always-on@wpi.edu' (password provided) and
   under Preferences:
 
   General > Turn *off* desktop notifications
 
-  Account > Select Selective Sync and just sync the 'release' folder,
-            the 'release.new' folder and the folder with name of this machine.
+  Account > Select Selective Sync and *only* sync the folder with name
+            of this machine.
+
+  See toplevel Dropbox README.txt file for more instructions.
 
 * Install Ivona (update license file in docs/ivona.txt)
 
@@ -78,6 +87,8 @@ Control Panel > Hardware & Sound > (Sound) Manage Audio Devices
 
   Scroll down in menu and check Loudness Equalization, then Apply/Ok.
   
+________________________________________________________________
+
 For development machines only:
 
 * install Eclipse Juno SR1 (put extracted folder in C:)

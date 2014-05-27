@@ -1,4 +1,5 @@
 cd C:\Dropbox\%COMPUTERNAME%\release
-start bin\always-client
-bin\always-java Unity
+call bin\always-kill.bat
+start bin\always-client.bat
+bin\always-java.bat Unity
 

@@ -2,35 +2,36 @@
 <project default="release" name="Release Always-On">
     <property environment="env"/>
     <target name="release">
-        <move file="C:/Dropbox/${env.COMPUTERNAME}/release" 
-              tofile="C:/Dropbox/${env.COMPUTERNAME}/release.old" failonerror="false"/>
-        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release">
+        <tstamp>
+          <format property="always.stamp" pattern="yyyy-MM-dd_kk_mm_ss"/>   
+        </tstamp>
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}">
+           <fileset file="boot.bat"/>
+        </copy>
+        <delete dir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp"/>  
+        <mkdir dir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp"/>  
+        <touch file="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/_RELEASE-${always.stamp}"/>
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp">
           <fileset excludes="FaceDetection.dll,USBm2-64.dll" dir="../lib/win32-x86-64"/>
         </copy>
-        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/plugins/Plugins.Startup/bin">
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/plugins/Plugins.Startup/bin">
           <fileset dir="../../../plugins/Plugins.Startup/bin/Debug"/>
         </copy>  
-        <mkdir dir="C:/Dropbox/${env.COMPUTERNAME}/release/images"/>
-        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/images">
+        <mkdir dir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/images"/>
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/images">
           <fileset dir="../images"/>
         </copy>  
-        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/bin">
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/bin">
           <fileset file="../bin/nircmdc.exe"/>
           <fileset file="always-unity.bat"/>
           <fileset file="always-reeti.bat"/>
           <fileset file="always-login.bat"/>
           <fileset file="always-java.bat"/>
           <fileset file="always-client.bat"/>
+          <fileset file="always-kill.bat"/>
           <fileset file="weather.bat"/> 
-          <fileset file="power.bat"/>
-        </copy>  
-        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release/reeti">
-          <fileset dir="../lib/reeti"/>
-        </copy>   
-        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/weatherData">
-          <fileset file="../../../user/weatherData/testing.json"/>
-        </copy> 
-        <jar destfile="C:/Dropbox/${env.COMPUTERNAME}/release/always.jar" filesetmanifest="mergewithoutmain">
+        </copy>          
+        <jar destfile="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/always.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="edu.wpi.always.Always"/>
             </manifest>
@@ -73,5 +74,18 @@
             <zipfileset excludes="META-INF/*.SF" src="../../discoRT/lib/jFuzzyLogic_v2.1.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="../../discoRT/lib/disco1.6.10/lib/disco.jar"/>
         </jar>
+        <touch file="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/count.bat"/>
+        <resourcecount property="always.count">
+           <fileset dir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp"/>
+        </resourcecount>
+        <echo file="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/count.bat">
+           set ALWAYS-COUNT=${always.count}
+        </echo>    
+        <delete dir="C:/Dropbox/${env.COMPUTERNAME}/release.old"/> 
+        <move file="C:/Dropbox/${env.COMPUTERNAME}/release/" 
+              tofile="C:/Dropbox/${env.COMPUTERNAME}/release.old/"
+              failonerror="false"/>
+        <move file="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/" 
+              tofile="C:/Dropbox/${env.COMPUTERNAME}/release"/>
     </target>
 </project>
