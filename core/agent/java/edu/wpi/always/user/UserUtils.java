@@ -7,12 +7,13 @@ import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.Place;
 import edu.wpi.cetask.*;
-import org.joda.time.MonthDay;
+import org.joda.time.*;
 import org.picocontainer.BindKey;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Pattern;
+
 
 public abstract class UserUtils {
 
@@ -97,6 +98,10 @@ public abstract class UserUtils {
                      TimeOfDay.Night;
    }
    
+   public static int getDays (UserModel model) {
+      return Days.daysBetween(new DateTime(model.getStartTime()), new DateTime()).getDays();
+   }
+   
    /**
     * Print out core information about all people
     * 
@@ -108,7 +113,7 @@ public abstract class UserUtils {
       stream.println();
       stream.println("Closeness: "+model.getCloseness());
       stream.println("Sessions: "+model.getSessions());
-      stream.println("StartTime: "+UserUtils.formatDate());
+      stream.println("StartTime: "+new DateTime(model.getStartTime()));
       stream.println();
       for (Person person : model.getPeopleManager().getPeople(true)) {
          stream.print(person);

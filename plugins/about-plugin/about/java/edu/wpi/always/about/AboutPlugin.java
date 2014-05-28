@@ -21,6 +21,14 @@ public class AboutPlugin extends Plugin {
       Plugin.main(args, AboutPlugin.class, "TalkAbout");
    }
    
+   public static final String PERFORMED = "AboutPerformed";
+
+   public static String[] getProperties () { return new String[] {PERFORMED}; }
+
+   public static boolean isPerformed () {
+      return Always.THIS.getUserModel().isProperty(PERFORMED);
+   }
+   
    // preload task model
    final static DiscoRT.Interaction aboutInteraction = 
          new DiscoRT.Interaction(new Agent("agent"), new User("user"));

@@ -14,6 +14,8 @@ public class RelationshipManager {
    private final Interaction interaction;
    private final UserModel model;
    
+   // see Activities.xml for closeness level rules
+   
    public RelationshipManager (CollaborationManager cm) {
       interaction = cm.getContainer().getComponent(Interaction.class);
       model = cm.getContainer().getComponent(UserModel.class);

@@ -21,8 +21,6 @@ public class TestUserGenerator {
       
    public static void generate (UserModel userModel) {
       userModel.setUserName("Diane Ferguson");
-      ((UserModelBase) userModel).start();
-      ((UserModelBase) userModel).nextSession();
       userModel.setCloseness(Closeness.Companion);
       PeopleManager peopleMgr = userModel.getPeopleManager();
       PlaceManager placeMgr = userModel.getPlaceManager();

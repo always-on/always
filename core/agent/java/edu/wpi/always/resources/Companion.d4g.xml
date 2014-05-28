@@ -3,7 +3,7 @@
        xmlns:d="http://www.cs.wpi.edu/~rich/d4g"
        xmlns:a="urn:always.wpi.edu:Activities">
 
-  <!-- Session model for companions  **TODO** Same as Acquaintance for now
+  <!-- Session model for companions 
 
        See Activities.xml for definition of toplevel activities.
 
@@ -14,7 +14,6 @@
     <subtasks id="_s1">
       <step name="greet" task="a:GreetUser"/>
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
-      <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
     </subtasks>
   </task>
 

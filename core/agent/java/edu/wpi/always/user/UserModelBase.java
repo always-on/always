@@ -1,6 +1,7 @@
 package edu.wpi.always.user;
 
 import edu.wpi.always.*;
+import edu.wpi.disco.rt.util.Utils;
 
 public abstract class UserModelBase implements UserModel {
    
@@ -35,14 +36,15 @@ public abstract class UserModelBase implements UserModel {
    
    @Override
    public int getSessions () { return getIntProperty(SESSIONS); }
-   
-   public void nextSession () { setProperty(SESSIONS, getSessions()+1); }
+      
+   @Override
+   public long getStartTime () { return getLongProperty(START_TIME); }   
    
    @Override
-   public long getStartTime () { return getLongProperty(START_TIME); }
-   
-   public void start () { 
-      setProperty(START_TIME, Always.getSessionDate().getTime()); 
+   public void load () {
+      if ( getStartTime() == 0L ) 
+         setProperty(START_TIME, Always.getSessionDate().getTime());
+      setProperty(SESSIONS, getSessions()+1); 
    }
 
    @Override
@@ -54,7 +56,9 @@ public abstract class UserModelBase implements UserModel {
 
    @Override
    public void setCloseness (Closeness closeness) { 
-      setProperty(CLOSENESS, closeness.name()); 
+      String name = closeness.name();
+      setProperty(CLOSENESS, name);
+      Utils.lnprint(System.out, "Setting closeness to "+name);
    }
   
 }

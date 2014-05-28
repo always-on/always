@@ -10,7 +10,15 @@ public class TTTPlugin extends Plugin {
       super("TicTacToe", userModel, cm);
       addActivity("PlayTicTacToe", 0, 0, 0, 0, TTTSchema.class, TTTClient.class); 
    }
+   
+   public static final String PERFORMED = "TicTacToePerformed";
 
+   public static String[] getProperties () { return new String[] {PERFORMED}; }
+
+   public static boolean isPerformed () {
+      return Always.THIS.getUserModel().isProperty(PERFORMED);
+   }
+   
    /**
     * For testing TicTacToe by itself
     */

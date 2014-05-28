@@ -1,24 +1,49 @@
-<taskModel about="urn:always.wpi.edu:Acquaintance"
-       xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
-       xmlns:a="urn:always.wpi.edu:Activities">
-
-  <!-- Session model for acquaintances **TO DO** (same as Stranger for now)
-
-       See Activities.xml for definition of toplevel activities.
-
-       Note: Toplevel task must be named _Session
-  -->
-  
-  <task id="_Session">
-    <subtasks id="_s1">
-      <step name="greet" task="a:GreetUser"/>
-      <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
-      <step name="explain" task="a:ExplainSelf" minOccurs="0"/>		
-      <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
-    </subtasks>
-  </task>
-
-  <!--  when session "falls off the end" of this plan, it will
-        default to applicable toplevel activities. -->
-
+<?xml version="1.0" encoding="UTF-8"?>
+<taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
+           xmlns:disco="urn:disco.wpi.edu:Disco"
+           xmlns:a="urn:always.wpi.edu:Activities"
+           about="urn:always.wpi.edu:Acquaintance">
+   <task id="_EncourageExplain">
+      <precondition>!Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;               Packages.edu.wpi.always.user.UserUtils.getDays($always.getUserModel()) &gt; 2</precondition>
+      <subtasks id="__EncourageExplain_subtasks">
+         <step name="__EncourageExplain_step" task="disco:Say"/>
+         <step name="__EncourageExplain_ref" task="__EncourageExplain_tree"/>
+         <binding slot="$__EncourageExplain_step.text"
+                  value="&#34;You have not ever listened to me explain about all the activities we can do together&#34;"/>
+         <binding slot="$__EncourageExplain_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="__EncourageExplain_tree">
+      <subtasks id="_d4e10_subtasks">
+         <step name="_d4e10_step" task="disco:Say"/>
+         <binding slot="$_d4e10_step.text" value="&#34;Oh, really?  Okay, I'll try that&#34;"/>
+         <binding slot="$_d4e10_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e11_subtasks">
+         <step name="_d4e11_step" task="disco:Say"/>
+         <binding slot="$_d4e11_step.text" value="&#34;I don't want to hear about this now&#34;"/>
+         <binding slot="$_d4e11_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e12_subtasks">
+         <step name="_d4e12_step" task="disco:Say"/>
+         <step name="_d4e13_step" task="disco:Say"/>
+         <binding slot="$_d4e12_step.text" value="&#34;I guess I will listen&#34;"/>
+         <binding slot="$_d4e12_step.external" value="true"/>
+         <binding slot="$_d4e13_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; You can always stop when you've heard enough and listen again later lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &#34;"/>
+         <binding slot="$_d4e13_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e14_subtasks">
+         <step name="_d4e14_step" task="disco:Say"/>
+         <binding slot="$_d4e14_step.text" value="&#34;Maybe tomorrow&#34;"/>
+         <binding slot="$_d4e14_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="_Session">
+      <subtasks id="_s1">
+         <step name="greet" task="a:GreetUser"/>
+         <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
+         <step name="encourage" task="_EncourageExplain" minOccurs="0"/>
+      </subtasks>
+   </task>
 </taskModel>

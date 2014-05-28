@@ -23,6 +23,7 @@ public class ExplainSchema extends DiscoActivitySchema {
             ExplainPlugin.explainInteraction);
       if ( running ) throw new IllegalStateException("ExplainSchema already running!");
       running = true;
+      always.getUserModel().setProperty(ExplainPlugin.PERFORMED, true);
       setSelfStop(true);
       interaction.clear();
       start("_ExplainSelf");

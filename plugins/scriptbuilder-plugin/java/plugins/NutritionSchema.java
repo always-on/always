@@ -20,6 +20,7 @@ public class NutritionSchema extends ScriptbuilderSchema {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Nutrition")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
+		 always.getUserModel().setProperty(NutritionPlugin.PERFORMED, true);
 	}
 
 }

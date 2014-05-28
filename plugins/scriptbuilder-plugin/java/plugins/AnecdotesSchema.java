@@ -20,6 +20,7 @@ public class AnecdotesSchema extends ScriptbuilderSchema {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Anecdotes")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
+		 always.getUserModel().setProperty(AnecdotesPlugin.PERFORMED, true);
 	}
 
 }

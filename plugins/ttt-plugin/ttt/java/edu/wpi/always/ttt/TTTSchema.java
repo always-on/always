@@ -1,5 +1,6 @@
 package edu.wpi.always.ttt;
 
+import edu.wpi.always.Always;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -15,10 +16,11 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, TTTUI tttUI,
          UIMessageDispatcher dispatcher, PlaceManager placeManager,
-         PeopleManager peopleManager) {
+         PeopleManager peopleManager, Always always) {
       super(new WhoPlaysFirst(new TTTStateContext(keyboard, tttUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor);
+           always.getUserModel().setProperty(TTTPlugin.PERFORMED, true);
    }
 
    @Override

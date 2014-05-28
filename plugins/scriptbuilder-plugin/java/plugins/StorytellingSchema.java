@@ -25,6 +25,7 @@ public class StorytellingSchema extends ScriptbuilderSchema {
 	               "Storytelling")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
 		 this.shore = shore;
+		 always.getUserModel().setProperty(StorytellingPlugin.PERFORMED, true);
 	}
 	
 	@Override
