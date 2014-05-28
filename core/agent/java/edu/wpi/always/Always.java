@@ -13,7 +13,7 @@ import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.EngagementRegistry;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
-import edu.wpi.always.cm.schemas.StartupSchemas;
+import edu.wpi.always.cm.schemas.*;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.UserUtils;
 import edu.wpi.always.user.owl.OntologyRegistry;
