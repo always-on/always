@@ -18,7 +18,10 @@
   
   <task id="ExplainSelf"/>
 
-  <task id="DiscussWeather"/>
+  <task id="DiscussWeather">
+     <precondition> Packages.edu.wpi.always.user.UserUtils.getTimeOfDay() !=
+         Packages.edu.wpi.always.user.UserUtils.TimeOfDay.Night </precondition>  
+  </task>
 
   <task id="PlayTicTacToe"/>
 

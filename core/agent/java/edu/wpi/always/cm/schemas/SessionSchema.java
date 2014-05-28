@@ -28,9 +28,13 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final ClientProxy proxy;
    private final SchemaManager schemaManager;
    private final CollaborationManager cm;
-   private final Interaction interaction;
+   private final Interaction interaction;  
    
-   public static int HOUR = -1;  // for testing
+   /**
+    * Date that session started (for time of day)
+    * See {@link Always#DATE}.
+    */
+   public static Date DATE;
    
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -43,8 +47,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       this.interaction = interaction;
       container = always.getContainer();
       cm = container.getComponent(CollaborationManager.class);
-      if ( HOUR < 0 ) HOUR = LocalTime.now().getHourOfDay();
       stop = new Stop(interaction);
+      if ( DATE == null ) DATE = new Date();
       ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
            .setInterrupt(false);
       // print out information here so it goes into log
@@ -53,6 +57,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       System.out.println("Writing log to: "+interaction.getConsole().log);
       System.out.println("****************************************************************************");
       System.out.println("Agent type = "+Always.getAgentType());
+      System.out.println("Time of day = "+UserUtils.getTimeOfDay());
       try { UserUtils.print(always.getUserModel(), System.out);}
       catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
       DiscoDocument session = always.getRM().getSession();

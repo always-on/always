@@ -1,6 +1,7 @@
 package edu.wpi.always.user;
 
 import edu.wpi.always.*;
+import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.always.user.calendar.CalendarUtils;
 import edu.wpi.always.user.people.*;
 import edu.wpi.always.user.people.Person.Gender;
@@ -79,16 +80,16 @@ public abstract class UserUtils {
    }
    
    public static String formatDate () {
-      return new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss").format(Always.getSessionDate());
+      return new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss").format(Always.DATE);
    }
    
-   public static TimeOfDay TIME_OF_DAY; // for testing
+   public static TimeOfDay TIME_OF_DAY = TimeOfDay.Night; // for testing
    
    public enum TimeOfDay { Morning, Afternoon, Evening, Night }
    
    public static TimeOfDay getTimeOfDay () {
       Calendar calendar = Calendar.getInstance();
-      calendar.setTime(Always.getSessionDate());
+      calendar.setTime(SessionSchema.DATE);
       int hour = calendar.get(Calendar.HOUR_OF_DAY);
       return TIME_OF_DAY != null ? TIME_OF_DAY :
          (hour > 22) ? TimeOfDay.Night :

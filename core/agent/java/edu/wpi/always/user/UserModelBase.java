@@ -43,7 +43,7 @@ public abstract class UserModelBase implements UserModel {
    @Override
    public void load () {
       if ( getStartTime() == 0L ) 
-         setProperty(START_TIME, Always.getSessionDate().getTime());
+         setProperty(START_TIME, Always.DATE.getTime());
       setProperty(SESSIONS, getSessions()+1); 
    }
 

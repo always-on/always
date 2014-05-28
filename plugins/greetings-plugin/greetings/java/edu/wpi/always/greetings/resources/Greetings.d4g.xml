@@ -175,7 +175,7 @@
     </user>
   </agent>
 
-  <agent id="_NightGreetings" text="Guess it's time to say good night|It's about time to say good night">
+  <agent id="_NightGreetings" text="It's about time to say good night">
     <user id="affirmGoodNight" text="Yes, good night, Karen.">  
       <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
     </user>

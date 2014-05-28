@@ -53,10 +53,12 @@ public class Always {
    
    public static AgentType getAgentType () { return agentType; }
    
-   private final static Date sessionDate = new Date();
+   /**
+    * Date that system started running (for logging purposes)
+    * See {@link SessionSchema#DATE}
+    */
+   public final static Date DATE = new Date();
 
-   public static Date getSessionDate () { return sessionDate; }
-   
    private static boolean login;
    
    public static boolean isLogin () { return login; }
