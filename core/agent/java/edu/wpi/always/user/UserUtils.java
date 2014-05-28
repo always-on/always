@@ -83,7 +83,7 @@ public abstract class UserUtils {
       return new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss").format(Always.DATE);
    }
    
-   public static TimeOfDay TIME_OF_DAY = TimeOfDay.Night; // for testing
+   public static TimeOfDay TIME_OF_DAY; // for testing
    
    public enum TimeOfDay { Morning, Afternoon, Evening, Night }
    
