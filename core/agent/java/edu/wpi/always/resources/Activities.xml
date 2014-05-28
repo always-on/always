@@ -33,7 +33,10 @@
   </task>
 
   <task id="EnrollUser">
-    <precondition> notStranger() || days() &gt; 2 </precondition>
+    <precondition> 
+       Packages.edu.wpi.always.Always.THIS.getUserModel().getUserName().isEmpty()
+       || notStranger() || days() &gt; 2
+    </precondition>
   </task>
 
   <task id="TalkAbout">
