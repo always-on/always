@@ -25,11 +25,11 @@
   <task id="PlayRummy"/>
 
   <task id="PlayCheckers">
-    <precondition> notStranger() || days() &gt; 1 || isExplained("PLAY_GAMES") </precondition>
+    <precondition> isExplained("PLAY_GAMES") || notStranger() || days() &gt; 1 </precondition>
   </task>
 
   <task id="HearAnecdotes">
-    <precondition> notStranger() || isExplained("HEAR_ANECDOTES") </precondition>
+    <precondition> isExplained("HEAR_ANECDOTES") || notStranger() </precondition>
   </task>
 
   <task id="EnrollUser">
@@ -39,7 +39,7 @@
   <task id="TalkAbout">
     <precondition> 
       Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;
-        (notStranger() || isExplained("TALK_ABOUT") || days() &gt; 2)
+        (isExplained("TALK_ABOUT") || notStranger() || days() &gt; 2)
     </precondition>
   </task>
 
@@ -48,18 +48,24 @@
   </task>
   
   <task id="AdviseNutrition">
-    <precondition> notStranger() || isExplained("ADVISE_NUTRITION") </precondition>
+    <precondition> isExplained("ADVISE_NUTRITION") || notStranger() </precondition>
   </task>
   
   <task id="UseCalendar">
-    <precondition> notStranger() || days() &gt; 3 || isExplained("USE_CALENDAR") </precondition>
+    <precondition> isExplained("USE_CALENDAR") || notStranger() || days() &gt; 3 </precondition>
   </task>
-  
-  <task id="PlanExercise"/>
 
-  <task id="UseSkype"/>
+  <task id="PlanExercise">
+    <precondition> advanced(7, "PLAN_EXERCISE") </precondition>
+  </task>
 
-  <task id="TellStory"/>
+  <task id="TellStory">
+    <precondition> advanced(8, "TELL_STORY") </precondition>
+  </task>
+
+  <task id="UseSkype">
+    <precondition> advanced(9, "USE_SKYPE") </precondition>
+  </task>
 
   <task id="SayGoodbye"/>
   
@@ -76,16 +82,29 @@
      similarly.
     */
   
+    // note $always not initialized yet
+    
     function notStranger () { 
-      return $always.getUserModel().getCloseness() != Packages.edu.wpi.always.Closeness.Stranger;
+      return Packages.edu.wpi.always.Always.THIS.getUserModel().getCloseness() != Packages.edu.wpi.always.Closeness.Stranger;
+    }
+
+    function advanced (days, property) {
+      return Packages.edu.wpi.always.Always.THIS.getUserModel().getCloseness() == Packages.edu.wpi.always.Closeness.Companion
+        || (notStranger() &amp;&amp; isExplained(property))
+        || (notStranger() &amp;&amp; days() &gt; days &amp;&amp; sessions() &gt; days()/2);
     }
 
     function days () { 
-      return Packages.edu.wpi.always.user.UserUtils.getDays($always.getUserModel());
+      return Packages.edu.wpi.always.user.UserUtils.getDays(
+        Packages.edu.wpi.always.Always.THIS.getUserModel());
+    }
+
+    function sessions () { 
+      return Packages.edu.wpi.always.Always.THIS.getUserModel().getSessions();
     }
 
     function isExplained (property) {
-      return $always.getUserModel().isProperty(Packages.edu.wpi.always.explain.ExplainPlugin[property]);
+      return Packages.edu.wpi.always.Always.THIS.getUserModel().isProperty(Packages.edu.wpi.always.explain.ExplainPlugin[property]);
     }
 
     /* These variables can be changed either here or using eval command in console.  Note
@@ -99,7 +118,7 @@
        RelationshipManager.java in order to avoid compile dependency on plugin projects
     */
 
-    model = $always.getUserModel();
+    model = Packages.edu.wpi.always.Always.THIS.getUserModel();
     if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Companion ) {
        if ( Packages.edu.wpi.always.about.AboutPlugin.isPerformed() ||
             Packages.plugins.ExercisePlugin.isPerformed() ||
@@ -111,7 +130,7 @@
         else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Acquaintance ) {
            if ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||
                 Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
-                ( days() &gt; 6 &amp;&amp;  model.getSessions() &gt; 3 &amp;&amp;
+                ( days() &gt; 6 &amp;&amp; sessions() &gt; days()/2 &amp;&amp;
                   ( Packages.edu.wpi.always.about.CheckersPlugin.isPerformed() ||
                     Packages.plugins.ExplainPlugin.isPerformed() ||
                     Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||	
