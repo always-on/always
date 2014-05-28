@@ -3,7 +3,7 @@
        xmlns:d="http://www.cs.wpi.edu/~rich/d4g"
        xmlns:a="urn:always.wpi.edu:Activities">
 
-  <!-- Session model for acquaintances **TO DO** (same as Stranger for now)
+  <!-- Session model for acquaintances
 
        See Activities.xml for definition of toplevel activities.
 
@@ -14,12 +14,23 @@
     <subtasks id="_s1">
       <step name="greet" task="a:GreetUser"/>
       <step name="weather" task="a:DiscussWeather" minOccurs="0"/>
-      <step name="explain" task="a:ExplainSelf" minOccurs="0"/>		
-      <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
+      <step name="encourage" task="_EncourageExplain" minOccurs="0"/>
     </subtasks>
   </task>
 
   <!--  when session "falls off the end" of this plan, it will
         default to applicable toplevel activities. -->
+
+ <d:agent id="_EncourageExplain" 
+           text="You have not ever listened to me explain about all the activities we can do together"
+           precondition="!Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;
+              Packages.edu.wpi.always.user.UserUtils.getDays($always.getUserModel()) &gt; 2">
+    <d:user text="Oh, really?  Okay, I'll try that"/>
+    <d:user text="I don't want to hear about this now"/>
+    <d:user text="I guess I will listen">
+      <d:agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; You can always stop when you've heard enough and listen again later lt;FACE EXPR=\&quot;WARM\&quot;/&gt; "/>
+    </d:user>
+    <d:user text="Maybe tomorrow"/>
+  </d:agent>
 
 </d:model>

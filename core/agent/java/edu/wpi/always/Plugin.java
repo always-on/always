@@ -8,11 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import org.joda.time.LocalTime;
 import org.picocontainer.Characteristics;
 import org.picocontainer.MutablePicoContainer;
-
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.schemas.*;
@@ -21,6 +19,7 @@ import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.TaskClass;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.*;
+import edu.wpi.disco.rt.DiscoRT.ConsoleWindow;
 import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.schema.SchemaConfig;
 import edu.wpi.disco.rt.schema.SchemaManager;
@@ -45,7 +44,8 @@ public abstract class Plugin {
       this.name = name;
       this.userModel = userModel;
       this.cm = cm;
-      container = cm.getContainer();      
+      container = cm.getContainer();   
+      // session interaction
       interaction = container.getComponent(Interaction.class);
    }
    

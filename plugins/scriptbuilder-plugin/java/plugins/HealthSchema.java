@@ -20,6 +20,7 @@ public class HealthSchema extends ScriptbuilderSchema {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Education")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
+		 always.getUserModel().setProperty(HealthPlugin.PERFORMED, true);
 	}
 
 }

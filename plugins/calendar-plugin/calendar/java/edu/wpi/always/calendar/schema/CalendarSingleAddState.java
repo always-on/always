@@ -1,5 +1,6 @@
 package edu.wpi.always.calendar.schema;
 
+import edu.wpi.always.calendar.CalendarPlugin;
 import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.Cancel;
 import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.EventDayAdjacencyPair;
 import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.EventPersonAdjacencyPair;
@@ -195,6 +196,7 @@ abstract class CalendarSingleAddState {
       @Override
       public void enter () {
          getContext().getCalendar().create(data);
+         getContext().getUserModel().setProperty(CalendarPlugin.PERFORMED, true);
          getContext().getCalendarUI().showWeek(
                CalendarUtils.getDate(data.getStart()), null, false);
       }

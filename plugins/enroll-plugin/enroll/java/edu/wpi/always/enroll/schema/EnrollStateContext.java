@@ -17,7 +17,6 @@ public class EnrollStateContext extends AdjacencyPair.Context {
    private final PlaceManager placeManager;
    private final PeopleManager peopleManager;
 
-
    public EnrollStateContext(Keyboard keyboard, EnrollUI enrollUI,
          UIMessageDispatcher dispatcher, UserModel model, PlaceManager placeManager,
          PeopleManager peopleManager) {

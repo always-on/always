@@ -10,7 +10,15 @@ public class CheckersPlugin extends Plugin {
       super("Checkers", userModel, cm);
       addActivity("PlayCheckers", 0, 0, 0, 0, CheckersSchema.class, CheckersClient.class); 
    }
+   
+   public static final String PERFORMED = "CheckersPerformed";
 
+   public static String[] getProperties () { return new String[] {PERFORMED}; }
+
+   public static boolean isPerformed () {
+      return Always.THIS.getUserModel().isProperty(PERFORMED);
+   }
+   
    /**
     * For testing Checkers by itself
     */

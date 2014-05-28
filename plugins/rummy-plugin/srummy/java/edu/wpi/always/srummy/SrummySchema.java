@@ -1,6 +1,7 @@
 package edu.wpi.always.srummy;
 
 import java.util.*;
+import edu.wpi.always.Always;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -21,13 +22,13 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, SrummyUI SrummyUI,
          UIMessageDispatcher dispatcher, PlaceManager placeManager,
-         PeopleManager peopleManager) {
+         PeopleManager peopleManager, Always always) {
       super(new SrummyInitial(new SrummyStateContext(keyboard, SrummyUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor);
-      
-    yourTurnStatements.add("your turn");
-    yourTurnStatements.add("go ahead");
+      always.getUserModel().setProperty(SrummyPlugin.PERFORMED, true);
+      yourTurnStatements.add("your turn");
+      yourTurnStatements.add("go ahead");
 
    }
   

@@ -21,19 +21,23 @@ plan:  Greetings, Weather, TTT, Rummy, Explain, EncourageUserExplain (if day > 2
  //EncourageUserExplain is a short dialog which tells the user to try learning about all the activities that the user and agent can do together (see below)
 
 Menu: Checkers (if day > 1)
-      task (x) (for all x: x not.member '(Exercise SKYPE StoryTelling) AND  	       	        	                x is.member ExplainedTasks) 
+      task (x) (for all x: x not.member '(Exercise SKYPE StoryTelling) 
+                 AND x is.member ExplainedTasks) 
       Explain
       TTT
       Rummy
       Enroll (if day > 2 and (Enroll not.member ExplainedTasks ))
+// no explanation provided for Enroll, so second clause ignored -CR
+
       About (if day > 2 AND (Enroll is.member PerformedTasks) AND (About not.member ExplainedTasks)
       Calendar (if day > 3 AND (Calendar not.member ExplainedTasks))
 
 FOR ACQUAINTANCE CLOSENESS:
 
 plan: Greetings, Weather, EncourageUserExplain (if day > 2 AND Explain not.member PerformedTasks)
-Menu: Explain (if !AllTasksExplained)
+Menu: Explain
       Calendar
+      Anecdotes
       Enroll
       Health 
       Nutrition
@@ -48,8 +52,9 @@ Menu: Explain (if !AllTasksExplained)
 FOR COMPANION CLOSENESS:
 
 plan: Greetings, Weather
-menu: Explain (if !AllTasksExplained)
+menu: Explain
       Calendar
+	  Anecdotes
       Enroll
       Health 
       Nutrition

@@ -10,7 +10,15 @@ public class SkypePlugin extends Plugin {
       super("Skype", userModel, cm);
       addActivity("UseSkype", 0, 0, 0, 0, SkypeSchema.class); 
    }
+   
+   public static final String PERFORMED = "SkypePerformed";
 
+   public static String[] getProperties () { return new String[] {PERFORMED}; }
+
+   public static boolean isPerformed () {
+      return Always.THIS.getUserModel().isProperty(PERFORMED);
+   }
+   
    /**
     * For testing Skype by itself
     */

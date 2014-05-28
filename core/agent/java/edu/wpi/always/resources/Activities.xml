@@ -6,41 +6,66 @@
 
        See Activities.properties for plugin information
   -->
-
-  <!-- **TODO** add applicability conditions to these toplevel activities if
-                they are restricted to acquaintance or companion  -->
                                 
   <task id="GreetUser"/>
 
-  <!-- these will be presented to user in final menu in the order listed here -->                
-  
-  <task id="UseCalendar"/>
-  
-  <task id="UseSkype"/>
+  <!-- These below will be presented to user in final menu in two columns in 
+       the order listed here, followed by "What did you say?" 
 
-  <task id="TalkAbout"/>
-  	
-  <task id="PlayRummy"/>
+       Unfortunately the top of second column will vary depending on the
+       length of the list
+  -->                
   
-  <task id="PlayCheckers"/>
-  
-  <task id="PlayTicTacToe"/>
+  <task id="ExplainSelf"/>
 
   <task id="DiscussWeather"/>
-  
-  <task id="EnrollUser"/>
 
-  <task id="ExplainSelf"/>
+  <task id="PlayTicTacToe"/>
+
+  <task id="PlayRummy"/>
+
+  <task id="PlayCheckers">
+    <precondition> isExplained("PLAY_GAMES") || notStranger() || days() &gt; 1 </precondition>
+  </task>
+
+  <task id="HearAnecdotes">
+    <precondition> isExplained("HEAR_ANECDOTES") || notStranger() </precondition>
+  </task>
+
+  <task id="EnrollUser">
+    <precondition> notStranger() || days() &gt; 2 </precondition>
+  </task>
+
+  <task id="TalkAbout">
+    <precondition> 
+      Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;
+        (isExplained("TALK_ABOUT") || notStranger() || days() &gt; 2)
+    </precondition>
+  </task>
+
+  <task id="GetHealthTips">
+    <precondition> notStranger() </precondition>
+  </task>
   
-  <task id="HearAnecdotes"/>
+  <task id="AdviseNutrition">
+    <precondition> isExplained("ADVISE_NUTRITION") || notStranger() </precondition>
+  </task>
   
-  <task id="PlanExercise"/>
-  
-  <task id="GetHealthTips"/>
-  
-  <task id="AdviseNutrition"/>
-  
-  <task id="TellStory"/>
+  <task id="UseCalendar">
+    <precondition> isExplained("USE_CALENDAR") || notStranger() || days() &gt; 3 </precondition>
+  </task>
+
+  <task id="PlanExercise">
+    <precondition> advanced(7, "PLAN_EXERCISE") </precondition>
+  </task>
+
+  <task id="TellStory">
+    <precondition> advanced(8, "TELL_STORY") </precondition>
+  </task>
+
+  <task id="UseSkype">
+    <precondition> advanced(9, "USE_SKYPE") </precondition>
+  </task>
 
   <task id="SayGoodbye"/>
   
@@ -57,12 +82,67 @@
      similarly.
     */
   
+    // note $always not initialized yet
+    
+    function notStranger () { 
+      return Packages.edu.wpi.always.Always.THIS.getUserModel().getCloseness() != Packages.edu.wpi.always.Closeness.Stranger;
+    }
+
+    function advanced (days, property) {
+      return Packages.edu.wpi.always.Always.THIS.getUserModel().getCloseness() == Packages.edu.wpi.always.Closeness.Companion
+        || (notStranger() &amp;&amp; isExplained(property))
+        || (notStranger() &amp;&amp; days() &gt; days &amp;&amp; sessions() &gt; days()/2);
+    }
+
+    function days () { 
+      return Packages.edu.wpi.always.user.UserUtils.getDays(
+        Packages.edu.wpi.always.Always.THIS.getUserModel());
+    }
+
+    function sessions () { 
+      return Packages.edu.wpi.always.Always.THIS.getUserModel().getSessions();
+    }
+
+    function isExplained (property) {
+      return Packages.edu.wpi.always.Always.THIS.getUserModel().isProperty(Packages.edu.wpi.always.explain.ExplainPlugin[property]);
+    }
+
     /* These variables can be changed either here or using eval command in console.  Note
        the values here only apply to the session instance of Disco.  Tracing in Disco-based
        plugins can be set in the plugin model or plugin console. */
     
     Packages.edu.wpi.always.Always.TRACE = true;
     Packages.edu.wpi.disco.rt.DiscoRT.TRACE = false;
+    
+    /* Rules for progressing through closeness levels.  These are here rather than in
+       RelationshipManager.java in order to avoid compile dependency on plugin projects
+    */
+
+    model = Packages.edu.wpi.always.Always.THIS.getUserModel();
+    if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Companion ) {
+       if ( Packages.edu.wpi.always.about.AboutPlugin.isPerformed() ||
+            Packages.plugins.ExercisePlugin.isPerformed() ||
+            Packages.plugins.StorytellingPlugin.isPerformed() ||
+            Packages.edu.neu.always.skype.SkypePlugin.isPerformed() ||
+            ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;	
+              Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ) )
+           model.setCloseness(Packages.edu.wpi.always.Closeness.Companion)
+        else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Acquaintance ) {
+           if ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||
+                Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
+                ( days() &gt; 6 &amp;&amp; sessions() &gt; days()/2 &amp;&amp;
+                  ( Packages.edu.wpi.always.about.CheckersPlugin.isPerformed() ||
+                    Packages.plugins.ExplainPlugin.isPerformed() ||
+                    Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||	
+                    Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
+                    Packages.plugins.AnecdotesPlugin.isPerformed() ||
+                    Packages.plugins.HealthPlugin.isPerformed() ||
+                    Packages.plugins.NutritionPlugin.isPerformed() ||	
+                    Packages.edu.wpi.always.srummy.SrummyPlugin.isPerformed() ||
+                    Packages.edu.wpi.always.ttt.TTTPlugin.isPerformed() ) ) )
+               model.setCloseness(Packages.edu.wpi.always.Closeness.Acquaintance);
+         }
+    }
     
   </script>
 

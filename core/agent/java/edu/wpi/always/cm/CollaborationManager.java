@@ -37,8 +37,8 @@ public class CollaborationManager extends DiscoRT {
       container.removeComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(AgentResources.class);
       container.addComponent(PluginSpecificActionRealizer.class);
+      loadUserModel();  // before Activities for closeness rules
       activities = interaction.load("/edu/wpi/always/resources/Activities.xml");
-      loadUserModel();
    }
  
    public void inconsistentUserModel (InconsistentOntologyException e) {

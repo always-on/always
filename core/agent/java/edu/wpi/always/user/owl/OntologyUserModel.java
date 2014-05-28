@@ -204,6 +204,7 @@ public class OntologyUserModel extends UserModelBase {
          } else
             Utils.lnprint(System.out, "Loaded user model is empty!");
       } else Utils.lnprint(System.out, "Starting with no user model!");
+      super.load(); // initialize start time and increment session count
    }
 
    @Override

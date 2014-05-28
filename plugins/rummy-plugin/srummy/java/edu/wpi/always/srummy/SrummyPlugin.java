@@ -10,7 +10,15 @@ public class SrummyPlugin extends Plugin {
       super("Rummy", userModel, cm);
       addActivity("PlayRummy", 0, 0, 0, 0, SrummySchema.class, SrummyClient.class); 
    }
+   
+   public static final String PERFORMED = "RummyPerformed";
 
+   public static String[] getProperties () { return new String[] {PERFORMED}; }
+
+   public static boolean isPerformed () {
+      return Always.THIS.getUserModel().isProperty(PERFORMED);
+   }
+   
    /**
     * For testing TicTacToe by itself
     */
