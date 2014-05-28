@@ -91,10 +91,10 @@
       return Packages.edu.wpi.always.Always.THIS.getUserModel().getCloseness() != Packages.edu.wpi.always.Closeness.Stranger;
     }
 
-    function advanced (days, property) {
+    function advanced (min, property) {
       return Packages.edu.wpi.always.Always.THIS.getUserModel().getCloseness() == Packages.edu.wpi.always.Closeness.Companion
         || (notStranger() &amp;&amp; isExplained(property))
-        || (notStranger() &amp;&amp; days() &gt; days &amp;&amp; sessions() &gt; days()/2);
+        || (notStranger() &amp;&amp; days() &gt; min &amp;&amp; sessions() &gt; days()/2);
     }
 
     function days () { 
