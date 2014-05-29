@@ -48,7 +48,6 @@ public class DiscoRT implements Startable {
       public Interaction (Actor system, Actor external, String from) {
          // sic do not use this()
          super(system, external, from, true, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
-         Console.THROW = true; // so exceptions thrown
          console = null;
       }
       
@@ -58,7 +57,6 @@ public class DiscoRT implements Startable {
       
       public Interaction (Actor system, Actor external, String from, boolean console, File log) {
          super(system, external, from, console && isHeadless(), null, "edu.wpi.disco.rt.DiscoRT.Interaction");
-         Console.THROW = true; // so exceptions thrown
          this.console = (console && !isHeadless()) ? new ConsoleWindow(this, "DiscoRT", log) : null;
       }
       

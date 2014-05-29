@@ -5,6 +5,8 @@ import edu.wpi.disco.rt.util.Utils;
 
 public abstract class UserModelBase implements UserModel {
    
+   public final static Object LOCK = new Object();
+   
    public static void saveIf () { 
       if ( !INHIBIT_SAVE ) {
          UserModel model = Always.THIS.getUserModel();
@@ -37,7 +39,9 @@ public abstract class UserModelBase implements UserModel {
    public int getSessions () { return getIntProperty(SESSIONS); }
       
    @Override
-   public long getStartTime () { return getLongProperty(START_TIME); }   
+   public long getStartTime () { 
+      return getLongProperty(START_TIME); 
+   }   
    
    @Override
    public void load () {

@@ -167,12 +167,10 @@ public class OntologyUserModel extends UserModelBase {
 
    @Override
    public synchronized void save () {
-      if ( userName.isEmpty() )
-         return; // don't write out bad file
+      if ( userName.isEmpty() ) return; // don't write out bad file
       try (FileOutputStream output = new FileOutputStream(userDataFile)) {
          OWLOntologyManager manager = ontology.getManager();
-         OWLOntology userOntology = manager.createOntology(IRI
-               .create("UserModel"));
+         OWLOntology userOntology = manager.createOntology(IRI.create("UserModel"));
          LinkedList<AddAxiom> userAxioms = new LinkedList<AddAxiom>();
          for (OWLAxiom ax : ontology.getOntology().getAxioms()) {
             if ( types.contains(ax.getAxiomType()) )
