@@ -115,7 +115,10 @@ abstract class CalendarSingleAddState {
       public AdjacencyPair nextState (LocalTime time) {
          entry.setStart(CalendarUtils.toDateTime(
                CalendarUtils.getDate(entry.getStart()), time));
-         return new HowLong(entry, getContext());
+         if(entry.getType().equals(Types.Reminder))
+            return new HowLongReminders(entry, getContext());
+         else
+            return new HowLong(entry, getContext());
       }
    }
    
@@ -150,6 +153,14 @@ abstract class CalendarSingleAddState {
       public HowLongBirthday (CalendarEntry data, final CalendarStateContext context) {
          super("", context);
          data.setDuration(Minutes.minutes(30));
+         skipTo(new Where(data, getContext()));
+      }
+   }
+   
+   private static class HowLongReminders extends CalendarAdjacencyPairImpl {
+      public HowLongReminders (CalendarEntry data, final CalendarStateContext context) {
+         super("", context);
+         data.setDuration(Minutes.minutes(1));
          skipTo(new Where(data, getContext()));
       }
    }
@@ -204,7 +215,6 @@ abstract class CalendarSingleAddState {
 
             @Override
             public AdjacencyPair run () {
-               context.getCalendarUI().show();
                return new WhatDo(context);
             }
          });
