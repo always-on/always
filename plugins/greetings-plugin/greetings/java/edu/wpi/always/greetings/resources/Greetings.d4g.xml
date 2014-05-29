@@ -175,39 +175,57 @@
     </user>
   </agent>
 
-  <agent id="_NightGreetings" text="Guess it's time to say good night|It's about time to say good night">
-    <user id="affirmGoodNight" text="Yes, good night, Karen.">  
-      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
+  <agent id="_NightGreetings" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Good evening! Staying up late tonight? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+    <user text="For a while">
+      <agent text="Well, I'm here as long as you want">
+        <user text="Thanks"/>
+      </agent>
+    </user>
+    <user text="Going to bed soon"/>
+  </agent>
+  
+  <!-- These last two dialogues are chosen when the user says "I'm done" to final menu
+       based on time of day; see GoodbyeSchema.java -->
+
+  <agent id="_Goodbye" text="Ok, talk to you later. Goodbye.">
+    <user text="Goodbye" eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
+  </agent>
+
+  <agent id="_GoodNight" text="It's about time to say good night">
+    <user text="Yes, good night, Karen.">  
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"
+             eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
     </user>
     <user text="No yet.  I got things to do.">
-      <agent 
-      text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt;Well, okay, sleep well when you get there &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt;Well, okay, sleep well when you get there &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
         <user text="Good night">
-          <agent text="Good night!" />
+          <agent text="Good night!"
+                 eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
         </user>
         <user text="Will do. Good night, Karen." >
-          <agent text="Good night!" />
+          <agent text="Good night!"
+                 eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
         </user>
         <user text="Hope so. Good night, Karen." >
-          <agent text="Good night!" />
+          <agent text="Good night!"
+                 eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
         </user>
       </agent>
     </user>
     <user text="No.  I plan to read a bit yet">
       <agent text="Oh, well good night for later!">
-        <user text="Thanks, Good night, Karen."/>
+        <user text="Thanks, Good night, Karen."
+              eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
         <user text="Sleep well">
-          <agent text="You know, I don't really go to sleep.  But good night" />
+          <agent text="You know, I don't really go to sleep.  But good night"
+                 eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
         </user>
         <user text="I'm hoping for a good night's rest in a bit." >
-          <agent text="Good night"/>
+          <agent text="Good night"
+                 eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
         </user>
       </agent>
     </user>
   </agent>
   
-  <agent id="_Goodbye" text="Ok, talk to you later. Goodbye.">
-    <user text="Goodbye" eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
-  </agent>
-
 </model>

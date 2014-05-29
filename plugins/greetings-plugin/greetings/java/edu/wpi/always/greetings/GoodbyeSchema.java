@@ -2,6 +2,7 @@ package edu.wpi.always.greetings;
 
 import edu.wpi.always.Always;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
+import edu.wpi.always.user.UserUtils;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
@@ -15,6 +16,15 @@ public class GoodbyeSchema extends DiscoActivitySchema {
             GreetingsPlugin.greetingsInteraction);
       if ( behaviorReceiver == null ) return; // for always_disco testing
       interaction.clear();
-      start("_Goodbye");
+      switch (UserUtils.getTimeOfDay()) {
+         case Morning:
+         case Afternoon:
+         case Evening:
+            start("_Goodbye");
+            break;
+         case Night:
+            start("_GoodNight"); 
+            break;
+      }
    }
 }
