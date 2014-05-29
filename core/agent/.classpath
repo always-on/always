@@ -25,7 +25,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/win32-x86-64"/>
 	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/owlapi/owlapi-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/owlapi/owlapi-bin.jar" sourcepath="lib/owlapi/src/owlapi-src.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/owlapi/pellet-owlapiv3-no-PelletReasoner.jar"/>
 	<classpathentry kind="lib" path="lib/jna-4.1.0.jar"/>
 	<classpathentry kind="output" path="class"/>

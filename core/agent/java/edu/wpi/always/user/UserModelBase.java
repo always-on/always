@@ -5,12 +5,13 @@ import edu.wpi.disco.rt.util.Utils;
 
 public abstract class UserModelBase implements UserModel {
    
+   public final static Object LOCK = new Object();
+   
    public static void saveIf () { 
       if ( !INHIBIT_SAVE ) {
          UserModel model = Always.THIS.getUserModel();
-         if ( model.getUserName().isEmpty() )
-            Utils.lnprint(System.out, "WARNING! Not saving user model because user name is empty.");
-         else model.save();
+         // never save when user name is empty
+         if ( !model.getUserName().isEmpty() ) model.save();
       }
    }
    
@@ -41,9 +42,13 @@ public abstract class UserModelBase implements UserModel {
    public long getStartTime () { return getLongProperty(START_TIME); }   
    
    @Override
+   public void setUserName (String name) {
+      // wait until user object created before setting property
+      setProperty(START_TIME, Always.DATE.getTime());
+   }
+
+   @Override
    public void load () {
-      if ( getStartTime() == 0L ) 
-         setProperty(START_TIME, Always.getSessionDate().getTime());
       setProperty(SESSIONS, getSessions()+1); 
    }
 

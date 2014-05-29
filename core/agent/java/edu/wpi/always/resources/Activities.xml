@@ -18,7 +18,11 @@
   
   <task id="ExplainSelf"/>
 
-  <task id="DiscussWeather"/>
+  <task id="DiscussWeather">
+     <precondition> 
+        Packages.edu.wpi.always.user.UserUtils.getTimeOfDay() == Packages.edu.wpi.always.user.UserUtils.TimeOfDay.Night ? false : null 
+     </precondition>  
+  </task>
 
   <task id="PlayTicTacToe"/>
 
@@ -34,7 +38,7 @@
 
   <task id="EnrollUser">
     <precondition> 
-       Packages.edu.wpi.always.Always.THIS.getUserModel().getUserName().isEmpty()
+       Packages.edu.wpi.always.Always.THIS.getUserModel().getSessions() == 0
        || notStranger() || days() &gt; 2
     </precondition>
   </task>
@@ -91,10 +95,9 @@
       return Packages.edu.wpi.always.Always.THIS.getUserModel().getCloseness() != Packages.edu.wpi.always.Closeness.Stranger;
     }
 
-    function advanced (days, property) {
+    function advanced (min, property) {
       return Packages.edu.wpi.always.Always.THIS.getUserModel().getCloseness() == Packages.edu.wpi.always.Closeness.Companion
-        || (notStranger() &amp;&amp; isExplained(property))
-        || (notStranger() &amp;&amp; days() &gt; days &amp;&amp; sessions() &gt; days()/2);
+        || ( notStranger() &amp;&amp; (isExplained(property) || (days() &gt; min &amp;&amp; sessions() &gt; days()/2) ));
     }
 
     function days () { 
