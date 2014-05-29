@@ -43,7 +43,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserAgeAdjacencyPair(final EnrollStateContext context) {
-         super("May I ask ow old are you? ", "Please enter your age:", 
+         super("May I ask how old are you? ", "Please enter your age:", 
                context, context.getKeyboard(), true);
       }
 

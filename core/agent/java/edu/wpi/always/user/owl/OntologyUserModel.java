@@ -6,6 +6,7 @@ import org.mindswap.pellet.KnowledgeBase;
 import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
 import org.semanticweb.owlapi.model.*;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
+import edu.wpi.always.Always;
 import edu.wpi.always.user.UserModelBase;
 import edu.wpi.disco.rt.util.Utils;
 
@@ -64,6 +65,7 @@ public class OntologyUserModel extends UserModelBase {
             user.addSuperclass(OntologyPerson.USER_CLASS);
             peopleManager.addPerson(userName);
          }
+         super.setUserName(userName); // set start time
          saveIf();
       } else
          throw new UnsupportedOperationException(
@@ -199,10 +201,10 @@ public class OntologyUserModel extends UserModelBase {
                   .asString());
             Utils.lnprint(System.out, "User name: " + getUserName());
             System.out.println();  // for always-disco
+            super.load(); // increment session count
          } else
             Utils.lnprint(System.out, "Loaded user model is empty!");
       } else Utils.lnprint(System.out, "Starting with no user model!");
-      super.load(); // initialize start time and increment session count
    }
 
    @Override

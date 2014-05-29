@@ -38,7 +38,7 @@
 
   <task id="EnrollUser">
     <precondition> 
-       Packages.edu.wpi.always.Always.THIS.getUserModel().getUserName().isEmpty()
+       Packages.edu.wpi.always.Always.THIS.getUserModel().getSessions() == 0
        || notStranger() || days() &gt; 2
     </precondition>
   </task>
