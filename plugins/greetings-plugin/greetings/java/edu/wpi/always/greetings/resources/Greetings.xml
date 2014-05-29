@@ -60,7 +60,7 @@
          <step name="__NightGreetings_step" task="disco:Say"/>
          <step name="__NightGreetings_ref" task="__NightGreetings_tree"/>
          <binding slot="$__NightGreetings_step.text"
-                  value="&#34;Guess it's time to say good night|It's about time to say good night&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Good evening! Staying up late tonight? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__NightGreetings_step.external" value="false"/>
       </subtasks>
    </task>
@@ -70,6 +70,14 @@
          <step name="__Goodbye_ref" task="__Goodbye_tree"/>
          <binding slot="$__Goodbye_step.text" value="&#34;Ok, talk to you later. Goodbye.&#34;"/>
          <binding slot="$__Goodbye_step.external" value="false"/>
+      </subtasks>
+   </task>
+   <task id="_GoodNight">
+      <subtasks id="__GoodNight_subtasks">
+         <step name="__GoodNight_step" task="disco:Say"/>
+         <step name="__GoodNight_ref" task="__GoodNight_tree"/>
+         <binding slot="$__GoodNight_step.text" value="&#34;It's about time to say good night&#34;"/>
+         <binding slot="$__GoodNight_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="__Morning_tree">
@@ -438,92 +446,124 @@
       </subtasks>
    </task>
    <task id="__NightGreetings_tree">
-      <subtasks id="_affirmGoodNight_subtasks">
-         <step name="_affirmGoodNight_step" task="disco:Say"/>
+      <subtasks id="_d4e90_subtasks">
+         <step name="_d4e90_step" task="disco:Say"/>
          <step name="_d4e91_step" task="disco:Say"/>
-         <binding slot="$_affirmGoodNight_step.text" value="&#34;Yes, good night, Karen.&#34;"/>
-         <binding slot="$_affirmGoodNight_step.external" value="true"/>
-         <binding slot="$_d4e91_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
-         <binding slot="$_d4e91_step.external" value="false"/>
-      </subtasks>
-      <subtasks id="_d4e92_subtasks">
          <step name="_d4e92_step" task="disco:Say"/>
-         <step name="_d4e93_step" task="disco:Say"/>
-         <step name="_d4e93_ref" task="_d4e93_tree"/>
-         <binding slot="$_d4e92_step.text" value="&#34;No yet.  I got things to do.&#34;"/>
+         <binding slot="$_d4e90_step.text" value="&#34;For a while&#34;"/>
+         <binding slot="$_d4e90_step.external" value="true"/>
+         <binding slot="$_d4e91_step.text" value="&#34;Well, I'm here as long as you want&#34;"/>
+         <binding slot="$_d4e91_step.external" value="false"/>
+         <binding slot="$_d4e92_step.text" value="&#34;Thanks&#34;"/>
          <binding slot="$_d4e92_step.external" value="true"/>
-         <binding slot="$_d4e93_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt;Well, okay, sleep well when you get there &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
-         <binding slot="$_d4e93_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e93_subtasks">
+         <step name="_d4e93_step" task="disco:Say"/>
+         <binding slot="$_d4e93_step.text" value="&#34;Going to bed soon&#34;"/>
+         <binding slot="$_d4e93_step.external" value="true"/>
+      </subtasks>
+   </task>
+   <task id="__Goodbye_tree">
+      <subtasks id="_d4e95_subtasks">
+         <step name="_d4e95_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e95_step.text" value="&#34;Goodbye&#34;"/>
+         <binding slot="$_d4e95_step.external" value="true"/>
+         <binding slot="$_d4e95_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
+      </subtasks>
+   </task>
+   <task id="__GoodNight_tree">
+      <subtasks id="_d4e98_subtasks">
+         <step name="_d4e98_step" task="disco:Say"/>
+         <step name="_d4e99_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e98_step.text" value="&#34;Yes, good night, Karen.&#34;"/>
+         <binding slot="$_d4e98_step.external" value="true"/>
+         <binding slot="$_d4e99_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; Thanks, sleep well. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+         <binding slot="$_d4e99_step.external" value="false"/>
+         <binding slot="$_d4e99_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
       </subtasks>
       <subtasks id="_d4e100_subtasks">
          <step name="_d4e100_step" task="disco:Say"/>
          <step name="_d4e101_step" task="disco:Say"/>
          <step name="_d4e101_ref" task="_d4e101_tree"/>
-         <binding slot="$_d4e100_step.text" value="&#34;No.  I plan to read a bit yet&#34;"/>
+         <binding slot="$_d4e100_step.text" value="&#34;No yet.  I got things to do.&#34;"/>
          <binding slot="$_d4e100_step.external" value="true"/>
-         <binding slot="$_d4e101_step.text" value="&#34;Oh, well good night for later!&#34;"/>
+         <binding slot="$_d4e101_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt;Well, okay, sleep well when you get there &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e101_step.external" value="false"/>
       </subtasks>
-   </task>
-   <task id="_d4e93_tree">
-      <subtasks id="_d4e94_subtasks">
-         <step name="_d4e94_step" task="disco:Say"/>
-         <step name="_d4e95_step" task="disco:Say"/>
-         <binding slot="$_d4e94_step.text" value="&#34;Good night&#34;"/>
-         <binding slot="$_d4e94_step.external" value="true"/>
-         <binding slot="$_d4e95_step.text" value="&#34;Good night!&#34;"/>
-         <binding slot="$_d4e95_step.external" value="false"/>
-      </subtasks>
-      <subtasks id="_d4e96_subtasks">
-         <step name="_d4e96_step" task="disco:Say"/>
-         <step name="_d4e97_step" task="disco:Say"/>
-         <binding slot="$_d4e96_step.text" value="&#34;Will do. Good night, Karen.&#34;"/>
-         <binding slot="$_d4e96_step.external" value="true"/>
-         <binding slot="$_d4e97_step.text" value="&#34;Good night!&#34;"/>
-         <binding slot="$_d4e97_step.external" value="false"/>
-      </subtasks>
-      <subtasks id="_d4e98_subtasks">
-         <step name="_d4e98_step" task="disco:Say"/>
-         <step name="_d4e99_step" task="disco:Say"/>
-         <binding slot="$_d4e98_step.text" value="&#34;Hope so. Good night, Karen.&#34;"/>
-         <binding slot="$_d4e98_step.external" value="true"/>
-         <binding slot="$_d4e99_step.text" value="&#34;Good night!&#34;"/>
-         <binding slot="$_d4e99_step.external" value="false"/>
+      <subtasks id="_d4e108_subtasks">
+         <step name="_d4e108_step" task="disco:Say"/>
+         <step name="_d4e109_step" task="disco:Say"/>
+         <step name="_d4e109_ref" task="_d4e109_tree"/>
+         <binding slot="$_d4e108_step.text" value="&#34;No.  I plan to read a bit yet&#34;"/>
+         <binding slot="$_d4e108_step.external" value="true"/>
+         <binding slot="$_d4e109_step.text" value="&#34;Oh, well good night for later!&#34;"/>
+         <binding slot="$_d4e109_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_d4e101_tree">
       <subtasks id="_d4e102_subtasks">
          <step name="_d4e102_step" task="disco:Say"/>
-         <binding slot="$_d4e102_step.text" value="&#34;Thanks, Good night, Karen.&#34;"/>
+         <step name="_d4e103_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e102_step.text" value="&#34;Good night&#34;"/>
          <binding slot="$_d4e102_step.external" value="true"/>
+         <binding slot="$_d4e103_step.text" value="&#34;Good night!&#34;"/>
+         <binding slot="$_d4e103_step.external" value="false"/>
+         <binding slot="$_d4e103_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
       </subtasks>
-      <subtasks id="_d4e103_subtasks">
-         <step name="_d4e103_step" task="disco:Say"/>
+      <subtasks id="_d4e104_subtasks">
          <step name="_d4e104_step" task="disco:Say"/>
-         <binding slot="$_d4e103_step.text" value="&#34;Sleep well&#34;"/>
-         <binding slot="$_d4e103_step.external" value="true"/>
-         <binding slot="$_d4e104_step.text"
-                  value="&#34;You know, I don't really go to sleep.  But good night&#34;"/>
-         <binding slot="$_d4e104_step.external" value="false"/>
+         <step name="_d4e105_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e104_step.text" value="&#34;Will do. Good night, Karen.&#34;"/>
+         <binding slot="$_d4e104_step.external" value="true"/>
+         <binding slot="$_d4e105_step.text" value="&#34;Good night!&#34;"/>
+         <binding slot="$_d4e105_step.external" value="false"/>
+         <binding slot="$_d4e105_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
       </subtasks>
-      <subtasks id="_d4e105_subtasks">
-         <step name="_d4e105_step" task="disco:Say"/>
+      <subtasks id="_d4e106_subtasks">
          <step name="_d4e106_step" task="disco:Say"/>
-         <binding slot="$_d4e105_step.text"
-                  value="&#34;I'm hoping for a good night's rest in a bit.&#34;"/>
-         <binding slot="$_d4e105_step.external" value="true"/>
-         <binding slot="$_d4e106_step.text" value="&#34;Good night&#34;"/>
-         <binding slot="$_d4e106_step.external" value="false"/>
+         <step name="_d4e107_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e106_step.text" value="&#34;Hope so. Good night, Karen.&#34;"/>
+         <binding slot="$_d4e106_step.external" value="true"/>
+         <binding slot="$_d4e107_step.text" value="&#34;Good night!&#34;"/>
+         <binding slot="$_d4e107_step.external" value="false"/>
+         <binding slot="$_d4e107_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
       </subtasks>
    </task>
-   <task id="__Goodbye_tree">
-      <subtasks id="_d4e108_subtasks">
-         <step name="_d4e108_step" task="disco:Say$Eval"/>
-         <binding slot="$_d4e108_step.text" value="&#34;Goodbye&#34;"/>
-         <binding slot="$_d4e108_step.external" value="true"/>
-         <binding slot="$_d4e108_step.eval"
+   <task id="_d4e109_tree">
+      <subtasks id="_d4e110_subtasks">
+         <step name="_d4e110_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e110_step.text" value="&#34;Thanks, Good night, Karen.&#34;"/>
+         <binding slot="$_d4e110_step.external" value="true"/>
+         <binding slot="$_d4e110_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
+      </subtasks>
+      <subtasks id="_d4e111_subtasks">
+         <step name="_d4e111_step" task="disco:Say"/>
+         <step name="_d4e112_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e111_step.text" value="&#34;Sleep well&#34;"/>
+         <binding slot="$_d4e111_step.external" value="true"/>
+         <binding slot="$_d4e112_step.text"
+                  value="&#34;You know, I don't really go to sleep.  But good night&#34;"/>
+         <binding slot="$_d4e112_step.external" value="false"/>
+         <binding slot="$_d4e112_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
+      </subtasks>
+      <subtasks id="_d4e113_subtasks">
+         <step name="_d4e113_step" task="disco:Say"/>
+         <step name="_d4e114_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e113_step.text"
+                  value="&#34;I'm hoping for a good night's rest in a bit.&#34;"/>
+         <binding slot="$_d4e113_step.external" value="true"/>
+         <binding slot="$_d4e114_step.text" value="&#34;Good night&#34;"/>
+         <binding slot="$_d4e114_step.external" value="false"/>
+         <binding slot="$_d4e114_step.eval"
                   value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
       </subtasks>
    </task>

@@ -12,7 +12,7 @@ import org.joda.time.*;
 import org.picocontainer.BindKey;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.*;
 import java.util.regex.Pattern;
 
 
@@ -83,21 +83,26 @@ public abstract class UserUtils {
       return new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss").format(Always.DATE);
    }
    
-   public static TimeOfDay TIME_OF_DAY; // for testing
+   public static TimeOfDay TIME_OF_DAY = TimeOfDay.Night; // for testing
    
    public enum TimeOfDay { Morning, Afternoon, Evening, Night }
    
+   /**
+    * If session has started, then returns time of day of start of session 
+    * (for coding consistency), otherwise current time of day.
+    */
    public static TimeOfDay getTimeOfDay () {
       Calendar calendar = Calendar.getInstance();
-      calendar.setTime(SessionSchema.DATE);
+      calendar.setTime(SessionSchema.DATE == null ? new Date() : SessionSchema.DATE);
       int hour = calendar.get(Calendar.HOUR_OF_DAY);
       return TIME_OF_DAY != null ? TIME_OF_DAY :
          (hour > 22) ? TimeOfDay.Night :
             (hour > 18) ? TimeOfDay.Evening :
                (hour > 12) ? TimeOfDay.Afternoon :
-                  (hour > 5) ? TimeOfDay.Morning :
+                  (hour > 6) ? TimeOfDay.Morning :
                      TimeOfDay.Night;
    }
+   
    
    public static int getDays (UserModel model) {
       return Days.daysBetween(new DateTime(model.getStartTime()), new DateTime()).getDays();
