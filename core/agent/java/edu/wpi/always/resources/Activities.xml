@@ -19,8 +19,9 @@
   <task id="ExplainSelf"/>
 
   <task id="DiscussWeather">
-     <precondition> Packages.edu.wpi.always.user.UserUtils.getTimeOfDay() !=
-         Packages.edu.wpi.always.user.UserUtils.TimeOfDay.Night </precondition>  
+     <precondition> 
+        Packages.edu.wpi.always.user.UserUtils.getTimeOfDay() == Packages.edu.wpi.always.user.UserUtils.TimeOfDay.Night ? false : null 
+     </precondition>  
   </task>
 
   <task id="PlayTicTacToe"/>
