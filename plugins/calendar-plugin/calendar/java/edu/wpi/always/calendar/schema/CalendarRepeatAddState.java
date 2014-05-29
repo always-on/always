@@ -178,6 +178,8 @@ abstract class CalendarRepeatAddState {
          entry.setStart(CalendarUtils.toDateTime(
                CalendarUtils.getDate(entry.getStart()), time));
          entry.setRepeatStartTime(time);
+         if(entry.getType().equals(Types.Reminder))
+            return new HowLongRemiders(entry, getContext());
          return new HowLong(entry, getContext());
       }
    }
@@ -217,6 +219,16 @@ abstract class CalendarRepeatAddState {
       public HowLongBirthday (RepeatingCalendarEntry data, final CalendarStateContext context) {
          super("", context);
          ReadablePeriod d = Minutes.minutes(30);
+         data.setDuration(d);
+         data.setRepeatDuration(d);
+         skipTo(new Where(data, getContext()));
+      }
+   }
+   
+   private static class HowLongRemiders extends CalendarAdjacencyPairImpl {
+      public HowLongRemiders (RepeatingCalendarEntry data, final CalendarStateContext context) {
+         super("", context);
+         ReadablePeriod d = Minutes.minutes(1);
          data.setDuration(d);
          data.setRepeatDuration(d);
          skipTo(new Where(data, getContext()));
@@ -273,7 +285,6 @@ abstract class CalendarRepeatAddState {
 
             @Override
             public AdjacencyPair run () {
-               context.getCalendarUI().show();
                return new WhatDo(context);
             }
          });
