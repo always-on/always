@@ -2,10 +2,7 @@ package edu.wpi.always.cm.perceptors;
 
 import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
-import edu.wpi.always.user.*;
-import edu.wpi.always.user.UserUtils.TimeOfDay;
-import edu.wpi.disco.rt.menu.MenuPerception;
-import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.perceptor.PerceptorBase;
 import edu.wpi.disco.rt.util.Utils;
 
@@ -40,8 +37,7 @@ public class FaceMovementMenuEngagementPerceptor
          if ( currentState == null ) currentState = EngagementState.Idle;
          FacePerception facePerception = facePerceptor.getLatest();
          boolean isFace = false, isNear = false;
-         // suppress face detection at night
-         if ( UserUtils.getTimeOfDay() != TimeOfDay.Night && facePerception != null ) {
+         if ( facePerception != null ) {
             isFace = facePerception.isFace();
             isNear = facePerception.isNear();
          }
@@ -50,9 +46,7 @@ public class FaceMovementMenuEngagementPerceptor
                || lastFaceChange.isNear != isNear )
             lastFaceChange = new FaceTransition(isFace, isNear);
          MovementPerception movementPerception = movementPerceptor.getLatest();
-         // suppress movement detection at night
-         boolean isMoving = UserUtils.getTimeOfDay() != TimeOfDay.Night &&
-               movementPerception != null && movementPerception.isMoving();
+         boolean isMoving = movementPerception != null && movementPerception.isMoving();
          if ( lastMovementChange == null || lastMovementChange.isMoving != isMoving )	
             lastMovementChange = new MovementTransition(isMoving);
          MenuPerception menuPerception = menuPerceptor.getLatest();
