@@ -5,6 +5,7 @@ import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.FaceTransition;
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.MovementTransition;
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.TouchTransition;
+import edu.wpi.always.user.UserUtils;
 import edu.wpi.disco.rt.perceptor.Perception;
 
 public class EngagementPerception extends Perception {
@@ -55,7 +56,7 @@ public class EngagementPerception extends Perception {
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
             if ( hadTouch ) return Engaged;
-            if ( Always.isLogin() ) return Idle; // user must touch Hello
+            if ( Always.isLogin() || UserUtils.isNight() ) return Idle; // user must touch Hello
             if ( lastFaceChange.isNear ) return Initiation;
             if ( lastMovementChange.isMoving ) return Attention;
             if ( lastFaceChange.isFace && lastFaceChange.timeSinceChange() > IDLE_FACE_TIME )

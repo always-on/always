@@ -14,13 +14,12 @@ public class FaceTrackerSchema extends SchemaBase {
    }
 
    // reducing memory use for long-running
-   private final static Behavior BEHAVIOR = Behavior.newInstance(new FaceTrackBehavior());
+   private final static FaceTrackBehavior BEHAVIOR = new FaceTrackBehavior();
    private final static BehaviorMetadata META = new BehaviorMetadataBuilder().specificity(0.1).build(); 
 
    @Override
    public void run () {
       // always propose behavior (realizer will take care of face dropouts)
-      // suppress face tracking at night (especially for Reeti)
-      propose(UserUtils.getTimeOfDay() == TimeOfDay.Night ? Behavior.NULL : BEHAVIOR, META);
+      propose(BEHAVIOR, META);
    }
 }
