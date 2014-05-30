@@ -172,7 +172,7 @@ abstract class CalendarSingleAddState {
       public Where (CalendarEntry entry, CalendarStateContext context) {
          super(context);
          this.entry = entry;
-         if ( entry.getStart() != null )
+         if ( entry.getPlace() != null )
             skipTo(new Ok(entry, getContext()));
       }
 
