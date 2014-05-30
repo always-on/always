@@ -53,7 +53,7 @@ abstract class CalendarSingleAddState {
                .getPersonQuestion() : "", context);
          this.data = data;
          if ( data.getType().getPersonQuestion() == null
-            || data.getPeople().size() > 0 )
+            || data.getPeople().size() == 0 )
             skipTo(new EventDay(data, getContext()));
       }
 
@@ -172,7 +172,7 @@ abstract class CalendarSingleAddState {
       public Where (CalendarEntry entry, CalendarStateContext context) {
          super(context);
          this.entry = entry;
-         if ( entry.getStart() != null )
+         if ( entry.getPlace() != null )
             skipTo(new Ok(entry, getContext()));
       }
 
