@@ -1,10 +1,12 @@
 package edu.wpi.always.client.reeti;
 
 import java.awt.Point;
+import edu.wpi.always.Always;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
+import edu.wpi.always.user.UserUtils;
 import edu.wpi.disco.rt.realizer.PrimitiveRealizerBase;
 
 enum Directions {
@@ -21,7 +23,8 @@ enum Directions {
 
 public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBehavior> {
 
-   private final FacePerceptor perceptor;
+   private final FacePerceptor face;
+   private final EngagementPerceptor engagement;
    private final ReetiPIDMessages reetiPIDOutput;
    private final CollaborationManager cm;
    private ReetiCommandSocketConnection client;
@@ -48,12 +51,13 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
     *     command.
     */
    public ReetiFaceTrackerRealizer (FaceTrackBehavior params,
-         FacePerceptor perceptor, CollaborationManager cm, 
-         ReetiJsonConfiguration config, ClientProxy proxy) {
+         FacePerceptor face, EngagementPerceptor engagement,
+         CollaborationManager cm, ReetiJsonConfiguration config, ClientProxy proxy) {
 
       super(params);
       
-      this.perceptor = perceptor;
+      this.face = face;
+      this.engagement = engagement;
       this.cm = cm;
       proxy.gaze(proxy.getGazeHor(), proxy.getGazeVer());
       // see ReetiPIDControllers initialized using proxy
@@ -67,7 +71,8 @@ public class ReetiFaceTrackerRealizer extends PrimitiveRealizerBase<FaceTrackBeh
          client = cm.getReetiSocket();
          if ( client == null ) return;
       }
-      FacePerception perception = perceptor.getLatest();
+      if ( (Always.isLogin() || UserUtils.isNight()) && !engagement.getLatest().isEngaged() ) return;
+      FacePerception perception = face.getLatest();
       Point point = perception == null ? null : 
          perception.isFace() ? perception.getPoint() : null;
       if ( point != null ) {
