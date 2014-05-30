@@ -78,6 +78,7 @@ public class Always {
       }
       if ( login ) Utils.lnprint(System.out, "Login condition!");
       Utils.lnprint(System.out, "Agent type = "+agentType);
+      Utils.lnprint(System.out, "Time of day = "+UserUtils.getTimeOfDay());
       Always always = new Always(true, plugin == null);
       if ( args != null && args.length > 1 && !"null".equals(args[1]) ) {
          Closeness closeness = Closeness.valueOf(args[1]);
