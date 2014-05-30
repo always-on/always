@@ -10,9 +10,12 @@ import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.HowLongAdjacencyPai
 import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.TimeAdjacencyPair;
 import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.WhereAdjacencyPair;
 import edu.wpi.always.user.calendar.*;
+import edu.wpi.always.user.calendar.CalendarEntryTypeManager.Types;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.disco.rt.menu.*;
+
 import org.joda.time.*;
+
 import java.util.List;
 
 abstract class CalendarRepeatAddState {
@@ -134,6 +137,8 @@ abstract class CalendarRepeatAddState {
                      // one less than num because already includes start
                      date = entry.getRepeat().next(date);
                   entry.setRepeatEndDate(date);
+                  if(entry.getType().equals(Types.Birthday))
+                     return new WhenStartBirthday(entry, getContext());
                   return new WhenStart(entry, new LocalTime(10, 0),
                         getContext());
                }
@@ -173,10 +178,23 @@ abstract class CalendarRepeatAddState {
          entry.setStart(CalendarUtils.toDateTime(
                CalendarUtils.getDate(entry.getStart()), time));
          entry.setRepeatStartTime(time);
+         if(entry.getType().equals(Types.Reminder))
+            return new HowLongRemiders(entry, getContext());
          return new HowLong(entry, getContext());
       }
    }
-
+   
+   private static class WhenStartBirthday extends CalendarAdjacencyPairImpl {
+      public WhenStartBirthday (final RepeatingCalendarEntry entry, final CalendarStateContext context) {
+         super("", context);
+         LocalTime time = new LocalTime(10, 0);
+         entry.setStart(CalendarUtils.toDateTime(
+               CalendarUtils.getDate(entry.getStart()), time));
+         entry.setRepeatStartTime(time);
+         skipTo (new HowLongBirthday(entry, getContext()));
+      }
+   }
+   
    private static class HowLong extends HowLongAdjacencyPair {
 
       private final RepeatingCalendarEntry data;
@@ -194,6 +212,26 @@ abstract class CalendarRepeatAddState {
          data.setDuration(d);
          data.setRepeatDuration(d);
          return new Where(data, getContext());
+      }
+   }
+
+   private static class HowLongBirthday extends CalendarAdjacencyPairImpl {
+      public HowLongBirthday (RepeatingCalendarEntry data, final CalendarStateContext context) {
+         super("", context);
+         ReadablePeriod d = Minutes.minutes(30);
+         data.setDuration(d);
+         data.setRepeatDuration(d);
+         skipTo(new Where(data, getContext()));
+      }
+   }
+   
+   private static class HowLongRemiders extends CalendarAdjacencyPairImpl {
+      public HowLongRemiders (RepeatingCalendarEntry data, final CalendarStateContext context) {
+         super("", context);
+         ReadablePeriod d = Minutes.minutes(1);
+         data.setDuration(d);
+         data.setRepeatDuration(d);
+         skipTo(new Where(data, getContext()));
       }
    }
 

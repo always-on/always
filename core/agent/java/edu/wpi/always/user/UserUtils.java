@@ -103,6 +103,9 @@ public abstract class UserUtils {
                      TimeOfDay.Night;
    }
    
+   public static boolean isNight () {
+      return getTimeOfDay() == TimeOfDay.Night;
+   }
    
    public static int getDays (UserModel model) {
       return Days.daysBetween(new DateTime(model.getStartTime()), new DateTime()).getDays();

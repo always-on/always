@@ -9,9 +9,12 @@ import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.HowLongAdjacencyPai
 import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.TimeAdjacencyPair;
 import edu.wpi.always.calendar.schema.CalendarAdjacencyPairs.WhereAdjacencyPair;
 import edu.wpi.always.user.calendar.*;
+import edu.wpi.always.user.calendar.CalendarEntryTypeManager.Types;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.disco.rt.menu.*;
+
 import org.joda.time.*;
+
 import java.util.List;
 
 abstract class CalendarSingleAddState {
@@ -78,7 +81,10 @@ abstract class CalendarSingleAddState {
       @Override
       public AdjacencyPair nextState (LocalDate date) {
          data.setStart(CalendarUtils.toDateTime(date, new LocalTime()));
-         return new WhenStart(data, new LocalTime(10, 0), getContext());
+         if(data.getType().equals(Types.Birthday))
+            return new WhenStartBirthday(data, getContext());
+         else
+            return new WhenStart(data, new LocalTime(10, 0), getContext());
       }
    }
 
@@ -109,7 +115,19 @@ abstract class CalendarSingleAddState {
       public AdjacencyPair nextState (LocalTime time) {
          entry.setStart(CalendarUtils.toDateTime(
                CalendarUtils.getDate(entry.getStart()), time));
-         return new HowLong(entry, getContext());
+         if(entry.getType().equals(Types.Reminder))
+            return new HowLongReminders(entry, getContext());
+         else
+            return new HowLong(entry, getContext());
+      }
+   }
+   
+   private static class WhenStartBirthday extends CalendarAdjacencyPairImpl {
+      public WhenStartBirthday (final CalendarEntry entry, final CalendarStateContext context) {
+         super("", context);
+         entry.setStart(CalendarUtils.toDateTime(
+               CalendarUtils.getDate(entry.getStart()), new LocalTime(10, 0)));
+         skipTo (new HowLongBirthday(entry, getContext()));
       }
    }
 
@@ -128,6 +146,22 @@ abstract class CalendarSingleAddState {
       public AdjacencyPair nextState (ReadablePeriod d) {
          data.setDuration(d);
          return new Where(data, getContext());
+      }
+   }
+   
+   private static class HowLongBirthday extends CalendarAdjacencyPairImpl {
+      public HowLongBirthday (CalendarEntry data, final CalendarStateContext context) {
+         super("", context);
+         data.setDuration(Minutes.minutes(30));
+         skipTo(new Where(data, getContext()));
+      }
+   }
+   
+   private static class HowLongReminders extends CalendarAdjacencyPairImpl {
+      public HowLongReminders (CalendarEntry data, final CalendarStateContext context) {
+         super("", context);
+         data.setDuration(Minutes.minutes(1));
+         skipTo(new Where(data, getContext()));
       }
    }
 
