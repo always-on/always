@@ -46,6 +46,8 @@ public class GreetingsSchema extends DiscoActivitySchema {
             start("_AfternoonGreetings" );
             break;
          case Evening:
+            start("_EveningGreetings" );
+            break;
          case Night:
             start("_NightGreetings"); 
             break;

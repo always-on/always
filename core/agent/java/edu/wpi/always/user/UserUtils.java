@@ -96,10 +96,10 @@ public abstract class UserUtils {
       calendar.setTime(SessionSchema.DATE == null ? new Date() : SessionSchema.DATE);
       int hour = calendar.get(Calendar.HOUR_OF_DAY);
       return TIME_OF_DAY != null ? TIME_OF_DAY :
-         (hour > 22) ? TimeOfDay.Night :
-            (hour > 18) ? TimeOfDay.Evening :
-               (hour > 12) ? TimeOfDay.Afternoon :
-                  (hour > 6) ? TimeOfDay.Morning :
+         (hour >= 22) ? TimeOfDay.Night :
+            (hour >= 18) ? TimeOfDay.Evening :
+               (hour >= 12) ? TimeOfDay.Afternoon :
+                  (hour >= 6) ? TimeOfDay.Morning :
                      TimeOfDay.Night;
    }
    
