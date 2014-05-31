@@ -38,6 +38,11 @@ public class WhatDo extends CalendarAdjacencyPairImpl {
          }
       });
    }
+   
+   @Override
+   public void enter () {
+      getContext().getCalendarUI().showMonth(new LocalDate(), this);
+   }
 
    public static class RepeatEvent extends CalendarAdjacencyPairImpl {
 

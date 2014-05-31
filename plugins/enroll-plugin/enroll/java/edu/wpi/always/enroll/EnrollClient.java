@@ -23,11 +23,16 @@ public class EnrollClient implements EnrollUI {
          UIMessageDispatcher dispatcher) {
       this.enroll = enroll;
       this.dispatcher = dispatcher;
+      ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
+            InstanceReuseMode.Remove, null);
    }
 
+   private boolean firstTime = true;
+   
    private void show () {
-      ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
-            InstanceReuseMode.Reuse, null);
+         ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
+            firstTime ? InstanceReuseMode.Remove : InstanceReuseMode.Reuse, null);
+      firstTime = false;
    }
 
    @Override
