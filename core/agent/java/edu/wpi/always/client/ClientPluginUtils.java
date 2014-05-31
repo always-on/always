@@ -8,29 +8,35 @@ public abstract class ClientPluginUtils {
       Remove, Reuse, Throw
    }
 
-   private static boolean pluginVisible;
+   private static Boolean pluginVisible; // don't assume state at startup
    
-   public static boolean isPluginVisible () { return pluginVisible; }
+   public static Boolean isPluginVisible () { return pluginVisible; }
    
    public static void startPlugin (UIMessageDispatcher dispatcher,
          String pluginName, InstanceReuseMode mode, JsonObject params) {
-      Message m = Message.builder("start_plugin").add("name", pluginName)
-            .add("instance_reuse_mode", mode.toString()).add("params", params)
-            .build();
-      dispatcher.send(m);
-      pluginVisible = true;
+      if ( pluginVisible == null || !pluginVisible ) {
+         Message m = Message.builder("start_plugin").add("name", pluginName)
+               .add("instance_reuse_mode", mode.toString()).add("params", params)
+               .build();
+         dispatcher.send(m);
+         pluginVisible = true;
+      }
    }
 
    public static void showPlugin (UIMessageDispatcher dispatcher, String pluginName) {
-      Message m = Message.builder("show_plugin").add("name", pluginName).build();
-      dispatcher.send(m);
-      pluginVisible = true;
+      if ( pluginVisible == null || !pluginVisible ) {
+         Message m = Message.builder("show_plugin").add("name", pluginName).build();
+         dispatcher.send(m);
+         pluginVisible = true;
+      }
    }
    
    public static void hidePlugin (UIMessageDispatcher dispatcher) {
-      Message m = Message.builder("hide_plugin").build();
-      dispatcher.send(m);
-      pluginVisible = false;
+      if ( pluginVisible == null || pluginVisible ) {
+         Message m = Message.builder("hide_plugin").build();
+         dispatcher.send(m);
+         pluginVisible = false;
+      }
    }
    
    private ClientPluginUtils () {}
