@@ -1,12 +1,8 @@
 package edu.wpi.always.user.calendar;
 
 import java.io.PrintStream;
-import java.util.Iterator;
-
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
+import java.util.*;
+import org.joda.time.*;
 
 public abstract class CalendarUtils {
 
@@ -55,6 +51,15 @@ public abstract class CalendarUtils {
    public static void print (Calendar calendar, PrintStream stream) {
       Iterator<CalendarEntry> iterator = calendar.iterator();
       while (iterator.hasNext()) stream.println(iterator.next());
+   }
+   
+   /**
+    * @return true iff calendar has one or more entries in remainder of today 
+    * or tomorrow.
+    */
+   public static boolean isImminent (Calendar calendar) {
+      DateTime now = new DateTime();
+      return !calendar.retrieve (now, now.plusDays(2).withTimeAtStartOfDay()).isEmpty();
    }
    
    private CalendarUtils () {}

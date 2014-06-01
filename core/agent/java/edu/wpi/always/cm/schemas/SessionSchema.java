@@ -82,8 +82,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       Plan plan = interaction.getFocusExhausted(true);
       ActivitySchema schema = null;
       if ( plan != null ) {
-         if ( plan.getType().getId().equals("_Session") ) {
-            // focus is on session, move it down to first live child
+         if ( plan.getType().isInternal() ) {
+            // focus is on session (or other internal) move it down to first live child
             List<Plan> live = plan.getLive();
             if ( !live.isEmpty() ) {
                plan = live.get(0);
