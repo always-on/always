@@ -19,7 +19,7 @@
       <step name="ttt" task="a:PlayTicTacToe" minOccurs="0"/>
       <step name="rummy" task="a:PlayRummy" minOccurs="0"/>
       <step name="explain" task="a:ExplainSelf" minOccurs="0"/>	
-      <step name="encourage" task="_EncourageExplain" minOccurs="0"/>
+      <step name="encourage" task="a:_EncourageExplain" minOccurs="0"/>
       <applicable> $always.getUserModel().getUserName().isEmpty() </applicable>
     </subtasks>
 

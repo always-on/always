@@ -23,8 +23,6 @@ public class EnrollClient implements EnrollUI {
          UIMessageDispatcher dispatcher) {
       this.enroll = enroll;
       this.dispatcher = dispatcher;
-      ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
-            InstanceReuseMode.Remove, null);
    }
 
    private boolean firstTime = true;
@@ -33,14 +31,6 @@ public class EnrollClient implements EnrollUI {
          ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
             firstTime ? InstanceReuseMode.Remove : InstanceReuseMode.Reuse, null);
       firstTime = false;
-   }
-
-   @Override
-   public void showAllEntries () {
-      show();
-      Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "people")
-            .add("peopleData", getPeopleData()).build();
-      dispatcher.send(m);
    }
 
    @Override

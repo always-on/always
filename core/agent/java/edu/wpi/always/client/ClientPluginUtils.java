@@ -41,14 +41,17 @@ public abstract class ClientPluginUtils {
    
    private static final String KEYBOARD = "keyboard";
    
+   // note forcing messages for KB visibility to be sent
+   
    public static void showKeyboard (UIMessageDispatcher dispatcher, JsonObject params) {
-      pluginVisible = false;
+      pluginVisible = null;
       ClientPluginUtils.startPlugin(dispatcher, KEYBOARD,
             InstanceReuseMode.Remove, params);
-      pluginVisible = false;
+      pluginVisible = null;
    }
    
    public static void hideKeyboard (UIMessageDispatcher dispatcher) {
+      pluginVisible = null;
       ClientPluginUtils.hidePlugin(dispatcher);
    }
 
