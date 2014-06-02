@@ -33,5 +33,16 @@ public abstract class ClientPluginUtils {
       pluginVisible = false;
    }
    
+   private static final String KEYBOARD = "keyboard";
+   
+   public static void showKeyboard (UIMessageDispatcher dispatcher, JsonObject params) {
+      ClientPluginUtils.startPlugin(dispatcher, KEYBOARD,
+            InstanceReuseMode.Remove, params);
+   }
+   
+   public static void hideKeyboard (UIMessageDispatcher dispatcher) {
+      ClientPluginUtils.hidePlugin(dispatcher);
+   }
+
    private ClientPluginUtils () {}
 }
