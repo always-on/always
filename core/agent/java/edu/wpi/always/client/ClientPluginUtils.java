@@ -42,6 +42,7 @@ public abstract class ClientPluginUtils {
    private static final String KEYBOARD = "keyboard";
    
    public static void showKeyboard (UIMessageDispatcher dispatcher, JsonObject params) {
+      pluginVisible = false;
       ClientPluginUtils.startPlugin(dispatcher, KEYBOARD,
             InstanceReuseMode.Remove, params);
    }
