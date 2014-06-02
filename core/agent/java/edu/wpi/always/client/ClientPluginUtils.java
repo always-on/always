@@ -45,6 +45,7 @@ public abstract class ClientPluginUtils {
       pluginVisible = false;
       ClientPluginUtils.startPlugin(dispatcher, KEYBOARD,
             InstanceReuseMode.Remove, params);
+      pluginVisible = false;
    }
    
    public static void hideKeyboard (UIMessageDispatcher dispatcher) {
