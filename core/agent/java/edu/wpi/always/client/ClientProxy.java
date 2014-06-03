@@ -106,12 +106,17 @@ public class ClientProxy {
       enqueue("express", p);
    }
 
+   private Boolean agentVisible; // don't assume state at startup
+   
    public void setAgentVisible (boolean visible) {
       // never make agent visible for Reeti-only mode
       if ( !visible || Always.getAgentType() != AgentType.Reeti ) {
-         HashMap<String, String> p = Maps.newHashMap();
-         p.put("status", Boolean.toString(visible));
-         enqueue("setVisible", p);
+         if ( agentVisible == null || agentVisible.booleanValue() != visible ) {
+            HashMap<String, String> p = Maps.newHashMap();
+            p.put("status", Boolean.toString(visible));
+            enqueue("setVisible", p);
+            agentVisible = visible;
+         }
       }
    }
    

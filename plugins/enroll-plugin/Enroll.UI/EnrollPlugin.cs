@@ -37,7 +37,7 @@ namespace Enroll.UI
 
 		public void Dispose()
 		{
-			//_remote.RemoveReceiveHandler("");
+			_remote.RemoveReceiveHandler("enroll.display");
 		}
 
 		private readonly Object displayLock = new Object();

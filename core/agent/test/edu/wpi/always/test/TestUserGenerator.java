@@ -9,6 +9,9 @@ import edu.wpi.always.user.people.Person.Gender;
 import edu.wpi.always.user.people.Person.Relationship;
 import edu.wpi.always.user.places.PlaceManager;
 
+// NB: This no longer works due to references to plugins in 
+//     Activities.xml
+
 public class TestUserGenerator {
 
    public static void main (String[] args) {
@@ -22,6 +25,8 @@ public class TestUserGenerator {
    public static void generate (UserModel userModel) {
       userModel.setUserName("Diane Ferguson");
       userModel.setCloseness(Closeness.Companion);
+      // instead of EnrollPlugin.PERFORMED to avoid compile dependency
+      userModel.setProperty("EnrollPerformed", true);
       PeopleManager peopleMgr = userModel.getPeopleManager();
       PlaceManager placeMgr = userModel.getPlaceManager();
       Calendar calendar = userModel.getCalendar();

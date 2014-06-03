@@ -1,0 +1,186 @@
+<d:model about="urn:always.wpi.edu:Activities"
+         xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
+         xmlns:d="http://www.cs.wpi.edu/~rich/d4g">
+
+  <!-- This model is loaded at startup to register all of the activities and
+       their respective plugins.
+
+       See Activities.properties for plugin information
+  -->
+                                
+  <task id="GreetUser"/>
+
+  <!-- These below will be presented to user in final menu in two columns in 
+       the order listed here, followed by "What did you say?" 
+
+       Unfortunately the top of second column will vary depending on the
+       length of the list
+  -->                
+  
+  <task id="ExplainSelf"/>
+
+  <task id="DiscussWeather">
+     <precondition> 
+        Packages.edu.wpi.always.user.UserUtils.getTimeOfDay() == Packages.edu.wpi.always.user.UserUtils.TimeOfDay.Night ? false : null 
+     </precondition>  
+  </task>
+
+  <task id="PlayTicTacToe"/>
+
+  <task id="PlayRummy"/>
+
+  <task id="PlayCheckers">
+    <precondition> isExplained("PLAY_GAMES") || notStranger() || days() &gt; 1 </precondition>
+  </task>
+
+  <task id="HearAnecdotes">
+    <precondition> isExplained("HEAR_ANECDOTES") || notStranger() </precondition>
+  </task>
+
+  <task id="EnrollUser">
+    <precondition> 
+       Packages.edu.wpi.always.Always.THIS.getUserModel().getSessions() == 0
+       || notStranger() || days() &gt; 2
+    </precondition>
+  </task>
+
+  <task id="TalkAbout">
+    <precondition> 
+      Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;
+        (isExplained("TALK_ABOUT") || notStranger() || days() &gt; 2)
+    </precondition>
+  </task>
+
+  <task id="GetHealthTips">
+    <precondition> notStranger() </precondition>
+  </task>
+  
+  <task id="AdviseNutrition">
+    <precondition> isExplained("ADVISE_NUTRITION") || notStranger() </precondition>
+  </task>
+  
+  <task id="UseCalendar">
+    <precondition>
+      isImminent() || isExplained("USE_CALENDAR") || notStranger() || days() &gt; 3 
+    </precondition>
+  </task>
+
+  <task id="PlanExercise">
+    <precondition> advanced(7, "PLAN_EXERCISE") </precondition>
+  </task>
+
+  <task id="TellStory">
+    <precondition> advanced(8, "TELL_STORY") </precondition>
+  </task>
+
+  <task id="UseSkype">
+    <precondition> advanced(9, "USE_SKYPE") </precondition>
+  </task>
+
+  <task id="SayGoodbye"/>
+  
+  <!-- following used in Stranger, Acquaintance, Companion models -->
+
+  <d:agent id="_CalendarImminent"
+           text="There are upcoming events in your calendar today or tomorrow.  Would you like to see the calendar now?"
+           precondition="isImminent()">
+    <d:user text="Yes, please">
+      <d:do task="UseCalendar"/>
+    </d:user>
+    <d:user text="Not now"/>
+  </d:agent>
+
+  <d:agent id="_EncourageExplain" 
+           text="You have not ever listened to me explain about all the activities we can do together"
+           precondition="!Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;
+              Packages.edu.wpi.always.user.UserUtils.getDays(userModel()) &gt; 2">
+    <d:user text="Oh, really?  Okay, I'll try that"/>
+    <d:user text="I don't want to hear about this now"/>
+    <d:user text="I guess I will listen">
+      <d:agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; You can always stop when you've heard enough and listen again later lt;FACE EXPR=\&quot;WARM\&quot;/&gt; "/>
+    </d:user>
+    <d:user text="Maybe tomorrow"/>
+  </d:agent>
+
+  <script init="true">
+
+    /*
+     This element contains Javascript that is evaluated when this model
+     is loaded.  This is convenient place to set parameters, etc., without
+     changing source code.  Note that all Java classes and methods can
+     be accessed from Javascript.  The variable edu.wpi.always.Always.THIS
+     contains the most recent instance of the system.
+
+     Note the 'eval' command in the Disco console window can be used
+     similarly.
+    */
+  
+    // note $always not initialized yet
+    
+    function userModel () { 
+      return Packages.edu.wpi.always.Always.THIS.getUserModel();
+    }
+
+    function isImminent () {
+      return Packages.edu.wpi.always.user.calendar.CalendarUtils.isImminent(userModel().getCalendar());
+    }
+
+    function notStranger () { 
+      return userModel().getCloseness() != Packages.edu.wpi.always.Closeness.Stranger;
+    }
+
+    function advanced (min, property) {
+      return userModel().getCloseness() == Packages.edu.wpi.always.Closeness.Companion
+        || ( notStranger() &amp;&amp; (isExplained(property) || (days() &gt; min &amp;&amp; sessions() &gt; days()/2) ));
+    }
+
+    function days () { 
+      return Packages.edu.wpi.always.user.UserUtils.getDays(userModel());
+    }
+
+    function sessions () { return userModel().getSessions(); }
+
+    function isExplained (property) {
+      return userModel().isProperty(Packages.edu.wpi.always.explain.ExplainPlugin[property]);
+    }
+
+    /* These variables can be changed either here or using eval command in console.  Note
+       the values here only apply to the session instance of Disco.  Tracing in Disco-based
+       plugins can be set in the plugin model or plugin console. */
+    
+    Packages.edu.wpi.always.Always.TRACE = true;
+    Packages.edu.wpi.disco.rt.DiscoRT.TRACE = false;
+    
+    /* Rules for progressing through closeness levels.  These are here rather than in
+       RelationshipManager.java in order to avoid compile dependency on plugin projects
+    */
+
+    model = userModel();
+    if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Companion ) {
+       if ( Packages.edu.wpi.always.about.AboutPlugin.isPerformed() ||
+            Packages.plugins.ExercisePlugin.isPerformed() ||
+            Packages.plugins.StorytellingPlugin.isPerformed() ||
+            Packages.edu.neu.always.skype.SkypePlugin.isPerformed() ||
+            ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;	
+              Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ) )
+           model.setCloseness(Packages.edu.wpi.always.Closeness.Companion)
+        else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Acquaintance ) {
+           if ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||
+                Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
+                ( days() &gt; 6 &amp;&amp; sessions() &gt; days()/2 &amp;&amp;
+                  ( Packages.edu.wpi.always.about.CheckersPlugin.isPerformed() ||
+                    Packages.plugins.ExplainPlugin.isPerformed() ||
+                    Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||	
+                    Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
+                    Packages.plugins.AnecdotesPlugin.isPerformed() ||
+                    Packages.plugins.HealthPlugin.isPerformed() ||
+                    Packages.plugins.NutritionPlugin.isPerformed() ||	
+                    Packages.edu.wpi.always.srummy.SrummyPlugin.isPerformed() ||
+                    Packages.edu.wpi.always.ttt.TTTPlugin.isPerformed() ) ) )
+               model.setCloseness(Packages.edu.wpi.always.Closeness.Acquaintance);
+         }
+    }
+    
+  </script>
+
+</d:model>

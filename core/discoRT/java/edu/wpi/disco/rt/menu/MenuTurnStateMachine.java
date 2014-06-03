@@ -114,16 +114,16 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
             return nextState(selected); // loop
          }
       }
+      // TODO Figure out why following causes speech to be repeated as soon as it is done
+      /*
       if ( alreadyDone && mode == Mode.Hearing && !extension
            && speechBehavior != null && menuBehavior != null ) { 
-         // while waiting for menu selection, release other resources from speech markup, if any
-         // TODO remove null speech behavior also (e.g., to allow robot to say "ouch" if you
-         //      poke it), but figure out first why that causes timeout response to keep
-         //      repeating
-         behavior = new Behavior(new SimpleCompoundBehavior(
-               PrimitiveBehavior.nullBehavior(Resources.SPEECH), menuBehavior));
+         // while waiting for menu selection, release speech and other resources from speech markup, if any
+         // (e.g., to allow robot to say "ouch" if you poke it)
+         behavior = Behavior.newInstance(menuBehavior);
          if ( needsFocusResource ) behavior = behavior.addFocusResource();
       }
+      */
       if ( mode == Mode.Hearing && !extension && state != timedOutState // don't timeout twice
            && waitingForResponseSince.isBefore(DateTime.now().minusMillis(TIMEOUT_DELAY)) ) {
          timedOutState = state;
