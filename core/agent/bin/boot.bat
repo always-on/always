@@ -1,4 +1,5 @@
 cd C:\Dropbox\%COMPUTERNAME%
+release\bin\nircmdc screensaver
 call release\bin\always-kill.bat
 if not exist release.new\count.bat goto continue
     call release.new\count.bat
