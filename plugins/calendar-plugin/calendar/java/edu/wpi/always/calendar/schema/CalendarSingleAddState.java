@@ -53,7 +53,7 @@ abstract class CalendarSingleAddState {
                .getPersonQuestion() : "", context);
          this.data = data;
          if ( data.getType().getPersonQuestion() == null
-            || data.getPeople().size() > 0 )
+            || data.getPeople().size() == 0 )
             skipTo(new EventDay(data, getContext()));
       }
 
@@ -84,7 +84,7 @@ abstract class CalendarSingleAddState {
          if(data.getType().equals(Types.Birthday))
             return new WhenStartBirthday(data, getContext());
          else
-            return new WhenStart(data, new LocalTime(10, 0), getContext());
+            return new WhenStart(data, new LocalTime(10, 0), getContext(), false);
       }
    }
 
@@ -93,9 +93,9 @@ abstract class CalendarSingleAddState {
       private final CalendarEntry entry;
 
       public WhenStart (final CalendarEntry entry, final LocalTime startTime,
-            final CalendarStateContext context) {
-         super("What time does the " + entry.getDisplayTitle() + " start",
-               startTime, context);
+            final CalendarStateContext context, boolean saidThePromptOnce) {
+         super(saidThePromptOnce ? "" : "What time does the " + entry.getDisplayTitle() 
+            + " start", startTime, context);
          this.entry = entry;
          choice("Start Over", new DialogStateTransition() {
 
@@ -108,7 +108,7 @@ abstract class CalendarSingleAddState {
 
       @Override
       public TimeAdjacencyPair changeStartTime (LocalTime time) {
-         return new WhenStart(entry, time, getContext());
+         return new WhenStart(entry, time, getContext(), true);
       }
 
       @Override
@@ -172,7 +172,7 @@ abstract class CalendarSingleAddState {
       public Where (CalendarEntry entry, CalendarStateContext context) {
          super(context);
          this.entry = entry;
-         if ( entry.getStart() != null )
+         if ( entry.getPlace() != null )
             skipTo(new Ok(entry, getContext()));
       }
 

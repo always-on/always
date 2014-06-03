@@ -63,7 +63,7 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
       
       int offset;
 
-      if (ClientPluginUtils.isPluginVisible() || testPluginVisible)
+      if ( ClientPluginUtils.isPluginVisible() == null || ClientPluginUtils.isPluginVisible() || testPluginVisible)
       {
          if (hor < -0.0375)
          {
@@ -120,7 +120,7 @@ public class GazeRealizer extends SingleRunPrimitiveRealizer<GazeBehavior> {
 
       int offset;
       
-      if (ClientPluginUtils.isPluginVisible() || testPluginVisible)
+      if (ClientPluginUtils.isPluginVisible() == null || ClientPluginUtils.isPluginVisible() || testPluginVisible)
       {
          if (p.x > 190)
          {

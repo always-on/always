@@ -3,7 +3,7 @@ package edu.wpi.always.cm;
 import java.io.*;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import org.picocontainer.*;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.*;
@@ -123,11 +123,12 @@ public class CollaborationManager extends DiscoRT {
          Utils.lnprint(System.out, "Loaded plugin: "+instance);
       } else 
          for (TaskClass top : activities.getTaskClasses()) {
+            if ( !top.isTop() ) continue;
             Plugin instance = Plugin.getPlugin(top, container);
             for (Activity a : instance.getActivities(0)) // not using closeness value
                for (Registry r : instance.getRegistries(a)) addRegistry(r);
             Utils.lnprint(System.out, "Loaded plugin: "+instance);
-         } 
+      }
       loadPluginOntologies(plugin);
       start(plugin == null ? "Session" : null);
       // after DiscoRT.start() so all registries done
@@ -148,9 +149,9 @@ public class CollaborationManager extends DiscoRT {
       try { 
          if ( plugin != null ) 
             parent.getComponent(plugin).loadOntology();
-         else
+         else 
             for (TaskClass top : activities.getTaskClasses()) 
-               Plugin.getPlugin(top, container).loadOntology();
+               if ( top.isTop() ) Plugin.getPlugin(top, container).loadOntology();
          parent.getComponent(UserModel.class).ensureConsistency();
       } catch (InconsistentOntologyException e) { inconsistentUserModel(e); }
    }

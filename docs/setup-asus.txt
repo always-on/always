@@ -43,7 +43,7 @@ Reseller: Directron.
 * In Control Panel > Personalization > Screen Saver
 
   Select "Blank" 
-  Select Wait 20 minutes
+  Select Wait 15 minutes
   Do not select On Resume Display Login Screen
 
 * Uninstall native trial anti-virus software(Titanium...).

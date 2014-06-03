@@ -6,7 +6,6 @@ import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 
 public class KeyboardMessageHandler implements Keyboard, MessageHandler{
 
-   private static final String PLUGIN_NAME = "keyboard";
    static final String MSG_TEXT_UPDATE = "keyboard.textUpdate";
    private volatile String latest;
    private boolean overflow;
@@ -27,14 +26,13 @@ public class KeyboardMessageHandler implements Keyboard, MessageHandler{
       JsonObject data = new JsonObject();
       data.addProperty("contextMessage", prompt);
       data.addProperty("isNumeric", isNumeric);
-      ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
-            InstanceReuseMode.Remove, data);
+      ClientPluginUtils.showKeyboard(dispatcher, data);
       latest = null;
    }
 
    @Override
    public void hideKeyboard () {
-      ClientPluginUtils.hidePlugin(dispatcher);
+      ClientPluginUtils.hideKeyboard(dispatcher);
    }
 
    @Override

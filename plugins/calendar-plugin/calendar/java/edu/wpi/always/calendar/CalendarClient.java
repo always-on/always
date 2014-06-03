@@ -42,7 +42,7 @@ public class CalendarClient implements CalendarUI {
    public CalendarClient (final Calendar calendar,
          UIMessageDispatcher dispatcher) {
       this.calendar = calendar;
-      this.dispatcher = dispatcher;
+      this.dispatcher = dispatcher;      
       dispatcher.registerReceiveHandler(MSG_CALENDAR_ENTRY_SELECTED,
             new MessageHandler() {
 
@@ -69,9 +69,12 @@ public class CalendarClient implements CalendarUI {
             });
    }
 
+   private boolean firstTime = true;
+   
    public void show () {
       ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
-            InstanceReuseMode.Reuse, null);
+            firstTime ? InstanceReuseMode.Remove : InstanceReuseMode.Reuse, null);
+      firstTime = false;
    }
 
    @Override

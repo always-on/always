@@ -55,7 +55,7 @@ abstract class CalendarRepeatAddState {
                .getPersonQuestion() : "", context);
          this.data = data;
          if ( data.getType().getPersonQuestion() == null
-            || data.getPeople().size() > 0 )
+            || data.getPeople().size() == 0 )
             skipTo(new EventDay(data, getContext()));
       }
 
@@ -125,7 +125,7 @@ abstract class CalendarRepeatAddState {
             final CalendarStateContext context) {
          super("How many times will it take place?", context);
          if ( entry.getRepeatEndDate() != null )
-            skipTo(new WhenStart(entry, new LocalTime(10, 0), getContext()));
+            skipTo(new WhenStart(entry, new LocalTime(10, 0), getContext(), false));
          for (int num = 1; num <= 7; num++) {
             final int fNum = num;
             choice(String.valueOf(num), new DialogStateTransition() {
@@ -140,7 +140,7 @@ abstract class CalendarRepeatAddState {
                   if(entry.getType().equals(Types.Birthday))
                      return new WhenStartBirthday(entry, getContext());
                   return new WhenStart(entry, new LocalTime(10, 0),
-                        getContext());
+                        getContext(), false);
                }
             });
          }
@@ -151,10 +151,10 @@ abstract class CalendarRepeatAddState {
 
       private final RepeatingCalendarEntry entry;
 
-      public WhenStart (final RepeatingCalendarEntry entry,
-            final LocalTime startTime, final CalendarStateContext context) {
-         super("What time does the " + entry.getDisplayTitle() + " start",
-               startTime, context);
+      public WhenStart (final RepeatingCalendarEntry entry,final LocalTime startTime, 
+            final CalendarStateContext context, boolean saidThePromptOnce) {
+         super(saidThePromptOnce ? "" : "What time does the " + entry.getDisplayTitle() 
+               + " start", startTime, context);
          this.entry = entry;
          if ( entry.getStart() != null && entry.getRepeatStartTime() != null )
             skipTo(new HowLong(entry, getContext()));
@@ -170,7 +170,7 @@ abstract class CalendarRepeatAddState {
 
       @Override
       public TimeAdjacencyPair changeStartTime (LocalTime time) {
-         return new WhenStart(entry, time, getContext());
+         return new WhenStart(entry, time, getContext(), true);
       }
 
       @Override

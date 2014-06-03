@@ -25,17 +25,12 @@ public class EnrollClient implements EnrollUI {
       this.dispatcher = dispatcher;
    }
 
+   private boolean firstTime = true;
+   
    private void show () {
-      ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
-            InstanceReuseMode.Reuse, null);
-   }
-
-   @Override
-   public void showAllEntries () {
-      show();
-      Message m = Message.builder(MSG_ENROLL_DISPLAY).add("type", "people")
-            .add("peopleData", getPeopleData()).build();
-      dispatcher.send(m);
+         ClientPluginUtils.startPlugin(dispatcher, PLUGIN_NAME,
+            firstTime ? InstanceReuseMode.Remove : InstanceReuseMode.Reuse, null);
+      firstTime = false;
    }
 
    @Override
