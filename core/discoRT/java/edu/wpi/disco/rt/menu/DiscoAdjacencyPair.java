@@ -38,13 +38,15 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
 
    @Override
    public AdjacencyPair nextState (String text) {
+      if ( REPEAT.equals(text) ) 
+         return new AdjacencyPairWrapper<AdjacencyPair.Context>(this);
       int i = current.choices.indexOf(text);
-      if ( i >= 0 && !REPEAT.equals(text) ) {
+      if ( i >= 0 ) {
          interaction.doneUtterance((Utterance) current.items.get(i).task, 
                current.items.get(i).contributes, text);
          update(); 
       }
-      // transition is always circular, so this is not a pure state!
+      // transition is always circular, so this is not really a state!
       return this;
    }
 
