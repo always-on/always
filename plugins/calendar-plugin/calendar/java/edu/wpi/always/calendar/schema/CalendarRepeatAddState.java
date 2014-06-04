@@ -55,7 +55,8 @@ abstract class CalendarRepeatAddState {
                .getPersonQuestion() : "", context);
          this.data = data;
          if ( data.getType().getPersonQuestion() == null
-            || data.getPeople().size() == 0 )
+            || data.getPeople().size() > 0 || 
+            context.getPeopleManager().getPeople(false).length <= 1 )
             skipTo(new EventDay(data, getContext()));
       }
 
