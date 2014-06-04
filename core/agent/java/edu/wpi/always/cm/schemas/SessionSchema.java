@@ -1,17 +1,14 @@
 package edu.wpi.always.cm.schemas;
 
 import java.util.*;
-import org.joda.time.LocalTime;
 import org.picocontainer.MutablePicoContainer;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
-import edu.wpi.always.user.*;
-import edu.wpi.always.user.owl.OntologyUserModel;
+import edu.wpi.always.user.UserUtils;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
-import edu.wpi.disco.Agenda.Plugin.Item;
 import edu.wpi.disco.lang.*;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.*;
@@ -30,11 +27,40 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final CollaborationManager cm;
    private final Interaction interaction;  
    
+   private volatile String interruption; // set by other threads  
+   
+   /**
+    * Interrupt current session with given task.  Returns
+    * true if session is currently interruptible, otherwise false.
+    */
+   public static boolean interrupt (String interruption) {
+      if ( THIS == null || !THIS.isInterruptible() ) {
+         Utils.lnprint(System.out,  "SessionSchema ignoring attempted interruption: "+interruption);
+         return false;
+      } else {
+         synchronized(THIS.interaction) { THIS.interruption = interruption; }
+         return true;
+      }
+   }
+
+   public static void stopCurrent () { 
+      if ( THIS != null || THIS.current != null ) THIS.current.stop(); 
+   }
+
+   @Override
+   public boolean isInterruptible () {
+      synchronized (interaction) {
+         return current == null || current.isInterruptible();
+      }
+   }
+   
    /**
     * Date that session started (for time of day)
     * See {@link Always#DATE}.
     */
    public static Date DATE;
+   
+   private static SessionSchema THIS;
    
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -42,6 +68,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          SchemaManager schemaManager, Always always, 
          DiscoRT.Interaction interaction) {
       super(new Toplevel(interaction), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
+      THIS = this;
       this.proxy = proxy;
       this.schemaManager = schemaManager;
       this.interaction = interaction;
@@ -73,44 +100,56 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
 
    // activities for which startActivity has been called (not same as Plan.isStarted)
    private final Map<Plan,ActivitySchema> started = new HashMap<Plan,ActivitySchema>();
+   private volatile ActivitySchema current; // currently running or null 
    
    // note this schema uses menu with focus and menu extension without focus
+
+   public static void test () {
+      interrupt("_CalendarInterruption");
+   }
    
    @Override
    public void run () {
       if ( EngagementSchema.EXIT ) return;
-      Plan plan = interaction.getFocusExhausted(true);
-      ActivitySchema schema = null;
-      if ( plan != null ) {
-         if ( plan.getType().isInternal() ) {
-            // focus is on session (or other internal) move it down to first live child
-            List<Plan> live = plan.getLive();
-            if ( !live.isEmpty() ) {
-               plan = live.get(0);
-               interaction.push(plan);
+      synchronized (interaction) {
+         current = null;
+         Plan plan = interaction.getFocusExhausted(true);
+         if ( plan != null ) {
+            if ( plan.getType().isInternal() ) {
+               // focus is on session (or other internal) move it down to first live child
+               List<Plan> live = plan.getLive();
+               if ( !live.isEmpty() ) {
+                  plan = live.get(0);
+                  interaction.push(plan);
+               }
             }
-         }
-         if ( plan.getGoal() instanceof Propose.Should ) 
-            plan = plan.getParent();
-         schema = started.get(plan);
-         if ( schema != null ) {
-            if ( schema.isDone() ) {
-               revertIfInconsistent(schema);
-               stop(plan);
-               stateMachine.setState(schema.isSelfStop() ? 
-                  new StopAdjacencyPairWrapper(discoAdjacencyPair) : 
-                  discoAdjacencyPair);
-            } else yield(plan, schema);
-         } else {
-            TaskClass task = plan.getType();
-            if ( Plugin.isPlugin(task) &&
-                 plan.isLive() && !plan.isOptional() && !plan.isStarted() ) {
-               schema = Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)); 
-               started.put(plan, schema);
-               plan.setStarted(true);
-               Utils.lnprint(System.out, "Starting "+plan.getType()+"...");
-               history();
-               yield(plan, schema);
+            if ( plan.getGoal() instanceof Propose.Should ) 
+               plan = plan.getParent();
+            current = started.get(plan);
+            if ( interruption != null ) {
+               interaction.push(new Plan(interaction.getDisco().getTaskClass(interruption).newInstance()));
+               interruption = null;
+               interrupt();
+            } 
+            if ( current != null ) {
+               if ( current.isDone() ) {
+                  revertIfInconsistent(current);
+                  stop(plan);
+                  stateMachine.setState(current.isSelfStop() ? 
+                     new StopAdjacencyPairWrapper(discoAdjacencyPair) : 
+                        discoAdjacencyPair);
+               } else yield(plan);
+            } else {
+               TaskClass task = plan.getType();
+               if ( Plugin.isPlugin(task) &&
+                     plan.isLive() && !plan.isOptional() && !plan.isStarted() ) {
+                  current = Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)); 
+                  started.put(plan, current);
+                  plan.setStarted(true);
+                  Utils.lnprint(System.out, "Starting "+plan.getType()+"...");
+                  history();
+                  yield(plan);
+               }
             }
          }
       }
@@ -119,7 +158,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       //    -focused activity schema done
       //    -focused task stopped
       //    -session plan exhausted 
-      if ( schema != null && schema.isSelfStop() ) proposeNothing();
+      if ( current != null && current.isSelfStop() ) proposeNothing();
       else propose(stateMachine);
    }
    
@@ -140,8 +179,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       schemaManager.start(getClass());
    }
    
-   private void yield (Plan plan, ActivitySchema schema) {
-      if ( !schema.isSelfStop() ) {
+   private void yield (Plan plan) {
+      if ( !current.isSelfStop() ) {
          stop.setPlan(plan);
          stop.update();
          stateMachine.setState(stop);
@@ -153,12 +192,23 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
    
    private void stop (Plan plan) {
+      Utils.lnprint(System.out, "Returning to Session...");
       plan.setComplete(true);
       started.remove(plan.getGoal());
+      history(); // before update
+      unyield();
+   }
+   
+   private void interrupt () {
+      Utils.lnprint(System.out, "Interrupting "+(current == null ? "session" : current));
+      current = null;
+      unyield();
+      stateMachine.setState(discoAdjacencyPair);
+   }
+   
+   private void unyield () {
       proxy.showMenu(null, false, true); // clear extension menu
       proxy.hidePlugin();
-      Utils.lnprint(System.out, "Returning to Session...");
-      history(); // before update
       discoAdjacencyPair.update();
       stateMachine.setExtension(false);
       stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);

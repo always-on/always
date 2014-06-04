@@ -1,14 +1,13 @@
 package edu.wpi.disco.rt.menu;
 
+import java.util.List;
+import org.joda.time.DateTime;
 import com.google.common.collect.Lists;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.behavior.Constraint.Type;
 import edu.wpi.disco.rt.realizer.petri.*;
 import edu.wpi.disco.rt.util.*;
-import org.joda.time.DateTime;
-import java.util.*;
-import java.util.regex.Pattern;
 
 public class MenuTurnStateMachine implements BehaviorBuilder {
 

@@ -102,6 +102,31 @@
     <d:user text="Maybe tomorrow"/>
   </d:agent>
 
+  <!-- following for interruptions -->
+
+  <d:agent id="_CalendarInterruption"
+           text="Please excuse the interruption, but you have a calendar event in the next fifteen minutes.  Would you like to end this session now?"
+           eval="Packages.edu.wpi.always.calendar.CalendarClient.showToday()">
+    <d:user text="yes, let's stop now"> 
+      <d:agent text="ok, talk to you later">
+        <d:user text="goodbye"
+                eval="Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent();
+                      Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
+      </d:agent>
+    </d:user>
+    <d:user text="no, let's continue" 
+            eval="Packages.edu.wpi.always.calendar.CalendarClient.hideToday()"/>
+  </d:agent>
+
+  <d:agent id="_SkypeInterruption"
+           text="Please excuse the interruption, but you you have a Skype call from {Packages.edu.wpi.always.plugins.skype.SkypePlugin.CALLER}.  Would you like to take the call now?">
+    <d:user text="yes, let's take the call"
+            eval="Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent()">
+      <d:do task="UseSkype"/>
+    </d:user>   
+    <d:user text="no, not now"/>
+  </d:agent>
+
   <script init="true">
 
     /*

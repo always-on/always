@@ -3,6 +3,7 @@ package edu.wpi.always.cm.schemas;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.Plugin;
 import edu.wpi.always.client.*;
+import edu.wpi.cetask.Task;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuTurnStateMachine;
 import edu.wpi.disco.rt.schema.*;
@@ -58,4 +59,6 @@ public abstract class ActivitySchema extends SchemaBase {
    public void setSelfStop (boolean selfStop) {
       this.selfStop = selfStop;
    }
+   
+   public boolean isInterruptible () { return true; }
 }

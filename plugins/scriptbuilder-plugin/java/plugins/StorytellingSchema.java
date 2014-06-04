@@ -35,4 +35,6 @@ public class StorytellingSchema extends ScriptbuilderSchema {
       if ( shore != null ) shore.start(); 
    }
  
+	@Override
+	public boolean isInterruptible () { return false; }
 }

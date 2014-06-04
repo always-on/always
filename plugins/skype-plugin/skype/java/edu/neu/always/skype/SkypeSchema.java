@@ -2,7 +2,7 @@ package edu.neu.always.skype;
 
 import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
-import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
+import edu.wpi.always.cm.schemas.*;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
@@ -22,6 +22,15 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
       always.getUserModel().setProperty(SkypePlugin.PERFORMED, true);
    }
 
+   // set this variable re incoming call, since used in _SkypeInterruption script
+   public static String CALLER;
+
+   // call this method to interrupt current session/activity for incoming call
+   protected boolean interrupt () {
+      // see definition of _SkypeInterruption in edu.wpi.always.resources.Always.d4g.xml
+      return SessionSchema.interrupt("_SkypeInterruption");
+   }
+   
    @Override
    public void dispose () { 
       super.dispose();

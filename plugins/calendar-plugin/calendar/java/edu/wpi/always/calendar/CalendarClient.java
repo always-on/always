@@ -1,6 +1,7 @@
 package edu.wpi.always.calendar;
 
 import com.google.gson.*;
+import edu.wpi.always.Always;
 import edu.wpi.always.client.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.user.calendar.*;
@@ -35,38 +36,72 @@ public class CalendarClient implements CalendarUI {
          .forPattern("MMMM yyyy");
    private static final DateTimeFormatter MONTH_DAY_FORMAT = DateTimeFormat
          .forPattern("EEEE");
-   public final Calendar calendar;
+   private final Calendar calendar;
    private final UIMessageDispatcher dispatcher;
    private CalendarUIListener listener;
 
+   private static CalendarClient THIS;
+   
    public CalendarClient (final Calendar calendar,
          UIMessageDispatcher dispatcher) {
       this.calendar = calendar;
-      this.dispatcher = dispatcher;      
+      this.dispatcher = dispatcher;
+      THIS = this;
       dispatcher.registerReceiveHandler(MSG_CALENDAR_ENTRY_SELECTED,
             new MessageHandler() {
 
-               @Override
-               public void handleMessage (JsonObject body) {
-                  if ( listener != null ) {
-                     String id = body.get("id").getAsString();
-                     CalendarEntry entry = calendar.retrieveById(UUID
-                           .fromString(id));
-                     listener.entrySelected(entry);
-                  }
-               }
-            });
+         @Override
+         public void handleMessage (JsonObject body) {
+            if ( listener != null ) {
+               String id = body.get("id").getAsString();
+               CalendarEntry entry = calendar.retrieveById(UUID
+                     .fromString(id));
+               listener.entrySelected(entry);
+            }
+         }
+      });
       dispatcher.registerReceiveHandler(MSG_CALENDAR_DAY_SELECTED,
             new MessageHandler() {
 
-               @Override
-               public void handleMessage (JsonObject body) {
-                  if ( listener != null ) {
-                     long id = body.get("id").getAsLong();
-                     listener.daySelected(new LocalDate(id));
-                  }
-               }
-            });
+         @Override
+         public void handleMessage (JsonObject body) {
+            if ( listener != null ) {
+               long id = body.get("id").getAsLong();
+               listener.daySelected(new LocalDate(id));
+            }
+         }
+      });
+   }
+
+   // static methods for use in _CalendarInterruption
+   
+   private static String pluginName;
+   
+   public static void showToday () {
+      pluginName = ClientPluginUtils.getPluginName();
+      if ( THIS == null ) 
+         new CalendarClient(
+            Always.THIS.getCM().getContainer().getComponent(Calendar.class),
+            getDispatcher());
+      THIS.showDay(new LocalDate(), null, false);
+   }
+   
+   // ************************************************************
+   // why is pluginName null after interrupting KB????
+   // also test what did you say in interruption subdialogue
+   
+   public static void hideToday () {
+      ClientPluginUtils.hidePlugin(getDispatcher());
+      if ( pluginName != null ) {
+         if ( pluginName == PLUGIN_NAME ) {
+            // interrupting calendar
+            // TODO kill and restart calendar schema
+         } else ClientPluginUtils.startPlugin(getDispatcher(), pluginName, InstanceReuseMode.Reuse, null);
+      }
+   }
+   
+   private static UIMessageDispatcher getDispatcher () {
+      return Always.THIS.getCM().getContainer().getComponent(UIMessageDispatcher.class);
    }
 
    private boolean firstTime = true;
@@ -76,7 +111,7 @@ public class CalendarClient implements CalendarUI {
             firstTime ? InstanceReuseMode.Remove : InstanceReuseMode.Reuse, null);
       firstTime = false;
    }
-
+   
    @Override
    public void showDay (LocalDate day, CalendarUIListener listener,
          boolean touchable) {
