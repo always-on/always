@@ -106,8 +106,8 @@ public class Always {
          // before Activities so $always initialized
          new Always(true, false).init(interaction); 
          // to get plugin classes 
-         for (TaskClass task : new TaskEngine().load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
-            Plugin.getPlugin(task);
+         for (TaskClass top : new edu.wpi.disco.Disco(interaction).load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
+            if ( top.isTop() ) Plugin.getPlugin(top);
          interaction.start(true);  
       }
    }
