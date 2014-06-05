@@ -20,6 +20,14 @@ public class AboutPlugin extends Plugin {
       aboutInteraction.load("edu/wpi/always/about/resources/About.xml");
       Plugin.main(args, AboutPlugin.class, "TalkAbout");
    }
+
+   enum Positive { POSITIVE, NOT_POSITIVE }
+   enum Negative { NEGATIVE, NOT_NEGATIVE }
+   enum Exit { EARLY, NORMAL }
+   
+   public static void log (Positive positive, Negative negative, Exit exit) {
+      Logger.logActivity(Logger.Plugin.ABOUT, new Object[] {positive, negative, exit});
+   }
    
    public static final String PERFORMED = "AboutPerformed";
 
