@@ -969,7 +969,7 @@
          <step name="_d4e217_step" task="disco:Say"/>
          <binding slot="$_d4e216_step.text" value="&#34;\&#34;Yes, \&#34;+(pronounSubj)+\&#34; is nearby\&#34;&#34;"/>
          <binding slot="$_d4e216_step.external" value="true"/>
-         <binding slot="$_d4e217_step.text" value="&#34;sounds like a good thing to do&#34;"/>
+         <binding slot="$_d4e217_step.text" value="&#34;That sounds like a good thing to do&#34;"/>
          <binding slot="$_d4e217_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e218_subtasks">
@@ -980,7 +980,7 @@
                   value="&#34;\&#34;No, \&#34;+(pronounSubj)+\&#34; is too far away.\&#34;&#34;"/>
          <binding slot="$_d4e218_step.external" value="true"/>
          <binding slot="$_d4e219_step.text"
-                  value="&#34;how about a nice card?  Always great to get those&#34;"/>
+                  value="&#34;How about a nice card? It's always great to get those&#34;"/>
          <binding slot="$_d4e219_step.external" value="false"/>
       </subtasks>
    </task>
@@ -1006,7 +1006,7 @@
          <step name="_d4e226_step" task="disco:Say"/>
          <binding slot="$_d4e225_step.text" value="&#34;\&#34;Yes, \&#34;+(pronounSubj)+\&#34; is nearby\&#34;&#34;"/>
          <binding slot="$_d4e225_step.external" value="true"/>
-         <binding slot="$_d4e226_step.text" value="&#34;well, sounds like an trip for you&#34;"/>
+         <binding slot="$_d4e226_step.text" value="&#34;well, I think that would be good to do. &#34;"/>
          <binding slot="$_d4e226_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e227_subtasks">

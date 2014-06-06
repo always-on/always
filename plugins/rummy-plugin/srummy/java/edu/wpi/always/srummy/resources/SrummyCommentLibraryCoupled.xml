@@ -43,7 +43,7 @@
 			<response>Try to do the same!</response>
 		</comment>
 		<comment competitiveness='0.6' tags="humanMeld/brag" gameType="board" gameName="srummy" madeOn="human">
-			<content>Those cards are nice, why meld? keep them</content>
+			<content>Those cards are nice, why meld? Just keep them in your hand</content>
 			<response>Very funny</response>
 			<response>Really?!</response>
 			<response>You too!</response>
@@ -52,13 +52,13 @@
 			<content>Look at that, what a meld!</content>
 			<response>Aha!</response>
 			<response>Thanks</response>
-			<response>Well try to learn!</response>
+			<response>Well, try to learn from me!</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
 			<content>Good lay off!</content>
 			<response>Aha!</response>
 			<response>Thanks</response>
-			<response>Well try to learn!</response>
+			<response>Pay attention to the master!</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
 			<content>That meld just got bigger</content>
@@ -195,7 +195,7 @@
 			<response>I should do more lay off too</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
-			<content>I lave lay offs!</content>
+			<content>I have lay offs!</content>
 			<response>me too!</response>
 			<response>Exactly, once less card on the go</response>
 			<response>Cool</response>
@@ -224,7 +224,7 @@
 			<response>well let's see</response>
 		</comment>
 		<comment competitiveness='0.2' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
-			<content>Good job on lay off</content>
+			<content>Good job on that lay off</content>
 			<response>Yes!</response>
 			<response>I know</response>
 			<response>Thanks</response>

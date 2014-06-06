@@ -408,10 +408,10 @@
 	    <user text="Yes, for a long time" >
 	      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; oh dear.  Can you go visit? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 		<user text="Yes, {pronounSubj} is nearby" >
-		  <agent text="sounds like a good thing to do" />
+		  <agent text="That sounds like a good thing to do" />
 		</user>
 		<user text="No, {pronounSubj} is too far away.">
-		  <agent text="how about a nice card?  Always great to get those">
+		  <agent text="How about a nice card? It's always great to get those">
 		    <user text=" Yes, good idea">
 		      <agent text="you can pick it up the next time you go for a walk."/>
 		    </user>
@@ -423,7 +423,7 @@
 	    <user text="Yes, but not for long">
 	      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; well that's tough.  Can you go visit? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 		<user text="Yes, {pronounSubj} is nearby" >
-		  <agent text="well, sounds like an trip for you" />
+		  <agent text="well, I think that would be good to do. " />
 		</user>
 		<user text="No, {pronounSubj} is too far away">
 		  <agent text="how about a nice card?  You can pick one up when you go out">
