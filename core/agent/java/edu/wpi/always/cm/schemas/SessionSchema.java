@@ -43,17 +43,25 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       }
    }
 
+   public static ActivitySchema getInterruptedSchema () { 
+      return THIS == null ? null : THIS.interrupted;
+   }
+
+   public static String getInterruptedPluginName () {
+      return THIS == null ? null : THIS.pluginName;
+   }
+   
    public static void stopCurrent () { 
       if ( THIS != null || THIS.current != null ) THIS.current.stop(); 
    }
-
+   
    @Override
    public boolean isInterruptible () {
       synchronized (interaction) {
          return current == null || current.isInterruptible();
       }
    }
-   
+
    /**
     * Date that session started (for time of day)
     * See {@link Always#DATE}.
@@ -100,8 +108,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
 
    // activities for which startActivity has been called (not same as Plan.isStarted)
    private final Map<Plan,ActivitySchema> started = new HashMap<Plan,ActivitySchema>();
-   private volatile ActivitySchema current; // currently running or null 
    
+   private volatile ActivitySchema current; // currently running or null 
+   private volatile ActivitySchema interrupted; // interrupted activity or null
+   private volatile String pluginName; // interrupted client plugin or null
+
    // note this schema uses menu with focus and menu extension without focus
 
    public static void test () {
@@ -126,11 +137,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             if ( plan.getGoal() instanceof Propose.Should ) 
                plan = plan.getParent();
             current = started.get(plan);
-            if ( interruption != null ) {
-               interaction.push(new Plan(interaction.getDisco().getTaskClass(interruption).newInstance()));
-               interruption = null;
-               interrupt();
-            } 
+            interruptIf();
             if ( current != null ) {
                if ( current.isDone() ) {
                   revertIfInconsistent(current);
@@ -157,11 +164,27 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       //    -live plan is not a plugin
       //    -focused activity schema done
       //    -focused task stopped
-      //    -session plan exhausted 
+      //    -session plan exhausted
+      //interruptIf();//////////////////////////////////////
       if ( current != null && current.isSelfStop() ) proposeNothing();
       else propose(stateMachine);
    }
    
+   private void interruptIf () {
+      if ( interruption != null ) {
+         Utils.lnprint(System.out, "Interrupting "+(current == null ? "session" : current)
+               +" for "+interruption);
+         interaction.push(new Plan(interaction.getDisco().getTaskClass(interruption).newInstance()));
+         interruption = null;
+         interrupted = current;
+         current = null;
+         pluginName = ClientPluginUtils.getPluginName(); // before unyield hides
+         if ( interrupted != null ) unyield();
+         else stateMachine.setState(discoAdjacencyPair);
+         discoAdjacencyPair.update();
+      }
+   }
+
    private void revertIfInconsistent (ActivitySchema schema) {
       InconsistentOntologyException e = schema.getInconsistentOntologyException();
       if ( e != null) cm.inconsistentUserModel(e);
@@ -186,6 +209,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          stateMachine.setState(stop);
          stateMachine.setExtension(true);
       }
+      interrupted = null;
+      pluginName = null;
       stateMachine.setSpecificityMetadata(SPECIFICITY-0.2);
       setNeedsFocusResource(false);
       Plugin.getPlugin(plan.getType(), container).show();
@@ -197,13 +222,6 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       started.remove(plan.getGoal());
       history(); // before update
       unyield();
-   }
-   
-   private void interrupt () {
-      Utils.lnprint(System.out, "Interrupting "+(current == null ? "session" : current));
-      current = null;
-      unyield();
-      stateMachine.setState(discoAdjacencyPair);
    }
    
    private void unyield () {

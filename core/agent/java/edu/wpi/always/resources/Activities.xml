@@ -27,7 +27,7 @@
          <step name="__CalendarInterruption_step" task="disco:Say$Eval"/>
          <step name="__CalendarInterruption_ref" task="__CalendarInterruption_tree"/>
          <binding slot="$__CalendarInterruption_step.text"
-                  value="&#34;Please excuse the interruption, but you have a calendar event in the next fifteen minutes.  Would you like to end this session now?&#34;"/>
+                  value="&#34;Please excuse the interruption, but you have a calendar event in about twenty minutes.  Would you like to end this session now?&#34;"/>
          <binding slot="$__CalendarInterruption_step.external" value="false"/>
          <binding slot="$__CalendarInterruption_step.eval"
                   value="&#34;Packages.edu.wpi.always.calendar.CalendarClient.showToday()&#34;"/>

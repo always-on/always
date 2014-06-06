@@ -2,8 +2,10 @@ package edu.wpi.always.calendar;
 
 import com.google.gson.*;
 import edu.wpi.always.Always;
+import edu.wpi.always.calendar.schema.CalendarSchema;
 import edu.wpi.always.client.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
+import edu.wpi.always.cm.schemas.*;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.disco.rt.behavior.BehaviorBuilder;
@@ -75,29 +77,22 @@ public class CalendarClient implements CalendarUI {
 
    // static methods for use in _CalendarInterruption
    
-   private static String pluginName;
-   
    public static void showToday () {
-      pluginName = ClientPluginUtils.getPluginName();
-      if ( THIS == null ) 
-         new CalendarClient(
-            Always.THIS.getCM().getContainer().getComponent(Calendar.class),
-            getDispatcher());
-      THIS.showDay(new LocalDate(), null, false);
+      Always.THIS.getCM().getContainer().getComponent(CalendarClient.class); // force THIS 
+      Message save = THIS.lastShowMessage; // remember calendar plugin display state
+      try { THIS.showDay(new LocalDate(), null, false); } 
+      finally { THIS.lastShowMessage = save; }
    }
-   
-   // ************************************************************
-   // why is pluginName null after interrupting KB????
-   // also test what did you say in interruption subdialogue
    
    public static void hideToday () {
       ClientPluginUtils.hidePlugin(getDispatcher());
-      if ( pluginName != null ) {
-         if ( pluginName == PLUGIN_NAME ) {
-            // interrupting calendar
-            // TODO kill and restart calendar schema
-         } else ClientPluginUtils.startPlugin(getDispatcher(), pluginName, InstanceReuseMode.Reuse, null);
-      }
+      ActivitySchema interrupted = SessionSchema.getInterruptedSchema();
+      if ( CalendarSchema.class.isInstance(interrupted) ) 
+         // interrupted calendar, so put display back where it was
+         getDispatcher().send(THIS.lastShowMessage);   
+      else if ( SessionSchema.getInterruptedPluginName() != null )
+         ClientPluginUtils.startPlugin(getDispatcher(), SessionSchema.getInterruptedPluginName(),
+                                         InstanceReuseMode.Reuse, null);
    }
    
    private static UIMessageDispatcher getDispatcher () {
@@ -112,6 +107,8 @@ public class CalendarClient implements CalendarUI {
       firstTime = false;
    }
    
+   private Message lastShowMessage;
+   
    @Override
    public void showDay (LocalDate day, CalendarUIListener listener,
          boolean touchable) {
@@ -122,6 +119,7 @@ public class CalendarClient implements CalendarUI {
       Message m = Message.builder(MSG_CALENDAR_DISPLAY).add("type", "day")
             .add("label", label)
             .add("dayData", getDayData(dayInstant, touchable)).build();
+      lastShowMessage = m;
       dispatcher.send(m);
    }
 
@@ -137,6 +135,7 @@ public class CalendarClient implements CalendarUI {
       Message m = Message.builder(MSG_CALENDAR_DISPLAY).add("type", "week")
             .add("weekLabel", weekLabel)
             .add("dayData", getWeekDayData(dayInstant, touchable)).build();
+      lastShowMessage = m;
       dispatcher.send(m);
    }
 
@@ -171,6 +170,7 @@ public class CalendarClient implements CalendarUI {
             .add("dayLabels", getMonthDaysOfWeek(startDay))
             .add("numRows", numWeeks)
             .add("dayData", getMonthDayData(startDay, numWeeks)).build();
+      lastShowMessage = m;
       dispatcher.send(m);
    }
 

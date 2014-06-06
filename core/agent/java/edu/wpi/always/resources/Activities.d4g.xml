@@ -105,7 +105,7 @@
   <!-- following for interruptions -->
 
   <d:agent id="_CalendarInterruption"
-           text="Please excuse the interruption, but you have a calendar event in the next fifteen minutes.  Would you like to end this session now?"
+           text="Please excuse the interruption, but you have a calendar event in about twenty minutes.  Would you like to end this session now?"
            eval="Packages.edu.wpi.always.calendar.CalendarClient.showToday()">
     <d:user text="yes, let's stop now"> 
       <d:agent text="ok, talk to you later">

@@ -175,7 +175,7 @@
     </user>
   </agent>
 
-  <agent id="_NightGreetings" text="Good evening {getUserName()} ! Staying up late tonight?">
+  <agent id="_NightGreetings" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Good evening {getUserName()} ! Staying up late tonight? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="For a while">
       <agent text="Well, I'm here as long as you want">
         <user text="Thanks"/>
