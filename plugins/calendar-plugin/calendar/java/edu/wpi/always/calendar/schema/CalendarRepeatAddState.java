@@ -13,9 +13,7 @@ import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.calendar.CalendarEntryTypeManager.Types;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.disco.rt.menu.*;
-
 import org.joda.time.*;
-
 import java.util.List;
 
 abstract class CalendarRepeatAddState {
@@ -205,14 +203,14 @@ abstract class CalendarRepeatAddState {
          super(context);
          this.data = data;
          if ( data.getDuration() != null && data.getRepeatDuration() != null )
-            skipTo(new Where(data, getContext()));
+            skipTo(new Ok(data, getContext()));
       }
 
       @Override
       public AdjacencyPair nextState (ReadablePeriod d) {
          data.setDuration(d);
          data.setRepeatDuration(d);
-         return new Where(data, getContext());
+         return new Ok(data, getContext());
       }
    }
 
@@ -222,7 +220,7 @@ abstract class CalendarRepeatAddState {
          ReadablePeriod d = Minutes.minutes(30);
          data.setDuration(d);
          data.setRepeatDuration(d);
-         skipTo(new Where(data, getContext()));
+         skipTo(new Ok(data, getContext()));
       }
    }
    
@@ -232,10 +230,12 @@ abstract class CalendarRepeatAddState {
          ReadablePeriod d = Minutes.minutes(1);
          data.setDuration(d);
          data.setRepeatDuration(d);
-         skipTo(new Where(data, getContext()));
+         skipTo(new Ok(data, getContext()));
       }
    }
 
+   // NB: this state no longer used since event location disabled
+   @SuppressWarnings("unused")
    private static class Where extends WhereAdjacencyPair {
 
       private final RepeatingCalendarEntry entry;

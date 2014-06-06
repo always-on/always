@@ -139,6 +139,7 @@ abstract class CalendarChangeState {
                return new HowLong(entry, context, updateAll);
             }
          });
+         /* event location disabled
          choice("the location", new DialogStateTransition() {
 
             @Override
@@ -146,6 +147,7 @@ abstract class CalendarChangeState {
                return new Where(entry, context, updateAll);
             }
          });
+         */
          choice("I don't want to change anything", new DialogStateTransition() {
 
             @Override
@@ -241,6 +243,8 @@ abstract class CalendarChangeState {
       }
    }
 
+   // NB: This state no longer used since event location disabled
+   @SuppressWarnings("unused")
    private static class Where extends WhereAdjacencyPair {
 
       private final CalendarEntry entry;
