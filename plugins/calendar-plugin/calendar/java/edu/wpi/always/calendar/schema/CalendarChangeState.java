@@ -132,6 +132,7 @@ abstract class CalendarChangeState {
                      .getStart()), getContext(), updateAll);
             }
          });
+         /* not used since event duration disabled
          choice("the length", new DialogStateTransition() {
 
             @Override
@@ -139,6 +140,8 @@ abstract class CalendarChangeState {
                return new HowLong(entry, context, updateAll);
             }
          });
+         */
+         /* event location disabled
          choice("the location", new DialogStateTransition() {
 
             @Override
@@ -146,6 +149,7 @@ abstract class CalendarChangeState {
                return new Where(entry, context, updateAll);
             }
          });
+         */
          choice("I don't want to change anything", new DialogStateTransition() {
 
             @Override
@@ -216,7 +220,9 @@ abstract class CalendarChangeState {
          return new WhatChange(entry, getContext(), updateAll);
       }
    }
-
+   
+   // NB: Not used since event duration disabled
+   @SuppressWarnings("unused")
    private static class HowLong extends HowLongAdjacencyPair {
 
       private final boolean updateAll;
@@ -241,6 +247,8 @@ abstract class CalendarChangeState {
       }
    }
 
+   // NB: This state no longer used since event location disabled
+   @SuppressWarnings("unused")
    private static class Where extends WhereAdjacencyPair {
 
       private final CalendarEntry entry;

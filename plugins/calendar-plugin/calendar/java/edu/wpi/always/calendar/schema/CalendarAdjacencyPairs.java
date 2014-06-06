@@ -246,6 +246,7 @@ abstract class CalendarAdjacencyPairs {
       public abstract AdjacencyPair nextState (LocalTime time);
    }
 
+   // NB: Not used since event duration disabled
    abstract static class HowLongAdjacencyPair extends CalendarAdjacencyPairImpl {
 
       public HowLongAdjacencyPair (final CalendarStateContext context) {
@@ -270,6 +271,7 @@ abstract class CalendarAdjacencyPairs {
       public abstract AdjacencyPair nextState (final ReadablePeriod d);
    }
 
+   // NB: this state no longer used since event location disabled
    abstract static class WhereAdjacencyPair extends CalendarAdjacencyPairImpl {
 
       public WhereAdjacencyPair (CalendarStateContext context) {
