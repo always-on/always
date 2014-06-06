@@ -697,8 +697,8 @@ public class SrummyClient implements SrummyUI {
 
    @Override
    public void startPluginForTheFirstTime (SrummyUIListener listener) {
-      //different method for doing extra things if necessary, 
-      updatePlugin(listener);
+      this.listener = listener;
+      proxy.startPlugin(PLUGIN_NAME, InstanceReuseMode.Remove, null);
    }
 
    @Override

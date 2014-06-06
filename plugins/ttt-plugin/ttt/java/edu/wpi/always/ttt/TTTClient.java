@@ -314,7 +314,8 @@ public class TTTClient implements TTTUI {
 
    @Override
    public void startPluginForTheFirstTime (TTTUIListener listener) {
-      updatePlugin(listener);
+      this.listener = listener;
+      proxy.startPlugin(PLUGIN_NAME, InstanceReuseMode.Remove, null);
    }
 
    @Override
