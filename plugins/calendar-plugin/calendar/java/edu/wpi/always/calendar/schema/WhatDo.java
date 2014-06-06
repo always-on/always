@@ -11,7 +11,9 @@ public class WhatDo extends CalendarAdjacencyPairImpl {
 
          @Override
          public AdjacencyPair run () {
-            return new RepeatEvent(context);
+            // NB: Repeating events disabled
+            // new RepeatEvent(context);
+            return new CalendarSingleAddState.EventType(context);
          }
       });
       choice("Change an event", new DialogStateTransition() {
@@ -44,6 +46,7 @@ public class WhatDo extends CalendarAdjacencyPairImpl {
       getContext().getCalendarUI().showWeek(new LocalDate(), this, false);
    }
 
+   // NB: This state no longer used, as repeating events disabled
    public static class RepeatEvent extends CalendarAdjacencyPairImpl {
 
       public RepeatEvent (final CalendarStateContext context) {
