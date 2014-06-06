@@ -53,6 +53,16 @@ public class Behavior {
           new Behavior(new SequenceOfCompoundBehaviors(getInner(),
              new SimpleCompoundBehavior(new FocusRequestBehavior())));
    }
+
+   /**
+    * Useful to make behavior that does the same thing, but is not equal
+    */
+   public Behavior addNull () {
+      CompoundBehavior inner = getInner();
+      return new Behavior(new SequenceOfCompoundBehaviors(inner,
+            // make null behavior that uses same resource as inner
+            new SimpleCompoundBehavior(PrimitiveBehavior.nullBehavior(inner.getResources().iterator().next()))));
+   }
    
    /**
     * Useful to make behavior that does the same thing, but is not equal
