@@ -32,8 +32,6 @@
 			<response>You too</response>
 		</comment>
 
-	<agent>
-
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="human">
 			<content>I think you are fun to play with</content>
 			<response>Thank you, you are too</response>
