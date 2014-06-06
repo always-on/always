@@ -78,7 +78,7 @@ abstract class CalendarRepeatAddState {
          if ( data.getRepeatStartDate() != null
             && data.getRepeatStartTime() != null && data.getStart() != null
             && data.getRepeat() != null && data.getRepeatEndDate() != null )
-            skipTo(new HowLong(data, getContext()));
+            skipTo(new Ok(data, getContext()));
       }
 
       @Override
@@ -156,7 +156,7 @@ abstract class CalendarRepeatAddState {
                + " start", startTime, context);
          this.entry = entry;
          if ( entry.getStart() != null && entry.getRepeatStartTime() != null )
-            skipTo(new HowLong(entry, getContext()));
+            skipTo(new Ok(entry, getContext()));
          choice("I made a mistake. Lets start over",
                new DialogStateTransition() {
 
@@ -179,7 +179,7 @@ abstract class CalendarRepeatAddState {
          entry.setRepeatStartTime(time);
          if(entry.getType().equals(Types.Reminder))
             return new HowLongRemiders(entry, getContext());
-         return new HowLong(entry, getContext());
+         return new Ok(entry, getContext());
       }
    }
    
@@ -193,7 +193,8 @@ abstract class CalendarRepeatAddState {
          skipTo (new HowLongBirthday(entry, getContext()));
       }
    }
-   
+   // NB: Not used since event duration disabled
+   @SuppressWarnings("unused")
    private static class HowLong extends HowLongAdjacencyPair {
 
       private final RepeatingCalendarEntry data;

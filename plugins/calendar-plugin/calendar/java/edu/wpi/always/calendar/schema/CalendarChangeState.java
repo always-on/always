@@ -132,6 +132,7 @@ abstract class CalendarChangeState {
                      .getStart()), getContext(), updateAll);
             }
          });
+         /* not used since event duration disabled
          choice("the length", new DialogStateTransition() {
 
             @Override
@@ -139,6 +140,7 @@ abstract class CalendarChangeState {
                return new HowLong(entry, context, updateAll);
             }
          });
+         */
          /* event location disabled
          choice("the location", new DialogStateTransition() {
 
@@ -218,7 +220,9 @@ abstract class CalendarChangeState {
          return new WhatChange(entry, getContext(), updateAll);
       }
    }
-
+   
+   // NB: Not used since event duration disabled
+   @SuppressWarnings("unused")
    private static class HowLong extends HowLongAdjacencyPair {
 
       private final boolean updateAll;

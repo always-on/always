@@ -74,7 +74,7 @@ abstract class CalendarSingleAddState {
                   : CalendarUtils.getDate(data.getStart()));
          this.data = data;
          if ( data.getStart() != null )
-            skipTo(new HowLong(data, getContext()));
+            skipTo(new Ok(data, getContext()));
       }
 
       @Override
@@ -117,7 +117,7 @@ abstract class CalendarSingleAddState {
          if(entry.getType().equals(Types.Reminder))
             return new HowLongReminders(entry, getContext());
          else
-            return new HowLong(entry, getContext());
+            return new Ok(entry, getContext());
       }
    }
    
@@ -130,6 +130,8 @@ abstract class CalendarSingleAddState {
       }
    }
 
+   // NB: Not used since event duration disabled
+   @SuppressWarnings("unused")
    private static class HowLong extends HowLongAdjacencyPair {
 
       private final CalendarEntry data;
