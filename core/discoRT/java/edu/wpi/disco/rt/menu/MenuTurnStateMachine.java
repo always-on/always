@@ -27,6 +27,9 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    
    public AdjacencyPair getState () { return state; }
    
+   // for returning from interruptions
+   public void resetTimeout () { waitingForResponseSince = DateTime.now(); } 
+    
    public void setExtension (boolean extension) { this.extension = extension; }
    
    @Override
@@ -82,7 +85,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       } else if ( mode == Mode.Hearing ) {
          if ( menuBehavior == null ) return nextState(null); // loop
          behavior = Behavior.newInstance(menuBehavior);
-         waitingForResponseSince = DateTime.now(); // reset now since nothing said
+         resetTimeout(); // reset now since nothing said
       }
       if ( needsFocusResource ) behavior = behavior.addFocusResource(); 
       if ( previousState != state ) {        
@@ -194,7 +197,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
 
    private void setMode (Mode newMode) {
       if ( newMode == Mode.Hearing && mode == Mode.Speaking )
-         waitingForResponseSince = DateTime.now();
+         resetTimeout();
       this.mode = newMode;
    }
 }

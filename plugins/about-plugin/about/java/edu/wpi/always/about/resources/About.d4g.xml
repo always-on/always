@@ -72,7 +72,7 @@
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
       famFriendRelationship = 
-          (famFriend.getRelationship() == null ? " ": "your" + famFriend.getRelationship() );
+          (famFriend.getRelationship() == null ? " ": "your " + famFriend.getRelationship() );
       previousTalk = famFriend.isAboutMentioned();
       println(" previous talk about =" + previousTalk);
       if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"; pronounPossessive= "his" } 

@@ -30,4 +30,8 @@ public abstract class ActivityStateMachineSchema<C extends AdjacencyPair.Context
    public void setNeedsFocusResource (boolean focus) {
       if ( stateMachine != null ) stateMachine.setNeedsFocusResource(focus);
    }
+   
+   public void resetTimeout () {
+      if (stateMachine != null ) stateMachine.resetTimeout(); 
+   }
 }

@@ -20,6 +20,11 @@ import edu.wpi.disco.rt.util.Utils;
 
 public class SessionSchema extends DiscoAdjacencyPairSchema {
    
+   ///////////////////////////////////////////////////////////////////////////
+   public static void test () {
+      interrupt("_CalendarInterruption");
+   }
+   
    private final MutablePicoContainer container; // for plugins
    private final Stop stop;
    private final ClientProxy proxy;
@@ -27,11 +32,9 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final CollaborationManager cm;
    private final Interaction interaction;  
    
-   private volatile String interruption; // set by other threads  
-   
    /**
-    * Interrupt current session with given task.  Returns
-    * true if session is currently interruptible, otherwise false.
+    * Attempt to interrupt current session with given Disco task class name.  Returns
+    * false if interruption ignored.
     */
    public static boolean interrupt (String interruption) {
       if ( THIS == null || !THIS.isInterruptible() ) {
@@ -40,6 +43,15 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       } else {
          synchronized(THIS.interaction) { THIS.interruption = interruption; }
          return true;
+      }
+   }
+   
+   private volatile String interruption; // set by other threads  
+
+   @Override
+   public boolean isInterruptible () {
+      synchronized (interaction) {
+         return interruptible && (current == null || current.isInterruptible());
       }
    }
 
@@ -52,16 +64,9 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
    
    public static void stopCurrent () { 
-      if ( THIS != null || THIS.current != null ) THIS.current.stop(); 
+      if ( THIS != null && THIS.current != null ) THIS.current.stop(); 
    }
-   
-   @Override
-   public boolean isInterruptible () {
-      synchronized (interaction) {
-         return current == null || current.isInterruptible();
-      }
-   }
-
+ 
    /**
     * Date that session started (for time of day)
     * See {@link Always#DATE}.
@@ -103,7 +108,6 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          interaction.push(interaction.addTop("_Session"));
          always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
       }
-
    }
 
    // activities for which startActivity has been called (not same as Plan.isStarted)
@@ -114,10 +118,6 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private volatile String pluginName; // interrupted client plugin or null
 
    // note this schema uses menu with focus and menu extension without focus
-
-   public static void test () {
-      interrupt("_CalendarInterruption");
-   }
    
    @Override
    public void run () {
@@ -158,14 +158,17 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                   yield(plan);
                }
             }
-         }
+            Disco disco = interaction.getDisco();
+            if ( disco.getProperty(disco.getTop(plan).getGoal().getType().getPropertyId()+"@interruption") == null ) 
+               interruptible = true;
+         } else { interruptible = true; } // plan == null (at toplevel, so interruption done) 
       }
       // above code does nothing when:
       //    -live plan is not a plugin
       //    -focused activity schema done
       //    -focused task stopped
       //    -session plan exhausted
-      //interruptIf();//////////////////////////////////////
+      interruptIf();
       if ( current != null && current.isSelfStop() ) proposeNothing();
       else propose(stateMachine);
    }
@@ -175,12 +178,14 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          Utils.lnprint(System.out, "Interrupting "+(current == null ? "session" : current)
                +" for "+interruption);
          interaction.push(new Plan(interaction.getDisco().getTaskClass(interruption).newInstance()));
+         interruptible = false; // don't interrupt interruption
          interruption = null;
          interrupted = current;
-         current = null;
          pluginName = ClientPluginUtils.getPluginName(); // before unyield hides
          if ( interrupted != null ) unyield();
          stateMachine.setState(discoAdjacencyPair);
+         if ( current == null ) discoAdjacencyPair.update();
+         current = null;
       }
    }
 
@@ -210,10 +215,10 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       }
       if ( interrupted != null ) {
          if ( interrupted instanceof ActivityStateMachineSchema )
-            // prevent timeout
-            ((ActivityStateMachineSchema<AdjacencyPair.Context>) interrupted).resetWaiting();
-         stateMachine.setState(new ResumeAdjacencyPairWrapper(discoAdjacencyPair));
+            // prevent immediate timeout
+            ((ActivityStateMachineSchema<AdjacencyPair.Context>) interrupted).resetTimeout();
          interrupted = null;
+         interruptible = true;
          pluginName = null;
       }
       stateMachine.setSpecificityMetadata(SPECIFICITY-0.2);

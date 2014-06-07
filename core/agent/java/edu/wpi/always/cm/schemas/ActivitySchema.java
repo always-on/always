@@ -60,5 +60,7 @@ public abstract class ActivitySchema extends SchemaBase {
       this.selfStop = selfStop;
    }
    
-   public boolean isInterruptible () { return true; }
+   protected boolean interruptible = true; 
+   
+   public boolean isInterruptible () { return interruptible; }
 }
