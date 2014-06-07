@@ -143,7 +143,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                   revertIfInconsistent(current);
                   stop(plan);
                   stateMachine.setState(current.isSelfStop() ? 
-                     new StopAdjacencyPairWrapper(discoAdjacencyPair) : 
+                     new ResumeAdjacencyPairWrapper(discoAdjacencyPair) : 
                         discoAdjacencyPair);
                } else yield(plan);
             } else {
@@ -180,8 +180,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          current = null;
          pluginName = ClientPluginUtils.getPluginName(); // before unyield hides
          if ( interrupted != null ) unyield();
-         else stateMachine.setState(discoAdjacencyPair);
-         discoAdjacencyPair.update();
+         stateMachine.setState(discoAdjacencyPair);
       }
    }
 
@@ -209,8 +208,14 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          stateMachine.setState(stop);
          stateMachine.setExtension(true);
       }
-      interrupted = null;
-      pluginName = null;
+      if ( interrupted != null ) {
+         if ( interrupted instanceof ActivityStateMachineSchema )
+            // prevent timeout
+            ((ActivityStateMachineSchema<AdjacencyPair.Context>) interrupted).resetWaiting();
+         stateMachine.setState(new ResumeAdjacencyPairWrapper(discoAdjacencyPair));
+         interrupted = null;
+         pluginName = null;
+      }
       stateMachine.setSpecificityMetadata(SPECIFICITY-0.2);
       setNeedsFocusResource(false);
       Plugin.getPlugin(plan.getType(), container).show();
@@ -273,13 +278,13 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          Schema schema = started.get(plan);
          if ( schema != null ) schema.stop();
          stop(plan);
-         return new StopAdjacencyPairWrapper(discoAdjacencyPair); // one shot
+         return new ResumeAdjacencyPairWrapper(discoAdjacencyPair); // one shot
       }
    }
 
-   private static class StopAdjacencyPairWrapper extends AdjacencyPairWrapper<AdjacencyPair.Context> {
+   private static class ResumeAdjacencyPairWrapper extends AdjacencyPairWrapper<AdjacencyPair.Context> {
       
-      public StopAdjacencyPairWrapper (AdjacencyPair inner) {
+      public ResumeAdjacencyPairWrapper (AdjacencyPair inner) {
          super(inner);
       }
    
