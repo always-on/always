@@ -57,7 +57,7 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
 
    @Override
    public AdjacencyPair nextState (String text) {
-      return REPEAT.equals(text) ? this :
+      return REPEAT.equals(text) ? new AdjacencyPairWrapper<C>(this) :
          choices.containsKey(text) ? choices.get(text).run() :
             null;
    }

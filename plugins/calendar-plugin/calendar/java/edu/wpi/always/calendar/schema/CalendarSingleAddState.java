@@ -12,9 +12,7 @@ import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.calendar.CalendarEntryTypeManager.Types;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.disco.rt.menu.*;
-
 import org.joda.time.*;
-
 import java.util.List;
 
 abstract class CalendarSingleAddState {
@@ -53,7 +51,8 @@ abstract class CalendarSingleAddState {
                .getPersonQuestion() : "", context);
          this.data = data;
          if ( data.getType().getPersonQuestion() == null
-            || data.getPeople().size() == 0 )
+               || data.getPeople().size() > 0 || 
+               context.getPeopleManager().getPeople(false).length <= 1 )
             skipTo(new EventDay(data, getContext()));
       }
 
@@ -75,7 +74,7 @@ abstract class CalendarSingleAddState {
                   : CalendarUtils.getDate(data.getStart()));
          this.data = data;
          if ( data.getStart() != null )
-            skipTo(new HowLong(data, getContext()));
+            skipTo(new Ok(data, getContext()));
       }
 
       @Override
@@ -118,7 +117,7 @@ abstract class CalendarSingleAddState {
          if(entry.getType().equals(Types.Reminder))
             return new HowLongReminders(entry, getContext());
          else
-            return new HowLong(entry, getContext());
+            return new Ok(entry, getContext());
       }
    }
    
@@ -131,6 +130,8 @@ abstract class CalendarSingleAddState {
       }
    }
 
+   // NB: Not used since event duration disabled
+   @SuppressWarnings("unused")
    private static class HowLong extends HowLongAdjacencyPair {
 
       private final CalendarEntry data;
@@ -139,13 +140,13 @@ abstract class CalendarSingleAddState {
          super(context);
          this.data = data;
          if ( data.getDuration() != null )
-            skipTo(new Where(data, getContext()));
+            skipTo(new Ok(data, getContext()));
       }
 
       @Override
       public AdjacencyPair nextState (ReadablePeriod d) {
          data.setDuration(d);
-         return new Where(data, getContext());
+         return new Ok(data, getContext());
       }
    }
    
@@ -153,7 +154,7 @@ abstract class CalendarSingleAddState {
       public HowLongBirthday (CalendarEntry data, final CalendarStateContext context) {
          super("", context);
          data.setDuration(Minutes.minutes(30));
-         skipTo(new Where(data, getContext()));
+         skipTo(new Ok(data, getContext()));
       }
    }
    
@@ -161,10 +162,12 @@ abstract class CalendarSingleAddState {
       public HowLongReminders (CalendarEntry data, final CalendarStateContext context) {
          super("", context);
          data.setDuration(Minutes.minutes(1));
-         skipTo(new Where(data, getContext()));
+         skipTo(new Ok(data, getContext()));
       }
    }
 
+   // NB: This state no longer used as event location disabled
+   @SuppressWarnings("unused")
    private static class Where extends WhereAdjacencyPair {
 
       private final CalendarEntry entry;

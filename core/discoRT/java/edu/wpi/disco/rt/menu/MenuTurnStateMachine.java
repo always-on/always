@@ -8,6 +8,7 @@ import edu.wpi.disco.rt.realizer.petri.*;
 import edu.wpi.disco.rt.util.*;
 import org.joda.time.DateTime;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class MenuTurnStateMachine implements BehaviorBuilder {
 
@@ -22,7 +23,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private AdjacencyPair state, previousState, timedOutState;
    private Mode mode;
    private DateTime waitingForResponseSince;
-   private boolean needsToDifferentiate;
+   private boolean needsToAddNull;
    private boolean extension, needsFocusResource;
    
    public AdjacencyPair getState () { return state; }
@@ -85,19 +86,15 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          waitingForResponseSince = DateTime.now(); // reset now since nothing said
       }
       if ( needsFocusResource ) behavior = behavior.addFocusResource(); 
-      if ( previousState != state ) {
-         if ( previousBehavior.getValue().equals(behavior) ) needsToDifferentiate = true;
+      if ( previousState != state ) {        
+         if ( previousBehavior.getValue().equals(behavior) ) needsToAddNull = true; 
          update(Behavior.NULL);
       }
-      if ( needsToDifferentiate ) {
+      if ( needsToAddNull )
          // this is a bit of a hack to fix problem that if two successive
-         // states produce the same utterance, it won't be said twice because
+         // states produce the same behavior, it won't be executed twice because
          // the behavior history thinks it is already done
-         CompoundBehavior inner = behavior.getInner();
-         behavior = new Behavior(new SequenceOfCompoundBehaviors(inner,
-               // make null behavior that uses same resource as inner
-               new SimpleCompoundBehavior(PrimitiveBehavior.nullBehavior(inner.getResources().iterator().next()))));
-      }
+         behavior = behavior.addNull();
       // check if already done and update behavior
       boolean alreadyDone = false;
       if ( previousBehavior.getValue().equals(behavior) ) {
@@ -110,11 +107,11 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          String selected = checkMenuSelected(state.getChoices(), previousBehavior);
          if ( selected != null ) {
             // prevent infinite loop when same state, same menu and no message
-            if ( state == previousState ) update(Behavior.NULL);
+            if ( state == previousState && speechBehavior == null ) update(Behavior.NULL);
             return nextState(selected); // loop
          }
       }
-      // TODO Figure out why following causes speech to be repeated as soon as it is done
+      // TODO Figure out why/if following causes speech to be repeated as soon as it is done
       /*
       if ( alreadyDone && mode == Mode.Hearing && !extension
            && speechBehavior != null && menuBehavior != null ) { 
@@ -168,7 +165,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    
    public void setState (AdjacencyPair newState) {
       setMode(Mode.Speaking);
-      needsToDifferentiate = false;
+      needsToAddNull = false;
       if ( newState == null ) return;
       state = newState;
       newState.enter();
