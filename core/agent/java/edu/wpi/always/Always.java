@@ -247,8 +247,9 @@ public class Always {
       Utils.lnprint(System.out,  "EXITING WITH CODE "+code+" ...");
       MutablePicoContainer container = Always.THIS.getCM().getContainer();
       ClientProxy proxy = container.getComponent(ClientProxy.class);
+      proxy.setScreenVisible(false);      
       proxy.showMenu(null, false, true); // must be first
-      proxy.showMenu(null, false, false);      
+      proxy.showMenu(null, false, false);
       proxy.setAgentVisible(false);
       // need to free resources held by engine which block exit
       container.getComponent(ShoreFacePerceptor.class).stop();

@@ -72,8 +72,6 @@ public class EngagementSchema extends SchemaBase {
             case Idle:
                if ( EXIT || lastState == EngagementState.Recovering ) {
                   if ( reeti != null ) reeti.reboot(); 
-                  // note call to turn on screensaver in bin/always-java
-                  // when exit code is zero
                   Utils.lnprint(System.out, "ENGAGEMENT: Idle");
                   Always.exit(0); 
                } 
