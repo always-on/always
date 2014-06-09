@@ -24,7 +24,7 @@ public abstract class ActivityStateMachineKeyboardSchema<C extends AdjacencyPair
    }
 
    @Override
-   public void run () {
+   public void runActivity () {
       super.run();
       if ( keyboard.isOverflow() ) {
          keyboard.setOverflow(false);

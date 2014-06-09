@@ -120,7 +120,7 @@ public class ClientProxy {
       }
    }
    
-   private static Robot robot;
+   private static Robot robot;  // nothing to do with Reeti!
    
    static { 
       try { robot = new Robot(); } 

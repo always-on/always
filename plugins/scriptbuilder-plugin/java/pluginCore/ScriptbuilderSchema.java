@@ -21,12 +21,12 @@ public class ScriptbuilderSchema extends
 	}
 
 	@Override
-	public void run() {
+	public void runActivity () {
 		if (context.isDone) {
 			context.resetPluginStatus();
 			stop();
 		} else
-			super.run();
+			super.runActivity();
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import edu.wpi.always.cm.perceptors.FacePerception;
 import edu.wpi.always.cm.perceptors.FacePerceptor;
 import edu.wpi.always.cm.primitives.FaceTrackBehavior;
 import edu.wpi.always.cm.primitives.IdleBehavior;
-import edu.wpi.disco.rt.ResourceMonitor;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.Behavior;
 import edu.wpi.disco.rt.behavior.BehaviorHistory;
 import edu.wpi.disco.rt.behavior.BehaviorMetadata;
@@ -60,15 +60,15 @@ public class EngagementSchema extends SchemaBase {
 
    private final static Behavior HI_HI = Behavior.newInstance(new SpeechBehavior("Hi"), HI);
 
-   public static volatile boolean EXIT; // for GoodbyeSchema
-   
+   public static volatile boolean EXIT; // set by other schemas
+      
    @Override
    public void run () {
       EngagementPerception engagementPerception = engagementPerceptor.getLatest();
       // socket not initialized until after this schema started
       reeti = cm.getReetiSocket();
       if ( engagementPerception != null ) {
-         switch (state = EXIT ? EngagementState.Idle : engagementPerception.getState()) {
+         switch (state = (EXIT ? EngagementState.Idle : engagementPerception.getState()) ) {
             case Idle:
                if ( EXIT || lastState == EngagementState.Recovering ) {
                   if ( reeti != null ) reeti.reboot(); 

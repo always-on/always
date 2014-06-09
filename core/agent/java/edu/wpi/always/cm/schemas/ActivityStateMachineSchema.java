@@ -22,7 +22,7 @@ public abstract class ActivityStateMachineSchema<C extends AdjacencyPair.Context
    }
 
    @Override
-   public void run () {
+   public void runActivity () {
       propose(stateMachine);
    }
    

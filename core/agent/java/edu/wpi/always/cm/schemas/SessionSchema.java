@@ -120,8 +120,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    // note this schema uses menu with focus and menu extension without focus
    
    @Override
-   public void run () {
-      if ( EngagementSchema.EXIT ) return;
+   public void runActivity () {
       synchronized (interaction) {
          current = null;
          Plan plan = interaction.getFocusExhausted(true);
@@ -171,6 +170,13 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       interruptIf();
       if ( current != null && current.isSelfStop() ) proposeNothing();
       else propose(stateMachine);
+      if ( EngagementSchema.EXIT ) {
+         // darken screen now to prevent seeing empty menu item
+         proxy.setScreenVisible(false);
+         // hold focus so interrupted schema doesn't talk before exit
+         propose(Behavior.newInstance(new MenuBehavior(Collections.singletonList(" "))).addFocusResource(), 
+                 SPECIFICITY+0.2);
+      }
    }
    
    private void interruptIf () {
@@ -199,11 +205,13 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       super.dispose();
       ClientPluginUtils.hidePlugin(
             cm.getContainer().getComponent(UIMessageDispatcher.class));
-      // restart if fails for some reason
-      Utils.lnprint(System.out, "Restarting SessionSchema...");
-      interaction.clear();
-      revertIfInconsistent(this);
-      schemaManager.start(getClass());
+      if ( !EngagementSchema.EXIT ) {
+         // restart if fails for some reason
+         Utils.lnprint(System.out, "Restarting SessionSchema...");
+         interaction.clear();
+         revertIfInconsistent(this);
+         schemaManager.start(getClass());
+      }
    }
    
    private void yield (Plan plan) {
@@ -215,7 +223,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       }
       if ( interrupted != null ) {
          if ( interrupted instanceof ActivityStateMachineSchema )
-            // prevent immediate timeout
+            // prevent shortened timeout
             ((ActivityStateMachineSchema<AdjacencyPair.Context>) interrupted).resetTimeout();
          interrupted = null;
          interruptible = true;

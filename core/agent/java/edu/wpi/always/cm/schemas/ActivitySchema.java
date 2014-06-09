@@ -26,6 +26,16 @@ public abstract class ActivitySchema extends SchemaBase {
    public void setPlugin (Plugin plugin) { this.plugin = plugin; }
    
    @Override
+   public final void run () {
+      if ( EngagementSchema.EXIT ) {
+         stop();
+         proposeNothing();
+      } else runActivity();
+   }
+
+   protected abstract void runActivity ();
+   
+   @Override
    public void dispose () {
       super.dispose();
       if ( plugin != null ) plugin.hide();
