@@ -23,4 +23,8 @@ public class CalendarSchema extends ActivityStateMachineKeyboardSchema<CalendarS
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard);
    }
 
+   // for testing
+   public static void interrupt () {
+      SessionSchema.interrupt("_CalendarInterruption");
+   }
 }

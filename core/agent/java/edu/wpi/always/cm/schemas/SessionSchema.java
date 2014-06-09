@@ -20,11 +20,6 @@ import edu.wpi.disco.rt.util.Utils;
 
 public class SessionSchema extends DiscoAdjacencyPairSchema {
    
-   ///////////////////////////////////////////////////////////////////////////
-   public static void test () {
-      interrupt("_CalendarInterruption");
-   }
-   
    private final MutablePicoContainer container; // for plugins
    private final Stop stop;
    private final ClientProxy proxy;

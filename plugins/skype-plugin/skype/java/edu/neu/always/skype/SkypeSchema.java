@@ -23,10 +23,10 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
    }
 
    // set this variable re incoming call, since used in _SkypeInterruption script
-   public static String CALLER;
+   public static String CALLER ="someone you know";
 
    // call this method to interrupt current session/activity for incoming call
-   protected boolean interrupt () {
+   public static boolean interrupt () {
       // see definition of _SkypeInterruption in edu.wpi.always.resources.Always.d4g.xml
       return SessionSchema.interrupt("_SkypeInterruption");
    }

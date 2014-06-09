@@ -120,7 +120,7 @@
   </d:agent>
 
   <d:agent id="_SkypeInterruption"
-           text="Please excuse the interruption, but you you have a Skype call from {Packages.edu.wpi.always.plugins.skype.SkypePlugin.CALLER}.  Would you like to take the call now?">
+           text="Please excuse the interruption, but you have a Skype call from {Packages.edu.neu.always.skype.SkypeSchema.CALLER}.  Would you like to take the call now?">
     <d:user text="yes, let's take the call"
             eval="Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent()">
       <d:do task="UseSkype"/>

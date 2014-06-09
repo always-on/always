@@ -18,7 +18,7 @@
          <step name="__SkypeInterruption_step" task="disco:Say$Expression"/>
          <step name="__SkypeInterruption_ref" task="__SkypeInterruption_tree"/>
          <binding slot="$__SkypeInterruption_step.text"
-                  value="&#34;\&#34;Please excuse the interruption, but you you have a Skype call from \&#34;+(Packages.edu.wpi.always.plugins.skype.SkypePlugin.CALLER)+\&#34;.  Would you like to take the call now?\&#34;&#34;"/>
+                  value="&#34;\&#34;Please excuse the interruption, but you have a Skype call from \&#34;+(Packages.edu.neu.always.skype.SkypeSchema.CALLER)+\&#34;.  Would you like to take the call now?\&#34;&#34;"/>
          <binding slot="$__SkypeInterruption_step.external" value="false"/>
       </subtasks>
    </task>
