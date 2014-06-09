@@ -153,13 +153,11 @@ public class OntologyCalendar extends AbstractCalendar {
          owlEntry.addSuperclass(EVENT_CLASS);
       owlEntry.setDataProperty(START_PROPERTY,
             helper.getLiteral(entry.getStart()));
-      owlEntry.setDataProperty(DURATION_PROPERTY,
-            helper.getLiteral(entry.getDuration()));
-      if ( entry.getPlace() != null && entry.getPlace().getZip() != null )
-         owlEntry.setObjectProperty(LOCATION_PROPERTY,
+      owlEntry.setDataProperty(DURATION_PROPERTY, 
+            entry.getDuration() == null ? null : helper.getLiteral(entry.getDuration()));
+      owlEntry.setObjectProperty(LOCATION_PROPERTY,
+            (entry.getPlace() == null || entry.getPlace().getZip() == null ) ? null :
                placeHelper.getPlace(entry.getPlace().getZip()).getIndividual());
-      else
-         owlEntry.setObjectProperty(LOCATION_PROPERTY, null);
       owlEntry.setObjectProperty(PEOPLE_PROPERTY, null);// Clear all people
       for (Person person : entry.getPeople()) {
          owlEntry.addObjectProperty(PEOPLE_PROPERTY,

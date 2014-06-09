@@ -102,6 +102,7 @@ public class EngagementSchema extends SchemaBase {
                if ( !started ) { 
                   Utils.lnprint(System.out, "Starting session...");
                   schemaManager.start(SessionSchema.class);
+                  schemaManager.start(CalendarInterruptSchema.class);
                   started = true;
                }
                visible();
