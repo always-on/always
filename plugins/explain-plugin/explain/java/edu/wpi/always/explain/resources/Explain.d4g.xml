@@ -147,7 +147,7 @@
             <agent text="I will provide you with a list of things we can do if you want." >
                 <user text="ok.">
                 
-    	           <agent text="In the late evening I will only talk to you if you wake me up."
+    	           <agent text="In the late evening I will only talk to you if you wake me up. You must touch the screen to wake me up."
     	eval="Activity.ALL.AboutAgent.setFlag()">
     		<user text="ok, go on">
     			<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Also, I can only see your face, when we talk.  I don't see anything else around you.  My sight is really limited! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >

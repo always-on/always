@@ -18,10 +18,6 @@
 
     var familyFriendsList;
 
-    function getUserName () {
-      return $always.getUserModel().getUserFirstName();
-    }
-
     // convenience functions
     function positive (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Positive); }
 
@@ -72,7 +68,7 @@
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
       famFriendRelationship = 
-          (famFriend.getRelationship() == null ? " ": "your" + famFriend.getRelationship() );
+          (famFriend.getRelationship() == null ? " ": "your " + famFriend.getRelationship() );
       previousTalk = famFriend.isAboutMentioned();
       println(" previous talk about =" + previousTalk);
       if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"; pronounPossessive= "his" } 
@@ -269,7 +265,7 @@
   </agent>
    
   <agent id="_HowIsXDoing"
-	 text=" {getUserName()} , How is {famFriendRelationship} {famFriendName} doing?" >
+	 text="How is {famFriendRelationship} {famFriendName} doing?" >
     <user text="I don't want to talk about {pronounObj} today">
       <agent text="okay." />
 	</user>
@@ -408,10 +404,10 @@
 	    <user text="Yes, for a long time" >
 	      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; oh dear.  Can you go visit? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 		<user text="Yes, {pronounSubj} is nearby" >
-		  <agent text="sounds like a good thing to do" />
+		  <agent text="That sounds like a good thing to do" />
 		</user>
 		<user text="No, {pronounSubj} is too far away.">
-		  <agent text="how about a nice card?  Always great to get those">
+		  <agent text="How about a nice card? It's always great to get those">
 		    <user text=" Yes, good idea">
 		      <agent text="you can pick it up the next time you go for a walk."/>
 		    </user>
@@ -423,7 +419,7 @@
 	    <user text="Yes, but not for long">
 	      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; well that's tough.  Can you go visit? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
 		<user text="Yes, {pronounSubj} is nearby" >
-		  <agent text="well, sounds like an trip for you" />
+		  <agent text="well, I think that would be good to do. " />
 		</user>
 		<user text="No, {pronounSubj} is too far away">
 		  <agent text="how about a nice card?  You can pick one up when you go out">
@@ -500,7 +496,7 @@
 	</user>
       </agent>
 
-  <agent id="_End" text="Well, {getUserName()}, it was nice talking about your friends and family with you." />
+  <agent id="_End" text="Well, it was nice talking about your friends and family with you." />
 
   <agent id="_CloseFamilyFriends"
 	 text="Remember. You can have a video call with friends and family.  If you want to do that, let me know." >

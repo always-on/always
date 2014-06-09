@@ -33,10 +33,10 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
    }
   
    @Override
-   public void run () {
+   public void runActivity () {
 
-      super.run();
-
+      super.runActivity();
+      
       if(SrummyClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
                "$ "+StartGamingSequence.getCurrentAgentComment()+" $",

@@ -1,5 +1,6 @@
 <d:model about="urn:always.wpi.edu:Activities"
          xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
+         xmlns:disco="urn:disco.wpi.edu:Disco"
          xmlns:d="http://www.cs.wpi.edu/~rich/d4g">
 
   <!-- This model is loaded at startup to register all of the activities and
@@ -81,25 +82,50 @@
   
   <!-- following used in Stranger, Acquaintance, Companion models -->
 
-  <d:agent id="_CalendarImminent"
-           text="There are upcoming events in your calendar today or tomorrow.  Would you like to see the calendar now?"
-           precondition="isImminent()">
-    <d:user text="Yes, please">
-      <d:do task="UseCalendar"/>
+  <task id="_CalendarImminent">
+    <precondition> isImminent() ? null : false </precondition>
+    <subtasks id="_calendarImminent">
+      <step name="do" task="UseCalendar"/>
+    </subtasks>
+  </task>
+
+  <task id="_EncourageExplain">
+    <precondition> 
+      (!Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;
+       Packages.edu.wpi.always.user.UserUtils.getDays(userModel()) &gt; 2) ?
+       null : false
+    </precondition>
+    <subtasks id="_encourageExplain">
+      <step name="say" task="disco:Say.Agent"/>
+      <step name="do" task="ExplainSelf"/>
+      <binding slot="$say.text" 
+               value="'you can always stop when you have heard enough and listen to more later'"/>
+    </subtasks>
+  </task>
+  
+  <!-- following for interruptions -->
+
+  <d:agent id="_CalendarInterruption"
+           text="Please excuse the interruption, but you have a calendar event in about twenty minutes.  Would you like to end this session now?"
+           eval="Packages.edu.wpi.always.calendar.CalendarClient.showToday()">
+    <d:user text="yes, let's stop now"> 
+      <d:agent text="ok, talk to you later">
+        <d:user text="goodbye"
+                eval="Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent();
+                      Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
+      </d:agent>
     </d:user>
-    <d:user text="Not now"/>
+    <d:user text="no, let's continue" 
+            eval="Packages.edu.wpi.always.calendar.CalendarClient.hideToday()"/>
   </d:agent>
 
-  <d:agent id="_EncourageExplain" 
-           text="You have not ever listened to me explain about all the activities we can do together"
-           precondition="!Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;
-              Packages.edu.wpi.always.user.UserUtils.getDays(userModel()) &gt; 2">
-    <d:user text="Oh, really?  Okay, I'll try that"/>
-    <d:user text="I don't want to hear about this now"/>
-    <d:user text="I guess I will listen">
-      <d:agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; You can always stop when you've heard enough and listen again later lt;FACE EXPR=\&quot;WARM\&quot;/&gt; "/>
-    </d:user>
-    <d:user text="Maybe tomorrow"/>
+  <d:agent id="_SkypeInterruption"
+           text="Please excuse the interruption, but you have a Skype call from {Packages.edu.neu.always.skype.SkypeSchema.CALLER}.  Would you like to take the call now?">
+    <d:user text="yes, let's take the call"
+            eval="Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent()">
+      <d:do task="UseSkype"/>
+    </d:user>   
+    <d:user text="no, not now"/>
   </d:agent>
 
   <script init="true">

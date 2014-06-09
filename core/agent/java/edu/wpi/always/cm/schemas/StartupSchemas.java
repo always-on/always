@@ -11,7 +11,9 @@ public class StartupSchemas implements SchemaRegistry {
    public void register (SchemaManager manager) {
       // register session first so it gets started first
       // and user model printout not interrupted
-      manager.registerSchema(SessionSchema.class, false); // started by EngagementSchema
+       // following two schemas started by EngagementSchema
+      manager.registerSchema(SessionSchema.class, false);
+      manager.registerSchema(CalendarInterruptSchema.class, 60000 , false); // once per minute
       // not using movement tracking, since field of view of camera is too narrow
       // manager.registerSchema(MovementTrackerSchema.class, true);
       manager.registerSchema(FaceTrackerSchema.class, true);

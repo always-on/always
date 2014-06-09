@@ -22,12 +22,16 @@ public abstract class ActivityStateMachineSchema<C extends AdjacencyPair.Context
    }
 
    @Override
-   public void run () {
+   public void runActivity () {
       propose(stateMachine);
    }
    
    @Override
    public void setNeedsFocusResource (boolean focus) {
       if ( stateMachine != null ) stateMachine.setNeedsFocusResource(focus);
+   }
+   
+   public void resetTimeout () {
+      if (stateMachine != null ) stateMachine.resetTimeout(); 
    }
 }

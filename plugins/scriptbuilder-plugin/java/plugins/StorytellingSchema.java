@@ -26,7 +26,9 @@ public class StorytellingSchema extends ScriptbuilderSchema {
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
 		 this.shore = shore;
 		 always.getUserModel().setProperty(StorytellingPlugin.PERFORMED, true);
+		 interruptible = false;
 	}
+	
 	
 	@Override
    public void dispose () { 
@@ -34,5 +36,4 @@ public class StorytellingSchema extends ScriptbuilderSchema {
       // this is here so it is run even if schema throws an error
       if ( shore != null ) shore.start(); 
    }
- 
-}
+ }

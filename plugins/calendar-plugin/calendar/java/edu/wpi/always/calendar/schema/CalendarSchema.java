@@ -22,5 +22,4 @@ public class CalendarSchema extends ActivityStateMachineKeyboardSchema<CalendarS
                 keyboard, calendarUI, calendar, dispatcher, model, placeManager, peopleManager)),
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard);
    }
-
 }

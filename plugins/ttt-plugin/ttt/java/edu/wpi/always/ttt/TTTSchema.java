@@ -24,9 +24,9 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
    }
 
    @Override
-   public void run () {
-
-      super.run();
+   public void runActivity () {
+      
+      super.runActivity();
 
       if(TTTClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(

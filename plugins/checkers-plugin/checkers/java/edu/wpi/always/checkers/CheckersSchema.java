@@ -24,10 +24,10 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
    }
 
    @Override
-   public void run () {
+   public void runActivity () {
 
-      super.run();
-
+      super.runActivity();
+      
       if(CheckersClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
                "$ "+StartGamingSequence.getCurrentAgentComment()+" $",

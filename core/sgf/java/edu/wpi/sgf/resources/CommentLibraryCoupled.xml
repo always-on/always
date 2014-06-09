@@ -31,6 +31,21 @@
 			<response>Thanks, you can learn!</response>
 			<response>You too</response>
 		</comment>
+
+		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="human">
+			<content>I think you are fun to play with</content>
+			<response>Thank you, you are too</response>
+			<response>Thanks, it's mutual</response>
+			<response>I will play with you more often</response>
+		</comment>
+
+		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="human">
+			<content>Playing games with you is really great!</content>
+			<response>You aren't have bad yourself</response>
+			<response>Thanks, it's mutual</response>
+			<response>I like playing with you too</response>
+		</comment>
+
 		<comment strength='0.5' competitiveness='0.5' tags="brag" gameType="generic" madeOn="human">
 			<content>Now my turn!</content>
 			<response>Show me what you can do!</response>
@@ -64,7 +79,7 @@
 		</comment>
 
 		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="humanWon">
-			<content>Nice you won</content>
+			<content> It's nice that you won</content>
 			<response>Thanks</response>
 			<response>Well then learn from me!</response>
 			<response>Good game</response>
@@ -99,6 +114,7 @@
 			<response>Don't get so impressed with yourself. It wasn't so great.</response>
 			<response>Not bad, not bad at all</response>
 		</comment>
+
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="both">
 			<content>I like playing with you </content>
 			<response>Then we should play more! </response>
@@ -107,7 +123,7 @@
 		</comment>
 
 		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="humanWon">
-			<content>I finally win. Good game.</content>
+			<content>I finally won! Good game.</content>
 			<response>Congratulations</response>
 			<response>Good game</response>
 			<response>I think you need to be tested again</response>

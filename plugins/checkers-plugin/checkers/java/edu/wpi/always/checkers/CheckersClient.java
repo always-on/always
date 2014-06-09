@@ -432,7 +432,8 @@ public class CheckersClient implements CheckersUI {
 
    @Override
    public void startPluginForTheFirstTime (CheckersUIListener listener) {
-      updatePlugin(listener);
+      this.listener = listener;
+      proxy.startPlugin(PLUGIN_NAME, InstanceReuseMode.Remove, null);
    }
 
    @Override
