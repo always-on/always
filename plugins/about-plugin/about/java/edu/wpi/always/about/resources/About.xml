@@ -25,7 +25,7 @@
          <step name="__HowIsXDoing_step" task="disco:Say$Expression"/>
          <step name="__HowIsXDoing_ref" task="__HowIsXDoing_tree"/>
          <binding slot="$__HowIsXDoing_step.text"
-                  value="&#34;\&#34; \&#34;+(getUserName())+\&#34; , How is \&#34;+(famFriendRelationship)+\&#34; \&#34;+(famFriendName)+\&#34; doing?\&#34;&#34;"/>
+                  value="&#34;\&#34;How is \&#34;+(famFriendRelationship)+\&#34; \&#34;+(famFriendName)+\&#34; doing?\&#34;&#34;"/>
          <binding slot="$__HowIsXDoing_step.external" value="false"/>
       </subtasks>
    </task>
@@ -40,9 +40,9 @@
    </task>
    <task id="_End">
       <subtasks id="__End_subtasks">
-         <step name="__End_step" task="disco:Say$Expression"/>
+         <step name="__End_step" task="disco:Say"/>
          <binding slot="$__End_step.text"
-                  value="&#34;\&#34;Well, \&#34;+(getUserName())+\&#34;, it was nice talking about your friends and family with you.\&#34;&#34;"/>
+                  value="&#34;Well, it was nice talking about your friends and family with you.&#34;"/>
          <binding slot="$__End_step.external" value="false"/>
       </subtasks>
    </task>
@@ -1309,7 +1309,7 @@
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
       famFriendRelationship = 
-          (famFriend.getRelationship() == null ? " ": "your" + famFriend.getRelationship() );
+          (famFriend.getRelationship() == null ? " ": "your " + famFriend.getRelationship() );
       previousTalk = famFriend.isAboutMentioned();
       println(" previous talk about =" + previousTalk);
       if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"; pronounPossessive= "his" } 
@@ -1344,10 +1344,6 @@
     var pronounPossessive = "her";
 
     var familyFriendsList;
-
-    function getUserName () {
-      return $always.getUserModel().getUserFirstName();
-    }
 
     // convenience functions
     function positive (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Positive); }

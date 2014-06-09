@@ -39,19 +39,19 @@
    </task>
    <task id="_AfternoonGreetings">
       <subtasks id="__AfternoonGreetings_subtasks">
-         <step name="__AfternoonGreetings_step" task="disco:Say"/>
+         <step name="__AfternoonGreetings_step" task="disco:Say$Expression"/>
          <step name="__AfternoonGreetings_ref" task="__AfternoonGreetings_tree"/>
          <binding slot="$__AfternoonGreetings_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; How's your day going? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+                  value="&#34;\&#34;How's your day going \&#34;+(getUserName())+\&#34; ?\&#34;&#34;"/>
          <binding slot="$__AfternoonGreetings_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_EveningGreetings">
       <subtasks id="__EveningGreetings_subtasks">
-         <step name="__EveningGreetings_step" task="disco:Say"/>
+         <step name="__EveningGreetings_step" task="disco:Say$Expression"/>
          <step name="__EveningGreetings_ref" task="__EveningGreetings_tree"/>
          <binding slot="$__EveningGreetings_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; So had a good day? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+                  value="&#34;\&#34;So, \&#34;+(getUserName())+\&#34;, have you had a good day?\&#34;&#34;"/>
          <binding slot="$__EveningGreetings_step.external" value="false"/>
       </subtasks>
    </task>
