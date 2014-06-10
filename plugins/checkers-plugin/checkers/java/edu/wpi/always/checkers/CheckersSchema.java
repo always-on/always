@@ -1,6 +1,6 @@
 package edu.wpi.always.checkers;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -9,6 +9,7 @@ import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.sgf.logic.GameLogicState.Won;
 
 public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateContext> {
 
@@ -65,6 +66,9 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
          // TODO fill me in later (after human plays)
          CheckersClient.nod = false;
       }
-
+   }
+  
+   public static void log (Won won, int jumps, int doubles) {
+      Logger.logActivity(Logger.Activity.CHECKERS, won, jumps, doubles);
    }
 }

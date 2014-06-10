@@ -1,7 +1,7 @@
 package edu.wpi.always.about;
 
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
@@ -29,4 +29,13 @@ public class AboutSchema extends DiscoActivitySchema {
       start("_TalkAbout");
               
    }
+
+   enum Positive { POSITIVE, NOT_POSITIVE }
+   enum Negative { NEGATIVE, NOT_NEGATIVE }
+   enum Exit { EARLY, NORMAL }
+   
+   public static void log (Positive positive, Negative negative, Exit exit) {
+      Logger.logActivity(Logger.Activity.ABOUT, positive, negative, exit);
+   }
+   
 }

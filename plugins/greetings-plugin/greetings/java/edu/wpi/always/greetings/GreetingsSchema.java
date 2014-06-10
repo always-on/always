@@ -31,7 +31,7 @@ public class GreetingsSchema extends DiscoActivitySchema {
       setSelfStop(true);
       interaction.clear();
       switch (UserUtils.getTimeOfDay()) {
-         case Morning:
+         case MORNING:
             switch (Always.THIS.getUserModel().getCloseness()) {
                case Stranger: 
                case Acquaintance: 
@@ -42,13 +42,13 @@ public class GreetingsSchema extends DiscoActivitySchema {
                   break;
             }
             break;
-         case Afternoon:
+         case AFTERNOON:
             start("_AfternoonGreetings" );
             break;
-         case Evening:
+         case EVENING:
             start("_EveningGreetings" );
             break;
-         case Night:
+         case NIGHT:
             start("_NightGreetings"); 
             break;
       }

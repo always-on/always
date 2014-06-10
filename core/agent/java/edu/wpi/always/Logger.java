@@ -38,11 +38,11 @@ public class Logger {
    
    public enum Level { STRANGER, ACQUAINTANCE, COMPANION }
    
-   public enum Plugin { ABOUT, ANECDOTES, CALENDAR, CHECKERS, ENROLL, EXERCISE, EXPLAIN,
-                        GREETINGS, HEALTH, NUTRITION, SRUMMY, SKYPE, STORY, TTT, WEATHER }
+   public enum Activity { ABOUT, ANECDOTES, CALENDAR, CHECKERS, ENROLL, EXERCISE, EXPLAIN,
+                          GREETINGS, HEALTH, NUTRITION, SRUMMY, SKYPE, STORY, TTT, WEATHER }
    
-   public static void logActivity (Plugin plugin, Object... args) {
-      THIS.log(ObjectArrays.concat(new Object[] {Type.ACTIVITY, plugin}, args, Object.class));
+   public static void logActivity (Activity activity, Object... args) {
+      THIS.log(ObjectArrays.concat(new Object[] {Type.ACTIVITY, activity}, args, Object.class));
    }
    
    // format that Excel will interpret

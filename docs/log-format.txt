@@ -89,42 +89,44 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 ---------------------------------------------------------
 
-<TIMESTAMP>,ACTIVITY,ANECDOTES,<TITLE>,<FINISHED>
+<TIMESTAMP>,ACTIVITY,ANECDOTES,<FINISHED>,<TITLE>
 
-* <TITLE> = "..."
 * <FINISHED> = FINISHED or NOT_FINISHED
+* <TITLE> = "..."
+
 
 ---------------------------------------------------------
 
-<TIMESTAMP>,ACTIVITY,CALENDAR,EVENT,<TITLE>
+<TIMESTAMP>,ACTIVITY,CALENDAR,EVENT,<STATUS><TITLE>
 
+* <STATUS> = ADD or CHANGE or DELETE
 * <TITLE> = "..." (see details of event in user model printout)
 
-<TIMESTAMP>,ACTIVITY,CALENDAR,VIEW,<WEEK>
+<TIMESTAMP>,ACTIVITY,CALENDAR,VIEW,<MODE>,<DATE>
 
-* <WEEK> = CURRENT or NEXT
+* <MODE> = DAY or WEEK or MONTH
+* <DATE> = "..."
 
 ---------------------------------------------------------
 
 <TIMESTAMP>,ACTIVITY,CHECKERS,<WON>,<JUMPS>,<DOUBLES>
 
-* <WON> = USER or AGENT or NOT (finished)
+* <WON> = USER or AGENT or NEITHER
 * <JUMPS> = total number of jumps in game
 * <DOUBLES> = total number of double jumps in game
 
 ---------------------------------------------------------
 
-<TIMESTAMP>,ACTIVITY,ENROLL,PERSON,<NAME>
+<TIMESTAMP>,ACTIVITY,ENROLL,<CHANGE>,<NAME>
 
+* <CHANGE> = NEW or EDIT
 * <NAME> = "..."  (see details of person in user model printout)
 
 ---------------------------------------------------------
 
-<TIMESTAMP>,ACTIVITY,EXERCISE,<GOALS>,<ACTIVITIES>,<SERVINGS>
+<TIMESTAMP>,ACTIVITY,EXERCISE,<TOPIC>
 
-* <GOALS> = GOALS or NOT-GOALS
-* <ACTIVITIES> = ACTIVITIES or NOT_ACTIVITIES
-* <SERVINGS> = SERVINGS or NOT_SERVINGS
+* <TOPIC> = GOALS or ACTIVITIES or SERVINGS
 
 ---------------------------------------------------------
 
@@ -150,27 +152,26 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 ---------------------------------------------------------
 
-<TIMESTAMP>,ACTIVITY,RUMMY,<WON>,<FIRST><MELDS>
+<TIMESTAMP>,ACTIVITY,SRUMMY,<WON>,<FIRST>,<USER_MELDS>,<AGENT_MELDS>
 
 * <FIRST> = USER or AGENT
-* <MELDS> = total number of melds in game
+* <USER_MELDS> = number of user melds in game
+* <AGENT_MELDS> = number of agent melds in game
 
 ---------------------------------------------------------
 
-<TIMESTAMP>,ACTIVITY,SKYPE,CALL,<WHO>,<DURATION>,<APPT>,<DIRECTION>
+<TIMESTAMP>,ACTIVITY,SKYPE,<DIRECTION>,<APPOINTMENT>,<DURATION>,<WHO>
 
-* <WHO> = Skype name
-* <APPT> = APPT or NOT_APPT
 * <DIRECTION> = INCOMING or OUTGOING
+* <APPOINTMENT> = APPOINTMENT or NOT_APPOINTMENT
+* <WHO> = "..." (Skype name)
 
 ---------------------------------------------------------
 
-<TIMESTAMP>,ACTIVITY,STORY,TOLD,<TITLE>,<DURATION>,<SAVED>,<SENT>
+<TIMESTAMP>,ACTIVITY,STORY,<SAVED>,<DURATION>,<TITLE>
 
-* <TITLE> = "..."
 * <SAVED> = SAVED or NOT_SAVED
-* <SENT> = SENT or NOT_SENT
-
+* <TITLE> = "..."
 ---------------------------------------------------------
 
 <TIMESTAMP>,ACTIVITY,TTT,<WON>,<FIRST>

@@ -1,6 +1,6 @@
 package edu.wpi.always.greetings;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.always.user.UserUtils;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -17,14 +17,18 @@ public class GoodbyeSchema extends DiscoActivitySchema {
       if ( behaviorReceiver == null ) return; // for always_disco testing
       interaction.clear();
       switch (UserUtils.getTimeOfDay()) {
-         case Morning:
-         case Afternoon:
-         case Evening:
+         case MORNING:
+         case AFTERNOON:
+         case EVENING:
             start("_Goodbye");
             break;
-         case Night:
+         case NIGHT:
             start("_GoodNight"); 
             break;
       }
+   }
+   
+   public static void log (UserUtils.TimeOfDay tod) {
+      Logger.logActivity(Logger.Activity.GREETINGS, tod);
    }
 }

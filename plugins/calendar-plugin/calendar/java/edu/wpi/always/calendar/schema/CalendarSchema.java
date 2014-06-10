@@ -1,8 +1,9 @@
 package edu.wpi.always.calendar.schema;
 
+import edu.wpi.always.Logger;
 import edu.wpi.always.calendar.CalendarUI;
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.schemas.*;
+import edu.wpi.always.cm.schemas.ActivityStateMachineKeyboardSchema;
 import edu.wpi.always.user.UserModel;
 import edu.wpi.always.user.calendar.Calendar;
 import edu.wpi.always.user.people.PeopleManager;
@@ -23,4 +24,15 @@ public class CalendarSchema extends ActivityStateMachineKeyboardSchema<CalendarS
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard);
    }
 
+   enum Type { EVENT, VIEW }
+   enum Status { ADD, CHANGE, DELETE }
+   enum Mode { DAY, WEEK, MONTH }
+   
+   public static void logEvent (Status status, String title) {
+      Logger.logActivity(Logger.Activity.CALENDAR, Type.EVENT, status, title);
+   }
+   
+   public static void logView (Mode mode, String date) {
+      Logger.logActivity(Logger.Activity.CALENDAR, Type.VIEW, mode, date);
+   }
 }

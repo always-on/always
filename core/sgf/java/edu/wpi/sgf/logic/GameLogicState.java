@@ -11,4 +11,6 @@ public abstract class GameLogicState {
 	public boolean userWins = false;
 	public boolean tie = false;
 	
+	// for logging of games
+   public enum Won { USER, AGENT, NEITHER }
 }
