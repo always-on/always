@@ -94,6 +94,6 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
    }
    
    public static void log (Won won, First first, int userMelds, int agentMelds) {
-      Logger.logActivity(Logger.Activity.SRUMMY, won, userMelds, agentMelds);
+      Logger.logActivity(Logger.Activity.SRUMMY, won, first, userMelds, agentMelds);
    }
 }

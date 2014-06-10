@@ -178,9 +178,8 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 ---------------------------------------------------------
 
-<TIMESTAMP>,ACTIVITY,WEATHER,<CITIES>,<FRIENDS>
+<TIMESTAMP>,ACTIVITY,WEATHER,<OPTION>
 
-* <CITIES> = CITIES or NOT_CITIES
-* <FRIENDS> = FRIENDS or NOT_FRIENDS
+* <OPTION> = CITIES or FRIENDS
 
 ---------------------------------------------------------
