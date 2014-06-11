@@ -1,5 +1,6 @@
 package edu.wpi.always.client;
 
+import edu.wpi.always.Logger;
 import edu.wpi.disco.rt.menu.AdjacencyPair;
 import edu.wpi.disco.rt.menu.AdjacencyPairBase;
 import edu.wpi.disco.rt.menu.DialogStateTransition;
@@ -31,7 +32,9 @@ public abstract class KeyboardAdjacencyPair<C extends AdjacencyPair.Context> ext
 
          @Override
          public AdjacencyPair run () {
-            return success(KeyboardAdjacencyPair.this.keyboard.getInputSoFar());
+            String text = KeyboardAdjacencyPair.this.keyboard.getInputSoFar();
+            Logger.logEvent(Logger.Event.KEYBOARD, text);
+            return success(text);
          }
       });
       choice("Never Mind", new DialogStateTransition() {

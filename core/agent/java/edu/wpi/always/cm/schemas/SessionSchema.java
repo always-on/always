@@ -184,11 +184,22 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       }
    }
    
+   private enum Interruption { CALENDAR, SKYPE }
+   
    private void interruptIf () {
       if ( interruption != null ) {
          Utils.lnprint(System.out, "Interrupting "+(current == null ? "session" : current)
                +" for "+interruption);
-         Logger.logEvent(Logger.Event.INTERRUPTION, CalendarInterruptSchema.ENTRY);
+         if ( interruption.equals("_CalendarInterruption" ) )
+               Logger.logEvent(Logger.Event.INTERRUPTION, Interruption.CALENDAR, CalendarInterruptSchema.ENTRY);
+         else if ( interruption.equals("_SkypeInterruption") ) {
+            String caller = "";
+            try { // avoid compile dependency
+                caller = (String) Class.forName("edu.neu.always.skype.SkypeSchema").getField("CALLER").get(null);
+            } catch (Exception e) {}
+            Logger.logEvent(Logger.Event.INTERRUPTION, Interruption.SKYPE, caller);
+         }
+         else Utils.lnprint(System.out, "Interruption unknown for logger: "+interruption);
          interaction.push(new Plan(interaction.getDisco().getTaskClass(interruption).newInstance()));
          interruptible = false; // don't interrupt interruption
          interruption = null;

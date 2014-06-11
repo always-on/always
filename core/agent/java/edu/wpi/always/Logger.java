@@ -48,7 +48,8 @@ public class Logger {
       THIS.log(ObjectArrays.concat(new Object[] {activity}, args, Object.class));
    }
    
-   public enum Event { START, END, INTERRUPTION, SAY, MENU, EXTENSION, SELECTED }
+   public enum Event { PROPOSED, ACCEPTED, REJECTED, START, END, INTERRUPTION, 
+                       SAY, MENU, EXTENSION, SELECTED, KEYBOARD }
    
    public static void logEvent (Event event, Object... args) {
       THIS.log(ObjectArrays.concat(new Object[] {SessionSchema.getCurrentLoggerName(), event}, args, Object.class));

@@ -8,20 +8,18 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 -------------------------------------------------------
 
-<DATETIME>,ID,<CONDITION>,<MACHINE>,<DATETIME>,<DATETIME>
-
-(installed time, booted time)
+<DATETIME>,ID,<CONDITION>,<MACHINE>,<INSTALLED>,<BOOTED>
 
 * <CONDITION> = ALWAYS or LOGIN or REETI
 * <MACHINE> = "..."
+* <INSTALLED> = <DATETIME>
+* <BOOTED> = <DATETIME>
 
 -------------------------------------------------------
 
-<DATETIME>,ENGAGEMENT,<ENGAGEMENT_STATE>,<ENGAGEMENT_STATE> 
+<DATETIME>,ENGAGEMENT,<ENGAGEMENT_STATE>,<OLD_STATE>,<NEW_STATE>
       
-(old state, new state)
-
-* <ENGAGEMENT_STATE> = IDLE or ATTENTION or INITIATION or ENGAGED or RECOVERING
+* <OLD_STATE>/<NEW_STATE> = IDLE or ATTENTION or INITIATION or ENGAGED or RECOVERING
 
 -------------------------------------------------------
 
@@ -38,7 +36,11 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 -----------------------------------------------------------
 
-<DATETIME>,<ACTIVITY>, ...
+<DATETIME>,<ACTIVITY>,PROPOSED
+<DATETIME>,<ACTIVITY>,ACCEPTED
+<DATETIME>,<ACTIVITY>,REJECTED
+<DATETIME>,<ACTIVITY>,START
+<DATETIME>,<ACTIVITY>,END
 
 * <ACTIVITY> = SESSION or
              ABOUT or
@@ -57,12 +59,13 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
              TTT or
              WEATHER
 
-<DATETIME>,<ACTIVITY>,START
-<DATETIME>,<ACTIVITY>,END
-
-<DATETIME>,<ACTIVITY>,INTERRUPTION,<ENTRY>
+<DATETIME>,<ACTIVITY>,INTERRUPTION,CALENDAR,<ENTRY>
 
 * <ENTRY> = "..." (via toString method of CalendarEntry)
+
+<DATETIME>,<ACTIVITY>,INTERRUPTION,SKYPE,<CALLER>
+
+* <CALLER> = "..."
 
 <DATETIME>,<ACTIVITY>,SAY,<UTTERANCE>
 
@@ -77,23 +80,12 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 * <SELECTED> = "..."
 
----------------------------------------------------
-
- ??????
-
-
-<DATETIME>,<ACTIVITY>,<EVENT>,<PLUGIN>,...
-
-
-
-<DATETIME>,ACTIVITY,<PLUGIN>,PROPOSED,<ACCEPTED>
-
-* <ACCEPTED> = ACCEPTED or NOT_ACCEPTED
-
-
 <DATETIME>,ACTIVITY,<PLUGIN>,KEYBOARD,<INPUT>
 
 * <INPUT> = "..."
+---------------------------------------------------
+
+
 
 <DATETIME>,ACTIVITY,<PLUGIN>,USER,<PROPERTY>,<VALUE>
 
