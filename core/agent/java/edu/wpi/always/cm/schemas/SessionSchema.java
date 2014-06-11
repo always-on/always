@@ -283,7 +283,19 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          update(agent.respond(getInteraction(), false, true) ? agent.getLastUtterance() : 
                   getInteraction().getFocusExhausted(true) == null ? 
                      new Say(getInteraction().getDisco(), false, TOPLEVEL) : null,
-               getInteraction().getExternal().generate(getInteraction()));
+                getInteraction().getExternal().generate(getInteraction()));
+      }
+      
+      @Override
+      protected void update (Utterance utterance, List<Agenda.Plugin.Item> menu) {
+         if ( utterance instanceof Ask.Should ) {
+            Task should = ((Ask.Should) utterance).getNestedGoal();
+            if ( should != null ) {
+               Logger.Activity loggerName = Plugin.getLoggerName(should.getType()); 
+               if ( loggerName != null ) Logger.logActivity(loggerName, Logger.Event.PROPOSED);
+            }
+         }
+         super.update(utterance, menu);
       }
    }
    

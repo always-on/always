@@ -287,7 +287,7 @@ public abstract class Plugin {
       if ( activity == null ) throw new IllegalStateException("No activity schema for: "+name);
       return activity;
    }
-      
+
    /**
     * Add activity with specified metadata parameters, activity schema and
     * optional other components. Components are either classes (including schema
@@ -375,6 +375,17 @@ public abstract class Plugin {
       } catch (ClassNotFoundException e) {
          throw new RuntimeException("Plugin not found for task "+task, e);
       }
+   }
+   
+   public static Logger.Activity getLoggerName (TaskClass task) {
+      for (Class<? extends Schema> schema : 
+           getPlugin(task, Always.THIS.getContainer()).schemas.get(task))
+         if ( ActivitySchema.class.isAssignableFrom(schema) ) {
+            try {
+               return (Logger.Activity) schema.getField("LOGGER_NAME").get(null);
+            } catch (Exception e) { return null; }
+         }
+      return null;
    }
    
    public static String getActivity (TaskClass task) {

@@ -17,11 +17,13 @@ public class AboutSchema extends DiscoActivitySchema {
       running = false; 
    } 
    
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.ABOUT;
+   
    public AboutSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always,
-            AboutPlugin.aboutInteraction, Logger.Activity.ABOUT);
+            AboutPlugin.aboutInteraction, LOGGER_NAME);
       if ( running ) throw new IllegalStateException("GreetingsSchema already running!");
       running = true;
       always.getUserModel().setProperty(AboutPlugin.PERFORMED, true);

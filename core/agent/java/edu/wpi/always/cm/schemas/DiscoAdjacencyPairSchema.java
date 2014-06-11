@@ -1,7 +1,10 @@
 package edu.wpi.always.cm.schemas;
 
+import java.util.List;
 import edu.wpi.always.*;
+import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
+import edu.wpi.disco.lang.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
@@ -50,4 +53,4 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<Adjacen
       Console console = interaction.getConsole();
       if ( console != null ) console.history(null);
    }
-}
+ }

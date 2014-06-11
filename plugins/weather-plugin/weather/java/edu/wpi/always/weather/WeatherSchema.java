@@ -19,6 +19,7 @@ public class WeatherSchema extends DiscoActivitySchema {
       super.dispose();
       running = false; 
    } 
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.WEATHER;
    
    public WeatherSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -27,7 +28,7 @@ public class WeatherSchema extends DiscoActivitySchema {
          PeopleManager peopleManager,
          PlaceManager placeManager) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always,
-            WeatherPlugin.weatherInteraction, Logger.Activity.WEATHER);
+            WeatherPlugin.weatherInteraction, LOGGER_NAME);
       if ( running ) throw new IllegalStateException("WeatherSchema already running!");
       running = true;
       interaction.eval("date = "+ "\"" +
