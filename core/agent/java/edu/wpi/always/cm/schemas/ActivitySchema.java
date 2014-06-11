@@ -1,7 +1,7 @@
 package edu.wpi.always.cm.schemas;
 
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
-import edu.wpi.always.Plugin;
+import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.cetask.Task;
 import edu.wpi.disco.rt.behavior.*;
@@ -15,12 +15,17 @@ public abstract class ActivitySchema extends SchemaBase {
 
    public static final double SPECIFICITY = 0.5;
    
+   private final Logger.Activity loggerName;
+   
    protected ActivitySchema (BehaviorProposalReceiver behaviorReceiver,
-         BehaviorHistory behaviorHistory) {
+         BehaviorHistory behaviorHistory, Logger.Activity loggerName) {
       super(behaviorReceiver, behaviorHistory);
+      this.loggerName = loggerName;
       setNeedsFocusResource(true); // default value
    }
 
+   public Logger.Activity getLoggerName () { return loggerName; }
+   
    private Plugin plugin;
    
    public void setPlugin (Plugin plugin) { this.plugin = plugin; }

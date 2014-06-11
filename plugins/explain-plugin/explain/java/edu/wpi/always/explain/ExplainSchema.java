@@ -20,7 +20,7 @@ public class ExplainSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
-            ExplainPlugin.explainInteraction);
+            ExplainPlugin.explainInteraction, Logger.Activity.EXPLAIN);
       if ( running ) throw new IllegalStateException("ExplainSchema already running!");
       running = true;
       always.getUserModel().setProperty(ExplainPlugin.PERFORMED, true);

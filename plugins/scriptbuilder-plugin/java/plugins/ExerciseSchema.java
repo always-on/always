@@ -18,7 +18,8 @@ public class ExerciseSchema extends ScriptbuilderSchema {
 			PeopleManager peopleManager, Always always) {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Exercise")),
-		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
+		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
+		       Logger.Activity.EXERCISE);
 		 always.getUserModel().setProperty(ExercisePlugin.PERFORMED, true);
 	}
 	 

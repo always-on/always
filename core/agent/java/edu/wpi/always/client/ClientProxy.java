@@ -15,6 +15,7 @@ import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.client.reeti.*;
+import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.disco.rt.util.Utils;
 
 public class ClientProxy {
@@ -72,6 +73,7 @@ public class ClientProxy {
    }
 
    public void say (String text) {
+      Logger.logEvent(Logger.Event.SAY, text);
       HashMap<String, String> p = Maps.newHashMap();
       p.put("text", text);
       enqueue("speech", p);
@@ -165,12 +167,16 @@ public class ClientProxy {
    }
 
    private void fireMenuSelectedMessage (String text) {
+      Logger.logEvent(Logger.Event.SELECTED, text);
       for (ClientProxyObserver o : observers) {
          o.notifyMenuSelected(this, text);
       }
    }
    
    public void showMenu (List<String> items, boolean twoColumn, boolean extension) {
+      if ( items != null && !items.isEmpty() )
+         Logger.logEvent(extension ? Logger.Event.EXTENSION : Logger.Event.MENU,
+            items.toArray());
       JsonArray menus = new JsonArray();
       if ( items != null ) for (String s : items) menus.add(new JsonPrimitive(s));
       JsonObject body = new JsonObject();

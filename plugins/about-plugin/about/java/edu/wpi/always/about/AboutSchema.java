@@ -21,7 +21,7 @@ public class AboutSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always,
-            AboutPlugin.aboutInteraction);
+            AboutPlugin.aboutInteraction, Logger.Activity.ABOUT);
       if ( running ) throw new IllegalStateException("GreetingsSchema already running!");
       running = true;
       always.getUserModel().setProperty(AboutPlugin.PERFORMED, true);

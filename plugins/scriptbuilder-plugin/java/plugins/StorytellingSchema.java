@@ -23,7 +23,8 @@ public class StorytellingSchema extends ScriptbuilderSchema {
 	               keyboard, dispatcher, placeManager, peopleManager, always, 
 	               shore instanceof ShoreFacePerceptor.Reeti ? null : shore,
 	               "Storytelling")),
-		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
+		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
+		       Logger.Activity.STORY);
 		 this.shore = shore;
 		 always.getUserModel().setProperty(StorytellingPlugin.PERFORMED, true);
 		 interruptible = false;

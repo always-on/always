@@ -21,7 +21,7 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
          PeopleManager peopleManager, Always always) {
       super(new WhoPlaysFirst(new TTTStateContext(keyboard, tttUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
-            resourceMonitor, menuPerceptor);
+            resourceMonitor, menuPerceptor, Logger.Activity.TTT);
            always.getUserModel().setProperty(TTTPlugin.PERFORMED, true);
    }
 

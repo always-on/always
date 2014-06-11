@@ -1,8 +1,9 @@
 package edu.wpi.always.calendar;
 
 import com.google.gson.*;
-import edu.wpi.always.Always;
-import edu.wpi.always.calendar.schema.CalendarSchema;
+import edu.wpi.always.*;
+import edu.wpi.always.calendar.schema.*;
+import edu.wpi.always.calendar.schema.CalendarSchema.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.cm.schemas.*;

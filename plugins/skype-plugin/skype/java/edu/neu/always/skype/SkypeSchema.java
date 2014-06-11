@@ -17,7 +17,8 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, ShoreFacePerceptor shore, Always always) {
       super(new Test(shore),
-            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
+            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
+            Logger.Activity.SKYPE);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
       always.getUserModel().setProperty(SkypePlugin.PERFORMED, true);
    }

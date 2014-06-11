@@ -13,7 +13,7 @@ public class GoodbyeSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
-            GreetingsPlugin.greetingsInteraction);
+            GreetingsPlugin.greetingsInteraction, Logger.Activity.GOODBYE);
       if ( behaviorReceiver == null ) return; // for always_disco testing
       interaction.clear();
       switch (UserUtils.getTimeOfDay()) {

@@ -27,7 +27,7 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
          PeopleManager peopleManager, Always always) {
       super(new SrummyInitial(new SrummyStateContext(keyboard, SrummyUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
-            resourceMonitor, menuPerceptor);
+            resourceMonitor, menuPerceptor, Logger.Activity.RUMMY);
       always.getUserModel().setProperty(SrummyPlugin.PERFORMED, true);
       yourTurnStatements.add("your turn");
       yourTurnStatements.add("go ahead");
@@ -94,6 +94,6 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
    }
    
    public static void log (Won won, First first, int userMelds, int agentMelds) {
-      Logger.logActivity(Logger.Activity.SRUMMY, won, first, userMelds, agentMelds);
+      Logger.logActivity(Logger.Activity.RUMMY, won, first, userMelds, agentMelds);
    }
 }

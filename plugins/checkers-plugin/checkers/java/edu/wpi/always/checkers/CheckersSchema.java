@@ -20,7 +20,7 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
          PeopleManager peopleManager, Always always) {
       super(new StartGamingSequence(new CheckersStateContext(keyboard, CheckersUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
-            resourceMonitor, menuPerceptor);
+            resourceMonitor, menuPerceptor, Logger.Activity.CHECKERS);
       always.getUserModel().setProperty(CheckersPlugin.PERFORMED, true);
    }
 

@@ -49,7 +49,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          return interruptible && (current == null || current.isInterruptible());
       }
    }
-
+   
    public static ActivitySchema getInterruptedSchema () { 
       return THIS == null ? null : THIS.interrupted;
    }
@@ -75,7 +75,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          MenuPerceptor menuPerceptor, ClientProxy proxy,
          SchemaManager schemaManager, Always always, 
          DiscoRT.Interaction interaction) {
-      super(new Toplevel(interaction), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
+      super(new Toplevel(interaction), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
+            always, interaction, Logger.Activity.SESSION);
       THIS = this;
       this.proxy = proxy;
       this.schemaManager = schemaManager;
@@ -93,7 +94,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       System.out.println("****************************************************************************");
       System.out.println("Agent type = "+Always.getAgentType());
       System.out.println("Time of day = "+UserUtils.getTimeOfDay());
-      Logger.logSession(Logger.Session.START, always.getUserModel().getCloseness(), UserUtils.getTimeOfDay()); 
+      Logger.logEvent(Logger.Event.START, always.getUserModel().getCloseness(), UserUtils.getTimeOfDay()); 
       try { UserUtils.print(always.getUserModel(), System.out);}
       catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
       DiscoDocument session = always.getRM().getSession();
@@ -112,6 +113,12 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private volatile ActivitySchema current; // currently running or null 
    private volatile ActivitySchema interrupted; // interrupted activity or null
    private volatile String pluginName; // interrupted client plugin or null
+
+   
+   public static Logger.Activity getCurrentLoggerName () {
+      return (THIS == null || THIS.current == null) ? Logger.Activity.SESSION :
+         THIS.current.getLoggerName();
+   }
 
    // note this schema uses menu with focus and menu extension without focus
    
@@ -140,6 +147,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                   stateMachine.setState(current.isSelfStop() ? 
                      new ResumeAdjacencyPairWrapper(discoAdjacencyPair) : 
                         discoAdjacencyPair);
+                  current = null;
                } else yield(plan);
             } else {
                TaskClass task = plan.getType();
@@ -149,6 +157,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                   started.put(plan, current);
                   plan.setStarted(true);
                   Utils.lnprint(System.out, "Starting "+plan.getType()+"...");
+                  Logger.logEvent(Logger.Event.START);
                   history();
                   yield(plan);
                }
@@ -179,6 +188,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       if ( interruption != null ) {
          Utils.lnprint(System.out, "Interrupting "+(current == null ? "session" : current)
                +" for "+interruption);
+         Logger.logEvent(Logger.Event.INTERRUPTION, CalendarInterruptSchema.ENTRY);
          interaction.push(new Plan(interaction.getDisco().getTaskClass(interruption).newInstance()));
          interruptible = false; // don't interrupt interruption
          interruption = null;
@@ -232,6 +242,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    private void stop (Plan plan) {
       Utils.lnprint(System.out, "Returning to Session...");
+      Logger.logEvent(Logger.Event.END);
       plan.setComplete(true);
       started.remove(plan.getGoal());
       history(); // before update

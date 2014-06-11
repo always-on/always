@@ -1,11 +1,13 @@
 package edu.wpi.always.calendar.schema;
 
+import java.util.Date;
 import edu.wpi.always.Logger;
 import edu.wpi.always.calendar.CalendarUI;
+import edu.wpi.always.calendar.CalendarClient.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.schemas.ActivityStateMachineKeyboardSchema;
 import edu.wpi.always.user.UserModel;
-import edu.wpi.always.user.calendar.Calendar;
+import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -21,18 +23,19 @@ public class CalendarSchema extends ActivityStateMachineKeyboardSchema<CalendarS
          UserModel model, PlaceManager placeManager, PeopleManager peopleManager) {
       super(new WhatDo(new CalendarStateContext(
                 keyboard, calendarUI, calendar, dispatcher, model, placeManager, peopleManager)),
-            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard);
+            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard,
+            Logger.Activity.CALENDAR);
    }
 
-   enum Type { EVENT, VIEW }
+   enum Type { UPDATE, VIEW }
    enum Status { ADD, CHANGE, DELETE }
    enum Mode { DAY, WEEK, MONTH }
    
-   public static void logEvent (Status status, String title) {
-      Logger.logActivity(Logger.Activity.CALENDAR, Type.EVENT, status, title);
+   public static void logUpdate (Status status, CalendarEntry entry) {
+      Logger.logActivity(Logger.Activity.CALENDAR, Type.UPDATE, status, entry);
    }
    
-   public static void logView (Mode mode, String date) {
+   public static void logView (Mode mode, Date date) {
       Logger.logActivity(Logger.Activity.CALENDAR, Type.VIEW, mode, date);
    }
 }

@@ -2,6 +2,7 @@ package edu.wpi.always;
 
 import com.google.common.collect.ObjectArrays;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
+import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.always.user.UserUtils;
 import edu.wpi.disco.rt.util.Utils;
 import java.io.*;
@@ -28,11 +29,11 @@ public class Logger {
 
    // see always/docs/log-format.txt
    
-   private enum Type { ID, ENGAGEMENT, SESSION, ACTIVITY }
+   private enum Type { ID, ENGAGEMENT, ACTIVITY }
    
    public enum Condition { ALWAYS, LOGIN, REETI }
    
-   public static void logId (Condition condition, String machine, Date installed, Date booted) {
+   public static void logId (Condition condition, String machine, String userName, Date installed, Date booted) {
       THIS.log(Type.ID, machine, condition, installed, booted);
    }
    
@@ -40,30 +41,27 @@ public class Logger {
       THIS.log(Type.ENGAGEMENT, oldState, newState);
    }
    
-   public enum Session { START, END, INTERRUPTION, AGENT, MENU }
-
-   public static void logSession (Session session, Object... args) {
-      THIS.log(ObjectArrays.concat(new Object[] {Type.SESSION, session}, args, Object.class));
-   }
-   
-   public enum Activity { ABOUT, ANECDOTES, CALENDAR, CHECKERS, ENROLL, EXERCISE, EXPLAIN,
-                          GREETINGS, HEALTH, NUTRITION, SRUMMY, SKYPE, STORY, TTT, WEATHER }
-   
-   public static void logActivity (Activity activity, Object... args) {
-      THIS.log(ObjectArrays.concat(new Object[] {Type.ACTIVITY, activity}, args, Object.class));
-   }
+   public enum Activity { SESSION, ABOUT, ANECDOTES, CALENDAR, CHECKERS, ENROLL, EXERCISE, EXPLAIN,
+                          GREETINGS, GOODBYE, HEALTH, NUTRITION, RUMMY, SKYPE, STORY, TTT, WEATHER }
     
+   public static void logActivity (Activity activity, Object... args) {
+      THIS.log(ObjectArrays.concat(new Object[] {activity}, args, Object.class));
+   }
+   
+   public enum Event { START, END, INTERRUPTION, SAY, MENU, EXTENSION, SELECTED }
+   
+   public static void logEvent (Event event, Object... args) {
+      THIS.log(ObjectArrays.concat(new Object[] {SessionSchema.getCurrentLoggerName(), event}, args, Object.class));
+   }
+
    private void log (Object... args) {
       StringBuilder line = new StringBuilder(72);
       line.append('"').append(dateFormat.format(new Date())).append('"'); 
       for (Object arg : args) {
          line.append(",\"");
          String field = arg instanceof Date? dateFormat.format((Date) arg) : arg.toString();
-         if ( field.indexOf('"') >= 0 ) {
-            Utils.lnprint(System.out, "WARNING! Replacing double with single quote in log field: "+field);
-            field = field.replace('"','\'');
-         }
-         line.append(field).append('"');
+         // replace double quotes for safety
+         line.append(field.replace('"','\'')).append('"');
       }
       writer.println(line);
    }

@@ -23,7 +23,8 @@ public class EnrollSchema extends ActivityStateMachineKeyboardSchema<EnrollState
             keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)) :
          new InitialEnroll(new EnrollStateContext(
             keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)),
-         behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard);
+         behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard,
+         Logger.Activity.ENROLL);
       setSelfStop(true);
    }
    

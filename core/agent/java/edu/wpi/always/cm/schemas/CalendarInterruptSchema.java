@@ -16,16 +16,19 @@ public class CalendarInterruptSchema extends SchemaBase {
       this.calendar = calendar;
    }
 
-   // for testing
+   // public for testing
    public static boolean interrupt () {
       return SessionSchema.interrupt("_CalendarInterruption");
    }
+   
+   public static CalendarEntry ENTRY; // for logging
    
    @Override
    public void run () {
       DateTime now = new DateTime();
       for (CalendarEntry entry : calendar.retrieve(now, now.plusMinutes(20))) {
          if ( !done.contains(entry) ) {
+            ENTRY = entry;
             if ( interrupt() ) done.add(entry);
          }
       }

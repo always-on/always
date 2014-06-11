@@ -90,6 +90,7 @@ public class Always {
             agentType == AgentType.REETI ? Logger.Condition.REETI :
                login ? Logger.Condition.LOGIN : Logger.Condition.ALWAYS,
             System.getenv("COMPUTERNAME"),
+            model.getUserName(),
             model.getUserName().isEmpty() ? DATE : new Date(model.getStartTime()),
             DATE);
       always.plugin = plugin; 

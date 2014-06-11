@@ -75,7 +75,7 @@ public class EngagementSchema extends SchemaBase {
                if ( EXIT || lastState == EngagementState.RECOVERING ) {
                   if ( reeti != null ) reeti.reboot(); 
                   Utils.lnprint(System.out, "ENGAGEMENT: Idle");
-                  Logger.logSession(Logger.Session.END, 
+                  Logger.logEvent(Logger.Event.END, 
                      EXIT ? Disengagement.GOODBYE : Disengagement.TIMEOUT,
                      (int) (new Date().getTime() - SessionSchema.DATE.getTime())/60000,
                      AdjacencyPairBase.REPEAT_COUNT);
