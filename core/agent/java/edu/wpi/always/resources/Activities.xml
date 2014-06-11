@@ -63,7 +63,7 @@
    <task id="ExplainSelf"/>
    <task id="DiscussWeather">
       <precondition> 
-        Packages.edu.wpi.always.user.UserUtils.getTimeOfDay() == Packages.edu.wpi.always.user.UserUtils.TimeOfDay.Night ? false : null 
+        Packages.edu.wpi.always.user.UserUtils.getTimeOfDay() == Packages.edu.wpi.always.user.UserUtils.TimeOfDay.NIGHT ? false : null 
      </precondition>
    </task>
    <task id="PlayTicTacToe"/>
@@ -150,11 +150,11 @@
     }
 
     function notStranger () { 
-      return userModel().getCloseness() != Packages.edu.wpi.always.Closeness.Stranger;
+      return userModel().getCloseness() != Packages.edu.wpi.always.Closeness.STRANGER;
     }
 
     function advanced (min, property) {
-      return userModel().getCloseness() == Packages.edu.wpi.always.Closeness.Companion
+      return userModel().getCloseness() == Packages.edu.wpi.always.Closeness.COMPANION
         || ( notStranger() &amp;&amp; (isExplained(property) || (days() &gt; min &amp;&amp; sessions() &gt; days()/2) ));
     }
 
@@ -180,15 +180,15 @@
     */
 
     model = userModel();
-    if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Companion ) {
+    if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.COMPANION ) {
        if ( Packages.edu.wpi.always.about.AboutPlugin.isPerformed() ||
             Packages.plugins.ExercisePlugin.isPerformed() ||
             Packages.plugins.StorytellingPlugin.isPerformed() ||
             Packages.edu.neu.always.skype.SkypePlugin.isPerformed() ||
             ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;	
               Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ) )
-           model.setCloseness(Packages.edu.wpi.always.Closeness.Companion)
-        else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Acquaintance ) {
+           model.setCloseness(Packages.edu.wpi.always.Closeness.COMPANION)
+        else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.ACQUAINTANCE ) {
            if ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||
                 Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
                 ( days() &gt; 6 &amp;&amp; sessions() &gt; days()/2 &amp;&amp;
@@ -201,7 +201,7 @@
                     Packages.plugins.NutritionPlugin.isPerformed() ||	
                     Packages.edu.wpi.always.srummy.SrummyPlugin.isPerformed() ||
                     Packages.edu.wpi.always.ttt.TTTPlugin.isPerformed() ) ) )
-               model.setCloseness(Packages.edu.wpi.always.Closeness.Acquaintance);
+               model.setCloseness(Packages.edu.wpi.always.Closeness.ACQUAINTANCE);
          }
     }
     

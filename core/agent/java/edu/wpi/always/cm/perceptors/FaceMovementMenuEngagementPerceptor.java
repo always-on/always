@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.perceptors;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
 import edu.wpi.disco.rt.menu.*;
 import edu.wpi.disco.rt.perceptor.PerceptorBase;
@@ -24,7 +24,7 @@ public class FaceMovementMenuEngagementPerceptor
       this.facePerceptor = facePerceptor;
       this.movementPerceptor = movementPerceptor;
       this.menuPerceptor = menuPerceptor;
-      latest = new EngagementPerception(EngagementState.Idle);
+      latest = new EngagementPerception(EngagementState.IDLE);
    }
 
    private final Object stateLock = new Object();
@@ -34,7 +34,7 @@ public class FaceMovementMenuEngagementPerceptor
       synchronized (stateLock) {
          EngagementState currentState = null;
          if ( latest != null ) currentState = latest.getState();
-         if ( currentState == null ) currentState = EngagementState.Idle;
+         if ( currentState == null ) currentState = EngagementState.IDLE;
          FacePerception facePerception = facePerceptor.getLatest();
          boolean isFace = false, isNear = false;
          if ( facePerception != null ) {
@@ -69,16 +69,20 @@ public class FaceMovementMenuEngagementPerceptor
    public void setEngaged (boolean engaged) {
       synchronized (stateLock) {
          if ( engaged )
-            setState(EngagementState.Engaged);
+            setState(EngagementState.ENGAGED);
          else
-            setState(EngagementState.Idle);
+            setState(EngagementState.IDLE);
       }
    }
 
    protected void setState (EngagementState newState) {
       synchronized (stateLock) {
-         if ( Always.TRACE ) Utils.lnprint(System.out, "ENGAGEMENT: "
-            + (latest != null ? latest.getState() : "") + " -> " + newState);
+         if ( latest != null ) {
+            EngagementState oldState = latest.getState();
+            if ( Always.TRACE ) Utils.lnprint(System.out, "ENGAGEMENT: "
+                  + oldState + " -> " + newState);
+            Logger.THIS.logEngagement(oldState, newState);
+         }
          // reset timing for new state
          if ( lastMovementChange != null )
             lastMovementChange = new MovementTransition(

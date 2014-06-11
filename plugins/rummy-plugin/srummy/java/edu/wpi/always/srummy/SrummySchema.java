@@ -1,7 +1,7 @@
 package edu.wpi.always.srummy;
 
 import java.util.*;
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -10,6 +10,8 @@ import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.sgf.logic.GameLogicState.Won;
+import edu.wpi.sgf.logic.LegalMove.First;
 
 public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext> {
 
@@ -89,6 +91,9 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
          // TODO fill me in later (after human plays)
          SrummyClient.nod = false;
       }
-
+   }
+   
+   public static void log (Won won, First first, int userMelds, int agentMelds) {
+      Logger.logActivity(Logger.Activity.SRUMMY, won, first, userMelds, agentMelds);
    }
 }

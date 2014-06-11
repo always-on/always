@@ -37,8 +37,8 @@ public class Always {
     * 
     * @param args [agentType closeness login model] NB: Case-sensitive!
     *  <p>
-    *  agentType: Unity (default), Reeti or Mirror<br> 
-    *  closeness: Stranger, Acquaintance, Companion or null (default, use value in user model)<br>
+    *  agentType: UNITY (default), REETI or MIRROR<br> 
+    *  closeness: STRANGER, ACQUAINTANCE, COMPANION or null (default, use value in user model)<br>
     *  login: true or false (default)<br>
     *  model: file in always/user (default most recent User.*.owl)
     */
@@ -47,9 +47,9 @@ public class Always {
       always.start();
    }
 
-   public enum AgentType { Unity, Reeti, Mirror }
+   public enum AgentType { UNITY, REETI, MIRROR }
    
-   private static AgentType agentType = AgentType.Unity;
+   private static AgentType agentType = AgentType.UNITY;
    
    public static AgentType getAgentType () { return agentType; }
    
@@ -79,12 +79,19 @@ public class Always {
       if ( login ) Utils.lnprint(System.out, "Login condition!");
       Utils.lnprint(System.out, "Agent type = "+agentType);
       Utils.lnprint(System.out, "Time of day = "+UserUtils.getTimeOfDay());
+      Logger logger = Logger.THIS; // force logger creation printout now
       Always always = new Always(true, plugin == null);
-      if ( args != null && args.length > 1 && !"null".equals(args[1]) ) {
-         Closeness closeness = Closeness.valueOf(args[1]);
-         always.getUserModel().setCloseness(closeness);
-      }
-      Utils.lnprint(System.out, "Using closeness = "+always.getUserModel().getCloseness());
+      if ( args != null && args.length > 1 && !"null".equals(args[1]) )
+         always.getUserModel().setCloseness(Closeness.valueOf(args[1]));
+      UserModel model = always.getUserModel();
+      Closeness closeness = model.getCloseness();
+      Utils.lnprint(System.out, "Using closeness = "+closeness);
+      logger.logId(
+            agentType == AgentType.REETI ? Logger.Condition.REETI :
+               login ? Logger.Condition.LOGIN : Logger.Condition.ALWAYS,
+            System.getenv("COMPUTERNAME"),
+            model.getUserName().isEmpty() ? DATE : new Date(model.getStartTime()),
+            DATE);
       always.plugin = plugin; 
       always.activity = activity;
       return always;

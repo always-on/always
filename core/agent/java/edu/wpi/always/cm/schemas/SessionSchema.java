@@ -93,6 +93,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       System.out.println("****************************************************************************");
       System.out.println("Agent type = "+Always.getAgentType());
       System.out.println("Time of day = "+UserUtils.getTimeOfDay());
+      Logger.logSession(Logger.Session.START, always.getUserModel().getCloseness(), UserUtils.getTimeOfDay()); 
       try { UserUtils.print(always.getUserModel(), System.out);}
       catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
       DiscoDocument session = always.getRM().getSession();

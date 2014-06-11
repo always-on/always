@@ -24,7 +24,7 @@ public class TestUserGenerator {
       
    public static void generate (UserModel userModel) {
       userModel.setUserName("Diane Ferguson");
-      userModel.setCloseness(Closeness.Companion);
+      userModel.setCloseness(Closeness.COMPANION);
       // instead of EnrollPlugin.PERFORMED to avoid compile dependency
       userModel.setProperty("EnrollPerformed", true);
       PeopleManager peopleMgr = userModel.getPeopleManager();

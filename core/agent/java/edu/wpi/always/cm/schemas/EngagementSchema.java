@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.schemas;
 
-import java.util.Arrays;
+import java.util.*;
 import com.sun.msv.datatype.xsd.Proxy;
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
@@ -62,41 +62,47 @@ public class EngagementSchema extends SchemaBase {
 
    public static volatile boolean EXIT; // set by other schemas
       
+   private enum Disengagement { GOODBYE, TIMEOUT } // for logging
+
    @Override
    public void run () {
       EngagementPerception engagementPerception = engagementPerceptor.getLatest();
       // socket not initialized until after this schema started
       reeti = cm.getReetiSocket();
       if ( engagementPerception != null ) {
-         switch (state = (EXIT ? EngagementState.Idle : engagementPerception.getState()) ) {
-            case Idle:
-               if ( EXIT || lastState == EngagementState.Recovering ) {
+         switch (state = (EXIT ? EngagementState.IDLE : engagementPerception.getState())) {
+            case IDLE:
+               if ( EXIT || lastState == EngagementState.RECOVERING ) {
                   if ( reeti != null ) reeti.reboot(); 
                   Utils.lnprint(System.out, "ENGAGEMENT: Idle");
+                  Logger.logSession(Logger.Session.END, 
+                     EXIT ? Disengagement.GOODBYE : Disengagement.TIMEOUT,
+                     (int) (new Date().getTime() - SessionSchema.DATE.getTime())/60000,
+                     AdjacencyPairBase.REPEAT_COUNT);
                   Always.exit(0); 
                } 
-               if ( lastState != EngagementState.Idle ) { 
+               if ( lastState != EngagementState.IDLE ) { 
                   proxy.setAgentVisible(false);
                   propose(HELLO, META);
                }
                break;
-            case Attention:
+            case ATTENTION:
                if ( started ) proposeNothing();
                else {
                   propose(HI, META);
                   visible();
-                  if ( reeti != null && lastState != EngagementState.Attention) 
+                  if ( reeti != null && lastState != EngagementState.ATTENTION) 
                      reeti.wiggleEars();
                }
                break;
-            case Initiation:
+            case INITIATION:
                if ( started ) proposeNothing();
                else {
                   visible();
                   propose(HI_HI, META);
                }
                break;
-            case Engaged:
+            case ENGAGED:
                if ( !started ) { 
                   Utils.lnprint(System.out, "Starting session...");
                   schemaManager.start(SessionSchema.class);
@@ -106,7 +112,7 @@ public class EngagementSchema extends SchemaBase {
                visible();
                proposeNothing();
                break;
-            case Recovering:
+            case RECOVERING:
                visible();
                propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), 
                                             new MenuBehavior(Arrays.asList("Yes"))), META);
@@ -118,7 +124,7 @@ public class EngagementSchema extends SchemaBase {
       
    private void visible () {
       if ( lastState != state ) proxy.setScreenVisible(true);
-      if ( Always.getAgentType() != AgentType.Reeti ) 
+      if ( Always.getAgentType() != AgentType.REETI ) 
          proxy.setAgentVisible(true);
    }
 }

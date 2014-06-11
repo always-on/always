@@ -12,13 +12,13 @@ public class EngagementRegistry implements ComponentRegistry {
    @Override
    public void register (MutablePicoContainer container) {
       switch ( Always.getAgentType() ) {
-         case Unity:
+         case UNITY:
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Agent.class);
             break;
-         case Reeti:
+         case REETI:
          // we are not running both Reeti and virtual agent face perceptors in Mirror mode
          // since the face tracking for virtual agent would interfere with Reeti
-         case Mirror:
+         case MIRROR:
             container.as(Characteristics.CACHE).addComponent(ShoreFacePerceptor.Reeti.class);
             break;
       }

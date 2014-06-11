@@ -85,7 +85,7 @@ public abstract class UserUtils {
    
    public static TimeOfDay TIME_OF_DAY; // for testing
    
-   public enum TimeOfDay { Morning, Afternoon, Evening, Night }
+   public enum TimeOfDay { MORNING, AFTERNOON, EVENING, NIGHT }
    
    /**
     * If session has started, then returns time of day of start of session 
@@ -96,15 +96,15 @@ public abstract class UserUtils {
       calendar.setTime(SessionSchema.DATE == null ? new Date() : SessionSchema.DATE);
       int hour = calendar.get(Calendar.HOUR_OF_DAY);
       return TIME_OF_DAY != null ? TIME_OF_DAY :
-         (hour >= 22) ? TimeOfDay.Night :
-            (hour >= 18) ? TimeOfDay.Evening :
-               (hour >= 12) ? TimeOfDay.Afternoon :
-                  (hour >= 6) ? TimeOfDay.Morning :
-                     TimeOfDay.Night;
+         (hour >= 22) ? TimeOfDay.NIGHT :
+            (hour >= 18) ? TimeOfDay.EVENING :
+               (hour >= 12) ? TimeOfDay.AFTERNOON :
+                  (hour >= 6) ? TimeOfDay.MORNING :
+                     TimeOfDay.NIGHT;
    }
    
    public static boolean isNight () {
-      return getTimeOfDay() == TimeOfDay.Night;
+      return getTimeOfDay() == TimeOfDay.NIGHT;
    }
    
    public static int getDays (UserModel model) {

@@ -1,6 +1,6 @@
 package edu.neu.always.skype;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.schemas.*;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -37,7 +37,14 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
       // this is here so it is run even if schema throws an error
       if ( shore != null ) shore.start(); 
    }
- 
+   
+   enum Direction { INCOMING, OUTGOING }
+   enum Appointment { APPOINTMENT, NOT_APPOINTMENT }
+   
+   public static void log (Direction direction, Appointment appointment, int duration, String who) {
+      Logger.logActivity(Logger.Activity.SKYPE, direction, appointment, duration, who);
+   }
+   
    // to test camera release and restart
    
    public static class Test extends MultithreadAdjacencyPair<AdjacencyPair.Context> {

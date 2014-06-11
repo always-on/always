@@ -1,5 +1,6 @@
 package edu.wpi.always.enroll.schema;
 
+import edu.wpi.always.Logger;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.schemas.ActivityStateMachineKeyboardSchema;
 import edu.wpi.always.enroll.EnrollUI;
@@ -24,5 +25,11 @@ public class EnrollSchema extends ActivityStateMachineKeyboardSchema<EnrollState
             keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)),
          behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard);
       setSelfStop(true);
+   }
+   
+   enum Change { NEW, EDIT };
+   
+   public static void log (Change change, String name) {
+      Logger.logActivity(Logger.Activity.ENROLL, change, name);
    }
 }

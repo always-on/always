@@ -26,7 +26,7 @@ public class ClientProxy {
       this.dispatcher = dispatcher;
       observers = new CopyOnWriteArrayList<ClientProxyObserver>();
       registerOnDispatcher();
-      if ( Always.getAgentType() != AgentType.Unity ) {
+      if ( Always.getAgentType() != AgentType.UNITY ) {
          ReetiJsonConfiguration config = always.getCM().getContainer().getComponent(ReetiJsonConfiguration.class);
          hor = ReetiPIDController.translateReetiToAgentX(config.getNeckRotat());
          ver = ReetiPIDController.translateReetiToAgentY(config.getNeckTilt());
@@ -110,7 +110,7 @@ public class ClientProxy {
    
    public void setAgentVisible (boolean visible) {
       // never make agent visible for Reeti-only mode
-      if ( !visible || Always.getAgentType() != AgentType.Reeti ) {
+      if ( !visible || Always.getAgentType() != AgentType.REETI ) {
          if ( agentVisible == null || agentVisible.booleanValue() != visible ) {
             HashMap<String, String> p = Maps.newHashMap();
             p.put("status", Boolean.toString(visible));

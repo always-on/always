@@ -5,6 +5,7 @@ package edu.wpi.sgf.logic;
  *  game dependent.
  */
 public interface LegalMove {
-	
-	
+
+   // for logging of games
+   enum First { USER, AGENT }
 }
