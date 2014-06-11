@@ -35,9 +35,9 @@ public class WeatherSchema extends DiscoActivitySchema {
           "Weather data");
       interaction.clear();
       switch (Always.THIS.getUserModel().getCloseness()) {
-         case Stranger: start("_WeatherStranger"); break;
-         case Acquaintance: start("_WeatherAcquaintance"); break;
-         case Companion: start("_WeatherCompanion"); break;
+         case STRANGER: start("_WeatherStranger"); break;
+         case ACQUAINTANCE: start("_WeatherAcquaintance"); break;
+         case COMPANION: start("_WeatherCompanion"); break;
       }
    }
    

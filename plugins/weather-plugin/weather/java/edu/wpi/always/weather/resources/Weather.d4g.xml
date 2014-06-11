@@ -39,7 +39,7 @@
 
        For testing, the closeness can be set on the console, e.g.,
 
-       > eval $always.getRM().setCloseness(edu.wpi.always.Closeness.Acquaintance)
+       > eval $always.getRM().setCloseness(edu.wpi.always.Closeness.ACQUAINTANCE)
 
        Note: the default for @generate properties on internal tasks (starting with
        underscore) is false, but can be overridden to true.

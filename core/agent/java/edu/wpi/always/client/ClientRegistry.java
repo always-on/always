@@ -18,14 +18,14 @@ public class ClientRegistry implements ComponentRegistry {
       container.addComponent(FaceExpressionRealizer.class);
       container.addComponent(IdleBehaviorRealizer.class);
       switch ( Always.getAgentType() ) {
-         case Unity:
+         case UNITY:
             container.addComponent(FaceTrackerRealizer.class);
             break;
-         case Reeti:
+         case REETI:
          // note we cannot have virtual agent also tracking face
          // in this mode because it uses the gaze commands, which
          // Reeti will also see
-         case Mirror:
+         case MIRROR:
             container.addComponent(ReetiFaceTrackerRealizer.class);
             container.as(Characteristics.CACHE).addComponent(ReetiJsonConfiguration.class);
             break;

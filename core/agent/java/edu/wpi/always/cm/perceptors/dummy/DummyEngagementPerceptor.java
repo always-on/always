@@ -9,6 +9,6 @@ public class DummyEngagementPerceptor extends PerceptorBase<EngagementPerception
        implements EngagementPerceptor {
 
    public DummyEngagementPerceptor () {
-      latest = new EngagementPerception(EngagementState.Engaged);
+      latest = new EngagementPerception(EngagementState.ENGAGED);
    }
 }

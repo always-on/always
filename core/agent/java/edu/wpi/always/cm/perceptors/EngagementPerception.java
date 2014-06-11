@@ -44,83 +44,83 @@ public class EngagementPerception extends Perception {
    }
 
    public boolean isEngaged () {
-      return state == EngagementState.Engaged;
+      return state == EngagementState.ENGAGED;
    }
 
    public enum EngagementState {
         
-      Idle {
+      IDLE {
 
          @Override
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
-            if ( hadTouch ) return Engaged;
-            if ( Always.isLogin() || UserUtils.isNight() ) return Idle; // user must touch Hello
-            if ( lastFaceChange.isNear ) return Initiation;
-            if ( lastMovementChange.isMoving ) return Attention;
+            if ( hadTouch ) return ENGAGED;
+            if ( Always.isLogin() || UserUtils.isNight() ) return IDLE; // user must touch Hello
+            if ( lastFaceChange.isNear ) return INITIATION;
+            if ( lastMovementChange.isMoving ) return ATTENTION;
             if ( lastFaceChange.isFace && lastFaceChange.timeSinceChange() > IDLE_FACE_TIME )
-               return Attention;
-            return Idle;
+               return ATTENTION;
+            return IDLE;
          }
       },
-      Attention {
+      ATTENTION {
 
          @Override
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
-            if ( hadTouch ) return Engaged;
-            if ( lastFaceChange.isNear ) return Initiation;
+            if ( hadTouch ) return ENGAGED;
+            if ( lastFaceChange.isNear ) return INITIATION;
             if ( timeInState > ATTENTION_TIME 
                  && !lastFaceChange.isFace && lastFaceChange.timeSinceChange() > ATTENTION_NO_FACE_TIMEOUT
                  && !lastMovementChange.isMoving )
-               return Idle;
+               return IDLE;
             if ( lastFaceChange.isFace && lastFaceChange.timeSinceChange() > ATTENTION_FACE_TIME )
-               return Initiation;
-            return Attention;
+               return INITIATION;
+            return ATTENTION;
          }
       },
-      Initiation {
+      INITIATION {
 
          @Override
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
-            if ( hadTouch ) return Engaged;
+            if ( hadTouch ) return ENGAGED;
             if ( timeInState > INITIATION_TIME
                  && !lastFaceChange.isNear && lastFaceChange.timeSinceChange() > INITIATION_NOT_NEAR_TIMEOUT )
-               return Idle;
-            return Initiation;
+               return IDLE;
+            return INITIATION;
          }
       },
-      Engaged {
+      ENGAGED {
 
          @Override
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
-            if ( hadTouch ) return Engaged;
+            if ( hadTouch ) return ENGAGED;
             if ( (!lastFaceChange.isNear && lastFaceChange.timeSinceChange() > ENGAGED_NOT_NEAR_TIMEOUT)
                  && lastTouch.timeSinceChange() > ENGAGED_NO_TOUCH_TIMEOUT 
                  && timeInState > ENGAGED_NO_TOUCH_TIMEOUT 
                  && !lastMovementChange.isMoving )
-               return Recovering;
-            return Engaged;
+               return RECOVERING;
+            return ENGAGED;
          }
       },
-      Recovering {
+      RECOVERING {
 
          @Override
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
-            if ( hadTouch ) return Engaged;
+            if ( hadTouch ) return ENGAGED;
             if ( timeInState > RECOVERING_NO_TOUCH_TIMEOUT 
                  && !lastFaceChange.isNear && lastFaceChange.timeSinceChange() > RECOVERING_NOT_NEAR_TIMEOUT 
                  && !lastMovementChange.isMoving )
-               return Idle;
-            return Recovering;
+               return IDLE;
+            return RECOVERING;
          }
       };
       

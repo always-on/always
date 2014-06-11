@@ -2,32 +2,43 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 <TIMESTAMP>...
 
-* <DATESTAMP> in format automatically recognized by Excel, e.g.,
+* <TIMESTAMP> in format automatically recognized by Excel, e.g.,
 
   "4/23/14 09:15:33",...
 
-* <TYPE> = SESSION or ACTIVITY
+* <TYPE> = ID or ENGAGEMENT or SESSION or ACTIVITY
 
 -------------------------------------------------------
 
-<TIMESTAMP>,SESSION,ATTEMPTED,<STATE>
+<TIMESTAMP>,ID,<CONDITION>,<MACHINE>,<TIMESTAMP>,<TIMESTAMP>
 
-* <STATE> = ATTENTION or INITIATING
-            (state reached before going back to idle)
-            (there will be no such entries for login condition)
+(installed time, booted time)
 
-<TIMESTAMP>,SESSION,START
-<TIMESTAMP>,SESSION,END,<DURATION>,<REPEATS>,<DISENGAGMENT>
+* <CONDITION> = ALWAYS or LOGIN or REETI
+* <MACHINE> = "..."
 
+-------------------------------------------------------
+
+<TIMESTAMP>,ENGAGEMENT,<ENGAGEMENT_STATE>,<ENGAGEMENT_STATE> 
+      
+(old state, new state)
+
+* <ENGAGEMENT_STATE> = IDLE or ATTENTION or INITIATION or ENGAGED or RECOVERING
+
+-------------------------------------------------------
+
+<TIMESTAMP>,SESSION,START,<CLOSENESS>,<TIME_OF_DAY>
+
+* <CLOSENESS> = STRANGER or ACQUAINTANCE or COMPANION
+* <TIME_OF_DAY> = MORNING or AFTERNOON or EVENING or NIGHT
+
+<TIMESTAMP>,SESSION,END,<DISENGAGEMENT>,<DURATION>,<REPEATS>
+
+* <DISENGAGEMENT> = GOODBYE or TIMEOUT
 * <DURATION> in minutes
 * <REPEATS> number of times user clicked "What did you say?"
-* <DISENGAGEMENT> = GOODBYE or TIMEOUT
 
-<TIMESTAMP>,SESSION,CLOSENESS,<LEVEL>
-
-* <LEVEL> = STRANGER or ACQUAINTANCE or COMPANION
-
-<TIMESTAMP>,SESSION,REMINDER,<EVENT>
+<TIMESTAMP>,SESSION,INTERRUPTION,<EVENT>
 
 * <EVENT> = "..."
 

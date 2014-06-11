@@ -2,24 +2,18 @@ package edu.wpi.always.cm;
 
 import java.io.*;
 import java.nio.file.*;
-import java.text.SimpleDateFormat;
-import java.util.*;
 import org.picocontainer.*;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.always.client.reeti.*;
-import edu.wpi.always.cm.perceptors.*;
-import edu.wpi.always.cm.perceptors.dummy.*;
-import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.*;
 import edu.wpi.always.user.*;
 import edu.wpi.always.user.owl.OntologyUserModel;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.rt.*;
-import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.ThreadPools.ScheduledFutureTask;
 import edu.wpi.disco.rt.util.*;
 import edu.wpi.disco.rt.util.Utils;
@@ -136,12 +130,12 @@ public class CollaborationManager extends DiscoRT {
       // agent always starts not visible (and stays that way for Reeti-only mode)
       proxy.setAgentVisible(false);
       proxy.hidePlugin();
-      if ( Always.getAgentType() != AgentType.Unity ) {
+      if ( Always.getAgentType() != AgentType.UNITY ) {
          String host = container.getComponent(ReetiJsonConfiguration.class).getIP();
          proxy.reetiIP(host);
          reetiSocket = new ReetiCommandSocketConnection(host);
       }
-      if ( Always.getAgentType() != AgentType.Reeti ) proxy.zoom(ClientProxy.ZOOM);
+      if ( Always.getAgentType() != AgentType.REETI ) proxy.zoom(ClientProxy.ZOOM);
       if ( plugin == null ) setSchema(null, SessionSchema.class);
    }
    

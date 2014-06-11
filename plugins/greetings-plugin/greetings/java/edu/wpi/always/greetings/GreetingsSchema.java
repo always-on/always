@@ -33,11 +33,11 @@ public class GreetingsSchema extends DiscoActivitySchema {
       switch (UserUtils.getTimeOfDay()) {
          case MORNING:
             switch (Always.THIS.getUserModel().getCloseness()) {
-               case Stranger: 
-               case Acquaintance: 
+               case STRANGER: 
+               case ACQUAINTANCE: 
                   start("_MorningGreetings");
                   break;
-               case Companion: 
+               case COMPANION: 
                   start("_MorningGreetingsCompanion"); 
                   break;
             }
