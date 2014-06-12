@@ -9,11 +9,11 @@ import java.util.*;
 
 public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context> {
 
-   private final DiscoRT.Interaction interaction;
+   protected final DiscoRT.Interaction interaction;
    
    public DiscoRT.Interaction getInteraction () { return interaction; }
 
-   private Cache current;
+   protected Cache current;
    
    public DiscoAdjacencyPair (DiscoRT.Interaction interaction) {
       super(null, new AdjacencyPair.Context());
@@ -70,11 +70,11 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
    @Override
    public boolean prematureEnd () { return false; }
 
-   private class Cache {
+   protected class Cache {
 
-      private final String message;
-      private final List<Plugin.Item> items;
-      private final List<String> choices;
+      public final String message;
+      public final List<Plugin.Item> items;
+      public final List<String> choices;
 
       public Cache (Utterance utterance, List<Plugin.Item> items) {
          this.message = utterance == null ? null : interaction.format(utterance, true);

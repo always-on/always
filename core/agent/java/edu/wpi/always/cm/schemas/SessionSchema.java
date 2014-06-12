@@ -286,6 +286,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                 getInteraction().getExternal().generate(getInteraction()));
       }
       
+      // following two overrides to support logging
+      
       @Override
       protected void update (Utterance utterance, List<Agenda.Plugin.Item> menu) {
          if ( utterance instanceof Ask.Should ) {
@@ -297,7 +299,27 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          }
          super.update(utterance, menu);
       }
-   }
+      
+      @Override
+      public AdjacencyPair nextState (String text) {
+         int i = this.current.choices.indexOf(text);
+         if ( i >= 0 ) {
+            Utterance utterance = (Utterance) current.items.get(i).task; 
+            if ( utterance instanceof Respond ) {
+               Propose propose = ((Respond) utterance).getProposal();
+               if ( propose instanceof Propose.Should ) {
+                  Task should = ((Propose.Should) propose).getGoal();
+                  if ( should != null ) {
+                     Logger.Activity loggerName = Plugin.getLoggerName(should.getType()); 
+                     if ( loggerName != null ) Logger.logActivity(loggerName, 
+                           utterance instanceof Accept ? Logger.Event.ACCEPTED : Logger.Event.REJECTED);
+                  }
+               }
+            }
+         }
+         return super.nextState(text);
+      }
+    }
    
    private class Stop extends DiscoAdjacencyPair {
       
