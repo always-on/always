@@ -378,16 +378,18 @@ public abstract class Plugin {
    }
    
    public static Logger.Activity getLoggerName (TaskClass task) {
-      for (Class<? extends Schema> schema : 
-           getPlugin(task, Always.THIS.getContainer()).schemas.get(task))
-         if ( ActivitySchema.class.isAssignableFrom(schema) ) {
-            try {
-               return (Logger.Activity) schema.getField("LOGGER_NAME").get(null);
-            } catch (Exception e) { return null; }
-         }
-      return null;
+      if ( isPlugin(task) ) {
+         for (Class<? extends Schema> schema : 
+            getPlugin(task, Always.THIS.getContainer()).schemas.get(task))
+            if ( ActivitySchema.class.isAssignableFrom(schema) ) {
+               try {
+                  return (Logger.Activity) schema.getField("LOGGER_NAME").get(null);
+               } catch (Exception e) { return null; }
+            }
+         return null;
+      } else return null;
    }
-   
+
    public static String getActivity (TaskClass task) {
       String activity = task.getProperty("@activity");
       return activity == null ? task.getPropertyId() : activity;
