@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.util.OWLEntityRemover;
+import edu.wpi.always.*;
 
 public class OntologyIndividual {
    
@@ -66,12 +66,18 @@ public class OntologyIndividual {
 
    public void addDataProperty (OWLDataProperty property, OntologyValue value) {
       synchronized (OntologyUserModel.LOCK) {
-         if ( value != null )
+         if ( value != null ) {
+            Logger.logEvent(Logger.Event.MODEL, getIndividual(), property, value);
             helper.addAxiom(helper.getFactory().getOWLDataPropertyAssertionAxiom(
                   property, individual, value.getOWLLiteral()));
+         }
       }
    }
 
+   private String getIndividual () {
+      return this == ((OntologyUserModel) Always.THIS.getUserModel()).getUser() ? "USER" : toString();
+   }
+   
    public Set<OWLLiteral> getDataPropertyValues (OWLDataProperty property) {
       synchronized (OntologyUserModel.LOCK) {
          return helper.getReasoner().getDataPropertyValues(individual, property);
@@ -127,10 +133,12 @@ public class OntologyIndividual {
 
    public void addObjectProperty (OWLObjectProperty property, OntologyIndividual value) {
       synchronized (OntologyUserModel.LOCK) {
-         if ( value != null )
+         if ( value != null ) {
+            Logger.logEvent(Logger.Event.MODEL, getIndividual(), property, value);
             helper.addAxiom(helper.getFactory()
                   .getOWLObjectPropertyAssertionAxiom(property, individual,
                         value.getOWLIndividual()));
+         }
       }
    }
 

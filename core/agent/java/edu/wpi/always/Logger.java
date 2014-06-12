@@ -49,7 +49,7 @@ public class Logger {
    }
    
    public enum Event { PROPOSED, ACCEPTED, REJECTED, START, END, INTERRUPTION, 
-                       SAY, MENU, EXTENSION, SELECTED, KEYBOARD }
+                       SAY, MENU, EXTENSION, SELECTED, KEYBOARD, MODEL }
    
    public static void logEvent (Event event, Object... args) {
       THIS.log(ObjectArrays.concat(new Object[] {SessionSchema.getCurrentLoggerName(), event}, args, Object.class));
@@ -60,7 +60,8 @@ public class Logger {
       line.append('"').append(dateFormat.format(new Date())).append('"'); 
       for (Object arg : args) {
          line.append(",\"");
-         String field = arg instanceof Date? dateFormat.format((Date) arg) : arg.toString();
+         String field = arg instanceof Date? dateFormat.format((Date) arg) : 
+            arg == null ? "" : arg.toString();
          // replace double quotes for safety
          line.append(field.replace('"','\'')).append('"');
       }

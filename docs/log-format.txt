@@ -81,21 +81,19 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 * <SELECTED> = "..."
 
-<DATETIME>,ACTIVITY,<PLUGIN>,KEYBOARD,<INPUT>
+<DATETIME>,<ACTIVITY>,KEYBOARD,<INPUT>
 
 * <INPUT> = "..."
----------------------------------------------------
 
+<DATETIME>,<ACTIVITY>,MODEL,<INDIVIDUAL>,<PROPERTY>,<VALUE>
 
-
-<DATETIME>,ACTIVITY,<PLUGIN>,USER,<PROPERTY>,<VALUE>
-
+* <INDIVIDUAL> = USER or "..."
 * <PROPERTY> = "..."
 * <VALUE> = "..."
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,ABOUT,<POSITIVE>,<NEGATIVE>,<EXIT>
+<DATETIME>,ABOUT,<POSITIVE>,<NEGATIVE>,<EXIT>
 
 * <POSITIVE> = POSITIVE or NOT_POSITIVE
 * <NEGATIVE> = NEGATIVE or NOT_NEGATIVE
@@ -103,7 +101,7 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,ANECDOTES,<FINISHED>,<TITLE>
+<DATETIME>,ANECDOTES,<FINISHED>,<TITLE>
 
 * <FINISHED> = FINISHED or NOT_FINISHED
 * <TITLE> = "..."
@@ -111,17 +109,17 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,CALENDAR,UPDATE,<STATUS>,<ENTRY>
+<DATETIME>,CALENDAR,UPDATE,<STATUS>,<ENTRY>
 
 * <STATUS> = ADD or CHANGE or DELETE
 
-<DATETIME>,ACTIVITY,CALENDAR,VIEW,<MODE>,<DATETIME>
+<DATETIME>,CALENDAR,VIEW,<MODE>,<DATETIME>
         
 * <MODE> = DAY or WEEK or MONTH
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,CHECKERS,<WON>,<JUMPS>,<DOUBLES>
+<DATETIME>,CHECKERS,<WON>,<JUMPS>,<DOUBLES>
 
 * <WON> = USER or AGENT or NEITHER
 * <JUMPS> = total number of jumps in game
@@ -129,42 +127,36 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,ENROLL,<CHANGE>,<NAME>
+<DATETIME>,ENROLL,<CHANGE>,<NAME>
 
 * <CHANGE> = NEW or EDIT
 * <NAME> = "..."  (see details of person in user model printout)
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,EXERCISE,<TOPIC>
+<DATETIME>,EXERCISE,<TOPIC>
 
 * <TOPIC> = GOALS or ACTIVITIES or SERVINGS
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,EXPLAIN,<PLUGIN>
+<DATETIME>,EXPLAIN,<PLUGIN>
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,GREETINGS,<TOD>
-
-* <TOD> = MORNING or AFTERNOON or EVENING or NIGHT
-
----------------------------------------------------------
-
-<DATETIME>,ACTIVITY,HEALTH,...
+<DATETIME>,HEALTH,...
 
 * TBD
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,NUTRITION,...
+<DATETIME>,NUTRITION,...
 
 * TBD
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,SRUMMY,<WON>,<FIRST>,<USER_MELDS>,<AGENT_MELDS>
+<DATETIME>,RUMMY,<WON>,<FIRST>,<USER_MELDS>,<AGENT_MELDS>
 
 * <FIRST> = USER or AGENT
 * <USER_MELDS> = number of user melds in game
@@ -172,25 +164,25 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,SKYPE,<DIRECTION>,<APPOINTMENT>,<DURATION>,<WHO>
+<DATETIME>,SKYPE,<DIRECTION>,<APPOINTMENT>,<DURATION>,<CALLER>
 
 * <DIRECTION> = INCOMING or OUTGOING
 * <APPOINTMENT> = APPOINTMENT or NOT_APPOINTMENT
-* <WHO> = "..." (Skype name)
+* <CALLER> = "..." (Skype name)
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,STORY,<SAVED>,<DURATION>,<TITLE>
+<DATETIME>,STORY,<SAVED>,<DURATION>,<TITLE>
 
 * <SAVED> = SAVED or NOT_SAVED
 * <TITLE> = "..."
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,TTT,<WON>,<FIRST>
+<DATETIME>,TTT,<WON>,<FIRST>
 
 ---------------------------------------------------------
 
-<DATETIME>,ACTIVITY,WEATHER,<OPTION>
+<DATETIME>,WEATHER,<OPTION>
 
 * <OPTION> = CITIES or FRIENDS
 

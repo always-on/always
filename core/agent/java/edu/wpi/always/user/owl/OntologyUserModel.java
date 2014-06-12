@@ -13,6 +13,8 @@ import edu.wpi.disco.rt.util.Utils;
 public class OntologyUserModel extends UserModelBase {
 
    private OntologyIndividual user;
+   
+   OntologyIndividual getUser() { return user; }
 
    private File userDataFile;
 
