@@ -50,6 +50,7 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
              ENROLL or
              EXERCISE or
              EXPLAIN or
+             GOODBYE or
              GREETINGS or 
              HEALTH or
              NUTRITION or
@@ -115,7 +116,7 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 * <STATUS> = ADD or CHANGE or DELETE
 
 <DATETIME>,ACTIVITY,CALENDAR,VIEW,<MODE>,<DATETIME>
-	
+        
 * <MODE> = DAY or WEEK or MONTH
 
 ---------------------------------------------------------

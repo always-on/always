@@ -16,11 +16,17 @@ public class ExplainSchema extends DiscoActivitySchema {
       running = false; 
    } 
    
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.EXPLAIN;
+        
+   public static void log (Logger.Activity activity) {
+      Logger.logActivity(LOGGER_NAME, activity);
+   }
+   
    public ExplainSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
-            ExplainPlugin.explainInteraction, Logger.Activity.EXPLAIN);
+            ExplainPlugin.explainInteraction, LOGGER_NAME);
       if ( running ) throw new IllegalStateException("ExplainSchema already running!");
       running = true;
       always.getUserModel().setProperty(ExplainPlugin.PERFORMED, true);
@@ -28,8 +34,5 @@ public class ExplainSchema extends DiscoActivitySchema {
       interaction.clear();
       start("_ExplainSelf");
    }
-   
-   public static void log (Logger.Activity activity) {
-      Logger.logActivity(Logger.Activity.EXPLAIN, activity);
-   }
+ 
 }

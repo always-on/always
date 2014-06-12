@@ -13,7 +13,13 @@ import edu.wpi.sgf.logic.GameLogicState.Won;
 import edu.wpi.sgf.logic.LegalMove.First;
 
 public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
-
+   
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.TTT;
+   
+   public static void log (Won won, First first) {
+      Logger.logActivity(LOGGER_NAME, won, first);
+   }
+   
    public TTTSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, TTTUI tttUI,
@@ -21,7 +27,7 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
          PeopleManager peopleManager, Always always) {
       super(new WhoPlaysFirst(new TTTStateContext(keyboard, tttUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
-            resourceMonitor, menuPerceptor, Logger.Activity.TTT);
+            resourceMonitor, menuPerceptor, LOGGER_NAME);
            always.getUserModel().setProperty(TTTPlugin.PERFORMED, true);
    }
 
@@ -68,8 +74,5 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
          TTTClient.nod = false;
       }
    }
-   
-   public static void log (Won won, First first) {
-      Logger.logActivity(Logger.Activity.TTT, won, first);
-   }
+ 
 }

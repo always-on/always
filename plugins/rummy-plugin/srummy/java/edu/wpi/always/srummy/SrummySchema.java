@@ -20,6 +20,12 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
    private List<String> yourTurnStatements = 
          new ArrayList<String>();
    
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.RUMMY;
+     
+   public static void log (Won won, First first, int userMelds, int agentMelds) {
+      Logger.logActivity(LOGGER_NAME, won, first, userMelds, agentMelds);
+   }
+   
    public SrummySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, SrummyUI SrummyUI,
@@ -27,7 +33,7 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
          PeopleManager peopleManager, Always always) {
       super(new SrummyInitial(new SrummyStateContext(keyboard, SrummyUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
-            resourceMonitor, menuPerceptor, Logger.Activity.RUMMY);
+            resourceMonitor, menuPerceptor, LOGGER_NAME);
       always.getUserModel().setProperty(SrummyPlugin.PERFORMED, true);
       yourTurnStatements.add("your turn");
       yourTurnStatements.add("go ahead");
@@ -92,8 +98,5 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
          SrummyClient.nod = false;
       }
    }
-   
-   public static void log (Won won, First first, int userMelds, int agentMelds) {
-      Logger.logActivity(Logger.Activity.RUMMY, won, first, userMelds, agentMelds);
-   }
+ 
 }

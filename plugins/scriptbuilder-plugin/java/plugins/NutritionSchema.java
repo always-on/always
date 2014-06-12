@@ -11,7 +11,15 @@ import edu.wpi.disco.rt.menu.MenuPerceptor;
 import pluginCore.*;
 
 public class NutritionSchema extends ScriptbuilderSchema {
-
+   
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.NUTRITION;
+   	
+   //	TODO define enums as appropriate
+   
+   public static void log (Object... args) {
+      Logger.logActivity(LOGGER_NAME, args);
+   }
+   
 	public NutritionSchema (BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor, Keyboard keyboard,
@@ -20,13 +28,8 @@ public class NutritionSchema extends ScriptbuilderSchema {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Nutrition")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
-		       Logger.Activity.NUTRITION);
+		       LOGGER_NAME);
 		 always.getUserModel().setProperty(NutritionPlugin.PERFORMED, true);
 	}
-	
-   //	TODO define enums as appropriate
-   
-   public static void log (Object... args) {
-      Logger.logActivity(Logger.Activity.NUTRITION, args);
-   }
+
 }

@@ -16,6 +16,20 @@ import edu.wpi.disco.rt.menu.MenuPerceptor;
 
 public class CalendarSchema extends ActivityStateMachineKeyboardSchema<CalendarStateContext> {
 
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.CALENDAR;
+   
+   enum Type { UPDATE, VIEW }
+   enum Status { ADD, CHANGE, DELETE }
+   enum Mode { DAY, WEEK, MONTH }
+   
+   public static void logUpdate (Status status, CalendarEntry entry) {
+      Logger.logActivity(LOGGER_NAME, Type.UPDATE, status, entry);
+   }
+   
+   public static void logView (Mode mode, Date date) {
+      Logger.logActivity(LOGGER_NAME, Type.VIEW, mode, date);
+   }
+   
    public CalendarSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, CalendarUI calendarUI,
@@ -24,18 +38,7 @@ public class CalendarSchema extends ActivityStateMachineKeyboardSchema<CalendarS
       super(new WhatDo(new CalendarStateContext(
                 keyboard, calendarUI, calendar, dispatcher, model, placeManager, peopleManager)),
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard,
-            Logger.Activity.CALENDAR);
+            LOGGER_NAME);
    }
 
-   enum Type { UPDATE, VIEW }
-   enum Status { ADD, CHANGE, DELETE }
-   enum Mode { DAY, WEEK, MONTH }
-   
-   public static void logUpdate (Status status, CalendarEntry entry) {
-      Logger.logActivity(Logger.Activity.CALENDAR, Type.UPDATE, status, entry);
-   }
-   
-   public static void logView (Mode mode, Date date) {
-      Logger.logActivity(Logger.Activity.CALENDAR, Type.VIEW, mode, date);
-   }
 }

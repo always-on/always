@@ -13,6 +13,12 @@ import edu.wpi.sgf.logic.GameLogicState.Won;
 
 public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateContext> {
 
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.CHECKERS;
+   
+   public static void log (Won won, int jumps, int doubles) {
+      Logger.logActivity(LOGGER_NAME, won, jumps, doubles);
+   }
+   
    public CheckersSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, CheckersUI CheckersUI,
@@ -20,7 +26,7 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
          PeopleManager peopleManager, Always always) {
       super(new StartGamingSequence(new CheckersStateContext(keyboard, CheckersUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
-            resourceMonitor, menuPerceptor, Logger.Activity.CHECKERS);
+            resourceMonitor, menuPerceptor, LOGGER_NAME);
       always.getUserModel().setProperty(CheckersPlugin.PERFORMED, true);
    }
 
@@ -67,8 +73,5 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
          CheckersClient.nod = false;
       }
    }
-  
-   public static void log (Won won, int jumps, int doubles) {
-      Logger.logActivity(Logger.Activity.CHECKERS, won, jumps, doubles);
-   }
+ 
 }

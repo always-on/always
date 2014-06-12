@@ -12,6 +12,14 @@ import pluginCore.*;
 
 public class StorytellingSchema extends ScriptbuilderSchema {
 
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.STORY;
+   
+	public enum Saved { SAVED, NOT_SAVED }
+	 
+	public static void log (Saved saved, int duration, String title) {
+	   Logger.logActivity(LOGGER_NAME, saved, duration, title);
+	}
+   
    private final ShoreFacePerceptor shore;
    
 	public StorytellingSchema (BehaviorProposalReceiver behaviorReceiver,
@@ -24,12 +32,11 @@ public class StorytellingSchema extends ScriptbuilderSchema {
 	               shore instanceof ShoreFacePerceptor.Reeti ? null : shore,
 	               "Storytelling")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
-		       Logger.Activity.STORY);
-		 this.shore = shore;
+		       LOGGER_NAME);
+		 this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
 		 always.getUserModel().setProperty(StorytellingPlugin.PERFORMED, true);
 		 interruptible = false;
 	}
-	
 	
 	@Override
    public void dispose () { 
@@ -38,9 +45,4 @@ public class StorytellingSchema extends ScriptbuilderSchema {
       if ( shore != null ) shore.start(); 
    }
 	
-	enum Saved { SAVED, NOT_SAVED }
-	 
-	public static void log (Saved saved, int duration, String title) {
-	   Logger.logActivity(Logger.Activity.STORY, saved, duration, title);
-	}
 }

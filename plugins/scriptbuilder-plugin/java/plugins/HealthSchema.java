@@ -13,7 +13,15 @@ import plugins.AnecdotesSchema.Finished;
 
 public class HealthSchema extends ScriptbuilderSchema {
 
-	public HealthSchema (BehaviorProposalReceiver behaviorReceiver,
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.HEALTH;
+ 
+	// TODO define enums as appropriate
+	
+	public static void log (Object... args) {
+      Logger.logActivity(LOGGER_NAME, args);
+   }
+
+   public HealthSchema (BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor, Keyboard keyboard,
 			UIMessageDispatcher dispatcher, PlaceManager placeManager,
@@ -21,13 +29,7 @@ public class HealthSchema extends ScriptbuilderSchema {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Education")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
-		       Logger.Activity.HEALTH);
+		       LOGGER_NAME);
 		 always.getUserModel().setProperty(HealthPlugin.PERFORMED, true);
 	}
-
-	// TODO define enums as appropriate
-	
-	public static void log (Object... args) {
-      Logger.logActivity(Logger.Activity.HEALTH, args);
-   }
 }

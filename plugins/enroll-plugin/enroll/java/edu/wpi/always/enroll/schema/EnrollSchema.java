@@ -13,6 +13,14 @@ import edu.wpi.disco.rt.menu.MenuPerceptor;
 
 public class EnrollSchema extends ActivityStateMachineKeyboardSchema<EnrollStateContext> {
 
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.ENROLL;
+   
+   enum Change { NEW, EDIT };
+   
+   public static void log (Change change, String name) {
+      Logger.logActivity(LOGGER_NAME, change, name);
+   }
+   
    public EnrollSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Keyboard keyboard, EnrollUI enrollUI, 
@@ -24,13 +32,8 @@ public class EnrollSchema extends ActivityStateMachineKeyboardSchema<EnrollState
          new InitialEnroll(new EnrollStateContext(
             keyboard, enrollUI, dispatcher, model, placeManager, peopleManager)),
          behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, keyboard,
-         Logger.Activity.ENROLL);
+         LOGGER_NAME);
       setSelfStop(true);
    }
-   
-   enum Change { NEW, EDIT };
-   
-   public static void log (Change change, String name) {
-      Logger.logActivity(Logger.Activity.ENROLL, change, name);
-   }
+  
 }

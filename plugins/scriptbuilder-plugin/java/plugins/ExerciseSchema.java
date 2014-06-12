@@ -11,6 +11,14 @@ import pluginCore.*;
 
 public class ExerciseSchema extends ScriptbuilderSchema {
 
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.EXERCISE;
+   
+   public enum Topic { GOALS, ACTIVITIES, SERVINGS };
+      
+   public static void log (Topic topic) {
+      Logger.logActivity(LOGGER_NAME, topic);
+   }
+   
 	public ExerciseSchema (BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor, Keyboard keyboard,
@@ -19,13 +27,8 @@ public class ExerciseSchema extends ScriptbuilderSchema {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Exercise")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
-		       Logger.Activity.EXERCISE);
+		       LOGGER_NAME);
 		 always.getUserModel().setProperty(ExercisePlugin.PERFORMED, true);
 	}
-	 
-	enum Topic { GOALS, ACTIVITIES, SERVINGS };
-	   
-	public static void log (Topic topic) {
-	   Logger.logActivity(Logger.Activity.EXERCISE, topic);
-	}
+	
 }

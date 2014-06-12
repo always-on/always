@@ -9,11 +9,13 @@ import edu.wpi.disco.rt.menu.MenuPerceptor;
 
 public class GoodbyeSchema extends DiscoActivitySchema {
    
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.GOODBYE;
+   
    public GoodbyeSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
-            GreetingsPlugin.greetingsInteraction, Logger.Activity.GOODBYE);
+            GreetingsPlugin.greetingsInteraction, LOGGER_NAME);
       if ( behaviorReceiver == null ) return; // for always_disco testing
       interaction.clear();
       switch (UserUtils.getTimeOfDay()) {
@@ -27,8 +29,5 @@ public class GoodbyeSchema extends DiscoActivitySchema {
             break;
       }
    }
-   
-   public static void log (UserUtils.TimeOfDay tod) {
-      Logger.logActivity(Logger.Activity.GREETINGS, tod);
-   }
+ 
 }

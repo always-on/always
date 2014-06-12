@@ -17,13 +17,15 @@ public class GreetingsSchema extends DiscoActivitySchema {
       running = false; 
    } 
    
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.GREETINGS;
+   
    private final UserModel model;
    
    public GreetingsSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
-            GreetingsPlugin.greetingsInteraction, Logger.Activity.GREETINGS);
+            GreetingsPlugin.greetingsInteraction, LOGGER_NAME);
       model = always.getUserModel();
       if ( behaviorReceiver == null ) return; // for always_disco testing
       if ( running ) throw new IllegalStateException("GreetingsSchema already running!");

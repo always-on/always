@@ -11,6 +11,15 @@ import edu.wpi.disco.rt.menu.*;
 
 public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Context> {
 
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.SKYPE;
+   
+   public enum Direction { INCOMING, OUTGOING }
+   public enum Appointment { APPOINTMENT, NOT_APPOINTMENT }
+   
+   public static void log (Direction direction, Appointment appointment, int duration, String who) {
+      Logger.logActivity(LOGGER_NAME, direction, appointment, duration, who);
+   }
+     
    private final ShoreFacePerceptor shore;
    
    public SkypeSchema (BehaviorProposalReceiver behaviorReceiver,
@@ -18,7 +27,7 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
          MenuPerceptor menuPerceptor, ShoreFacePerceptor shore, Always always) {
       super(new Test(shore),
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
-            Logger.Activity.SKYPE);
+            LOGGER_NAME);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
       always.getUserModel().setProperty(SkypePlugin.PERFORMED, true);
    }
@@ -37,13 +46,6 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
       super.dispose();
       // this is here so it is run even if schema throws an error
       if ( shore != null ) shore.start(); 
-   }
-   
-   enum Direction { INCOMING, OUTGOING }
-   enum Appointment { APPOINTMENT, NOT_APPOINTMENT }
-   
-   public static void log (Direction direction, Appointment appointment, int duration, String who) {
-      Logger.logActivity(Logger.Activity.SKYPE, direction, appointment, duration, who);
    }
    
    // to test camera release and restart

@@ -11,7 +11,15 @@ import edu.wpi.disco.rt.menu.MenuPerceptor;
 import pluginCore.*;
 
 public class AnecdotesSchema extends ScriptbuilderSchema {
-
+   
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.ANECDOTES;
+   
+   public enum Finished { FINISHED, NOT_FINISHED }
+	
+	public static void log (Finished finished, String title) {
+	   Logger.logActivity(LOGGER_NAME, finished, title);
+	}
+	
 	public AnecdotesSchema (BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
 			MenuPerceptor menuPerceptor, Keyboard keyboard,
@@ -20,14 +28,8 @@ public class AnecdotesSchema extends ScriptbuilderSchema {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Anecdotes")),
 		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
-		       Logger.Activity.ANECDOTES);
+		       LOGGER_NAME);
 		 always.getUserModel().setProperty(AnecdotesPlugin.PERFORMED, true);
-	}
-	
-	enum Finished { FINISHED, NOT_FINISHED }
-	
-	public static void log (Finished finished, String title) {
-	   Logger.logActivity(Logger.Activity.ANECDOTES, finished, title);
 	}
 
 }

@@ -19,6 +19,13 @@ public class WeatherSchema extends DiscoActivitySchema {
       super.dispose();
       running = false; 
    } 
+   
+   public enum Option { CITIES, FRIENDS }
+   
+   public static void log (Option option) {
+      Logger.logActivity(LOGGER_NAME, option);
+   }
+   
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.WEATHER;
    
    public WeatherSchema (BehaviorProposalReceiver behaviorReceiver,
@@ -49,10 +56,5 @@ public class WeatherSchema extends DiscoActivitySchema {
       DateFormat dateFormat = new SimpleDateFormat("MM_dd_yyyy");
       Date date = new Date();
       return dateFormat.format(date);      
-   }
-   
-   enum Option { CITIES, FRIENDS }
-   public static void log (Option option) {
-      Logger.logActivity(Logger.Activity.WEATHER, option);
-   }
+   }   
 }
