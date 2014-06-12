@@ -380,7 +380,7 @@ public abstract class Plugin {
    public static Logger.Activity getLoggerName (TaskClass task) {
       if ( isPlugin(task) ) {
          for (Class<? extends Schema> schema : 
-            getPlugin(task, Always.THIS.getContainer()).schemas.get(task))
+            getPlugin(task, Always.THIS.getContainer()).schemas.get(getActivity(task)))
             if ( ActivitySchema.class.isAssignableFrom(schema) ) {
                try {
                   return (Logger.Activity) schema.getField("LOGGER_NAME").get(null);

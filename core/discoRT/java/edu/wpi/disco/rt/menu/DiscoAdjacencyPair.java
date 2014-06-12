@@ -9,7 +9,7 @@ import java.util.*;
 
 public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context> {
 
-   protected final DiscoRT.Interaction interaction;
+   private final DiscoRT.Interaction interaction;
    
    public DiscoRT.Interaction getInteraction () { return interaction; }
 
@@ -42,13 +42,17 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
          return new AdjacencyPairWrapper<AdjacencyPair.Context>(this);
       int i = current.choices.indexOf(text);
       if ( i >= 0 ) {
-         interaction.doneUtterance((Utterance) current.items.get(i).task, 
-               current.items.get(i).contributes, text);
+         Utterance utterance = (Utterance) current.items.get(i).task;
+         nextState(utterance);
+         interaction.doneUtterance(utterance, current.items.get(i).contributes, text);
          update(); 
       }
       // transition is always circular, so this is not really a state!
       return this;
    }
+
+   // hook for logging
+   protected void nextState (Utterance utterance) {}
 
    @Override
    public String getMessage () {
@@ -70,11 +74,11 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
    @Override
    public boolean prematureEnd () { return false; }
 
-   protected class Cache {
+   private class Cache {
 
-      public final String message;
-      public final List<Plugin.Item> items;
-      public final List<String> choices;
+      private final String message;
+      private final List<Plugin.Item> items;
+      private final List<String> choices;
 
       public Cache (Utterance utterance, List<Plugin.Item> items) {
          this.message = utterance == null ? null : interaction.format(utterance, true);
