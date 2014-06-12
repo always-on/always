@@ -1,50 +1,49 @@
 Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
-<DATE>,<TIME>,<TYPE>,...
+<DATETIME>,...
 
-* <DATE> and <TIME> in format automatically recognized by Excel, e.g.,
+* <DATETIME> in format automatically recognized by Excel, e.g.,
 
-  4/23/14,09:15:33,...
-
-* <TYPE> = SESSION or ACTIVITY
+  "4/23/14 09:15:33",...
 
 -------------------------------------------------------
 
-<DATE>,<TIME>,SESSION,ATTEMPTED,<STATE>
+<DATETIME>,ID,<CONDITION>,<MACHINE>,<INSTALLED>,<BOOTED>
 
-* <STATE> = ATTENTION or INITIATING
-            (state reached before going back to idle)
-            (there will be no such entries for login condition)
+* <CONDITION> = ALWAYS or LOGIN or REETI
+* <MACHINE> = "..."
+* <INSTALLED> = <DATETIME>
+* <BOOTED> = <DATETIME>
 
-<DATE>,<TIME>,SESSION,START
-<DATE>,<TIME>,SESSION,END,<DURATION>,<REPEATS>,<DISENGAGMENT>
+-------------------------------------------------------
 
+<DATETIME>,ENGAGEMENT,<ENGAGEMENT_STATE>,<OLD_STATE>,<NEW_STATE>
+      
+* <OLD_STATE>/<NEW_STATE> = IDLE or ATTENTION or INITIATION or ENGAGED or RECOVERING
+
+-------------------------------------------------------
+
+<DATETIME>,SESSION,START,<CLOSENESS>,<TIME_OF_DAY>
+
+* <CLOSENESS> = STRANGER or ACQUAINTANCE or COMPANION
+* <TIME_OF_DAY> = MORNING or AFTERNOON or EVENING or NIGHT
+
+<DATETIME>,SESSION,END,<DISENGAGEMENT>,<DURATION>,<REPEATS>
+
+* <DISENGAGEMENT> = GOODBYE or TIMEOUT
 * <DURATION> in minutes
 * <REPEATS> number of times user clicked "What did you say?"
-* <DISENGAGEMENT> = GOODBYE or TIMEOUT
 
-<DATE>,<TIME>,SESSION,CLOSENESS,<LEVEL>
+-----------------------------------------------------------
 
-* <LEVEL> = STRANGER or ACQUAINTANCE or COMPANION
+<DATETIME>,<ACTIVITY>,PROPOSED
+<DATETIME>,<ACTIVITY>,ACCEPTED
+<DATETIME>,<ACTIVITY>,REJECTED
+<DATETIME>,<ACTIVITY>,START
+<DATETIME>,<ACTIVITY>,END
 
-<DATE>,<TIME>,SESSION,REMINDER,<EVENT>
-
-* <EVENT> = "..."
-
-<DATE>,<TIME>,SESSION,AGENT,<UTTERANCE>
-<DATE>,<TIME>,SESSION,MENU,<CHOSEN>,<CHOICES>...
-
-* <UTTERANCE> = "..."
-
-* <CHOSEN> = "..."
-
-* <CHOICES> = "...",...
-
----------------------------------------------------
-
-<DATE>,<TIME>,ACTIVITY,<PLUGIN>,...
-
-* <PLUGIN> = ABOUT or
+* <ACTIVITY> = SESSION or
+             ABOUT or
              ANECDOTES or
              CALENDAR or 
              CHECKERS or 
@@ -60,126 +59,138 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
              TTT or
              WEATHER
 
-<DATE>,<TIME>,ACTIVITY,<PLUGIN>,PROPOSED,<ACCEPTED>
+<DATETIME>,<ACTIVITY>,INTERRUPTION,CALENDAR,<ENTRY>
 
-* <ACCEPTED> = ACCEPTED or NOT-ACCEPTED
+* <ENTRY> = "..." (via toString method of CalendarEntry)
 
-<DATE>,<TIME>,ACTIVITY,<PLUGIN>,START
-<DATE>,<TIME>,ACTIVITY,<PLUGIN>,END,<DURATION>,<REPEATS>
+<DATETIME>,<ACTIVITY>,INTERRUPTION,SKYPE,<CALLER>
 
-<DATE>,<TIME>,ACTIVITY,<PLUGIN>,AGENT,<UTTERANCE>
-<DATE>,<TIME>,ACTIVITY,<PLUGIN>,MENU,<CHOSEN>,<CHOICES>...
+* <CALLER> = "..."
 
-<DATE>,<TIME>,ACTIVITY,<PLUGIN>,KEYBOARD,<INPUT>
+<DATETIME>,<ACTIVITY>,SAY,<UTTERANCE>
+
+* <UTTERANCE> = "..."
+
+<DATETIME>,<ACTIVITY>,MENU,<CHOICES>...
+<DATETIME>,<ACTIVITY>,EXTENSION,<CHOICES>...
+
+* <CHOICES> = "...",...
+
+<DATETIME>,<ACTIVITY>,SELECTED,<SELECTED>
+
+* <SELECTED> = "..."
+
+<DATETIME>,ACTIVITY,<PLUGIN>,KEYBOARD,<INPUT>
 
 * <INPUT> = "..."
+---------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,<PLUGIN>,USER,<PROPERTY>,<VALUE>
+
+
+<DATETIME>,ACTIVITY,<PLUGIN>,USER,<PROPERTY>,<VALUE>
 
 * <PROPERTY> = "..."
 * <VALUE> = "..."
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,ABOUT,<POSITIVE>,<NEGATIVE>,<EXIT>
+<DATETIME>,ACTIVITY,ABOUT,<POSITIVE>,<NEGATIVE>,<EXIT>
 
-* <POSITIVE> = POSITIVE or NOT-POSITIVE
-* <NEGATIVE> = NEGATIVE or NOT-NEGATIVE
+* <POSITIVE> = POSITIVE or NOT_POSITIVE
+* <NEGATIVE> = NEGATIVE or NOT_NEGATIVE
 * <EXIT> = EARLY or NORMAL
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,ANECDOTES,<TITLE>,<FINISHED>
+<DATETIME>,ACTIVITY,ANECDOTES,<FINISHED>,<TITLE>
 
+* <FINISHED> = FINISHED or NOT_FINISHED
 * <TITLE> = "..."
-* <FINISHED> = FINISHED or NOT-FINISHED
+
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,CALENDAR,EVENT,<TITLE>
+<DATETIME>,ACTIVITY,CALENDAR,UPDATE,<STATUS>,<ENTRY>
 
-* <TITLE> = "..." (see details of event in user model printout)
+* <STATUS> = ADD or CHANGE or DELETE
 
-<DATE>,<TIME>,ACTIVITY,CALENDAR,VIEW,<WEEK>
-
-* <WEEK> = CURRENT or NEXT
+<DATETIME>,ACTIVITY,CALENDAR,VIEW,<MODE>,<DATETIME>
+	
+* <MODE> = DAY or WEEK or MONTH
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,CHECKERS,<WON>,<JUMPS>,<DOUBLES>
+<DATETIME>,ACTIVITY,CHECKERS,<WON>,<JUMPS>,<DOUBLES>
 
-* <WON> = USER or AGENT or NOT (finished)
+* <WON> = USER or AGENT or NEITHER
 * <JUMPS> = total number of jumps in game
 * <DOUBLES> = total number of double jumps in game
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,ENROLL,PERSON,<NAME>
+<DATETIME>,ACTIVITY,ENROLL,<CHANGE>,<NAME>
 
+* <CHANGE> = NEW or EDIT
 * <NAME> = "..."  (see details of person in user model printout)
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,EXERCISE,<GOALS>,<ACTIVITIES>,<SERVINGS>
+<DATETIME>,ACTIVITY,EXERCISE,<TOPIC>
 
-* <GOALS> = GOALS or NOT-GOALS
-* <ACTIVITIES> = ACTIVITIES or NOT-ACTIVITIES
-* <SERVINGS> = SERVINGS or NOT-SERVINGS
+* <TOPIC> = GOALS or ACTIVITIES or SERVINGS
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,EXPLAIN,<PLUGIN>
+<DATETIME>,ACTIVITY,EXPLAIN,<PLUGIN>
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,GREETINGS,<TOD>
+<DATETIME>,ACTIVITY,GREETINGS,<TOD>
 
 * <TOD> = MORNING or AFTERNOON or EVENING or NIGHT
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,HEALTH,...
+<DATETIME>,ACTIVITY,HEALTH,...
 
 * TBD
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,NUTRITION,...
+<DATETIME>,ACTIVITY,NUTRITION,...
 
 * TBD
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,RUMMY,<WON>,<FIRST><MELDS>
+<DATETIME>,ACTIVITY,SRUMMY,<WON>,<FIRST>,<USER_MELDS>,<AGENT_MELDS>
 
 * <FIRST> = USER or AGENT
-* <MELDS> = total number of melds in game
+* <USER_MELDS> = number of user melds in game
+* <AGENT_MELDS> = number of agent melds in game
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,SKYPE,CALL,<WHO>,<DURATION>,<APPT>,<DIRECTION>
+<DATETIME>,ACTIVITY,SKYPE,<DIRECTION>,<APPOINTMENT>,<DURATION>,<WHO>
 
-* <WHO> = Skype name
-* <APPT> = APPT or NOT-APPT
 * <DIRECTION> = INCOMING or OUTGOING
+* <APPOINTMENT> = APPOINTMENT or NOT_APPOINTMENT
+* <WHO> = "..." (Skype name)
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,STORY,TOLD,<TITLE>,<DURATION>,<SAVED>,<SENT>
+<DATETIME>,ACTIVITY,STORY,<SAVED>,<DURATION>,<TITLE>
 
+* <SAVED> = SAVED or NOT_SAVED
 * <TITLE> = "..."
-* <SAVED> = SAVED or NOT-SAVED
-* <SENT> = SENT or NOT-SENT
+---------------------------------------------------------
+
+<DATETIME>,ACTIVITY,TTT,<WON>,<FIRST>
 
 ---------------------------------------------------------
 
-<DATE>,<TIME>,ACTIVITY,TTT,<WON>,<FIRST>
+<DATETIME>,ACTIVITY,WEATHER,<OPTION>
 
----------------------------------------------------------
-
-<DATE>,<TIME>,ACTIVITY,WEATHER,<CITIES>,<FRIENDS>
-
-* <CITIES> = CITIES or NOT-CITIES
-* <FRIENDS> = FRIENDS or NOT-FRIENDS
+* <OPTION> = CITIES or FRIENDS
 
 ---------------------------------------------------------

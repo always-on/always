@@ -1,5 +1,6 @@
 package edu.wpi.always.cm.schemas;
 
+import edu.wpi.always.Logger;
 import edu.wpi.always.client.Keyboard;
 import edu.wpi.always.cm.ProposalBuilder;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -18,14 +19,14 @@ public abstract class ActivityStateMachineKeyboardSchema<C extends AdjacencyPair
    public ActivityStateMachineKeyboardSchema (AdjacencyPair initial, 
          BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Keyboard keyboard) {
-      super(initial, behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor);
+         MenuPerceptor menuPerceptor, Keyboard keyboard, Logger.Activity loggerName) {
+      super(initial, behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, loggerName);
       this.keyboard = keyboard;
    }
 
    @Override
-   public void run () {
-      super.run();
+   public void runActivity () {
+      super.runActivity();
       if ( keyboard.isOverflow() ) {
          keyboard.setOverflow(false);
          BehaviorMetadataBuilder metadata = new BehaviorMetadataBuilder();

@@ -1,6 +1,6 @@
 package plugins;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.user.people.PeopleManager;
@@ -23,10 +23,13 @@ public class StorytellingSchema extends ScriptbuilderSchema {
 	               keyboard, dispatcher, placeManager, peopleManager, always, 
 	               shore instanceof ShoreFacePerceptor.Reeti ? null : shore,
 	               "Storytelling")),
-		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
+		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
+		       Logger.Activity.STORY);
 		 this.shore = shore;
 		 always.getUserModel().setProperty(StorytellingPlugin.PERFORMED, true);
+		 interruptible = false;
 	}
+	
 	
 	@Override
    public void dispose () { 
@@ -34,5 +37,10 @@ public class StorytellingSchema extends ScriptbuilderSchema {
       // this is here so it is run even if schema throws an error
       if ( shore != null ) shore.start(); 
    }
- 
+	
+	enum Saved { SAVED, NOT_SAVED }
+	 
+	public static void log (Saved saved, int duration, String title) {
+	   Logger.logActivity(Logger.Activity.STORY, saved, duration, title);
+	}
 }

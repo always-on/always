@@ -1,6 +1,6 @@
 package edu.wpi.always.ttt;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -9,6 +9,8 @@ import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.sgf.logic.GameLogicState.Won;
+import edu.wpi.sgf.logic.LegalMove.First;
 
 public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
 
@@ -19,14 +21,14 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
          PeopleManager peopleManager, Always always) {
       super(new WhoPlaysFirst(new TTTStateContext(keyboard, tttUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
-            resourceMonitor, menuPerceptor);
+            resourceMonitor, menuPerceptor, Logger.Activity.TTT);
            always.getUserModel().setProperty(TTTPlugin.PERFORMED, true);
    }
 
    @Override
-   public void run () {
-
-      super.run();
+   public void runActivity () {
+      
+      super.runActivity();
 
       if(TTTClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
@@ -65,6 +67,9 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
          // TODO fill me in later (after human plays)
          TTTClient.nod = false;
       }
-
+   }
+   
+   public static void log (Won won, First first) {
+      Logger.logActivity(Logger.Activity.TTT, won, first);
    }
 }

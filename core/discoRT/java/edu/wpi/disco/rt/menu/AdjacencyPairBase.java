@@ -55,8 +55,11 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
       return choices;
    }
 
+   public static int REPEAT_COUNT;
+   
    @Override
    public AdjacencyPair nextState (String text) {
+      if ( REPEAT.equals(text) ) REPEAT_COUNT++;
       return REPEAT.equals(text) ? new AdjacencyPairWrapper<C>(this) :
          choices.containsKey(text) ? choices.get(text).run() :
             null;

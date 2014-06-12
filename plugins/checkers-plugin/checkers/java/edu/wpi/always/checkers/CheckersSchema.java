@@ -1,6 +1,6 @@
 package edu.wpi.always.checkers;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -9,6 +9,7 @@ import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
+import edu.wpi.sgf.logic.GameLogicState.Won;
 
 public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateContext> {
 
@@ -19,15 +20,15 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
          PeopleManager peopleManager, Always always) {
       super(new StartGamingSequence(new CheckersStateContext(keyboard, CheckersUI, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
-            resourceMonitor, menuPerceptor);
+            resourceMonitor, menuPerceptor, Logger.Activity.CHECKERS);
       always.getUserModel().setProperty(CheckersPlugin.PERFORMED, true);
    }
 
    @Override
-   public void run () {
+   public void runActivity () {
 
-      super.run();
-
+      super.runActivity();
+      
       if(CheckersClient.gazeDirection.equals("sayandgaze")){
          propose(new SyncSayBuilder(
                "$ "+StartGamingSequence.getCurrentAgentComment()+" $",
@@ -65,6 +66,9 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
          // TODO fill me in later (after human plays)
          CheckersClient.nod = false;
       }
-
+   }
+  
+   public static void log (Won won, int jumps, int doubles) {
+      Logger.logActivity(Logger.Activity.CHECKERS, won, jumps, doubles);
    }
 }

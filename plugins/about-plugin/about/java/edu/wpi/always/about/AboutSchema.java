@@ -1,7 +1,7 @@
 package edu.wpi.always.about;
 
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
@@ -17,11 +17,13 @@ public class AboutSchema extends DiscoActivitySchema {
       running = false; 
    } 
    
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.ABOUT;
+   
    public AboutSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always,
-            AboutPlugin.aboutInteraction);
+            AboutPlugin.aboutInteraction, LOGGER_NAME);
       if ( running ) throw new IllegalStateException("GreetingsSchema already running!");
       running = true;
       always.getUserModel().setProperty(AboutPlugin.PERFORMED, true);
@@ -29,4 +31,13 @@ public class AboutSchema extends DiscoActivitySchema {
       start("_TalkAbout");
               
    }
+
+   enum Positive { POSITIVE, NOT_POSITIVE }
+   enum Negative { NEGATIVE, NOT_NEGATIVE }
+   enum Exit { EARLY, NORMAL }
+   
+   public static void log (Positive positive, Negative negative, Exit exit) {
+      Logger.logActivity(Logger.Activity.ABOUT, positive, negative, exit);
+   }
+   
 }

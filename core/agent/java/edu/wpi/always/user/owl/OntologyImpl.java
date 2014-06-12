@@ -29,10 +29,11 @@ public class OntologyImpl implements Ontology {
    private PrefixManager pm;
 
    public OntologyImpl () {
-      // do not use incremental consistency option
-      // PelletOptions.USE_COMPLETION_QUEUE = true;
-      // PelletOptions.USE_INCREMENTAL_CONSISTENCY = true;
-      // PelletOptions.USE_SMART_RESTORE = false;
+      // incremental consistency options
+      PelletOptions.USE_COMPLETION_QUEUE = true;
+      PelletOptions.USE_INCREMENTAL_CONSISTENCY = true;
+      PelletOptions.USE_SMART_RESTORE = false;
+      //
       PelletOptions.USE_TRACING = true;
       BuiltInRegistry.instance.registerBuiltIn("my:gMonthDay",
             new GeneralFunctionBuiltIn(new GMonthDay()));

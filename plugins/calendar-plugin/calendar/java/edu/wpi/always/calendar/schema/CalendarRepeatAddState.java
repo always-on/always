@@ -13,9 +13,7 @@ import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.calendar.CalendarEntryTypeManager.Types;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.disco.rt.menu.*;
-
 import org.joda.time.*;
-
 import java.util.List;
 
 abstract class CalendarRepeatAddState {
@@ -80,7 +78,7 @@ abstract class CalendarRepeatAddState {
          if ( data.getRepeatStartDate() != null
             && data.getRepeatStartTime() != null && data.getStart() != null
             && data.getRepeat() != null && data.getRepeatEndDate() != null )
-            skipTo(new HowLong(data, getContext()));
+            skipTo(new Ok(data, getContext()));
       }
 
       @Override
@@ -158,7 +156,7 @@ abstract class CalendarRepeatAddState {
                + " start", startTime, context);
          this.entry = entry;
          if ( entry.getStart() != null && entry.getRepeatStartTime() != null )
-            skipTo(new HowLong(entry, getContext()));
+            skipTo(new Ok(entry, getContext()));
          choice("I made a mistake. Lets start over",
                new DialogStateTransition() {
 
@@ -181,7 +179,7 @@ abstract class CalendarRepeatAddState {
          entry.setRepeatStartTime(time);
          if(entry.getType().equals(Types.Reminder))
             return new HowLongRemiders(entry, getContext());
-         return new HowLong(entry, getContext());
+         return new Ok(entry, getContext());
       }
    }
    
@@ -195,7 +193,8 @@ abstract class CalendarRepeatAddState {
          skipTo (new HowLongBirthday(entry, getContext()));
       }
    }
-   
+   // NB: Not used since event duration disabled
+   @SuppressWarnings("unused")
    private static class HowLong extends HowLongAdjacencyPair {
 
       private final RepeatingCalendarEntry data;
@@ -205,14 +204,14 @@ abstract class CalendarRepeatAddState {
          super(context);
          this.data = data;
          if ( data.getDuration() != null && data.getRepeatDuration() != null )
-            skipTo(new Where(data, getContext()));
+            skipTo(new Ok(data, getContext()));
       }
 
       @Override
       public AdjacencyPair nextState (ReadablePeriod d) {
          data.setDuration(d);
          data.setRepeatDuration(d);
-         return new Where(data, getContext());
+         return new Ok(data, getContext());
       }
    }
 
@@ -222,7 +221,7 @@ abstract class CalendarRepeatAddState {
          ReadablePeriod d = Minutes.minutes(30);
          data.setDuration(d);
          data.setRepeatDuration(d);
-         skipTo(new Where(data, getContext()));
+         skipTo(new Ok(data, getContext()));
       }
    }
    
@@ -232,10 +231,12 @@ abstract class CalendarRepeatAddState {
          ReadablePeriod d = Minutes.minutes(1);
          data.setDuration(d);
          data.setRepeatDuration(d);
-         skipTo(new Where(data, getContext()));
+         skipTo(new Ok(data, getContext()));
       }
    }
 
+   // NB: this state no longer used since event location disabled
+   @SuppressWarnings("unused")
    private static class Where extends WhereAdjacencyPair {
 
       private final RepeatingCalendarEntry entry;

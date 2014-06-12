@@ -1,6 +1,6 @@
 package edu.wpi.always.greetings;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.always.user.*;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -23,7 +23,7 @@ public class GreetingsSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
-            GreetingsPlugin.greetingsInteraction);
+            GreetingsPlugin.greetingsInteraction, Logger.Activity.GREETINGS);
       model = always.getUserModel();
       if ( behaviorReceiver == null ) return; // for always_disco testing
       if ( running ) throw new IllegalStateException("GreetingsSchema already running!");
@@ -31,24 +31,24 @@ public class GreetingsSchema extends DiscoActivitySchema {
       setSelfStop(true);
       interaction.clear();
       switch (UserUtils.getTimeOfDay()) {
-         case Morning:
+         case MORNING:
             switch (Always.THIS.getUserModel().getCloseness()) {
-               case Stranger: 
-               case Acquaintance: 
+               case STRANGER: 
+               case ACQUAINTANCE: 
                   start("_MorningGreetings");
                   break;
-               case Companion: 
+               case COMPANION: 
                   start("_MorningGreetingsCompanion"); 
                   break;
             }
             break;
-         case Afternoon:
+         case AFTERNOON:
             start("_AfternoonGreetings" );
             break;
-         case Evening:
+         case EVENING:
             start("_EveningGreetings" );
             break;
-         case Night:
+         case NIGHT:
             start("_NightGreetings"); 
             break;
       }

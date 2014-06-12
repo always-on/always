@@ -228,7 +228,7 @@
          <binding slot="$_d4e57_step.text" value="&#34;ok.&#34;"/>
          <binding slot="$_d4e57_step.external" value="true"/>
          <binding slot="$_d4e58_step.text"
-                  value="&#34;In the late evening I will only talk to you if you wake me up.&#34;"/>
+                  value="&#34;In the late evening I will only talk to you if you wake me up. You must touch the screen to wake me up.&#34;"/>
          <binding slot="$_d4e58_step.external" value="false"/>
          <binding slot="$_d4e58_step.eval" value="&#34;Activity.ALL.AboutAgent.setFlag()&#34;"/>
          <binding slot="$_d4e59_step.text" value="&#34;ok, go on&#34;"/>

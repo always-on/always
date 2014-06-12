@@ -1,5 +1,6 @@
 package edu.wpi.always.cm.schemas;
 
+import edu.wpi.always.Logger;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
@@ -11,8 +12,8 @@ public abstract class ActivityStateMachineSchema<C extends AdjacencyPair.Context
    public ActivityStateMachineSchema (AdjacencyPair initial, 
          BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor) {
-      super(behaviorReceiver, behaviorHistory);
+         MenuPerceptor menuPerceptor, Logger.Activity loggerName) {
+      super(behaviorReceiver, behaviorHistory, loggerName);
       initial.getContext().setSchema(this);
       stateMachine = new MenuTurnStateMachine(behaviorHistory, resourceMonitor,
             menuPerceptor, new RepeatMenuTimeoutHandler<C>());
@@ -22,12 +23,16 @@ public abstract class ActivityStateMachineSchema<C extends AdjacencyPair.Context
    }
 
    @Override
-   public void run () {
+   public void runActivity () {
       propose(stateMachine);
    }
    
    @Override
    public void setNeedsFocusResource (boolean focus) {
       if ( stateMachine != null ) stateMachine.setNeedsFocusResource(focus);
+   }
+   
+   public void resetTimeout () {
+      if (stateMachine != null ) stateMachine.resetTimeout(); 
    }
 }

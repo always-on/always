@@ -1,10 +1,8 @@
 package edu.wpi.always.weather;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.Date;
-
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
@@ -21,6 +19,7 @@ public class WeatherSchema extends DiscoActivitySchema {
       super.dispose();
       running = false; 
    } 
+   public final static Logger.Activity LOGGER_NAME = Logger.Activity.WEATHER;
    
    public WeatherSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -29,7 +28,7 @@ public class WeatherSchema extends DiscoActivitySchema {
          PeopleManager peopleManager,
          PlaceManager placeManager) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always,
-            WeatherPlugin.weatherInteraction);
+            WeatherPlugin.weatherInteraction, LOGGER_NAME);
       if ( running ) throw new IllegalStateException("WeatherSchema already running!");
       running = true;
       interaction.eval("date = "+ "\"" +
@@ -37,9 +36,9 @@ public class WeatherSchema extends DiscoActivitySchema {
           "Weather data");
       interaction.clear();
       switch (Always.THIS.getUserModel().getCloseness()) {
-         case Stranger: start("_WeatherStranger"); break;
-         case Acquaintance: start("_WeatherAcquaintance"); break;
-         case Companion: start("_WeatherCompanion"); break;
+         case STRANGER: start("_WeatherStranger"); break;
+         case ACQUAINTANCE: start("_WeatherAcquaintance"); break;
+         case COMPANION: start("_WeatherCompanion"); break;
       }
    }
    
@@ -50,5 +49,10 @@ public class WeatherSchema extends DiscoActivitySchema {
       DateFormat dateFormat = new SimpleDateFormat("MM_dd_yyyy");
       Date date = new Date();
       return dateFormat.format(date);      
+   }
+   
+   enum Option { CITIES, FRIENDS }
+   public static void log (Option option) {
+      Logger.logActivity(Logger.Activity.WEATHER, option);
    }
 }

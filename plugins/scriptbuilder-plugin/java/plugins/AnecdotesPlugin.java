@@ -10,7 +10,7 @@ public class AnecdotesPlugin extends Plugin {
       super("Anecdotes", userModel, cm);
       addActivity("HearAnecdotes", 0, 0, 0, 0, AnecdotesSchema.class);
    }
-   
+ 
    public static final String PERFORMED = "AnecdotesPerformed";
 
    public static String[] getProperties () { return new String[] {PERFORMED}; }

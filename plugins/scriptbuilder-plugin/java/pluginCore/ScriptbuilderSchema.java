@@ -1,5 +1,6 @@
 package pluginCore;
 
+import edu.wpi.always.Logger;
 import edu.wpi.always.client.UIMessageDispatcher;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -14,19 +15,20 @@ public class ScriptbuilderSchema extends
 	public ScriptbuilderSchema(ScriptbuilderCoreScript init,
 			BehaviorProposalReceiver behaviorReceiver,
 			BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-			MenuPerceptor menuPerceptor, UIMessageDispatcher dispatcher) {
+			MenuPerceptor menuPerceptor, UIMessageDispatcher dispatcher,
+			Logger.Activity loggerName) {
 		super(init, behaviorReceiver, behaviorHistory, resourceMonitor,
-				menuPerceptor);
+				menuPerceptor, loggerName);
 		this.context = init.context;
 	}
 
 	@Override
-	public void run() {
+	public void runActivity () {
 		if (context.isDone) {
 			context.resetPluginStatus();
 			stop();
 		} else
-			super.run();
+			super.runActivity();
 	}
 
 	@Override

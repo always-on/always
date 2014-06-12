@@ -2,70 +2,68 @@
 <taskModel xmlns="http://www.cs.wpi.edu/~rich/cetask/cea-2018-ext"
            xmlns:disco="urn:disco.wpi.edu:Disco"
            about="urn:always.wpi.edu:Activities">
-   <task id="_CalendarImminent">
-      <precondition>isImminent()</precondition>
-      <subtasks id="__CalendarImminent_subtasks">
-         <step name="__CalendarImminent_step" task="disco:Say"/>
-         <step name="__CalendarImminent_ref" task="__CalendarImminent_tree"/>
-         <binding slot="$__CalendarImminent_step.text"
-                  value="&#34;There are upcoming events in your calendar today or tomorrow.  Would you like to see the calendar now?&#34;"/>
-         <binding slot="$__CalendarImminent_step.external" value="false"/>
+   <task id="_CalendarInterruption">
+      <subtasks id="__CalendarInterruption_subtasks">
+         <step name="__CalendarInterruption_step" task="disco:Say$Eval"/>
+         <step name="__CalendarInterruption_ref" task="__CalendarInterruption_tree"/>
+         <binding slot="$__CalendarInterruption_step.text"
+                  value="&#34;Please excuse the interruption, but you have a calendar event in about twenty minutes.  Would you like to end this session now?&#34;"/>
+         <binding slot="$__CalendarInterruption_step.external" value="false"/>
+         <binding slot="$__CalendarInterruption_step.eval"
+                  value="&#34;Packages.edu.wpi.always.calendar.CalendarClient.showToday()&#34;"/>
       </subtasks>
    </task>
-   <task id="_EncourageExplain">
-      <precondition>!Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;               Packages.edu.wpi.always.user.UserUtils.getDays(userModel()) &gt; 2</precondition>
-      <subtasks id="__EncourageExplain_subtasks">
-         <step name="__EncourageExplain_step" task="disco:Say"/>
-         <step name="__EncourageExplain_ref" task="__EncourageExplain_tree"/>
-         <binding slot="$__EncourageExplain_step.text"
-                  value="&#34;You have not ever listened to me explain about all the activities we can do together&#34;"/>
-         <binding slot="$__EncourageExplain_step.external" value="false"/>
+   <task id="_SkypeInterruption">
+      <subtasks id="__SkypeInterruption_subtasks">
+         <step name="__SkypeInterruption_step" task="disco:Say$Expression"/>
+         <step name="__SkypeInterruption_ref" task="__SkypeInterruption_tree"/>
+         <binding slot="$__SkypeInterruption_step.text"
+                  value="&#34;\&#34;Please excuse the interruption, but you have a Skype call from \&#34;+(Packages.edu.neu.always.skype.SkypeSchema.CALLER)+\&#34;.  Would you like to take the call now?\&#34;&#34;"/>
+         <binding slot="$__SkypeInterruption_step.external" value="false"/>
       </subtasks>
    </task>
-   <task id="__CalendarImminent_tree">
-      <subtasks id="_d4e45_subtasks">
-         <step name="_d4e45_step" task="disco:Say"/>
-         <step name="_d4e46_step" task="UseCalendar"/>
-         <binding slot="$_d4e45_step.text" value="&#34;Yes, please&#34;"/>
-         <binding slot="$_d4e45_step.external" value="true"/>
+   <task id="__CalendarInterruption_tree">
+      <subtasks id="_d4e59_subtasks">
+         <step name="_d4e59_step" task="disco:Say"/>
+         <step name="_d4e60_step" task="disco:Say"/>
+         <step name="_d4e61_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e59_step.text" value="&#34;yes, let's stop now&#34;"/>
+         <binding slot="$_d4e59_step.external" value="true"/>
+         <binding slot="$_d4e60_step.text" value="&#34;ok, talk to you later&#34;"/>
+         <binding slot="$_d4e60_step.external" value="false"/>
+         <binding slot="$_d4e61_step.text" value="&#34;goodbye&#34;"/>
+         <binding slot="$_d4e61_step.external" value="true"/>
+         <binding slot="$_d4e61_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent();                       Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
       </subtasks>
-      <subtasks id="_d4e47_subtasks">
-         <step name="_d4e47_step" task="disco:Say"/>
-         <binding slot="$_d4e47_step.text" value="&#34;Not now&#34;"/>
-         <binding slot="$_d4e47_step.external" value="true"/>
+      <subtasks id="_d4e62_subtasks">
+         <step name="_d4e62_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e62_step.text" value="&#34;no, let's continue&#34;"/>
+         <binding slot="$_d4e62_step.external" value="true"/>
+         <binding slot="$_d4e62_step.eval"
+                  value="&#34;Packages.edu.wpi.always.calendar.CalendarClient.hideToday()&#34;"/>
       </subtasks>
    </task>
-   <task id="__EncourageExplain_tree">
-      <subtasks id="_d4e49_subtasks">
-         <step name="_d4e49_step" task="disco:Say"/>
-         <binding slot="$_d4e49_step.text" value="&#34;Oh, really?  Okay, I'll try that&#34;"/>
-         <binding slot="$_d4e49_step.external" value="true"/>
+   <task id="__SkypeInterruption_tree">
+      <subtasks id="_d4e64_subtasks">
+         <step name="_d4e64_step" task="disco:Say$Eval"/>
+         <step name="_d4e65_step" task="UseSkype"/>
+         <binding slot="$_d4e64_step.text" value="&#34;yes, let's take the call&#34;"/>
+         <binding slot="$_d4e64_step.external" value="true"/>
+         <binding slot="$_d4e64_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent()&#34;"/>
       </subtasks>
-      <subtasks id="_d4e50_subtasks">
-         <step name="_d4e50_step" task="disco:Say"/>
-         <binding slot="$_d4e50_step.text" value="&#34;I don't want to hear about this now&#34;"/>
-         <binding slot="$_d4e50_step.external" value="true"/>
-      </subtasks>
-      <subtasks id="_d4e51_subtasks">
-         <step name="_d4e51_step" task="disco:Say"/>
-         <step name="_d4e52_step" task="disco:Say"/>
-         <binding slot="$_d4e51_step.text" value="&#34;I guess I will listen&#34;"/>
-         <binding slot="$_d4e51_step.external" value="true"/>
-         <binding slot="$_d4e52_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; You can always stop when you've heard enough and listen again later lt;FACE EXPR=\&#34;WARM\&#34;/&gt; &#34;"/>
-         <binding slot="$_d4e52_step.external" value="false"/>
-      </subtasks>
-      <subtasks id="_d4e53_subtasks">
-         <step name="_d4e53_step" task="disco:Say"/>
-         <binding slot="$_d4e53_step.text" value="&#34;Maybe tomorrow&#34;"/>
-         <binding slot="$_d4e53_step.external" value="true"/>
+      <subtasks id="_d4e66_subtasks">
+         <step name="_d4e66_step" task="disco:Say"/>
+         <binding slot="$_d4e66_step.text" value="&#34;no, not now&#34;"/>
+         <binding slot="$_d4e66_step.external" value="true"/>
       </subtasks>
    </task>
    <task id="GreetUser"/>
    <task id="ExplainSelf"/>
    <task id="DiscussWeather">
       <precondition> 
-        Packages.edu.wpi.always.user.UserUtils.getTimeOfDay() == Packages.edu.wpi.always.user.UserUtils.TimeOfDay.Night ? false : null 
+        Packages.edu.wpi.always.user.UserUtils.getTimeOfDay() == Packages.edu.wpi.always.user.UserUtils.TimeOfDay.NIGHT ? false : null 
      </precondition>
    </task>
    <task id="PlayTicTacToe"/>
@@ -109,6 +107,25 @@
       <precondition> advanced(9, "USE_SKYPE") </precondition>
    </task>
    <task id="SayGoodbye"/>
+   <task id="_CalendarImminent">
+      <precondition> isImminent() ? null : false </precondition>
+      <subtasks id="_calendarImminent">
+         <step name="do" task="UseCalendar"/>
+      </subtasks>
+   </task>
+   <task id="_EncourageExplain">
+      <precondition> 
+      (!Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;
+       Packages.edu.wpi.always.user.UserUtils.getDays(userModel()) &gt; 2) ?
+       null : false
+    </precondition>
+      <subtasks id="_encourageExplain">
+         <step name="say" task="disco:Say.Agent"/>
+         <step name="do" task="ExplainSelf"/>
+         <binding slot="$say.text"
+                  value="'you can always stop when you have heard enough and listen to more later'"/>
+      </subtasks>
+   </task>
    <script init="true">
 
     /*
@@ -133,11 +150,11 @@
     }
 
     function notStranger () { 
-      return userModel().getCloseness() != Packages.edu.wpi.always.Closeness.Stranger;
+      return userModel().getCloseness() != Packages.edu.wpi.always.Closeness.STRANGER;
     }
 
     function advanced (min, property) {
-      return userModel().getCloseness() == Packages.edu.wpi.always.Closeness.Companion
+      return userModel().getCloseness() == Packages.edu.wpi.always.Closeness.COMPANION
         || ( notStranger() &amp;&amp; (isExplained(property) || (days() &gt; min &amp;&amp; sessions() &gt; days()/2) ));
     }
 
@@ -163,15 +180,15 @@
     */
 
     model = userModel();
-    if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Companion ) {
+    if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.COMPANION ) {
        if ( Packages.edu.wpi.always.about.AboutPlugin.isPerformed() ||
             Packages.plugins.ExercisePlugin.isPerformed() ||
             Packages.plugins.StorytellingPlugin.isPerformed() ||
             Packages.edu.neu.always.skype.SkypePlugin.isPerformed() ||
             ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;	
               Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ) )
-           model.setCloseness(Packages.edu.wpi.always.Closeness.Companion)
-        else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.Acquaintance ) {
+           model.setCloseness(Packages.edu.wpi.always.Closeness.COMPANION)
+        else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.ACQUAINTANCE ) {
            if ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||
                 Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
                 ( days() &gt; 6 &amp;&amp; sessions() &gt; days()/2 &amp;&amp;
@@ -184,7 +201,7 @@
                     Packages.plugins.NutritionPlugin.isPerformed() ||	
                     Packages.edu.wpi.always.srummy.SrummyPlugin.isPerformed() ||
                     Packages.edu.wpi.always.ttt.TTTPlugin.isPerformed() ) ) )
-               model.setCloseness(Packages.edu.wpi.always.Closeness.Acquaintance);
+               model.setCloseness(Packages.edu.wpi.always.Closeness.ACQUAINTANCE);
          }
     }
     

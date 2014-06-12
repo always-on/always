@@ -1,6 +1,6 @@
 package edu.wpi.always.cm.schemas;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
@@ -19,8 +19,10 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    
    public DiscoActivitySchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Always always, DiscoRT.Interaction interaction) {
-      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, interaction);
+         MenuPerceptor menuPerceptor, Always always, DiscoRT.Interaction interaction,
+         Logger.Activity loggerName) {
+      super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always,
+            interaction, loggerName);
       if ( behaviorReceiver != null ) { // for always_disco testing
          // note activities append to session log
          // since reusing interaction, reuse thread and console also

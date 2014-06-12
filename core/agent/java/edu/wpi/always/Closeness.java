@@ -7,4 +7,4 @@ import edu.wpi.always.user.UserModel;
  * 
  * @see UserModel#getCloseness()
  */
-public enum Closeness { Stranger, Acquaintance, Companion }
+public enum Closeness { STRANGER, ACQUAINTANCE, COMPANION }

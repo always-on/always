@@ -109,6 +109,7 @@ namespace AgentApp
 		{
 			_remote.RemoveReceiveHandler("rummy.agent_move");
 			_remote.RemoveReceiveHandler("rummy.playability");
+			_remote.RemoveReceiveHandler("rummy.starting_player");
 			_remote.RemoveReceiveHandler("rummy.setupgame");
 			_remote.RemoveReceiveHandler("rummy.reset");
 		}

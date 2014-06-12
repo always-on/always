@@ -15,6 +15,7 @@ import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.client.reeti.*;
+import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.disco.rt.util.Utils;
 
 public class ClientProxy {
@@ -26,7 +27,7 @@ public class ClientProxy {
       this.dispatcher = dispatcher;
       observers = new CopyOnWriteArrayList<ClientProxyObserver>();
       registerOnDispatcher();
-      if ( Always.getAgentType() != AgentType.Unity ) {
+      if ( Always.getAgentType() != AgentType.UNITY ) {
          ReetiJsonConfiguration config = always.getCM().getContainer().getComponent(ReetiJsonConfiguration.class);
          hor = ReetiPIDController.translateReetiToAgentX(config.getNeckRotat());
          ver = ReetiPIDController.translateReetiToAgentY(config.getNeckTilt());
@@ -72,6 +73,7 @@ public class ClientProxy {
    }
 
    public void say (String text) {
+      Logger.logEvent(Logger.Event.SAY, text);
       HashMap<String, String> p = Maps.newHashMap();
       p.put("text", text);
       enqueue("speech", p);
@@ -110,7 +112,7 @@ public class ClientProxy {
    
    public void setAgentVisible (boolean visible) {
       // never make agent visible for Reeti-only mode
-      if ( !visible || Always.getAgentType() != AgentType.Reeti ) {
+      if ( !visible || Always.getAgentType() != AgentType.REETI ) {
          if ( agentVisible == null || agentVisible.booleanValue() != visible ) {
             HashMap<String, String> p = Maps.newHashMap();
             p.put("status", Boolean.toString(visible));
@@ -120,7 +122,7 @@ public class ClientProxy {
       }
    }
    
-   private static Robot robot;
+   private static Robot robot;  // nothing to do with Reeti!
    
    static { 
       try { robot = new Robot(); } 
@@ -165,12 +167,16 @@ public class ClientProxy {
    }
 
    private void fireMenuSelectedMessage (String text) {
+      Logger.logEvent(Logger.Event.SELECTED, text);
       for (ClientProxyObserver o : observers) {
          o.notifyMenuSelected(this, text);
       }
    }
    
    public void showMenu (List<String> items, boolean twoColumn, boolean extension) {
+      if ( items != null && !items.isEmpty() )
+         Logger.logEvent(extension ? Logger.Event.EXTENSION : Logger.Event.MENU,
+            items.toArray());
       JsonArray menus = new JsonArray();
       if ( items != null ) for (String s : items) menus.add(new JsonPrimitive(s));
       JsonObject body = new JsonObject();

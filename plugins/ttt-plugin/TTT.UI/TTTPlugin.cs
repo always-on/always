@@ -47,6 +47,7 @@ namespace AgentApp
 		public void Dispose()
 		{
             _remote.RemoveReceiveHandler("tictactoe.agent_cell");
+            _remote.RemoveReceiveHandler("tictactoe.playability");
 		}
 
        	private void PlayAgentMove(JObject cellNumAsJObj)

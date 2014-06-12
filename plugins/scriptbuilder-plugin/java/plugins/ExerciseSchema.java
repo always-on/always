@@ -1,8 +1,7 @@
 package plugins;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -19,8 +18,14 @@ public class ExerciseSchema extends ScriptbuilderSchema {
 			PeopleManager peopleManager, Always always) {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Exercise")),
-		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
+		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
+		       Logger.Activity.EXERCISE);
 		 always.getUserModel().setProperty(ExercisePlugin.PERFORMED, true);
 	}
-
+	 
+	enum Topic { GOALS, ACTIVITIES, SERVINGS };
+	   
+	public static void log (Topic topic) {
+	   Logger.logActivity(Logger.Activity.EXERCISE, topic);
+	}
 }

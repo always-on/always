@@ -1,6 +1,6 @@
 package edu.wpi.always.explain;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.cm.schemas.DiscoActivitySchema;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
@@ -20,12 +20,16 @@ public class ExplainSchema extends DiscoActivitySchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
-            ExplainPlugin.explainInteraction);
+            ExplainPlugin.explainInteraction, Logger.Activity.EXPLAIN);
       if ( running ) throw new IllegalStateException("ExplainSchema already running!");
       running = true;
       always.getUserModel().setProperty(ExplainPlugin.PERFORMED, true);
       setSelfStop(true);
       interaction.clear();
       start("_ExplainSelf");
+   }
+   
+   public static void log (Logger.Activity activity) {
+      Logger.logActivity(Logger.Activity.EXPLAIN, activity);
    }
 }

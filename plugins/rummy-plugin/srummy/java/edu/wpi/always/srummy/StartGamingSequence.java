@@ -56,13 +56,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    @Override
    public void agentMoveOptionsReceived (String chosenMoveType) {
       if (chosenMoveType.equals("draw"))
-         receivedAgentDrawOptions = true;
+         StartGamingSequence.receivedAgentDrawOptions = true;
       else if(chosenMoveType.equals("discard"))
-         receivedAgentDiscardOptions = true;
+         StartGamingSequence.receivedAgentDiscardOptions = true;
       else if(chosenMoveType.equals("meld"))
-         receivedAgentMeldOptions = true;
+         StartGamingSequence.receivedAgentMeldOptions = true;
       else if(chosenMoveType.equals("layoff"))
-         receivedAgentLayoffOptions = true;
+         StartGamingSequence.receivedAgentLayoffOptions = true;
    }
 
    //Limbo as waiting for user move
@@ -109,13 +109,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       @Override
       public void agentMoveOptionsReceived (String chosenMoveType) {
          if (chosenMoveType.equals("draw"))
-            receivedAgentDrawOptions = true;
+            StartGamingSequence.receivedAgentDrawOptions = true;
          else if(chosenMoveType.equals("discard"))
-            receivedAgentDiscardOptions = true;
+            StartGamingSequence.receivedAgentDiscardOptions = true;
          else if(chosenMoveType.equals("meld"))
-            receivedAgentMeldOptions = true;
+            StartGamingSequence.receivedAgentMeldOptions = true;
          else if(chosenMoveType.equals("layoff"))
-            receivedAgentLayoffOptions = true;
+            StartGamingSequence.receivedAgentLayoffOptions = true;
       }
       @Override
       //this method would be used only when user cards would finish as a result of 
@@ -176,13 +176,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       @Override
       public void agentMoveOptionsReceived (String chosenMoveType) {
          if (chosenMoveType.equals("draw"))
-            receivedAgentDrawOptions = true;
+            StartGamingSequence.receivedAgentDrawOptions = true;
          else if(chosenMoveType.equals("discard"))
-            receivedAgentDiscardOptions = true;
+            StartGamingSequence.receivedAgentDiscardOptions = true;
          else if(chosenMoveType.equals("meld"))
-            receivedAgentMeldOptions = true;
+            StartGamingSequence.receivedAgentMeldOptions = true;
          else if(chosenMoveType.equals("layoff"))
-            receivedAgentLayoffOptions = true;
+            StartGamingSequence.receivedAgentLayoffOptions = true;
       }
    }
 
@@ -224,9 +224,9 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       protected void aferAgentDrawDelay(){
-         if(receivedAgentDrawOptions){
+         if(StartGamingSequence.receivedAgentDrawOptions){
             //draw, cached from before
-            receivedAgentDrawOptions = false;
+            StartGamingSequence.receivedAgentDrawOptions = false;
             getContext().getSrummyUI().sendBackAgentMove();
          }
          else
@@ -245,20 +245,20 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       @Override
       public void agentMoveOptionsReceived (String chosenMoveType) {
          if (chosenMoveType.equals("draw"))
-            receivedAgentDrawOptions = true;
+            StartGamingSequence.receivedAgentDrawOptions = true;
          else if(chosenMoveType.equals("discard"))
-            receivedAgentDiscardOptions = true;
+            StartGamingSequence.receivedAgentDiscardOptions = true;
          else if(chosenMoveType.equals("meld"))
-            receivedAgentMeldOptions = true;
+            StartGamingSequence.receivedAgentMeldOptions = true;
          else if(chosenMoveType.equals("layoff"))
-            receivedAgentLayoffOptions = true;
+            StartGamingSequence.receivedAgentLayoffOptions = true;
       }
       @Override
       public void afterAgentPlayingDelay() {
          //got meld or discard or lay-off
-         if(receivedAgentDiscardOptions 
-               || receivedAgentMeldOptions 
-               || receivedAgentLayoffOptions){
+         if(StartGamingSequence.receivedAgentDiscardOptions 
+               || StartGamingSequence.receivedAgentMeldOptions 
+               || StartGamingSequence.receivedAgentLayoffOptions){
             skipTo(new AgentPlays(getContext()));
          }
          else
@@ -284,11 +284,12 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       }
       @Override
       protected void afterAgentDiscardOrMeldLayoffDelay () {
-         if(receivedAgentDiscardOptions && !receivedAgentMeldOptions
-               && !receivedAgentLayoffOptions){
-            receivedAgentDiscardOptions = false;
+         if(StartGamingSequence.receivedAgentDiscardOptions 
+               && !StartGamingSequence.receivedAgentMeldOptions
+               && !StartGamingSequence.receivedAgentLayoffOptions){
+            StartGamingSequence.receivedAgentDiscardOptions = false;
             AgentPlays.secondMovesRound = false;
-            
+
             SrummyClient.meldedOnce = false;
             SrummyClient.agentDrew = false;
             SrummyClient.twoMeldsInARowByAgent = false;
@@ -316,15 +317,15 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
             }
          }
          else{
-            if(receivedAgentMeldOptions){
-               receivedAgentMeldOptions = false;
+            if(StartGamingSequence.receivedAgentMeldOptions){
+               StartGamingSequence.receivedAgentMeldOptions = false;
                getContext().getSrummyUI().sendBackAgentMove();
                if(AgentPlays.secondMovesRound && SrummyClient.meldedOnce)
                   SrummyClient.twoMeldsInARowByAgent = true;
                SrummyClient.meldedOnce = true;
             }
-            else if(receivedAgentLayoffOptions){
-               receivedAgentLayoffOptions = false;
+            else if(StartGamingSequence.receivedAgentLayoffOptions){
+               StartGamingSequence.receivedAgentLayoffOptions = false;
                getContext().getSrummyUI().sendBackAgentMove();
             }
          }
@@ -333,11 +334,11 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       public void agentMoveOptionsReceived (String moveType) {
          AgentPlays.secondMovesRound = true;
          if(moveType.equals("discard"))
-            receivedAgentDiscardOptions = true;
+            StartGamingSequence.receivedAgentDiscardOptions = true;
          else if(moveType.equals("meld"))
-            receivedAgentMeldOptions = true;
+            StartGamingSequence.receivedAgentMeldOptions = true;
          else if(moveType.equals("layoff"))
-            receivedAgentLayoffOptions = true;
+            StartGamingSequence.receivedAgentLayoffOptions = true;
 
          //if did a meld or a lay off, and wants to meld or lay off again:
          getContext().getSrummyUI().triggerAgentDiscardOrMeldLayoffDelay();
@@ -408,13 +409,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       @Override
       public void agentMoveOptionsReceived (String chosenMoveType) {
          if (chosenMoveType.equals("draw"))
-            receivedAgentDrawOptions = true;
+            StartGamingSequence.receivedAgentDrawOptions = true;
          else if(chosenMoveType.equals("discard"))
-            receivedAgentDiscardOptions = true;
+            StartGamingSequence.receivedAgentDiscardOptions = true;
          else if(chosenMoveType.equals("meld"))
-            receivedAgentMeldOptions = true;
+            StartGamingSequence.receivedAgentMeldOptions = true;
          else if(chosenMoveType.equals("layoff"))
-            receivedAgentLayoffOptions = true;
+            StartGamingSequence.receivedAgentLayoffOptions = true;
       }
    }
    
@@ -508,13 +509,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       @Override
       public void agentMoveOptionsReceived (String chosenMoveType) {
          if (chosenMoveType.equals("draw"))
-            receivedAgentDrawOptions = true;
+            StartGamingSequence.receivedAgentDrawOptions = true;
          else if(chosenMoveType.equals("discard"))
-            receivedAgentDiscardOptions = true;
+            StartGamingSequence.receivedAgentDiscardOptions = true;
          else if(chosenMoveType.equals("meld"))
-            receivedAgentMeldOptions = true;
+            StartGamingSequence.receivedAgentMeldOptions = true;
          else if(chosenMoveType.equals("layoff"))
-            receivedAgentLayoffOptions = true;
+            StartGamingSequence.receivedAgentLayoffOptions = true;
       }
       @Override
       //this method would be used only when user cards would finish as a result of 
@@ -591,13 +592,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       @Override
       public void agentMoveOptionsReceived (String chosenMoveType) {
          if (chosenMoveType.equals("draw"))
-            receivedAgentDrawOptions = true;
+            StartGamingSequence.receivedAgentDrawOptions = true;
          else if(chosenMoveType.equals("discard"))
-            receivedAgentDiscardOptions = true;
+            StartGamingSequence.receivedAgentDiscardOptions = true;
          else if(chosenMoveType.equals("meld"))
-            receivedAgentMeldOptions = true;
+            StartGamingSequence.receivedAgentMeldOptions = true;
          else if(chosenMoveType.equals("layoff"))
-            receivedAgentLayoffOptions = true;
+            StartGamingSequence.receivedAgentLayoffOptions = true;
       }
       @Override
       public void enter() {
@@ -705,13 +706,13 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
       @Override
       public void agentMoveOptionsReceived (String chosenMoveType) {
          if (chosenMoveType.equals("draw"))
-            receivedAgentDrawOptions = true;
+            StartGamingSequence.receivedAgentDrawOptions = true;
          else if(chosenMoveType.equals("discard"))
-            receivedAgentDiscardOptions = true;
+            StartGamingSequence.receivedAgentDiscardOptions = true;
          else if(chosenMoveType.equals("meld"))
-            receivedAgentMeldOptions = true;
+            StartGamingSequence.receivedAgentMeldOptions = true;
          else if(chosenMoveType.equals("layoff"))
-            receivedAgentLayoffOptions = true;
+            StartGamingSequence.receivedAgentLayoffOptions = true;
       }
    }
 

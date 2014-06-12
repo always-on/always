@@ -1,6 +1,6 @@
 package plugins;
 
-import edu.wpi.always.Always;
+import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.user.people.PeopleManager;
@@ -19,8 +19,14 @@ public class NutritionSchema extends ScriptbuilderSchema {
 			PeopleManager peopleManager, Always always) {
 		 super(new ScriptbuilderCoreScript(new RAGStateContext(
 	               keyboard, dispatcher, placeManager, peopleManager, always, "Nutrition")),
-		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher);
+		       behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, dispatcher,
+		       Logger.Activity.NUTRITION);
 		 always.getUserModel().setProperty(NutritionPlugin.PERFORMED, true);
 	}
-
+	
+   //	TODO define enums as appropriate
+   
+   public static void log (Object... args) {
+      Logger.logActivity(Logger.Activity.NUTRITION, args);
+   }
 }
