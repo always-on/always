@@ -19,6 +19,7 @@ public class CheckersGameState extends GameLogicState{
    private static final int EMPTY = 0; //empty
    private static boolean agentMultiJumped_ForCMTags = false;
    private static boolean userMultiJumped_ForCMTags = false;
+   public static int moves, jumps;
    
    public int[][] board = new int[8][8];
    public int[][] boardMemory = new int[8][8];
@@ -221,11 +222,14 @@ public class CheckersGameState extends GameLogicState{
       
    }
    
+   
    /**
     * Make the specified move.  It is assumed that move
     * is non-null and that the move it represents is legal.
     */
    void makeMove(CheckersLegalMove move) {
+      moves++;
+      if ( move.isJump() ) jumps++;
       makeMove(move.fromRow, move.fromCol, move.toRow, move.toCol);
 //      this.visualize(); //only for debug
    }
@@ -375,6 +379,7 @@ public class CheckersGameState extends GameLogicState{
 
    public void resetGameStatus(){
       userWins = agentWins = tie = false;
+      moves = jumps = 0;
    }
 
    public List<String> getGameSpecificCommentingTags(

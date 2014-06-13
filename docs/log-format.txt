@@ -108,11 +108,11 @@
 
 ---------------------------------------------------------
 
-<DATETIME>,CHECKERS,<WON>,<JUMPS>,<DOUBLES>
+<DATETIME>,CHECKERS,<WON>,<MOVES>,<JUMPS>
 
 * <WON> = USER or AGENT or NEITHER
+* <MOVES> = total number of moves in game
 * <JUMPS> = total number of jumps in game
-* <DOUBLES> = total number of double jumps in game
 
 ---------------------------------------------------------
 

@@ -60,6 +60,8 @@ public class CheckersClient implements CheckersUI {
    private CheckersMoveChooser moveChooser;
    private CommentingManager commentingManager;
    private CheckersGameState gameState;
+   
+   public CheckersGameState getGameState () { return gameState; }
 
    private Timer humanCommentingTimer;
    private Timer agentPlayDelayTimer;

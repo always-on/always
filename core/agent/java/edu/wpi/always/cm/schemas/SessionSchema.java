@@ -335,6 +335,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       @Override
       public AdjacencyPair nextState (String text) {
          super.nextState(text);
+         Logger.Activity loggerName = Plugin.getLoggerName(plan.getGoal().getType()); 
+         if ( loggerName != null ) Logger.logActivity(loggerName, Logger.Event.STOPPED);
          Schema schema = started.get(plan);
          if ( schema != null ) schema.stop();
          stop(plan);

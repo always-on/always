@@ -1,6 +1,7 @@
 package edu.wpi.always.checkers;
 
 import edu.wpi.always.*;
+import edu.wpi.always.checkers.logic.CheckersGameState;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.primitives.GazeBehavior;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
@@ -15,21 +16,34 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
 
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.CHECKERS;
    
-   public static void log (Won won, int jumps, int doubles) {
-      Logger.logActivity(LOGGER_NAME, won, jumps, doubles);
+   public static void log (Won won, int jumps) {
+      Logger.logActivity(LOGGER_NAME, won, jumps);
    }
+   
+   private final CheckersClient client;
    
    public CheckersSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Keyboard keyboard, CheckersUI CheckersUI,
+         MenuPerceptor menuPerceptor, Keyboard keyboard, CheckersClient client,
          UIMessageDispatcher dispatcher, PlaceManager placeManager,
          PeopleManager peopleManager, Always always) {
-      super(new StartGamingSequence(new CheckersStateContext(keyboard, CheckersUI, dispatcher,
+      super(new StartGamingSequence(new CheckersStateContext(keyboard, client, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor, LOGGER_NAME);
+      this.client = client;
       always.getUserModel().setProperty(CheckersPlugin.PERFORMED, true);
    }
 
+   @Override
+   public void dispose () {
+      super.dispose();
+      log(CheckersClient.gameOver ?   
+             (client.getGameState().userWins ? Won.USER :
+                client.getGameState().agentWins ? Won.AGENT : null) 
+             : Won.NEITHER,
+          CheckersGameState.jumps);
+   }
+   
    @Override
    public void runActivity () {
 
