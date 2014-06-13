@@ -8,10 +8,11 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 -------------------------------------------------------
 
-<DATETIME>,ID,<CONDITION>,<MACHINE>,<INSTALLED>,<BOOTED>
+<DATETIME>,ID,<CONDITION>,<MACHINE>,<NAME>,<INSTALLED>,<BOOTED>
 
 * <CONDITION> = ALWAYS or LOGIN or REETI
 * <MACHINE> = "..."
+* <NAME> = "..."
 * <INSTALLED> = <DATETIME>
 * <BOOTED> = <DATETIME>
 
