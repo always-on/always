@@ -18,14 +18,6 @@ public class AboutSchema extends DiscoActivitySchema {
    
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.ABOUT;
    
-   public enum Positive { POSITIVE, NOT_POSITIVE }
-   public enum Negative { NEGATIVE, NOT_NEGATIVE }
-   public enum Exit { EARLY, NORMAL }
-   
-   public static void log (Positive positive, Negative negative, Exit exit) {
-      Logger.logActivity(LOGGER_NAME, positive, negative, exit);
-   }
-   
    public AboutSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always) {
@@ -36,7 +28,6 @@ public class AboutSchema extends DiscoActivitySchema {
       always.getUserModel().setProperty(AboutPlugin.PERFORMED, true);
       interaction.clear();
       start("_TalkAbout");
-              
    }
    
 }

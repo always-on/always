@@ -1,4 +1,4 @@
-Log file (CSV) entry formats (Version of 23-Apr-14) -CR
+// Log file (CSV) entry formats (Version of 13-Jun-2014 by CR
 
 <DATETIME>,...
 
@@ -37,29 +37,14 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 -----------------------------------------------------------
 
-<DATETIME>,<ACTIVITY>,PROPOSED
-<DATETIME>,<ACTIVITY>,ACCEPTED
-<DATETIME>,<ACTIVITY>,REJECTED
-<DATETIME>,<ACTIVITY>,START
-<DATETIME>,<ACTIVITY>,END
+<DATETIME>,<ACTIVITY>,<EVENT>
 
-* <ACTIVITY> = SESSION or
-             ABOUT or
-             ANECDOTES or
-             CALENDAR or 
-             CHECKERS or 
-             ENROLL or
-             EXERCISE or
-             EXPLAIN or
-             GOODBYE or
-             GREETINGS or 
-             HEALTH or
-             NUTRITION or
-             RUMMY or 
-             SKYPE or
-             STORY or 
-             TTT or
-             WEATHER
+* <ACTIVITY> = SESSION or ABOUT or ANECDOTES or CALENDAR or CHECKERS
+               or ENROLL or EXERCISE or EXPLAIN or GOODBYE or GREETINGS
+               or HEALTH or NUTRITION or RUMMY or SKYPE or STORY or TTT
+               or WEATHER
+
+* <EVENT> = PROPOSED or ACCEPTED or STOPPED or START or END
 
 <DATETIME>,<ACTIVITY>,INTERRUPTION,CALENDAR,<ENTRY>
 
@@ -86,37 +71,40 @@ Log file (CSV) entry formats (Version of 23-Apr-14) -CR
 
 * <INPUT> = "..."
 
-<DATETIME>,<ACTIVITY>,MODEL,<INDIVIDUAL>,<PROPERTY>,<VALUE>
+<DATETIME>,<ACTIVITY>,MODEL,ADD,<OBJECT>,<PROPERTY>,<VALUE>
+<DATETIME>,<ACTIVITY>,MODEL,SET,<OBJECT>,<PROPERTY>,<VALUE>
 
-* <INDIVIDUAL> = USER or "..."
+* <OBJECT> = USER or EVENT OR "..."
 * <PROPERTY> = "..."
 * <VALUE> = "..."
 
----------------------------------------------------------
+<DATETIME>,<ACTIVITY>,MODEL,DELETE,EVENT,<UUID>
 
-<DATETIME>,ABOUT,<POSITIVE>,<NEGATIVE>,<EXIT>
+// only events can be deleted
 
-* <POSITIVE> = POSITIVE or NOT_POSITIVE
-* <NEGATIVE> = NEGATIVE or NOT_NEGATIVE
-* <EXIT> = EARLY or NORMAL
+* <UUID> = of deleted event
 
 ---------------------------------------------------------
 
-<DATETIME>,ANECDOTES,<FINISHED>,<TITLE>
+<DATETIME>,ABOUT,...
 
-* <FINISHED> = FINISHED or NOT_FINISHED
+// all needed logging already covered above, especially
+// including MODEL logging
+
+---------------------------------------------------------
+
+<DATETIME>,ANECDOTES,<STATUS>,<TITLE>
+
+* <STATUS> = STARTED or FINISHED
 * <TITLE> = "..."
 
-
 ---------------------------------------------------------
 
-<DATETIME>,CALENDAR,UPDATE,<STATUS>,<ENTRY>
-
-* <STATUS> = ADD or CHANGE or DELETE
-
-<DATETIME>,CALENDAR,VIEW,<MODE>,<DATETIME>
+<DATETIME>,CALENDAR,<VIEW>,<DATETIME>
         
-* <MODE> = DAY or WEEK or MONTH
+* <VIEW> = DAY or WEEK or MONTH
+
+// add, delete and modify events covered by MODEL logging
 
 ---------------------------------------------------------
 

@@ -1,5 +1,6 @@
 package edu.wpi.always.user.calendar;
 
+import edu.wpi.always.Logger;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
 import org.joda.time.*;
@@ -125,8 +126,12 @@ public class CalendarEntryImpl implements CalendarEntry {
 
    @Override
    public String toString () {
-      return "Calendar Entry [" + getDisplayTitle() + " @ " + getPlace()
-         + "], [" + getTime() + "]";
+      StringBuilder buffer = new StringBuilder("CalendarEntry[");
+      buffer.append(getDisplayTitle()).append(',')
+        .append(Logger.dateFormat.format(start.toDate()));
+      if ( place != null ) buffer.append('@').append(place);
+      buffer.append('/').append(id).append(']');
+      return buffer.toString();
    }
 
    @Override

@@ -19,6 +19,17 @@ public class OntologyIndividual {
    private final OWLNamedIndividual individual;
    private final OntologyHelper helper;
 
+   // for logging
+   
+   private enum LogObject { USER, EVENT }
+   private enum LogMode { SET, ADD, DELETE }
+   
+   private String getLogObject () {
+      return (this == ((OntologyUserModel) Always.THIS.getUserModel()).getUser() ? LogObject.USER : 
+         hasSuperclass(OntologyCalendar.EVENT_CLASS) ? LogObject.EVENT : this)
+         .toString();
+   }
+   
    public OntologyIndividual (Ontology ontology, OWLNamedIndividual individual) {
       helper = new OntologyHelper(ontology);
       this.individual = individual;
@@ -60,22 +71,22 @@ public class OntologyIndividual {
          }
          helper.applyChanges(changes);
          if ( value != null )
-            addDataProperty(property, value);
+            addDataProperty(property, value, LogMode.SET);
       }
    }
 
    public void addDataProperty (OWLDataProperty property, OntologyValue value) {
+      addDataProperty(property, value, LogMode.ADD);
+   }
+
+   private void addDataProperty (OWLDataProperty property, OntologyValue value, LogMode mode) {
       synchronized (OntologyUserModel.LOCK) {
          if ( value != null ) {
-            Logger.logEvent(Logger.Event.MODEL, getIndividual(), property, value);
+            Logger.logEvent(Logger.Event.MODEL, mode, getLogObject(), property, value);
             helper.addAxiom(helper.getFactory().getOWLDataPropertyAssertionAxiom(
                   property, individual, value.getOWLLiteral()));
          }
       }
-   }
-
-   private String getIndividual () {
-      return this == ((OntologyUserModel) Always.THIS.getUserModel()).getUser() ? "USER" : toString();
    }
    
    public Set<OWLLiteral> getDataPropertyValues (OWLDataProperty property) {
@@ -120,7 +131,7 @@ public class OntologyIndividual {
                         individual, oldValue));
          }
          if ( value != null )
-            addObjectProperty(property, value);
+            addObjectProperty(property, value, LogMode.SET);
          helper.applyChanges(changes);
       }
    }
@@ -132,16 +143,20 @@ public class OntologyIndividual {
    }
 
    public void addObjectProperty (OWLObjectProperty property, OntologyIndividual value) {
+      addObjectProperty(property, value, LogMode.ADD);
+   }
+   
+   private void addObjectProperty (OWLObjectProperty property, OntologyIndividual value, LogMode mode) {
       synchronized (OntologyUserModel.LOCK) {
          if ( value != null ) {
-            Logger.logEvent(Logger.Event.MODEL, getIndividual(), property, value);
+            Logger.logEvent(Logger.Event.MODEL, mode, getLogObject(), property, value);
             helper.addAxiom(helper.getFactory()
                   .getOWLObjectPropertyAssertionAxiom(property, individual,
                         value.getOWLIndividual()));
          }
       }
    }
-
+   
    public Set<OWLNamedIndividual> getObjectPropertyValues (String property) {
       synchronized (OntologyUserModel.LOCK) {
          return getObjectPropertyValues(helper.getObjectProperty(property));
@@ -183,6 +198,8 @@ public class OntologyIndividual {
 
    public void delete () {
       synchronized (OntologyUserModel.LOCK) {
+         Logger.logEvent(Logger.Event.MODEL, LogMode.DELETE, getLogObject(), 
+               getDataPropertyValue(OntologyCalendar.UUID_PROPERTY));
          OWLEntityRemover remover = new OWLEntityRemover(helper.getManager(),
                Collections.singleton(helper.getOntology()));
          individual.accept(remover);

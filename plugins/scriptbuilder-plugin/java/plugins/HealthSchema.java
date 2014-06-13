@@ -2,14 +2,12 @@ package plugins;
 
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 import pluginCore.*;
-import plugins.AnecdotesSchema.Finished;
 
 public class HealthSchema extends ScriptbuilderSchema {
 

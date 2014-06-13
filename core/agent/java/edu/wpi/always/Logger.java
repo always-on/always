@@ -12,7 +12,7 @@ import java.util.Date;
 public class Logger {
      
    // format that Excel will interpret (must be initialized first)
-   private final static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+   public final static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
    // guarantee only one logger
    public static final Logger THIS = new Logger();
@@ -48,7 +48,7 @@ public class Logger {
       THIS.log(ObjectArrays.concat(new Object[] {activity}, args, Object.class));
    }
    
-   public enum Event { PROPOSED, ACCEPTED, REJECTED, START, END, INTERRUPTION, 
+   public enum Event { PROPOSED, ACCEPTED, REJECTED, STOPPED, START, END, INTERRUPTION, 
                        SAY, MENU, EXTENSION, SELECTED, KEYBOARD, MODEL }
    
    public static void logEvent (Event event, Object... args) {

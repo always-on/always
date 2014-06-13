@@ -2,7 +2,6 @@ package plugins;
 
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
-import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -14,10 +13,10 @@ public class AnecdotesSchema extends ScriptbuilderSchema {
    
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.ANECDOTES;
    
-   public enum Finished { FINISHED, NOT_FINISHED }
+   public enum Status { STARTED, FINISHED }
 	
-	public static void log (Finished finished, String title) {
-	   Logger.logActivity(LOGGER_NAME, finished, title);
+	public static void log (Status status, String title) {
+	   Logger.logActivity(LOGGER_NAME, status, title);
 	}
 	
 	public AnecdotesSchema (BehaviorProposalReceiver behaviorReceiver,

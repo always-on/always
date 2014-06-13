@@ -18,16 +18,10 @@ public class CalendarSchema extends ActivityStateMachineKeyboardSchema<CalendarS
 
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.CALENDAR;
    
-   enum Type { UPDATE, VIEW }
-   enum Status { ADD, CHANGE, DELETE }
-   enum Mode { DAY, WEEK, MONTH }
-   
-   public static void logUpdate (Status status, CalendarEntry entry) {
-      Logger.logActivity(LOGGER_NAME, Type.UPDATE, status, entry);
-   }
-   
-   public static void logView (Mode mode, Date date) {
-      Logger.logActivity(LOGGER_NAME, Type.VIEW, mode, date);
+   public enum View { DAY, WEEK, MONTH }
+
+   public static void logView (View view, Date date) {
+      Logger.logActivity(LOGGER_NAME, view, date);
    }
    
    public CalendarSchema (BehaviorProposalReceiver behaviorReceiver,

@@ -113,6 +113,7 @@ public class CalendarClient implements CalendarUI {
    @Override
    public void showDay (LocalDate day, CalendarUIListener listener,
          boolean touchable) {
+      CalendarSchema.logView(CalendarSchema.View.DAY, day.toDate());
       this.listener = listener;
       show();
       String label = WEEK_DATE_FORMAT.print(day);
@@ -127,6 +128,7 @@ public class CalendarClient implements CalendarUI {
    @Override
    public void showWeek (LocalDate startDay, CalendarUIListener listener,
          boolean touchable) {
+      CalendarSchema.logView(CalendarSchema.View.WEEK, startDay.toDate());
       this.listener = listener;
       show();
       startDay = CalendarUtils.getFirstDayOfWeek(startDay);
@@ -162,6 +164,7 @@ public class CalendarClient implements CalendarUI {
 
    @Override
    public void showMonth (LocalDate startDay, CalendarUIListener listener) {
+      CalendarSchema.logView(CalendarSchema.View.MONTH, startDay.toDate());
       this.listener = listener;
       show();
       startDay = startDay.withDayOfMonth(1);
