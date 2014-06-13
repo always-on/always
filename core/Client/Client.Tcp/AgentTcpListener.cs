@@ -31,11 +31,17 @@ namespace Agent.Tcp
 
 		private void AcceptClientCallback(IAsyncResult ar)
 		{
-			_client = _listener.EndAcceptTcpClient(ar);
-
-			Byte[] bytes = new Byte[8196];
-
-			_client.GetStream().BeginRead(bytes, 0, bytes.Length, ReceiveCallback, bytes);
+			try	
+			{
+				_client = _listener.EndAcceptTcpClient(ar);
+				Byte[] bytes = new Byte[8196];
+				_client.GetStream().BeginRead(bytes, 0, bytes.Length, ReceiveCallback, bytes);
+			} 
+			catch(System.SystemException ex) // SocketException or IOException
+			{ 
+				Console.WriteLine("AgentTcpListener ignoring client crash: " + ex.Message);
+				Start();				
+			} 
 		}
 
 		private void ReceiveCallback(IAsyncResult ar)
@@ -56,7 +62,7 @@ namespace Agent.Tcp
 			}
 			catch(IOException ex)
 			{
-				Console.WriteLine("IOException happenend: " + ex.Message);
+				Console.WriteLine("AgentTcpListener ignoring client crash: " + ex.Message);
 				Start();
 			}
 		}
