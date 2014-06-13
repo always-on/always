@@ -17,6 +17,12 @@ Reseller: Directron.
 * Put WPI and NEU stickers on front (over ASUS logo?)
 
 * Do Windows Update (***will take a long time***)
+  
+  Then disable further updates:
+
+  Control Panel > Action Center > Change Action Center Settings
+  Uncheck "Check for Updates"
+  OK
 
 * In Control Panel > Power Options > Change advanced power settings:
 
@@ -62,6 +68,20 @@ Reseller: Directron.
   **NB** Disable bug reporting popup by deleting following file:
 
   C:\Users\<USERNAME>\AppData\LocalLow\Unity\WebPlayer\UnityBugReporter.exe
+
+* Disable Windows pop-up when .NET process crashes
+
+  *CAREFULLY* use 'regedit' program to modify the following registry key to 1:
+
+  HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting\DontShowUI
+
+  and also do the following:
+
+  Control Panel > Action Center > Change Action Center Settings
+  > Check for Solutions to Problem Reports > Settings
+  > Change report settings for all users
+  Select Never Check for Solutions (Not Recommended)
+  Ok
 
 * Disable ASUS 3D Magnifier
 
