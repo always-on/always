@@ -14,6 +14,11 @@ public class NutritionSchema extends ScriptbuilderSchema {
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.NUTRITION;
    	
    /* TODO for logging:
+    *  
+    * Note: If you are satisfied with the log messages that are already
+    * automatically generated for start/end of activity and for all
+    * user model updates, then you can delete the log method below
+    * (and already defined enums above, if any) and go directly to (4) below.
     * 
     * (1) Add arguments to log method below as needed (use enums instead of
     *     string constants to avoid typos and ordering errors!)
