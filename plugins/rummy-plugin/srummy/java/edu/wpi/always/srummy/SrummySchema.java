@@ -24,7 +24,7 @@ public class SrummySchema extends ActivityStateMachineSchema<SrummyStateContext>
      
    public static void log (Won won) {
       SrummyGameState state = client.getGameState();
-      Logger.logActivity(LOGGER_NAME, won, SrummyClient.getFirst(), 
+      Logger.logActivity(LOGGER_NAME, Logger.Event.WON, won, SrummyClient.getFirst(), 
             state.getTurns(), state.getHumanMelds().size(), state.getAgentMelds().size());
    }
    

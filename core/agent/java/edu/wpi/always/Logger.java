@@ -49,7 +49,7 @@ public class Logger {
    }
    
    public enum Event { PROPOSED, ACCEPTED, REJECTED, STOPPED, START, END, INTERRUPTION, 
-                       SAY, MENU, EXTENSION, SELECTED, KEYBOARD, MODEL }
+                       SAY, MENU, EXTENSION, SELECTED, KEYBOARD, MODEL, WON }
    
    public static void logEvent (Event event, Object... args) {
       THIS.log(ObjectArrays.concat(new Object[] {SessionSchema.getCurrentLoggerName(), event}, args, Object.class));

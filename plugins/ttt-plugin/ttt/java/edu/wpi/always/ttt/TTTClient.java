@@ -9,6 +9,7 @@ import edu.wpi.sgf.comment.Comment;
 import edu.wpi.sgf.comment.CommentLibraryHandler;
 import edu.wpi.sgf.comment.CommentingManager;
 import edu.wpi.sgf.logic.AnnotatedLegalMove;
+import edu.wpi.sgf.logic.GameLogicState.Won;
 import edu.wpi.sgf.scenario.*;
 
 public class TTTClient implements TTTUI {
@@ -304,8 +305,13 @@ public class TTTClient implements TTTUI {
       else if ( winOrTie == 3 )
          gameState.tie = true;
 
-      if ( winOrTie != 0 )
-         TTTClient.gameOver = true;
+      if ( winOrTie != 0 ) {
+         if ( !TTTClient.gameOver ) {
+            TTTClient.gameOver = true;
+            TTTSchema.log(gameState.userWins ? Won.USER : 
+               gameState.agentWins ? Won.AGENT : Won.NEITHER);
+         }
+      }
    }
 
    public void show () {

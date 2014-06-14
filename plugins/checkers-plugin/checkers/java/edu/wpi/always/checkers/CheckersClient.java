@@ -421,12 +421,14 @@ public class CheckersClient implements CheckersUI {
    private void updateWin () {
       int res = gameState.possibleWinner();
       if ( res != 0 ){
-         CheckersClient.gameOver = true;
          if( res == 1 )
             gameState.userWins = true;
          else
             gameState.agentWins = true;
-         CheckersSchema.log(gameState.userWins ? Won.USER : Won.AGENT);
+         if ( !gameOver ) {
+            gameOver = true;
+            CheckersSchema.log(gameState.userWins ? Won.USER : Won.AGENT);
+         }
       }
    }
 

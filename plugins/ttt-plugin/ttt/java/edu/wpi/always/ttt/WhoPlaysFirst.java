@@ -14,12 +14,15 @@ public class WhoPlaysFirst extends TTTAdjacencyPairImpl {
    private static List<String> humanResponseOptions = 
          new ArrayList<String>();
    private static String WhatAgentSaysIfHumanDoesNotChooseAComment = "";
+   
+   public static boolean USER; // for logging
 
    public WhoPlaysFirst(final TTTStateContext context) {
       super("Do you want to play the first move or should I?", context);
       choice("Let me play first", new DialogStateTransition() {
          @Override
          public AdjacencyPair run () {
+            USER = true;
             return new Limbo(context);
          }
       });

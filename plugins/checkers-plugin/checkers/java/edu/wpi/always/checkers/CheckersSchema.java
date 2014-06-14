@@ -17,7 +17,7 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.CHECKERS;
    
    public static void log (Won won) {
-      Logger.logActivity(LOGGER_NAME, won, CheckersGameState.turns, CheckersGameState.jumps);
+      Logger.logActivity(LOGGER_NAME, Logger.Event.WON, won, CheckersGameState.turns, CheckersGameState.jumps);
    }
    
    public CheckersSchema (BehaviorProposalReceiver behaviorReceiver,

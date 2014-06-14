@@ -16,21 +16,27 @@ public class TTTSchema extends ActivityStateMachineSchema<TTTStateContext> {
    
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.TTT;
    
-   public static void log (Won won, First first) {
-      Logger.logActivity(LOGGER_NAME, won, first);
+   public static void log (Won won) {
+      Logger.logActivity(LOGGER_NAME, Logger.Event.WON, won, WhoPlaysFirst.USER ? First.USER : First.AGENT);
    }
    
    public TTTSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, Keyboard keyboard, TTTUI tttUI,
+         MenuPerceptor menuPerceptor, Keyboard keyboard, TTTClient client,
          UIMessageDispatcher dispatcher, PlaceManager placeManager,
          PeopleManager peopleManager, Always always) {
-      super(new WhoPlaysFirst(new TTTStateContext(keyboard, tttUI, dispatcher,
+      super(new WhoPlaysFirst(new TTTStateContext(keyboard, client, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor, LOGGER_NAME);
-           always.getUserModel().setProperty(TTTPlugin.PERFORMED, true);
+      always.getUserModel().setProperty(TTTPlugin.PERFORMED, true);
    }
-
+   
+   @Override
+   public void dispose () {
+      if ( !TTTClient.gameOver ) log(Won.NEITHER);
+      super.dispose();
+   }
+   
    @Override
    public void runActivity () {
       
