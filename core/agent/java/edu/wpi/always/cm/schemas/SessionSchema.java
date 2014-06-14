@@ -143,11 +143,10 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             if ( current != null ) {
                if ( current.isDone() ) {
                   revertIfInconsistent(current);
-                  stop(plan);
                   stateMachine.setState(current.isSelfStop() ? 
-                     new ResumeAdjacencyPairWrapper(discoAdjacencyPair) : 
-                     discoAdjacencyPair);
-                  current = null;
+                        new ResumeAdjacencyPairWrapper(discoAdjacencyPair) : 
+                        discoAdjacencyPair);  
+                  stop(plan); 
                } else yield(plan);
             } else {
                TaskClass task = plan.getType();
@@ -165,7 +164,9 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             Disco disco = interaction.getDisco();
             if ( disco.getProperty(disco.getTop(plan).getGoal().getType().getPropertyId()+"@interruption") == null ) 
                interruptible = true;
-         } else { interruptible = true; } // plan == null (at toplevel, so interruption done) 
+         } else { // plan == null, i.e., session plan exhausted (at toplevel)
+            interruptible = true; // interruption done
+         }
       }
       // above code does nothing when:
       //    -live plan is not a plugin
@@ -205,10 +206,10 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          interruption = null;
          interrupted = current;
          pluginName = ClientPluginUtils.getPluginName(); // before unyield hides
-         if ( interrupted != null ) unyield();
          stateMachine.setState(discoAdjacencyPair);
          if ( current == null ) discoAdjacencyPair.update();
-         current = null;
+         if ( interrupted != null ) unyield();
+         else current = null;
       }
    }
 
@@ -267,6 +268,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       stateMachine.setExtension(false);
       stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
       setNeedsFocusResource(true);
+      current = null;
    }
    
    public static final String TOPLEVEL = "What would you like to do together?";
