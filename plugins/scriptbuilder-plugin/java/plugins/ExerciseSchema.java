@@ -14,7 +14,19 @@ public class ExerciseSchema extends ScriptbuilderSchema {
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.EXERCISE;
    
    public enum Topic { GOALS, ACTIVITIES, SERVINGS };
-      
+   
+   /* TODO for logging:
+    * 
+    * (1) Add arguments to log method below as needed (use enums instead of
+    *     string constants to avoid typos and ordering errors!)
+    *     
+    * (2) Update always/docs/log-format.txt with any new logging fields
+    * 
+    * (3) Call log method at appropriate places in code
+    * 
+    * (4) Remove this comment!
+    *
+    */
    public static void log (Topic topic) {
       Logger.logActivity(LOGGER_NAME, topic);
    }
