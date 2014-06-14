@@ -150,7 +150,10 @@
   <t:task id="WeatherCity">
     <t:input name="city" type="City"/>
     <t:subtasks id="weatherCity">
-      <t:step name="say" task="disco:Say.Agent"/>
+      <t:step name="say" task="disco:Say.Eval"/>
+      <t:binding slot="$say.external" value="false"/>
+      <t:binding slot="$say.eval" 
+                 value="'edu.wpi.always.weather.WeatherSchema.log(edu.wpi.always.weather.WeatherSchema.Option.CITIES)'"/>
       <t:binding slot="$say.text"
                  value="$this.city == undefined ? undefined :
                         ( $W.interestCities[$this.city.name].comment +
@@ -165,9 +168,12 @@
   <t:task id="WeatherFriend">
     <t:input name="friend" type="Friend"/>
     <t:subtasks id="weatherFriend">
-      <t:step name="say1" task="disco:Say.Agent"/>
+      <t:step name="say1" task="disco:Say.Eval"/>
       <t:step name="say2" task="disco:Say.User"/>
       <t:step name="say3" task="disco:Say.Agent"/>
+      <t:binding slot="$say1.external" value="false"/>
+      <t:binding slot="$say1.eval" 
+                 value="'edu.wpi.always.weather.WeatherSchema.log(edu.wpi.always.weather.WeatherSchema.Option.FRIENDS)'"/>
       <t:binding slot="$say1.text"
                  value="$this.friend == undefined ? undefined :
                         ( $this.friend.name + ' is in ' +

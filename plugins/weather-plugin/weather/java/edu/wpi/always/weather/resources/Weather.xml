@@ -178,33 +178,33 @@
       </subtasks>
    </task>
    <task id="__Ending_tree">
-      <subtasks id="_d4e81_subtasks">
-         <step name="_d4e81_step" task="disco:Say"/>
-         <step name="_d4e82_step" task="disco:Say"/>
-         <binding slot="$_d4e81_step.text" value="&#34;yes. I love talking about weather&#34;"/>
-         <binding slot="$_d4e81_step.external" value="true"/>
-         <binding slot="$_d4e82_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; yeh, me too. That's it for now &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
-         <binding slot="$_d4e82_step.external" value="false"/>
-      </subtasks>
-      <subtasks id="_d4e83_subtasks">
-         <step name="_d4e83_step" task="disco:Say"/>
-         <step name="_d4e84_step" task="disco:Say"/>
-         <binding slot="$_d4e83_step.text"
-                  value="&#34;yes, I need to know the weather before I go out&#34;"/>
-         <binding slot="$_d4e83_step.external" value="true"/>
-         <binding slot="$_d4e84_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; Feel free to ask me! &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
-         <binding slot="$_d4e84_step.external" value="false"/>
-      </subtasks>
       <subtasks id="_d4e85_subtasks">
          <step name="_d4e85_step" task="disco:Say"/>
          <step name="_d4e86_step" task="disco:Say"/>
-         <binding slot="$_d4e85_step.text"
-                  value="&#34;yes, but I only want to know about it sometimes&#34;"/>
+         <binding slot="$_d4e85_step.text" value="&#34;yes. I love talking about weather&#34;"/>
          <binding slot="$_d4e85_step.external" value="true"/>
-         <binding slot="$_d4e86_step.text" value="&#34;I'm ready to talk about it whenever you want&#34;"/>
+         <binding slot="$_d4e86_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; yeh, me too. That's it for now &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
          <binding slot="$_d4e86_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e87_subtasks">
+         <step name="_d4e87_step" task="disco:Say"/>
+         <step name="_d4e88_step" task="disco:Say"/>
+         <binding slot="$_d4e87_step.text"
+                  value="&#34;yes, I need to know the weather before I go out&#34;"/>
+         <binding slot="$_d4e87_step.external" value="true"/>
+         <binding slot="$_d4e88_step.text"
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; Feel free to ask me! &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
+         <binding slot="$_d4e88_step.external" value="false"/>
+      </subtasks>
+      <subtasks id="_d4e89_subtasks">
+         <step name="_d4e89_step" task="disco:Say"/>
+         <step name="_d4e90_step" task="disco:Say"/>
+         <binding slot="$_d4e89_step.text"
+                  value="&#34;yes, but I only want to know about it sometimes&#34;"/>
+         <binding slot="$_d4e89_step.external" value="true"/>
+         <binding slot="$_d4e90_step.text" value="&#34;I'm ready to talk about it whenever you want&#34;"/>
+         <binding slot="$_d4e90_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_WeatherStranger">
@@ -237,7 +237,10 @@
    <task id="WeatherCity">
       <input name="city" type="City"/>
       <subtasks id="weatherCity">
-         <step name="say" task="disco:Say.Agent"/>
+         <step name="say" task="disco:Say.Eval"/>
+         <binding slot="$say.external" value="false"/>
+         <binding slot="$say.eval"
+                  value="'edu.wpi.always.weather.WeatherSchema.log(edu.wpi.always.weather.WeatherSchema.Option.CITIES)'"/>
          <binding slot="$say.text"
                   value="$this.city == undefined ? undefined :                         ( $W.interestCities[$this.city.name].comment +                           ' The temperature is ' +                            $W.interestCities[$this.city.name].temperature +                           ' fahrenheit.  It is ' +                           $W.interestCities[$this.city.name].weatherCondition +                           ' now.' )"/>
       </subtasks>
@@ -245,9 +248,12 @@
    <task id="WeatherFriend">
       <input name="friend" type="Friend"/>
       <subtasks id="weatherFriend">
-         <step name="say1" task="disco:Say.Agent"/>
+         <step name="say1" task="disco:Say.Eval"/>
          <step name="say2" task="disco:Say.User"/>
          <step name="say3" task="disco:Say.Agent"/>
+         <binding slot="$say1.external" value="false"/>
+         <binding slot="$say1.eval"
+                  value="'edu.wpi.always.weather.WeatherSchema.log(edu.wpi.always.weather.WeatherSchema.Option.FRIENDS)'"/>
          <binding slot="$say1.text"
                   value="$this.friend == undefined ? undefined :                         ( $this.friend.name + ' is in ' +                           $W.friendsCities[$this.friend.name].locationName +                           '. Right now it is ' +                            $W.friendsCities[$this.friend.name].temperature +                           ' fahrenheit.' )"/>
          <binding slot="$say2.text" value="'go on'"/>

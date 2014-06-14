@@ -15,7 +15,7 @@ public class StorytellingSchema extends ScriptbuilderSchema {
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.STORY;
    
 	public enum Saved { SAVED, NOT_SAVED }
-	 
+
 	public static void log (Saved saved, int duration, String title) {
 	   Logger.logActivity(LOGGER_NAME, saved, duration, title);
 	}

@@ -20,10 +20,25 @@ public class WeatherSchema extends DiscoActivitySchema {
       running = false; 
    } 
    
+   private static boolean citiesLogged, friendsLogged;
+   
    public enum Option { CITIES, FRIENDS }
    
    public static void log (Option option) {
-      Logger.logActivity(LOGGER_NAME, option);
+      switch (option) {
+         case CITIES:
+            if ( !citiesLogged ) {
+               Logger.logActivity(LOGGER_NAME, option);
+               citiesLogged = true;
+            }
+            break;
+         case FRIENDS:
+            if ( !friendsLogged ) {
+               Logger.logActivity(LOGGER_NAME, option);
+               friendsLogged = true;
+            }
+            break;
+      }
    }
    
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.WEATHER;
@@ -42,6 +57,7 @@ public class WeatherSchema extends DiscoActivitySchema {
            (WeatherPlugin.date == null ? getTodayDate(): WeatherPlugin.date)+ "\"" + ";",
           "Weather data");
       interaction.clear();
+      citiesLogged = friendsLogged = false;
       switch (Always.THIS.getUserModel().getCloseness()) {
          case STRANGER: start("_WeatherStranger"); break;
          case ACQUAINTANCE: start("_WeatherAcquaintance"); break;

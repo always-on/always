@@ -12,12 +12,12 @@ import edu.wpi.disco.rt.menu.*;
 public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Context> {
 
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.SKYPE;
-   
+
    public enum Direction { INCOMING, OUTGOING }
    public enum Appointment { APPOINTMENT, NOT_APPOINTMENT }
    
-   public static void log (Direction direction, Appointment appointment, int duration, String who) {
-      Logger.logActivity(LOGGER_NAME, direction, appointment, duration, who);
+   public static void log (Direction direction, Appointment appointment, int duration) {
+      Logger.logActivity(LOGGER_NAME, direction, appointment, duration, CALLER);
    }
      
    private final ShoreFacePerceptor shore;
