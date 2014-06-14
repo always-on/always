@@ -9,7 +9,8 @@ import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.sgf.comment.Comment;
 import edu.wpi.sgf.comment.CommentLibraryHandler;
 import edu.wpi.sgf.comment.CommentingManager;
-import edu.wpi.sgf.logic.AnnotatedLegalMove;
+import edu.wpi.sgf.logic.*;
+import edu.wpi.sgf.logic.GameLogicState.Won;
 
 public class CheckersClient implements CheckersUI {
 
@@ -425,6 +426,7 @@ public class CheckersClient implements CheckersUI {
             gameState.userWins = true;
          else
             gameState.agentWins = true;
+         CheckersSchema.log(gameState.userWins ? Won.USER : Won.AGENT);
       }
    }
 
@@ -435,6 +437,7 @@ public class CheckersClient implements CheckersUI {
    @Override
    public void startPluginForTheFirstTime (CheckersUIListener listener) {
       this.listener = listener;
+      gazeDirection = "";
       proxy.startPlugin(PLUGIN_NAME, InstanceReuseMode.Remove, null);
    }
 

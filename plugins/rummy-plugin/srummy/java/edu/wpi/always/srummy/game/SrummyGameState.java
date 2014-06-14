@@ -35,6 +35,10 @@ public class SrummyGameState extends GameLogicState {
    private static boolean fewCardsForAgentAlreadySaid = false;
    private static boolean fewCardsForHumanAlreadySaid = false;
    private static int gameRoundMemory1 = 0, gameRoundMemory2 = 0;
+      
+   public int turns; // for logging
+   public int getTurns () { return turns; }
+   public void bumpTurns () { turns++; }
    
    private Deck stock;
    private Deck discard;

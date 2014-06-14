@@ -16,11 +16,9 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
 
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.CHECKERS;
    
-   public static void log (Won won, int jumps) {
-      Logger.logActivity(LOGGER_NAME, won, jumps);
+   public static void log (Won won) {
+      Logger.logActivity(LOGGER_NAME, won, CheckersGameState.turns, CheckersGameState.jumps);
    }
-   
-   private final CheckersClient client;
    
    public CheckersSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
@@ -30,18 +28,13 @@ public class CheckersSchema extends ActivityStateMachineSchema<CheckersStateCont
       super(new StartGamingSequence(new CheckersStateContext(keyboard, client, dispatcher,
             placeManager, peopleManager)), behaviorReceiver, behaviorHistory,
             resourceMonitor, menuPerceptor, LOGGER_NAME);
-      this.client = client;
       always.getUserModel().setProperty(CheckersPlugin.PERFORMED, true);
    }
 
    @Override
    public void dispose () {
+      if ( !CheckersClient.gameOver ) log(Won.NEITHER);
       super.dispose();
-      log(CheckersClient.gameOver ?   
-             (client.getGameState().userWins ? Won.USER :
-                client.getGameState().agentWins ? Won.AGENT : null) 
-             : Won.NEITHER,
-          CheckersGameState.jumps);
    }
    
    @Override

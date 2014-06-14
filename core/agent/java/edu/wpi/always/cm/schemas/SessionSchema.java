@@ -146,7 +146,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                   stop(plan);
                   stateMachine.setState(current.isSelfStop() ? 
                      new ResumeAdjacencyPairWrapper(discoAdjacencyPair) : 
-                        discoAdjacencyPair);
+                     discoAdjacencyPair);
                   current = null;
                } else yield(plan);
             } else {

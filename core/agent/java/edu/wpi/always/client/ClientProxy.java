@@ -73,7 +73,8 @@ public class ClientProxy {
    }
 
    public void say (String text) {
-      Logger.logEvent(Logger.Event.SAY, text);
+      String logText = text.trim();
+      if ( !logText.isEmpty() ) Logger.logEvent(Logger.Event.SAY, logText);
       HashMap<String, String> p = Maps.newHashMap();
       p.put("text", text);
       enqueue("speech", p);

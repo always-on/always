@@ -8,7 +8,8 @@ import edu.wpi.always.srummy.game.*;
 import edu.wpi.always.srummy.logic.*;
 import edu.wpi.disco.rt.util.NullArgumentException;
 import edu.wpi.sgf.comment.*;
-import edu.wpi.sgf.logic.AnnotatedLegalMove;
+import edu.wpi.sgf.logic.*;
+import edu.wpi.sgf.logic.GameLogicState.Won;
 import edu.wpi.sgf.scenario.*;
 
 public class SrummyClient implements SrummyUI {
@@ -81,6 +82,8 @@ public class SrummyClient implements SrummyUI {
    private MoveChooser moveChooser;
    private CommentingManager commentingManager;
    private SrummyGameState gameState;
+   
+   public SrummyGameState getGameState () { return gameState; }
 
    private static AnnotatedLegalMove latestAgentMove;
    private static AnnotatedLegalMove latestHumanMove;
@@ -144,8 +147,12 @@ public class SrummyClient implements SrummyUI {
       dispatcher.send(m);
    }
    
+   private static LegalMove.First first;
+   public static LegalMove.First getFirst () { return first; }
+   
    @Override
    public void setStartingPlayer (int playerIdentifier) {
+      first = (playerIdentifier == HUMAN_IDENTIFIER ? LegalMove.First.USER : LegalMove.First.AGENT);
       String who = playerIdentifier == HUMAN_IDENTIFIER ? 
          "human" : "agent";
       Message m = Message.builder(MSG_STARTING_PLAYER)
@@ -158,10 +165,10 @@ public class SrummyClient implements SrummyUI {
       
       if(message.getType()
             .equals(MSG_GAME_OVER)){
-         String winner = message.getBody().get("winner")
-         .getAsString().toLowerCase().trim();
+         String winner = message.getBody().get("winner").getAsString().toLowerCase().trim();
          gameState.gameOver(winner);
          SrummyClient.gameOver = true;
+         SrummySchema.log(gameState.getCurrentPhase() == GamePhase.HumanWon ? Won.USER : Won.AGENT);
          listener.gameIsOverByYieldingZeroCardsInATurn();
       }
       
@@ -474,8 +481,10 @@ public class SrummyClient implements SrummyUI {
          } catch (Exception e) {e.printStackTrace();}
       }
 
-      latestAgentMove = selectedMove;
-
+      if ( latestAgentMove != selectedMove ) {
+         latestAgentMove = selectedMove;
+         if ( latestAgentMove.getMove() instanceof DiscardMove ) gameState.bumpTurns();
+      }
    }
 
    /**Fetch moves, annotate, filter by scenarios.
@@ -670,7 +679,8 @@ public class SrummyClient implements SrummyUI {
 
       latestHumanMove = moveAnnotator.annotate(humanPlayedMoves.get(
             humanPlayedMoves.size() - 1), gameState).get(0);
-
+      if ( latestHumanMove.getMove() instanceof DiscardMove ) 
+         gameState.bumpTurns();
    }
 
    private void updateWinOrTie () {
@@ -698,6 +708,7 @@ public class SrummyClient implements SrummyUI {
    @Override
    public void startPluginForTheFirstTime (SrummyUIListener listener) {
       this.listener = listener;
+      gazeDirection = "";
       proxy.startPlugin(PLUGIN_NAME, InstanceReuseMode.Remove, null);
    }
 

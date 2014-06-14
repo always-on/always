@@ -315,6 +315,7 @@ public class TTTClient implements TTTUI {
    @Override
    public void startPluginForTheFirstTime (TTTUIListener listener) {
       this.listener = listener;
+      gazeDirection = "";
       proxy.startPlugin(PLUGIN_NAME, InstanceReuseMode.Remove, null);
    }
 

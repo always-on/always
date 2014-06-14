@@ -74,7 +74,8 @@ public class TcpConnection extends RemoteConnection {
    private String lastMessage = "";
    private int count;
    
-   public static int STARTS_WITH = 18; // change to 0 to disable
+   // First 40 characters of gaze messages the same
+   public static int STARTS_WITH = 40; // change to 0 to disable
   
    private void send (String message) throws IOException {
       out.println(message);

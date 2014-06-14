@@ -108,18 +108,18 @@
 
 ---------------------------------------------------------
 
-<DATETIME>,CHECKERS,<WON>,<MOVES>,<JUMPS>
+<DATETIME>,CHECKERS,<WON>,<TURNS>,<JUMPS>
 
 * <WON> = USER or AGENT or NEITHER
-* <MOVES> = total number of moves in game
+* <MOVES> = total number of turns in game
 * <JUMPS> = total number of jumps in game
 
 ---------------------------------------------------------
 
-<DATETIME>,ENROLL,<CHANGE>,<NAME>
+<DATETIME>,ENROLL,...
 
-* <CHANGE> = NEW or EDIT
-* <NAME> = "..."  (see details of person in user model printout)
+// all needed logging already covered above, especially
+// including MODEL logging
 
 ---------------------------------------------------------
 
@@ -129,7 +129,10 @@
 
 ---------------------------------------------------------
 
-<DATETIME>,EXPLAIN,<PLUGIN>
+<DATETIME>,EXPLAIN,...
+
+// all needed logging already covered above, especially
+// including MODEL logging
 
 ---------------------------------------------------------
 
@@ -145,7 +148,7 @@
 
 ---------------------------------------------------------
 
-<DATETIME>,RUMMY,<WON>,<FIRST>,<USER_MELDS>,<AGENT_MELDS>
+<DATETIME>,RUMMY,<WON>,<FIRST>,<TURNS>,<USER_MELDS>,<AGENT_MELDS>
 
 * <FIRST> = USER or AGENT
 * <USER_MELDS> = number of user melds in game

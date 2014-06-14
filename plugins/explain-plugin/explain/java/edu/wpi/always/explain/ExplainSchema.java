@@ -17,10 +17,6 @@ public class ExplainSchema extends DiscoActivitySchema {
    } 
    
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.EXPLAIN;
-        
-   public static void log (Logger.Activity activity) {
-      Logger.logActivity(LOGGER_NAME, activity);
-   }
    
    public ExplainSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
