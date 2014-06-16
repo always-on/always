@@ -27,6 +27,12 @@
       <t:step name="sleep" task="_SleepWell"/>
     </t:subtasks>
   </t:task>
+  
+    <t:task id="_MorningGreetingsAgain">
+    <t:subtasks id="again">
+      <t:step name="greet" task="_MorningAgain"/>
+      </t:subtasks>
+  </t:task>
 
   <t:task id="_MorningGreetingsCompanion">
     <t:subtasks id="base">
@@ -34,13 +40,18 @@
       <t:step name="sleep" task="_SleepWellCompanion"/>
     </t:subtasks>
   </t:task>
+  
+  <agent id="_MorningAgain" text=" Hello again, {getUserName()}.  ">
+  	<user text="Hi, Karen."/>
+    <user text="hello again."/>
+  </agent>
 
-  <agent id="_Morning" text="Good morning, {getUserName()}.">
+  <agent id="_Morning" text=" Good morning, {getUserName()}. ">
     <user text="Good morning, Karen."/>
     <user text="oh morning already!  Good morning!"/>
   </agent>
 
-  <agent id="_SleepWell" text="Did you sleep well?"
+  <agent id="_SleepWell" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Did you sleep well? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"
          eval="poorSleepReports = getPoorSleepReports();">
     <user id="affirm" text="Yes">
       <agent text="Are you feeling okay today?">
@@ -157,7 +168,7 @@
   
   <agent id="_EveningGreetings" text="So, {getUserName()}, have you had a good day?">
     <user text="yes, a good one">  
-      <agent text="good, glad to hear it"/>
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; good, glad to hear it &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
     </user>
     <user text="no, not really">
       <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear it. Maybe this evening will be better &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">

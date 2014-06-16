@@ -133,7 +133,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          AdjacencyPairBase<EnrollStateContext> {
 
       public TellEditBirthdayAdjacencyPair (final EnrollStateContext context) {
-         super("Do you want me to know " + nameToUse + " birthday?", context);
+         super("Do you want to tell me " + nameToUse + " birthday?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -149,7 +149,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {
@@ -165,7 +165,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       public EditBirthdayMonthAdjacencyPair (final EnrollStateContext context,
             final Person person) {
-         super("What is " + nameToUse + " birthday's month ?", context, true);
+         super("What is " + nameToUse + " birthday month ?", context, true);
          for (int i = 0; i < 12; i++) {
             final int MonthNum = i;
             choice(Person.Month[i], new DialogStateTransition() {
@@ -176,7 +176,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                }
             });
          }
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new CheckCorrectionAdjacencyPair(getContext(), person);
@@ -190,7 +190,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
       public EditBirthdayDayAdjacencyPair (final EnrollStateContext context,
             final Person person) {
-         super("What is " + nameToUse + " day of birthday ?", "Enter "
+         super("What is the date of " + nameToUse + " birth ?", "Enter "
             + nameToUse + " Birthday:", context, context.getKeyboard(), true);
       }
 
@@ -266,7 +266,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {
@@ -415,7 +415,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditStateAdjacencyPair (final EnrollStateContext context) {
-         super("What is " + nameToUse + "?", "Enter " + nameToUse
+         super("What is " + nameToUse + " state?", "Enter " + nameToUse
             + " state:", context, context.getKeyboard());
       }
 
@@ -540,7 +540,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          AdjacencyPairBase<EnrollStateContext> {
 
       public EditRelationAdjacencyPair (final EnrollStateContext context) {
-         super("What is " + nameToUse + " relation to you?", context, true);
+         super("Who is" + nameToUse + " to you?", context, true);
          choice("Friend", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
@@ -651,7 +651,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new CheckCorrectionAdjacencyPair(getContext(), person);

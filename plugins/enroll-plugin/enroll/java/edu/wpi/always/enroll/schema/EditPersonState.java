@@ -29,7 +29,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
          this.person = person;
          
          if(firstTimeHere){
-            nameToUse = editingSelf ? "your" : person.getName() + "'s";
+	     nameToUse = editingSelf ? "your" : person.getName() + "'s"; 
          }
          firstTimeHere = false;
          
@@ -135,7 +135,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       
       public PersonNameEditInvalidAdjacencyPair(
             final EnrollStateContext context, Person person) {
-         super("You must enter some name, even a nickname will do", 
+         super("You must enter some name. Even a nickname will do", 
                "Enter name:", context, context.getKeyboard());
          this.person = person;
       }
@@ -164,7 +164,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
       public TellChangeBirthdayAdjacencyPair(final EnrollStateContext context, 
             final Person person) {
-         super("Do you want to provide " + nameToUse + " birthday?", context);
+         super("Do you know" + nameToUse + " birthday?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -180,7 +180,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -195,7 +195,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
       public ChangeBirthdayMonthAdjacencyPair(final EnrollStateContext context,
             final Person person) {
-         super("What is " + nameToUse + " birthday month ?", context, true);
+	  super("What month was " + person.getName() + " born ?", context, true);
          for(int i = 0; i < 12; i++) {
             final int MonthNum = i;
             choice(Person.Month[i], new DialogStateTransition() {
@@ -206,7 +206,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                }
             });
          }
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new EditPersonAdjacencyPair(getContext(), person);
@@ -222,7 +222,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       
       public ChangeBirthdayDayAdjacencyPair(final EnrollStateContext context,
             final Person person) {
-         super("What is the date of " + nameToUse + " Birthday ?", 
+	  super("What day was " + person.getName() + " born ?", 
                "Enter "+ nameToUse + " Birthday:", context, context.getKeyboard(), true);
          this.person = person;
       }
@@ -283,7 +283,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public ChangeGenderAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("What is " + nameToUse +  " gender?", context);
+	  super("What is " + nameToUse +  " gender?", context);
          choice("Male", new DialogStateTransition() {
 
             @Override
@@ -300,7 +300,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -372,7 +372,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public IfKnowZipCodeAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("Do you know " + nameToUse + " ZipCode?", context);
+         super("Do you know " + nameToUse + " zipcode?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -398,7 +398,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
       public ChangeZipCodeAdjacencyPair(
             final EnrollStateContext context, final Person person) {
-         super("What is " + nameToUse + " the zipcode?", 
+         super("What is " + nameToUse + " zipcode?", 
                "Enter " + nameToUse + " zipcode:",
                context, context.getKeyboard(), true);
          this.person = person;
@@ -461,7 +461,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeStateAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("What is " + nameToUse +  " state ? ",
+         super("Which state does " + person.getName() +  " live in? ",
                "Enter " + nameToUse + " state:",
                context, context.getKeyboard());
          this.person = person;
@@ -521,7 +521,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeCityAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("Which city does " + nameToUse +  " live in ?", 
+         super("Which city does " + person.getName() +  " live in ?", 
                "Enter " + nameToUse + " city:",
                context, context.getKeyboard());
          this.person = person;
@@ -594,7 +594,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public ChangeRelationAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("What is your relationship with" + person.getName() , context, true);
+         super("Who is " + person.getName() + " to you?" , context, true);
          choice("Friend", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -679,7 +679,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new EditPersonAdjacencyPair(getContext(), person);
@@ -706,7 +706,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new EditPersonAdjacencyPair(getContext(), person);

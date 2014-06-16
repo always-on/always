@@ -39,7 +39,7 @@ abstract class CalendarChangeState {
                return new EventThisWeek(context, week.plusWeeks(2));
             }
          });
-         choice("never mind", new DialogStateTransition() {
+         choice("cancel changing this event", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {
