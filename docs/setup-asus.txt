@@ -1,95 +1,157 @@
-     ASUS FIELD STUDY MACHINE SETUP INSTRUCTIONS   May 23, 2014
+	     ASUS FIELD STUDY MACHINE SETUP INSTRUCTIONS
 
-See docs/machines.txt for a machine name.  MAKE CERTAIN TO ONLY USE
-THESE NAMES AND KEEP TRACK OF WHICH ONES YOU HAVE USED (File can be
-edited and committed).
 
-Note that the machine name will have to be authorized with the local
-network in order to proceed further below.
+MACHINE NAME: ____________________________________
 
-* Creat an admin account with agreed-upon login and password
 
-* Register Asus machines: Username: rich@wpi.edu, Pass: (same as all),
-Reseller: Directron.
+DATE: ____________________________________________
 
-* Put a piece of dark black tape over power light (for nighttime)
 
-* Put WPI and NEU stickers on front (over ASUS logo?)
+SIGNED: __________________________________________
 
-* Do Windows Update (***will take a long time***)
+
+PLEASE PRINT OUT A COPY OF THIS CHECKLIST AND FOLLOW IT CLOSELY FOR
+EVERY MACHINE.  A MISSED STEP CAN LEAD TO A FAILURE IN THE FIELD!!
+
+***NB*** Complete setup needs to be confirmed for *all* study 
+         machines, even those that have already been running!
+
+(Please add a "SETUP DONE" note to each line in docs/machines.txt and
+recommit the file.)
+
+-----------------------------------------------------------------------
+
+(1) Initialization/Registration   CHECK [ ]
+
+    (a) See docs/machines.txt for a machine name.
+
+        MAKE CERTAIN TO ONLY USE THESE NAMES AND KEEP TRACK OF WHICH
+        ONES YOU HAVE USED.
+
+    (b) Create an ADMIN account with agreed-upon login and password
+
+    (c) Register machine on local network for installing other software
+        and updates.
+
+-----------------------------------------------------------------------
+
+(2) Physical configuration  CHECK [ ]
+
+    (a) For AlwaysOn and Reeti machines only, attach IR motion detector
+        to front with Velcro, tie loose wires in back and plug into USB
+        on side of machine
+
+    (b) Cover power light with piece of black plastic tape (for night-time)
+
+    (c) Put WPI and (similar discreetly sized) NEU stickers on front bezel
+        covering the ASUS logo.
+
+-----------------------------------------------------------------------
+
+(3) Basic Software Installation CHECK [ ]
+
+    (a) Do Windows Update (will take a *long* time) CHECK [ ]
   
-  Then disable further updates:
+    (b) Install JRE 1.7 (*not* 1.8!) from: CHECK [ ]
 
-  Control Panel > Action Center > Change Action Center Settings
-  Uncheck "Check for Updates"
-  OK
+        http://download.oracle.com/otn-pub/java/jdk/7u60-b19/jre-7u60-windows-x64.exe
 
-* In Control Panel > Power Options > Change advanced power settings:
+    (c) Install .Net 4.5 from: CHECK [ ]
 
-  > Require a password on wakeup (under current plan): NO
+        http://www.microsoft.com/en-us/download/details.aspx?id=30653
 
-  > Turn off hard disk after: 20 minutes (is this a good idea?)
+    (d) Install Visual C++ 2010 SP1 Redistributable Package (x64), from: CHECK [ ]
 
-  > Sleep
+        http://www.microsoft.com/en-us/download/details.aspx?id=13523 
 
-    + Sleep after: NEVER
-    + Allow hybrid sleep: OFF
-    + Hibernate after: NEVER
-    + Allow wake timers: DISABLE
+    (e) Install Unity Web Player for Windows from: CHECK [ ]
 
-  > USB selective suspend: DISABLED
+        http://unity3d.com/webplayer
 
-  > Power buttons and lid
+        **NB** Disable Unity bug reporting popup by DELETING following file:
+
+        C:\Users\<USERNAME>\AppData\LocalLow\Unity\WebPlayer\UnityBugReporter.exe 
+
+    (f) Install Ivona from: CHECK [ ]
+
+        https://www.dropbox.com/s/41db5ze0oopmu8q/ivona2_installer_pak_salli.exe
+
+        **NB**: See and update license file in docs/ivona.txt with which
+	license went to which machine!
+
+    (g) Install and configure remote desktop software (if used) CHECK [ ]
+
+-----------------------------------------------------------------------
+
+(4) Control Panel Settings  CHECK [ ]
+
+    (a) Disable Windows updates: CHECK [ ]
+
+        Action Center > Change Action Center Settings
+        Uncheck "Check for Updates"
+        OK
     
-    + Power button action: DO NOTHING
-    + Sleep button action: DO NOTHING
+    (b) Display and power options CHECK [ ]
 
-  > Turn off display after: NEVER
+        Power Options > Change advanced power settings:
 
-* In Control Panel > Personalization > Screen Saver
+        > Require a password on wakeup (under current plan): NO
 
-  Select "Blank" 
-  Select Wait 15 minutes
-  Do not select On Resume Display Login Screen
+        > Sleep
+          + Sleep after: NEVER
+          + Allow hybrid sleep: OFF
+          + Hibernate after: NEVER
+          + Allow wake timers: DISABLE
 
-* Uninstall native trial anti-virus software(Titanium...).
+        > USB selective suspend: DISABLED
 
-* ?? install latest authorized antivirus software (e.g., MacAfee 
-  from \\shares.wpi.edu\applications).
+        > Power buttons and lid
+    
+          + Power button action: DO NOTHING
+          + Sleep button action: DO NOTHING
 
-* install Java 1.7
+        > Turn off display after: NEVER
 
-* install .Net 2010 (4.0)
+    (c) Screen saver options CHECK [ ]
 
-* install Visual C++ 2010 SP1 Redistributable Package (x64), from http://www.microsoft.com/en-us/download/details.aspx?id=13523
+        Personalization > Screen Saver
+        Select "Blank" 
+        Select Wait 15 minutes
+        Do not select On Resume Display Login Screen
 
-* install Unity Web Player for Windows from: http://unity3d.com/webplayer
+    (d) To improve low speaker volume CHECK [ ]
+
+        Hardware & Sound > (Sound) Manage Audio Devices 
+        > Playback > Speakers > Properties > Enhancements > 
+
+        Scroll down in menu and check Loudness Equalization, then Apply/Ok.
   
-  **NB** Disable bug reporting popup by deleting following file:
+    (e) Disable solution checking CHECK [ ]
 
-  C:\Users\<USERNAME>\AppData\LocalLow\Unity\WebPlayer\UnityBugReporter.exe
+        Action Center > Change Action Center Settings
+        > Check for Solutions to Problem Reports > Settings
+        > Change report settings for all users
+        Select Never Check for Solutions (Not Recommended)
+        Ok
 
-* Disable Windows pop-up when .NET process crashes
+-----------------------------------------------------------------------
 
-  *CAREFULLY* use 'regedit' program to modify the following registry key to 1:
+(6) Registry Edit CHECK [ ]
+
+To disable Windows pop-up when .NET process crashes, *CAREFULLY* use
+'regedit' program to modify the following registry key to 1:
 
   HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting\DontShowUI
 
-  and also do the following:
+-----------------------------------------------------------------------
 
-  Control Panel > Action Center > Change Action Center Settings
-  > Check for Solutions to Problem Reports > Settings
-  > Change report settings for all users
-  Select Never Check for Solutions (Not Recommended)
-  Ok
+(5) Set up Dropbox CHECK [ ]
 
-* Disable ASUS 3D Magnifier
+Login at dropbox.com using account 'always-on@wpi.edu' (password
+provided) and install Dropbox on PC (using 'install' dropdown option
+in upper right corner).
 
-  Rename C:\Program Files (x86)\ASUS\ASUS Touch Tech\ASUSMagnifier3d.exe
-  to .exe.DISABLE
-
-* install DropBox using account 'always-on@wpi.edu' (password provided) and
-  under Preferences:
+After installation, open preferences on desktop application:
 
   General > Turn *off* desktop notifications
 
@@ -98,45 +160,57 @@ Reseller: Directron.
 
   See toplevel Dropbox README.txt file for more instructions.
 
-* Install Ivona (update license file in docs/ivona.txt)
+-----------------------------------------------------------------------
 
-To improve low speaker volume:
+(6) Disabling other programs CHECK [ ]
 
-Control Panel > Hardware & Sound > (Sound) Manage Audio Devices 
-  > Playback > Speakers > Properties > Enhancements > 
+    (a) Uninstall native trial anti-virus software and other bloat-ware CHECK [ ]
 
-  Scroll down in menu and check Loudness Equalization, then Apply/Ok.
-  
+    (b) Disable ASUS 3D Magnifier by DELETING the following file: CHECK [ ]
+
+        C:\Program Files (x86)\ASUS\ASUS Touch Tech\ASUSMagnifier3d.exe
+
 ________________________________________________________________
 
-For development machines only:
+(7) Install and test latest system release CHECK [ ]
 
-* install Eclipse Juno SR1 (put extracted folder in C:)
+    (a) On a development machine, build a new release by running the
+        ANT script always/core/agent/bin/release.xml, which will
+        create a new 'release' folder in the Dropbox subfolder of the
+        *development* machine.
 
-* Git 1.8 (or newer stable version) -- GitHub folder is normally in documents folder.
-* Github (optionally: (Tortoisegit))
+    (b) Copy the 'release' folder from the development machine's
+        dropbox subfolder to:
 
-* Tortoise SVN for fusion trunk access if required (or Eclipse SVN or both)
+        c:\Dropbox\%MACHINENAME%\release.new
 
-* Optional useful software: Chrome, Skype, 7zip, Dropbox, Notepad++
+    (c) Wait for Dropbox to finish synchronizing on this machine
 
-* SHORE is tested successfully
+    (c) Execute the following script to test the system
 
-* PIRmovementPerceptor class must test the PIR successfully.
+        c:\Dropbox\%MACHINENAME%\boot.bat
 
-* Go on to the "setup.txt" file for always development machines
+________________________________________________________________
 
-Restoring the webcam:
+(9) Install and configure Kiosk Pro CHECK [ ]
 
-For no apparent reason today, Windows could not find the builtin
-webcam on my ASUS.  After some web searching I found the diagosis and
-solution.  For some reason, the camera got disabled in the BIOS!
+    (a) The file c:\Dropbox\%MACHINENAME%\boot.bat should be run 
+        whenever machine is rebooted (e.g., when power is turned on)  CHECK [ ]
 
-To fix it, reboot the machine and when the ASUS splash screen comes
-up, press F2 to get into the BIOS.  Then under "devices", you will see
-the camera and it will say "Disabled" next it.  Click the button to
-enable it.  Exit from BIOS, saving settings, and let the restart
-finish.
+    (b) The machine should reboot itself at 3am every morning (if
+        this is not a feature of Kiosk Pro, use Windows native
+	facility).                                                    CHECK [ ]
 
--CR
+    (c) Power cycle to test.
+________________________________________________________________
+
+(10) Restoring the webcam (only if needed)
+
+If Windows cannot find the builtin webcam on my ASUS, reboot the
+machine and when the ASUS splash screen comes up, press F2 to get into
+the BIOS.  Then under "devices", you will see the camera and it will
+say "Disabled" next it.  Click the button to enable it.  Exit from
+BIOS, saving settings, and let the restart finish.
+
+________________________________________________________________
 

@@ -1,7 +1,7 @@
 May 23, 2014
 
 ***NB*** For all the ASUS machines below, the file in
-         c:\Dropbox\<COMPUTERNAME>\always.bat has been initialized
+         c:\Dropbox\%COMPUTERNAME%\boot.bat has been initialized
          with parameters to launch correct condition as per list!
 
          For the four Reeti machines, the correct Reeti.json has
@@ -9,52 +9,57 @@ May 23, 2014
 
          Reeti's in reserve:  Balin, Kili (eye problem)
 
----MACHINE IN PARIS---
+         See docs/setup-asus.txt for setup instructions!
 
-ASUS-RICH (ASUS) Development
+***NB*** Complete setup needs to be confirmed for *all* study
+	 machines, even those that have been running!
 
----MACHINES AT WPI---
+---- DEVELOPMENT MACHINES ----
 
-ALWAYS2 (HP) Development
-
-(Following 3 machines deliverd to NEU by June 15)
-
-** ALWAYS4 (ASUS) - Reeti Nori
-*  ALWAYS5 (ASUS) - AlwaysOn 
-*  ALWAYS8 (ASUS) - AlwaysOn
+ASUS-RICH (ASUS) Development (Paris)
+ALWAYS2 (HP) Development (WPI)
+TOUCHSMART2-HP (HP) Development (NEU)
 
 ---MACHINES AT NEU (unpacked)---
-
-TOUCHSMART2-HP (HP) Development
 
 ** RAGTOUCH2 (ASUS) - Reeti Dori
 ** ALWAYS3 (ASUS) - Reeti Fili
 
---- (ASUS) IN BOXES AT NEU---
+Following 3 machines were formerly at WPI
+
+** ALWAYS4 (ASUS) - Reeti Nori
+
+*  ALWAYS5 (ASUS) - AlwaysOn 
+*  ALWAYS8 (ASUS) - AlwaysOn
+
+---IN BOXES (not yet set up) AT NEU---
 
 1 in lab
 
-** ALWAYS1 - Reeti Bombur
+** ALWAYS1 (ASUS) - Reeti Bombur
 
 10 in storeroom
 
-* ALWAYS6 - AlwaysOn
-* ALWAYS7 - AlwaysOn
-* ALWAYS9 - AlwaysOn
-* ALWAYS10 - AlwaysOn
-* ALWAYS11 - Login
-* ALWAYS12 - Login
-* ALWAYS13 - Login
-* ALWAYS14 - Login
-* ALWAYS15 - Login
-* ALWAYS16 - Login
+* ALWAYS6 (ASUS) - AlwaysOn
+* ALWAYS7 (ASUS) - AlwaysOn
+* ALWAYS9 (ASUS) - AlwaysOn
+* ALWAYS10 (ASUS) - AlwaysOn
+
+NB: login condition machines do *not* need IR motion detectors!
+
+* ALWAYS11 (ASUS) - Login
+* ALWAYS12 (ASUS) - Login
+* ALWAYS13 (ASUS) - Login
+* ALWAYS14 (ASUS) - Login
+* ALWAYS15 (ASUS) - Login
+* ALWAYS16 (ASUS) - Login
+
+------------------------------------
 
 * = use in main study (12)  ALWAYS5-ALWAYS16
 
     AlwaysOn condition (6): ALWAYS5-ALWAYS10
     Login condition (6): ALWAYS11-ALWAYS16
-
-NB: login condition machines do *not* need IR boxes!
 
 ** = use in Reeti study (4) ALWAYS1,RAGTOUCH2,ALWAYS3,ALWAYS4
 
