@@ -77,7 +77,7 @@
    <task id="EnrollUser">
       <precondition> 
        Packages.edu.wpi.always.Always.THIS.getUserModel().getSessions() == 0
-       || notStranger() || days() &gt; 2
+       || isExplained("TALK_ABOUT") || notStranger() || days() &gt; 2
     </precondition>
    </task>
    <task id="TalkAbout">
