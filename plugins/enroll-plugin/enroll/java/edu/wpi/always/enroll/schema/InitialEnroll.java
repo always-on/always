@@ -18,13 +18,14 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
       
       super("<FACE EXPR=\"SMILE\"> I'm ready for you to tell me about your family and friends <FACE EXPR=\"WARM\">", context);
       
-      choice("Sounds good", new DialogStateTransition() {
+      choice("Sounds good", new DialogStateTransition(){ 
 
-         @Override
-         public AdjacencyPair run () {
-            return new ReadyForStartEvent(context);
-         }
-      });
+            @Override
+            public AdjacencyPair run() {
+               return new PersonNameAdjacencyPair(context);
+            }
+         });
+
       choice("Not now, maybe later", new DialogStateTransition() {
 
          @Override
@@ -86,26 +87,6 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
       }
    }
 
-   public static class ReadyForStartEvent extends EnrollAdjacencyPairImpl{
-
-      public ReadyForStartEvent(final EnrollStateContext context) {
-         super("<FACE EXPR=\"SMILE\"> Good. Let's start <FACE EXPR=\"SMILE\">", context);
-         choice("Yes, let's start", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run() {
-               return new PersonNameAdjacencyPair(context);
-            }
-         });
-         choice("No, I changed my mind", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run() {
-               return new InitialEnroll(getContext());
-            }
-         });
-      }
-   }
 
    public static class DialogEndEvent extends EnrollAdjacencyPairImpl{
 

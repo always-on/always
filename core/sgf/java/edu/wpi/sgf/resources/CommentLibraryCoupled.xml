@@ -26,10 +26,10 @@
 
 	<agent>
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="human">
-			<content>I should say, you do play very well</content>
+			<content>You know, you play very well</content>
 			<response>Thank you, you do too</response>
-			<response>Thanks, you can learn!</response>
-			<response>You too</response>
+			<response>Thanks, you can learn to play better!</response>
+			<response>You're not half bad yourself</response>
 		</comment>
 
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="human">
@@ -41,9 +41,9 @@
 
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="human">
 			<content>Playing games with you is really great!</content>
-			<response>You aren't have bad yourself</response>
-			<response>Thanks, it's mutual</response>
 			<response>I like playing with you too</response>
+			<response>I never thought I'd like playing with an agent, but I do!</response>
+			<response>Thanks, I'm enjoying this too</response>
 		</comment>
 
 		<comment strength='0.5' competitiveness='0.5' tags="brag" gameType="generic" madeOn="human">
@@ -55,40 +55,40 @@
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="agent">
 			<content>That was the best I could do</content>
 			<response>It was pretty good</response>
-			<response>I know, you are tricky!</response>
-			<response>But watch me!</response>
+			<response>I know, but try harder!</response>
+			<response>You should watch me and learn a trick or two!</response>
 		</comment>
 		<comment strength='0.5' competitiveness='0.3' tags="brag" gameType="generic" madeOn="both">
-			<content>I am in this to win</content>
-			<response>Well do your best</response>
+			<content>I am in this to win!</content>
+			<response>Well, do your best!</response>
 			<response>I won't let you</response>
 			<response>It's just a game</response>
 		</comment>
 	
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="both">
-			<content>I love playing games</content>
+			<content>I love playing games!</content>
 			<response>Me too</response>
-			<response>It is fun to play with you</response>
 			<response>Good</response>
+			<response>I play games a lot</response>
 		</comment>
 		<comment competitiveness='0.2' tags="compliment" gameType="generic" gameState="agentWon">
-			<content>I won but you played well too</content>
+			<content>I won, but you played well too</content>
 			<response>Congratulations</response>
 			<response>Thanks</response>
-			<response>I think you need to be tested again!</response>
+			<response>I think we need a rematch!</response>
 		</comment>
 
 		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="humanWon">
 			<content> It's nice that you won</content>
 			<response>Thanks</response>
-			<response>Well then learn from me!</response>
 			<response>Good game</response>
+			<response>Well, you know, we could have a rematch!</response>
 		</comment>
 
 		<comment competitiveness='0.4' tags="compliment" gameType="generic" gameState="tie">
-			<content>Well well well, looks like a tie</content>
-			<response>So we have to play again</response>
+			<content>Well, well, well, looks like a tie</content>
 			<response>It does!</response>
+			<response>So we have to play again</response>
 			<response>Good game</response>
 		</comment>
 		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="tie">
@@ -102,10 +102,10 @@
 	<human>
 
 		<comment strength='0.5' competitiveness='0.2' tags="compliment" gameType="generic" madeOn="agent">
-			<content>You do play very well</content>
+			<content>You play very well</content>
 			<response>Thank you very much, you too</response>
 			<response>I learn from smart people like you</response>
-			<response>Such encouragement to hear that!</response>
+			<response>Well, that's encouraging!</response>
 		</comment>
 
 		<comment strength='0.8' competitiveness='0.5' tags="brag" gameType="generic" madeOn="human">
@@ -117,8 +117,8 @@
 
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="both">
 			<content>I like playing with you </content>
+			<response>Thanks, I like playing with you too </response>
 			<response>Then we should play more! </response>
-			<response>Thanks, I like it too </response>
 			<response>I am very happy to hear that </response>
 		</comment>
 
@@ -136,7 +136,7 @@
 		</comment>
 
 		<comment competitiveness='0.6' tags="brag" gameType="generic" gameState="agentWon">
-			<content>You did win, but need to be tested again.</content>
+			<content>You did win, but you need to be tested again.</content>
 			<response>Well, Ok</response>
 			<response>You played well too</response>
 		</comment>
@@ -153,14 +153,14 @@
 		</comment>
 		<comment competitiveness='0.3' tags="compliment" gameType="generic" gameState="tie">
 			<content>Finally, a tie!</content>
-			<response>So we have to play again</response>
-			<response>Yes, tie</response>
+			<response>Yes, a tie</response>
 			<response>Good game</response>
+			<response>So we have to play again</response>
 		</comment>
 		<comment competitiveness='0.1' tags="compliment" gameType="generic" gameState="tie">
 			<content>Nice tie, nice game</content>
 			<response>Yes good game</response>
-			<response>Should play again then</response>
+			<response>So we should play again then</response>
 		</comment>
 	</human>
 	

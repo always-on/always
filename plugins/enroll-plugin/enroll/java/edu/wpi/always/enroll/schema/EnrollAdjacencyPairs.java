@@ -92,9 +92,9 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonAgeAdjacencyPair(final EnrollStateContext context) {
-         super("Can you tell me " + name + "'s age", "Enter "+ name+ "'s age:", 
+         super("What is " + name + "'s age", "Enter "+ name+ "'s age:", 
                context, context.getKeyboard(), true);
-         choice("Skip "+ name, new DialogStateTransition() {
+         choice("Cancel providing information on "+ name, new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                getContext().hideKeyboard();
@@ -126,7 +126,7 @@ public abstract class EnrollAdjacencyPairs{
       public PersonAgeInvalidAdjacencyPair(final EnrollStateContext context) {
          super("The age you entered is invalid. Please enter it again", 
                "Enter valid "+ name + "'s age:", context, context.getKeyboard(), true);
-         choice("Skip " + name, new DialogStateTransition() {
+         choice("Cancel entering information about " + name, new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -157,7 +157,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public TellPersonBirthdayAdjacencyPair(final EnrollStateContext context) {
-         super("Do you want to tell " + name + "'s birthday ?", context);
+         super("Do you know " + name + "'s birthday ?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -172,7 +172,7 @@ public abstract class EnrollAdjacencyPairs{
                return new PersonGenderAdjacencyPair(getContext());
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -197,13 +197,13 @@ public abstract class EnrollAdjacencyPairs{
                }
             });
          }
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new PersonGenderAdjacencyPair(getContext());
             }
          });
-         choice("Skip "+name, new DialogStateTransition() {
+         choice("Cancel entering information on "+name, new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -218,11 +218,11 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonBirthdayDayAdjacencyPair(final EnrollStateContext context) {
-         super("What is " + name + "'s day of Birthday ? ", 
+         super("What is the date of " + name + "'s Birthday ? ", 
                "Enter "+ name+ "'s Birthday:", 
                context, context.getKeyboard(), true);
          
-         choice("Skip "+name, new DialogStateTransition() {
+         choice("Cancel entering information on "+name, new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                getContext().hideKeyboard();
@@ -289,7 +289,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonGenderAdjacencyPair(final EnrollStateContext context) {
-         super("May I ask " + name + "'s gender ?", context);
+         super("What is " + name + "'s gender ?", context);
          choice("Male", new DialogStateTransition() {
 
             @Override
@@ -306,14 +306,14 @@ public abstract class EnrollAdjacencyPairs{
                return new KnowZipCodeAdjacencyPair(getContext());
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
                return new KnowZipCodeAdjacencyPair(getContext());
             }
          });
-         choice("Skip "+name, new DialogStateTransition() {
+         choice("Cancel entering information on "+name, new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -328,7 +328,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public KnowZipCodeAdjacencyPair(final EnrollStateContext context) {
-         super("Do you happen to know " + name + "'s ZipCode ?", context);
+         super("Do you know " + name + "'s ZipCode ?", context);
          choice("Yes", new DialogStateTransition() {
 
             @Override
@@ -343,7 +343,7 @@ public abstract class EnrollAdjacencyPairs{
                return new PersonStateAdjacencyPair(getContext());
             }
          });
-         choice("Skip "+name, new DialogStateTransition() {
+         choice("Cancel entering information on "+name, new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -583,8 +583,8 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonRelationshipAdjacencyPair(final EnrollStateContext context) {
-         super("What is your relationship with " + name +  "? "
-            + "For example, is this person your cousin or your friend?", context, true);
+         super("Who is " + name +  " to you? "
+            + "For example, is " + name + " your cousin or your friend?", context, true);
          choice("Friend", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -669,13 +669,13 @@ public abstract class EnrollAdjacencyPairs{
                return new PersonSpouseAdjacencyPair(getContext());
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new PersonSpouseAdjacencyPair(getContext());
             }
          });
-         choice("Skip "+name, new DialogStateTransition() {
+         choice("Cancel entering information on "+name, new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                getContext().hideKeyboard();
@@ -702,13 +702,13 @@ public abstract class EnrollAdjacencyPairs{
                return new PersonContactAdjacencyPair(getContext());
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new PersonContactAdjacencyPair(getContext());
             }
          });
-         choice("Skip "+name, new DialogStateTransition() {
+         choice("Cancel entering information on "+name, new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -725,7 +725,7 @@ public abstract class EnrollAdjacencyPairs{
       public EnterSpouseAdjacencyPair(final EnrollStateContext context){
          super("What is " + name + "'s spouse's name ?", "Enter " +name +"'s spouse name:", 
                context, context.getKeyboard());
-         choice("Skip "+name, new DialogStateTransition() {
+         choice("Cancel entering information on "+name, new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -767,14 +767,14 @@ public abstract class EnrollAdjacencyPairs{
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                addPerson(getContext());
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
-         choice("Skip "+name, new DialogStateTransition() {
+         choice("Cancel entering information on "+name, new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -790,14 +790,24 @@ public abstract class EnrollAdjacencyPairs{
       public SkypeNameAdjacencyPair(final EnrollStateContext context) {
          super("What is " + name + "'s SKYPE name ?", "Enter " + name + "'s skype name:", 
                context, context.getKeyboard());
-         choice("Skip "+name, new DialogStateTransition() {
+
+	 choice("I do not know", new DialogStateTransition() {
+            @Override
+            public AdjacencyPair run () {
+               addPerson(getContext());
+               return new CheckCorrectionAdjacencyPair(getContext(), person);
+            } 
+            } );
+  
+	 
+         choice("Cancel entering information on "+name, new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
                getContext().hideKeyboard();
                return new InitialEnroll(getContext());
             }
-         });
+         } );
       }
 
       @Override

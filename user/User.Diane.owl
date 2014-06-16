@@ -89,4 +89,5 @@ DataPropertyAssertion(<#EventDuration> <#f7108bc9-39f4-430a-9b78-e927f90352ae> "
 DataPropertyAssertion(<#EventStart> <#f7108bc9-39f4-430a-9b78-e927f90352ae> "2013-01-01T00:00:00+01:00"^^xsd:dateTime)
 DataPropertyAssertion(<#EventType> <#f7108bc9-39f4-430a-9b78-e927f90352ae> "Birthday"^^xsd:string)
 DataPropertyAssertion(<#EventUUID> <#f7108bc9-39f4-430a-9b78-e927f90352ae> "f7108bc9-39f4-430a-9b78-e927f90352ae"^^xsd:string)
+DataPropertyAssertion(<#EnrollPerformed> <#Diane%20Ferguson> "true"^^xsd:boolean)
 )

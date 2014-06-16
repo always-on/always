@@ -38,9 +38,9 @@
          PlayGames : new Activity("PLAY_GAMES", "Playing a social game of Rummy, checkers or TicTacToe"),
          TellStory : new Activity("TELL_STORY", "Telling one of my life stories "),
          DiscussWeather : new Activity("DISCUSS_WEATHER", "Telling weather where my friends and family live"),
-         HearAnecdotes : new Activity("HEAR_ANECDOTES", "Hearing a short interesting story"),
+         HearAnecdotes : new Activity("HEAR_ANECDOTES", "Hearing a short, interesting story"),
          AdviseNutrition : new Activity("ADVISE_NUTRITION", "Getting advice on healthy foods to eat"),
-         UseSkype : new Activity("USE_SKYPE", "Arranging videos calls with friends and family")
+         UseSkype : new Activity("USE_SKYPE", "Arranging video calls with friends and family")
     }
 
     // dynamically construct enumeration based on flags
@@ -94,11 +94,11 @@
   <t:task id="_Double" >
     <t:subtasks id="_d1">
       <t:step name="double" task="MoreExplaining" minOccurs="1" maxOccurs="9" />
-      <t:step name="sameend" task="_EndExplaining" />
+      <t:step name="sameend" task="_EndExplaining1" />
       <t:applicable> !noThanks </t:applicable>
     </t:subtasks>
     <t:subtasks id="_d2">
-      <t:step name="sameend" task="_EndExplaining" />
+      <t:step name="sameend" task="_EndExplaining2" />
       <t:applicable> noThanks </t:applicable>
     </t:subtasks>
   </t:task>
@@ -135,24 +135,40 @@
 
   <agent id="_EndExplaining" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Well, any time you want more explanations, just ask! &lt;FACE EXPR=\&quot;WARM\&quot;&gt;">
     <user text="Ok, thanks">
-    </user>
-    <user text="Thanks that was really interesting!">
+    	<agent text="you are welcome!"/>
     </user>
   </agent>
+  
+    <agent id="_EndExplaining1" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Well, I hope you found this helpful.  &lt;FACE EXPR=\&quot;WARM\&quot;&gt;">
+    <user text="Yes, thanks">
+    	<agent text="you are welcome" />
+    </user>
+    <user text="Thanks that was very helpful!">
+    	<agent text="you are welcome" />
+    </user>
+  </agent>
+  
+    <agent id="_EndExplaining2" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; If you want to know more, feel free to ask! &lt;FACE EXPR=\&quot;WARM\&quot;&gt;">
+    <user text="Ok, thanks">
+    	<agent text="you are welcome" />
+    </user>
+    <user text="Sure, I will do that.">
+    </user>
+  </agent>
+  
 
   <agent id="_ExplainAboutAgent" text="Let me tell you a bit about myself">
     <user text="Ok, go ahead">
     <agent text="I'm always happy to talk to you whenever you are around.">
-        <user text="ok">
-            <agent text="I will provide you with a list of things we can do if you want." >
-                <user text="ok.">
-                
-    	           <agent text="In the late evening I will only talk to you if you wake me up. You must touch the screen to wake me up."
+        <user text="Oh, fine">
+            <agent text="I will give you with a list of activities we can do together." >
+                <user text="Alright.">
+    	           <agent text="In the late evening, I turn off my screen, so that I won't disturb you. I will only talk to you if touch the screen. Then I'll be happy to talk."
     	eval="Activity.ALL.AboutAgent.setFlag()">
-    		<user text="ok, go on">
-    			<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Also, I can only see your face, when we talk.  I don't see anything else around you.  My sight is really limited! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
-    				<user text="Good!">
-    					<agent text="I also will not keep any photos or videos of you unless you want to record a story.  Even then, I will ask you after if you want to keep the video story.">
+    		<user text="ok, anything else?">
+    			<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Yes, I can only see your face, when we talk.  I don't see anything else around you.  My sight is really limited! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
+    				<user text="Really?">
+    					<agent text="I protect your privacy by not keeping any images or videos of you, unless you want to record a story.  Even then, I will ask you after if you want to keep the video story.">
     						<user text="ok, I see"/>
     						<user text="ok, that's good to know"/>
     						<user text="how can I be sure you won't save videos or pictures of me?">
@@ -174,14 +190,15 @@
     <user text="not right now"/>	
   </agent>
   
-  <agent id="_ExplainPlayGames" text="We can play games together.  In particular we can play rummy, checkers or TicTacToe" >
-    <user text="go on" >
+  <agent id="_ExplainPlayGames" text="We can play games together.  In particular we can play rummy, checkers or TicTacToe" 
+  	eval="Activity.ALL.PlayGames.setFlag()">
+    <user text="Really?" >
       <agent text="Other computers can play games, but they just make the moves, and then give you a turn."
              eval="Activity.ALL.PlayGames.setFlag()">
-        <user text="uh-huh">
-          <agent text="When we play cards or checkers, we can talk about how the game is going" >
-            <user text="Ok" >
-              <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; so give it a try soon &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
+        <user text="How are you different?">
+          <agent text="When we play games, we can talk about how the game is going, who is winning and how the game might change" >
+            <user text="That's interesting" >
+              <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; I hope you will give it a try soon &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
             </user>
             <user text="Oh, that sounds fun!">
               <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; it will be fun to do together &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
@@ -197,7 +214,7 @@
 
   <agent id="_ExplainUseCalendar" 
          text="I can keep track of your everyday calendar" eval="Activity.ALL.UseCalendar.setFlag()">
-    <user text="Go on">
+    <user text="Tell me more">
       <agent text="That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, go to an apppointment, or remember something important.">
         <user text="Ok">
 	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Good.  Just give it a try &lt;FACE EXPR=\&quot;WARM\&quot;&gt; "/>
@@ -211,7 +228,7 @@
             <user text="I still don't understand" >
               <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, next time just try the calendar activity and you will see how it works &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
                 <user text="okay" />
-                <user text="Not sure I will "/>
+                <user text="I might try this"/>
               </agent>
             </user>
           </agent>
@@ -223,8 +240,8 @@
 
   <agent id="_ExplainDiscussWeather" text="We've already talked about the weather.  BUT I can do more!  I can get information from the internet about the weather for the whole US!"
          eval="Activity.ALL.DiscussWeather.setFlag()">
-    <user text="Really? Tell me more">
-      <agent text="You can tell me about your family and friends, and I will remember what you say.  You can also tell me if you want to know the weather for that person everyday or just once in a while">
+    <user text="Really? Tell me what you do">
+      <agent text="If you tell me about your family and friends, I will ask you if you want to know the weather for that person ">
         <user text="Ok, I will tell you about my family and friends">
           <agent text="great!" />
         </user>
@@ -233,17 +250,19 @@
         </user>
       </agent>
     </user>
-    <user text="I don't really need to know more about the weather "/>
+    <user text="I don't really need to know more about the weather ">
+    	<agent text="I see." />
+    </user>
   </agent>
 
   <agent id="_ExplainSkypeBuddy" text="Did you know you can talk for free to your friends and family and be able to see them while you talk?  I can help you do this for anyone who has a computer"
-         eval="Activity.ALL.DiscussWeather.setFlag()">
+         eval="Activity.ALL.UseSkype.setFlag()">
     <user text="Really? Tell me more">
-      <agent text="You can talk to your family and friends and see them as you talk on your computer screen">
-        <user text="go on">
+      <agent text="You can talk to your family and friends and see them as you talk.  You will see them on a live video on your computer screen. It’s like a phone and a TV combined into one thing!">
+        <user text="Tell me more">
           <agent text="I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk.  I'll remind you before the call">
             <user text="Ok, I definitely want to try that" />
-            <user text="Gee, most of my family doesn't have a computer">
+            <user text="Gee, what if my family doesn't have a computer?">
               <agent text=" &lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, if anyone does, you can try it &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
                 <user text="Okay, I'll see if anyone does" />
                 <user text="I will probably not do this"/>
@@ -265,39 +284,44 @@
     </user>
   </agent>
 
-  <agent id="_ExplainTalkAbout" text="I'm interested in knowing about your friends and family.  The more I know about them, the more I can use this information">
-    <user text="uh-huh">
-      <agent text="When I know about your family, I can give you weather information where they live, and I can include them in your calendar events."
-             eval="Activity.ALL.TalkAbout.setFlag()">
-        <user text="Ok">
-	  <agent text="I can also chat with you about your friends and family">
-	    <user text="okay" />
-	    <user text="well, may be I'll do that"/>
-	  </agent>
-        </user>
-        <user text="oh, that is good ">
-          <agent text="And I can talk to you about your friends and family whenever we chat">
-            <user text="sounds good" >
-              <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; great.  I'm looking forward to our chats &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
-            </user>
-            <user text="okay">
-              <agent text="good" />
-            </user>
-          </agent>
-        </user>
-        <user text="I see.  Maybe I'll tell you some time">
-	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; I will enjoy learning about your friends and family &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
-	</user>
-      </agent>
-    </user>
-  </agent>
+  <agent id="_ExplainTalkAbout" text="I'm interested in knowing about your friends and family.  The more I know about them, the more I can remember to ask you about them"
+     eval="Activity.ALL.TalkAbout.setFlag()">
+    <user text="Is that so?">
+     <agent text="Yes, but first, you must introduce me to a person by giving their name, where they live and so on.">
+     	<user text="Then what?">
+      		<agent text="When I know about your family and friends, I can give you weather information where they live, and I can include them in your calendar events."
+           	  eval="Activity.ALL.TalkAbout.setFlag()">
+        		<user text="Ok">
+	  				<agent text="I can also chat with you about your friends and family">
+	    				<user text="okay" />
+	    				<user text="well, may be I'll do that"/>
+				  </agent>
+        		</user>
+        		<user text="oh, that is good ">
+          			<agent text="And I can talk with you about your friends and family whenever you want">
+            			<user text="sounds good" >
+              				<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; great.  I'm looking forward to our chats &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
+            			</user>
+            			<user text="okay">
+              				<agent text=" &lt;FACE EXPR=\&quot;SMILE\&quot;/&gt;  good.  I will enjoy learning about your family and friends &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " />
+            			</user>
+          			</agent>
+        		</user>
+        		<user text="I see.  Maybe I'll tell you some time">
+	  				<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; I will enjoy learning about your friends and family &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
+				</user>
+      		</agent>
+    	</user>
+  	</agent>
+  </user>
+ </agent>
 
   <agent id="_ExplainTellStory" text="You can tell me a story about your life and I will record it.  I will pay attention even though I won't understand most of what you say" 
          eval="Activity.ALL.TellStory.setFlag()">
-    <user text="go on" >
+    <user text="Then what?" >
       <agent text="When you are done, you can save the story, and if you want, send it out to friends">
 
-        <user text="ok">
+        <user text="Sounds okay">
 	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; I think you may like it &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
 	</user>
         <user text="I think I will try that">
@@ -320,14 +344,13 @@
   </agent>
 
   <agent id="_ExplainPlanExercise" text="Everyone can use more exercise.  Walking is a really good and easy type of exercise" > 
-    <user text="uh-huh">
+    <user text="Yes, I know">
       <agent text="I can help you work out an exercise plan, including getting a walking buddy.  I can also follow up with you every day once you start walking."
              eval="Activity.ALL.PlanExercise.setFlag()">
         <user text="Ok"/>
-        <user text="oh, that sounds fun!">
+        <user text="Oh, that sounds fun!">
           <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Good, we can have fun getting you started on exercise &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
-            <user text="Ok"/>
-          </agent>
+           </agent>
         </user>
         <user text="no thanks"/>
         <user text="Maybe another time"/>

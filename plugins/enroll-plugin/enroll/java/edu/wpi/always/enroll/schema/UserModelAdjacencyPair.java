@@ -43,7 +43,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserAgeAdjacencyPair(final EnrollStateContext context) {
-         super("May I ask how old are you? ", "Please enter your age:", 
+         super("Please tell me your age? ", "Please enter your age:", 
                context, context.getKeyboard(), true);
       }
 
@@ -112,7 +112,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
                return new UserGenderAdjacencyPair(getContext());
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -137,7 +137,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
                }
             });
          }
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new UserGenderAdjacencyPair(getContext());
@@ -226,7 +226,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
                return new KnowUserZipCodeAdjacencyPair(getContext());
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run() {
@@ -443,7 +443,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    AdjacencyPairBase<EnrollStateContext> {
 
       public UserSpouseAdjacencyPair(final EnrollStateContext context){
-         super("ok, can I ask if you are married?", context);
+         super("ok, Are you married?", context);
          choice("Yes", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -456,7 +456,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
                return new UserSkypeNumberAdjacencyPair(getContext());
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new UserSkypeNumberAdjacencyPair(getContext());
@@ -469,7 +469,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EnterUserSpouseAdjacencyPair(final EnrollStateContext context){
-         super("May I ask your spouse's name?", "Enter your spouse name:", 
+         super("What is your spouse's name?", "Enter your spouse name:", 
                context, context.getKeyboard());
       }
 

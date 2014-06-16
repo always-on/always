@@ -192,7 +192,7 @@
   <agent id="_Ending" 
   	text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="yes. I love talking about weather">
-      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;&gt; yeh, me too. That's it for now &lt;FACE EXPR=\&quot;WARM\&quot;&gt;"/>
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;&gt; yeh, me too.  &lt;FACE EXPR=\&quot;WARM\&quot;&gt;"/>
     </user>
     <user text="yes, I need to know the weather before I go out">
       <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;&gt; Feel free to ask me! &lt;FACE EXPR=\&quot;WARM\&quot;&gt;" />

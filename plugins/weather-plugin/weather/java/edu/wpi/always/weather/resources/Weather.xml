@@ -184,7 +184,7 @@
          <binding slot="$_d4e85_step.text" value="&#34;yes. I love talking about weather&#34;"/>
          <binding slot="$_d4e85_step.external" value="true"/>
          <binding slot="$_d4e86_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; yeh, me too. That's it for now &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; yeh, me too.  &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
          <binding slot="$_d4e86_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e87_subtasks">
