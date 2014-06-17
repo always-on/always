@@ -30,7 +30,7 @@ public class OntologyImpl implements Ontology {
 
    public OntologyImpl () {
       //setIncremental(true);
-      PelletOptions.USE_TRACING = true;
+      //PelletOptions.USE_TRACING = true;
       BuiltInRegistry.instance.registerBuiltIn("my:gMonthDay",
             new GeneralFunctionBuiltIn(new GMonthDay()));
       reset();

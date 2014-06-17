@@ -90,5 +90,8 @@ public interface Person {
    boolean isAboutMentioned ();
    
    void setAboutMentioned (boolean mentioned);
+   
+   // to batch single file save
+   void setAboutMentionedStatusComment(boolean mentioned, boolean status, String comment);
 
 }

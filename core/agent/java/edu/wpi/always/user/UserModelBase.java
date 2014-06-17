@@ -7,6 +7,18 @@ public abstract class UserModelBase implements UserModel {
    
    public final static Object LOCK = new Object();
    
+    /**
+    * <code>
+    * try { 
+    *    UserModelBase.INHIBIT_SAVE = true;
+    *    ...updates to user model...
+    * } finally { 
+    *    UserModelBase.INHIBIT_SAVE = false;
+    *    UserModelBase.saveIf()
+    * </code>
+    */
+   public static boolean INHIBIT_SAVE;
+
    public static void saveIf () { 
       if ( !INHIBIT_SAVE ) {
          UserModel model = Always.THIS.getUserModel();

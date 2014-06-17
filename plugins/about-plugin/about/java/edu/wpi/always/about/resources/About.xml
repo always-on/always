@@ -84,8 +84,7 @@
          <step name="_d4e44_ref" task="_d4e44_tree"/>
          <binding slot="$_d4e42_step.text" value="&#34;(pronounSubj)+\&#34; has a new job\&#34;&#34;"/>
          <binding slot="$_d4e42_step.external" value="true"/>
-         <binding slot="$_d4e42_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);        positive(famFriend);       famFriend.setAboutComment('got a new job'); &#34;"/>
+         <binding slot="$_d4e42_step.eval" value="&#34;update(famFriend,true,'got a new job')&#34;"/>
          <binding slot="$_d4e44_step.text"
                   value="&#34;\&#34; Oh, excellent.  I can bet \&#34;+(pronounSubj)+\&#34; is happy.\&#34;&#34;"/>
          <binding slot="$_d4e44_step.external" value="false"/>
@@ -97,7 +96,7 @@
          <binding slot="$_d4e52_step.text" value="&#34;(pronounSubj)+\&#34; has a new grandchild\&#34;&#34;"/>
          <binding slot="$_d4e52_step.external" value="true"/>
          <binding slot="$_d4e52_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);        positive(famFriend);       famFriend.setAboutComment('had a new grandchild');&#34;"/>
+                  value="&#34;update(famFriend,true,'had a new grandchild')&#34;"/>
          <binding slot="$_d4e54_step.text" value="&#34;\&#34;Oh that's great for \&#34;+(pronounObj)&#34;"/>
          <binding slot="$_d4e54_step.external" value="false"/>
       </subtasks>
@@ -108,8 +107,7 @@
          <binding slot="$_clothes_step.text"
                   value="&#34;(pronounSubj)+\&#34; went shopping for new clothes\&#34;&#34;"/>
          <binding slot="$_clothes_step.external" value="true"/>
-         <binding slot="$_clothes_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);         positive(famFriend);        famFriend.setAboutComment('went shopping');&#34;"/>
+         <binding slot="$_clothes_step.eval" value="&#34;update(famFriend,true,'went shopping')&#34;"/>
          <binding slot="$_d4e65_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; how nice to get new clothes! &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e65_step.external" value="false"/>
@@ -121,7 +119,7 @@
          <binding slot="$_vacation_step.text" value="&#34;(pronounSubj)+\&#34; is going on vacation\&#34;&#34;"/>
          <binding slot="$_vacation_step.external" value="true"/>
          <binding slot="$_vacation_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);       positive(famFriend);       famFriend.setAboutComment('was going on vacation');&#34;"/>
+                  value="&#34;update(famFriend,true,'was going on vacation')&#34;"/>
          <binding slot="$_d4e74_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; oh really, where?  Want me to keep track in weather updates? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e74_step.external" value="false"/>
@@ -133,7 +131,7 @@
          <binding slot="$_newfriend_step.text" value="&#34;(pronounSubj)+\&#34; has a new friend\&#34;&#34;"/>
          <binding slot="$_newfriend_step.external" value="true"/>
          <binding slot="$_newfriend_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);        positive(famFriend);       famFriend.setAboutComment('got a new friend');&#34;"/>
+                  value="&#34;update(famFriend,true,'got a new friend')&#34;"/>
          <binding slot="$_d4e83_step.text" value="&#34;well, that's good.&#34;"/>
          <binding slot="$_d4e83_step.external" value="false"/>
       </subtasks>
@@ -144,7 +142,7 @@
          <binding slot="$_d4e91_step.text" value="&#34;(pronounSubj)+\&#34; is coming to visit me\&#34;&#34;"/>
          <binding slot="$_d4e91_step.external" value="true"/>
          <binding slot="$_d4e91_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);        positive(famFriend);       famFriend.setAboutComment('was coming to visit you');&#34;"/>
+                  value="&#34;update(famFriend,true,'was coming to visit you')&#34;"/>
          <binding slot="$_d4e93_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; great for you.  When we do your calendar, we can add the visit &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e93_step.external" value="false"/>
@@ -887,8 +885,7 @@
          <binding slot="$_d4e218_step.external" value="true"/>
          <binding slot="$_d4e219_step.text" value="&#34;okay, &lt;HEADNOD/&gt; I understand&#34;"/>
          <binding slot="$_d4e219_step.external" value="false"/>
-         <binding slot="$_d4e219_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(false);           famFriend.setAboutStatus(null);           famFriend.setAboutComment(null);&#34;"/>
+         <binding slot="$_d4e219_step.eval" value="&#34;reset(famFriend)&#34;"/>
       </subtasks>
    </task>
    <task id="_d4e213_tree">
@@ -966,8 +963,7 @@
          <step name="_d4e236_ref" task="_d4e236_tree"/>
          <binding slot="$_d4e233_step.text" value="&#34;(pronounSubj)+\&#34; is ill\&#34;&#34;"/>
          <binding slot="$_d4e233_step.external" value="true"/>
-         <binding slot="$_d4e233_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);    negative(famFriend);   famFriend.setAboutComment('was ill');&#34;"/>
+         <binding slot="$_d4e233_step.eval" value="&#34;update(famFriend,false,'was ill')&#34;"/>
          <binding slot="$_d4e236_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; I hope the illness is not serious &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e236_step.external" value="false"/>
@@ -979,8 +975,7 @@
          <binding slot="$_d4e245_step.text"
                   value="&#34;(pronounSubj)+\&#34; lost \&#34;+(pronounPossessive)+\&#34; job.\&#34;&#34;"/>
          <binding slot="$_d4e245_step.external" value="true"/>
-         <binding slot="$_d4e245_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);    negative(famFriend);   famFriend.setAboutComment('lost job');&#34;"/>
+         <binding slot="$_d4e245_step.eval" value="&#34;update(famFriend,false,'lost job')&#34;"/>
          <binding slot="$_d4e248_step.text"
                   value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, that's really tough &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e248_step.external" value="false"/>
@@ -991,8 +986,7 @@
          <step name="_d4e260_ref" task="_d4e260_tree"/>
          <binding slot="$_d4e257_step.text" value="&#34;(pronounSubj)+\&#34; had an accident\&#34;&#34;"/>
          <binding slot="$_d4e257_step.external" value="true"/>
-         <binding slot="$_d4e257_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);    negative(famFriend);   famFriend.setAboutComment('had an accident');&#34;"/>
+         <binding slot="$_d4e257_step.eval" value="&#34;update(famFriend,false,'had an accident')&#34;"/>
          <binding slot="$_d4e260_step.text"
                   value="&#34;\&#34; Is \&#34;+(pronounSubj)+\&#34; in the hospital? \&#34;&#34;"/>
          <binding slot="$_d4e260_step.external" value="false"/>
@@ -1004,7 +998,7 @@
          <binding slot="$_d4e282_step.text" value="&#34;(pronounSubj)+\&#34; lost a family member \&#34;&#34;"/>
          <binding slot="$_d4e282_step.external" value="true"/>
          <binding slot="$_d4e282_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);   negative(famFriend);   famFriend.setAboutComment('lost a family member');&#34;"/>
+                  value="&#34;update(famFriend,false,'lost a family member')&#34;"/>
          <binding slot="$_d4e285_step.text"
                   value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; that's very sad &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e285_step.external" value="false"/>
@@ -1015,8 +1009,7 @@
          <step name="_d4e302_ref" task="_d4e302_tree"/>
          <binding slot="$_d4e299_step.text" value="&#34;(pronounSubj)+\&#34; is pretty lonely\&#34;&#34;"/>
          <binding slot="$_d4e299_step.external" value="true"/>
-         <binding slot="$_d4e299_step.eval"
-                  value="&#34;famFriend.setAboutMentioned(true);    negative(famFriend);   famFriend.setAboutComment('was lonely');&#34;"/>
+         <binding slot="$_d4e299_step.eval" value="&#34;update(famFriend,false,'was lonely')&#34;"/>
          <binding slot="$_d4e302_step.text"
                   value="&#34;\&#34;I see.  You could give \&#34;+(pronounObj)+\&#34; a call or talk to \&#34;+(pronounObj)+\&#34; by video call\&#34;&#34;"/>
          <binding slot="$_d4e302_step.external" value="false"/>
@@ -1411,15 +1404,13 @@
 
     var familyFriendsList;
 
-    // convenience functions
-    function positive (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Positive); }
-
-    function negative (person) { person.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Negative); }
+    // to batch in one file save
+    function update (person, status, comment) {
+       person.setAboutMentionedStatusComment(true,status, comment);
+    }
 
     function reset (person) {
-        person.setAboutMentioned(false); 
-		person.setAboutStatus(null);
-		person.setAboutComment(null); 
+       person.setAboutMentionedStatusComment(false, null,null);
     }
 
   </script>

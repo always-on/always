@@ -3,7 +3,7 @@ package edu.wpi.always.user.owl;
 import java.util.*;
 import org.joda.time.*;
 import org.semanticweb.owlapi.model.*;
-import edu.wpi.always.user.UserModelBase;
+import edu.wpi.always.user.*;
 import edu.wpi.always.user.calendar.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.always.user.places.Place;
@@ -262,4 +262,18 @@ public class OntologyPerson implements Person {
    public boolean isAboutMentioned () {
       return owlPerson.getDataPropertyValue(ABOUT_MENTIONED_PROPERTY).asBoolean();
    }
+   
+   @Override
+   public void setAboutMentionedStatusComment(boolean mentioned, boolean status, String comment) {
+      try { 
+         UserModelBase.INHIBIT_SAVE = true;
+         setAboutMentioned(mentioned);
+         setAboutStatus(status ? AboutStatus.Positive : AboutStatus.Negative);
+         setAboutComment(comment);
+      } finally { 
+         UserModelBase.INHIBIT_SAVE = false;
+         UserModelBase.saveIf();
+      }
+   }
+   
 }
