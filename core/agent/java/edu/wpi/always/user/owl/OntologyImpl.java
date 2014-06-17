@@ -29,7 +29,7 @@ public class OntologyImpl implements Ontology {
    private PrefixManager pm;
 
    public OntologyImpl () {
-      setIncremental(true);
+      //setIncremental(true);
       PelletOptions.USE_TRACING = true;
       BuiltInRegistry.instance.registerBuiltIn("my:gMonthDay",
             new GeneralFunctionBuiltIn(new GMonthDay()));
