@@ -367,7 +367,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
       
       if( e instanceof org.mindswap.pellet.exceptions.InconsistentOntologyException ) {
          // ******************************************************
-         // unfortunately, constructor not not defined with argument
+         // unfortunately, constructor was not defined with argument
          throw edu.wpi.always.user.owl.OntologyImpl.inconsistent(e);
       }
       

@@ -28,12 +28,15 @@ public class OntologyImpl implements Ontology {
    private OWLReasoner reasoner;
    private PrefixManager pm;
 
-   public OntologyImpl () {
+   public static void setIncremental (boolean incremental) {
       // incremental consistency options
-      PelletOptions.USE_COMPLETION_QUEUE = true;
-      PelletOptions.USE_INCREMENTAL_CONSISTENCY = true;
-      PelletOptions.USE_SMART_RESTORE = false;
-      //
+      PelletOptions.USE_COMPLETION_QUEUE = incremental;
+      PelletOptions.USE_INCREMENTAL_CONSISTENCY = incremental;
+      PelletOptions.USE_SMART_RESTORE = !incremental;
+   }
+
+   public OntologyImpl () {
+      setIncremental(true);
       PelletOptions.USE_TRACING = true;
       BuiltInRegistry.instance.registerBuiltIn("my:gMonthDay",
             new GeneralFunctionBuiltIn(new GMonthDay()));
