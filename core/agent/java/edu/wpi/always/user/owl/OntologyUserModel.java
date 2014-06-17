@@ -45,11 +45,13 @@ public class OntologyUserModel extends UserModelBase {
    }
 
    @Override
-   public synchronized void reset () {
-      Utils.lnprint(System.out, "Resetting user model!");
-      super.reset();
-      ontology.reset();
-      user = null;
+   public void reset () {
+      synchronized (LOCK) {
+         Utils.lnprint(System.out, "Resetting user model!");
+         super.reset();
+         ontology.reset();
+         user = null;
+      }
    }
 
    @Override
@@ -169,50 +171,55 @@ public class OntologyUserModel extends UserModelBase {
    }
 
    @Override
-   public synchronized void save () {
+   public void save () {
       if ( userName.isEmpty() ) return; // don't write out bad file
-      try (FileOutputStream output = new FileOutputStream(userDataFile)) {
-         OWLOntologyManager manager = ontology.getManager();
-         OWLOntology userOntology = manager.createOntology(IRI.create("UserModel"));
-         LinkedList<AddAxiom> userAxioms = new LinkedList<AddAxiom>();
-         for (OWLAxiom ax : ontology.getOntology().getAxioms()) {
-            if ( types.contains(ax.getAxiomType()) )
-               userAxioms.add(new AddAxiom(userOntology, ax));
+      synchronized (LOCK) {
+         try (FileOutputStream output = new FileOutputStream(userDataFile)) {
+            OWLOntologyManager manager = ontology.getManager();
+            OWLOntology userOntology = manager.createOntology(IRI.create("UserModel"));
+            LinkedList<AddAxiom> userAxioms = new LinkedList<AddAxiom>();
+            for (OWLAxiom ax : ontology.getOntology().getAxioms()) {
+               if ( types.contains(ax.getAxiomType()) )
+                  userAxioms.add(new AddAxiom(userOntology, ax));
+            }
+            manager.applyChanges(userAxioms);
+            manager.saveOntology(userOntology, new OWLFunctionalSyntaxOntologyFormat(), output);
+            manager.removeOntology(userOntology);
+         } catch (OWLOntologyStorageException | OWLOntologyCreationException | IOException e) {
+            edu.wpi.cetask.Utils.rethrow(e); 
          }
-         manager.applyChanges(userAxioms);
-         manager.saveOntology(userOntology, new OWLFunctionalSyntaxOntologyFormat(), output);
-         manager.removeOntology(userOntology);
-      } catch (OWLOntologyStorageException | OWLOntologyCreationException | IOException e) {
-         edu.wpi.cetask.Utils.rethrow(e); 
       }
    }
 
    @Override
    public synchronized void load () {
-      if ( userDataFile != null && userDataFile.canRead() ) {
-         Utils.lnprint(System.out, "Starting user model: " + userDataFile);
-         ontology.addAxioms(userDataFile);
-         ensureConsistency();
-         Set<OWLNamedIndividual> userClass = ontology
-               .getAllOfClass(OntologyPerson.USER_CLASS);
-         if ( !userClass.isEmpty() ) {
-            String name = new OntologyIndividual(ontology.getOntologyDataObject(), userClass.iterator().next())
-                  .getDataPropertyValue(OntologyPerson.NAME_PROPERTY)
-                  .asString();
-            if ( name != null ) {
-               setUserName(name);
-               Utils.lnprint(System.out, "User name: " + getUserName());
-            } else Utils.lnprint(System.out, "Loaded user model has user with no name!");
-            System.out.println();  // for always-disco
-            super.load(); // increment session count
-         } else
-            Utils.lnprint(System.out, "Loaded user model has no user!");
-      } else Utils.lnprint(System.out, "Starting with no user model!");
+      synchronized (LOCK) {
+         if ( userDataFile != null && userDataFile.canRead() ) {
+            Utils.lnprint(System.out, "Starting user model: " + userDataFile);
+            ontology.addAxioms(userDataFile);
+            ensureConsistency();
+            Set<OWLNamedIndividual> userClass = ontology
+                  .getAllOfClass(OntologyPerson.USER_CLASS);
+            if ( !userClass.isEmpty() ) {
+               String name = new OntologyIndividual(ontology.getOntologyDataObject(), userClass.iterator().next())
+                  .getDataPropertyValue(OntologyPerson.NAME_PROPERTY).asString();
+               if ( name != null ) {
+                  setUserName(name);
+                  Utils.lnprint(System.out, "User name: " + getUserName());
+               } else Utils.lnprint(System.out, "Loaded user model has user with no name!");
+               System.out.println();  // for always-disco
+               super.load(); // increment session count
+            } else
+               Utils.lnprint(System.out, "Loaded user model has no user!");
+         } else Utils.lnprint(System.out, "Starting with no user model!");
+      }
    }
 
    @Override
-   public synchronized void ensureConsistency () {
-      ontology.getOntologyDataObject().ensureConsistency();
+   public void ensureConsistency () {
+      synchronized (LOCK) {
+         ontology.getOntologyDataObject().ensureConsistency();
+      }
    }
    
    @Override
