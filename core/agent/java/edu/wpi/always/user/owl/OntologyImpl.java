@@ -28,13 +28,6 @@ public class OntologyImpl implements Ontology {
    private OWLReasoner reasoner;
    private PrefixManager pm;
 
-   public static void setIncremental (boolean incremental) {
-      // incremental consistency options
-      PelletOptions.USE_COMPLETION_QUEUE = incremental;
-      PelletOptions.USE_INCREMENTAL_CONSISTENCY = incremental;
-      PelletOptions.USE_SMART_RESTORE = !incremental;
-   }
-
    public OntologyImpl () {
       setIncremental(true);
       PelletOptions.USE_TRACING = true;
@@ -43,6 +36,13 @@ public class OntologyImpl implements Ontology {
       reset();
    }
 
+   public static void setIncremental (boolean incremental) {
+      // incremental consistency options
+      PelletOptions.USE_COMPLETION_QUEUE = incremental;
+      PelletOptions.USE_INCREMENTAL_CONSISTENCY = incremental;
+      PelletOptions.USE_SMART_RESTORE = !incremental;
+   }
+   
    @Override
    public void ensureConsistency () {
       try {

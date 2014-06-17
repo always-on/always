@@ -42,8 +42,6 @@ public class OntologyUserModel extends UserModelBase {
       this.peopleManager = peopleManager;
       this.placeManager = placeManager;
       peopleManager.setUserModel(this);
-      // partially set for testing and starting with empty user model
-      user = ontology.getNamedIndividual("User");
    }
 
    @Override
@@ -51,7 +49,7 @@ public class OntologyUserModel extends UserModelBase {
       Utils.lnprint(System.out, "Resetting user model!");
       super.reset();
       ontology.reset();
-      user = ontology.getNamedIndividual("User"); 
+      user = null;
    }
 
    @Override
@@ -91,6 +89,7 @@ public class OntologyUserModel extends UserModelBase {
 
    @Override
    public String getProperty (String property) {
+      if ( user == null ) return null;
       OntologyValue value = user.getDataPropertyValue(property);
       return value == null ? null : value.asString();
    }
@@ -104,7 +103,7 @@ public class OntologyUserModel extends UserModelBase {
 
    @Override
    public int getIntProperty (String property) {
-      return user.getDataPropertyValue(property).asInteger();
+      return user == null ? 0 : user.getDataPropertyValue(property).asInteger();
    }
 
    @Override
@@ -115,7 +114,7 @@ public class OntologyUserModel extends UserModelBase {
 
    @Override
    public long getLongProperty (String property) {
-      return user.getDataPropertyValue(property).asLong();
+      return user == null ? 0L : user.getDataPropertyValue(property).asLong();
    }
 
    @Override
@@ -126,7 +125,7 @@ public class OntologyUserModel extends UserModelBase {
 
    @Override
    public double getDoubleProperty (String property) {
-      return user.getDataPropertyValue(property).asDouble();
+      return user == null ? 0D : user.getDataPropertyValue(property).asDouble();
    }
 
    @Override
@@ -143,7 +142,7 @@ public class OntologyUserModel extends UserModelBase {
 
    @Override
    public boolean isProperty (String property) {
-      return user.getDataPropertyValue(property).asBoolean();
+      return user != null && user.getDataPropertyValue(property).asBoolean();
    }
 
    public void addAxioms (InputStream stream) {
@@ -197,15 +196,17 @@ public class OntologyUserModel extends UserModelBase {
          Set<OWLNamedIndividual> userClass = ontology
                .getAllOfClass(OntologyPerson.USER_CLASS);
          if ( !userClass.isEmpty() ) {
-            setUserName(new OntologyIndividual(
-                  ontology.getOntologyDataObject(), userClass.iterator().next())
+            String name = new OntologyIndividual(ontology.getOntologyDataObject(), userClass.iterator().next())
                   .getDataPropertyValue(OntologyPerson.NAME_PROPERTY)
-                  .asString());
-            Utils.lnprint(System.out, "User name: " + getUserName());
+                  .asString();
+            if ( name != null ) {
+               setUserName(name);
+               Utils.lnprint(System.out, "User name: " + getUserName());
+            } else Utils.lnprint(System.out, "Loaded user model has user with no name!");
             System.out.println();  // for always-disco
             super.load(); // increment session count
          } else
-            Utils.lnprint(System.out, "Loaded user model is empty!");
+            Utils.lnprint(System.out, "Loaded user model has no user!");
       } else Utils.lnprint(System.out, "Starting with no user model!");
    }
 

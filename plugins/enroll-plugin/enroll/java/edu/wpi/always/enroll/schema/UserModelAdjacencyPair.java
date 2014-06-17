@@ -28,6 +28,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
    @Override
    public AdjacencyPair success(String text) {
+      if ( text.isEmpty() ) return new UserModelAdjacencyPair(getContext());
       UserName = text;
       getContext().getUserModel().setUserName(text);
       return new UserAgeAdjacencyPair(getContext());
@@ -35,8 +36,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
    @Override
    public AdjacencyPair cancel() {
-      UserName = "this person";
-      return new UserAgeAdjacencyPair(getContext());
+      return new UserModelAdjacencyPair(getContext());
    }
 
    public static class UserAgeAdjacencyPair extends
@@ -70,7 +70,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserAgeInvalidAdjacencyPair(final EnrollStateContext context) {
-         super("The age you entered sounds invalid. Can you please try again", 
+         super("The age you entered doesn't seem right. Can you please try again", 
                "Enter valid age:", context, context.getKeyboard(), true);
       }
 

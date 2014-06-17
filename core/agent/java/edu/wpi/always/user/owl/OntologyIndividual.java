@@ -25,8 +25,8 @@ public class OntologyIndividual {
    private enum LogMode { SET, ADD, DELETE }
    
    private String getLogObject () {
-      return (this == ((OntologyUserModel) Always.THIS.getUserModel()).getUser() ? LogObject.USER : 
-         hasSuperclass(OntologyCalendar.EVENT_CLASS) ? LogObject.EVENT : this)
+      return ( equals(((OntologyUserModel) Always.THIS.getUserModel()).getUser()) ? LogObject.USER : 
+         hasSuperclass(OntologyCalendar.EVENT_CLASS) ? LogObject.EVENT : this )
          .toString();
    }
    
@@ -206,4 +206,33 @@ public class OntologyIndividual {
          helper.applyChanges(remover.getChanges());
       }
    }
+   
+   @Override
+   public int hashCode () {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result
+         + ((individual == null) ? 0 : individual.hashCode());
+      return result;
+   }
+
+   @Override
+   public boolean equals (Object obj) {
+      if ( this == obj )
+         return true;
+      if ( obj == null )
+         return false;
+      if ( getClass() != obj.getClass() )
+         return false;
+      OntologyIndividual other = (OntologyIndividual) obj;
+      if ( individual == null ) {
+         if ( other.individual != null )
+            return false;
+      } else if ( !individual.equals(other.individual) )
+         return false;
+      return true;
+   }
+
+   @Override
+   public String toString () { return individual.toString(); }
 }

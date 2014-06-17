@@ -81,9 +81,10 @@ public class Always {
       Utils.lnprint(System.out, "Time of day = "+UserUtils.getTimeOfDay());
       Logger logger = Logger.THIS; // force logger creation printout now
       Always always = new Always(true, plugin == null);
-      if ( args != null && args.length > 1 && !"null".equals(args[1]) )
-         always.getUserModel().setCloseness(Closeness.valueOf(args[1]));
       UserModel model = always.getUserModel();
+      if ( args != null && args.length > 1 && !"null".equals(args[1])
+            && !model.getUserName().isEmpty() )
+         model.setCloseness(Closeness.valueOf(args[1]));
       Closeness closeness = model.getCloseness();
       Utils.lnprint(System.out, "Using closeness = "+closeness);
       logger.logId(
