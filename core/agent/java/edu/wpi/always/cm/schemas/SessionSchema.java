@@ -84,27 +84,29 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       container = always.getContainer();
       cm = container.getComponent(CollaborationManager.class);
       stop = new Stop(interaction);
-      if ( DATE == null ) DATE = new Date();
-      ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
-           .setInterrupt(false);
-      // print out information here so it goes into log
-      System.out.println();
-      System.out.println("****************************************************************************");
-      System.out.println("Writing log to: "+interaction.getConsole().log);
-      System.out.println("****************************************************************************");
-      System.out.println("Agent type = "+Always.getAgentType());
-      System.out.println("Time of day = "+UserUtils.getTimeOfDay());
-      Logger.logEvent(Logger.Event.START, always.getUserModel().getCloseness(), UserUtils.getTimeOfDay()); 
-      try { UserUtils.print(always.getUserModel(), System.out);}
-      catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
-      DiscoDocument session = always.getRM().getSession();
-      Disco disco = interaction.getDisco();
-      if ( disco.getTaskClass("_Session") == null && session != null ) { // could be restart
-         interaction.load("Relationship Manager", 
-               session.getDocument(), session.getProperties(), session.getTranslate());
-         interaction.push(interaction.addTop("_Session"));
-         always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
-      }
+      try {
+         if ( DATE == null ) DATE = new Date();
+         ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
+            .setInterrupt(false);
+         // print out information here so it goes into log
+         System.out.println();
+         System.out.println("****************************************************************************");
+         System.out.println("Writing log to: "+interaction.getConsole().log);
+         System.out.println("****************************************************************************");
+         System.out.println("Agent type = "+Always.getAgentType());
+         System.out.println("Time of day = "+UserUtils.getTimeOfDay());
+         Logger.logEvent(Logger.Event.START, always.getUserModel().getCloseness(), UserUtils.getTimeOfDay()); 
+         try { UserUtils.print(always.getUserModel(), System.out);}
+         catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
+         DiscoDocument session = always.getRM().getSession();
+         Disco disco = interaction.getDisco();
+         if ( disco.getTaskClass("_Session") == null && session != null ) { // could be restart
+            interaction.load("Relationship Manager", 
+                  session.getDocument(), session.getProperties(), session.getTranslate());
+            interaction.push(interaction.addTop("_Session"));
+            always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
+         }
+      } catch (Exception e) { EngagementSchema.EXIT = true; }  // restart Java
    }
 
    // activities for which startActivity has been called (not same as Plan.isStarted)
