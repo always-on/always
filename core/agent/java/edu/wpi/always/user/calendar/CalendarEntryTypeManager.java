@@ -34,7 +34,7 @@ public class CalendarEntryTypeManager {
          }
 
          @Override
-         public void prefill (RepeatingCalendarEntry newEntry) {
+	   public void prefill (RepeatingCalendarEntry newEntry) {
             newEntry.setRepeat(Frequency.YEARLY);
          }
       },
@@ -121,7 +121,7 @@ public class CalendarEntryTypeManager {
 
          @Override
          public String getPersonQuestion () {
-            return "Who is visiting you?";
+            return "Who is the visit with?";
          }
       },
       TravelTo("Travel");

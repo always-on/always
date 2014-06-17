@@ -753,7 +753,7 @@ public abstract class EnrollAdjacencyPairs{
    AdjacencyPairBase<EnrollStateContext> {
 
       public PersonContactAdjacencyPair(final EnrollStateContext context) {
-         super("Do you plan to talk to this person by SKYPE video calls ?", context);
+         super("Do you plan to talk to this person by video calls ?", context);
          choice("Yes", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
@@ -763,13 +763,6 @@ public abstract class EnrollAdjacencyPairs{
          choice("No", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               addPerson(getContext());
-               return new CheckCorrectionAdjacencyPair(getContext(), person);
-            }
-         });
-         choice("Skip this information", new DialogStateTransition() {
-            @Override
-            public AdjacencyPair run () {
                addPerson(getContext());
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }

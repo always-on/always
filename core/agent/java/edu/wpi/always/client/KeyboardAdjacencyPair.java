@@ -37,7 +37,7 @@ public abstract class KeyboardAdjacencyPair<C extends AdjacencyPair.Context> ext
             return success(text);
          }
       });
-      choice("Never Mind", new DialogStateTransition() {
+      choice("Skip this information", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {

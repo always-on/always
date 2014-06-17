@@ -625,7 +625,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new CheckCorrectionAdjacencyPair(getContext(), person);
             }
          });
-         choice("Never Mind", new DialogStateTransition() {
+         choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new CheckCorrectionAdjacencyPair(getContext(), person);

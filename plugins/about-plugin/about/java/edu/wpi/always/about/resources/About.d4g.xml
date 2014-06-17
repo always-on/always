@@ -92,7 +92,7 @@
   </t:task>
 
  <agent id="_HowIsXDoing"
-	 text="Want to talk about {famFriendRelationship} {famFriendName}?  How's {pronounSubj} doing?" >
+	 text="What have you heard about {famFriendRelationship} {famFriendName}?  How's {pronounSubj} doing?" >
     <user text="I don't want to talk about {pronounObj} today">
       <agent text="okay." />
     </user>
@@ -246,6 +246,29 @@
 	</user>
       </agent>
     </user>
+        <user text="Yes, right" applicable="statusFamFriend =='got a new job'">
+      <agent text="so how is the job going?" 
+         eval="reset(famFriend);" >
+        <!-- reset statusType to empty and previousTalk to null -->
+        <user text="I don't know.  I haven't talked to {pronounObj} for a while" >
+            <agent text="maybe today is good time to give {pronounObj} a call">
+            </agent>
+        </user>
+        <user text="Pretty well, I guess.  {pronounSubj} seems happy.">
+            <agent text="That's excellent!"/>
+        </user>
+        <user text="Only okay.  {pronounSubj} doesn't like it so much">
+            <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Oh, that's too bad! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+                <user text="yes, maybe it will get better" >
+                    <agent text=" &lt;HEADNOD/&gt;  yeh, I hope so." />
+                </user>
+                    <user text="yes, such a shame" >
+                    <agent text=" &lt;HEADNOD/&gt;  I agree" />
+                </user>
+            </agent>
+        </user>
+      </agent>
+     </user>
     <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='had a new grandchild'">
       <agent text="so is there anything else new with {pronounObj} ?">
 	<user text="No not really" >

@@ -36,7 +36,7 @@ abstract class CalendarDeleteState {
                return new EventThisWeek(context, week.plusWeeks(2));
             }
          });
-         choice("never mind", new DialogStateTransition() {
+         choice("let's not delete anything", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {

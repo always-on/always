@@ -163,12 +163,12 @@
         <user text="Oh, fine">
             <agent text="I will give you with a list of activities we can do together." >
                 <user text="Alright.">
-    	           <agent text="In the late evening, I turn off my screen, so that I won't disturb you. I will only talk to you if touch the screen. Then I'll be happy to talk."
+    	           <agent text="In the late evening, I turn off my screen, so that I won't disturb you. I will only talk to you, if you touch the screen. Then I'll be happy to talk."
     	eval="Activity.ALL.AboutAgent.setFlag()">
     		<user text="ok, anything else?">
     			<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Yes, I can only see your face, when we talk.  I don't see anything else around you.  My sight is really limited! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
     				<user text="Really?">
-    					<agent text="I protect your privacy by not keeping any images or videos of you, unless you want to record a story.  Even then, I will ask you after if you want to keep the video story.">
+    					<agent text="I protect your privacy by not keeping any images or videos of you, unless you want to record a story.  Even then, I will ask you after, if you want to keep the video story.">
     						<user text="ok, I see"/>
     						<user text="ok, that's good to know"/>
     						<user text="how can I be sure you won't save videos or pictures of me?">
@@ -215,7 +215,7 @@
   <agent id="_ExplainUseCalendar" 
          text="I can keep track of your everyday calendar" eval="Activity.ALL.UseCalendar.setFlag()">
     <user text="Tell me more">
-      <agent text="That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, go to an apppointment, or remember something important.">
+      <agent text="That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, or go to an appointment. ">
         <user text="Ok">
 	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Good.  Just give it a try &lt;FACE EXPR=\&quot;WARM\&quot;&gt; "/>
 	</user>
