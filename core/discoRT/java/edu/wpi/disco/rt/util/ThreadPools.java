@@ -19,22 +19,24 @@ public class ThreadPools {
 
    public static ExecutorService newFixedThreadPool (int nThreads) {
       return new ThreadPools.ThreadPoolExecutor(nThreads, nThreads, 0L,
-            TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+            TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), false);
    }
 
    public static ExecutorService newCachedThreadPool () {
       return new ThreadPools.ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L,
-            TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+            TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), false);
    }
 
    public static ScheduledExecutorService newScheduledThreadPool (int corePoolSize) {
-      return newScheduledThreadPool(corePoolSize, null, null);
+      return newScheduledThreadPool(corePoolSize, null, null, false);
    }
    
    public static ScheduledExecutorService newScheduledThreadPool (int corePoolSize, 
-         final Class<? extends Throwable> throwable, final ExceptionHandler handler) {
+         final Class<? extends Throwable> throwable, final ExceptionHandler handler, 
+         boolean daemon) {
       
-      return new ScheduledThreadPoolExecutor(corePoolSize) {
+      return new ScheduledThreadPoolExecutor(corePoolSize, 
+            daemon ? DAEMON_THREAD_FACTORY : Executors.defaultThreadFactory()) {
 
          @Override
          protected <V> RunnableScheduledFuture<V> decorateTask (
@@ -66,8 +68,10 @@ public class ThreadPools {
          java.util.concurrent.ThreadPoolExecutor {
 
       private ThreadPoolExecutor (int corePoolSize, int maximumPoolSize,
-            long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
-         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
+            long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue,
+            boolean daemon) {
+         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
+               daemon ? DAEMON_THREAD_FACTORY : Executors.defaultThreadFactory());
       }
 
       @Override
@@ -194,6 +198,15 @@ public class ThreadPools {
       public boolean isDone () { return task.isDone(); }
    }
     
+   public static final ThreadFactory DAEMON_THREAD_FACTORY = new ThreadFactory () {
+      
+      @Override
+      public Thread newThread (Runnable r) {
+         Thread t = new Thread(r);
+         t.setDaemon(true);
+         return t;
+      }};
+      
    /** Cannot instantiate. */
    private ThreadPools () {
    }

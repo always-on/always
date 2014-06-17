@@ -12,7 +12,7 @@ public class Scheduler {
    
    public Scheduler (Class<? extends Throwable> handle, ExceptionHandler handler) {
       executor = ThreadPools.newScheduledThreadPool(Runtime.getRuntime().availableProcessors() * 2, 
-                             handle, handler);
+                             handle, handler, false);
    }
 
    public ScheduledFuture<?> schedule (Runnable runnable, long interval) {

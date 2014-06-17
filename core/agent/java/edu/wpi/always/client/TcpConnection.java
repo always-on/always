@@ -5,7 +5,7 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 import edu.wpi.always.Always;
-import edu.wpi.disco.rt.util.Utils;
+import edu.wpi.disco.rt.util.*;
 
 // non-blocking read and write
 
@@ -19,8 +19,8 @@ public class TcpConnection extends RemoteConnection {
 
    public TcpConnection (String host, int port) {
       super(host, port);
-      sendThreadService = Executors.newSingleThreadExecutor();
-      recvThreadService = Executors.newSingleThreadExecutor();
+      sendThreadService = Executors.newSingleThreadExecutor(ThreadPools.DAEMON_THREAD_FACTORY);
+      recvThreadService = Executors.newSingleThreadExecutor(ThreadPools.DAEMON_THREAD_FACTORY);
       connect(host, port);
    }
    
