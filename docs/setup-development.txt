@@ -4,7 +4,7 @@
 
 		      rich@wpi.edu, May 9, 2013
 
-[See also setup-asus.txt]
+[See setup-asus.txt for setting up field study machines]
 
 The goal of this document is help a new project developer get his/her
 software environment conveniently configured.  The project uses GitHub
