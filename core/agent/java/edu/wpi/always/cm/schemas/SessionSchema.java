@@ -125,7 +125,6 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    @Override
    public void runActivity () {
       synchronized (interaction) {
-         current = null;
          Plan plan = interaction.getFocusExhausted(true);
          if ( plan != null ) {
             if ( plan.getType().isInternal() ) {
@@ -165,6 +164,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             if ( disco.getProperty(disco.getTop(plan).getGoal().getType().getPropertyId()+"@interruption") == null ) 
                interruptible = true;
          } else { // plan == null, i.e., session plan exhausted (at toplevel)
+            current = null;
             interruptible = true; // interruption done
          }
       }
