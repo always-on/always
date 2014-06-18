@@ -1,9 +1,10 @@
 package edu.wpi.always;
 
 import com.google.common.collect.ObjectArrays;
+import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
 import edu.wpi.always.cm.schemas.SessionSchema;
-import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.*;
 import edu.wpi.disco.rt.util.Utils;
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -33,8 +34,14 @@ public class Logger {
    
    public enum Condition { ALWAYS, LOGIN, REETI }
    
-   public static void logId (Condition condition, String machine, String userName, Date installed, Date booted, String release) {
-      THIS.log(Type.ID, condition, machine, userName, installed, booted, release);
+   public static void logId (UserModel model) {
+      THIS.log(Type.ID, 
+            Always.getAgentType() == AgentType.REETI ? Logger.Condition.REETI :
+               Always.isLogin() ? Logger.Condition.LOGIN : Logger.Condition.ALWAYS,
+            System.getenv("COMPUTERNAME"), 
+            model.getUserName(),
+            model.getUserName().isEmpty() ? Always.DATE : new Date(model.getStartTime()),
+            Always.DATE, Always.RELEASE);
    }
    
    public static void logEngagement (EngagementState oldState, EngagementState newState) {

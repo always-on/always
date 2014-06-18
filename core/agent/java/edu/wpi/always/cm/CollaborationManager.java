@@ -26,7 +26,7 @@ public class CollaborationManager extends DiscoRT {
    public CollaborationManager (MutablePicoContainer parent) {
       super(parent, 
             new File(UserUtils.USER_DIR, "User."+UserUtils.formatDate()+".txt"),
-            Always.getRelease() == null);
+            Always.RELEASE == null);
       this.parent = parent;
       SCHEMA_INTERVAL = 500;
       container.removeComponent(Resources.class);

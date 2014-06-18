@@ -39,6 +39,8 @@ public interface UserModel {
     */
    int getSessions ();
    
+   void setSessions (int sessions);
+   
    /**
     * Time when system first run for this user.
     */

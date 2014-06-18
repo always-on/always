@@ -51,17 +51,16 @@ public abstract class UserModelBase implements UserModel {
    public int getSessions () { return getIntProperty(SESSIONS); }
       
    @Override
+   public void setSessions (int sessions) { setProperty(SESSIONS, sessions); } 
+
+   @Override
    public long getStartTime () { return getLongProperty(START_TIME); }   
    
    @Override
    public void setUserName (String name) {
-      // wait until user object created before setting property
-      setProperty(START_TIME, Always.DATE.getTime());
-   }
-
-   @Override
-   public void load () {
-      setProperty(SESSIONS, getSessions()+1); 
+      // need to wait until user object created before setting properties
+      if ( getStartTime() == 0 ) setProperty(START_TIME, Always.DATE.getTime());
+      if ( getSessions() == 0 ) setSessions(1);
    }
 
    @Override

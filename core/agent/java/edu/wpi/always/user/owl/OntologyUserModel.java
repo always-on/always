@@ -61,14 +61,13 @@ public class OntologyUserModel extends UserModelBase {
          int space = userName.indexOf(' ');
          userFirstName = space < 0 ? userName : userName.substring(0, space);
          user = ontology.getNamedIndividual(userName);
-         user.setDataProperty(OntologyPerson.NAME_PROPERTY,
-               ontology.getLiteral(userName));
+         if ( getProperty(OntologyPerson.NAME_PROPERTY) == null )
+            setProperty(OntologyPerson.NAME_PROPERTY, userName);
          if ( !user.hasSuperclass(OntologyPerson.USER_CLASS) ) {
             user.addSuperclass(OntologyPerson.USER_CLASS);
             peopleManager.addPerson(userName);
          }
          super.setUserName(userName); // set start time
-         saveIf();
       } else
          throw new UnsupportedOperationException(
                "User model already has name: " + this.userName);
@@ -208,7 +207,6 @@ public class OntologyUserModel extends UserModelBase {
                   Utils.lnprint(System.out, "User name: " + getUserName());
                } else Utils.lnprint(System.out, "Loaded user model has user with no name!");
                System.out.println();  // for always-disco
-               super.load(); // increment session count
             } else
                Utils.lnprint(System.out, "Loaded user model has no user!");
          } else Utils.lnprint(System.out, "Starting with no user model!");

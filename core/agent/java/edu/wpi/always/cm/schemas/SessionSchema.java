@@ -6,10 +6,9 @@ import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
-import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.user.*;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
-import edu.wpi.disco.Interaction;
 import edu.wpi.disco.lang.*;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.*;
@@ -97,7 +96,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          System.out.println("Agent type = "+Always.getAgentType());
          System.out.println("Time of day = "+UserUtils.getTimeOfDay());
          Logger.logEvent(Logger.Event.START, always.getUserModel().getCloseness(), UserUtils.getTimeOfDay()); 
-         try { UserUtils.print(always.getUserModel(), System.out);}
+         UserModel model = always.getUserModel();
+         try { UserUtils.print(model, System.out);}
          catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
          DiscoDocument session = always.getRM().getSession();
          Disco disco = interaction.getDisco();
@@ -107,6 +107,9 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             interaction.push(interaction.addTop("_Session"));
             always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
          }
+         int sessions = model.getSessions();
+         // first session needs to be handled specially in UserModelBase.setUserName()
+         if ( sessions > 0 ) model.setSessions(sessions+1);
       } catch (Exception e) { 
          e.printStackTrace();
          Always.exit(-1);  // restart Java

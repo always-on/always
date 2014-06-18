@@ -62,9 +62,7 @@ public class Always {
    
    public static boolean isLogin () { return login; }
    
-   private static String release;
-   
-   public static String getRelease () { return release; }
+   public static File RELEASE;
    
    /**
     * Factory method for Always.  
@@ -79,10 +77,10 @@ public class Always {
          if ( args.length > 2 ) login = Boolean.parseBoolean(args[2]);
          if ( args.length > 3 ) UserUtils.USER_FILE = args[3];
       }
-      File release = UserUtils.lastModified("", "_RELEASE", "");
-      if ( release != null ) {
-         Always.release = release.toString();
-         Utils.lnprint(System.out, "Release = "+getRelease());
+      if ( System.getenv("ALWAYS_RELEASE") != null ) {
+         RELEASE = UserUtils.lastModified("/release", "_RELEASE", "");
+         if ( RELEASE != null )
+            Utils.lnprint(System.out, "Release = "+RELEASE);
       }
       if ( login ) Utils.lnprint(System.out, "Login condition!");
       Utils.lnprint(System.out, "Agent type = "+agentType);   
@@ -95,13 +93,7 @@ public class Always {
          model.setCloseness(Closeness.valueOf(args[1]));
       Closeness closeness = model.getCloseness();
       Utils.lnprint(System.out, "Using closeness = "+closeness);
-      logger.logId(
-            agentType == AgentType.REETI ? Logger.Condition.REETI :
-               login ? Logger.Condition.LOGIN : Logger.Condition.ALWAYS,
-            System.getenv("COMPUTERNAME"),
-            model.getUserName(),
-            model.getUserName().isEmpty() ? DATE : new Date(model.getStartTime()),
-            DATE, getRelease());
+      logger.logId(model);
       always.plugin = plugin; 
       always.activity = activity;
       return always;

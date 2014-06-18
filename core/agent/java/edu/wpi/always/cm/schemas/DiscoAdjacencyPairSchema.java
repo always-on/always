@@ -44,7 +44,7 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<Adjacen
    public static class Interaction extends DiscoRT.Interaction {
       
       public Interaction () {
-         super(new Agent("agent"), new User("user"), Always.getRelease() == null);
+         super(new Agent("agent"), new User("user"), Always.RELEASE == null);
       }
    }
    
