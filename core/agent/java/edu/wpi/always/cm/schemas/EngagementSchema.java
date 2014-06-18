@@ -123,7 +123,7 @@ public class EngagementSchema extends SchemaBase {
          }
       } catch (Exception e) {
          e.printStackTrace();
-         Always.exit(-1);
+         Always.exit(2);
       }
    }
       

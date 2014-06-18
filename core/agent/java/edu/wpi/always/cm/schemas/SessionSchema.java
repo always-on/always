@@ -112,7 +112,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          if ( sessions > 0 ) model.setSessions(sessions+1);
       } catch (Exception e) { 
          e.printStackTrace();
-         Always.exit(-1);  // restart Java
+         Always.exit(3);  // restart Java
       } 
    }
 

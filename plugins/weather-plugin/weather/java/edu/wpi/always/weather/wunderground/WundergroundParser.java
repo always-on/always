@@ -34,7 +34,7 @@ public class WundergroundParser {
          System.out.println("File written: "+file);
       } catch (Exception e) { 
          e.printStackTrace();
-         Always.exit(-1); // so goes on
+         Always.exit(4); // so goes on
       }
    }
  }

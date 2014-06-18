@@ -257,6 +257,8 @@ public class Always {
       Utils.lnprint(System.out,  "EXITING WITH CODE "+code+" ...");
       MutablePicoContainer container = Always.THIS.getCM().getContainer();
       ClientProxy proxy = container.getComponent(ClientProxy.class);
+      if ( code != 0 ) 
+         proxy.say("Oops.  There seems to be an error in my programming.  I am going to restart and be back in a few minutes.");
       proxy.setScreenVisible(false);      
       proxy.showMenu(null, false, true); // must be first
       proxy.showMenu(null, false, false);
