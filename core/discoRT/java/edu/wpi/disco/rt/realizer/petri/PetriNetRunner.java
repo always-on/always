@@ -18,7 +18,7 @@ public class PetriNetRunner implements Runnable {
 
    public PetriNetRunner (Transition start) {
       this.start = start;
-      executor = ThreadPools.newCachedThreadPool();
+      executor = ThreadPools.newCachedThreadPool(true);
    }
 
    @Override

@@ -319,7 +319,7 @@ public abstract class Plugin {
           if ( c instanceof SchemaConfig ) {
              SchemaConfig config = (SchemaConfig) c;
              configs.add(config);
-             if ( !config.getRunOnStartup() ) schemas.add(config.getType());
+             if ( !config.runOnStartup ) schemas.add(config.type);
           } else if ( c instanceof Class ) {
              Class<?> cls = (Class<?>) c;
              if ( Schema.class.isAssignableFrom(cls) ) {
@@ -351,7 +351,7 @@ public abstract class Plugin {
    }
    
    private SchemaConfig newSchemaConfig (Class<? extends Schema> schema) {
-      return new SchemaConfig(schema, DiscoRT.SCHEMA_INTERVAL, false);
+      return new SchemaConfig(schema, DiscoRT.SCHEMA_INTERVAL, false, true);
    }
 
    public static Plugin getPlugin (TaskClass task, MutablePicoContainer container) {

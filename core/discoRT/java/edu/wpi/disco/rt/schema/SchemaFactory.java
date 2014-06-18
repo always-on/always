@@ -6,7 +6,9 @@ public interface SchemaFactory {
 
    long getUpdateDelay ();
    
-   boolean getRunOnStartup ();
+   boolean isRunOnStartup ();
+   
+   boolean isDaemon ();
 
    Class<? extends Schema> getSchemaType ();
 

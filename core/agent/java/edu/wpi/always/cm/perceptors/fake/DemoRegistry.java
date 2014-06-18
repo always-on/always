@@ -39,7 +39,12 @@ public class DemoRegistry implements ComponentRegistry, SchemaRegistry {
          }
 
          @Override
-         public boolean getRunOnStartup () {
+         public boolean isRunOnStartup () {
+            return true;
+         }
+         
+         @Override
+         public boolean isDaemon () {
             return true;
          }
       };

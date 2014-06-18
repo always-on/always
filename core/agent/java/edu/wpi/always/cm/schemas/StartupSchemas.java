@@ -9,14 +9,14 @@ public class StartupSchemas implements SchemaRegistry {
    
    @Override
    public void register (SchemaManager manager) {
-      // register session first so it gets started first
-      // and user model printout not interrupted
-       // following two schemas started by EngagementSchema
-      manager.registerSchema(SessionSchema.class, false);
-      manager.registerSchema(CalendarInterruptSchema.class, 60000 , false); // once per minute
+      // SessionSchema and CalendarInterruptSchema started by EngagementSchema
+      manager.registerSchema(SessionSchema.class, false, true);
+      // CalendarInterruptSchema runs once per minute
+      manager.registerSchema(CalendarInterruptSchema.class, 60000 , false, true);
       // not using movement tracking, since field of view of camera is too narrow
       // manager.registerSchema(MovementTrackerSchema.class, true);
-      manager.registerSchema(FaceTrackerSchema.class, true);
-      manager.registerSchema(EngagementSchema.class, true);
+      manager.registerSchema(FaceTrackerSchema.class, true, true);
+      // only EngagmentSchema is not daemon
+      manager.registerSchema(EngagementSchema.class, true, false);
    }
 }

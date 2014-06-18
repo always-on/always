@@ -26,7 +26,7 @@ public class PrimitiveBehaviorManager implements PrimitiveBehaviorControl,
       realizersInEffect = new HashMap<Resource, PrimitiveRealizer<?>>();
       runningTasks = new HashMap<PrimitiveRealizer<?>, ScheduledFuture<?>>();
       this.factory = factory;
-      executor = ThreadPools.newScheduledThreadPool(NUM_THREADS);
+      executor = ThreadPools.newScheduledThreadPool(NUM_THREADS, true);
    }
 
    @Override

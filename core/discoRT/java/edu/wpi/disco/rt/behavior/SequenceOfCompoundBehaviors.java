@@ -70,8 +70,7 @@ public class SequenceOfCompoundBehaviors implements CompoundBehavior {
       private final SequenceOfCompoundBehaviors behavior;
       private final PrimitiveBehaviorControl pbc;
       private boolean done;
-      private final ExecutorService executor = ThreadPools
-            .newCachedThreadPool();
+      private final ExecutorService executor = ThreadPools.newCachedThreadPool(true);
 
       public SequenceCompoundRealizer (PrimitiveBehaviorControl pbc,
             SequenceOfCompoundBehaviors behavior) {

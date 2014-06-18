@@ -2,25 +2,14 @@ package edu.wpi.disco.rt.schema;
 
 public class SchemaConfig {
 
-   private final Class<? extends Schema> type;
-   private final long updateDelay;
-   private final boolean runOnStartup;
+   public final Class<? extends Schema> type;
+   public final long updateDelay;
+   public final boolean runOnStartup, daemon;
 
-   public SchemaConfig (Class<? extends Schema> type, long updateDelay, boolean runOnStartup) {
+   public SchemaConfig (Class<? extends Schema> type, long updateDelay, boolean runOnStartup, boolean daemon) {
       this.type = type;
       this.updateDelay = updateDelay;
       this.runOnStartup = runOnStartup;
-   }
-
-   public Class<? extends Schema> getType () {
-      return type;
-   }
-
-   public long getUpdateDelay () {
-      return updateDelay;
-   }
-   
-   public boolean getRunOnStartup () { 
-      return runOnStartup;
+      this.daemon = daemon;
    }
 }

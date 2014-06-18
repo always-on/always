@@ -17,18 +17,18 @@ import edu.wpi.disco.rt.schema.Schema;
  */
 public class ThreadPools {
 
-   public static ExecutorService newFixedThreadPool (int nThreads) {
+   public static ExecutorService newFixedThreadPool (int nThreads, boolean daemon) {
       return new ThreadPools.ThreadPoolExecutor(nThreads, nThreads, 0L,
-            TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), false);
+            TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), daemon);
    }
 
-   public static ExecutorService newCachedThreadPool () {
+   public static ExecutorService newCachedThreadPool (boolean daemon) {
       return new ThreadPools.ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L,
-            TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), false);
+            TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), daemon);
    }
 
-   public static ScheduledExecutorService newScheduledThreadPool (int corePoolSize) {
-      return newScheduledThreadPool(corePoolSize, null, null, false);
+   public static ScheduledExecutorService newScheduledThreadPool (int corePoolSize, boolean daemon) {
+      return newScheduledThreadPool(corePoolSize, null, null, daemon);
    }
    
    public static ScheduledExecutorService newScheduledThreadPool (int corePoolSize, 
@@ -200,9 +200,11 @@ public class ThreadPools {
     
    public static final ThreadFactory DAEMON_THREAD_FACTORY = new ThreadFactory () {
       
+      private final ThreadFactory factory = Executors.defaultThreadFactory();
+      
       @Override
       public Thread newThread (Runnable r) {
-         Thread t = new Thread(r);
+         Thread t = factory.newThread(r);
          t.setDaemon(true);
          return t;
       }};

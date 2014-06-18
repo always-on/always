@@ -141,9 +141,10 @@ public class DiscoRT implements Startable {
       @SuppressWarnings("rawtypes")
       List<Perceptor> perceptors = container.getComponents(Perceptor.class);
       Scheduler scheduler = container.getComponent(Scheduler.class);
-      scheduler.schedule(arbitrator, ARBITRATOR_INTERVAL);
+      // arbitrator and perceptors are daemon threads
+      scheduler.schedule(arbitrator, ARBITRATOR_INTERVAL, true);
       for (Perceptor<?> p : perceptors) 
-         scheduler.schedule(p, PERCEPTOR_INTERVAL);
+         scheduler.schedule(p, PERCEPTOR_INTERVAL, true);
       schemaManager.startUp();
    }
    

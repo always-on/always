@@ -11,8 +11,7 @@ public class UIMessageDispatcherImpl implements UIMessageDispatcher,
    private final UIMessagingJson json = new UIMessagingJson();
    private final TcpConnection conn;
    private final HashMap<String, MessageHandler> handlers = new HashMap<String, MessageHandler>();
-   private final ExecutorService receivedMessageNotifierService = ThreadPools
-         .newFixedThreadPool(1);
+   private final ExecutorService receivedMessageNotifierService = ThreadPools.newFixedThreadPool(1, true);
 
    public UIMessageDispatcherImpl (TcpConnection connection) {
       conn = connection;

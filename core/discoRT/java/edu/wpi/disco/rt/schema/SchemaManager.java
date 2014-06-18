@@ -32,24 +32,26 @@ public class SchemaManager {
    public <T extends Schema> T start (Class<T> type) {
       if ( DiscoRT.TRACE ) Utils.lnprint(System.out, "Starting: "+type);
       long interval = DiscoRT.SCHEMA_INTERVAL;
+      boolean daemon = false;
       T instance;
       if ( factories.containsKey(type) ) {
          SchemaFactory factory = factories.get(type);
          instance = (T) factory.create(container);
          interval = factory.getUpdateDelay();
+         daemon = factory.isDaemon();
       } else instance = container.getComponent(type);
-      ScheduledFuture<?> future = scheduler.schedule(instance, interval);
+      ScheduledFuture<?> future = scheduler.schedule(instance, interval, daemon);
       instance.setFuture(future);
       return instance;
    }
 
-   public void registerSchema (Class<? extends Schema> type, boolean runOnStartup) {
-      registerSchema(type, DiscoRT.SCHEMA_INTERVAL, runOnStartup);
+   public void registerSchema (Class<? extends Schema> type, boolean runOnStartup, boolean daemon) {
+      registerSchema(type, DiscoRT.SCHEMA_INTERVAL, runOnStartup, daemon);
    }
 
    public void registerSchema (Class<? extends Schema> type, long updateDelay,
-         boolean runOnStartup) {
-      registerSchema(new SchemaConfig(type, updateDelay, runOnStartup));
+         boolean runOnStartup, boolean daemon) {
+      registerSchema(new SchemaConfig(type, updateDelay, runOnStartup, daemon));
    }
 
    public void registerSchema (SchemaConfig config) {
@@ -59,7 +61,7 @@ public class SchemaManager {
    public void registerSchema (SchemaFactory factory) {
       Class<? extends Schema> type = factory.getSchemaType();
       factories.put(type, factory);
-      if ( factory.getRunOnStartup() ) {
+      if ( factory.isRunOnStartup() ) {
          assert !startUpDone : "SchemaManager.RegisterSchema() called with a startup schema, after startUp was called";
          toRunAtStartUp.add(type);
       }
@@ -70,23 +72,28 @@ public class SchemaManager {
       private SchemaConfig config;
 
       public ConfigSchemaFactory (SchemaConfig config) {
-         container.addComponent(config.getType());
+         container.addComponent(config.type);
          this.config = config;
       }
 
       @Override
       public long getUpdateDelay () {
-         return config.getUpdateDelay();
+         return config.updateDelay;
       }
       
       @Override
-      public boolean getRunOnStartup () {      
-         return config.getRunOnStartup();
+      public boolean isRunOnStartup () {      
+         return config.runOnStartup;
       }
 
       @Override
+      public boolean isDaemon () {      
+         return config.daemon;
+      }
+      
+      @Override
       public Class<? extends Schema> getSchemaType () {
-         return config.getType();
+         return config.type;
       }
 
       @Override

@@ -29,7 +29,7 @@ public class Realizer implements IRealizer, BehaviorHistory {
 
    public Realizer (PrimitiveBehaviorControl primitiveControl) {
       this.primitiveControl = primitiveControl;
-      executor = ThreadPools.newCachedThreadPool();
+      executor = ThreadPools.newCachedThreadPool(true);
    }
 
    @Override
