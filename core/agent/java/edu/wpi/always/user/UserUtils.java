@@ -155,8 +155,6 @@ public abstract class UserUtils {
          if ( status != null ) stream.println("\tAboutStatus = "+status);
          String comment = person.getAboutComment();
          if ( comment != null ) stream.println("\tAboutComment = "+comment);
-         boolean mentioned = person.isAboutMentioned();
-         if ( mentioned ) stream.println("\tAboutMentioned = "+mentioned);
       }
       stream.println("\nPLUGIN-SPECIFIC USER PROPERTIES\n");
       for (Class<? extends Plugin> plugin : Plugin.getPlugins()) {

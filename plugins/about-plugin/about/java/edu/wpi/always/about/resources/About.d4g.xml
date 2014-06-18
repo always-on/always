@@ -8,7 +8,6 @@
     var famFriend ;
     var statusFamFriend;
     var statusType ;
-    var previousTalk;
     var genderFamFriend;
     var famFriendName;
     var famFriendRelationship;
@@ -18,13 +17,15 @@
 
     var familyFriendsList;
 
-    // to batch in one file save
     function update (person, status, comment) {
-       person.setAboutMentionedStatusComment(true,status, comment);
+      person.setAboutStatusComment(
+         status ? edu.wpi.always.user.people.Person.AboutStatus.Positive
+                : edu.wpi.always.user.people.Person.AboutStatus.Negative,
+         comment);
     }
 
     function reset (person) {
-       person.setAboutMentionedStatusComment(false, null,null);
+       person.setAboutStatusComment(null, null);
     }
 
   </t:script>
@@ -59,16 +60,12 @@
   <t:task id="_GetPerson">
     <t:script> 
       famFriend = familyFriendsList[$plan.getParent().getRepeatStep()]; 
-      print("famFriend =" + famFriend);
       statusFamFriend = famFriend.getAboutComment();
-      print(" status =" + statusFamFriend);
       statusType = famFriend.getAboutStatus();
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
       famFriendRelationship = 
           (famFriend.getRelationship() == null ? " ": "your " + famFriend.getRelationship() );
-      previousTalk = famFriend.isAboutMentioned();
-      println(" previous talk about =" + previousTalk);
       if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"; pronounPossessive= "his" } 
       else  {pronounObj = "her"; pronounSubj = "she"; pronounPossessive = "her" }; 
     </t:script>
@@ -77,15 +74,15 @@
   <t:task id="_HowIsSoAndSo">
     <t:subtasks id="basic">
       <t:step name="discuss" task="_HowIsXDoing"/>
-      <t:applicable> !previousTalk </t:applicable>
+      <t:applicable> statusType==null </t:applicable>
     </t:subtasks>
     <t:subtasks id="pasttalk">
       <t:step name="update" task="_MoreAboutX"/>
-      <t:applicable> previousTalk &amp;&amp; statusType=="Positive" </t:applicable>  
+      <t:applicable> statusType=="Positive" </t:applicable>  
     </t:subtasks>
     <t:subtasks id="pastneg">
       <t:step name="talk" task="_BetterYet"/>
-      <t:applicable> ! (previousTalk==null) &amp;&amp; statusType=="Negative" </t:applicable>  
+      <t:applicable> statusType=="Negative" </t:applicable>  
     </t:subtasks> 
   </t:task>
 
@@ -97,11 +94,11 @@
     <user text="Overall pretty good">
       <agent text="Any news from {pronounObj}?" >
 	<user text="No news really"/>
-	<user text="{pronounSubj} has a new job"
-	      eval="update(famFriend,true,'got a new job')">
+	<user text="{pronounSubj} has a new job">
 	  <!-- UM gets "got a new job" status and statusType positive  for {famFriend} 
 	       <eval set previousTalk in UM to positive> -->
-	  <agent text=" Oh, excellent.  I can bet {pronounSubj} is happy." >
+	  <agent text=" Oh, excellent.  I can bet {pronounSubj} is happy." 
+             eval="update(famFriend,true,'got a new job')">
 	    <user text="Yes, definitely"/>
 	    <user text="{pronounSubj} is happy and excited">
 	      <agent text="Well, wish {pronounObj} good luck from me!" />
@@ -206,7 +203,7 @@
 <agent id="_MoreAboutX" text="Last time we talked about {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
     <user text="Yes, right" applicable="statusFamFriend =='was going on vacation'">
       <agent text="so how did it go?" 
-	     eval="reset(famFriend);" >
+             eval="reset(famFriend);" >
 	<!-- reset statusType to empty and previousTalk to null -->
 	<user text="I don't know.  I haven't talked to {pronounObj} for a while" >
 	  <agent text="maybe today is good time to give {pronounObj} a call">
@@ -436,7 +433,7 @@
       </agent>
     </user>
     <user text="{pronounSubj} lost {pronounPossessive} job." 
-	  eval="update(famFriend,false,'lost job')">
+	  eval="update(famFriend,false,'lost a job')">
       <!-- put in UM status lost job, statusType as negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
       <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Oh, that's really tough &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >

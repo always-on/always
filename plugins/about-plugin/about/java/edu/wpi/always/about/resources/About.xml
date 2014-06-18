@@ -79,15 +79,15 @@
          <binding slot="$_d4e41_step.external" value="true"/>
       </subtasks>
       <subtasks id="_d4e42_subtasks">
-         <step name="_d4e42_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e44_step" task="disco:Say$Expression"/>
+         <step name="_d4e42_step" task="disco:Say$Expression"/>
+         <step name="_d4e44_step" task="disco:Say$Expression$Eval"/>
          <step name="_d4e44_ref" task="_d4e44_tree"/>
          <binding slot="$_d4e42_step.text" value="&#34;(pronounSubj)+\&#34; has a new job\&#34;&#34;"/>
          <binding slot="$_d4e42_step.external" value="true"/>
-         <binding slot="$_d4e42_step.eval" value="&#34;update(famFriend,true,'got a new job')&#34;"/>
          <binding slot="$_d4e44_step.text"
                   value="&#34;\&#34; Oh, excellent.  I can bet \&#34;+(pronounSubj)+\&#34; is happy.\&#34;&#34;"/>
          <binding slot="$_d4e44_step.external" value="false"/>
+         <binding slot="$_d4e44_step.eval" value="&#34;update(famFriend,true,'got a new job')&#34;"/>
       </subtasks>
       <subtasks id="_d4e52_subtasks">
          <step name="_d4e52_step" task="disco:Say$Expression$Eval"/>
@@ -975,7 +975,7 @@
          <binding slot="$_d4e245_step.text"
                   value="&#34;(pronounSubj)+\&#34; lost \&#34;+(pronounPossessive)+\&#34; job.\&#34;&#34;"/>
          <binding slot="$_d4e245_step.external" value="true"/>
-         <binding slot="$_d4e245_step.eval" value="&#34;update(famFriend,false,'lost job')&#34;"/>
+         <binding slot="$_d4e245_step.eval" value="&#34;update(famFriend,false,'lost a job')&#34;"/>
          <binding slot="$_d4e248_step.text"
                   value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, that's really tough &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e248_step.external" value="false"/>
@@ -1361,16 +1361,12 @@
    <task id="_GetPerson">
       <script> 
       famFriend = familyFriendsList[$plan.getParent().getRepeatStep()]; 
-      print("famFriend =" + famFriend);
       statusFamFriend = famFriend.getAboutComment();
-      print(" status =" + statusFamFriend);
       statusType = famFriend.getAboutStatus();
       genderFamFriend = famFriend.getGender();
       famFriendName = famFriend.getName();
       famFriendRelationship = 
           (famFriend.getRelationship() == null ? " ": "your " + famFriend.getRelationship() );
-      previousTalk = famFriend.isAboutMentioned();
-      println(" previous talk about =" + previousTalk);
       if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"; pronounPossessive= "his" } 
       else  {pronounObj = "her"; pronounSubj = "she"; pronounPossessive = "her" }; 
     </script>
@@ -1378,15 +1374,15 @@
    <task id="_HowIsSoAndSo">
       <subtasks id="basic">
          <step name="discuss" task="_HowIsXDoing"/>
-         <applicable> !previousTalk </applicable>
+         <applicable> statusType==null </applicable>
       </subtasks>
       <subtasks id="pasttalk">
          <step name="update" task="_MoreAboutX"/>
-         <applicable> previousTalk &amp;&amp; statusType=="Positive" </applicable>
+         <applicable> statusType=="Positive" </applicable>
       </subtasks>
       <subtasks id="pastneg">
          <step name="talk" task="_BetterYet"/>
-         <applicable> ! (previousTalk==null) &amp;&amp; statusType=="Negative" </applicable>
+         <applicable> statusType=="Negative" </applicable>
       </subtasks>
    </task>
    <script init="true">
@@ -1394,7 +1390,6 @@
     var famFriend ;
     var statusFamFriend;
     var statusType ;
-    var previousTalk;
     var genderFamFriend;
     var famFriendName;
     var famFriendRelationship;
@@ -1404,13 +1399,15 @@
 
     var familyFriendsList;
 
-    // to batch in one file save
     function update (person, status, comment) {
-       person.setAboutMentionedStatusComment(true,status, comment);
+      person.setAboutStatusComment(
+         status ? edu.wpi.always.user.people.Person.AboutStatus.Positive
+                : edu.wpi.always.user.people.Person.AboutStatus.Negative,
+         comment);
     }
 
     function reset (person) {
-       person.setAboutMentionedStatusComment(false, null,null);
+       person.setAboutStatusComment(null, null);
     }
 
   </script>

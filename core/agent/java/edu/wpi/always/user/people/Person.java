@@ -1,14 +1,13 @@
 package edu.wpi.always.user.people;
 
-import edu.wpi.always.user.places.Place;
-import edu.wpi.always.user.places.ZipCodes.ZipCodeEntry;
 import org.joda.time.MonthDay;
+import edu.wpi.always.user.places.Place;
 
 /** 
  * This interface defines accessors for the core properties of a person.
  * 
  * Note user model is automatically saved to file after every update command
- * unless prevented with {@link edu.wpi.always.user.UserModel#INHIBIT_SAVE}.
+ * unless prevented with {@link edu.wpi.always.user.UserModelBase#INHIBIT_SAVE}.
  */
 public interface Person {
 
@@ -81,17 +80,9 @@ public interface Person {
    
    AboutStatus getAboutStatus ();
    
-   void setAboutStatus (AboutStatus status);
-   
    String getAboutComment ();
    
-   void setAboutComment (String comment);
-   
-   boolean isAboutMentioned ();
-   
-   void setAboutMentioned (boolean mentioned);
-   
    // to batch single file save
-   void setAboutMentionedStatusComment(boolean mentioned, boolean status, String comment);
+   void setAboutStatusComment (AboutStatus status, String comment);
 
 }

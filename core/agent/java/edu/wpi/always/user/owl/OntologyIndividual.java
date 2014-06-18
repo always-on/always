@@ -55,9 +55,7 @@ public class OntologyIndividual {
 
    public void setDataProperty (String property, OntologyValue value) {
       synchronized (OntologyUserModel.LOCK) {
-         System.out.println("BEFORE SET DATA PROPERTY "+this+property);
          setDataProperty(helper.getDataProperty(property), value);
-         System.out.println("AFTER SET DATA PROPERTY "+this+property);
       }
    }
 
