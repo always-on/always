@@ -90,62 +90,61 @@
          <binding slot="$_d4e44_step.eval" value="&#34;update(famFriend,true,'got a new job')&#34;"/>
       </subtasks>
       <subtasks id="_d4e52_subtasks">
-         <step name="_d4e52_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e54_step" task="disco:Say$Expression"/>
+         <step name="_d4e52_step" task="disco:Say$Expression"/>
+         <step name="_d4e54_step" task="disco:Say$Expression$Eval"/>
          <step name="_d4e54_ref" task="_d4e54_tree"/>
          <binding slot="$_d4e52_step.text" value="&#34;(pronounSubj)+\&#34; has a new grandchild\&#34;&#34;"/>
          <binding slot="$_d4e52_step.external" value="true"/>
-         <binding slot="$_d4e52_step.eval"
-                  value="&#34;update(famFriend,true,'had a new grandchild')&#34;"/>
          <binding slot="$_d4e54_step.text" value="&#34;\&#34;Oh that's great for \&#34;+(pronounObj)&#34;"/>
          <binding slot="$_d4e54_step.external" value="false"/>
+         <binding slot="$_d4e54_step.eval"
+                  value="&#34;update(famFriend,true,'had a new grandchild')&#34;"/>
       </subtasks>
       <subtasks id="_clothes_subtasks">
-         <step name="_clothes_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e65_step" task="disco:Say"/>
+         <step name="_clothes_step" task="disco:Say$Expression"/>
+         <step name="_d4e65_step" task="disco:Say$Eval"/>
          <step name="_d4e65_ref" task="_d4e65_tree"/>
          <binding slot="$_clothes_step.text"
                   value="&#34;(pronounSubj)+\&#34; went shopping for new clothes\&#34;&#34;"/>
          <binding slot="$_clothes_step.external" value="true"/>
-         <binding slot="$_clothes_step.eval" value="&#34;update(famFriend,true,'went shopping')&#34;"/>
          <binding slot="$_d4e65_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; how nice to get new clothes! &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e65_step.external" value="false"/>
+         <binding slot="$_d4e65_step.eval" value="&#34;update(famFriend,true,'went shopping')&#34;"/>
       </subtasks>
       <subtasks id="_vacation_subtasks">
-         <step name="_vacation_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e74_step" task="disco:Say"/>
+         <step name="_vacation_step" task="disco:Say$Expression"/>
+         <step name="_d4e74_step" task="disco:Say$Eval"/>
          <step name="_d4e74_ref" task="_d4e74_tree"/>
          <binding slot="$_vacation_step.text" value="&#34;(pronounSubj)+\&#34; is going on vacation\&#34;&#34;"/>
          <binding slot="$_vacation_step.external" value="true"/>
-         <binding slot="$_vacation_step.eval"
-                  value="&#34;update(famFriend,true,'was going on vacation')&#34;"/>
          <binding slot="$_d4e74_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; oh really, where?  Want me to keep track in weather updates? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e74_step.external" value="false"/>
+         <binding slot="$_d4e74_step.eval"
+                  value="&#34;update(famFriend,true,'was going on vacation')&#34;"/>
       </subtasks>
       <subtasks id="_newfriend_subtasks">
-         <step name="_newfriend_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e83_step" task="disco:Say"/>
+         <step name="_newfriend_step" task="disco:Say$Expression"/>
+         <step name="_d4e83_step" task="disco:Say$Eval"/>
          <step name="_d4e83_ref" task="_d4e83_tree"/>
          <binding slot="$_newfriend_step.text" value="&#34;(pronounSubj)+\&#34; has a new friend\&#34;&#34;"/>
          <binding slot="$_newfriend_step.external" value="true"/>
-         <binding slot="$_newfriend_step.eval"
-                  value="&#34;update(famFriend,true,'got a new friend')&#34;"/>
          <binding slot="$_d4e83_step.text" value="&#34;well, that's good.&#34;"/>
          <binding slot="$_d4e83_step.external" value="false"/>
+         <binding slot="$_d4e83_step.eval" value="&#34;update(famFriend,true,'got a new friend')&#34;"/>
       </subtasks>
       <subtasks id="_d4e91_subtasks">
-         <step name="_d4e91_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e93_step" task="disco:Say"/>
+         <step name="_d4e91_step" task="disco:Say$Expression"/>
+         <step name="_d4e93_step" task="disco:Say$Eval"/>
          <step name="_d4e93_ref" task="_d4e93_tree"/>
          <binding slot="$_d4e91_step.text" value="&#34;(pronounSubj)+\&#34; is coming to visit me\&#34;&#34;"/>
          <binding slot="$_d4e91_step.external" value="true"/>
-         <binding slot="$_d4e91_step.eval"
-                  value="&#34;update(famFriend,true,'was coming to visit you')&#34;"/>
          <binding slot="$_d4e93_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; great for you.  When we do your calendar, we can add the visit &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e93_step.external" value="false"/>
+         <binding slot="$_d4e93_step.eval"
+                  value="&#34;update(famFriend,true,'was coming to visit you')&#34;"/>
       </subtasks>
    </task>
    <task id="_d4e44_tree">
@@ -958,61 +957,61 @@
    </task>
    <task id="_NotGoingWell_tree">
       <subtasks id="_d4e233_subtasks">
-         <step name="_d4e233_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e236_step" task="disco:Say"/>
+         <step name="_d4e233_step" task="disco:Say$Expression"/>
+         <step name="_d4e236_step" task="disco:Say$Eval"/>
          <step name="_d4e236_ref" task="_d4e236_tree"/>
          <binding slot="$_d4e233_step.text" value="&#34;(pronounSubj)+\&#34; is ill\&#34;&#34;"/>
          <binding slot="$_d4e233_step.external" value="true"/>
-         <binding slot="$_d4e233_step.eval" value="&#34;update(famFriend,false,'was ill')&#34;"/>
          <binding slot="$_d4e236_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; I hope the illness is not serious &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e236_step.external" value="false"/>
+         <binding slot="$_d4e236_step.eval" value="&#34;update(famFriend,false,'was ill')&#34;"/>
       </subtasks>
       <subtasks id="_d4e245_subtasks">
-         <step name="_d4e245_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e248_step" task="disco:Say"/>
+         <step name="_d4e245_step" task="disco:Say$Expression"/>
+         <step name="_d4e248_step" task="disco:Say$Eval"/>
          <step name="_d4e248_ref" task="_d4e248_tree"/>
          <binding slot="$_d4e245_step.text"
                   value="&#34;(pronounSubj)+\&#34; lost \&#34;+(pronounPossessive)+\&#34; job.\&#34;&#34;"/>
          <binding slot="$_d4e245_step.external" value="true"/>
-         <binding slot="$_d4e245_step.eval" value="&#34;update(famFriend,false,'lost a job')&#34;"/>
          <binding slot="$_d4e248_step.text"
                   value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, that's really tough &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e248_step.external" value="false"/>
+         <binding slot="$_d4e248_step.eval" value="&#34;update(famFriend,false,'lost a job')&#34;"/>
       </subtasks>
       <subtasks id="_d4e257_subtasks">
-         <step name="_d4e257_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e260_step" task="disco:Say$Expression"/>
+         <step name="_d4e257_step" task="disco:Say$Expression"/>
+         <step name="_d4e260_step" task="disco:Say$Expression$Eval"/>
          <step name="_d4e260_ref" task="_d4e260_tree"/>
          <binding slot="$_d4e257_step.text" value="&#34;(pronounSubj)+\&#34; had an accident\&#34;&#34;"/>
          <binding slot="$_d4e257_step.external" value="true"/>
-         <binding slot="$_d4e257_step.eval" value="&#34;update(famFriend,false,'had an accident')&#34;"/>
          <binding slot="$_d4e260_step.text"
                   value="&#34;\&#34; Is \&#34;+(pronounSubj)+\&#34; in the hospital? \&#34;&#34;"/>
          <binding slot="$_d4e260_step.external" value="false"/>
+         <binding slot="$_d4e260_step.eval" value="&#34;update(famFriend,false,'had an accident')&#34;"/>
       </subtasks>
       <subtasks id="_d4e282_subtasks">
-         <step name="_d4e282_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e285_step" task="disco:Say"/>
+         <step name="_d4e282_step" task="disco:Say$Expression"/>
+         <step name="_d4e285_step" task="disco:Say$Eval"/>
          <step name="_d4e285_ref" task="_d4e285_tree"/>
          <binding slot="$_d4e282_step.text" value="&#34;(pronounSubj)+\&#34; lost a family member \&#34;&#34;"/>
          <binding slot="$_d4e282_step.external" value="true"/>
-         <binding slot="$_d4e282_step.eval"
-                  value="&#34;update(famFriend,false,'lost a family member')&#34;"/>
          <binding slot="$_d4e285_step.text"
                   value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; that's very sad &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e285_step.external" value="false"/>
+         <binding slot="$_d4e285_step.eval"
+                  value="&#34;update(famFriend,false,'lost a family member')&#34;"/>
       </subtasks>
       <subtasks id="_d4e299_subtasks">
-         <step name="_d4e299_step" task="disco:Say$Expression$Eval"/>
-         <step name="_d4e302_step" task="disco:Say$Expression"/>
+         <step name="_d4e299_step" task="disco:Say$Expression"/>
+         <step name="_d4e302_step" task="disco:Say$Expression$Eval"/>
          <step name="_d4e302_ref" task="_d4e302_tree"/>
          <binding slot="$_d4e299_step.text" value="&#34;(pronounSubj)+\&#34; is pretty lonely\&#34;&#34;"/>
          <binding slot="$_d4e299_step.external" value="true"/>
-         <binding slot="$_d4e299_step.eval" value="&#34;update(famFriend,false,'was lonely')&#34;"/>
          <binding slot="$_d4e302_step.text"
                   value="&#34;\&#34;I see.  You could give \&#34;+(pronounObj)+\&#34; a call or talk to \&#34;+(pronounObj)+\&#34; by video call\&#34;&#34;"/>
          <binding slot="$_d4e302_step.external" value="false"/>
+         <binding slot="$_d4e302_step.eval" value="&#34;update(famFriend,false,'was lonely')&#34;"/>
       </subtasks>
       <subtasks id="_d4e309_subtasks">
          <step name="_d4e309_step" task="disco:Say$Expression"/>
