@@ -2,8 +2,8 @@ package edu.wpi.always.about;
 
 import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;
+import edu.wpi.always.cm.schemas.DiscoAdjacencyPairSchema;
 import edu.wpi.always.user.UserModel;
-import edu.wpi.disco.*;
 import edu.wpi.disco.rt.DiscoRT;
 
 public class AboutPlugin extends Plugin {
@@ -30,7 +30,7 @@ public class AboutPlugin extends Plugin {
    }
    
    // preload task model
-   final static DiscoRT.Interaction aboutInteraction = 
-         new DiscoRT.Interaction(new Agent("agent"), new User("user"));
+   final static DiscoRT.Interaction aboutInteraction = new DiscoAdjacencyPairSchema.Interaction();
+   
    static { if ( Always.ALL_PLUGINS) aboutInteraction.load("edu/wpi/always/about/resources/About.xml"); }
 }

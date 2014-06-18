@@ -23,8 +23,7 @@ import edu.wpi.cetask.*;
 import edu.wpi.disco.Agent;
 import edu.wpi.disco.Interaction;
 import edu.wpi.disco.User;
-import edu.wpi.disco.rt.DiscoRT;
-import edu.wpi.disco.rt.Registry;
+import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.SpeechMarkupBehavior;
 import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.*;
@@ -63,6 +62,10 @@ public class Always {
    
    public static boolean isLogin () { return login; }
    
+   private static String release;
+   
+   public static String getRelease () { return release; }
+   
    /**
     * Factory method for Always.  
     * 
@@ -76,8 +79,13 @@ public class Always {
          if ( args.length > 2 ) login = Boolean.parseBoolean(args[2]);
          if ( args.length > 3 ) UserUtils.USER_FILE = args[3];
       }
+      File release = UserUtils.lastModified("", "_RELEASE", "");
+      if ( release != null ) {
+         Always.release = release.toString();
+         Utils.lnprint(System.out, "Release = "+getRelease());
+      }
       if ( login ) Utils.lnprint(System.out, "Login condition!");
-      Utils.lnprint(System.out, "Agent type = "+agentType);
+      Utils.lnprint(System.out, "Agent type = "+agentType);   
       Utils.lnprint(System.out, "Time of day = "+UserUtils.getTimeOfDay());
       Logger logger = Logger.THIS; // force logger creation printout now
       Always always = new Always(true, plugin == null);
@@ -93,7 +101,7 @@ public class Always {
             System.getenv("COMPUTERNAME"),
             model.getUserName(),
             model.getUserName().isEmpty() ? DATE : new Date(model.getStartTime()),
-            DATE);
+            DATE, getRelease());
       always.plugin = plugin; 
       always.activity = activity;
       return always;
@@ -180,6 +188,7 @@ public class Always {
       addCMRegistry(new StartupSchemas());
       addCMRegistry(new EngagementRegistry());
       SpeechMarkupBehavior.ANALYZER = new AgentSpeechMarkupAnalyzer();
+      Scheduler.THREADS = 1;  // for EngagementSchema only
       CollaborationManager cm = new CollaborationManager(container);
       container.as(Characteristics.CACHE).addComponent(cm);
       init(cm.getInteraction());

@@ -8,13 +8,14 @@
 
 -------------------------------------------------------
 
-<DATETIME>,ID,<CONDITION>,<MACHINE>,<NAME>,<INSTALLED>,<BOOTED>
+<DATETIME>,ID,<CONDITION>,<MACHINE>,<NAME>,<INSTALLED>,<BOOTED>,<RELEASE>
 
 * <CONDITION> = ALWAYS or LOGIN or REETI
 * <MACHINE> = "..."
 * <NAME> = "..."
 * <INSTALLED> = <DATETIME>
 * <BOOTED> = <DATETIME>
+* <RELEASE> = "_RELEASE..." or "" 
 
 -------------------------------------------------------
 

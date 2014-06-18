@@ -9,6 +9,7 @@ import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.user.UserUtils;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
+import edu.wpi.disco.Interaction;
 import edu.wpi.disco.lang.*;
 import edu.wpi.disco.plugin.TopsPlugin;
 import edu.wpi.disco.rt.*;
@@ -25,7 +26,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final ClientProxy proxy;
    private final SchemaManager schemaManager;
    private final CollaborationManager cm;
-   private final Interaction interaction;  
+   private final DiscoRT.Interaction interaction;  
    
    /**
     * Attempt to interrupt current session with given Disco task class name.  Returns
@@ -91,7 +92,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          // print out information here so it goes into log
          System.out.println();
          System.out.println("****************************************************************************");
-         System.out.println("Writing log to: "+interaction.getConsole().log);
+         System.out.println("Writing log to: "+interaction.getLog());
          System.out.println("****************************************************************************");
          System.out.println("Agent type = "+Always.getAgentType());
          System.out.println("Time of day = "+UserUtils.getTimeOfDay());
@@ -106,7 +107,10 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
             interaction.push(interaction.addTop("_Session"));
             always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
          }
-      } catch (Exception e) { EngagementSchema.EXIT = true; }  // restart Java
+      } catch (Exception e) { 
+         e.printStackTrace();
+         Always.exit(-1);  // restart Java
+      } 
    }
 
    // activities for which startActivity has been called (not same as Plan.isStarted)

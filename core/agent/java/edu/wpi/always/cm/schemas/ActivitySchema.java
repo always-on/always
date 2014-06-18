@@ -4,6 +4,8 @@ import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
 import edu.wpi.cetask.Task;
+import edu.wpi.disco.*;
+import edu.wpi.disco.rt.DiscoRT;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuTurnStateMachine;
 import edu.wpi.disco.rt.schema.*;

@@ -1,7 +1,7 @@
 package edu.wpi.disco.rt;
 
 import java.awt.Frame;
-import java.io.File;
+import java.io.*;
 import java.util.*;
 import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
@@ -42,6 +42,9 @@ public class DiscoRT implements Startable {
    public static class Interaction extends edu.wpi.disco.Interaction {
       
       private final ConsoleWindow console;
+      private final File log;
+      
+      public File getLog () { return log; }
       
       public ConsoleWindow getConsoleWindow () { return console; }
       
@@ -49,15 +52,28 @@ public class DiscoRT implements Startable {
          // sic do not use this()
          super(system, external, from, true, null, "edu.wpi.disco.rt.DiscoRT.Interaction");
          console = null;
+         log = null;
       }
       
-      public Interaction (Actor system, Actor external) {
-         this(system, external, null, true, null);
+      public Interaction (Actor system, Actor external, boolean console) {
+         this(system, external, null, console, null);
       }
       
       public Interaction (Actor system, Actor external, String from, boolean console, File log) {
          super(system, external, from, console && isHeadless(), null, "edu.wpi.disco.rt.DiscoRT.Interaction");
-         this.console = (console && !isHeadless()) ? new ConsoleWindow(this, "DiscoRT", log) : null;
+         this.log = log;
+         if ( console && !isHeadless() ) 
+            this.console = new ConsoleWindow(this, "DiscoRT", log);
+         else { 
+            this.console = null;
+            if ( log != null ) 
+               try {
+                  PrintStream logStream = new PrintStream(new BufferedOutputStream(
+                        new FileOutputStream(log, true)), true);
+                  System.setOut(logStream);
+                  System.setErr(logStream);
+               } catch (FileNotFoundException e) { e.printStackTrace(); }
+         }
       }
       
       private static boolean isHeadless () {
@@ -70,8 +86,8 @@ public class DiscoRT implements Startable {
       } 
    }
    
-   private DiscoRT (File log, MutablePicoContainer container) {
-      interaction = new DiscoRT.Interaction(new Agent("agent"), new User("user"), null, true, log);
+   private DiscoRT (File log, MutablePicoContainer container, boolean console) {
+      interaction = new DiscoRT.Interaction(new Agent("agent"), new User("user"), null, console, log);
       this.container = container;
       container.as(Characteristics.CACHE).addComponent(Resources.class);
       container.as(Characteristics.CACHE).addComponent(interaction);
@@ -82,14 +98,16 @@ public class DiscoRT implements Startable {
            new PicoBuilder().withBehaviors(
             new OptInCaching()).withLifecycle(
                   new StartableLifecycleStrategy(new LifecycleComponentMonitor()))
-                    .withConstructorInjection().build()); 
+                    .withConstructorInjection().build(),
+           true); 
    }
    
-   public DiscoRT (MutablePicoContainer parent, File log) {
+   public DiscoRT (MutablePicoContainer parent, File log, boolean console) {
       this(log,
            new DefaultPicoContainer(
               new OptInCaching(), 
-              new StartableLifecycleStrategy(new LifecycleComponentMonitor()), parent)); 
+              new StartableLifecycleStrategy(new LifecycleComponentMonitor()), parent),
+           console); 
    }
    
    protected void configure (String title) {

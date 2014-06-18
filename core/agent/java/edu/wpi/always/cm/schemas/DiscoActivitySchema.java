@@ -3,6 +3,7 @@ package edu.wpi.always.cm.schemas;
 import edu.wpi.always.*;
 import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
+import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
@@ -27,9 +28,11 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
          // note activities append to session log
          // since reusing interaction, reuse thread and console also
          console = interaction.getConsoleWindow();
-         console.setVisible(true);
-         // share main log for all Disco plugins
-         interaction.getConsole().setAppend(always.getCM().getInteraction().getConsole().getLogStream());
+         if ( console != null ) {
+            console.setVisible(true);
+            // share main log for all Disco plugins
+            interaction.getConsole().setAppend(always.getCM().getInteraction().getConsole().getLogStream());
+         }
       } else console = null;
    }
    
@@ -47,7 +50,7 @@ public class DiscoActivitySchema extends DiscoAdjacencyPairSchema {
    
    @Override
    public void dispose () { 
-      console.setVisible(false);
+      if ( console != null ) console.setVisible(false);
       history(); // before dispose
       super.dispose();
    }

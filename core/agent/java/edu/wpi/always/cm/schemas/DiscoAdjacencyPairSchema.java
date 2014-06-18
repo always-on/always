@@ -1,10 +1,8 @@
 package edu.wpi.always.cm.schemas;
 
-import java.util.List;
 import edu.wpi.always.*;
-import edu.wpi.cetask.*;
 import edu.wpi.disco.*;
-import edu.wpi.disco.lang.*;
+import edu.wpi.disco.Interaction;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
@@ -14,13 +12,13 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<Adjacen
    protected final DiscoAdjacencyPair discoAdjacencyPair;
    protected final DiscoRT.Interaction interaction;
    
-   public Interaction getInteraction () { return interaction; }
+   public DiscoRT.Interaction getInteraction () { return interaction; }
 
    public DiscoAdjacencyPairSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, Always always, Logger.Activity loggerName) {
       this(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
-            new DiscoRT.Interaction(new Agent("agent"), new User("user")), loggerName);
+            new Interaction(), loggerName);
    }
    
    public DiscoAdjacencyPairSchema (BehaviorProposalReceiver behaviorReceiver,
@@ -41,6 +39,13 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<Adjacen
       interaction.setOk(false);
       interaction.setSchema(this);
       always.init(interaction);
+   }
+   
+   public static class Interaction extends DiscoRT.Interaction {
+      
+      public Interaction () {
+         super(new Agent("agent"), new User("user"), Always.getRelease() == null);
+      }
    }
    
    @Override

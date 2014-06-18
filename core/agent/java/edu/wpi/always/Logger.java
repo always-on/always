@@ -33,8 +33,8 @@ public class Logger {
    
    public enum Condition { ALWAYS, LOGIN, REETI }
    
-   public static void logId (Condition condition, String machine, String userName, Date installed, Date booted) {
-      THIS.log(Type.ID, condition, machine, userName, installed, booted);
+   public static void logId (Condition condition, String machine, String userName, Date installed, Date booted, String release) {
+      THIS.log(Type.ID, condition, machine, userName, installed, booted, release);
    }
    
    public static void logEngagement (EngagementState oldState, EngagementState newState) {

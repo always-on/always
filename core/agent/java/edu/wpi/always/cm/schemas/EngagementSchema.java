@@ -66,59 +66,64 @@ public class EngagementSchema extends SchemaBase {
 
    @Override
    public void run () {
-      EngagementPerception engagementPerception = engagementPerceptor.getLatest();
-      // socket not initialized until after this schema started
-      reeti = cm.getReetiSocket();
-      if ( engagementPerception != null ) {
-         switch (state = (EXIT ? EngagementState.IDLE : engagementPerception.getState())) {
-            case IDLE:
-               if ( EXIT || lastState == EngagementState.RECOVERING ) {
-                  if ( reeti != null ) reeti.reboot(); 
-                  Utils.lnprint(System.out, "ENGAGEMENT: Idle");
-                  Logger.logEvent(Logger.Event.END, 
-                     EXIT ? Disengagement.GOODBYE : Disengagement.TIMEOUT,
-                     (int) (new Date().getTime() - SessionSchema.DATE.getTime())/60000,
-                     AdjacencyPairBase.REPEAT_COUNT);
-                  Always.exit(0); 
-               } 
-               if ( lastState != EngagementState.IDLE ) { 
-                  proxy.setAgentVisible(false);
-                  propose(HELLO, META);
-               }
-               break;
-            case ATTENTION:
-               if ( started ) proposeNothing();
-               else {
-                  propose(HI, META);
+      try {
+         EngagementPerception engagementPerception = engagementPerceptor.getLatest();
+         // socket not initialized until after this schema started
+         reeti = cm.getReetiSocket();
+         if ( engagementPerception != null ) {
+            switch (state = (EXIT ? EngagementState.IDLE : engagementPerception.getState())) {
+               case IDLE:
+                  if ( EXIT || lastState == EngagementState.RECOVERING ) {
+                     if ( reeti != null ) reeti.reboot(); 
+                     Utils.lnprint(System.out, "ENGAGEMENT: Idle");
+                     Logger.logEvent(Logger.Event.END, 
+                           EXIT ? Disengagement.GOODBYE : Disengagement.TIMEOUT,
+                              (int) (new Date().getTime() - SessionSchema.DATE.getTime())/60000,
+                              AdjacencyPairBase.REPEAT_COUNT);
+                     Always.exit(0); 
+                  } 
+                  if ( lastState != EngagementState.IDLE ) { 
+                     proxy.setAgentVisible(false);
+                     propose(HELLO, META);
+                  }
+                  break;
+               case ATTENTION:
+                  if ( started ) proposeNothing();
+                  else {
+                     propose(HI, META);
+                     visible();
+                     if ( reeti != null && lastState != EngagementState.ATTENTION) 
+                        reeti.wiggleEars();
+                  }
+                  break;
+               case INITIATION:
+                  if ( started ) proposeNothing();
+                  else {
+                     visible();
+                     propose(HI_HI, META);
+                  }
+                  break;
+               case ENGAGED:
+                  if ( !started ) { 
+                     Utils.lnprint(System.out, "Starting session...");
+                     schemaManager.start(SessionSchema.class);
+                     schemaManager.start(CalendarInterruptSchema.class);
+                     started = true;
+                  }
                   visible();
-                  if ( reeti != null && lastState != EngagementState.ATTENTION) 
-                     reeti.wiggleEars();
-               }
-               break;
-            case INITIATION:
-               if ( started ) proposeNothing();
-               else {
+                  proposeNothing();
+                  break;
+               case RECOVERING:
                   visible();
-                  propose(HI_HI, META);
-               }
-               break;
-            case ENGAGED:
-               if ( !started ) { 
-                  Utils.lnprint(System.out, "Starting session...");
-                  schemaManager.start(SessionSchema.class);
-                  schemaManager.start(CalendarInterruptSchema.class);
-                  started = true;
-               }
-               visible();
-               proposeNothing();
-               break;
-            case RECOVERING:
-               visible();
-               propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), 
-                                            new MenuBehavior(Arrays.asList("Yes"))), META);
-               break;
+                  propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), 
+                        new MenuBehavior(Arrays.asList("Yes"))), META);
+                  break;
+            }
+            lastState = engagementPerception.getState();
          }
-         lastState = engagementPerception.getState();
+      } catch (Exception e) {
+         e.printStackTrace();
+         Always.exit(-1);
       }
    }
       

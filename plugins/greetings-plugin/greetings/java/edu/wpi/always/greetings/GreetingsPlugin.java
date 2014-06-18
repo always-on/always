@@ -2,8 +2,8 @@ package edu.wpi.always.greetings;
 
 import edu.wpi.always.*;
 import edu.wpi.always.cm.CollaborationManager;
+import edu.wpi.always.cm.schemas.DiscoAdjacencyPairSchema;
 import edu.wpi.always.user.UserModel;
-import edu.wpi.disco.*;
 import edu.wpi.disco.rt.DiscoRT;
 
 public class GreetingsPlugin extends Plugin {
@@ -23,8 +23,7 @@ public class GreetingsPlugin extends Plugin {
    }
   
    // preload task model
-   final static DiscoRT.Interaction greetingsInteraction = 
-         new DiscoRT.Interaction(new Agent("agent"), new User("user"));
+   final static DiscoRT.Interaction greetingsInteraction = new DiscoAdjacencyPairSchema.Interaction();
    static { if ( Always.ALL_PLUGINS) greetingsInteraction.load("edu/wpi/always/greetings/resources/Greetings.xml"); }
 
    // plugin-specific properties

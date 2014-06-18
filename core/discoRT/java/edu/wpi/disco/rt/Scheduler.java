@@ -6,14 +6,16 @@ import java.util.concurrent.*;
 
 public class Scheduler {
 
+   public static int THREADS = Runtime.getRuntime().availableProcessors() * 2,
+         DAEMON_THREADS = THREADS;
+   
    private final ScheduledExecutorService executor, daemonExecutor;
    
    public Scheduler () { this(null, null); }
    
    public Scheduler (Class<? extends Throwable> handle, ExceptionHandler handler) {
-      int size = Runtime.getRuntime().availableProcessors() * 2;
-      executor = ThreadPools.newScheduledThreadPool(size, handle, handler, false);
-      daemonExecutor = ThreadPools.newScheduledThreadPool(size, handle, handler, true);
+      executor = ThreadPools.newScheduledThreadPool(THREADS, handle, handler, false);
+      daemonExecutor = ThreadPools.newScheduledThreadPool(DAEMON_THREADS, handle, handler, true);
    }
 
    public ScheduledFuture<?> schedule (Runnable runnable, long interval, boolean daemon) {

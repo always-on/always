@@ -9,7 +9,7 @@ import edu.wpi.always.user.places.Place;
 
 /**
  * Note user model is automatically saved to file after every update command
- * unless prevented with {@link edu.wpi.always.user.UserModel#INHIBIT_SAVE}. @author rich
+ * unless prevented with {@link edu.wpi.always.user.UserModelBase#INHIBIT_SAVE}. @author rich
  */
 public interface PeopleManager {
 
