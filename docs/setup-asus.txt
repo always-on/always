@@ -41,7 +41,8 @@ recommit the file.)
         to front with Velcro, tie loose wires in back and plug into USB
         on side of machine
 
-    (b) Cover power light with piece of black plastic tape (for night-time)
+    (b) Cover power light with piece of black plastic tape (for night-time,
+	    so blinking light does not disturb).
 
     (c) Put WPI and (similar discreetly sized) NEU stickers on front bezel
         covering the ASUS logo.
@@ -197,9 +198,9 @@ ________________________________________________________________
     (a) The file c:\Dropbox\%MACHINENAME%\boot.bat should be run 
         whenever machine is rebooted (e.g., when power is turned on)  CHECK [ ]
 
-    (b) The machine should reboot itself at 3am every morning (if
-        this is not a feature of Kiosk Pro, use Windows native
-	facility).                                                    CHECK [ ]
+    (b) The machine should reboot itself at 3am every morning.  This
+        is needed to fetch new weather data. (If this is not a feature
+        of Kiosk Pro, use Windows native facility).                   CHECK [ ]
 
     (c) Power cycle to test.
 ________________________________________________________________

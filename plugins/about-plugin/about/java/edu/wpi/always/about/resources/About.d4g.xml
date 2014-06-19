@@ -149,14 +149,18 @@
 	<user id="vacation" text="{pronounSubj} is going on vacation">
 	  <!-- UM gets "was going on vacation" status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
-	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; oh really, where?  Want me to keep track in weather updates? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
+	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; oh really, where?  Want me to keep track of the weather where they're going? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
              eval="update(famFriend,true,'was going on vacation')">
-	    <user text="Yes, I'll tell you when we talk about weather" >
-	      <agent text="do you wish you could go somewhere special?" >
-			<user text="No, I don't like to travel"/>
-			<user text="Yes, that would be great"/>
-	      </agent>
-	    </user>
+	    <user text="Yes">
+          <agent text="Ok, then you can temporarily change their zip code using the enter information option on the main menu.">
+            <user text="Thanks.">
+              <agent text="Do you wish you could go somewhere special?" >
+                <user text="No, I don't like to travel"/>
+                <user text="Yes, that would be great"/>
+              </agent>
+            </user>
+          </agent>
+        </user>
 	    <user text="No, no thanks" >
 	      <agent text="well, I hope {famFriend} enjoys the trip!"/>
 	    </user>
