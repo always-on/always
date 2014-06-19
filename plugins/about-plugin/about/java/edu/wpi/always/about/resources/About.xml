@@ -31,11 +31,13 @@
    </task>
    <task id="NotGoingWell">
       <subtasks id="_NotGoingWell_subtasks">
-         <step name="_NotGoingWell_step" task="disco:Say"/>
+         <step name="_NotGoingWell_step" task="disco:Say$Eval"/>
          <step name="_NotGoingWell_ref" task="_NotGoingWell_tree"/>
          <binding slot="$_NotGoingWell_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; oh, what's wrong? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_NotGoingWell_step.external" value="false"/>
+         <binding slot="$_NotGoingWell_step.eval"
+                  value="&#34;famFriend.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Negative)&#34;"/>
       </subtasks>
    </task>
    <task id="_End">
@@ -58,12 +60,14 @@
       </subtasks>
       <subtasks id="_d4e39_subtasks">
          <step name="_d4e39_step" task="disco:Say"/>
-         <step name="_d4e40_step" task="disco:Say$Expression"/>
+         <step name="_d4e40_step" task="disco:Say$Expression$Eval"/>
          <step name="_d4e40_ref" task="_d4e40_tree"/>
          <binding slot="$_d4e39_step.text" value="&#34;Overall pretty good&#34;"/>
          <binding slot="$_d4e39_step.external" value="true"/>
          <binding slot="$_d4e40_step.text" value="&#34;\&#34;Any news from \&#34;+(pronounObj)+\&#34;?\&#34;&#34;"/>
          <binding slot="$_d4e40_step.external" value="false"/>
+         <binding slot="$_d4e40_step.eval"
+                  value="&#34;famFriend.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Positive)&#34;"/>
       </subtasks>
       <subtasks id="_d4e101_subtasks">
          <step name="_d4e101_step" task="disco:Say"/>
@@ -87,7 +91,7 @@
          <binding slot="$_d4e44_step.text"
                   value="&#34;\&#34; Oh, excellent.  I can bet \&#34;+(pronounSubj)+\&#34; is happy.\&#34;&#34;"/>
          <binding slot="$_d4e44_step.external" value="false"/>
-         <binding slot="$_d4e44_step.eval" value="&#34;update(famFriend,true,'got a new job')&#34;"/>
+         <binding slot="$_d4e44_step.eval" value="&#34;famFriend.setAboutComment('got a new job')&#34;"/>
       </subtasks>
       <subtasks id="_d4e52_subtasks">
          <step name="_d4e52_step" task="disco:Say$Expression"/>
@@ -98,7 +102,7 @@
          <binding slot="$_d4e54_step.text" value="&#34;\&#34;Oh that's great for \&#34;+(pronounObj)&#34;"/>
          <binding slot="$_d4e54_step.external" value="false"/>
          <binding slot="$_d4e54_step.eval"
-                  value="&#34;update(famFriend,true,'had a new grandchild')&#34;"/>
+                  value="&#34;famFriend.setAboutComment('had a new grandchild')&#34;"/>
       </subtasks>
       <subtasks id="_clothes_subtasks">
          <step name="_clothes_step" task="disco:Say$Expression"/>
@@ -110,7 +114,7 @@
          <binding slot="$_d4e65_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; how nice to get new clothes! &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e65_step.external" value="false"/>
-         <binding slot="$_d4e65_step.eval" value="&#34;update(famFriend,true,'went shopping')&#34;"/>
+         <binding slot="$_d4e65_step.eval" value="&#34;famFriend.setAboutComment('went shopping')&#34;"/>
       </subtasks>
       <subtasks id="_vacation_subtasks">
          <step name="_vacation_step" task="disco:Say$Expression"/>
@@ -122,7 +126,7 @@
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; oh really, where?  Want me to keep track of the weather where they're going? &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e74_step.external" value="false"/>
          <binding slot="$_d4e74_step.eval"
-                  value="&#34;update(famFriend,true,'was going on vacation')&#34;"/>
+                  value="&#34;famFriend.setAboutComment('was going on vacation')&#34;"/>
       </subtasks>
       <subtasks id="_newfriend_subtasks">
          <step name="_newfriend_step" task="disco:Say$Expression"/>
@@ -132,7 +136,8 @@
          <binding slot="$_newfriend_step.external" value="true"/>
          <binding slot="$_d4e85_step.text" value="&#34;well, that's good.&#34;"/>
          <binding slot="$_d4e85_step.external" value="false"/>
-         <binding slot="$_d4e85_step.eval" value="&#34;update(famFriend,true,'got a new friend')&#34;"/>
+         <binding slot="$_d4e85_step.eval"
+                  value="&#34;famFriend.setAboutComment('got a new friend')&#34;"/>
       </subtasks>
       <subtasks id="_d4e93_subtasks">
          <step name="_d4e93_step" task="disco:Say$Expression"/>
@@ -144,7 +149,7 @@
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; great for you.  When we do your calendar, we can add the visit &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e95_step.external" value="false"/>
          <binding slot="$_d4e95_step.eval"
-                  value="&#34;update(famFriend,true,'was coming to visit you')&#34;"/>
+                  value="&#34;famFriend.setAboutComment('was coming to visit you')&#34;"/>
       </subtasks>
    </task>
    <task id="_d4e44_tree">
@@ -971,7 +976,7 @@
          <binding slot="$_d4e238_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; I hope the illness is not serious &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e238_step.external" value="false"/>
-         <binding slot="$_d4e238_step.eval" value="&#34;update(famFriend,false,'was ill')&#34;"/>
+         <binding slot="$_d4e238_step.eval" value="&#34;famFriend.setAboutComment('was ill')&#34;"/>
       </subtasks>
       <subtasks id="_d4e247_subtasks">
          <step name="_d4e247_step" task="disco:Say$Expression"/>
@@ -983,7 +988,7 @@
          <binding slot="$_d4e250_step.text"
                   value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; Oh, that's really tough &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e250_step.external" value="false"/>
-         <binding slot="$_d4e250_step.eval" value="&#34;update(famFriend,false,'lost a job')&#34;"/>
+         <binding slot="$_d4e250_step.eval" value="&#34;famFriend.setAboutComment('lost a job')&#34;"/>
       </subtasks>
       <subtasks id="_d4e259_subtasks">
          <step name="_d4e259_step" task="disco:Say$Expression"/>
@@ -994,7 +999,8 @@
          <binding slot="$_d4e262_step.text"
                   value="&#34;\&#34; Is \&#34;+(pronounSubj)+\&#34; in the hospital? \&#34;&#34;"/>
          <binding slot="$_d4e262_step.external" value="false"/>
-         <binding slot="$_d4e262_step.eval" value="&#34;update(famFriend,false,'had an accident')&#34;"/>
+         <binding slot="$_d4e262_step.eval"
+                  value="&#34;famFriend.setAboutComment('had an accident')&#34;"/>
       </subtasks>
       <subtasks id="_d4e284_subtasks">
          <step name="_d4e284_step" task="disco:Say$Expression"/>
@@ -1006,7 +1012,7 @@
                   value="&#34; &lt;FACE EXPR=\&#34;CONCERN\&#34;/&gt; that's very sad &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e287_step.external" value="false"/>
          <binding slot="$_d4e287_step.eval"
-                  value="&#34;update(famFriend,false,'lost a family member')&#34;"/>
+                  value="&#34;famFriend.setAboutComment('lost a family member')&#34;"/>
       </subtasks>
       <subtasks id="_d4e301_subtasks">
          <step name="_d4e301_step" task="disco:Say$Expression"/>
@@ -1017,7 +1023,7 @@
          <binding slot="$_d4e304_step.text"
                   value="&#34;\&#34;I see.  You could give \&#34;+(pronounObj)+\&#34; a call or talk to \&#34;+(pronounObj)+\&#34; by video call\&#34;&#34;"/>
          <binding slot="$_d4e304_step.external" value="false"/>
-         <binding slot="$_d4e304_step.eval" value="&#34;update(famFriend,false,'was lonely')&#34;"/>
+         <binding slot="$_d4e304_step.eval" value="&#34;famFriend.setAboutComment('was lonely')&#34;"/>
       </subtasks>
       <subtasks id="_d4e311_subtasks">
          <step name="_d4e311_step" task="disco:Say$Expression"/>
@@ -1404,15 +1410,9 @@
 
     var familyFriendsList;
 
-    function update (person, status, comment) {
-      person.setAboutStatusComment(
-         status ? edu.wpi.always.user.people.Person.AboutStatus.Positive
-                : edu.wpi.always.user.people.Person.AboutStatus.Negative,
-         comment);
-    }
-
     function reset (person) {
-       person.setAboutStatusComment(null, null);
+       person.setAboutStatus(null);
+       person.setAboutComment(null);
     }
 
   </script>

@@ -17,15 +17,9 @@
 
     var familyFriendsList;
 
-    function update (person, status, comment) {
-      person.setAboutStatusComment(
-         status ? edu.wpi.always.user.people.Person.AboutStatus.Positive
-                : edu.wpi.always.user.people.Person.AboutStatus.Negative,
-         comment);
-    }
-
     function reset (person) {
-       person.setAboutStatusComment(null, null);
+       person.setAboutStatus(null);
+       person.setAboutComment(null);
     }
 
   </t:script>
@@ -92,13 +86,14 @@
       <agent text="okay." />
     </user>
     <user text="Overall pretty good">
-      <agent text="Any news from {pronounObj}?" >
+      <agent text="Any news from {pronounObj}?"
+             eval="famFriend.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Positive)">
 	<user text="No news really"/>
 	<user text="{pronounSubj} has a new job">
 	  <!-- UM gets "got a new job" status and statusType positive  for {famFriend} 
 	       <eval set previousTalk in UM to positive> -->
 	  <agent text=" Oh, excellent.  I can bet {pronounSubj} is happy." 
-             eval="update(famFriend,true,'got a new job')">
+                 eval="famFriend.setAboutComment('got a new job')">
 	    <user text="Yes, definitely"/>
 	    <user text="{pronounSubj} is happy and excited">
 	      <agent text="Well, wish {pronounObj} good luck from me!" />
@@ -115,7 +110,7 @@
 	  <!-- UM GETS "had a new grandchild" for {famFriend} 
 	        eval set previousTalk in UM to positive -->
 	  <agent text="Oh that's great for {pronounObj}" 
-             eval="update(famFriend,true,'had a new grandchild')">
+                 eval="famFriend.setAboutComment('had a new grandchild')">
 	    <user text="Yes, {pronounSubj}'s very excited" >
 	      <agent text="uh-huh.  I can understand." />
 	    </user>
@@ -135,7 +130,7 @@
 	  <!-- UM gets "went shopping" for status and statusType positive for {famFriend} 
 	        eval set previousTalk in UM to positive -->
 	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; how nice to get new clothes! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
-             eval="update(famFriend,true,'went shopping')">
+                 eval="famFriend.setAboutComment('went shopping')">
 	    <user text="I agree"/>
 	    <user text="I'm not so interested in that sort of thing">
 	      <agent text="Oh, really?  well, that means you don't have to go shopping!" >
@@ -150,7 +145,7 @@
 	  <!-- UM gets "was going on vacation" status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; oh really, where?  Want me to keep track of the weather where they're going? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
-             eval="update(famFriend,true,'was going on vacation')">
+                 eval="famFriend.setAboutComment('was going on vacation')">
 	    <user text="Yes">
           <agent text="Ok, then you can temporarily change their zip code using the enter information option on the main menu.">
             <user text="Thanks.">
@@ -170,7 +165,7 @@
 	  <!-- UM gets "got a new friend" status and statusType positive for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="well, that's good."
-             eval="update(famFriend,true,'got a new friend')">
+                 eval="famFriend.setAboutComment('got a new friend')">
 	  	<user text="I wish I had some new friends">
 	  		<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Try meeting someone when you go walking! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
 	  			<user text="Good idea"/>
@@ -186,7 +181,7 @@
 	  <!-- UM gets "was going to visit you" status and statusType positive  for {famFriend} 
 	        <eval set previousTalk in UM to positive> -->
 	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; great for you.  When we do your calendar, we can add the visit &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
-             eval="update(famFriend,true,'was coming to visit you')">
+                 eval="famFriend.setAboutComment('was coming to visit you')">
 	    <user text="Okay"/>
 	    <user text="Okay if I remember!"/>
 	    <user text="I'm not sure yet when {pronounSubj} is coming">
@@ -415,13 +410,14 @@
     </user>
   </agent>
  
-
-  <agent id="NotGoingWell" text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; oh, what's wrong? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+  <agent id="NotGoingWell" 
+         text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; oh, what's wrong? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"
+         eval="famFriend.setAboutStatus(edu.wpi.always.user.people.Person.AboutStatus.Negative)">
     <user text="{pronounSubj} is ill">
       <!-- put in UM status as ill, statusType as negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
       <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; I hope the illness is not serious &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
-             eval="update(famFriend,false,'was ill')">
+             eval="famFriend.setAboutComment('was ill')">
 	<user text="Well, it is.  I'm worried" >
 	  <agent text="if you haven't talked to {pronounObj}, why don't you give {pronounObj} a call?" >
 	    <user text="I did just recently" />
@@ -440,7 +436,7 @@
       <!-- put in UM status lost job, statusType as negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
       <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; Oh, that's really tough &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
-             eval="update(famFriend,false,'lost a job')">
+             eval="famFriend.setAboutComment('lost a job')">
 	<user text="Yes, it is.  I'm worried" >
 	  <agent text="if you haven't talked to {pronounObj}, why don't you give {pronounObj} a call?" >
 	    <user text="I did just recently" />
@@ -459,7 +455,7 @@
       <!-- put in UM status as had accident and statusType as negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
       <agent text=" Is {pronounSubj} in the hospital? " 
-             eval="update(famFriend,false,'had an accident')">
+             eval="famFriend.setAboutComment('had an accident')">
         <user text="Yes, for a long time" >
           <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; oh dear.  Can you go visit? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
             <user text="Yes, {pronounSubj} is nearby" >
@@ -500,7 +496,7 @@
       <!-- put in UM as status lost a family member and statusType as negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
       <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; that's very sad &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
-             eval="update(famFriend,false,'lost a family member')">
+             eval="famFriend.setAboutComment('lost a family member')">
         <user text="I don't really want to talk about it">
           <agent text="I understand" />
         </user>
@@ -528,7 +524,7 @@
       <!-- put in UM  status as was lonely and statusType negative for {famFriend}  -->
       <!-- <eval set previousTalk in UM to negative> -->
       <agent text="I see.  You could give {pronounObj} a call or talk to {pronounObj} by video call"
-             eval="update(famFriend,false,'was lonely')">
+             eval="famFriend.setAboutComment('was lonely')">
         <user text="Yes, I think I will">
           <agent text="That's a good thing to do" />
         </user>
