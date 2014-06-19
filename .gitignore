@@ -156,3 +156,7 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+*.csv
+
+*.json
