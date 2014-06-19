@@ -1,11 +1,10 @@
 package edu.wpi.always.client;
 
-import java.io.*;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.concurrent.*;
 import edu.wpi.always.Always;
 import edu.wpi.disco.rt.util.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
 
 // non-blocking read and write
 
@@ -19,8 +18,8 @@ public class TcpConnection extends RemoteConnection {
 
    public TcpConnection (String host, int port) {
       super(host, port);
-      sendThreadService = Executors.newSingleThreadExecutor(ThreadPools.DAEMON_THREAD_FACTORY);
-      recvThreadService = Executors.newSingleThreadExecutor(ThreadPools.DAEMON_THREAD_FACTORY);
+      sendThreadService = ThreadPools.newFixedThreadPool(1, true);
+      recvThreadService = ThreadPools.newFixedThreadPool(1, true);
       connect(host, port);
    }
    
