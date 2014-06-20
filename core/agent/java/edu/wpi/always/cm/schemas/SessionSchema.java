@@ -101,15 +101,15 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
          DiscoDocument session = always.getRM().getSession();
          Disco disco = interaction.getDisco();
-         if ( disco.getTaskClass("_Session") == null && session != null ) { // could be restart
+         if ( disco.getTaskClass("_Session") == null && session != null ) { // make sure not restart
             interaction.load("Relationship Manager", 
                   session.getDocument(), session.getProperties(), session.getTranslate());
             interaction.push(interaction.addTop("_Session"));
             always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
-         }
-         int sessions = model.getSessions();
-         // first session needs to be handled specially in UserModelBase.setUserName()
-         if ( sessions > 0 ) model.setSessions(sessions+1);
+            int sessions = model.getSessions();
+            // first session needs to be handled specially in UserModelBase.setUserName()
+            if ( sessions > 0 ) model.setSessions(sessions+1);
+         }        
       } catch (Exception e) { 
          e.printStackTrace();
          Always.exit(3);  // restart Java
