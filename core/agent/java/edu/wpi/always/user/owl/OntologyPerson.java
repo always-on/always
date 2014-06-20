@@ -225,6 +225,13 @@ public class OntologyPerson implements Person {
    public static final String
          ABOUT_STATUS_PROPERTY = "PersonAboutStatus",
          ABOUT_COMMENT_PROPERTY = "PersonAboutComment";
+   
+   @Override
+   public void setAboutStatus (AboutStatus status) {
+      owlPerson.setDataProperty(ABOUT_STATUS_PROPERTY, 
+            (status != null) ? helper.getLiteral(status.name()) : null);
+      UserModelBase.saveIf();
+   }
 
    @Override
    public AboutStatus getAboutStatus () {
@@ -233,17 +240,15 @@ public class OntologyPerson implements Person {
    }
  
    @Override
+   public void setAboutComment (String comment) {
+      owlPerson.setDataProperty(ABOUT_COMMENT_PROPERTY, (comment != null)
+         ? helper.getLiteral(comment) : null);
+      UserModelBase.saveIf();
+   }
+
+   @Override
    public String getAboutComment () {
       return owlPerson.getDataPropertyValue(ABOUT_COMMENT_PROPERTY).asString();
    }
 
-   @Override
-   public void setAboutStatusComment (AboutStatus status, String comment) {
-       owlPerson.setDataProperty(ABOUT_STATUS_PROPERTY, 
-            (status != null) ? helper.getLiteral(status.name()) : null);
-       owlPerson.setDataProperty(ABOUT_COMMENT_PROPERTY, (comment != null)
-         ? helper.getLiteral(comment) : null);
-       UserModelBase.saveIf();
-   }
-   
 }

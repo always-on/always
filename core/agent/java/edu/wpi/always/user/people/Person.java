@@ -80,9 +80,10 @@ public interface Person {
    
    AboutStatus getAboutStatus ();
    
+   void setAboutStatus (AboutStatus status);
+   
    String getAboutComment ();
    
-   // to batch single file save
-   void setAboutStatusComment (AboutStatus status, String comment);
+   void setAboutComment (String comment);
 
 }

@@ -198,7 +198,7 @@ public class ThreadPools {
       public boolean isDone () { return task.isDone(); }
    }
     
-   public static final ThreadFactory DAEMON_THREAD_FACTORY = new ThreadFactory () {
+   private static final ThreadFactory DAEMON_THREAD_FACTORY = new ThreadFactory () {
       
       private final ThreadFactory factory = Executors.defaultThreadFactory();
       
