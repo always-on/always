@@ -160,3 +160,4 @@ pip-log.txt
 *.csv
 
 *.json
+core/agent/lib/win32-x86-64/Shore140.dll
