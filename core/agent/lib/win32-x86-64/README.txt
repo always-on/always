@@ -1,0 +1,1 @@
+The proprietary Shore140.dll needs to be added to this folder.
