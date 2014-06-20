@@ -5,25 +5,29 @@ import org.joda.time.LocalDate;
 
 abstract class CalendarViewState {
 
+ 
    public static class LookCalendarStyle extends CalendarAdjacencyPairImpl {
 
       public LookCalendarStyle (final CalendarStateContext context) {
+      
          super(
                "Ok, What would you like to look <emphasis level=\"strong\">at</emphasis>",
                context);
-         choice("Today", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run () {
-               return new DayView(context, new LocalDate());
-            }
-         });
+         
          choice("This week", new DialogStateTransition() {
 
             @Override
             public AdjacencyPair run () {
                return new WeekView(context, new LocalDate());
             }
+         });
+         choice("Next week", new DialogStateTransition() {
+            
+            @Override
+            public AdjacencyPair run () {
+               return new WeekView(context, new LocalDate().plusWeeks(1));
+            }
+           
          });
          choice("The whole month", new DialogStateTransition() {
 

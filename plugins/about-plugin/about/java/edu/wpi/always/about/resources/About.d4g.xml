@@ -97,7 +97,7 @@
 	<user text="{pronounSubj} has a new job">
 	  <!-- UM gets "got a new job" status and statusType positive  for {famFriend} 
 	       <eval set previousTalk in UM to positive> -->
-	  <agent text=" Oh, excellent.  I can bet {pronounSubj} is happy." 
+	  <agent text=" Oh, excellent.  Is {pronounSubj} happy?" 
              eval="update(famFriend,true,'got a new job')">
 	    <user text="Yes, definitely"/>
 	    <user text="{pronounSubj} is happy and excited">
@@ -107,7 +107,7 @@
 	      <agent text=" &lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Even better! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
 	    </user>
 	    <user text="Yes, I was worried.  But not anymore" >
-	      <agent text="Glad to hear that.  Really good news!" />
+	      <agent text="Glad to hear that.  That's really good news!" />
 	    </user>
 	  </agent>
 	</user>
@@ -234,7 +234,7 @@
 	</user>
       </agent>
     </user>
-        <user text="Yes, right" applicable="statusFamFriend =='got a new job'">
+        <user text="Yes, {pronounSubj} did" applicable="statusFamFriend =='got a new job'">
       <agent text="so how is the job going?" 
          eval="reset(famFriend);" >
         <!-- reset statusType to empty and previousTalk to null -->
@@ -314,7 +314,7 @@
   </agent>
 
   <agent id="_BetterYet" text="Last time we talked about {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
-    <user text="Yes, that's right | Uh-huh" applicable="statusFamFriend =='was ill'">
+    <user text="Yes, that's true" applicable="statusFamFriend =='was ill'">
       <agent text="Is {pronounSubj} recovering?" >
 	<user text="Yes, pretty well">
 	  <agent text="That's good to hear" eval="reset(famFriend);" /> 	     
@@ -380,7 +380,7 @@
 	</user>
       </agent>
     </user>
-    <user text="Yes, that's right " applicable="statusFamFriend =='lost a family member'">
+    <user text="Yes, that's what happened " applicable="statusFamFriend =='lost a family member'">
       <agent text="That takes a long time to recover from"  eval="reset(famFriend);" >
 	<user text= "Yes it does">
 	  <agent text="have you visited {pronounObj} recently?">

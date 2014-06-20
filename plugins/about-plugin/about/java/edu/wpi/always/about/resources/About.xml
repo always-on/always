@@ -85,7 +85,7 @@
          <binding slot="$_d4e42_step.text" value="&#34;(pronounSubj)+\&#34; has a new job\&#34;&#34;"/>
          <binding slot="$_d4e42_step.external" value="true"/>
          <binding slot="$_d4e44_step.text"
-                  value="&#34;\&#34; Oh, excellent.  I can bet \&#34;+(pronounSubj)+\&#34; is happy.\&#34;&#34;"/>
+                  value="&#34;\&#34; Oh, excellent.  Is \&#34;+(pronounSubj)+\&#34; happy?\&#34;&#34;"/>
          <binding slot="$_d4e44_step.external" value="false"/>
          <binding slot="$_d4e44_step.eval" value="&#34;update(famFriend,true,'got a new job')&#34;"/>
       </subtasks>
@@ -177,7 +177,7 @@
          <step name="_d4e51_step" task="disco:Say"/>
          <binding slot="$_d4e50_step.text" value="&#34;Yes, I was worried.  But not anymore&#34;"/>
          <binding slot="$_d4e50_step.external" value="true"/>
-         <binding slot="$_d4e51_step.text" value="&#34;Glad to hear that.  Really good news!&#34;"/>
+         <binding slot="$_d4e51_step.text" value="&#34;Glad to hear that.  That's really good news!&#34;"/>
          <binding slot="$_d4e51_step.external" value="false"/>
       </subtasks>
    </task>
@@ -372,11 +372,11 @@
          <binding slot="$_d4e105_step.eval" value="&#34;reset(famFriend);&#34;"/>
       </subtasks>
       <subtasks id="_d4e121_subtasks">
-         <step name="_d4e121_step" task="disco:Say"/>
+         <step name="_d4e121_step" task="disco:Say$Expression"/>
          <step name="_d4e122_step" task="disco:Say$Eval"/>
          <step name="_d4e122_ref" task="_d4e122_tree"/>
          <applicable>statusFamFriend =='got a new job'</applicable>
-         <binding slot="$_d4e121_step.text" value="&#34;Yes, right&#34;"/>
+         <binding slot="$_d4e121_step.text" value="&#34;\&#34;Yes, \&#34;+(pronounSubj)+\&#34; did\&#34;&#34;"/>
          <binding slot="$_d4e121_step.external" value="true"/>
          <binding slot="$_d4e122_step.text" value="&#34;so how is the job going?&#34;"/>
          <binding slot="$_d4e122_step.external" value="false"/>
@@ -654,7 +654,7 @@
          <step name="_d4e169_step" task="disco:Say$Expression"/>
          <step name="_d4e169_ref" task="_d4e169_tree"/>
          <applicable>statusFamFriend =='was ill'</applicable>
-         <binding slot="$_d4e168_step.text" value="&#34;Yes, that's right | Uh-huh&#34;"/>
+         <binding slot="$_d4e168_step.text" value="&#34;Yes, that's true&#34;"/>
          <binding slot="$_d4e168_step.external" value="true"/>
          <binding slot="$_d4e169_step.text" value="&#34;\&#34;Is \&#34;+(pronounSubj)+\&#34; recovering?\&#34;&#34;"/>
          <binding slot="$_d4e169_step.external" value="false"/>
@@ -685,7 +685,7 @@
          <step name="_d4e213_step" task="disco:Say$Eval"/>
          <step name="_d4e213_ref" task="_d4e213_tree"/>
          <applicable>statusFamFriend =='lost a family member'</applicable>
-         <binding slot="$_d4e212_step.text" value="&#34;Yes, that's right &#34;"/>
+         <binding slot="$_d4e212_step.text" value="&#34;Yes, that's what happened &#34;"/>
          <binding slot="$_d4e212_step.external" value="true"/>
          <binding slot="$_d4e213_step.text" value="&#34;That takes a long time to recover from&#34;"/>
          <binding slot="$_d4e213_step.external" value="false"/>

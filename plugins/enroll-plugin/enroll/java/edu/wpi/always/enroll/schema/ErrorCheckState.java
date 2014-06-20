@@ -77,7 +77,7 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
                return new EditSpouseAdjacencyPair(getContext());
             }
          });
-         choice("Edit Skype", new DialogStateTransition() {
+         choice("Edit Video Call Name", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                return new EditSkypeAdjacencyPair(getContext());
@@ -687,8 +687,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
          KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EditSkypeAdjacencyPair (final EnrollStateContext context) {
-         super("What is " + nameToUse + " skype name?", "Enter " + nameToUse
-            + " skype name:", context, context.getKeyboard());
+         super("What is " + nameToUse + " video call name?", "Enter " + nameToUse
+            + " video call name:", context, context.getKeyboard());
       }
 
       @Override

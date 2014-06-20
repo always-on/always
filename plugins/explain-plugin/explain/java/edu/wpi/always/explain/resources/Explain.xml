@@ -270,15 +270,15 @@
          <binding slot="$_d4e63_step.text"
                   value="&#34;I'm always happy to talk to you whenever you are around.&#34;"/>
          <binding slot="$_d4e63_step.external" value="false"/>
-         <binding slot="$_d4e64_step.text" value="&#34;Oh, good&#34;"/>
+         <binding slot="$_d4e64_step.text" value="&#34;Oh, fine&#34;"/>
          <binding slot="$_d4e64_step.external" value="true"/>
          <binding slot="$_d4e65_step.text"
                   value="&#34;I will give you with a list of activities we can do together.&#34;"/>
          <binding slot="$_d4e65_step.external" value="false"/>
-         <binding slot="$_d4e66_step.text" value="&#34;ok.&#34;"/>
+         <binding slot="$_d4e66_step.text" value="&#34;Alright.&#34;"/>
          <binding slot="$_d4e66_step.external" value="true"/>
          <binding slot="$_d4e67_step.text"
-                  value="&#34;In the late evening, I turn off my screen, so that I won't disturb you. I will only talk to you if touch the screen. Then I'll be happy to talk.&#34;"/>
+                  value="&#34;In the late evening, I turn off my screen, so that I won't disturb you. I will talk to you, only if you touch the screen. Then I'll be happy to talk.&#34;"/>
          <binding slot="$_d4e67_step.external" value="false"/>
          <binding slot="$_d4e67_step.eval" value="&#34;Activity.ALL.AboutAgent.setFlag()&#34;"/>
          <binding slot="$_d4e68_step.text" value="&#34;ok, anything else?&#34;"/>
@@ -289,7 +289,7 @@
          <binding slot="$_d4e70_step.text" value="&#34;Really?&#34;"/>
          <binding slot="$_d4e70_step.external" value="true"/>
          <binding slot="$_d4e71_step.text"
-                  value="&#34;I protect your privacy by not keeping any images or videos of you, unless you want to record a story.  Even then, I will ask you after if you want to keep the video story.&#34;"/>
+                  value="&#34;I protect your privacy by not keeping any images or videos of you, unless you want to record a story.  Even then, I will ask you after, if you want to keep the video story.&#34;"/>
          <binding slot="$_d4e71_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e78_subtasks">
@@ -357,7 +357,7 @@
       <subtasks id="_d4e85_subtasks">
          <step name="_d4e85_step" task="disco:Say"/>
          <step name="_d4e86_step" task="disco:Say"/>
-         <binding slot="$_d4e85_step.text" value="&#34;Ok&#34;"/>
+         <binding slot="$_d4e85_step.text" value="&#34;That's interesting&#34;"/>
          <binding slot="$_d4e85_step.external" value="true"/>
          <binding slot="$_d4e86_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; I hope you will give it a try soon &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
@@ -390,7 +390,7 @@
          <binding slot="$_d4e92_step.text" value="&#34;Tell me more&#34;"/>
          <binding slot="$_d4e92_step.external" value="true"/>
          <binding slot="$_d4e93_step.text"
-                  value="&#34;That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, go to an apppointment, or remember something important.&#34;"/>
+                  value="&#34;That means I can tell you what day and time you want to meet someone, go out to dinner with a friend, or go to an appointment. &#34;"/>
          <binding slot="$_d4e93_step.external" value="false"/>
       </subtasks>
    </task>
@@ -459,7 +459,7 @@
          <step name="_d4e106_step" task="disco:Say"/>
          <step name="_d4e107_step" task="disco:Say"/>
          <step name="_d4e107_ref" task="_d4e107_tree"/>
-         <binding slot="$_d4e106_step.text" value="&#34;Really? Tell me more&#34;"/>
+         <binding slot="$_d4e106_step.text" value="&#34;Really? Tell me what you do&#34;"/>
          <binding slot="$_d4e106_step.external" value="true"/>
          <binding slot="$_d4e107_step.text"
                   value="&#34;If you tell me about your family and friends, I will ask you if you want to know the weather for that person &#34;"/>
@@ -506,7 +506,7 @@
          <binding slot="$_d4e115_step.text" value="&#34;Really? Tell me more&#34;"/>
          <binding slot="$_d4e115_step.external" value="true"/>
          <binding slot="$_d4e116_step.text"
-                  value="&#34;You can talk to your family and friends and see them as you talk on your computer screen You can talk to your friends through the computer. You will see them on a live video. It’s like a phone and a TV combined into one thing!&#34;"/>
+                  value="&#34;You can talk to your family and friends and see them as you talk.  You will see them on your computer screen as a video. It is like a phone and a TV combined into one thing!&#34;"/>
          <binding slot="$_d4e116_step.external" value="false"/>
          <binding slot="$_d4e117_step.text" value="&#34;Tell me more&#34;"/>
          <binding slot="$_d4e117_step.external" value="true"/>

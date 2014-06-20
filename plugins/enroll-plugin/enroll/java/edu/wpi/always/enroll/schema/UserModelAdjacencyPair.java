@@ -490,7 +490,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserSkypeNumberAdjacencyPair(final EnrollStateContext context) {
-         super("What is your skype Account?", "Enter your skype name:", 
+         super("What is your video call name?", "Enter your video call name:", 
                context, context.getKeyboard());
       }
 

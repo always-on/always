@@ -163,7 +163,7 @@
         <user text="Oh, fine">
             <agent text="I will give you with a list of activities we can do together." >
                 <user text="Alright.">
-    	           <agent text="In the late evening, I turn off my screen, so that I won't disturb you. I will only talk to you, if you touch the screen. Then I'll be happy to talk."
+    	           <agent text="In the late evening, I turn off my screen, so that I won't disturb you. I will talk to you, only if you touch the screen. Then I'll be happy to talk."
     	eval="Activity.ALL.AboutAgent.setFlag()">
     		<user text="ok, anything else?">
     			<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Yes, I can only see your face, when we talk.  I don't see anything else around you.  My sight is really limited! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
@@ -258,7 +258,7 @@
   <agent id="_ExplainSkypeBuddy" text="Did you know you can talk for free to your friends and family and be able to see them while you talk?  I can help you do this for anyone who has a computer"
          eval="Activity.ALL.UseSkype.setFlag()">
     <user text="Really? Tell me more">
-      <agent text="You can talk to your family and friends and see them as you talk.  You will see them on a live video on your computer screen. It’s like a phone and a TV combined into one thing!">
+      <agent text="You can talk to your family and friends and see them as you talk.  You will see them on your computer screen as a video. It is like a phone and a TV combined into one thing!">
         <user text="Tell me more">
           <agent text="I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk.  I'll remind you before the call">
             <user text="Ok, I definitely want to try that" />
