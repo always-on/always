@@ -65,7 +65,8 @@ public class CalendarEntryImpl implements CalendarEntry {
 
    @Override
    public void setPlace (Place place) {
-      this.place = place;
+      // NB: Place not used!!
+      //this.place = place;
    }
 
    @Override
@@ -85,7 +86,8 @@ public class CalendarEntryImpl implements CalendarEntry {
 
    @Override
    public void setDuration (ReadablePeriod duration) {
-      this.duration = duration;
+      // NB: duration not used!!
+      this.duration = Minutes.minutes(1);
    }
 
    @Override

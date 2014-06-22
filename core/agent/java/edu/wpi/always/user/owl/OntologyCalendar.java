@@ -4,14 +4,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.joda.time.ReadablePeriod;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-
 import edu.wpi.always.Always;
 import edu.wpi.always.user.UserModelBase;
 import edu.wpi.always.user.calendar.AbstractCalendar;
@@ -30,8 +28,10 @@ public class OntologyCalendar extends AbstractCalendar {
    public static final String START_PROPERTY = "EventStart";
    public static final String TYPE_PROPERTY = "EventType";
    public static final String PEOPLE_PROPERTY = "EventPeople";
-   public static final String DURATION_PROPERTY = "EventDuration";
-   public static final String LOCATION_PROPERTY = "EventLocation";
+   @SuppressWarnings("unused")
+   private static final String DURATION_PROPERTY = "EventDuration";
+   @SuppressWarnings("unused")
+   private static final String LOCATION_PROPERTY = "EventLocation";
    public static final String UUID_PROPERTY = "EventUUID";
    public static final String REPEATING_EVENT_CLASS = "RepeatingEvent";
    public static final String REPEATING_UUID_PROPERTY = "EventRepeatingUUID";
@@ -68,6 +68,7 @@ public class OntologyCalendar extends AbstractCalendar {
             return owlEntries.hasNext();
          }
 
+         @SuppressWarnings("unused")
          @Override
          public CalendarEntry next () {
             owlEntry = new OntologyIndividual(helper.getOntologyDataObject(),
@@ -75,17 +76,14 @@ public class OntologyCalendar extends AbstractCalendar {
             boolean isRepeat = owlEntry.hasSuperclass(REPEATING_EVENT_CLASS);
             DateTime start = owlEntry.getDataPropertyValue(START_PROPERTY)
                   .asDateTime();
-            ReadablePeriod duration = owlEntry.getDataPropertyValue(
-                  DURATION_PROPERTY).asDuration();
-            OntologyIndividual owlPlace = owlEntry
-                  .getObjectPropertyValue(LOCATION_PROPERTY);
+            // NB: Duration and location not used!!
+            ReadablePeriod duration = null; // owlEntry.getDataPropertyValue(DURATION_PROPERTY).asDuration();
+            OntologyIndividual owlPlace = null; // owlEntry.getObjectPropertyValue(LOCATION_PROPERTY);
             OntologyPlace place = null;
-            if ( owlPlace != null )
-               place = placeHelper.getPlace(owlPlace);
+            if ( owlPlace != null ) place = placeHelper.getPlace(owlPlace);
             CalendarEntryType type = CalendarEntryTypeManager.forName(owlEntry
                   .getDataPropertyValue(TYPE_PROPERTY).asString());
-            String uuid = owlEntry.getDataPropertyValue(UUID_PROPERTY)
-                  .asString();
+            String uuid = owlEntry.getDataPropertyValue(UUID_PROPERTY).asString();
             Set<Person> people = new HashSet<Person>();
             for (OWLNamedIndividual owlPerson : owlEntry
                   .getObjectPropertyValues(PEOPLE_PROPERTY))
@@ -153,11 +151,13 @@ public class OntologyCalendar extends AbstractCalendar {
          owlEntry.addSuperclass(EVENT_CLASS);
       owlEntry.setDataProperty(START_PROPERTY,
             helper.getLiteral(entry.getStart()));
+      /*  Not using durations or locations
       owlEntry.setDataProperty(DURATION_PROPERTY, 
             entry.getDuration() == null ? null : helper.getLiteral(entry.getDuration()));
       owlEntry.setObjectProperty(LOCATION_PROPERTY,
             (entry.getPlace() == null || entry.getPlace().getZip() == null ) ? null :
                placeHelper.getPlace(entry.getPlace().getZip()).getIndividual());
+      */      
       owlEntry.setObjectProperty(PEOPLE_PROPERTY, null);// Clear all people
       for (Person person : entry.getPeople()) {
          owlEntry.addObjectProperty(PEOPLE_PROPERTY,
