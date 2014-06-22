@@ -25,10 +25,11 @@
 
 -------------------------------------------------------
 
-<DATETIME>,SESSION,START,<CLOSENESS>,<TIME_OF_DAY>
+<DATETIME>,SESSION,START,<CLOSENESS>,<TIME_OF_DAY>,<SESSIONS>
 
 * <CLOSENESS> = STRANGER or ACQUAINTANCE or COMPANION
 * <TIME_OF_DAY> = MORNING or AFTERNOON or EVENING or NIGHT
+* <SESSIONS> = current session number // session zero is initial enroll session
 
 <DATETIME>,SESSION,END,<DISENGAGEMENT>,<DURATION>,<REPEATS>
 
