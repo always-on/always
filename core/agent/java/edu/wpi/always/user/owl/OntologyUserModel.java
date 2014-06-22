@@ -67,7 +67,7 @@ public class OntologyUserModel extends UserModelBase {
             user.addSuperclass(OntologyPerson.USER_CLASS);
             peopleManager.addPerson(userName);
          }
-         super.setUserName(userName); // set start time
+         super.setUserName(userName); // initialize counters
       } else
          throw new UnsupportedOperationException(
                "User model already has name: " + this.userName);

@@ -79,7 +79,7 @@ public class EngagementSchema extends SchemaBase {
                      Logger.logEvent(Logger.Event.END, 
                            EXIT ? Disengagement.GOODBYE : Disengagement.TIMEOUT,
                               (int) (new Date().getTime() - SessionSchema.DATE.getTime())/60000,
-                              AdjacencyPairBase.REPEAT_COUNT);
+                              AdjacencyPairBase.REPEAT_COUNT); 
                      Always.exit(0); 
                   } 
                   if ( lastState != EngagementState.IDLE ) { 

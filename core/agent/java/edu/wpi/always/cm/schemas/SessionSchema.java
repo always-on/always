@@ -95,7 +95,6 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          System.out.println("****************************************************************************");
          System.out.println("Agent type = "+Always.getAgentType());
          System.out.println("Time of day = "+UserUtils.getTimeOfDay());
-         Logger.logEvent(Logger.Event.START, always.getUserModel().getCloseness(), UserUtils.getTimeOfDay()); 
          UserModel model = always.getUserModel();
          try { UserUtils.print(model, System.out);}
          catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
@@ -106,10 +105,10 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                   session.getDocument(), session.getProperties(), session.getTranslate());
             interaction.push(interaction.addTop("_Session"));
             always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
-            int sessions = model.getSessions();
-            // first session needs to be handled specially in UserModelBase.setUserName()
-            if ( sessions > 0 ) model.setSessions(sessions+1);
-         }        
+            if ( !model.getUserName().isEmpty() ) 
+               model.setSessions(model.getSessions()+1);
+         }
+         Logger.logEvent(Logger.Event.START, model.getCloseness(), UserUtils.getTimeOfDay(), model.getSessions()); 
       } catch (Exception e) { 
          e.printStackTrace();
          Always.exit(3);  // restart Java

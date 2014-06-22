@@ -24,7 +24,7 @@ public interface UserModel {
    void setUserName (String name);
 
    /**
-    * The user's name (unique)
+    * The user's name (unique).  Returns empty string when user model not initialized.
     */
    String getUserName ();
    

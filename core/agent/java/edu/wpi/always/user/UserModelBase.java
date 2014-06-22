@@ -58,9 +58,8 @@ public abstract class UserModelBase implements UserModel {
    
    @Override
    public void setUserName (String name) {
-      // need to wait until user object created before setting properties
+      // need to wait until user object created before initializing properties
       if ( getStartTime() == 0 ) setProperty(START_TIME, Always.DATE.getTime());
-      if ( getSessions() == 0 ) setSessions(1);
    }
 
    @Override
