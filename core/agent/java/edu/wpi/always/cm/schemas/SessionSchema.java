@@ -122,9 +122,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private volatile ActivitySchema interrupted; // interrupted activity or null
    private volatile String pluginName; // interrupted client plugin or null
 
+   private static Logger.Activity LoggerName;
    
    public static Logger.Activity getCurrentLoggerName () {
-      return (THIS == null || THIS.current == null) ? Logger.Activity.SESSION :
+      return LoggerName != null ? LoggerName :
+         (THIS == null || THIS.current == null) ? Logger.Activity.SESSION :
          THIS.current.getLoggerName();
    }
 
@@ -159,7 +161,10 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                TaskClass task = plan.getType();
                if ( Plugin.isPlugin(task) &&
                      plan.isLive() && !plan.isOptional() && !plan.isStarted() ) {
-                  current = Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task)); 
+                  try { // to properly log model updates in schema initializers
+                     LoggerName = Plugin.getLoggerName(task);
+                     current = Plugin.getPlugin(task, container).startActivity(Plugin.getActivity(task));
+                  } finally { LoggerName = null; }
                   started.put(plan, current);
                   plan.setStarted(true);
                   Utils.lnprint(System.out, "Starting "+plan.getType()+"...");
