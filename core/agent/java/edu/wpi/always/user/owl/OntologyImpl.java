@@ -29,10 +29,14 @@ public class OntologyImpl implements Ontology {
    private PrefixManager pm;
 
    public OntologyImpl () {
-      //setIncremental(true);
-      //PelletOptions.USE_TRACING = true;
+      /* turned off incremental consistency checking because not reliable
+      setIncremental(true);
+      PelletOptions.USE_TRACING = true;
+      */
+      /* not used since birthday rule removed
       BuiltInRegistry.instance.registerBuiltIn("my:gMonthDay",
             new GeneralFunctionBuiltIn(new GMonthDay()));
+      */
       reset();
    }
 
@@ -113,6 +117,7 @@ public class OntologyImpl implements Ontology {
       return reasoner;
    }
 
+   @SuppressWarnings("unused")
    private static class GMonthDay implements GeneralFunction {
 
       @Override
