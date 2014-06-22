@@ -20,7 +20,7 @@ public class OntologyPerson implements Person {
 
    public static final String NAME_PROPERTY = "PersonName";
 
-   public static final String BIRTHDAY_PROPERTY = "PersonBirthday";
+   private static final String BIRTHDAY_PROPERTY = "PersonBirthday";
 
    public static final String SKYPE_NUMBER_PROPERTY = "PersonSkypeNumber";
 
@@ -162,6 +162,10 @@ public class OntologyPerson implements Person {
 
    @Override
    public void setBirthday (MonthDay day) {
+      // need to update property manually, since owl rule removed
+      // note this means that if birthday added via calendar, it is
+      // not automatically propagated to person
+      owlPerson.setDataProperty(BIRTHDAY_PROPERTY, helper.getLiteral(day));
       CalendarEntry birthdayEntry = null;
       for (CalendarEntry entry : model.getCalendar().retrieve(null)) {
          if ( entry.getType().equals(CalendarEntryTypeManager.Types.Birthday) ) {
@@ -174,15 +178,21 @@ public class OntologyPerson implements Person {
       if ( birthdayEntry == null ) {
          birthdayEntry = new CalendarEntryImpl(null,
                CalendarEntryTypeManager.Types.Birthday,
-               Collections.singleton((Person) this), null,
-               day.toDateTime(new DateMidnight()), Hours.hours(24));
+               Collections.singleton((Person) this), 
+               null,
+               birthday(day),
+               Hours.hours(24));
          model.getCalendar().create(birthdayEntry);
       } else {
          birthdayEntry.setDuration(Hours.hours(24));
-         birthdayEntry.setStart(day.toDateTime(new DateMidnight()));
+         birthdayEntry.setStart(birthday(day));
          model.getCalendar().update(birthdayEntry, true);
       }
       UserModelBase.saveIf();
+   }
+   
+   private static DateTime birthday (MonthDay day) {
+      return new DateTime(DateTime.now().getYear(), day.getMonthOfYear(), day.getDayOfMonth(), 10, 0);
    }
 
    @Override

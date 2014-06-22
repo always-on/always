@@ -3,7 +3,7 @@ package edu.wpi.always.user.owl;
 import org.joda.time.*;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.vocab.OWL2Datatype;
+import org.semanticweb.owlapi.vocab.*;
 import uk.ac.manchester.cs.owl.owlapi.OWLDatatypeImpl;
 import java.io.*;
 import java.util.*;
@@ -155,12 +155,14 @@ public class OntologyHelper {
       return new OntologyValue(getFactory().getOWLLiteral(value));
    }
    
+   // fix horrible typo in {@link org.semanticweb.owlapi.vocab.XSDVocabulary.G_MONTH_DAY}
    private final OWLDatatype XSD_GMonthDay_TYPE = new OWLDatatypeImpl(
-         getFactory(), IRI.create("xsd:gMonthDay"));
+         getFactory(), IRI.create(Namespaces.XSD + "gMonthDay"));
 
    public OntologyValue getLiteral (MonthDay date) {
       return new OntologyValue(getFactory().getOWLLiteral(
-            OntologyValue.XML_GMonthDay_FORMAT.print(date), XSD_GMonthDay_TYPE));
+            OntologyValue.XML_GMonthDay_FORMAT.print(date), 
+            XSD_GMonthDay_TYPE));
    }
 
    public OntologyValue getLiteral (ReadableInstant instant) {
