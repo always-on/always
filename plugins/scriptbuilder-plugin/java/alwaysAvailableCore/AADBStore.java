@@ -63,10 +63,21 @@ public class AADBStore extends DBStore {
 
 	public void updateStartTime() {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		store.setProperty("start_time",
-				df.format(Calendar.getInstance().getTime()));
+		store.setProperty("start_time",df.format(Calendar.getInstance().getTime()));
 	}
 
+	public String getStartTime(){
+		return 	store.getProperty("start_time");
+	}
+	
+	public String getProperty(String property){
+		return 	store.getProperty(property);
+	}
+	
+	public int getPropertyInt(String property){
+		return 	Integer.valueOf(store.getProperty(property));
+	}
+	
 	public void updateLastStartTime(String date) {
 		store.setProperty("last_start_time", date);
 	}
