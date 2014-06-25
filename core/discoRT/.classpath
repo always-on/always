@@ -21,6 +21,10 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/jFuzzyLogic_v2.1.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry exported="true" kind="lib" path="lib/disco1.6.10/lib/disco.jar" sourcepath="lib/disco1.6.10/src.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/disco1.6.10/lib/disco.jar" sourcepath="lib/disco1.6.10/lib/disco-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/discoRT/lib/disco1.6.10/lib/disco-api.zip!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="class"/>
 </classpath>

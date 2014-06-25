@@ -81,12 +81,12 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
       private final List<String> choices;
 
       public Cache (Utterance utterance, List<Plugin.Item> items) {
-         this.message = utterance == null ? null : interaction.format(utterance, true);
+         this.message = utterance == null ? null : interaction.format(utterance);
          this.items = items;
          choices = new ArrayList<String>(items.size()+1);
          for (Plugin.Item item : items) {
             choices.add(normalize(
-              item.formatted != null ? item.formatted : interaction.format(item, false)));
+              item.formatted != null ? item.formatted : interaction.format(item, true, false)));
          }
          if ( utterance != null ) choices.add(REPEAT);  
       }
