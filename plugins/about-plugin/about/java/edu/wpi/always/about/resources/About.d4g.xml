@@ -68,15 +68,15 @@
   <t:task id="_HowIsSoAndSo">
     <t:subtasks id="basic">
       <t:step name="discuss" task="_HowIsXDoing"/>
-      <t:applicable> statusType==null </t:applicable>
+      <t:applicable> statusFamFriend==null </t:applicable>
     </t:subtasks>
     <t:subtasks id="pasttalk">
       <t:step name="update" task="_MoreAboutX"/>
-      <t:applicable> statusType=="Positive" </t:applicable>  
+      <t:applicable> statusFamFriend!=null &amp;&amp; statusType=="Positive" </t:applicable>  
     </t:subtasks>
     <t:subtasks id="pastneg">
       <t:step name="talk" task="_BetterYet"/>
-      <t:applicable> statusType=="Negative" </t:applicable>  
+      <t:applicable> statusFamFriend!=null &amp;&amp; statusType=="Negative" </t:applicable>  
     </t:subtasks> 
   </t:task>
 
