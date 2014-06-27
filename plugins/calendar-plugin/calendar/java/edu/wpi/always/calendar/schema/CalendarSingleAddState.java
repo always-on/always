@@ -37,7 +37,8 @@ abstract class CalendarSingleAddState {
       public AdjacencyPair nextState (CalendarEntryType type) {
          newEntry.setType(type);
          type.prefill(newEntry);
-         return new EventPerson(newEntry, getContext());
+         return type == CalendarEntryTypeManager.Types.MedicalAppointment ?
+            new EventDay(newEntry, getContext()) : new EventPerson(newEntry, getContext());
       }
    }
 
