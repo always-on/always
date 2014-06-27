@@ -59,7 +59,7 @@ abstract class CalendarSingleAddState {
 
       @Override
       public AdjacencyPair nextState (Person person) {
-         data.addPerson(person);
+         if ( person != null ) data.addPerson(person);
          return new EventDay(data, getContext());
       }
    }

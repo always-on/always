@@ -53,6 +53,13 @@ abstract class CalendarAdjacencyPairs {
                }
             });
          }
+         choice("someone else", new DialogStateTransition() {
+
+            @Override
+            public AdjacencyPair run () {
+               return nextState((Person) null);
+            }
+         });
       }
 
       public abstract AdjacencyPair nextState (Person person);
