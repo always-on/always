@@ -1385,15 +1385,15 @@
    <task id="_HowIsSoAndSo">
       <subtasks id="basic">
          <step name="discuss" task="_HowIsXDoing"/>
-         <applicable> statusType==null </applicable>
+         <applicable> statusFamFriend==null </applicable>
       </subtasks>
       <subtasks id="pasttalk">
          <step name="update" task="_MoreAboutX"/>
-         <applicable> statusType=="Positive" </applicable>
+         <applicable> statusFamFriend!=null &amp;&amp; statusType=="Positive" </applicable>
       </subtasks>
       <subtasks id="pastneg">
          <step name="talk" task="_BetterYet"/>
-         <applicable> statusType=="Negative" </applicable>
+         <applicable> statusFamFriend!=null &amp;&amp; statusType=="Negative" </applicable>
       </subtasks>
    </task>
    <script init="true">
