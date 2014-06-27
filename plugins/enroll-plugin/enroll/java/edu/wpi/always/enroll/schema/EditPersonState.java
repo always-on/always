@@ -731,8 +731,9 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       @Override
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
-         person.addRelated(getContext().getPeopleManager().getPerson(text), 
-               Relationship.Spouse);
+         Person spouse = getContext().getPeopleManager().getPerson(text);
+         person.addRelated(spouse, Relationship.Spouse);
+         spouse.setGender(person.getGender() == Gender.Male ? Gender.Female : Gender.Male);
          return new EditPersonAdjacencyPair(getContext(), person);
       }
 
