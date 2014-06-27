@@ -13,11 +13,11 @@ import java.util.List;
 
 public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateContext>{
 
+   // note unlike entering info for friends and family, there is no final review step here
    private static String UserName, SkypeNumber;
    private static Person Spouse;
    private static int UserAge, Month, Day;
    private static MonthDay userBirthday;
-   private static Gender gender;
    private static Place location;
    private static String UserState;
 
@@ -212,8 +212,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
             @Override
             public AdjacencyPair run() {
-               gender = Gender.Male;
-               getContext().getPeopleManager().getUser().setGender(gender);
+               getContext().getPeopleManager().getUser().setGender(Gender.Male);
                return new KnowUserZipCodeAdjacencyPair(getContext());
             }
          });
@@ -221,15 +220,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
             @Override
             public AdjacencyPair run () {
-               gender = Gender.Female;
-               getContext().getPeopleManager().getUser().setGender(gender);
-               return new KnowUserZipCodeAdjacencyPair(getContext());
-            }
-         });
-         choice("Skip this information", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run() {
+               getContext().getPeopleManager().getUser().setGender(Gender.Female);
                return new KnowUserZipCodeAdjacencyPair(getContext());
             }
          });
@@ -469,14 +460,16 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public EnterUserSpouseAdjacencyPair(final EnrollStateContext context){
-         super("What is your spouse's name?", "Enter your spouse name:", 
+         super("What is your spouse's name?", "Enter your spouse's name:", 
                context, context.getKeyboard());
       }
 
       @Override
       public AdjacencyPair success(String text) {
          Spouse = getContext().getPeopleManager().getPerson(text);
-         getContext().getPeopleManager().getUser().addRelated(Spouse, Person.Relationship.Spouse);
+         Person user = getContext().getPeopleManager().getUser(); 
+         Spouse.setGender( user.getGender() == Gender.Male ? Gender.Female : Gender.Male);
+         user.addRelated(Spouse, Person.Relationship.Spouse);
          return new UserSkypeNumberAdjacencyPair(getContext());
       }
 

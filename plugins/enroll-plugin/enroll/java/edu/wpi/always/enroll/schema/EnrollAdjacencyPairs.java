@@ -29,6 +29,7 @@ public abstract class EnrollAdjacencyPairs{
    private static void addPerson (EnrollStateContext context) {
       person = context.getPeopleManager().addPerson(name, relationship, gender, 
                age, skype, location, spouse, personBirthday);
+      spouse.setGender(person.getGender() == Gender.Male ? Gender.Female : Gender.Male);
       context.getUserModel().setProperty(EnrollPlugin.PERFORMED, true);
    }
 
@@ -303,13 +304,6 @@ public abstract class EnrollAdjacencyPairs{
             @Override
             public AdjacencyPair run () {
                gender = Gender.Female;
-               return new KnowZipCodeAdjacencyPair(getContext());
-            }
-         });
-         choice("Skip this information", new DialogStateTransition() {
-
-            @Override
-            public AdjacencyPair run() {
                return new KnowZipCodeAdjacencyPair(getContext());
             }
          });
@@ -739,6 +733,8 @@ public abstract class EnrollAdjacencyPairs{
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
          spouse = getContext().getPeopleManager().getPerson(text);
+                 
+
          return new PersonContactAdjacencyPair(getContext());
       }
 
