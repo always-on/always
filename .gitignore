@@ -161,3 +161,10 @@ pip-log.txt
 
 *.json
 core/agent/lib/win32-x86-64/Shore140.dll
+core/FaceDetection/Shore140.dll
+core/FaceDetection/shore/ContentToText.h
+core/FaceDetection/shore/CreateFaceEngine.h
+core/FaceDetection/shore/Gallery.h
+core/FaceDetection/shore/Image.h
+core/FaceDetection/shore/Shore.h
+core/FaceDetection/shore_lib/Shore140.lib
