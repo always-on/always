@@ -42,17 +42,7 @@ public class CalendarEntryTypeManager {
 
          @Override
          public String getTitle (CalendarEntry entry) {
-            Set<Person> people = entry.getPeople();
-            if ( people.size() == 1 ) {
-               String personsName = people.iterator().next().getName();
-               return "Medical Appointment with " + personsName;
-            }
             return "Medical Appointment";
-         }
-
-         @Override
-         public String getPersonQuestion () {
-            return "Who is the Medical Appointment with?";
          }
       },
       Meal("Meal") {
@@ -114,7 +104,7 @@ public class CalendarEntryTypeManager {
             Set<Person> people = entry.getPeople();
             if ( people.size() == 1 ) {
                String personsName = people.iterator().next().getName();
-               return "Visit from " + personsName;
+               return "Visit with " + personsName;
             }
             return "Visit";
          }
