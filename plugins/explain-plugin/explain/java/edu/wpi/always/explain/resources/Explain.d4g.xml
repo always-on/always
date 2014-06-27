@@ -360,7 +360,7 @@
 
   <agent id="_ExplainHealthyEating" text="It's hard to choose healthy foods for our meals.  Eating more fruits and veggies will make you feel better and improve your health"  
          eval="Activity.ALL.AdviseNutrition.setFlag()">
-    <user text="uh-huh">
+    <user text="Really?">
       <agent text="I can suggest ways to add more fruits and veggies to your daily meals" >
         <user text="Ok"/>
         <user text="oh, that is a good thing to do">

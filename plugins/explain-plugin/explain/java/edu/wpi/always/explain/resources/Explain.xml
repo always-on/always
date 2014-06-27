@@ -769,7 +769,7 @@
          <step name="_d4e171_step" task="disco:Say"/>
          <step name="_d4e172_step" task="disco:Say"/>
          <step name="_d4e172_ref" task="_d4e172_tree"/>
-         <binding slot="$_d4e171_step.text" value="&#34;uh-huh&#34;"/>
+         <binding slot="$_d4e171_step.text" value="&#34;Really?&#34;"/>
          <binding slot="$_d4e171_step.external" value="true"/>
          <binding slot="$_d4e172_step.text"
                   value="&#34;I can suggest ways to add more fruits and veggies to your daily meals&#34;"/>
