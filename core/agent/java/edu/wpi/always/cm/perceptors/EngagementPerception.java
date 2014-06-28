@@ -23,14 +23,13 @@ public class EngagementPerception extends Perception {
    public static long ATTENTION_TIME = 300000; // attention->idle minimum time in attention
    public static long INITIATION_TIME = 300000; // initiation->idle minimum time in initiation
    
-   // Note these two timeouts should be larger than @link{MenuTurnStateMachine#TIMEOUT_DELAY} to let the agent
-   // repeat once first if it is waiting for menu response.  However, this timeout is *not* restarted
-   // when agent repeats
+   // Note these next two timeouts should be larger than @link{MenuTurnStateMachine#TIMEOUT_DELAY} 
+   // to let the agent repeat once first if it is waiting for menu response.  However, this timeout 
+   // is *not* restarted when agent repeats
    public static long ENGAGED_NOT_NEAR_TIMEOUT = 60000; // engaged->recovering if no near face for this long   
    public static long ENGAGED_NO_TOUCH_TIMEOUT = 60000; //   and no touch for this long (and no movement)
 
-   // TODO: Increase these a *lot*
-   public static long RECOVERING_NOT_NEAR_TIMEOUT = 60000; // engaged->idle if no near face for this long 
+   public static long RECOVERING_NOT_NEAR_TIMEOUT = 60000; // recovering->idle if no near face for this long 
    public static long RECOVERING_NO_TOUCH_TIMEOUT = 60000; //   and no touch for this long (and no movement) 
    
    private final EngagementState state;

@@ -75,7 +75,7 @@ public class FaceMovementMenuEngagementPerceptor
       }
    }
 
-   protected void setState (EngagementState newState) {
+   private void setState (EngagementState newState) {
       synchronized (stateLock) {
          if ( latest != null ) {
             EngagementState oldState = latest.getState();

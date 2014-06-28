@@ -8,26 +8,21 @@ import org.picocontainer.*;
 import org.picocontainer.behaviors.OptInCaching;
 import org.picocontainer.lifecycle.StartableLifecycleStrategy;
 import org.picocontainer.monitors.LifecycleComponentMonitor;
-import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.CollaborationManager;
-import edu.wpi.always.cm.perceptors.EngagementRegistry;
+import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
+import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.schemas.*;
-import edu.wpi.always.user.UserModel;
-import edu.wpi.always.user.UserUtils;
-import edu.wpi.always.user.owl.OntologyRegistry;
-import edu.wpi.always.user.owl.OntologyRuleHelper;
-import edu.wpi.always.user.owl.OntologyUserRegistry;
-import edu.wpi.cetask.*;
-import edu.wpi.disco.Agent;
-import edu.wpi.disco.Interaction;
-import edu.wpi.disco.User;
+import edu.wpi.always.user.*;
+import edu.wpi.always.user.owl.*;
+import edu.wpi.cetask.TaskClass;
+import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.SpeechMarkupBehavior;
+import edu.wpi.disco.rt.menu.AdjacencyPairBase;
 import edu.wpi.disco.rt.schema.Schema;
 import edu.wpi.disco.rt.util.*;
-import edu.wpi.disco.rt.util.Utils;
 
 public class Always {
 
@@ -244,24 +239,46 @@ public class Always {
          registry.register(helper);
    }
    
-   public static final boolean EXIT = true;  // for debugging
+   public static boolean THROW; // for debugging
    
    // Assumes java being called inside a restart loop
    public static void restart (Exception e, String message) {
       Utils.lnprint(System.out, (e == null ? "" : e)+message);
-      if ( EXIT ) exit(1); 
-      else if ( e != null ) edu.wpi.cetask.Utils.rethrow(e);  
+      if ( THROW && e != null ) edu.wpi.cetask.Utils.rethrow(e);  
+      else exit(1);
    }
    
+   private enum Disengagement { GOODBYE, TIMEOUT, ERROR } // for logging
+
+   private static volatile boolean exiting;
+   private static final Object lock = new Object();
+   
    public static void exit (int code) {
-      Utils.lnprint(System.out,  "EXITING WITH CODE "+code+" ...");
-      MutablePicoContainer container = Always.THIS.getCM().getContainer();
+      synchronized (lock) {
+         if ( exiting ) return;
+         exiting = true;
+      }
+      if ( SessionSchema.getCurrentLoggerName() != Logger.Activity.SESSION ) {
+         Logger.logEvent(Logger.Event.END);
+         SessionSchema.setCurrentLoggerName(Logger.Activity.SESSION);
+      }
+      MutablePicoContainer container = THIS.getCM().getContainer();
       ClientProxy proxy = container.getComponent(ClientProxy.class);
-      if ( code != 0 ) 
+      if ( code != 0 ) {
          proxy.say("Oops.  There seems to be an error in my programming.  I am going to restart and be back in a few minutes.");
+         Logger.logEngagement(container.getComponent(EngagementPerceptor.class).getLatest().getState(), 
+               EngagementState.IDLE);
+      }
+      Logger.logEvent(Logger.Event.END,
+            code == 0 ? (EngagementSchema.EXIT ? Disengagement.GOODBYE : Disengagement.TIMEOUT ) : Disengagement.ERROR,
+            AdjacencyPairBase.REPEAT_COUNT,        
+            (int) ((System.currentTimeMillis() - SessionSchema.DATE.getTime())/1000L),
+            (int) (Logger.TOTAL_ENGAGED_TIME/1000L));
+      Utils.lnprint(System.out,  "EXITING WITH CODE "+code+" ...");
       proxy.setScreenVisible(false);      
       proxy.showMenu(null, false, true); // must be first
       proxy.showMenu(null, false, false);
+      proxy.hidePlugin();
       proxy.setAgentVisible(false);
       // need to free resources held by engine which block exit
       container.getComponent(ShoreFacePerceptor.class).stop();
