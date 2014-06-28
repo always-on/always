@@ -124,6 +124,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
 
    private static Logger.Activity LoggerName;
    
+   public static void setCurrentLoggerName (Logger.Activity activity) { LoggerName = activity; }
+   
    public static Logger.Activity getCurrentLoggerName () {
       return LoggerName != null ? LoggerName :
          (THIS == null || THIS.current == null) ? Logger.Activity.SESSION :

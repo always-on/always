@@ -19,9 +19,10 @@
 
 -------------------------------------------------------
 
-<DATETIME>,ENGAGEMENT,<ENGAGEMENT_STATE>,<OLD_STATE>,<NEW_STATE>
+<DATETIME>,ENGAGEMENT,<ENGAGEMENT_STATE>,<OLD_STATE>,<NEW_STATE>,<ENGAGED>
       
 * <OLD_STATE>/<NEW_STATE> = IDLE or ATTENTION or INITIATION or ENGAGED or RECOVERING
+* <ENGAGED> in seconds // since most recent engagement started
 
 -------------------------------------------------------
 
@@ -31,11 +32,12 @@
 * <TIME_OF_DAY> = MORNING or AFTERNOON or EVENING or NIGHT
 * <SESSIONS> = current session number // session zero is initial enroll session
 
-<DATETIME>,SESSION,END,<DISENGAGEMENT>,<DURATION>,<REPEATS>
+<DATETIME>,SESSION,END,<DISENGAGEMENT>,<REPEATS>,<DURATION>,<ENGAGED>
 
-* <DISENGAGEMENT> = GOODBYE or TIMEOUT
-* <DURATION> in minutes
+* <DISENGAGEMENT> = GOODBYE or TIMEOUT or ERROR
+* <DURATION> in seconds
 * <REPEATS> number of times user clicked "What did you say?"
+* <ENGAGED> in seconds // total engaged time (including activities)
 
 -----------------------------------------------------------
 
@@ -47,6 +49,11 @@
                or WEATHER
 
 * <EVENT> = PROPOSED or ACCEPTED or STOPPED or START or END
+
+<DATETIME>,<ACTIVITY>,END,<DURATION>,<ENGAGED>
+
+* <DURATION> in seconds // start to end of this activity
+* <ENGAGED> in seconds // engaged time in this activity
 
 <DATETIME>,<ACTIVITY>,INTERRUPTION,CALENDAR,<ENTRY>
 

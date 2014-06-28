@@ -2,8 +2,9 @@ package edu.wpi.always;
 
 import com.google.common.collect.ObjectArrays;
 import edu.wpi.always.Always.AgentType;
+import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
-import edu.wpi.always.cm.schemas.SessionSchema;
+import edu.wpi.always.cm.schemas.*;
 import edu.wpi.always.user.*;
 import edu.wpi.disco.rt.util.Utils;
 import java.io.*;
@@ -44,25 +45,87 @@ public class Logger {
             Always.DATE, Always.RELEASE);
    }
    
+   public static long TOTAL_ENGAGED_TIME;
+   
+   private static long startEngaged, startRecovering;
+   
    public static void logEngagement (EngagementState oldState, EngagementState newState) {
-      THIS.log(Type.ENGAGEMENT, oldState, newState);
+      long engaged = 0;
+      long current = System.currentTimeMillis();
+      switch (newState) {
+         case ENGAGED:
+            startEngaged = current;            
+            break;
+         case RECOVERING:
+            engaged = (current - startEngaged) - timeout(); 
+              
+            startEngaged = 0;   
+            startRecovering = current;
+            break;
+         case IDLE:
+            if ( startEngaged != 0 ) {
+               engaged = current - startEngaged;
+               startEngaged = 0;
+            }
+            startRecovering = 0;
+            break;
+         default:
+      }
+      if ( oldState == EngagementState.RECOVERING ) {
+         disengaged += (current - startRecovering) + timeout();
+         startRecovering = 0;
+      }
+      THIS.log(Type.ENGAGEMENT, oldState, newState, (int) (engaged/1000L));
+      TOTAL_ENGAGED_TIME += engaged;
+   }
+   
+   private static long timeout () {
+      return Math.max(EngagementPerception.ENGAGED_NOT_NEAR_TIMEOUT, 
+                      EngagementPerception.ENGAGED_NO_TOUCH_TIMEOUT);
    }
    
    public enum Activity { SESSION, ABOUT, ANECDOTES, CALENDAR, CHECKERS, ENROLL, EXERCISE, EXPLAIN,
                           GREETINGS, GOODBYE, HEALTH, NUTRITION, RUMMY, SKYPE, STORY, TTT, WEATHER }
     
    public static void logActivity (Activity activity, Object... args) {
-      THIS.log(ObjectArrays.concat(new Object[] {activity}, args, Object.class));
+      log(ObjectArrays.concat(new Object[] {activity}, args, Object.class));
    }
    
    public enum Event { PROPOSED, ACCEPTED, REJECTED, STOPPED, START, END, INTERRUPTION, 
                        SAY, MENU, EXTENSION, SELECTED, KEYBOARD, MODEL, WON }
    
+   private static Logger.Activity activity;
+   private static long start, disengaged;
+   
    public static void logEvent (Event event, Object... args) {
-      THIS.log(ObjectArrays.concat(new Object[] {SessionSchema.getCurrentLoggerName(), event}, args, Object.class));
+      Logger.Activity current = SessionSchema.getCurrentLoggerName();
+      if ( current == Activity.SESSION )
+         log(ObjectArrays.concat(new Object[] {current, event}, args, Object.class));
+      else {
+         if ( event == Event.START ) {
+            activity = current; 
+            start = System.currentTimeMillis();
+            disengaged = 0;
+         }
+         if ( event == Event.END ) {
+            if ( activity != current) {
+               Utils.lnprint(System.out, "WARNING! Unbalanced END for: "+current);
+               log(ObjectArrays.concat(new Object[] {current, event}, args, Object.class));
+            } else {
+               long duration = System.currentTimeMillis() - start;
+               log(ObjectArrays.concat(
+                     new Object[] {current, event, 
+                        (int) (duration/1000L),
+                        (int) ((duration - disengaged)/1000L)},
+                     args, Object.class));
+            }
+            activity = null;
+         } else 
+            log(ObjectArrays.concat(new Object[] {current, event}, args, Object.class));
+      }
    }
 
-   private void log (Object... args) {
+   static void log (Object... args) {
       StringBuilder line = new StringBuilder(72);
       line.append('"').append(dateFormat.format(new Date())).append('"'); 
       for (Object arg : args) {
@@ -72,6 +135,6 @@ public class Logger {
          // replace double quotes for safety
          line.append(field.replace('"','\'')).append('"');
       }
-      writer.println(line);
+      THIS.writer.println(line);
    }
 }

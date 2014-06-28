@@ -1,29 +1,16 @@
 package edu.wpi.always.cm.schemas;
 
-import java.util.*;
-import com.sun.msv.datatype.xsd.Proxy;
+import java.util.Arrays;
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientProxy;
 import edu.wpi.always.client.reeti.ReetiCommandSocketConnection;
 import edu.wpi.always.cm.CollaborationManager;
-import edu.wpi.always.cm.perceptors.EngagementPerception;
+import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.EngagementPerception.EngagementState;
-import edu.wpi.always.cm.perceptors.EngagementPerceptor;
-import edu.wpi.always.cm.perceptors.FacePerception;
-import edu.wpi.always.cm.perceptors.FacePerceptor;
-import edu.wpi.always.cm.primitives.FaceTrackBehavior;
-import edu.wpi.always.cm.primitives.IdleBehavior;
-import edu.wpi.disco.rt.*;
-import edu.wpi.disco.rt.behavior.Behavior;
-import edu.wpi.disco.rt.behavior.BehaviorHistory;
-import edu.wpi.disco.rt.behavior.BehaviorMetadata;
-import edu.wpi.disco.rt.behavior.BehaviorMetadataBuilder;
-import edu.wpi.disco.rt.behavior.BehaviorProposalReceiver;
-import edu.wpi.disco.rt.behavior.SpeechBehavior;
-import edu.wpi.disco.rt.menu.*;
-import edu.wpi.disco.rt.schema.SchemaBase;
-import edu.wpi.disco.rt.schema.SchemaManager;
+import edu.wpi.disco.rt.behavior.*;
+import edu.wpi.disco.rt.menu.MenuBehavior;
+import edu.wpi.disco.rt.schema.*;
 import edu.wpi.disco.rt.util.Utils;
 
 public class EngagementSchema extends SchemaBase {
@@ -61,9 +48,7 @@ public class EngagementSchema extends SchemaBase {
    private final static Behavior HI_HI = Behavior.newInstance(new SpeechBehavior("Hi"), HI);
 
    public static volatile boolean EXIT; // set by other schemas
-      
-   private enum Disengagement { GOODBYE, TIMEOUT } // for logging
-
+   
    @Override
    public void run () {
       try {
@@ -74,12 +59,9 @@ public class EngagementSchema extends SchemaBase {
             switch (state = (EXIT ? EngagementState.IDLE : engagementPerception.getState())) {
                case IDLE:
                   if ( EXIT || lastState == EngagementState.RECOVERING ) {
+                     if ( EXIT && lastState != EngagementState.RECOVERING )
+                        Logger.THIS.logEngagement(lastState, state);
                      if ( reeti != null ) reeti.reboot(); 
-                     Utils.lnprint(System.out, "ENGAGEMENT: Idle");
-                     Logger.logEvent(Logger.Event.END, 
-                           EXIT ? Disengagement.GOODBYE : Disengagement.TIMEOUT,
-                              (int) (new Date().getTime() - SessionSchema.DATE.getTime())/60000,
-                              AdjacencyPairBase.REPEAT_COUNT); 
                      Always.exit(0); 
                   } 
                   if ( lastState != EngagementState.IDLE ) { 
