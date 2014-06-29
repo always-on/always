@@ -98,17 +98,22 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          UserModel model = always.getUserModel();
          try { UserUtils.print(model, System.out);}
          catch (InconsistentOntologyException e) { cm.inconsistentUserModel(e); }  // try once
-         DiscoDocument session = always.getRM().getSession();
-         Disco disco = interaction.getDisco();
-         if ( disco.getTaskClass("_Session") == null && session != null ) { // make sure not restart
-            interaction.load("Relationship Manager", 
-                  session.getDocument(), session.getProperties(), session.getTranslate());
-            interaction.push(interaction.addTop("_Session"));
-            always.getCM().setSchema(disco.getTaskClass("_Session"), SessionSchema.class);
-            if ( !model.getUserName().isEmpty() ) 
-               model.setSessions(model.getSessions()+1);
+         TaskClass task = interaction.getDisco().getTaskClass("_Session") ; 
+         if ( task != null ) { // restart
+              if ( SessionSchema.getCurrentLoggerName() != Logger.Activity.SESSION )
+                 Logger.logEvent(Logger.Event.END);
+         } else {
+            DiscoDocument session = always.getRM().getSession();
+            if ( session != null ) {
+               interaction.load("Relationship Manager", 
+                     session.getDocument(), session.getProperties(), session.getTranslate());
+               interaction.push(interaction.addTop("_Session"));
+               always.getCM().setSchema(task, SessionSchema.class);
+               if ( !model.getUserName().isEmpty() ) 
+                  model.setSessions(model.getSessions()+1);
+               Logger.logEvent(Logger.Event.START, model.getCloseness(), UserUtils.getTimeOfDay(), model.getSessions()); 
+            }
          }
-         Logger.logEvent(Logger.Event.START, model.getCloseness(), UserUtils.getTimeOfDay(), model.getSessions()); 
       } catch (Exception e) { 
          e.printStackTrace();
          Always.exit(3);  // restart Java
