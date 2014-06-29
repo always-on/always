@@ -82,6 +82,7 @@
    </task>
    <task id="TalkAbout">
       <precondition> 
+      Packages.edu.wpi.always.Always.ALL_PLUGINS &amp;&amp;
       Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;
         (isExplained("TALK_ABOUT") || notStranger() || days() &gt; 2)
     </precondition>
@@ -115,7 +116,8 @@
    </task>
    <task id="_EncourageExplain">
       <precondition> 
-      (!Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;
+      (Packages.edu.wpi.always.Always.ALL_PLUGINS &amp;&amp;
+       !Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;
        Packages.edu.wpi.always.user.UserUtils.getDays(userModel()) &gt; 2) ?
        null : false
     </precondition>
@@ -179,31 +181,33 @@
        RelationshipManager.java in order to avoid compile dependency on plugin projects
     */
 
-    model = userModel();
-    if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.COMPANION ) {
-       if ( Packages.edu.wpi.always.about.AboutPlugin.isPerformed() ||
-            Packages.plugins.ExercisePlugin.isPerformed() ||
-            Packages.plugins.StorytellingPlugin.isPerformed() ||
-            Packages.edu.neu.always.skype.SkypePlugin.isPerformed() ||
-            ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;	
-              Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ) )
-           model.setCloseness(Packages.edu.wpi.always.Closeness.COMPANION)
-        else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.ACQUAINTANCE ) {
-           if ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||
-                Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
-                ( days() &gt; 6 &amp;&amp; sessions() &gt; days()/2 &amp;&amp;
-                  ( Packages.edu.wpi.always.about.CheckersPlugin.isPerformed() ||
-                    Packages.plugins.ExplainPlugin.isPerformed() ||
-                    Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||	
-                    Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
-                    Packages.plugins.AnecdotesPlugin.isPerformed() ||
-                    Packages.plugins.HealthPlugin.isPerformed() ||
-                    Packages.plugins.NutritionPlugin.isPerformed() ||	
-                    Packages.edu.wpi.always.srummy.SrummyPlugin.isPerformed() ||
-                    Packages.edu.wpi.always.ttt.TTTPlugin.isPerformed() ) ) )
-               model.setCloseness(Packages.edu.wpi.always.Closeness.ACQUAINTANCE);
-         }
+    if ( Packages.edu.wpi.always.Always.ALL_PLUGINS ) {
+       model = userModel();
+       if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.COMPANION ) {
+          if ( Packages.edu.wpi.always.about.AboutPlugin.isPerformed() ||
+               Packages.plugins.ExercisePlugin.isPerformed() ||
+               Packages.plugins.StorytellingPlugin.isPerformed() ||
+               Packages.edu.neu.always.skype.SkypePlugin.isPerformed() ||
+               ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() &amp;&amp;	
+                 Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ) )
+              model.setCloseness(Packages.edu.wpi.always.Closeness.COMPANION)
+           else if ( model.getCloseness() != Packages.edu.wpi.always.Closeness.ACQUAINTANCE ) {
+              if ( Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||
+                   Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
+                   ( days() &gt; 6 &amp;&amp; sessions() &gt; days()/2 &amp;&amp;
+                     ( Packages.edu.wpi.always.about.CheckersPlugin.isPerformed() ||
+                       Packages.plugins.ExplainPlugin.isPerformed() ||
+                       Packages.edu.wpi.always.enroll.EnrollPlugin.isPerformed() ||	
+                       Packages.edu.wpi.always.calendar.CalendarPlugin.isPerformed() ||
+                       Packages.plugins.AnecdotesPlugin.isPerformed() ||
+                       Packages.plugins.HealthPlugin.isPerformed() ||
+                       Packages.plugins.NutritionPlugin.isPerformed() ||	
+                       Packages.edu.wpi.always.srummy.SrummyPlugin.isPerformed() ||
+                       Packages.edu.wpi.always.ttt.TTTPlugin.isPerformed() ) ) )
+                  model.setCloseness(Packages.edu.wpi.always.Closeness.ACQUAINTANCE);
+            }
+       }
     }
-    
+
   </script>
 </taskModel>
