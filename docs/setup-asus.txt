@@ -167,7 +167,13 @@ After installation, open preferences on desktop application:
 
     (a) Uninstall native trial anti-virus software and other bloat-ware CHECK [ ]
 
-    (b) Disable ASUS 3D Magnifier by DELETING the following file: CHECK [ ]
+    
+    (b) Disable ASUS touch options: CHECK [ ]
+
+      Control Panel > Search Bar > "asus" > Asus Touch Tek
+      Unclick all options > Apply
+
+      Also, DELETE following file:
 
         C:\Program Files (x86)\ASUS\ASUS Touch Tech\ASUSMagnifier3d.exe
 
