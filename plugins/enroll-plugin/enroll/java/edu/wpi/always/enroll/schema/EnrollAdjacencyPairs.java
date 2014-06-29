@@ -421,7 +421,8 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public PersonStateAdjacencyPair(final EnrollStateContext context) {
-         super("Which state does " + name + " live in ?", "Enter " +name+ "'s state:",
+         super("Which state does " + name + " live in ?", 
+               "Enter " +name+ "'s two-letter state abbreviation (ex. MA):",
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
 
@@ -456,7 +457,7 @@ public abstract class EnrollAdjacencyPairs{
 
       public StateInvalidAdjacencyPair(final EnrollStateContext context) {
          super("Sorry, but that state name does not sound right, "
-            + "Could you please try again?", "Please enter valid state name:",
+            + "Could you please try again?", "Please enter two-letter state abbreviation (ex. MA):",
                context, context.getKeyboard());
          choice("Skip "+name, new DialogStateTransition() {
 

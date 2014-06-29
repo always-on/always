@@ -309,7 +309,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public UserStateAdjacencyPair(final EnrollStateContext context) {
-         super("Which state do you live in?", "Enter your state:",
+         super("Which state do you live in?", "Enter your two-letter state abbreviation (ex. MA):",
                context, context.getKeyboard());
       }
 
@@ -335,7 +335,7 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
 
       public UserStateInvalidAdjacencyPair(final EnrollStateContext context) {
          super("Sorry, but that state does not sound right,", 
-               "Please enter valid state name:",
+               "Please enter two-letter state abbreviation (ex. MA):",
                context, context.getKeyboard());
       }
 

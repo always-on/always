@@ -462,7 +462,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
 
       public ChangeStateAdjacencyPair(final EnrollStateContext context, final Person person) {
          super("Which state does " + person.getName() +  " live in? ",
-               "Enter " + nameToUse + " state:",
+               "Enter " + nameToUse + " two-letter state abbreviation (ex. MA):",
                context, context.getKeyboard());
          this.person = person;
       }
@@ -491,8 +491,8 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeStateInvalidAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("Sorry, but you must enter a valid state name here", 
-               "Please Enter valid state name:",
+         super("Sorry, but you must enter a valid state here", 
+               "Please enter two-letter state abbreviation (ex. MA):",
                context, context.getKeyboard());
          this.person = person;
       }
