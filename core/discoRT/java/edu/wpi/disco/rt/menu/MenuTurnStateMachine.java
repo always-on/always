@@ -27,7 +27,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    
    public AdjacencyPair getState () { return state; }
    
-   private enum Mode { Speaking, Hearing }  // mode of agent
+   private enum Mode { Speaking, Listening }  // mode of agent
    
    // for returning from interruptions
    public void resetTimeout () { waitingForResponseSince = DateTime.now(); } 
@@ -50,7 +50,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    }
  
    public boolean isDone () { 
-      return mode == Mode.Hearing && !hasChoicesForUser(state);
+      return mode == Mode.Listening && !hasChoicesForUser(state);
    }
    
    @Override
@@ -82,11 +82,11 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
                Type.After, MENU_DELAY))));
       } else if ( mode == Mode.Speaking ) {
          if ( speechBehavior == null ) {
-            setMode(Mode.Hearing);
+            setMode(Mode.Listening);
             return build(); // loop
          }
          behavior = new Behavior(speechBehavior);
-      } else if ( mode == Mode.Hearing ) {
+      } else if ( mode == Mode.Listening ) {
          if ( menuBehavior == null ) return nextState(null); // loop
          behavior = Behavior.newInstance(menuBehavior);
          resetTimeout(); // reset now since nothing said
@@ -107,7 +107,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          if ( behaviorHistory.isDone(behavior.getInner(), previousBehavior.getTimeStamp()) ) 
             alreadyDone = true;
       } else update(behavior);
-      if ( alreadyDone && mode == Mode.Speaking ) setMode(Mode.Hearing);
+      if ( alreadyDone && mode == Mode.Speaking ) setMode(Mode.Listening);
       if ( menuBehavior != null
            && resourceMonitor.isDone(menuBehavior, previousBehavior.getTimeStamp()) ) {
          String selected = checkMenuSelected(state.getChoices(), previousBehavior);
@@ -127,7 +127,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          if ( needsFocusResource ) behavior = behavior.addFocusResource();
       }
       */
-      if ( mode == Mode.Hearing && !extension && state != timedOutState // don't timeout twice
+      if ( mode == Mode.Listening && !extension && state != timedOutState // don't timeout twice
            && waitingForResponseSince.isBefore(DateTime.now().minusMillis(TIMEOUT_DELAY)) ) {
          timedOutState = state;
          AdjacencyPair newState = timeoutHandler.handle(state);
@@ -200,7 +200,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    }
 
    private void setMode (Mode newMode) {
-      if ( newMode == Mode.Hearing && mode == Mode.Speaking )
+      if ( newMode == Mode.Listening && mode == Mode.Speaking )
          resetTimeout();
       this.mode = newMode;
    }
