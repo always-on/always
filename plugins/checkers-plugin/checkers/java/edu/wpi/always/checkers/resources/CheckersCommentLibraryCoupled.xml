@@ -74,7 +74,7 @@
 			<response>Puts the game in my court!</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanCaptureALot/brag" gameType="board" gameName="checkers" madeOn="human">
-			<content>I see there is a jumping ceremony over there</content>
+			<content>I see a jumping ceremony over there</content>
 			<response>Of course it is!</response>
 			<response>Yes, you are invited too!</response>
 			<response>It's not that big of a deal</response>
@@ -83,7 +83,7 @@
 			<content>Nice set of moves</content>
 			<response>Thanks</response>
 			<response>I just couldn't pass it up!</response>
-			<response>let's continue with our game!</response>
+			<response>Let's continue with our game!</response>
 		</comment>
 	</agent>
 	
@@ -92,7 +92,7 @@
 			<content>Nice crowning there!</content>
 			<response>Thanks</response>
 			<response>Pay respect to the king I guess</response>
-			<response>Now I can walk back and hunt your checkers</response>
+			<response>Now I can go back and hunt your checkers</response>
 		</comment>
 		<comment competitiveness='0.3' tags="agentCrown" gameType="board" gameName="checkers" madeOn="agent">
 			<content>Oh, now you can walk backwards</content>
@@ -105,7 +105,7 @@
 			<response>Ha ha! get used to that</response>
 			<response>Sorry had to do it</response>
 			<response>I know it hurts!</response>
-			<response>Oh sorry, stupid game rules made me do it</response>
+			<response>Sorry, stupid game rules made me do it</response>
 		</comment>
 		<comment competitiveness='0.2' tags="agentCapture/compliment" gameType="board" gameName="checkers" madeOn="agent">
 			<content>You sure got me there</content>

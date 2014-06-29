@@ -42,7 +42,7 @@
 		<comment strength='0.5' competitiveness='0.3' tags="compliment" gameType="generic" madeOn="human">
 			<content>Playing games with you is really great!</content>
 			<response>I like playing with you too</response>
-			<response>I never thought I'd like playing with an agent, but I do!</response>
+			<response>Playing with an agent is more fun than I expected</response>
 			<response>Thanks, I'm enjoying this too</response>
 		</comment>
 
@@ -111,7 +111,7 @@
 		<comment strength='0.8' competitiveness='0.5' tags="brag" gameType="generic" madeOn="human">
 			<content>Now did you see that?</content>
 			<response>Yes. it was good</response>
-			<response>Don't get so impressed with yourself. It wasn't so great.</response>
+			<response>Don't get too impressed with yourself</response>
 			<response>Not bad, not bad at all</response>
 		</comment>
 

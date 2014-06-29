@@ -146,8 +146,8 @@
 		</comment>
 		<comment competitiveness='0.5' tags="twoMeldsInARowByHuman" gameType="board" gameName="srummy" madeOn="human">
 			<content>Wow! Two melds in a row!</content>
-			<response>Yes and I plan to win...</response>
-			<response>No big deal.</response>
+			<response>Yes and I plan to win</response>
+			<response>No big deal</response>
 			<response></response>
 		</comment>
 		<comment competitiveness='0.5' tags="twoMeldsInARowByAgent" gameType="board" gameName="srummy" madeOn="agent">
@@ -219,7 +219,7 @@
 		</comment>
 		<comment competitiveness='0.7' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
 			<content>These melds are not gonna make you win</content>
-			<response>oh on the contrary!</response>
+			<response>Oh on the contrary!</response>
 			<response>Well game rules would disagree</response>
 			<response>well let's see</response>
 		</comment>
@@ -239,12 +239,12 @@
 			<content>Keep the cards, why lay off?</content>
 			<response>Haha, sure!</response>
 			<response>Well, you will have to, too</response>
-			<response>Really? I don't want to.</response>
+			<response>Really? I don't want to</response>
 		</comment>
 		<!--More instances of these -->
 		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
 			<content>Wow, you are close to winning</content>
-			<response>Yes! My Fingers are crossed.</response>
+			<response>Yes! My Fingers are crossed</response>
 			<response>Uhum, thanks</response>
 			<response>You are playing very well, too</response>
 		</comment>
