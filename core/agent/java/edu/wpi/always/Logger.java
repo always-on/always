@@ -92,7 +92,7 @@ public class Logger {
    }
    
    public enum Event { PROPOSED, ACCEPTED, REJECTED, STOPPED, START, END, INTERRUPTION, 
-                       SAY, MENU, EXTENSION, SELECTED, KEYBOARD, MODEL, WON }
+                       SAY, MENU, MENU_EXT, SELECTED, KEYBOARD, MODEL, WON }
    
    private static Logger.Activity activity;
    private static long start, disengaged;

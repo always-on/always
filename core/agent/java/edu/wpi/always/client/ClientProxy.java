@@ -176,7 +176,7 @@ public class ClientProxy {
    
    public void showMenu (List<String> items, boolean twoColumn, boolean extension) {
       if ( items != null && !items.isEmpty() )
-         Logger.logEvent(extension ? Logger.Event.EXTENSION : Logger.Event.MENU,
+         Logger.logEvent(extension ? Logger.Event.MENU_EXT : Logger.Event.MENU,
             items.toArray());
       JsonArray menus = new JsonArray();
       if ( items != null ) for (String s : items) menus.add(new JsonPrimitive(s));
