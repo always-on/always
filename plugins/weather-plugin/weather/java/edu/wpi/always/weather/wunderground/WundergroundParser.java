@@ -3,6 +3,7 @@ package edu.wpi.always.weather.wunderground;
 import com.google.gson.*;
 import edu.wpi.always.Always;
 import edu.wpi.always.user.UserUtils;
+import edu.wpi.always.weather.WeatherPlugin;
 import java.io.FileWriter;
 import java.net.ConnectException;
 import java.text.*;
@@ -25,7 +26,7 @@ public class WundergroundParser {
                throw new IllegalArgumentException("Invalid zip code: "+args[0]);
             ZIP = args[0];
          }
-         Always always = Always.make(null, null, null);
+         Always always = Always.make(null, WeatherPlugin.class, null);
          WundergroundJSON weather = new WundergroundJSON(ZIP, always.getUserModel());
          // make easier to read for debugging
          Gson gson = new GsonBuilder().setPrettyPrinting().create();

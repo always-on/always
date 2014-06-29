@@ -22,11 +22,13 @@ public class Logger {
    private final PrintWriter writer;
 
    private Logger () {
-      try { 
-         File file = new File(UserUtils.USER_DIR+"/User."+UserUtils.formatDate()+".csv");
-         writer = new PrintWriter(new FileWriter(file, true), true); 
-         Utils.lnprint(System.out, "Writing log to: "+file);
-      } catch (IOException e) { throw new RuntimeException(e); }
+      if ( Always.ALL_PLUGINS )
+         try { 
+            File file = new File(UserUtils.USER_DIR+"/User."+UserUtils.formatDate()+".csv");
+            writer = new PrintWriter(new FileWriter(file, true), true); 
+            Utils.lnprint(System.out, "Writing log to: "+file);
+         } catch (IOException e) { throw new RuntimeException(e); }
+      else writer = null;
    }
 
    // see always/docs/log-format.txt
@@ -126,6 +128,7 @@ public class Logger {
    }
 
    static void log (Object... args) {
+      if ( THIS.writer == null ) return;
       StringBuilder line = new StringBuilder(72);
       line.append('"').append(dateFormat.format(new Date())).append('"'); 
       for (Object arg : args) {
