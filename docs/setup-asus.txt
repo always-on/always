@@ -135,6 +135,24 @@ recommit the file.)
         Select Never Check for Solutions (Not Recommended)
         Ok
 
+    (f) Disable ASUS touch options: CHECK [ ]
+
+        Control Panel > Search Bar > "asus" > Asus Touch Tek
+        Unclick all options > Apply
+
+    (g) Disable Multitouch gestures: CHECK [ ]
+
+        Control Panel > Search bar > "pen" > Pen and Touch > Touch
+        Unselect "Multitouch gestures and inking" > Apply
+
+    (g) Disable Tablet PC Input Panel: CHECK [ ]
+
+        Control Panel > Search bar > "tablet" > Other 
+        > Go to Input Panel Settings 
+        Select "Point to the Input Panel icon or tab
+        Unselect all options under "Choose where..."
+        Apply
+
 -----------------------------------------------------------------------
 
 (6) Registry Edit CHECK [ ]
@@ -166,14 +184,7 @@ After installation, open preferences on desktop application:
 (6) Disabling other programs CHECK [ ]
 
     (a) Uninstall native trial anti-virus software and other bloat-ware CHECK [ ]
-
-    
-    (b) Disable ASUS touch options: CHECK [ ]
-
-      Control Panel > Search Bar > "asus" > Asus Touch Tek
-      Unclick all options > Apply
-
-      Also, DELETE following file:
+    (b) DELETE following file:
 
         C:\Program Files (x86)\ASUS\ASUS Touch Tech\ASUSMagnifier3d.exe
 
