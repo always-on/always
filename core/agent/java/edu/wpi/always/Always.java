@@ -282,8 +282,8 @@ public class Always {
       proxy.setAgentVisible(false);
       // need to free resources held by engine which block exit
       container.getComponent(ShoreFacePerceptor.class).stop();
-      // give menu clearing messages time to be sent
-      try { Thread.sleep(3000); } catch (InterruptedException e) {}
+      // give menu clearing messages and final agent utterance time to be sent
+      try { Thread.sleep(5000); } catch (InterruptedException e) {}
       System.exit(code);
    }
 }

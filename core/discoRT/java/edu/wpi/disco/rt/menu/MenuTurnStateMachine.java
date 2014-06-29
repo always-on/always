@@ -27,6 +27,8 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    
    public AdjacencyPair getState () { return state; }
    
+   private enum Mode { Speaking, Hearing }  // mode of agent
+   
    // for returning from interruptions
    public void resetTimeout () { waitingForResponseSince = DateTime.now(); } 
     
@@ -36,8 +38,6 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    public void setNeedsFocusResource (boolean focus) {
       this.needsFocusResource = focus;
    }
-
-   private enum Mode { Speaking, Hearing }  // mode of agent
 
    public MenuTurnStateMachine (BehaviorHistory behaviorHistory,
          ResourceMonitor resourceMonitor, MenuPerceptor menuPerceptor,
@@ -49,6 +49,10 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       setMode(Mode.Speaking);
    }
  
+   public boolean isDone () { 
+      return mode == Mode.Hearing && !hasChoicesForUser(state);
+   }
+   
    @Override
    public Behavior build () {
       // note this method is coded as tail-recursive loops
