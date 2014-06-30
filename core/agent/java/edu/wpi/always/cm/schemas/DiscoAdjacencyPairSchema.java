@@ -5,6 +5,7 @@ import edu.wpi.disco.*;
 import edu.wpi.disco.rt.*;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
+import edu.wpi.disco.rt.menu.MenuTurnStateMachine.Mode;
 
 public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<AdjacencyPair.Context> {
 
@@ -46,7 +47,15 @@ public class DiscoAdjacencyPairSchema extends ActivityStateMachineSchema<Adjacen
          super(new Agent("agent"), new User("user"), Always.RELEASE == null);
       }
    }
-     
+   
+   @Override
+   public void runActivity () {
+      if ( !stateMachine.hasMenuChoices() &&
+            (!stateMachine.hasSomethingToSay() || stateMachine.getMode() == Mode.Listening) )
+         stop(); 
+      else super.runActivity();
+   }
+   
    protected void history () {
       Console console = interaction.getConsole();
       if ( console != null ) console.history(null);

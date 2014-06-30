@@ -24,8 +24,7 @@ public abstract class ActivityStateMachineSchema<C extends AdjacencyPair.Context
 
    @Override
    public void runActivity () {
-      if ( stateMachine.isDone() ) stop();
-      else propose(stateMachine);
+      propose(stateMachine);
    }
    
    @Override
