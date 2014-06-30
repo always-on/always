@@ -34,7 +34,7 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
     *
     */
    public static void log (Direction direction, Appointment appointment, int duration) {
-      Logger.logActivity(LOGGER_NAME, direction, appointment, duration, CALLER);
+      Logger.logActivity(LOGGER_NAME, direction, appointment, duration, SkypeInterruptSchema.CALLER);
    }
      
    private final ShoreFacePerceptor shore;
@@ -47,15 +47,6 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
             LOGGER_NAME);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
       always.getUserModel().setProperty(SkypePlugin.PERFORMED, true);
-   }
-
-   // set this variable re incoming call, since used in _SkypeInterruption script
-   public static String CALLER ="someone you know";
-
-   // call this method to interrupt current session/activity for incoming call
-   public static boolean interrupt () {
-      // see definition of _SkypeInterruption in edu.wpi.always.resources.Always.d4g.xml
-      return SessionSchema.interrupt("_SkypeInterruption");
    }
    
    @Override

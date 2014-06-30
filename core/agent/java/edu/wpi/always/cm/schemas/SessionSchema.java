@@ -212,7 +212,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          else if ( interruption.equals("_SkypeInterruption") ) {
             String caller = "";
             try { // avoid compile dependency
-                caller = (String) Class.forName("edu.neu.always.skype.SkypeSchema").getField("CALLER").get(null);
+                caller = (String) Class.forName("edu.neu.always.skype.SkypeInterruptSchema").getField("CALLER").get(null);
             } catch (Exception e) {}
             Logger.logEvent(Logger.Event.INTERRUPTION, Interruption.SKYPE, caller);
          }
