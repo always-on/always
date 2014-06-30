@@ -90,6 +90,7 @@ public class EngagementSchema extends SchemaBase {
                      Utils.lnprint(System.out, "Starting session...");
                      schemaManager.start(SessionSchema.class);
                      schemaManager.start(CalendarInterruptSchema.class);
+                     schemaManager.start(SkypeInterruptSchema.class);
                      started = true;
                   }
                   visible();
