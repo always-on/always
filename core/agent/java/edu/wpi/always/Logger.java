@@ -16,13 +16,12 @@ public class Logger {
    // format that Excel will interpret (must be initialized first)
    public final static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-   // guarantee only one logger
-   public static final Logger THIS = new Logger();
+   public static Logger THIS;
    
    private final PrintWriter writer;
 
-   private Logger () {
-      if ( Always.ALL_PLUGINS )
+   Logger (boolean enabled) {
+      if ( enabled )
          try { 
             File file = new File(UserUtils.USER_DIR+"/User."+UserUtils.formatDate()+".csv");
             writer = new PrintWriter(new FileWriter(file, true), true); 
