@@ -161,8 +161,9 @@ public class Always {
    public static boolean ALL_PLUGINS;
    
    public Always (boolean logToConsole, boolean allPlugins) {
-      ALL_PLUGINS = allPlugins;
       THIS = this;
+      ALL_PLUGINS = allPlugins;
+      Logger.THIS = new Logger(allPlugins);
       if ( logToConsole )
          BasicConfigurator.configure();
       else
