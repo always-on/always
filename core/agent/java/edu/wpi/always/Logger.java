@@ -21,6 +21,7 @@ public class Logger {
    private final PrintWriter writer;
 
    Logger (boolean enabled) {
+      THIS = this;
       if ( enabled )
          try { 
             File file = new File(UserUtils.USER_DIR+"/User."+UserUtils.formatDate()+".csv");
