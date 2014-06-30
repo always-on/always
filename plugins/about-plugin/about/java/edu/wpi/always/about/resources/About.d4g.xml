@@ -190,13 +190,16 @@
 	      </agent>
 	    </user>
 	  </agent>
-	</user>
-      </agent>
     </user>
-    <user text="Not so great">
-      <do task="NotGoingWell" />
+    <user text="Something else is happening to {pronounObj} ">
+      <agent text="Oh, well, I'd like to hear about it, but I only know how to discuss a few things about people!"/>
     </user>
   </agent>
+</user>
+<user text="Not so great">
+  <do task="NotGoingWell" />
+</user>
+</agent>
 
 
 <agent id="_MoreAboutX" text="Last time we talked about {famFriendRelationship} {famFriendName}, I remember that {pronounSubj} {statusFamFriend}" >
@@ -548,6 +551,9 @@
           <agent text="Remind me the next time we work on your calendar" />
         </user>
       </agent>
+    </user>
+    <user text="Another experience is happening to {pronounObj} ">
+    <agent text="Oh, well, I hope it turns out well even if I can't know the details."/>
     </user>
   </agent>
 

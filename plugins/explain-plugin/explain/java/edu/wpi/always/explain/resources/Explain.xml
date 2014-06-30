@@ -506,7 +506,7 @@
          <binding slot="$_d4e115_step.text" value="&#34;Really? Tell me more&#34;"/>
          <binding slot="$_d4e115_step.external" value="true"/>
          <binding slot="$_d4e116_step.text"
-                  value="&#34;You can talk to your family and friends and see them as you talk.  You will see them on your computer screen as a video. It is like a phone and a TV combined into one thing!&#34;"/>
+                  value="&#34;You can talk to your family and friends and see them as you talk. It is like a phone and a TV combined into one!&#34;"/>
          <binding slot="$_d4e116_step.external" value="false"/>
          <binding slot="$_d4e117_step.text" value="&#34;Tell me more&#34;"/>
          <binding slot="$_d4e117_step.external" value="true"/>
