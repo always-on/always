@@ -29,7 +29,8 @@ public abstract class EnrollAdjacencyPairs{
    private static void addPerson (EnrollStateContext context) {
       person = context.getPeopleManager().addPerson(name, relationship, gender, 
                age, skype, location, spouse, personBirthday);
-      spouse.setGender(person.getGender() == Gender.Male ? Gender.Female : Gender.Male);
+      if ( spouse != null )
+         spouse.setGender(person.getGender() == Gender.Male ? Gender.Female : Gender.Male);
       context.getUserModel().setProperty(EnrollPlugin.PERFORMED, true);
    }
 
