@@ -49,12 +49,18 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       setMode(Mode.Speaking);
    }
  
-   public boolean isDone () { 
-      return mode == Mode.Listening && !hasChoicesForUser(state);
-   }
+   private boolean done; // for thread-safe access
+   
+   public boolean isDone () { return done; }
    
    @Override
    public Behavior build () {
+      Behavior behavior = buildBehavior();
+      done = ( mode == Mode.Listening && !hasChoicesForUser(state) );
+      return behavior;
+   }
+   
+   private Behavior buildBehavior () {
       // note this method is coded as tail-recursive loops
       if ( state == null ) {
          if ( DiscoRT.TRACE) Utils.lnprint(System.out, "Nothing to say/do");
@@ -83,7 +89,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       } else if ( mode == Mode.Speaking ) {
          if ( speechBehavior == null ) {
             setMode(Mode.Listening);
-            return build(); // loop
+            return buildBehavior(); // loop
          }
          behavior = new Behavior(speechBehavior);
       } else if ( mode == Mode.Listening ) {
@@ -133,7 +139,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          AdjacencyPair newState = timeoutHandler.handle(state);
          if ( newState != null && newState != state ) {
             setState(newState);
-            return build(); // loop
+            return buildBehavior(); // loop
          }
       }
       return behavior;
@@ -166,7 +172,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
 
    private Behavior nextState (String text) {
       setState(state.nextState(text));
-      return build(); // loop
+      return buildBehavior(); // loop
    }
    
    public void setState (AdjacencyPair newState) {
@@ -174,6 +180,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       needsToAddNull = false;
       if ( newState == null ) return;
       state = newState;
+      done = false;
       newState.enter();
    }
 
