@@ -19,15 +19,19 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
    private final ResourceMonitor resourceMonitor;
    private final MenuTimeoutHandler timeoutHandler;
    private TimeStampedValue<Behavior> previousBehavior = new TimeStampedValue<Behavior>(Behavior.NULL);
-   private AdjacencyPair state, previousState, timedOutState;
-   private Mode mode;
    private DateTime waitingForResponseSince;
    private boolean needsToAddNull;
    private boolean extension, needsFocusResource;
    
+   private AdjacencyPair state, previousState, timedOutState;
+   
    public AdjacencyPair getState () { return state; }
    
-   private enum Mode { Speaking, Listening }  // mode of agent
+   private Mode mode;
+   
+   public Mode getMode () { return mode; }
+
+   public enum Mode { Speaking, Listening }  // mode of agent
    
    // for returning from interruptions
    public void resetTimeout () { waitingForResponseSince = DateTime.now(); } 
@@ -48,11 +52,7 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       this.timeoutHandler = timeoutHandler;
       setMode(Mode.Speaking);
    }
- 
-   public boolean isDone () { 
-      return mode == Mode.Listening && !hasChoicesForUser(state);
-   }
-   
+
    @Override
    public Behavior build () {
       // note this method is coded as tail-recursive loops
@@ -60,16 +60,16 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
          if ( DiscoRT.TRACE) Utils.lnprint(System.out, "Nothing to say/do");
          return Behavior.NULL;
       }
-      if ( !hasSomethingToSay(state) && !hasChoicesForUser(state) ) {
+      if ( !hasSomethingToSay() && !hasMenuChoices() ) {
          setState(state.nextState(null));
          return Behavior.NULL;
       }
       if ( state.prematureEnd() ) return nextState(null); // loop
       Behavior behavior = Behavior.NULL;
-      MenuBehavior menuBehavior = hasChoicesForUser(state) ? 
+      MenuBehavior menuBehavior = hasMenuChoices() ? 
          new MenuBehavior(state.getChoices(), state.isTwoColumnMenu(), extension) :
          null;
-      SpeechMarkupBehavior speechBehavior = hasSomethingToSay(state) ? 
+      SpeechMarkupBehavior speechBehavior = hasSomethingToSay() ? 
          new SpeechMarkupBehavior(state.getMessage()) :
          null;
       if ( speechBehavior != null && menuBehavior != null ) {
@@ -139,12 +139,12 @@ public class MenuTurnStateMachine implements BehaviorBuilder {
       return behavior;
    }
 
-   private boolean hasSomethingToSay (AdjacencyPair state) {
+   public boolean hasSomethingToSay () {
       String s = state.getMessage();
       return s != null && s.length() > 0;
    }
 
-   private boolean hasChoicesForUser (AdjacencyPair state) {
+   public boolean hasMenuChoices () {
       return state.getChoices() != null && !state.getChoices().isEmpty();
    }
    
