@@ -98,7 +98,7 @@ public class EngagementSchema extends SchemaBase {
                case RECOVERING:
                   visible();
                   propose(Behavior.newInstance(new SpeechBehavior("Are you still there?"), 
-                        new MenuBehavior(Arrays.asList("Yes"))), META);
+                        new MenuBehavior(Arrays.asList("Yes, I'm here"))), META);
                   break;
             }
             lastState = engagementPerception.getState();

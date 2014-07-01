@@ -94,7 +94,7 @@
     <precondition> 
       (Packages.edu.wpi.always.Always.ALL_PLUGINS &amp;&amp;
        !Packages.edu.wpi.always.explain.ExplainPlugin.isPerformed() &amp;&amp;
-       Packages.edu.wpi.always.user.UserUtils.getDays(userModel()) &gt; 2) ?
+       Packages.edu.wpi.always.user.UserUtils.getDays(userModel()) &gt; 4) ?
        null : false
     </precondition>
     <subtasks id="_encourageExplain">
