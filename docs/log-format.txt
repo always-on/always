@@ -57,11 +57,11 @@
 
 <DATETIME>,<ACTIVITY>,INTERRUPTION,CALENDAR,<ENTRY>
 
-* <ENTRY> = "..." (via toString method of CalendarEntry)
+* <ENTRY> = "..." // via toString method of CalendarEntry
 
 <DATETIME>,<ACTIVITY>,INTERRUPTION,SKYPE,<CALLER>
 
-* <CALLER> = "..."
+* <CALLER> = "..." // id, not name
 
 <DATETIME>,<ACTIVITY>,SAY,<UTTERANCE>
 

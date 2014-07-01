@@ -1,6 +1,7 @@
 package edu.neu.always.skype;
 
 import edu.wpi.always.*;
+import edu.wpi.always.client.SkypeInterrupHandler;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.schemas.*;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -34,7 +35,7 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
     *
     */
    public static void log (Direction direction, Appointment appointment, int duration) {
-      Logger.logActivity(LOGGER_NAME, direction, appointment, duration, SkypeInterruptSchema.CALLER);
+      Logger.logActivity(LOGGER_NAME, direction, appointment, duration, SkypeInterrupHandler.CALLER);
    }
      
    private final ShoreFacePerceptor shore;
