@@ -25,6 +25,9 @@ abstract class CalendarAdjacencyPairs {
                }
             });
          }
+         // temporarily removed because pushing KB to replace
+         // existing UI does not work properly
+         /*
          choice("Something else", new DialogStateTransition() {
 
             @Override
@@ -33,6 +36,7 @@ abstract class CalendarAdjacencyPairs {
                      EventTypeAdjacencyPair.this);
             }
          });
+         */
       }
 
       public abstract AdjacencyPair nextState (CalendarEntryType type);
