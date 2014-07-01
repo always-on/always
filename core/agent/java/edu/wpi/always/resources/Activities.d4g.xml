@@ -122,7 +122,7 @@
   </d:agent>
 
   <d:agent id="_SkypeInterruption"
-           text="Please excuse the interruption, but you have a video call from {Packages.edu.wpi.always.cm.schemas.SkypeInterruptSchema.CALLER}.  Would you like to take the call now?">
+           text="Please excuse the interruption, but you have a video call from {Packages.edu.wpi.always.client.SkypeInterruptHandler.CALLER_NAME}.  Would you like to take the call now?">
     <d:user text="yes, let's take the call"
             eval="Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent()">
       <d:do task="UseSkype"/>

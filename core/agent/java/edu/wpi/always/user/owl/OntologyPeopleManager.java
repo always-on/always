@@ -84,6 +84,14 @@ public class OntologyPeopleManager implements PeopleManager {
    }
 
    @Override
+   public OntologyPerson getPersonFromSkype (String skype) {
+      if ( skype == null ) return null;
+      for (OntologyPerson person : getPeople(false))
+         if ( skype.equals(person.getSkypeNumber()) ) return person;
+      return null;
+   }
+   
+   @Override
    public OntologyPerson[] getPeople (boolean includeUser) {
       Set<OWLNamedIndividual> owlPeople = helper
             .getAllOfClass(OntologyPerson.PERSON_CLASS);

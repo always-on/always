@@ -20,6 +20,8 @@ public interface PeopleManager {
    Person addPerson (String name);
 
    Person getPerson (String name);
+   
+   Person getPersonFromSkype (String skype);
 
    Person[] getPeople (boolean includeUser);
 

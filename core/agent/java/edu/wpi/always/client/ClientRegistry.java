@@ -4,6 +4,7 @@ import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.reeti.*;
 import edu.wpi.always.cm.primitives.AudioFileRealizer;
+import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.disco.rt.util.ComponentRegistry;
 import org.picocontainer.*;
 
@@ -14,6 +15,9 @@ public class ClientRegistry implements ComponentRegistry {
       // NB: Realizers should not be cached, other components should
       container.as(Characteristics.CACHE).addComponent(new UIMessageDispatcherImpl(new TcpConnection(
             "localhost", 11000)));
+      container.getComponent(UIMessageDispatcher.class).registerReceiveHandler(
+            SkypeInterruptHandler.SKYPE_MESSAGE, 
+            new SkypeInterruptHandler(container.getComponent(PeopleManager.class)));
       container.addComponent(GazeRealizer.class);
       container.addComponent(FaceExpressionRealizer.class);
       container.addComponent(IdleBehaviorRealizer.class);

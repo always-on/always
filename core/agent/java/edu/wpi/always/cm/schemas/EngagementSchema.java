@@ -3,7 +3,7 @@ package edu.wpi.always.cm.schemas;
 import java.util.Arrays;
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
-import edu.wpi.always.client.ClientProxy;
+import edu.wpi.always.client.*;
 import edu.wpi.always.client.reeti.ReetiCommandSocketConnection;
 import edu.wpi.always.cm.CollaborationManager;
 import edu.wpi.always.cm.perceptors.*;
@@ -90,7 +90,6 @@ public class EngagementSchema extends SchemaBase {
                      Utils.lnprint(System.out, "Starting session...");
                      schemaManager.start(SessionSchema.class);
                      schemaManager.start(CalendarInterruptSchema.class);
-                     schemaManager.start(SkypeInterruptSchema.class);
                      started = true;
                   }
                   visible();
