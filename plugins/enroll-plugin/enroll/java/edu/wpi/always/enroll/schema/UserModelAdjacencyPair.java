@@ -27,6 +27,8 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
    }
 
    @Override
+   public void enter () {  EditPersonState.editingSelf = true;  }
+   @Override
    public AdjacencyPair success(String text) {
       if ( text.isEmpty() ) return new UserModelAdjacencyPair(getContext());
       UserName = text;

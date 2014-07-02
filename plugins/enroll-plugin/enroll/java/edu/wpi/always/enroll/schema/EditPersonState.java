@@ -17,7 +17,6 @@ public class EditPersonState extends EnrollAdjacencyPairs{
    public static String prompt;
    protected static String nameToUse;
    public static boolean editingSelf = false;
-   protected static Boolean firstTimeHere = true;
    
    public static class EditPersonAdjacencyPair extends
    AdjacencyPairBase<EnrollStateContext> { 
@@ -28,10 +27,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
          super(prompt, context, true);
          this.person = person;
          
-         if(firstTimeHere){
-	     nameToUse = editingSelf ? "your" : person.getName() + "'s"; 
-         }
-         firstTimeHere = false;
+         nameToUse = editingSelf ? "your" : person.getName() + "'s"; 
          
          choice("Edit Name", new DialogStateTransition() {
             @Override
