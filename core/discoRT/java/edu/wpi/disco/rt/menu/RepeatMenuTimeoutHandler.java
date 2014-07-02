@@ -22,6 +22,9 @@ public class RepeatMenuTimeoutHandler<C extends AdjacencyPair.Context> implement
       private final static Pattern pattern = Pattern.compile("[a-zA-Z0-9]"); 
    
       @Override
+      public void enter () {} // already in state, so don't do action again
+      
+      @Override
       public String getMessage () {
          String original = inner.getMessage();
          return( original == null || !pattern.matcher(original).find()
