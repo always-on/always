@@ -125,7 +125,7 @@ namespace Agent.Tcp
                 extension = menus;
             else
             {
-              if ( !twoCol ) menus.AddRange(extension);
+              if ( !twoCol && menus.Any() ) menus.AddRange(extension);
               _agent.ShowMenu(menus, twoCol);
             }
 

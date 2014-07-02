@@ -174,10 +174,12 @@ public class ClientProxy {
       }
    }
    
+   private final static Object[] empty = new Object[0];
+   
    public void showMenu (List<String> items, boolean twoColumn, boolean extension) {
-      if ( items != null && !items.isEmpty() )
+      if ( (items != null && !items.isEmpty()) || extension )
          Logger.logEvent(extension ? Logger.Event.MENU_EXT : Logger.Event.MENU,
-            items.toArray());
+            items == null ? empty : items.toArray());
       JsonArray menus = new JsonArray();
       if ( items != null ) for (String s : items) menus.add(new JsonPrimitive(s));
       JsonObject body = new JsonObject();
