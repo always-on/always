@@ -10,7 +10,6 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
    @Override
    public void enter () {
       EditPersonState.editingSelf = false;
-      ErrorCheckState.firstTimeHere = true;
       ErrorCheckState.resetErrorCheckingMainPrompt();
    }
    
@@ -50,6 +49,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
 
          @Override
          public AdjacencyPair run () {
+            EditPersonState.editingSelf = false;
             if(getContext().getPeopleManager().getPeople(false).length > 0)
                return new PeopleSelectEvent(context);
             return new ClarifyNoFriendsToEdit(context);

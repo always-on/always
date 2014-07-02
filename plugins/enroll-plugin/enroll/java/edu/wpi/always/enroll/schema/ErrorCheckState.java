@@ -15,7 +15,6 @@ import edu.wpi.disco.rt.menu.*;
 public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
 
    protected static String nameForLastState;
-   protected static Boolean firstTimeHere = true;
    protected static String mainPromptForCheckCorrection = 
          "Okay, here's what I have. Are there any mistakes?";
    protected static String nameToUse;
@@ -95,13 +94,8 @@ public abstract class ErrorCheckState extends EnrollAdjacencyPairs {
       @Override
       public void enter () {
          getContext().getEnrollUI().showCurrentEntry(person);
-         if(firstTimeHere){
-            nameToUse = EditPersonState.editingSelf ?
-               "your" : person.getName() + "'s";
-         }
-         nameForLastState = 
-               EditPersonState.editingSelf ? "you better" : person.getName();
-         firstTimeHere = false;
+         nameToUse = EditPersonState.editingSelf ? "your" : person.getName() + "'s";
+         nameForLastState = EditPersonState.editingSelf ? "you better" : person.getName();
          mainPromptForCheckCorrection = 
                "Is there anything else to correct?";
       }
