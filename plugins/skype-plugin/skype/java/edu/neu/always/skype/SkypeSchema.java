@@ -1,7 +1,12 @@
 package edu.neu.always.skype;
 
+import com.google.gson.JsonObject;
+
 import edu.wpi.always.*;
+import edu.wpi.always.client.Message;
+import edu.wpi.always.client.MessageHandler;
 import edu.wpi.always.client.SkypeInterruptHandler;
+import edu.wpi.always.client.UIMessageDispatcher;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -13,7 +18,6 @@ import edu.wpi.disco.rt.menu.*;
 public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Context> {
 
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.SKYPE;
-
    public enum Direction { INCOMING, OUTGOING }
    public enum Appointment { APPOINTMENT, NOT_APPOINTMENT }
    
@@ -42,8 +46,8 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
    
    public SkypeSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, ShoreFacePerceptor shore, Always always) {
-      super(new Test(shore),
+         MenuPerceptor menuPerceptor, ShoreFacePerceptor shore, UIMessageDispatcher dispatcher, Always always) {
+      super(new AcceptCall(shore,dispatcher),
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
             LOGGER_NAME);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
@@ -59,16 +63,27 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
    
    // to test camera release and restart
    
-   public static class Test extends MultithreadAdjacencyPair<AdjacencyPair.Context> {
+   public static class AcceptCall extends MultithreadAdjacencyPair<AdjacencyPair.Context> {
 
       private final ShoreFacePerceptor shore;
-      
-      public Test (ShoreFacePerceptor shore) {
-         super("I am taking the camera until you say ok", new AdjacencyPair.Context());
+      private final UIMessageDispatcher dispatcher;
+
+      public AcceptCall (ShoreFacePerceptor shore,final UIMessageDispatcher dispatcher) {
+         super("", new AdjacencyPair.Context());
          this.shore = shore;
-         choice("Ok", new DialogStateTransition() {
+         this.dispatcher = dispatcher;
+         dispatcher.registerReceiveHandler("callEnded", new MessageHandler() {
+             @Override
+             public void handleMessage (JsonObject body) {
+                 dispatcher.send(new Message("endCall"));
+                 getContext().getSchema().stop();
+             }
+          });
+         
+         choice("EndCall", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () { 
+               dispatcher.send(new Message("endCall"));
                getContext().getSchema().stop();
                return null;
             }
@@ -78,6 +93,11 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
       @Override
       public void enter () {
          if ( shore != null ) shore.stop();
+         dispatcher.send(new Message("acceptCall"));
+      }
+      
+      public void onCallEnd(){
+    	  
       }
    }
 }

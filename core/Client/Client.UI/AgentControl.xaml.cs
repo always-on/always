@@ -26,11 +26,12 @@ using System.Threading;
 //using RagClient.Agent.Flash;
 using System.Diagnostics;
 using UnityUserControl;
-
+using Microsoft.Win32;
+using Agent.Tcp;
 
 namespace Agent.UI
 {
-	public partial class AgentControl : System.Windows.Controls.UserControl, IAgentControl
+    public partial class AgentControl : System.Windows.Controls.UserControl, IAgentControl
 	{
         public enum AgentType { Unity, Reeti, Mirror };
 
@@ -41,6 +42,7 @@ namespace Agent.UI
         UnityUserControl.UnityUserControl agent;
 
         System.Windows.Forms.WebBrowser page;
+        public VideoCaller videoCaller;
 		public event EventHandler<ActionDoneEventArgs> ActionDone = delegate { };
         public event EventHandler LoadComplete;
         XmlDocument xmlMessage = new XmlDocument();
@@ -53,8 +55,6 @@ namespace Agent.UI
             Buttons = new NullChoiceButtons();
 
             InitializeComponent();
-
-            //InitPage();
 
             InitAgent();
 
@@ -102,15 +102,16 @@ namespace Agent.UI
 
         private void InitAgent()
         {
+            setWebBrowserOptions();
             agent = new UnityUserControl.UnityUserControl();
             agent.Dock = System.Windows.Forms.DockStyle.Fill;
+            agent.Location = new System.Drawing.Point(0, 0);
             agent.Init();
             InitPage();
             WFHost.Child = agent;
             agent.agentEvent += agentCallbackListener;
             agent.ttsEvent += ttsCallbackListener;
         }
-
         private void InitPage()
         {
             page = new System.Windows.Forms.WebBrowser();
@@ -120,11 +121,92 @@ namespace Agent.UI
             page.Name = "webBrowser";
             page.Size = new System.Drawing.Size(150, 150);
             agent.Controls.Add(page);
-//            WFHost.Child = agent;
+            //            WFHost.Child = agent;
             page.BringToFront();
             page.Visible = false;
             page.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.onPageLoad);
         }
+
+        //This code sets the webbrowser used for hangout/the agent to be set to a later version instead of the default (which is IE6)
+
+        private void setWebBrowserOptions()
+        {
+            var fileName = System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName);
+            SetBrowserFeatureControlKey("FEATURE_BROWSER_EMULATION", fileName, GetBrowserEmulationMode()); // Webpages containing standards-based !DOCTYPE directives are displayed in IE10 Standards mode.
+            SetBrowserFeatureControlKey("FEATURE_AJAX_CONNECTIONEVENTS", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_ENABLE_CLIPCHILDREN_OPTIMIZATION", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_MANAGE_SCRIPT_CIRCULAR_REFS", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_DOMSTORAGE ", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_GPU_RENDERING ", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_IVIEWOBJECTDRAW_DMLT9_WITH_GDI  ", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_DISABLE_LEGACY_COMPRESSION", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_LOCALMACHINE_LOCKDOWN", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_BLOCK_LMZ_OBJECT", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_BLOCK_LMZ_SCRIPT", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_DISABLE_NAVIGATION_SOUNDS", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_SCRIPTURL_MITIGATION", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_SPELLCHECKING", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_STATUS_BAR_THROTTLING", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_TABBED_BROWSING", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_VALIDATE_NAVIGATE_URL", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_WEBOC_DOCUMENT_ZOOM", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_WEBOC_POPUPMANAGEMENT", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_WEBOC_MOVESIZECHILD", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_ADDON_MANAGEMENT", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_WEBSOCKET", fileName, 1);
+            SetBrowserFeatureControlKey("FEATURE_WINDOW_RESTRICTIONS ", fileName, 0);
+            SetBrowserFeatureControlKey("FEATURE_XMLHTTP", fileName, 1);
+        }
+
+
+        private UInt32 GetBrowserEmulationMode()
+        {
+            //From http://stackoverflow.com/questions/18333459/c-sharp-webbrowser-ajax-call/20848398#20848398
+            int browserVersion = 11;
+            using (var ieKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer",
+                RegistryKeyPermissionCheck.ReadSubTree,
+                System.Security.AccessControl.RegistryRights.QueryValues))
+            {
+                var version = ieKey.GetValue("svcVersion");
+                if (null == version)
+                {
+                    version = ieKey.GetValue("Version");
+                    if (null == version)
+                        throw new ApplicationException("Microsoft Internet Explorer is required!");
+                }
+                int.TryParse(version.ToString().Split('.')[0], out browserVersion);
+            }
+
+            UInt32 mode = 10001; // Internet Explorer 10. Webpages containing standards-based !DOCTYPE directives are displayed in IE10 Standards mode. Default value for Internet Explorer 10.
+            switch (browserVersion)
+            {
+                case 7:
+                    mode = 7000; // Webpages containing standards-based !DOCTYPE directives are displayed in IE7 Standards mode. Default value for applications hosting the WebBrowser Control.
+                    break;
+                case 8:
+                    mode = 8000; // Webpages containing standards-based !DOCTYPE directives are displayed in IE8 mode. Default value for Internet Explorer 8
+                    break;
+                case 9:
+                    mode = 9000; // Internet Explorer 9. Webpages containing standards-based !DOCTYPE directives are displayed in IE9 mode. Default value for Internet Explorer 9.
+                    break;
+                default:
+                    // use IE10 mode by default
+                    break;
+            }
+
+            return mode;
+        }
+
+        private void SetBrowserFeatureControlKey(string feature, string appName, uint value)
+        {
+            using (var key = Registry.CurrentUser.CreateSubKey(
+                String.Concat(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\", feature),
+                RegistryKeyPermissionCheck.ReadWriteSubTree))
+            {
+                key.SetValue(appName, (UInt32)value, RegistryValueKind.DWord);
+            }
+        }
+        //End of browser emulation code
 
         private void onPageLoad(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
@@ -150,6 +232,33 @@ namespace Agent.UI
             Express(AgentFaceExpression.Smile);
             //ScheduleReturningToNormalExpression(mseconds);
         }
+
+        public void initVideoCaller(MessageDispatcherImpl dispatcher)
+        {
+            videoCaller = new VideoCaller(dispatcher);
+            videoCaller.addCaller(agent);
+            dispatcher.RegisterReceiveHandler("acceptCall", new MessageHandlerDelegateWrapper(m => acceptCall()));
+            dispatcher.RegisterReceiveHandler("endCall", new MessageHandlerDelegateWrapper(m => endCall()));
+        }
+
+        public void acceptCall()
+        {
+            agent.Invoke((MethodInvoker)delegate
+             {
+                 videoCaller.acceptCall();
+                 agent.webBrowser.Visible = false;
+             });
+        }
+
+        public void endCall()
+        {
+            agent.Invoke((MethodInvoker)delegate
+            {
+                agent.webBrowser.Visible = true;
+                videoCaller.endCall();
+            });
+        }
+
 
         public void ShowConcern(int mseconds)
         {
