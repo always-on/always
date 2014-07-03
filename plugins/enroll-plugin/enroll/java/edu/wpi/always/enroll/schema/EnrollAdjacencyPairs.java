@@ -735,8 +735,6 @@ public abstract class EnrollAdjacencyPairs{
       public AdjacencyPair success(String text) {
          getContext().hideKeyboard();
          spouse = getContext().getPeopleManager().getPerson(text);
-                 
-
          return new PersonContactAdjacencyPair(getContext());
       }
 
