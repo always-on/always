@@ -80,6 +80,8 @@ namespace AgentApp
 
 			var jsonAdapter = new AgentControlJsonAdapter(Agent, dispatcher);
 
+            Agent.initVideoCaller(dispatcher);
+
 			InitPluginManager(dispatcher);
 
 			listener.Start();
