@@ -13,6 +13,8 @@ public abstract class ClientPluginUtils {
    
    public static Boolean isPluginVisible () { return pluginVisible; }
    
+   public static void setPluginVisible (Boolean visible) { pluginVisible = visible; }
+   
    // keep track of visible plugin for interruptions
    private static String pluginName; 
    

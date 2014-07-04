@@ -279,6 +279,7 @@ public class Always {
       proxy.setScreenVisible(false);      
       proxy.showMenu(null, false, true); // must be first
       proxy.showMenu(null, false, false);
+      ClientPluginUtils.setPluginVisible(null); // force hide_plugin to be sent
       proxy.hidePlugin();
       proxy.setAgentVisible(false);
       // need to free resources held by engine which block exit
