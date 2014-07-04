@@ -2,6 +2,7 @@ package plugins;
 
 import edu.wpi.always.*;
 import edu.wpi.always.client.*;
+import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.user.people.PeopleManager;
 import edu.wpi.always.user.places.PlaceManager;
@@ -53,13 +54,15 @@ public class StorytellingSchema extends ScriptbuilderSchema {
 		 this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
 		 always.getUserModel().setProperty(StorytellingPlugin.PERFORMED, true);
 		 interruptible = false;
+		 EngagementPerception.setRecoveringEnabled(false);
 	}
 	
 	@Override
    public void dispose () { 
       super.dispose();
-      // this is here so it is run even if schema throws an error
+      // these are here so it is run even if schema throws an error
       if ( shore != null ) shore.start(); 
+      EngagementPerception.setRecoveringEnabled(true);
    }
 	
 }

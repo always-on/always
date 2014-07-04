@@ -2,6 +2,7 @@ package edu.neu.always.skype;
 
 import edu.wpi.always.*;
 import edu.wpi.always.client.SkypeInterruptHandler;
+import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
 import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -48,13 +49,16 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
             LOGGER_NAME);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
       always.getUserModel().setProperty(SkypePlugin.PERFORMED, true);
+      interruptible = false;
+      EngagementPerception.setRecoveringEnabled(false);
    }
    
    @Override
    public void dispose () { 
-      super.dispose();
-      // this is here so it is run even if schema throws an error
-      if ( shore != null ) shore.start(); 
+      super.dispose();      
+      // these are here so it is run even if schema throws an error
+      if ( shore != null ) shore.start();
+      EngagementPerception.setRecoveringEnabled(true);
    }
    
    // to test camera release and restart
