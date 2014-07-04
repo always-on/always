@@ -46,6 +46,14 @@ public class EngagementPerception extends Perception {
       return state == EngagementState.ENGAGED;
    }
 
+   private static boolean recoveringEnabled = true;
+   private static long lastRecoveringEnabled;
+   
+   public static void setRecoveringEnabled (boolean enabled) {
+      recoveringEnabled = enabled;
+      if ( enabled ) lastRecoveringEnabled = System.currentTimeMillis();
+   }
+   
    public enum EngagementState {
         
       IDLE {
@@ -103,7 +111,9 @@ public class EngagementPerception extends Perception {
             if ( (!lastFaceChange.isNear && lastFaceChange.timeSinceChange() > ENGAGED_NOT_NEAR_TIMEOUT)
                  && lastTouch.timeSinceChange() > ENGAGED_NO_TOUCH_TIMEOUT 
                  && timeInState > ENGAGED_NO_TOUCH_TIMEOUT 
-                 && !lastMovementChange.isMoving )
+                 && !lastMovementChange.isMoving && recoveringEnabled 
+                 && ( lastRecoveringEnabled == 0 || 
+                      (System.currentTimeMillis() - lastRecoveringEnabled) > ENGAGED_NO_TOUCH_TIMEOUT ) )
                return RECOVERING;
             return ENGAGED;
          }
