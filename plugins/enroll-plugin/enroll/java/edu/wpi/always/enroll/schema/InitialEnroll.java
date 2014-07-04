@@ -25,7 +25,7 @@ public class InitialEnroll extends EnrollAdjacencyPairImpl {
             }
          });
 
-      choice("Not now, maybe later", new DialogStateTransition() {
+      choice("Stop telling information", new DialogStateTransition() {
 
          @Override
          public AdjacencyPair run () {
