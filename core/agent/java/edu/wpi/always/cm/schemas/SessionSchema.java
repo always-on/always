@@ -48,6 +48,17 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       }
    }
    
+   public static void startInterruption () { 
+      if ( THIS != null && THIS.interrupted != null ) {
+         THIS.interrupted.stop();  // don't go back afterwards
+         try { // log stopped end now so time not double counted 
+            LoggerName = THIS.interrupted.getLoggerName(); 
+            Logger.logEvent(Logger.Event.END);
+            THIS.interruptedPlan.setComplete(true); // mark for stop(Plan)
+         } finally { LoggerName = null; }
+      }
+   }
+   
    @Override
    public boolean isInterruptible () {
       synchronized (interaction) {
@@ -60,11 +71,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
 
    public static String getInterruptedPluginName () {
-      return THIS == null ? null : THIS.pluginName;
-   }
-   
-   public static void stopCurrent () { 
-      if ( THIS != null && THIS.current != null ) THIS.current.stop(); 
+      return THIS == null ? null : THIS.interruptedPlugin;
    }
  
    /**
@@ -128,8 +135,10 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final Map<Plan,ActivitySchema> started = new HashMap<Plan,ActivitySchema>();
    
    private volatile ActivitySchema current; // currently running or null 
+   
    private volatile ActivitySchema interrupted; // interrupted activity or null
-   private volatile String pluginName; // interrupted client plugin or null
+   private volatile Plan interruptedPlan; // interrupted plan or null   
+   private volatile String interruptedPlugin; // interrupted client plugin or null
 
    private static Logger.Activity LoggerName;
    
@@ -216,12 +225,13 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          else if ( interrupt.equals("_SkypeInterruption") ) 
             Logger.logEvent(Logger.Event.INTERRUPTION, Interruption.SKYPE, SkypeInterruptHandler.CALLER_ID);
          else Utils.lnprint(System.out, "Interruption unknown for logger: "+interrupt);
-         interaction.push(new Plan(interaction.getDisco().getTaskClass(interrupt).newInstance()));
          interruptible = false; // don't interrupt interruption
          interruption = interrupt;
          interrupted = current;
+         interruptedPlan = interaction.getFocus(true); 
+         interruptedPlugin = ClientPluginUtils.getPluginName(); // before unyield hides
+         interaction.push(new Plan(interaction.getDisco().getTaskClass(interrupt).newInstance()));
          interrupt = null;
-         pluginName = ClientPluginUtils.getPluginName(); // before unyield hides
          stateMachine.setState(discoAdjacencyPair);
          if ( current == null ) discoAdjacencyPair.update();
          if ( interrupted != null ) unyield();
@@ -259,10 +269,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          if ( interrupted instanceof ActivityStateMachineSchema )
             // prevent shortened timeout
             ((ActivityStateMachineSchema<AdjacencyPair.Context>) interrupted).resetTimeout();
-         interrupted = null;
          interruption = null;
          interruptible = true;
-         pluginName = null;
+         interrupted = null;
+         interruptedPlan = null;
+         interruptedPlugin = null;
       }
       stateMachine.setSpecificityMetadata(SPECIFICITY-0.2);
       setNeedsFocusResource(false);
@@ -270,10 +281,12 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
    
    private void stop (Plan plan) {
-      Utils.lnprint(System.out, "Returning to Session...");
-      Logger.logEvent(Logger.Event.END);
-      plan.setComplete(true);
-      started.remove(plan.getGoal());
+      if ( !plan.isComplete() ) { // see startInterruption
+         Utils.lnprint(System.out, "Returning to Session...");
+         Logger.logEvent(Logger.Event.END);
+         plan.setComplete(true);
+      }
+      started.remove(plan);
       history(); // before update
       unyield();
    }
