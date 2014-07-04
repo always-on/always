@@ -51,6 +51,8 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
       always.getUserModel().setProperty(SkypePlugin.PERFORMED, true);
       interruptible = false;
       SessionSchema.stopCurrent(); // needed for interruption
+      // NB: Safer to move this to someplace where it is only called 
+      //     once the video connection is established!!!
       EngagementPerception.setRecoveringEnabled(false);
    }
    
