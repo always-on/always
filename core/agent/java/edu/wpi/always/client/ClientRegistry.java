@@ -12,12 +12,13 @@ public class ClientRegistry implements ComponentRegistry {
 
    @Override
    public void register (MutablePicoContainer container) {
-      // NB: Realizers should not be cached, other components should
+      // NB: Realizers should *not* be cached, other components should
       container.as(Characteristics.CACHE).addComponent(new UIMessageDispatcherImpl(new TcpConnection(
             "localhost", 11000)));
-      container.getComponent(UIMessageDispatcher.class).registerReceiveHandler(
+      UIMessageDispatcher dispatcher = container.getComponent(UIMessageDispatcher.class);
+      dispatcher.registerReceiveHandler(
             SkypeInterruptHandler.SKYPE_MESSAGE, 
-            new SkypeInterruptHandler(container.getComponent(PeopleManager.class)));
+            new SkypeInterruptHandler(dispatcher, container.getComponent(PeopleManager.class)));
       container.addComponent(GazeRealizer.class);
       container.addComponent(FaceExpressionRealizer.class);
       container.addComponent(IdleBehaviorRealizer.class);

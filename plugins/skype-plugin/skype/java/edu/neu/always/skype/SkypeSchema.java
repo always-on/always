@@ -4,7 +4,7 @@ import edu.wpi.always.*;
 import edu.wpi.always.client.SkypeInterruptHandler;
 import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
-import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
+import edu.wpi.always.cm.schemas.*;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
@@ -50,6 +50,7 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
       always.getUserModel().setProperty(SkypePlugin.PERFORMED, true);
       interruptible = false;
+      SessionSchema.stopCurrent(); // needed for interruption
       EngagementPerception.setRecoveringEnabled(false);
    }
    

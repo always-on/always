@@ -111,7 +111,7 @@ public class Logger {
          }
          if ( event == Event.END ) {
             if ( activity != current) {
-               Utils.lnprint(System.out, "WARNING! Unbalanced END for: "+current);
+               Utils.lnprint(System.out, "WARNING! Unbalanced logger activity END for: "+current);
                log(ObjectArrays.concat(new Object[] {current, event}, args, Object.class));
             } else {
                long duration = System.currentTimeMillis() - start;
