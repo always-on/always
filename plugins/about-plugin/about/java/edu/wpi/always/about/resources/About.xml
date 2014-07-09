@@ -1357,7 +1357,8 @@
          <step name="_d4e318_step" task="disco:Say"/>
          <binding slot="$_d4e317_step.text" value="&#34;No&#34;"/>
          <binding slot="$_d4e317_step.external" value="true"/>
-         <binding slot="$_d4e318_step.text" value="&#34;how disappointing!&#34;"/>
+         <binding slot="$_d4e318_step.text"
+                  value="&#34;&lt;EYEBROWS DIR=\&#34;UP\&#34;/&gt; Oh! How disappointing! &lt;EYEBROWS DIR=\&#34;DOWN\&#34;/&gt;&#34;"/>
          <binding slot="$_d4e318_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e319_subtasks">

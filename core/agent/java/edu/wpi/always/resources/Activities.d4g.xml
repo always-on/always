@@ -76,7 +76,10 @@
   </task>
 
   <task id="UseSkype">
-    <precondition> advanced(9, "USE_SKYPE") </precondition>
+    <precondition> 
+       Packages.edu.wpi.always.cm.schemas.SessionSchema.getInterruption() == "_SkypeInterruption" ? undefined :
+         advanced(9, "USE_SKYPE") 
+    </precondition>
   </task>
 
   <task id="SayGoodbye"/>
@@ -108,7 +111,7 @@
   <!-- following for interruptions -->
 
   <d:agent id="_CalendarInterruption"
-           text="Please excuse the interruption, but you have a calendar event in about twenty minutes.  Would you like to end this session now?"
+           text="Please excuse the interruption, but you have a calendar event in less than twenty minutes.  Would you like to end this session now?"
            eval="Packages.edu.wpi.always.calendar.CalendarClient.showToday()">
     <d:user text="yes, let's stop now"> 
       <d:agent text="ok, talk to you later">
@@ -121,14 +124,11 @@
             eval="Packages.edu.wpi.always.calendar.CalendarClient.hideToday()"/>
   </d:agent>
 
-  <d:agent id="_SkypeInterruption"
-           text="Please excuse the interruption, but you have a video call from {Packages.edu.wpi.always.client.SkypeInterruptHandler.CALLER_NAME}.  Would you like to take the call now?">
-    <d:user text="yes, let's take the call"
-            eval="Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent()">
-      <d:do task="UseSkype"/>
-    </d:user>   
-    <d:user text="no, not now"/>
-  </d:agent>
+  <task id="_SkypeInterruption">
+    <subtasks id="skypeInterruption">
+      <step name="skype" task="UseSkype" minOccurs="0"/>
+    </subtasks>
+  </task>
 
   <script init="true">
 

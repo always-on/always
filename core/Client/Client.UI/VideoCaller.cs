@@ -74,7 +74,8 @@ namespace Agent.UI
         {
             Console.WriteLine("participant has left");
             JObject body = new JObject();
-            _remote.Send("callEnded",body);
+            endCall();
+            //_remote.Send("callEnded",body);
         }
 
         public void onParticipantRequest()
@@ -108,7 +109,10 @@ namespace Agent.UI
         public void endCall()
         {
             page.Visible = false;
-            Console.WriteLine("TODO");
+            page.Navigate("");
+            page.Navigate("https://ragserver.ccs.neu.edu/hangoutTest/");
+            JObject body = new JObject();
+            _remote.Send("callEnded", body);
         }
 
     }

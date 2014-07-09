@@ -27,22 +27,38 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final CollaborationManager cm;
    private final DiscoRT.Interaction interaction;  
    
+   private volatile String interrupt; // set by other threads  
+   private String interruption; // currently processing
+   
+   public static String getInterruption () { 
+      return THIS == null ? null : THIS.interruption; 
+   }
+
    /**
     * Attempt to interrupt current session with given Disco task class name.  Returns
-    * false if interruption ignored.
+    * false iff interruption ignored.
     */
-   public static boolean interrupt (String interruption) {
+   public static boolean interrupt (String interrupt) {
       if ( THIS == null || !THIS.isInterruptible() ) {
-         Utils.lnprint(System.out,  "SessionSchema ignoring attempted interruption: "+interruption);
+         Utils.lnprint(System.out,  "SessionSchema ignoring attempted interruption: "+interrupt);
          return false;
       } else {
-         synchronized(THIS.interaction) { THIS.interruption = interruption; }
+         synchronized(THIS.interaction) { THIS.interrupt = interrupt; }
          return true;
       }
    }
    
-   private volatile String interruption; // set by other threads  
-
+   public static void startInterruption () { 
+      if ( THIS != null && THIS.interrupted != null ) {
+         THIS.interrupted.stop();  // don't go back afterwards
+         try { // log stopped end now so time not double counted 
+            LoggerName = THIS.interrupted.getLoggerName(); 
+            Logger.logEvent(Logger.Event.END);
+            THIS.interruptedPlan.setComplete(true); // mark for stop(Plan)
+         } finally { LoggerName = null; }
+      }
+   }
+   
    @Override
    public boolean isInterruptible () {
       synchronized (interaction) {
@@ -55,11 +71,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
 
    public static String getInterruptedPluginName () {
-      return THIS == null ? null : THIS.pluginName;
-   }
-   
-   public static void stopCurrent () { 
-      if ( THIS != null && THIS.current != null ) THIS.current.stop(); 
+      return THIS == null ? null : THIS.interruptedPlugin;
    }
  
    /**
@@ -72,10 +84,9 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    public SessionSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, ClientProxy proxy,
-         SchemaManager schemaManager, Always always, 
-         DiscoRT.Interaction interaction) {
-      super(new Toplevel(interaction), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
+         MenuPerceptor menuPerceptor, UIMessageDispatcher dispatcher, ClientProxy proxy,
+         SchemaManager schemaManager, Always always, DiscoRT.Interaction interaction) {
+      super(new Toplevel(interaction, dispatcher), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
             always, interaction, Logger.Activity.SESSION);
       THIS = this;
       this.proxy = proxy;
@@ -124,8 +135,10 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final Map<Plan,ActivitySchema> started = new HashMap<Plan,ActivitySchema>();
    
    private volatile ActivitySchema current; // currently running or null 
+   
    private volatile ActivitySchema interrupted; // interrupted activity or null
-   private volatile String pluginName; // interrupted client plugin or null
+   private volatile Plan interruptedPlan; // interrupted plan or null   
+   private volatile String interruptedPlugin; // interrupted client plugin or null
 
    private static Logger.Activity LoggerName;
    
@@ -201,22 +214,24 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       }
    }
    
-   private enum Interruption { CALENDAR, SKYPE }
+   private enum Interruption { CALENDAR, SKYPE }  // for logging
    
    private void interruptIf () {
-      if ( interruption != null ) {
+      if ( interrupt != null ) {
          Utils.lnprint(System.out, "Interrupting "+(current == null ? "session" : current)
-               +" for "+interruption);
-         if ( interruption.equals("_CalendarInterruption" ) )
+               +" for "+interrupt);
+         if ( interrupt.equals("_CalendarInterruption" ) )
             Logger.logEvent(Logger.Event.INTERRUPTION, Interruption.CALENDAR, CalendarInterruptSchema.ENTRY);
-         else if ( interruption.equals("_SkypeInterruption") ) 
+         else if ( interrupt.equals("_SkypeInterruption") ) 
             Logger.logEvent(Logger.Event.INTERRUPTION, Interruption.SKYPE, SkypeInterruptHandler.CALLER_ID);
-         else Utils.lnprint(System.out, "Interruption unknown for logger: "+interruption);
-         interaction.push(new Plan(interaction.getDisco().getTaskClass(interruption).newInstance()));
+         else Utils.lnprint(System.out, "Interruption unknown for logger: "+interrupt);
          interruptible = false; // don't interrupt interruption
-         interruption = null;
+         interruption = interrupt;
          interrupted = current;
-         pluginName = ClientPluginUtils.getPluginName(); // before unyield hides
+         interruptedPlan = interaction.getFocus(true); 
+         interruptedPlugin = ClientPluginUtils.getPluginName(); // before unyield hides
+         interaction.push(new Plan(interaction.getDisco().getTaskClass(interrupt).newInstance()));
+         interrupt = null;
          stateMachine.setState(discoAdjacencyPair);
          if ( current == null ) discoAdjacencyPair.update();
          if ( interrupted != null ) unyield();
@@ -254,9 +269,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          if ( interrupted instanceof ActivityStateMachineSchema )
             // prevent shortened timeout
             ((ActivityStateMachineSchema<AdjacencyPair.Context>) interrupted).resetTimeout();
-         interrupted = null;
+         interruption = null;
          interruptible = true;
-         pluginName = null;
+         interrupted = null;
+         interruptedPlan = null;
+         interruptedPlugin = null;
       }
       stateMachine.setSpecificityMetadata(SPECIFICITY-0.2);
       setNeedsFocusResource(false);
@@ -264,10 +281,12 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
    
    private void stop (Plan plan) {
-      Utils.lnprint(System.out, "Returning to Session...");
-      Logger.logEvent(Logger.Event.END);
-      plan.setComplete(true);
-      started.remove(plan.getGoal());
+      if ( !plan.isComplete() ) { // see startInterruption
+         Utils.lnprint(System.out, "Returning to Session...");
+         Logger.logEvent(Logger.Event.END);
+         plan.setComplete(true);
+      }
+      started.remove(plan);
       history(); // before update
       unyield();
    }
@@ -286,8 +305,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    private static class Toplevel extends DiscoAdjacencyPair {
       
-      public Toplevel (DiscoRT.Interaction interaction) {
+      private final UIMessageDispatcher dispatcher;
+      
+      public Toplevel (DiscoRT.Interaction interaction, UIMessageDispatcher dispatcher) {
          super(interaction);
+         this.dispatcher = dispatcher;
       }
       
       @Override
@@ -321,8 +343,14 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                Task should = ((Propose.Should) propose).getGoal();
                if ( should != null ) {
                   Logger.Activity loggerName = Plugin.getLoggerName(should.getType()); 
-                  if ( loggerName != null ) Logger.logActivity(loggerName, 
-                        utterance instanceof Accept ? Logger.Event.ACCEPTED : Logger.Event.REJECTED);
+                  if ( loggerName != null ) { 
+                     Logger.Event event = utterance instanceof Accept ? Logger.Event.ACCEPTED : Logger.Event.REJECTED;
+                     Logger.logActivity(loggerName, event); 
+                     if ( loggerName == Logger.Activity.SKYPE && event == Logger.Event.REJECTED ) {
+                        // TODO: uncomment line below when client can handle this message (otherwise crashes client)
+                        // dispatcher.send(Message.builder(SkypeInterruptHandler.SKYPE_REJECTED_MESSAGE).build());
+                     }
+                  }
                }
             }
          }
