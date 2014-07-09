@@ -25,6 +25,18 @@
 <comments>
 
 	<agent>
+		<comment competitiveness='0.8' tags="brag" gameType="board" gameState="agentWon">
+			<content>I just let you win, you know</content>
+			<response>Oh really? Sure</response>
+			<response>Of course</response>
+			<response>Well that calls for a rematch</response>
+		</comment>
+		<comment competitiveness='0.1' tags="agentWon/compliment" gameType="board" gameState="agentWon">
+			<content>I won!  That doesn't happen too often!</content>
+            <response>Yes, but you did well this time</response>
+			<response>Congrats!</response>
+			<response>We should try again</response>
+		</comment>
 		<comment competitiveness='0.3' tags="agentCrown/compliment" gameType="board" gameName="checkers" madeOn="agent">
 			<content>Kinged! Yes!</content>
 			<response>Do not be so sure!</response>
@@ -136,6 +148,12 @@
 			<response>Well, I am happy for you</response>
 			<response>Not for long</response>
 			<response>I'll get you for that!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanCapture" gameType="board" gameName="checkers" madeOn="human">
+			<content>I just got one of your pieces!</content>
+			<response>So I see</response>
+			<response>Yes but I'll get one of yours!</response>
+			<response>That was just luck!</response>
 		</comment>
 	</human>
 	

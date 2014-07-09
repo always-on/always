@@ -545,7 +545,7 @@
           <agent text="tell me the next time we update your calendar." />
         </user>
         <user text="No" >
-          <agent text="how disappointing!" />
+          <agent text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Oh! How disappointing! &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;" />
         </user>
         <user text="Maybe" >
           <agent text="Remind me the next time we work on your calendar" />

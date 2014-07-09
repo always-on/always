@@ -239,6 +239,7 @@ namespace Agent.UI
             videoCaller.addCaller(agent);
             dispatcher.RegisterReceiveHandler("acceptCall", new MessageHandlerDelegateWrapper(m => acceptCall()));
             dispatcher.RegisterReceiveHandler("endCall", new MessageHandlerDelegateWrapper(m => endCall()));
+            dispatcher.RegisterReceiveHandler("videoCallRejected", new MessageHandlerDelegateWrapper(m => endCall()));
         }
 
         public void acceptCall()
@@ -259,6 +260,14 @@ namespace Agent.UI
             });
         }
 
+        public void rejectCall()
+        {
+            agent.Invoke((MethodInvoker)delegate
+            {
+                agent.webBrowser.Visible = true;
+                videoCaller.rejectCall();
+            });
+        }
 
         public void ShowConcern(int mseconds)
         {

@@ -7,19 +7,10 @@
          <step name="__CalendarInterruption_step" task="disco:Say$Eval"/>
          <step name="__CalendarInterruption_ref" task="__CalendarInterruption_tree"/>
          <binding slot="$__CalendarInterruption_step.text"
-                  value="&#34;Please excuse the interruption, but you have a calendar event in about twenty minutes.  Would you like to end this session now?&#34;"/>
+                  value="&#34;Please excuse the interruption, but you have a calendar event in less than twenty minutes.  Would you like to end this session now?&#34;"/>
          <binding slot="$__CalendarInterruption_step.external" value="false"/>
          <binding slot="$__CalendarInterruption_step.eval"
                   value="&#34;Packages.edu.wpi.always.calendar.CalendarClient.showToday()&#34;"/>
-      </subtasks>
-   </task>
-   <task id="_SkypeInterruption">
-      <subtasks id="__SkypeInterruption_subtasks">
-         <step name="__SkypeInterruption_step" task="disco:Say$Expression"/>
-         <step name="__SkypeInterruption_ref" task="__SkypeInterruption_tree"/>
-         <binding slot="$__SkypeInterruption_step.text"
-                  value="&#34;\&#34;Please excuse the interruption, but you have a video call from \&#34;+(Packages.edu.wpi.always.client.SkypeInterruptHandler.CALLER_NAME)+\&#34;.  Would you like to take the call now?\&#34;&#34;"/>
-         <binding slot="$__SkypeInterruption_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="__CalendarInterruption_tree">
@@ -42,21 +33,6 @@
          <binding slot="$_d4e62_step.external" value="true"/>
          <binding slot="$_d4e62_step.eval"
                   value="&#34;Packages.edu.wpi.always.calendar.CalendarClient.hideToday()&#34;"/>
-      </subtasks>
-   </task>
-   <task id="__SkypeInterruption_tree">
-      <subtasks id="_d4e64_subtasks">
-         <step name="_d4e64_step" task="disco:Say$Eval"/>
-         <step name="_d4e65_step" task="UseSkype"/>
-         <binding slot="$_d4e64_step.text" value="&#34;yes, let's take the call&#34;"/>
-         <binding slot="$_d4e64_step.external" value="true"/>
-         <binding slot="$_d4e64_step.eval"
-                  value="&#34;Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent()&#34;"/>
-      </subtasks>
-      <subtasks id="_d4e66_subtasks">
-         <step name="_d4e66_step" task="disco:Say"/>
-         <binding slot="$_d4e66_step.text" value="&#34;no, not now&#34;"/>
-         <binding slot="$_d4e66_step.external" value="true"/>
       </subtasks>
    </task>
    <task id="GreetUser"/>
@@ -105,7 +81,10 @@
       <precondition> advanced(8, "TELL_STORY") </precondition>
    </task>
    <task id="UseSkype">
-      <precondition> advanced(9, "USE_SKYPE") </precondition>
+      <precondition> 
+       Packages.edu.wpi.always.cm.schemas.SessionSchema.getInterruption() == "_SkypeInterruption" ? undefined :
+         advanced(9, "USE_SKYPE") 
+    </precondition>
    </task>
    <task id="SayGoodbye"/>
    <task id="_CalendarImminent">
@@ -126,6 +105,11 @@
          <step name="do" task="ExplainSelf"/>
          <binding slot="$say.text"
                   value="'you can always stop when you have heard enough and listen to more later'"/>
+      </subtasks>
+   </task>
+   <task id="_SkypeInterruption">
+      <subtasks id="skypeInterruption">
+         <step name="skype" task="UseSkype" minOccurs="0"/>
       </subtasks>
    </task>
    <script init="true">

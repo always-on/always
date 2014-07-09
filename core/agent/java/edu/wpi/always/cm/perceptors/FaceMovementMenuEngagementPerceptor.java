@@ -28,7 +28,7 @@ public class FaceMovementMenuEngagementPerceptor
    }
 
    private final Object stateLock = new Object();
-
+   
    @Override
    public void run () {
       synchronized (stateLock) {
@@ -63,15 +63,6 @@ public class FaceMovementMenuEngagementPerceptor
                lastFaceChange, lastTouchChange, hadTouch,
                System.currentTimeMillis() - lastStateChangeTime);
          if ( nextState != currentState ) setState(nextState);
-      }
-   }
-
-   public void setEngaged (boolean engaged) {
-      synchronized (stateLock) {
-         if ( engaged )
-            setState(EngagementState.ENGAGED);
-         else
-            setState(EngagementState.IDLE);
       }
    }
 

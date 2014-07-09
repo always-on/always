@@ -7,8 +7,9 @@ import edu.wpi.always.client.Message;
 import edu.wpi.always.client.MessageHandler;
 import edu.wpi.always.client.SkypeInterruptHandler;
 import edu.wpi.always.client.UIMessageDispatcher;
+import edu.wpi.always.cm.perceptors.EngagementPerception;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
-import edu.wpi.always.cm.schemas.ActivityStateMachineSchema;
+import edu.wpi.always.cm.schemas.*;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
@@ -52,13 +53,19 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
             LOGGER_NAME);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
       always.getUserModel().setProperty(SkypePlugin.PERFORMED, true);
+      interruptible = false;
+      SessionSchema.startInterruption();
+      // NB: Safer to move this to someplace where it is only called 
+      //     once the video connection is established!!!
+      EngagementPerception.setRecoveringEnabled(false);
    }
    
    @Override
    public void dispose () { 
-      super.dispose();
-      // this is here so it is run even if schema throws an error
-      if ( shore != null ) shore.start(); 
+      super.dispose();      
+      // these are here so it is run even if schema throws an error
+      if ( shore != null ) shore.start();
+      EngagementPerception.setRecoveringEnabled(true);
    }
    
    // to test camera release and restart
@@ -75,7 +82,7 @@ public class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Contex
          dispatcher.registerReceiveHandler("callEnded", new MessageHandler() {
              @Override
              public void handleMessage (JsonObject body) {
-                 dispatcher.send(new Message("endCall"));
+                 //dispatcher.send(new Message("endCall"));
                  getContext().getSchema().stop();
              }
           });
