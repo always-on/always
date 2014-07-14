@@ -74,6 +74,7 @@
     <Compile Include="ReetiTranslation.cs" />
     <Compile Include="SoundsLikeExtensions.cs" />
     <Compile Include="SpeechManagerHelper.cs" />
+    <Compile Include="VideoCaller.cs" />
     <Page Include="AgentControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
