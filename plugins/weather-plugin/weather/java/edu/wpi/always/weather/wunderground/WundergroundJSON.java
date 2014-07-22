@@ -61,8 +61,12 @@ public class WundergroundJSON {
       // friends
       friendsCities = new HashMap<String, CurrentWeather>();
       for (Map.Entry<String, String> entry : FRIENDS_ZIP_MAP.entrySet()) {
-         friendsCities.put(entry.getKey(),
-               new WundergroundCurrentWeather(entry.getValue()));
+         try { friendsCities.put(entry.getKey(),
+                  new WundergroundCurrentWeather(entry.getValue()));
+         } catch (Exception e) { // some cities not listed
+            System.err.println("Error getting weather for: "+entry.getValue());
+            e.printStackTrace();
+         }
       }
    }
 
