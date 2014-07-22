@@ -260,7 +260,7 @@
     <user text="Really? Tell me more">
       <agent text="You can talk to your family and friends and see them as you talk. It is like a phone and a TV combined into one!">
         <user text="Tell me more">
-          <agent text="I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk.  I'll remind you before the call">
+          <agent text="I will set up the calls for you and tell you when someone is calling.  All you have to do is give me an email address for the person you want to reach by video calls.">
             <user text="Ok, I definitely want to try that" />
             <user text="Gee, what if my family doesn't have a computer?">
               <agent text=" &lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, if anyone does, you can try it &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
