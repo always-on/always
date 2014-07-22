@@ -273,14 +273,14 @@
    <task id="_d4e74_tree">
       <subtasks id="_d4e75_subtasks">
          <step name="_d4e75_step" task="disco:Say"/>
-         <step name="_d4e76_step" task="disco:Say"/>
+         <step name="_d4e76_step" task="disco:Say$Expression"/>
          <step name="_d4e77_step" task="disco:Say"/>
          <step name="_d4e78_step" task="disco:Say"/>
          <step name="_d4e78_ref" task="_d4e78_tree"/>
          <binding slot="$_d4e75_step.text" value="&#34;Yes&#34;"/>
          <binding slot="$_d4e75_step.external" value="true"/>
          <binding slot="$_d4e76_step.text"
-                  value="&#34;Ok, then you can temporarily change their zip code using the enter information option on the main menu.&#34;"/>
+                  value="&#34;\&#34;Ok, then you can temporarily change \&#34;+(pronounPossessive)+\&#34; zip code. To change their zip code, choose the activity for introducing people and then choose the edit option.\&#34;&#34;"/>
          <binding slot="$_d4e76_step.external" value="false"/>
          <binding slot="$_d4e77_step.text" value="&#34;Thanks.&#34;"/>
          <binding slot="$_d4e77_step.external" value="true"/>

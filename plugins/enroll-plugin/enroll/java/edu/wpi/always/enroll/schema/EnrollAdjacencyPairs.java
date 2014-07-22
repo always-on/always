@@ -777,7 +777,7 @@ public abstract class EnrollAdjacencyPairs{
    KeyboardAdjacencyPair<EnrollStateContext> {
 
       public SkypeNameAdjacencyPair(final EnrollStateContext context) {
-         super("What is " + name + "'s video call name ?", "Enter " + name + "'s video call name:", 
+         super("What is " + name + "'s email address for video calls ?", "Enter " + name + "'s email address for video calls:", 
                context, context.getKeyboard());
 
 	 choice("I do not know", new DialogStateTransition() {

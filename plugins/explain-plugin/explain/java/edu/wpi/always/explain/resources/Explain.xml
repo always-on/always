@@ -511,7 +511,7 @@
          <binding slot="$_d4e117_step.text" value="&#34;Tell me more&#34;"/>
          <binding slot="$_d4e117_step.external" value="true"/>
          <binding slot="$_d4e118_step.text"
-                  value="&#34;I will set up the calls for you.  I also can keep track of when you and a friend or family member schedule a time to talk.  I'll remind you before the call&#34;"/>
+                  value="&#34;I will set up the calls for you and tell you when someone is calling.  All you have to do is give me an email address for the person you want to reach by video calls.&#34;"/>
          <binding slot="$_d4e118_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e125_subtasks">

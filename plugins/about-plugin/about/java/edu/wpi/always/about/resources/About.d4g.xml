@@ -147,7 +147,7 @@
 	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; oh really, where?  Want me to keep track of the weather where they're going? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" 
                  eval="famFriend.setAboutComment('was going on vacation')">
 	    <user text="Yes">
-          <agent text="Ok, then you can temporarily change their zip code using the enter information option on the main menu.">
+          <agent text="Ok, then you can temporarily change {pronounPossessive} zip code. To change their zip code, choose the activity for introducing people and then choose the edit option.">
             <user text="Thanks.">
               <agent text="Do you wish you could go somewhere special?" >
                 <user text="No, I don't like to travel"/>

@@ -746,8 +746,8 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeSkypeAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("What is " + nameToUse + " the video call name?", 
-               "Enter " + nameToUse +" video call name:",  context, context.getKeyboard());
+         super("What is " + nameToUse + " email address for video calls?", 
+               "Enter " + nameToUse +" email address for video calls:",  context, context.getKeyboard());
          this.person = person;
       }
 
