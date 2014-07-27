@@ -165,10 +165,9 @@
 
 ---------------------------------------------------------
 
-<DATETIME>,SKYPE,<DIRECTION>,<APPOINTMENT>,<DURATION>,<CALLER>
+<DATETIME>,SKYPE,<DIRECTION>,<DURATION>,<CALLER>
 
 * <DIRECTION> = INCOMING or OUTGOING
-* <APPOINTMENT> = APPOINTMENT or NOT_APPOINTMENT
 * <CALLER> = "..." (Skype name)
 
 ---------------------------------------------------------

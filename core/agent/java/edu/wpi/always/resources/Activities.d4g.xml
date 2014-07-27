@@ -75,11 +75,8 @@
     <precondition> advanced(8, "TELL_STORY") </precondition>
   </task>
 
-  <task id="UseSkype">
-    <precondition> 
-       Packages.edu.wpi.always.cm.schemas.SessionSchema.getInterruption() == "_SkypeInterruption" ? undefined :
-         advanced(9, "USE_SKYPE") 
-    </precondition>
+  <task id="UseSkypeOutgoing">
+    <precondition> advanced(9, "USE_SKYPE") </precondition>
   </task>
 
   <task id="SayGoodbye"/>
@@ -126,10 +123,12 @@
 
   <task id="_SkypeInterruption">
     <subtasks id="skypeInterruption">
-      <step name="skype" task="UseSkype" minOccurs="0"/>
+      <step name="skype" task="UseSkypeIncoming" minOccurs="0"/>
     </subtasks>
   </task>
 
+  <task id="UseSkypeIncoming"/>
+  
   <script init="true">
 
     /*

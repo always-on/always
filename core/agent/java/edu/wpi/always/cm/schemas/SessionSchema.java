@@ -27,8 +27,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final CollaborationManager cm;
    private final DiscoRT.Interaction interaction;  
    
-   private volatile String interrupt; // set by other threads  
-   private String interruption; // currently processing
+   // static so can be set before schema running
+   // volatile because set by other threads  
+   public static volatile String interrupt;
+   
+   private String interruption; // currently being processing
    
    public static String getInterruption () { 
       return THIS == null ? null : THIS.interruption; 
@@ -39,13 +42,15 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
     * false iff interruption ignored.
     */
    public static boolean interrupt (String interrupt) {
-      if ( THIS == null || !THIS.isInterruptible() ) {
-         Utils.lnprint(System.out,  "SessionSchema ignoring attempted interruption: "+interrupt);
-         return false;
-      } else {
-         synchronized(THIS.interaction) { THIS.interrupt = interrupt; }
-         return true;
-      }
+      if ( THIS != null ) {
+         if ( THIS.isInterruptible() ) 
+            synchronized(THIS.interaction) { SessionSchema.interrupt = interrupt; }   
+         else { 
+            Utils.lnprint(System.out, "SessionSchema ignoring attempted interruption: "+interrupt);
+            return false;
+         }
+      } else SessionSchema.interrupt = interrupt; // see EngagementPerception
+      return true;
    }
    
    public static void startInterruption () { 
@@ -95,6 +100,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       container = always.getContainer();
       cm = container.getComponent(CollaborationManager.class);
       stop = new Stop(interaction);
+      // wait until THIS set so that another session schema not started!
+      schemaManager.start(CalendarInterruptSchema.class);
       try {
          if ( DATE == null ) DATE = new Date();
          ((TopsPlugin) ((Agenda) interaction.getExternal().getAgenda()).getPlugin(TopsPlugin.class))
@@ -192,7 +199,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                }
             }
             Disco disco = interaction.getDisco();
-            if ( disco.getProperty(disco.getTop(plan).getGoal().getType().getPropertyId()+"@interruption") == null ) 
+            if ( !disco.getSegment().isInterruption() && 
+                  disco.getProperty(disco.getTop(plan).getGoal().getType().getPropertyId()+"@interruption") == null ) 
                interruptible = true;
          } else { // plan == null, i.e., session plan exhausted (at toplevel)
             current = null;
@@ -206,7 +214,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       //    -session plan exhausted
       interruptIf();
       if ( current != null && current.isSelfStop() ) proposeNothing();
-      else propose(stateMachine);
+      else propose(stateMachine); 
       if ( EngagementSchema.EXIT ) {
          // hold focus so interrupted schema doesn't talk before exit
          propose(Behavior.newInstance(new MenuBehavior(Collections.singletonList(" "))).addFocusResource(), 
@@ -218,6 +226,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    private void interruptIf () {
       if ( interrupt != null ) {
+         interruptible = false; // don't interrupt interruption
          Utils.lnprint(System.out, "Interrupting "+(current == null ? "session" : current)
                +" for "+interrupt);
          if ( interrupt.equals("_CalendarInterruption" ) )
@@ -225,7 +234,6 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          else if ( interrupt.equals("_SkypeInterruption") ) 
             Logger.logEvent(Logger.Event.INTERRUPTION, Interruption.SKYPE, SkypeInterruptHandler.CALLER_ID);
          else Utils.lnprint(System.out, "Interruption unknown for logger: "+interrupt);
-         interruptible = false; // don't interrupt interruption
          interruption = interrupt;
          interrupted = current;
          interruptedPlan = interaction.getFocus(true); 
@@ -292,13 +300,13 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
    
    private void unyield () {
+      current = null; // before menu for logging
       proxy.showMenu(null, false, true); // clear extension menu
       proxy.hidePlugin();
       discoAdjacencyPair.update();
       stateMachine.setExtension(false);
       stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
       setNeedsFocusResource(true);
-      current = null;
    }
    
    public static final String TOPLEVEL = "What would you like to do together?";

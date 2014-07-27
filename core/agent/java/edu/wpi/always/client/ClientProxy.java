@@ -15,7 +15,7 @@ import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.ClientPluginUtils.InstanceReuseMode;
 import edu.wpi.always.client.reeti.*;
-import edu.wpi.always.cm.schemas.SessionSchema;
+import edu.wpi.always.cm.schemas.*;
 import edu.wpi.disco.rt.util.Utils;
 
 public class ClientProxy {
@@ -177,7 +177,7 @@ public class ClientProxy {
    private final static Object[] empty = new Object[0];
    
    public void showMenu (List<String> items, boolean twoColumn, boolean extension) {
-      if ( (items != null && !items.isEmpty()) || extension )
+      if ( !EngagementSchema.EXIT && (items != null && !items.isEmpty()) || extension )
          Logger.logEvent(extension ? Logger.Event.MENU_EXT : Logger.Event.MENU,
             items == null ? empty : items.toArray());
       JsonArray menus = new JsonArray();

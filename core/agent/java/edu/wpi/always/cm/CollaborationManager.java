@@ -119,7 +119,12 @@ public class CollaborationManager extends DiscoRT {
       } else 
          for (TaskClass top : activities.getTaskClasses()) {
             if ( !top.isTop() ) continue;
-            Plugin instance = Plugin.getPlugin(top, container);
+            plugin = Plugin.getPlugin(top);
+            // check for plugin with multiple activities
+            if ( Plugin.getPlugins().contains(plugin) ) continue;
+            Plugin.getPlugins().add(plugin);
+            parent.as(Characteristics.CACHE).addComponent(plugin);
+            Plugin instance = parent.getComponent(plugin);
             for (Activity a : instance.getActivities(0)) // not using closeness value
                for (Registry r : instance.getRegistries(a)) addRegistry(r);
             Utils.lnprint(System.out, "Loaded plugin: "+instance);
