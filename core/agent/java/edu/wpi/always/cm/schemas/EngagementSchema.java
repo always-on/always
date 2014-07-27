@@ -32,7 +32,7 @@ public class EngagementSchema extends SchemaBase {
    }
 
    private EngagementState state, lastState;
-
+   
    private boolean started; // session started
    
    // needs to have higher priority than session schema
@@ -59,12 +59,13 @@ public class EngagementSchema extends SchemaBase {
             switch (state = (EXIT ? EngagementState.IDLE : engagementPerception.getState())) {
                case IDLE:
                   if ( EXIT || lastState == EngagementState.RECOVERING ) {
-                     if ( EXIT && lastState != EngagementState.RECOVERING )
+                     if ( EXIT && lastState != state && lastState != EngagementState.RECOVERING
+                           && lastState != EngagementState.ENGAGED )
                         Logger.THIS.logEngagement(lastState, state);
                      if ( reeti != null ) reeti.reboot(); 
-                     Always.exit(0); 
+                     Always.exit(0);
                   } 
-                  if ( lastState != EngagementState.IDLE ) { 
+                  if ( !EXIT && lastState != EngagementState.IDLE ) { 
                      proxy.setAgentVisible(false);
                      propose(HELLO, META);
                   }
@@ -89,7 +90,6 @@ public class EngagementSchema extends SchemaBase {
                   if ( !started ) { 
                      Utils.lnprint(System.out, "Starting session...");
                      schemaManager.start(SessionSchema.class);
-                     schemaManager.start(CalendarInterruptSchema.class);
                      started = true;
                   }
                   visible();
@@ -101,7 +101,7 @@ public class EngagementSchema extends SchemaBase {
                         new MenuBehavior(Arrays.asList("Yes, I'm here"))), META);
                   break;
             }
-            lastState = engagementPerception.getState();
+            lastState = state;
          }
       } catch (Exception e) {
          e.printStackTrace();

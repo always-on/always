@@ -85,10 +85,10 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       }
    }
 
+   @Override
    public synchronized void start () { start(null); }
 
-   abstract protected void startEngine (Object start);
-
+   @Override
    public synchronized void stop () { // called on schema thread
       if ( running ) {
          latest = null;
@@ -97,6 +97,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       }
    }
 
+   abstract protected void startEngine (Object start);
    abstract protected void stopEngine (); 
 
    public static class Agent extends ShoreFacePerceptor {

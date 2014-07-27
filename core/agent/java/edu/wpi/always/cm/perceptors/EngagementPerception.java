@@ -5,6 +5,7 @@ import edu.wpi.always.Always;
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.FaceTransition;
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.MovementTransition;
 import edu.wpi.always.cm.perceptors.FaceMovementMenuEngagementPerceptor.TouchTransition;
+import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.always.user.UserUtils;
 import edu.wpi.disco.rt.perceptor.Perception;
 
@@ -62,7 +63,7 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
-            if ( hadTouch ) return ENGAGED;
+            if ( hadTouch || SessionSchema.interrupt != null ) return ENGAGED;
             if ( Always.isLogin() || UserUtils.isNight() ) return IDLE; // user must touch Hello
             if ( lastFaceChange.isNear ) return INITIATION;
             if ( lastMovementChange.isMoving ) return ATTENTION;
@@ -77,7 +78,7 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
-            if ( hadTouch ) return ENGAGED;
+            if ( hadTouch || SessionSchema.interrupt != null ) return ENGAGED;
             if ( lastFaceChange.isNear ) return INITIATION;
             if ( timeInState > ATTENTION_TIME 
                  && !lastFaceChange.isFace && lastFaceChange.timeSinceChange() > ATTENTION_NO_FACE_TIMEOUT
@@ -94,7 +95,7 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
-            if ( hadTouch ) return ENGAGED;
+            if ( hadTouch || SessionSchema.interrupt != null ) return ENGAGED;
             if ( timeInState > INITIATION_TIME
                  && !lastFaceChange.isNear && lastFaceChange.timeSinceChange() > INITIATION_NOT_NEAR_TIMEOUT )
                return IDLE;
@@ -107,7 +108,7 @@ public class EngagementPerception extends Perception {
          EngagementState nextState (MovementTransition lastMovementChange,
                FaceTransition lastFaceChange, TouchTransition lastTouch, 
                boolean hadTouch, long timeInState) {
-            if ( hadTouch ) return ENGAGED;
+            if ( hadTouch || SessionSchema.interrupt != null ) return ENGAGED;
             if ( (!lastFaceChange.isNear && lastFaceChange.timeSinceChange() > ENGAGED_NOT_NEAR_TIMEOUT)
                  && lastTouch.timeSinceChange() > ENGAGED_NO_TOUCH_TIMEOUT 
                  && timeInState > ENGAGED_NO_TOUCH_TIMEOUT 

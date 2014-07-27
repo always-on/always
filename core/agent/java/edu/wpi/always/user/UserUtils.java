@@ -10,6 +10,7 @@ import edu.wpi.always.user.places.Place;
 import edu.wpi.cetask.*;
 import org.joda.time.*;
 import org.picocontainer.BindKey;
+import java.awt.Toolkit;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -47,7 +48,7 @@ public abstract class UserUtils {
          if ( last != null ) USER_FILE = last.getName().toString();
       }
       Always always = new Always(true, true);
-      // to get plugin classes 
+      // to force loading of plugin classes 
       for (TaskClass task : new TaskEngine().load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
          Plugin.getPlugin(task);
       UserModel model = always.getUserModel();
@@ -190,6 +191,10 @@ public abstract class UserUtils {
       }
       return result;
    }
+   
+   public static String getPronoun (Person person) {
+      return person.getGender() == Person.Gender.Male ? "he" : "she";
+   }
 
    public static boolean isValidDayOfMonth (int month, int day){
       boolean result = true;
@@ -214,5 +219,13 @@ public abstract class UserUtils {
       return result;
    }
 
+   public static void beeps () {
+      try {
+         Toolkit.getDefaultToolkit().beep();
+         Thread.sleep(1000);
+         Toolkit.getDefaultToolkit().beep();
+      } catch (InterruptedException e) {}
+   }
+   
    private UserUtils () {}
 }

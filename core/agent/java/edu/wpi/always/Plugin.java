@@ -356,7 +356,8 @@ public abstract class Plugin {
 
    public static Plugin getPlugin (TaskClass task, MutablePicoContainer container) {
       Class<? extends Plugin> plugin = getPlugin(task);
-      Plugin instance = (Plugin) container.getComponent(plugin);  
+      if ( !plugins.contains(plugin) ) plugins.add(plugin);
+      Plugin instance = (Plugin) container.as(Characteristics.CACHE).getComponent(plugin);  
       if ( instance != null ) return instance;
       container.as(Characteristics.CACHE).addComponent(plugin);
       return (Plugin) container.getComponent(plugin);  
@@ -370,7 +371,6 @@ public abstract class Plugin {
       String plugin = task.getEngine().getProperty(getActivity(task)+"@plugin");
       try { 
          Class<? extends Plugin> cls = (Class<? extends Plugin>) Class.forName(plugin);
-         if ( !plugins.contains(cls) ) plugins.add(cls);
          return cls;
       } catch (ClassNotFoundException e) {
          throw new RuntimeException("Plugin not found for task "+task, e);

@@ -60,7 +60,6 @@ public class Logger {
             break;
          case RECOVERING:
             engaged = (current - startEngaged) - timeout(); 
-              
             startEngaged = 0;   
             startRecovering = current;
             break;

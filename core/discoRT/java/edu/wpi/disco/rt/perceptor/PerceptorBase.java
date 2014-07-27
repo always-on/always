@@ -11,4 +11,7 @@ public abstract class PerceptorBase<T extends Perception> implements Perceptor<T
 
    @Override
    public void run () {}
+   
+   public void start () {}
+   public void stop () {}
 }

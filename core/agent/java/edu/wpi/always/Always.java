@@ -109,7 +109,7 @@ public class Always {
          // initialize duplicate interaction created above
          // before Activities so $always initialized
          new Always(true, false).init(interaction); 
-         // to get plugin classes 
+         // to force loading of plugin classes 
          for (TaskClass top : new edu.wpi.disco.Disco(interaction).load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
             if ( top.isTop() ) Plugin.getPlugin(top);
          interaction.start(true);  
@@ -246,7 +246,7 @@ public class Always {
    public static void restart (Exception e, String message) {
       Utils.lnprint(System.out, (e == null ? "" : e)+message);
       if ( THROW && e != null ) edu.wpi.cetask.Utils.rethrow(e);  
-      else exit(1);
+      else { e.printStackTrace(); exit(1); }
    }
    
    private enum Disengagement { GOODBYE, TIMEOUT, ERROR } // for logging
@@ -255,6 +255,7 @@ public class Always {
    private static final Object lock = new Object();
    
    public static void exit (int code) {
+      EngagementSchema.EXIT = true;
       synchronized (lock) {
          if ( exiting ) return;
          exiting = true;
@@ -265,27 +266,31 @@ public class Always {
       }
       MutablePicoContainer container = THIS.getCM().getContainer();
       ClientProxy proxy = container.getComponent(ClientProxy.class);
+      ClientPluginUtils.setPluginVisible(null); // force hide_plugin to be sent
+      proxy.hidePlugin();
       if ( code != 0 ) {
-         proxy.say("Oops.  There seems to be an error in my programming.  I am going to restart and be back in a few minutes.");
+         Thread.dumpStack();
+         proxy.say("Oops. There seems to be an error in my programming. I am going to restart and be back in a few minutes. Bye!");
          Logger.logEngagement(container.getComponent(EngagementPerceptor.class).getLatest().getState(), 
                EngagementState.IDLE);
       }
+      // clear menus before logging end
+      proxy.showMenu(null, false, true); // must be before regular menu
+      proxy.showMenu(null, false, false);
       Logger.logEvent(Logger.Event.END,
             code == 0 ? (EngagementSchema.EXIT ? Disengagement.GOODBYE : Disengagement.TIMEOUT ) : Disengagement.ERROR,
             AdjacencyPairBase.REPEAT_COUNT,        
             (int) ((System.currentTimeMillis() - SessionSchema.DATE.getTime())/1000L),
             (int) (Logger.TOTAL_ENGAGED_TIME/1000L));
       Utils.lnprint(System.out,  "EXITING WITH CODE "+code+" ...");
-      proxy.setScreenVisible(false);      
-      proxy.showMenu(null, false, true); // must be first
-      proxy.showMenu(null, false, false);
-      ClientPluginUtils.setPluginVisible(null); // force hide_plugin to be sent
-      proxy.hidePlugin();
-      proxy.setAgentVisible(false);
-      // need to free resources held by engine which block exit
-      container.getComponent(ShoreFacePerceptor.class).stop();
+      // need to free resources held by Shore engine which block exit
+      FacePerceptor face = container.getComponent(FacePerceptor.class);
+      if ( face != null ) face.stop();
       // give menu clearing messages and final agent utterance time to be sent
       try { Thread.sleep(5000); } catch (InterruptedException e) {}
+      // black screen last so agent visible while talking
+      proxy.setScreenVisible(false);     
+      proxy.setAgentVisible(false);
       System.exit(code);
    }
 }

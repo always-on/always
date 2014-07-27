@@ -1,17 +1,19 @@
 package edu.wpi.always.cm.perceptors.fake;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
 import edu.wpi.always.Always;
+import edu.wpi.always.client.SkypeInterruptHandler;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.disco.rt.Registry;
 
 public class FakeEngagementGUI extends JFrame {
    
    private final JRadioButton near, far, none;
-   private final JCheckBox motion;
+   private final JCheckBox motion, video;
    
    public MovementPerceptor createMovementPerceptor () {
       return new FakeMovementPerceptor(motion);
@@ -54,9 +56,9 @@ public class FakeEngagementGUI extends JFrame {
       setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
       state = new JLabel();
       add(state);
-      near = new JRadioButton("Near");
-      far = new JRadioButton("Far");
-      none = new JRadioButton("None", true);
+      near = new JRadioButton("Near Face");
+      far = new JRadioButton("Far Face");
+      none = new JRadioButton("No Face", true);
       ButtonGroup group = new ButtonGroup();
       group.add(near);
       group.add(far);
@@ -68,6 +70,15 @@ public class FakeEngagementGUI extends JFrame {
       add(radioPanel, BorderLayout.LINE_START);
       motion = new JCheckBox("Motion");
       add(motion);
+      video = new JCheckBox("Video Call");
+      add(video);
+      video.addItemListener(new ItemListener() {
+         @Override
+         public void itemStateChanged (ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) 
+               SkypeInterruptHandler.interrupt("Bob");
+         }
+      });
       pack();
       setSize(100, 200);
       setAlwaysOnTop(true);
