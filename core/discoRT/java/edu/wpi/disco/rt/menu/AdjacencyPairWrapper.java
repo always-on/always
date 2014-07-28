@@ -34,5 +34,13 @@ public class AdjacencyPairWrapper<C extends AdjacencyPair.Context> extends Adjac
    
    @Override
    public C getContext () { return (C) inner.getContext(); }
+   
+   public static class Repeat extends AdjacencyPairWrapper<AdjacencyPair.Context> {
+      
+      public Repeat (AdjacencyPair inner) { super(inner); }
+      
+      @Override
+      public void enter () {} // don't redo enter action
+   }
 }
 
