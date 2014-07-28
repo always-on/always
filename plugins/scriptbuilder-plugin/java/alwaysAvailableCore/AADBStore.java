@@ -892,6 +892,9 @@ public class AADBStore extends DBStore {
 		if (VFCountCache != null) {
 			cacheVFCountAndGoals();
 		}
+		
+		//count_day = session date
+		//mins = number of servings fruits + vegs
 	}
 
 	public void recordVFGoal(int goalPerDay) {
@@ -901,6 +904,7 @@ public class AADBStore extends DBStore {
 		if (VFGoalsCache != null) {
 			updateVFGoalsCache(studyDay, goalPerDay);
 		}
+		//goalPerDay = how much they are suppose to have
 	}
 
 	public int getVFSteps(int dayToGet) {
