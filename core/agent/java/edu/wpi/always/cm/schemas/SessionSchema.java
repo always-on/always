@@ -198,7 +198,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       if ( current != null && current.isSelfStop() ) proposeNothing();
       else propose(stateMachine); 
       if ( EngagementSchema.EXIT ) {
-         // hold focus so interrupted schema doesn't talk before exit
+         // for calendar interruption, hold focus so interrupted schema doesn't talk before exit 
          propose(Behavior.newInstance(new MenuBehavior(Collections.singletonList(" "))).addFocusResource(), 
                  SPECIFICITY+0.2);
       }

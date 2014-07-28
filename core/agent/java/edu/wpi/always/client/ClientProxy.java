@@ -190,7 +190,9 @@ public class ClientProxy {
    }
 
    public void stopSpeech () {
-      enqueue("stop_speech");
+      // hack: prevent cutting off last bit of speech at end of session
+      if ( !EngagementSchema.EXIT )
+         enqueue("stop_speech");
    }
 
    public void idle (boolean enable) {
