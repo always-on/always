@@ -4,7 +4,6 @@ import edu.wpi.always.Always;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
-import edu.wpi.always.cm.schemas.SessionSchema;
 import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
