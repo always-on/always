@@ -25,7 +25,6 @@ public class SkypeIncomingSchema extends SkypeSchema {
       // note client not used, but must be in argument list for creation
       interruptible = false;
       EXIT = false;
-      SessionSchema.startInterruption();
    }
    
    // TODO  ***DANGER** After sending endCall message below

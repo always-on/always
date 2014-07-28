@@ -27,16 +27,16 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private final CollaborationManager cm;
    private final DiscoRT.Interaction interaction;  
    
+   private volatile ActivitySchema current; // currently running or null 
+
    // static so can be set before schema running
    // volatile because set by other threads  
    public static volatile String interrupt;
-   
-   private String interruption; // currently being processing
-   
-   public static String getInterruption () { 
-      return THIS == null ? null : THIS.interruption; 
-   }
 
+   private volatile ActivitySchema interrupted; // interrupted activity or null
+   private volatile Plan interruptedPlan; // interrupted plan or null   
+   private volatile String interruptedPlugin; // interrupted client plugin or null
+   
    /**
     * Attempt to interrupt current session with given Disco task class name.  Returns
     * false iff interruption ignored.
@@ -52,18 +52,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       } else SessionSchema.interrupt = interrupt; // see EngagementPerception
       return true;
    }
-   
-   public static void startInterruption () { 
-      if ( THIS != null && THIS.interrupted != null ) {
-         THIS.interrupted.stop();  // don't go back afterwards
-         try { // log stopped end now so time not double counted 
-            LoggerName = THIS.interrupted.getLoggerName(); 
-            Logger.logEvent(Logger.Event.END);
-            THIS.interruptedPlan.setComplete(true); // mark for stop(Plan)
-         } finally { LoggerName = null; }
-      }
-   }
-   
+ 
    @Override
    public boolean isInterruptible () {
       synchronized (interaction) {
@@ -139,13 +128,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
 
    // activities for which startActivity has been called (not same as Plan.isStarted)
-   private final Map<Plan,ActivitySchema> started = new HashMap<Plan,ActivitySchema>();
-   
-   private volatile ActivitySchema current; // currently running or null 
-   
-   private volatile ActivitySchema interrupted; // interrupted activity or null
-   private volatile Plan interruptedPlan; // interrupted plan or null   
-   private volatile String interruptedPlugin; // interrupted client plugin or null
+   private final Map<Plan,ActivitySchema> started = new HashMap<Plan,ActivitySchema>();  
 
    private static Logger.Activity LoggerName;
    
@@ -162,7 +145,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    @Override
    public void runActivity () {
       synchronized (interaction) {
-         Plan plan = interaction.getFocusExhausted(true);
+         Plan plan = getFocus();
          if ( plan != null ) {
             if ( plan.getType().isInternal() ) {
                // focus is on session (or other internal) move it down to first live child
@@ -172,17 +155,16 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                   interaction.push(plan);
                }
             }
-            if ( plan.getGoal() instanceof Propose.Should ) 
-               plan = plan.getParent();
             current = started.get(plan);
-            interruptIf();
+            interruptIf(); // may push interruption
             if ( current != null ) {
                if ( current.isDone() ) {
                   revertIfInconsistent(current);
                   stateMachine.setState(new ResumeAdjacencyPairWrapper(discoAdjacencyPair)); 
                   stop(plan); 
                } else yield(plan);
-            } else {
+            } else if ( !(plan != getFocus() && plan == interruptedPlan) )  { 
+               // don't start activity if about to interrupt it
                TaskClass task = plan.getType();
                if ( Plugin.isPlugin(task) &&
                      plan.isLive() && !plan.isOptional() && !plan.isStarted() ) {
@@ -222,6 +204,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       }
    }
    
+   private Plan getFocus () {
+       Plan plan = interaction.getFocusExhausted(true);
+       return plan != null && plan.getGoal() instanceof Propose.Should ? plan.getParent() : plan;
+   }
+   
    private enum Interruption { CALENDAR, SKYPE }  // for logging
    
    private void interruptIf () {
@@ -234,11 +221,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          else if ( interrupt.equals("_SkypeInterruption") ) 
             Logger.logEvent(Logger.Event.INTERRUPTION, Interruption.SKYPE, SkypeInterruptHandler.CALLER_ID);
          else Utils.lnprint(System.out, "Interruption unknown for logger: "+interrupt);
-         interruption = interrupt;
          interrupted = current;
-         interruptedPlan = interaction.getFocus(true); 
+         interruptedPlan = getFocus();
          interruptedPlugin = ClientPluginUtils.getPluginName(); // before unyield hides
          interaction.push(new Plan(interaction.getDisco().getTaskClass(interrupt).newInstance()));
+         startInterruption();
          interrupt = null;
          stateMachine.setState(discoAdjacencyPair);
          if ( current == null ) discoAdjacencyPair.update();
@@ -246,7 +233,18 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          else current = null;
       }
    }
-
+   
+   public static void startInterruption () { // to be called from schema
+      if ( THIS != null && THIS.interrupted != null ) {
+         THIS.interrupted.stop();  // don't go back afterwards
+         try { // log stopped end now so time not double counted 
+            LoggerName = THIS.interrupted.getLoggerName(); 
+            Logger.logEvent(Logger.Event.END);
+            THIS.interruptedPlan.setComplete(true); // mark for stop(Plan)
+         } finally { LoggerName = null; }
+      }
+   }
+   
    private void revertIfInconsistent (ActivitySchema schema) {
       InconsistentOntologyException e = schema.getInconsistentOntologyException();
       if ( e != null) cm.inconsistentUserModel(e);
@@ -277,7 +275,6 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          if ( interrupted instanceof ActivityStateMachineSchema )
             // prevent shortened timeout
             ((ActivityStateMachineSchema<AdjacencyPair.Context>) interrupted).resetTimeout();
-         interruption = null;
          interruptible = true;
          interrupted = null;
          interruptedPlan = null;
@@ -289,7 +286,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
    
    private void stop (Plan plan) {
-      if ( !plan.isComplete() ) { // see startInterruption
+      if ( current != null && !plan.isComplete() ) { // see startInterruption
          Utils.lnprint(System.out, "Returning to Session...");
          Logger.logEvent(Logger.Event.END);
          plan.setComplete(true);
