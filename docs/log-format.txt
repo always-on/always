@@ -165,10 +165,10 @@
 
 ---------------------------------------------------------
 
-<DATETIME>,SKYPE,<DIRECTION>,<DURATION>,<CALLER>
+<DATETIME>,SKYPE,<DIRECTION>,<CALLER>
 
 * <DIRECTION> = INCOMING or OUTGOING
-* <CALLER> = "..." (Skype name)
+* <CALLER> = "..." (Person name)
 
 ---------------------------------------------------------
 
