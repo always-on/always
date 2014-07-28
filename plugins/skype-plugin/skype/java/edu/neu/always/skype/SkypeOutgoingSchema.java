@@ -1,8 +1,6 @@
 package edu.neu.always.skype;
 
 import edu.wpi.always.Always;
-import edu.wpi.always.client.UIMessageDispatcher;
-import edu.wpi.always.cm.perceptors.FacePerceptor;
 import edu.wpi.always.user.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -11,32 +9,11 @@ import edu.wpi.disco.rt.menu.*;
 
 public class SkypeOutgoingSchema extends SkypeSchema {
 
-   /* TODO for logging:
-    * 
-    * Note: If you are satisfied with the log messages that are already
-    * automatically generated for start/end of activity and for all
-    * user model updates, then you can delete the log method below
-    * (and already defined enums above, if any) and go directly to (4) below.
-    *
-    * (1) Add arguments to log method below as needed (use enums instead of
-    *     string constants to avoid typos and ordering errors!)
-    *     
-    * (2) Update always/docs/log-format.txt with any new logging fields
-    * 
-    * (3) Call log method at appropriate places in code
-    * 
-    * (4) Remove this comment!
-    *
-    */
-   public static void log (int duration) { log(Direction.OUTGOING, duration); }
-   
    public SkypeOutgoingSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
-         MenuPerceptor menuPerceptor, FacePerceptor shore, UIMessageDispatcher dispatcher, 
-         SkypeClient client, Always always) {
+         MenuPerceptor menuPerceptor, Always always) {
       super(new SkypeOutgoing(always.getUserModel()),
-            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
-            shore, dispatcher, client, always);
+            behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
    }
    
    private static class SkypeOutgoing extends MultithreadAdjacencyPair<AdjacencyPair.Context> {
@@ -45,7 +22,7 @@ public class SkypeOutgoingSchema extends SkypeSchema {
          super("please select the person you would like to arrange a video call with", new AdjacencyPair.Context());
          this.repeatOption = false;
          for (final Person person : model.getPeopleManager().getPeople(false)) {
-            if (  person.getSkypeNumber() != null )
+            if ( person.getSkypeNumber() != null )
                choice(person.getName(), new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
@@ -56,7 +33,8 @@ public class SkypeOutgoingSchema extends SkypeSchema {
          choice("Never mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new SkypeStop(getContext());
+               getContext().getSchema().stop();
+               return null;
             }});
       }
    }
@@ -73,12 +51,14 @@ public class SkypeOutgoingSchema extends SkypeSchema {
          choice("Ok", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new SkypeStop(getContext());
+               getContext().getSchema().stop();
+               return null;
             }});
       }
       
       @Override
       public void enter () {
+         log(Direction.OUTGOING, person.getName());
          // TODO send email to person.getSkypeName() and wait for incoming call?
       }
    }

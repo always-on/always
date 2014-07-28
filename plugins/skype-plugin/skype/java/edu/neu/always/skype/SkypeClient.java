@@ -13,7 +13,7 @@ public class SkypeClient {
       dispatcher.registerReceiveHandler("callEnded", new MessageHandler() {
          @Override
          public void handleMessage (JsonObject body) {
-            SkypeSchema.EXIT = true;
+            SkypeIncomingSchema.EXIT = true;
          }
       });
    }
