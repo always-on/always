@@ -3,6 +3,7 @@ package edu.wpi.disco.rt.menu;
 import com.google.common.collect.Lists;
 import edu.wpi.cetask.Utils;
 import edu.wpi.disco.rt.util.NullArgumentException;
+import edu.wpi.disco.rt.menu.AdjacencyPairWrapper.Repeat;
 import java.util.*;
 
 public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> implements AdjacencyPair {
@@ -60,12 +61,8 @@ public abstract class AdjacencyPairBase<C extends AdjacencyPair.Context> impleme
    @Override
    public AdjacencyPair nextState (String text) {
       if ( REPEAT.equals(text) ) REPEAT_COUNT++;
-      return REPEAT.equals(text) ? 
-         new AdjacencyPairWrapper<C>(this) {
-            @Override
-            public void enter () {} // don't redo enter action
-         } 
-      : choices.containsKey(text) ? choices.get(text).run() : null;
+      return REPEAT.equals(text) ? new AdjacencyPairWrapper.Repeat(this) 
+         : choices.containsKey(text) ? choices.get(text).run() : null;
    }
 
    @Override

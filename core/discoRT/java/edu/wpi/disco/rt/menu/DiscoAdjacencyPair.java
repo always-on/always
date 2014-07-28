@@ -38,11 +38,7 @@ public class DiscoAdjacencyPair extends AdjacencyPairBase<AdjacencyPair.Context>
 
    @Override
    public AdjacencyPair nextState (String text) {
-      if ( REPEAT.equals(text) ) 
-         return new AdjacencyPairWrapper<AdjacencyPair.Context>(this) {
-            @Override
-            public void enter () {} // don't redo enter action
-         };
+      if ( REPEAT.equals(text) ) return new AdjacencyPairWrapper.Repeat(this);
       int i = current.choices.indexOf(text);
       if ( i >= 0 ) {
          Utterance utterance = (Utterance) current.items.get(i).task;
