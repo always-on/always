@@ -72,7 +72,7 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new ChangeSpouseAdjacencyPair(getContext(), person);
             }
          });
-         choice("Edit Video Call", new DialogStateTransition() {
+         choice("Edit Email", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
                return new ChangeSkypeAdjacencyPair(getContext(), person);
@@ -746,8 +746,8 @@ public class EditPersonState extends EnrollAdjacencyPairs{
       private Person person;
 
       public ChangeSkypeAdjacencyPair(final EnrollStateContext context, final Person person) {
-         super("What is " + nameToUse + " email address for video calls?", 
-               "Enter " + nameToUse +" email address for video calls:",  context, context.getKeyboard());
+         super("What is " + nameToUse + " email address?", 
+               "Enter " + nameToUse +" email address:",  context, context.getKeyboard());
          this.person = person;
       }
 
