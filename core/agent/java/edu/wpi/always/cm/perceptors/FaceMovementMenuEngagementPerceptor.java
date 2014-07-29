@@ -47,20 +47,21 @@ public class FaceMovementMenuEngagementPerceptor
             lastFaceChange = new FaceTransition(isFace, isNear);
          MovementPerception movementPerception = movementPerceptor.getLatest();
          boolean isMoving = movementPerception != null && movementPerception.isMoving();
-         if ( lastMovementChange == null || lastMovementChange.isMoving != isMoving )	
+         if ( lastMovementChange == null 
+               || lastMovementChange.isMoving != isMoving )	
             lastMovementChange = new MovementTransition(isMoving);
          MenuPerception menuPerception = menuPerceptor.getLatest();
          boolean hadTouch = false;
-         if ( menuPerception != null && lastTouchChange != null ) {
-            if ( !menuPerception.getSelected().equals(lastTouchChange.selected) 
-                  || menuPerception.getTimeStamp() > lastTouchChange.timeStamp ) {
-               lastTouchChange = new TouchTransition(menuPerception);
-               hadTouch = true;
-            }
-         } else
-            lastTouchChange = new TouchTransition();
+         long timeStamp = 0L;
+         if ( menuPerception != null ) 
+            timeStamp = menuPerception.getTimeStamp();
+         if ( lastTouchChange == null 
+               || lastTouchChange.timeStamp < timeStamp ) {
+            lastTouchChange = new TouchTransition(timeStamp);
+            if ( menuPerception != null ) hadTouch = true;
+         }
          EngagementState nextState = currentState.nextState(lastMovementChange,
-               lastFaceChange, lastTouchChange, hadTouch,
+               lastFaceChange, lastTouchChange, hadTouch, 
                System.currentTimeMillis() - lastStateChangeTime);
          if ( nextState != currentState ) setState(nextState);
       }
@@ -76,11 +77,11 @@ public class FaceMovementMenuEngagementPerceptor
          }
          // reset timing for new state
          if ( lastMovementChange != null )
-            lastMovementChange = new MovementTransition(
-                  lastMovementChange.isMoving);
+            lastMovementChange = new MovementTransition(lastMovementChange.isMoving);
          if ( lastFaceChange != null )
-            lastFaceChange = new FaceTransition(lastFaceChange.isFace,
-                  lastFaceChange.isNear);
+            lastFaceChange = new FaceTransition(lastFaceChange.isFace, lastFaceChange.isNear);
+         if ( lastTouchChange != null )
+            lastTouchChange = new TouchTransition(lastTouchChange.timeStamp);
          lastStateChangeTime = System.currentTimeMillis();
          latest = new EngagementPerception(newState);
       }
@@ -97,17 +98,10 @@ public class FaceMovementMenuEngagementPerceptor
    }
    static class TouchTransition extends Transition {
       
-      final String selected;
-      final long timeStamp;  // to distinguish same menu put up twice (for recovery)
-
-      public TouchTransition () {
-         selected = null;
-         timeStamp = 0L;
-      }
-      
-      public TouchTransition (MenuPerception menu) {
-         this.selected = menu.getSelected();
-         this.timeStamp = menu.getTimeStamp();
+      final long timeStamp;
+   
+      public TouchTransition (long timeStamp) {
+         this.timeStamp = timeStamp;
       }
    }
 

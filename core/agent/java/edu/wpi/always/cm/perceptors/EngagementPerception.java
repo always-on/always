@@ -19,7 +19,7 @@ public class EngagementPerception extends Perception {
 
    public static long INITIATION_NOT_NEAR_TIMEOUT = 20000; // initiation->idle if no near face for this long
 
-   // Note these two times (5 minutes) are to prevent the agent from performing enter attention 
+   // Note these two large timeouts (5 minutes) are to prevent the agent from performing enter attention 
    // or initiation actions (i.e., setAgentVisible or saying "Hi") too often
    public static long ATTENTION_TIME = 300000; // attention->idle minimum time in attention
    public static long INITIATION_TIME = 300000; // initiation->idle minimum time in initiation
