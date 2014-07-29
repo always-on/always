@@ -35,7 +35,7 @@ public abstract class ActivitySchema extends SchemaBase {
    @Override
    public final void run () {
       if ( EngagementSchema.EXIT ) stop();
-      runActivity();
+      else runActivity();
    }
 
    protected abstract void runActivity ();
