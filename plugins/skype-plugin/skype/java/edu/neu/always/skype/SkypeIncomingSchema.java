@@ -23,7 +23,6 @@ public class SkypeIncomingSchema extends SkypeSchema {
       this.dispatcher = dispatcher;
       // note client not used, but must be in argument list for creation
       interruptible = false;
-      EXIT = false;
    }
    
    // TODO  ***DANGER** After sending endCall message below
@@ -71,6 +70,7 @@ public class SkypeIncomingSchema extends SkypeSchema {
       public void enter () {
          log(Direction.INCOMING, SkypeInterruptHandler.CALLER_NAME);
          if ( shore != null ) shore.stop();
+         EXIT = false;
          dispatcher.send(new Message("acceptCall"));
          // NB: Safer to move following to someplace where it is only called 
          // once the video connection is successfully established!!!
