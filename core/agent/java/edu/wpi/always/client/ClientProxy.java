@@ -209,7 +209,10 @@ public class ClientProxy {
       ClientPluginUtils.showPlugin(dispatcher, pluginName);
    }
 
-   public void hidePlugin () {
+   public void hidePlugin () { hidePlugin(false); }
+   
+   public void hidePlugin (boolean force) {
+      if ( force ) ClientPluginUtils.setPluginVisible(null);
       ClientPluginUtils.hidePlugin(dispatcher);
    }
 }

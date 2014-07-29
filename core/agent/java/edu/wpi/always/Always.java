@@ -266,8 +266,7 @@ public class Always {
       }
       MutablePicoContainer container = THIS.getCM().getContainer();
       ClientProxy proxy = container.getComponent(ClientProxy.class);
-      ClientPluginUtils.setPluginVisible(null); // force hide_plugin to be sent
-      proxy.hidePlugin();
+      proxy.hidePlugin(true);
       if ( code != 0 ) {
          Thread.dumpStack();
          proxy.say("Oops. There seems to be an error in my programming. I am going to restart and be back in a few minutes. Bye!");

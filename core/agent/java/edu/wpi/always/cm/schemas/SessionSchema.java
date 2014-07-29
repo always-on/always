@@ -299,7 +299,9 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    private void unyield () {
       current = null; // before menu for logging
       proxy.showMenu(null, false, true); // clear extension menu
-      proxy.hidePlugin();
+      // force in case some other message caused plugin to become
+      // visible, such as "accept" for Skype
+      proxy.hidePlugin(true);
       discoAdjacencyPair.update();
       stateMachine.setExtension(false);
       stateMachine.setSpecificityMetadata(ActivitySchema.SPECIFICITY+0.2);
