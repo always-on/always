@@ -8,6 +8,7 @@ using Agent.Tcp;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using System.Threading;
+//using System.Windows.Input;
 
 namespace Agent.UI
 {
@@ -23,9 +24,11 @@ namespace Agent.UI
 
         String communicationURL = "";
 
+        Boolean activeCall = false;
+
         UserControl uc;
         IMessageDispatcher _remote;
-        System.Windows.Forms.WebBrowser page;
+        public System.Windows.Forms.WebBrowser page;
         //START OF VIDEO CALLING CODE
         public void addCaller(UserControl uc)
         {
@@ -43,12 +46,42 @@ namespace Agent.UI
             page.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.onVideoCallerDocumentComplete);
         }
 
+        //Nasty workaround to google hangout blocking out javascript
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern bool PostMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
+
+        [DllImport("user32", SetLastError = true)]
+        static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string className, IntPtr windowTitle);
+
+        private const int WM_LEFTBUTTONDOWN = 0x0201;
+        private const int WM_LEFTBUTTONUP = 0x0202;
+
+        public void SendClick(int x, int y)
+        {
+            //get the browser pointer
+            IntPtr pControl;
+            pControl = FindWindowEx(page.Handle, IntPtr.Zero, "Shell Embedding", IntPtr.Zero);
+            pControl = FindWindowEx(pControl, IntPtr.Zero, "Shell DocObject View", IntPtr.Zero);
+            pControl = FindWindowEx(pControl, IntPtr.Zero, "Internet Explorer_Server", IntPtr.Zero);
+
+            PostMessage(pControl,(uint)WM_LEFTBUTTONDOWN,0,MAKELPARAM(x,y));
+            PostMessage(pControl, (uint)WM_LEFTBUTTONUP, 0, MAKELPARAM(x, y));
+            //PostMessage(pControl, WM_MOUSEMOVE, 0, MAKELPARAM(x, y));
+        }
+
+        private int MAKELPARAM(int p, int p_2)
+        {
+            return ((p_2 << 16) | (p & 0xFFFF));
+        }
+
         public void onVideoCallerDocumentComplete(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             Console.WriteLine("onDocumentComplete Called");
             if (page.Url.ToString().Contains("plus.google.com/hangouts/"))
             {
-                clearUI();
+                SendClick(405, 660);
+                //ClickOn(page.Handle, 405, 660);
+                //LeftMouseClick(405, 660);
             }
         }
 
@@ -110,6 +143,8 @@ namespace Agent.UI
             communicationURL = communicationURL.Trim();
             Console.WriteLine(communicationURL);
             createCommunicationFunctions();
+            //CleanUI
+            clearUI();
         }
 
         public void log(Object o)
@@ -119,23 +154,34 @@ namespace Agent.UI
 
         public void acceptCall()
         {
+            activeCall = true;
             page.Document.InvokeScript("acceptCall");
             page.Visible = true;
         }
 
         public void rejectCall()
         {
+            activeCall = false;
             page.Document.InvokeScript("rejectCall");
             page.Visible = true;
         }
 
         public void endCall()
         {
+            activeCall = false;
             page.Visible = false;
             page.Navigate("");
             page.Navigate("https://ragserver.ccs.neu.edu/hangoutTest/");
             JObject body = new JObject();
             _remote.Send("callEnded", body);
+        }
+
+        public void hideCall()
+        {
+            page.Visible = false;
+            if(activeCall){
+                endCall();
+            }
         }
 
     }
