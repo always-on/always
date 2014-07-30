@@ -112,7 +112,7 @@ public class AADBStore extends DBStore {
 	}
 	
 	public void setExerciseGoal (String study_day, String goal){
-		store.setProperty("PA_BEHAVIOR_"+study_day, goal);
+		store.setProperty("PA_SHAPING_GOAL_"+study_day, goal);
 		ExerciseSchema.log(ExerciseSchema.Topic.GOALS,goal);
 	}
 
@@ -907,12 +907,17 @@ public class AADBStore extends DBStore {
 		NutritionSchema.log(NutritionSchema.Topic.SERVINGS,mins + "");
 	}
 
+	 
 	public void recordVFGoal(int goalPerDay) {
-		int studyDay = Integer.valueOf(store.getProperty("STUDY_DAY"));
-		store.setProperty("G_" + String.valueOf(studyDay),
-				String.valueOf(goalPerDay));
-		if (VFGoalsCache != null) {
-			updateVFGoalsCache(studyDay, goalPerDay);
+		int studyDay = 0;
+		try{
+			studyDay = Integer.valueOf(store.getProperty("STUDY_DAY"));
+			store.setProperty("G_" + String.valueOf(studyDay), String.valueOf(goalPerDay));
+			if (VFGoalsCache != null) {
+				updateVFGoalsCache(studyDay, goalPerDay);
+			}
+		} catch(Exception e){
+			System.out.println("Failed to recordVFGoal");
 		}
 		NutritionSchema.log(NutritionSchema.Topic.GOALS,goalPerDay + "");
 	}
