@@ -2,6 +2,8 @@ package alwaysAvailableCore;
 
 import org.joda.time.Period;
 
+import plugins.*;
+
 import edu.wpi.always.Plugin;
 import edu.wpi.always.user.UserModel;
 import DialogueRuntime.*;
@@ -102,6 +104,16 @@ public class AADBStore extends DBStore {
 
 	public void updateLastStudyDate(String date) {
 		store.setProperty("last_study_date", date);
+	}
+	
+	public void setExerciseStep (String p_day, String step){
+		store.setProperty("PA_BEHAVIOR_"+p_day, step);
+		ExerciseSchema.log(ExerciseSchema.Topic.STEPS,step);
+	}
+	
+	public void setExerciseGoal (String study_day, String goal){
+		store.setProperty("PA_BEHAVIOR_"+study_day, goal);
+		ExerciseSchema.log(ExerciseSchema.Topic.GOALS,goal);
 	}
 
 	/**
@@ -892,9 +904,7 @@ public class AADBStore extends DBStore {
 		if (VFCountCache != null) {
 			cacheVFCountAndGoals();
 		}
-		
-		//count_day = session date
-		//mins = number of servings fruits + vegs
+		NutritionSchema.log(NutritionSchema.Topic.SERVINGS,mins + "");
 	}
 
 	public void recordVFGoal(int goalPerDay) {
@@ -904,7 +914,7 @@ public class AADBStore extends DBStore {
 		if (VFGoalsCache != null) {
 			updateVFGoalsCache(studyDay, goalPerDay);
 		}
-		//goalPerDay = how much they are suppose to have
+		NutritionSchema.log(NutritionSchema.Topic.GOALS,goalPerDay + "");
 	}
 
 	public int getVFSteps(int dayToGet) {
