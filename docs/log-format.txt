@@ -132,9 +132,9 @@
 
 ---------------------------------------------------------
 
-<DATETIME>,EXERCISE,<TOPIC>
+<DATETIME>,EXERCISE,<TOPIC>,<VALUE>
 
-* <TOPIC> = GOALS or ACTIVITIES or SERVINGS
+* <TOPIC> = GOALS or STEPS
 
 ---------------------------------------------------------
 
@@ -151,9 +151,9 @@
 
 ---------------------------------------------------------
 
-<DATETIME>,NUTRITION,...
+<DATETIME>,NUTRITION,<TOPIC>,<VALUE>
 
-* TBD
+* <TOPIC> = GOALS or SERVINGS
 
 ---------------------------------------------------------
 
