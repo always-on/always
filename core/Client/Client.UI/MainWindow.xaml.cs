@@ -52,6 +52,7 @@ namespace AgentApp
 			InitializeComponent();
 
 			Agent.Buttons = Buttons;
+            Agent.LoadComplete += onAgentLoad;
 
 			this.ResizeMode = ResizeMode.NoResize;
 
@@ -63,8 +64,7 @@ namespace AgentApp
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			//Brightness.SetLowestBrightness();
-			LayoutPageWithoutPlugin();
-			Agent.LoadComplete += onAgentLoad;
+            LayoutPageWithoutPlugin();
 		}
 
 		private void onAgentLoad(object sender, EventArgs e)
@@ -180,6 +180,10 @@ namespace AgentApp
             MainGrid.ColumnDefinitions[1].ClearValue(ColumnDefinition.WidthProperty);
 			MainGrid.ColumnDefinitions[1].ClearValue(ColumnDefinition.MinWidthProperty);
             MainGrid.ColumnDefinitions[1].ClearValue(ColumnDefinition.MaxWidthProperty);
+
+            //Hide page display and videocaller
+            Agent.ShowPage("");
+            Agent.videoCaller.hideCall();
 
             UpdateLayout();
 		}

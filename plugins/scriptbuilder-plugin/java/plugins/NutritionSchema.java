@@ -8,10 +8,13 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.MenuPerceptor;
 import pluginCore.*;
+import plugins.ExerciseSchema.Topic;
 
 public class NutritionSchema extends ScriptbuilderSchema {
    
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.NUTRITION;
+   
+   public enum Topic { GOALS, SERVINGS};
    	
    /* TODO for logging:
     *  
@@ -30,8 +33,8 @@ public class NutritionSchema extends ScriptbuilderSchema {
     * (4) Remove this comment!
     *
     */
-   public static void log (Object... args) {
-      Logger.logActivity(LOGGER_NAME, args);
+   public static void log (Topic topic, String value) {
+	      Logger.logActivity(LOGGER_NAME, topic, value);
    }
    
 	public NutritionSchema (BehaviorProposalReceiver behaviorReceiver,

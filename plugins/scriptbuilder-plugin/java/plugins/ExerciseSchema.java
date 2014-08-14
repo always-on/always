@@ -13,7 +13,7 @@ public class ExerciseSchema extends ScriptbuilderSchema {
 
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.EXERCISE;
    
-   public enum Topic { GOALS, ACTIVITIES, SERVINGS };
+   public enum Topic { GOALS, STEPS };
    
    /* TODO for logging:
     *  
@@ -32,8 +32,8 @@ public class ExerciseSchema extends ScriptbuilderSchema {
     * (4) Remove this comment!
     *
     */
-   public static void log (Topic topic) {
-      Logger.logActivity(LOGGER_NAME, topic);
+   public static void log (Topic topic, String value) {
+      Logger.logActivity(LOGGER_NAME, topic, value);
    }
    
 	public ExerciseSchema (BehaviorProposalReceiver behaviorReceiver,
