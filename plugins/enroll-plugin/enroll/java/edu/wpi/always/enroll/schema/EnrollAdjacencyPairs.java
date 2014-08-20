@@ -665,6 +665,12 @@ public abstract class EnrollAdjacencyPairs{
                return new PersonSpouseAdjacencyPair(getContext());
             }
          });
+         choice("Other", new DialogStateTransition() {
+            @Override
+            public AdjacencyPair run() {
+               return new PersonSpouseAdjacencyPair(getContext());
+            }
+         });
          choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {

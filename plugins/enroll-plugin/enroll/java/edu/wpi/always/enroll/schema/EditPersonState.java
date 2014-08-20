@@ -675,6 +675,12 @@ public class EditPersonState extends EnrollAdjacencyPairs{
                return new EditPersonAdjacencyPair(getContext(), person);
             }
          });
+		   choice("Other", new DialogStateTransition() {
+            @Override
+            public AdjacencyPair run() {
+               return new EditPersonAdjacencyPair(getContext(), person);
+            }
+         });
          choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
