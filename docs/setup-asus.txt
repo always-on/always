@@ -53,6 +53,8 @@ recommit the file.)
 
     (a) Do Windows Update (will take a *long* time) CHECK [ ]
   
+        Do **NOT* say yes to updating Visual Studio or .NET!!!
+
     (b) Install JRE 1.7 (*not* 1.8!) from: CHECK [ ]
 
         http://download.oracle.com/otn-pub/java/jdk/7u60-b19/jre-7u60-windows-x64.exe
