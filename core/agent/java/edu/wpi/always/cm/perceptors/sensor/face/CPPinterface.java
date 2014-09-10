@@ -37,13 +37,13 @@ public interface CPPinterface extends Library {
 
    FaceInfo getAgentFaceInfo (int intDebug);
 
-   void initAgentShoreEngine (int intDebug);
+   int initAgentShoreEngine (int intDebug);
 
    void terminateAgentShoreEngine (int intDebug);
 
    FaceInfo getReetiFaceInfo (int intDebug);
 
-   void initReetiShoreEngine (String[] iP_ADDRESS, int intDebug);
+   int initReetiShoreEngine (String[] iP_ADDRESS, int intDebug);
 
    void terminateReetiShoreEngine (int intDebug);
 }
