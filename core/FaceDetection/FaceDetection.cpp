@@ -23,9 +23,10 @@
 #define FRAME_HEIGHT 240
 #define TIMER_DELAY 2000
 
-#define IMAGE_CONTENT_ERROR -1;
-#define FRAME_CAPTURE_ERROR -2;
-#define CAMERA_CONNECTION_ERROR -3;
+#define IMAGE_CONTENT_ERROR -1
+#define FRAME_CAPTURE_ERROR -2
+#define CAMERA_CONNECTION_ERROR -3
+#define SENDING_CAPTURE_COMMAND_ERROR -4
 
 using namespace std;
 using namespace cv;
@@ -417,7 +418,9 @@ FaceInfo getReetiFaceInfo( int intDebug )
 	{
 		/*use happiness value holder, as a signal
 		to Java to exit itself and cause a restart*/
-		faceInfo.intHappiness = -2;
+		//faceInfo.intHappiness = -2;
+		
+		return invalidateFaceInfo(SENDING_CAPTURE_COMMAND_ERROR);
 	}
 
 	return faceInfo;
