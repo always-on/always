@@ -23,6 +23,11 @@
 #define FRAME_HEIGHT 240
 #define TIMER_DELAY 2000
 
+#define IMAGE_CONTENT_ERROR -1
+#define FRAME_CAPTURE_ERROR -2
+#define CAMERA_CONNECTION_ERROR -3
+#define SENDING_CAPTURE_COMMAND_ERROR -4
+
 using namespace std;
 using namespace cv;
 
@@ -44,7 +49,7 @@ typedef struct FACE {
 
 extern "C" __declspec(dllexport)
 
-void initAgentShoreEngine( int intDebug ) {
+int initAgentShoreEngine( int intDebug ) {
 	
 	float         timeBase          = 0;            // Use single image mode
 	bool          updateTimeBase    = false;        // Not used in video mode
@@ -99,8 +104,11 @@ void initAgentShoreEngine( int intDebug ) {
 	if ( engine == 0 )
 	{
 		std::cerr << "Error: Engine setup failed - exit!\n";
-		std::exit(1);
+		return -1;
+		//std::exit(1);
 	}
+	
+	return 0;
 	
 	//Alternative:
 	//capture.set(CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH);
@@ -110,7 +118,7 @@ void initAgentShoreEngine( int intDebug ) {
 
 extern "C" __declspec(dllexport)
 
-void initReetiShoreEngine( char ** IP_ADDRESS, int intDebug ) {
+int initReetiShoreEngine( char ** IP_ADDRESS, int intDebug ) {
 
 	float         timeBase          = 0;            // Use single image mode
 	bool          updateTimeBase    = false;        // Not used in video mode
@@ -161,10 +169,12 @@ void initReetiShoreEngine( char ** IP_ADDRESS, int intDebug ) {
 	if ( ReetiEngine == 0 )
 	{
 		std::cerr << "Error: Engine setup failed - exit!\n";
-		std::exit(1);
+		return -1;
+		//std::exit(1);
 	}
 
 	Com.initSocket(2, IP_ADDRESS);
+	return 0;
 }
 
 extern "C" __declspec(dllexport)
@@ -182,6 +192,22 @@ void terminateReetiShoreEngine( int intDebug ) {
 	if (intDebug == 1)
 			cvDestroyWindow( "Display window" );
 	Shore::DeleteEngine( ReetiEngine );
+}
+
+FaceInfo invalidateFaceInfo(int errorCode)
+{
+	FaceInfo faceInfo;
+	
+	faceInfo.intBottom     = errorCode;
+	faceInfo.intTop        = errorCode;
+	faceInfo.intLeft       = errorCode;
+	faceInfo.intRight      = errorCode;
+	faceInfo.intHappiness  = errorCode;
+	faceInfo.intCenter     = errorCode;
+	faceInfo.intTiltCenter = errorCode;
+	faceInfo.intArea 	   = errorCode;
+	
+	return faceInfo;
 }
 
 extern "C" __declspec(dllexport)
@@ -207,7 +233,8 @@ FaceInfo getAgentFaceInfo( int intDebug )
 		if(frame.data == NULL)
 		{
 			std::cerr <<"Error: Frame capture problem - exit!\n";
-			std::exit(1);
+			return invalidateFaceInfo(FRAME_CAPTURE_ERROR);
+			//std::exit(1);
 		}
 
 		//Convert to Grayscale
@@ -279,20 +306,14 @@ FaceInfo getAgentFaceInfo( int intDebug )
 		}
 		else
 		{
-			faceInfo.intBottom    = -1;
-			faceInfo.intTop       = -1;
-			faceInfo.intLeft      = -1;
-			faceInfo.intRight     = -1;
-			faceInfo.intHappiness = -1;
-			faceInfo.intCenter = -1;
-			faceInfo.intTiltCenter = -1;
-			faceInfo.intArea = -1;
+			faceInfo = invalidateFaceInfo(IMAGE_CONTENT_ERROR);
 		}
 		cvReleaseImage(&im);
 	}
 	else
 	{
 		cout << "\nCamera connection problem...\n";
+		faceInfo = invalidateFaceInfo(CAMERA_CONNECTION_ERROR);
 	}
 	return faceInfo;
 }
@@ -387,14 +408,7 @@ FaceInfo getReetiFaceInfo( int intDebug )
 		}
 		else
 		{
-			faceInfo.intBottom    = -1;
-			faceInfo.intTop       = -1;
-			faceInfo.intLeft      = -1;
-			faceInfo.intRight     = -1;
-			faceInfo.intHappiness = -1;
-			faceInfo.intCenter = -1;
-			faceInfo.intTiltCenter = -1;
-			faceInfo.intArea = -1;
+			faceInfo = invalidateFaceInfo(IMAGE_CONTENT_ERROR);
 		}
 		cvReleaseImage(&im);
 	}
@@ -404,7 +418,9 @@ FaceInfo getReetiFaceInfo( int intDebug )
 	{
 		/*use happiness value holder, as a signal
 		to Java to exit itself and cause a restart*/
-		faceInfo.intHappiness = -2;
+		//faceInfo.intHappiness = -2;
+		
+		return invalidateFaceInfo(SENDING_CAPTURE_COMMAND_ERROR);
 	}
 
 	return faceInfo;

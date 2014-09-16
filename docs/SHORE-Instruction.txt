@@ -1,0 +1,133 @@
+Downloads:
+
+- OpenCV 2.4.2
+- Shore140
+- JNA 3.3.0
+- Microsoft Visual Studio 2010 Ultimate (VC++)
+
+===============================================================================================
+
+Platform:
+
+- Microsoft Windows 7 (64-bit)
+
+===============================================================================================
+
+NOTE: All required static and dynamic libraries of OpenCV are provided in 2 different sets. In 
+one set, file names end with the letter "d" conveying the libraries of the "debug" mode, (e.g.
+opencv-highgui242d.lib) while the other set of file names just end with "242" number, (e.g. 
+opencv-highgui242.lib) prepared for "release" mode. This is important because in 64-bit format 
+of the project some of the debug libraries don't work properly.
+
+===============================================================================================
+
+Required static libraries:
+
+From OpenCV package: (64-bit)
+- opencv_highgui242.lib
+- opencv_imgproc242.lib
+- opencv_core242.lib
+- opencv_features2d242.lib
+
+From Shore package: (64-bit)
+- Shore140.lib
+
+===============================================================================================
+
+Required dynamic libraries:
+
+From OpenCV package: (64-bit)
+- opencv_highgui242.dll
+- opencv_imgproc242.dll
+- opencv_core242.dll
+- opencv_features2d242.dll
+
+From Shore package: (64-bit)
+- Shore140.dll
+
+From a third party package: (64-bit)
+- tbb.dll (Note: This is required by OpenCV.)
+
+===============================================================================================
+
+Project preparation: (C++ DLL)
+
+1. Make 2 folders in the root of your project and copy all the required lib files into these
+folders:
+
+- opencv_lib (mentioned above)
+- shore_lib (mentioned above)
+
+2. Make 2 folders in the root of your project and copy all the required header files into these
+folders:
+
+- opencv (all available headers files in the include folder of the installed OpenCV package)
+- shore
+  + ContentToText.h
+  + CreateFaceEngine.h
+  + Gallery.h
+  + Image.h
+  + Shore.h
+
+3. Create your project in VC++ 2010
+
+4. Goto project's [Properties -> Linker -> General -> Additional Library Directories] and add 
+your folders:
+
+- shore_lib;opencv_lib
+
+5. Goto project's [Properties -> Linker -> Input -> Additional Dependencies] and add all above 
+mentioned static libraries' name.
+
+6. Copy all the above mentioned dll files into the root of your project. (They are originally 
+in the following path of your installed OpenCV package)
+
+- poencv -> build -> x64 -> vc10 -> bin
+
+7. Add the following cpp files from the Shore package to your project:
+
+- ContentToText.cpp
+- CreateFaceEngine.cpp
+
+8. Add the following cpp files from the Shore package (Models folder) to your project. They 
+contain required machine learning data when you need to do a specific image processing task 
+(e.g. Face detection).
+
+- FaceFront_24x24_2008_08_29_161712_7.cpp
+- Happy_26x26_2008_09_08_124526.cpp
+
+9. You need to register model files in your project. To do that, open them and "delete" the 
+preprocessing commands before and after of the specified method's prototype and the 
+RegisterModel method which are located at the beginning of the model files.
+
+10. Go to the project's [Properties -> Configuration Manager -> Active Solution Platform] 
+and change it to X64.
+
+11. Build your project.
+
+===============================================================================================
+
+Project preparation: (Java - Eclipse Juno)
+
+1. Add a class and an interface file to your project.
+
+2. Add the jna.jar file as an "external archive" to the "build path" of your project.
+
+3. Your interface should extend the Library class of the JNA.
+
+4. The interface makes an INSTANCE of your dll (as a reference) and defines all required 
+function prototypes in the dll with all necessary type conversions from C++ to Java. Also, it 
+includes a class which extends the Structure class of the JNA. Basically, this is equivalent 
+to your structure inside of your dll file. (Note: It is necessary to implement either/both of 
+the accessing methods to your structure, i.e. ByValue and ByReference).
+
+5. Use addSearchPath method of the NativeLibrary in JNA to add your dll's path to be accessible 
+for your project.
+
+===============================================================================================
+
+- Copy your dll file into the src folder of your Eclipse project (beside all other required dll 
+files, mentioned above)
+
+- Compile and run your program. :-)
+
