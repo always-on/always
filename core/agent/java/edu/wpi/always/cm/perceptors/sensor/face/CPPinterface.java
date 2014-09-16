@@ -27,7 +27,7 @@ public interface CPPinterface extends Library {
 
       public static CPPinterface loadLibrary () {
          try {
-            // System.setProperty("jna.debug_load", "true");
+            System.setProperty("jna.debug_load", "true");
             return (CPPinterface) Native.loadLibrary("FaceDetection", CPPinterface.class);
          } catch (UnsatisfiedLinkError e) { throw new RuntimeException(e); }
       }
@@ -35,15 +35,40 @@ public interface CPPinterface extends Library {
 
    CPPinterface INSTANCE = LoadHelper.loadLibrary();
 
+   /**
+    * @return This method returns all required face information for the agent calculated based on Shore.
+    * 
+    * In case of error, FaceInfo values will be as the following:
+    * 
+    * Image content error code     --> -1,
+    * Frame capture error code     --> -2,
+    * Camera connection error code --> -3.
+    */
    FaceInfo getAgentFaceInfo (int intDebug);
 
-   void initAgentShoreEngine (int intDebug);
+   /**
+    * @return This method returns -1 in case of Shore engine setup failure.
+    * It returns 0, if it successfully creates the face engine.
+    */
+   int initAgentShoreEngine (int intDebug);
 
    void terminateAgentShoreEngine (int intDebug);
 
+   /**
+    * @return This method returns all required face information for the robot calculated based on Shore.
+    * 
+    * In case of error, FaceInfo values will be as the following:
+    * 
+    * Image content error code           --> -1,
+    * Sending capture command error code --> -4.
+    */
    FaceInfo getReetiFaceInfo (int intDebug);
 
-   void initReetiShoreEngine (String[] iP_ADDRESS, int intDebug);
+   /**
+    * @return This method returns -1 in case of Shore engine setup failure.
+    * It returns 0, if it successfully creates the face engine.
+    */
+   int initReetiShoreEngine (String[] iP_ADDRESS, int intDebug);
 
    void terminateReetiShoreEngine (int intDebug);
 }
