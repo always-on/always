@@ -103,7 +103,13 @@ RegisterModel method which are located at the beginning of the model files.
 10. Go to the project's [Properties -> Configuration Manager -> Active Solution Platform] 
 and change it to X64.
 
-11. Build your project.
+11. Go to the project's [Properties -> Configuration Properties -> General -> Target 
+Extension] and set it to ".dll".
+
+12. Go to the project's [Properties -> Configuration Properties -> General -> Configuration 
+Type] and set it to "Dynamic Library(.dll)".
+
+13. Build your project.
 
 ===============================================================================================
 
