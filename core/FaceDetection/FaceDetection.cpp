@@ -78,6 +78,13 @@ int initAgentShoreEngine( int intDebug ) {
 	cvSetCaptureProperty( capture, CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH);
 	cvSetCaptureProperty( capture, CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
 
+	if ( !capture )
+	{
+		std::cerr << "Error: cvCapture structure initialization failed - exit!\n";
+		return -2;
+		//std::exit(1);
+	}
+
 	engine = Shore::CreateFaceEngine( timeBase,
 									  updateTimeBase,
 									  threadCount,
