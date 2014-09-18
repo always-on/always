@@ -48,6 +48,7 @@ public interface CPPinterface extends Library {
 
    /**
     * @return This method returns -1 in case of Shore engine setup failure.
+    * It returns -2 in case cvCapture structure initialization failure.
     * It returns 0, if it successfully creates the face engine.
     */
    int initAgentShoreEngine (int intDebug);
