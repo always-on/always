@@ -16,7 +16,23 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    private final static long timeUnit = 220;
 
-   protected FaceInfo getFaceInfo (int debug) { return null; }
+   private int faceCode;
+   
+   final protected FaceInfo getFaceInfo (int debug) {
+      FaceInfo info = getFaceInfoCPP(debug);
+      int code = info.isCode() ? info.getCode() : 0;
+      if ( code != faceCode ) {
+         // don't print code changes between -1 and 0 (lost face)
+         if ( !((code == 0 && faceCode == -1) || (code == -1 && faceCode == 0)) )
+            Utils.lnprint(System.out, "ShoreFacePerceptor.getFaceInfo() return code: "+code);
+         faceCode = code;
+      }
+      return info;
+   }
+   
+   protected FaceInfo getFaceInfoCPP (int debug) {
+      return null;
+   }
 
    protected FaceInfo info, prevInfo;
 
@@ -80,8 +96,11 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
 
    public synchronized void start (Object start) { // called on schema thread
       if ( !running ) {
-         startEngine(start);
-         running = true;
+         running = startEngine(start);
+         if ( !running ) {
+            latest = null;
+            stopEngine();
+         }
       }
    }
 
@@ -97,7 +116,22 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       }
    }
 
-   abstract protected void startEngine (Object start);
+   private int startCode;
+   
+   /**
+    * @return true iff successful
+    */
+   final protected boolean startEngine (Object start) {
+      int code = initEngine(start, 0);
+      if ( code != startCode ) {
+         Utils.lnprint(System.out, "ShoreFacePerceptor.startEngine() return code: " +code);
+         startCode = code;
+      }
+      return code == 0; 
+   }
+   
+   abstract protected int initEngine (Object start, int debug);
+   
    abstract protected void stopEngine (); 
 
    public static class Agent extends ShoreFacePerceptor {
@@ -105,8 +139,8 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       public Agent () { super(50, 50, 1700, null); }
 
       @Override
-      protected void startEngine (Object start) {
-         CPPinterface.INSTANCE.initAgentShoreEngine(0);
+      protected int initEngine (Object start, int debug) {
+         return CPPinterface.INSTANCE.initAgentShoreEngine(debug);
       }
 
       @Override
@@ -115,7 +149,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       }
 
       @Override
-      protected FaceInfo getFaceInfo (int debug) {
+      protected FaceInfo getFaceInfoCPP (int debug) {
          return CPPinterface.INSTANCE.getAgentFaceInfo(debug);
       }
    }
@@ -127,16 +161,16 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
       }
 
       @Override
-      protected FaceInfo getFaceInfo (int debug) {
+      protected FaceInfo getFaceInfoCPP (int debug) {
          FaceInfo info = CPPinterface.INSTANCE.getReetiFaceInfo(debug);
-         if( info.isRestart() ) { Always.restart(null, "Restart from FaceDetection.DLL"); }
+         if ( info.isRestart() ) { Always.restart(null, "Restart from FaceDetection.DLL"); }
          return info;
       }
 
       @Override
-      protected void startEngine (Object start) {
-         CPPinterface.INSTANCE.initReetiShoreEngine(
-               new String[] { ((ReetiJsonConfiguration) start).getIP() }, 0);
+      protected int initEngine (Object start, int debug) {
+         return CPPinterface.INSTANCE.initReetiShoreEngine(
+               new String[] { ((ReetiJsonConfiguration) start).getIP() }, debug);
       }
 
       @Override
