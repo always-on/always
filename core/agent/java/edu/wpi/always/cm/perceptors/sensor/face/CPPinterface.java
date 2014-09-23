@@ -17,17 +17,24 @@ public interface CPPinterface extends Library {
       @Override
       protected List<String> getFieldOrder () { return fieldOrder; }
       
-      boolean isFace () { return intLeft >= 0; }
+      boolean isFace () { return !isCode(); };
       
-      //-2 (or less) is used as a signal to exit and restart as a results of a socket failure
-      boolean isRestart () { return intHappiness <= -2; }
+      boolean isCode () { return intHappiness < 0 
+            && intHappiness == intRight && intHappiness == intTop && intHappiness == intBottom 
+            && intHappiness == intArea && intHappiness == intCenter && intHappiness == intTiltCenter; }
+      
+      boolean isError () { return isCode() && intHappiness != -1; }
+      
+      boolean isRestart () { return isCode() && intHappiness == -4; }
+      
+      int getCode () { return intHappiness; }
    }
 
    public class LoadHelper {
 
       public static CPPinterface loadLibrary () {
          try {
-            System.setProperty("jna.debug_load", "true");
+            //System.setProperty("jna.debug_load", "true");
             return (CPPinterface) Native.loadLibrary("FaceDetection", CPPinterface.class);
          } catch (UnsatisfiedLinkError e) { throw new RuntimeException(e); }
       }
