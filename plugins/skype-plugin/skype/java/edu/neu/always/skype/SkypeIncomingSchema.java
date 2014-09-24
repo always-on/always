@@ -1,5 +1,6 @@
 package edu.neu.always.skype;
 
+import java.util.*;
 import edu.wpi.always.Always;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.perceptors.*;
@@ -39,11 +40,18 @@ public class SkypeIncomingSchema extends SkypeSchema {
       else super.runActivity();
    }
    
+   public static final long SHORE_START_DELAY_SECONDS = 60;
+   
    @Override
    public void dispose () { 
       super.dispose();      
       // this code is here so it is run even if schema throws an error
-      if ( shore != null ) shore.start();
+      if ( shore != null ) 
+         // need to wait until certain that camera is released
+         new Timer().schedule(new TimerTask() {
+            @Override
+            public void run () { shore.start(); }}, 
+            SHORE_START_DELAY_SECONDS*1000L); 
       EngagementPerception.setRecoveringEnabled(true);
    }
    
