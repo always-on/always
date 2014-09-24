@@ -119,7 +119,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
    private int startCode;
    
    /**
-    * @return true iff successful
+    * @return true iff running
     */
    final protected boolean startEngine (Object start) {
       int code = initEngine(start, 0);
@@ -127,7 +127,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
          Utils.lnprint(System.out, "ShoreFacePerceptor.startEngine() return code: " +code);
          startCode = code;
       }
-      return code == 0; 
+      return code == 0;
    }
    
    abstract protected int initEngine (Object start, int debug);
