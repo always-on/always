@@ -183,7 +183,8 @@ namespace AgentApp
 
             //Hide page display and videocaller
             Agent.ShowPage("");
-            Agent.videoCaller.hideCall();
+            if(Agent.videoCaller != null)
+                Agent.videoCaller.hideCall();
 
             UpdateLayout();
 		}

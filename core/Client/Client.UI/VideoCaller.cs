@@ -8,6 +8,7 @@ using Agent.Tcp;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using System.Threading;
+using System.Timers;
 //using System.Windows.Input;
 
 namespace Agent.UI
@@ -26,11 +27,12 @@ namespace Agent.UI
 
         Boolean activeCall = false;
 
-        UserControl uc;
+        UnityUserControl.UnityUserControl uc;
         IMessageDispatcher _remote;
         public System.Windows.Forms.WebBrowser page;
+        private System.Timers.Timer restartTimer;
         //START OF VIDEO CALLING CODE
-        public void addCaller(UserControl uc)
+        public void addCaller(UnityUserControl.UnityUserControl uc)
         {
             this.uc = uc;
             page = new System.Windows.Forms.WebBrowser();
@@ -44,6 +46,8 @@ namespace Agent.UI
             page.Navigate("https://ragserver.ccs.neu.edu/hangoutTest/");
             page.ObjectForScripting = this;
             page.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.onVideoCallerDocumentComplete);
+            restartTimer = new System.Timers.Timer(100);
+            restartTimer.Elapsed += onVideoCallerTimer;
         }
 
         //Nasty workaround to google hangout blocking out javascript
@@ -76,7 +80,7 @@ namespace Agent.UI
 
         public void onVideoCallerDocumentComplete(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            Console.WriteLine("onDocumentComplete Called");
+            System.Diagnostics.Debug.WriteLine("onDocumentComplete Called");
             if (page.Url.ToString().Contains("plus.google.com/hangouts/"))
             {
                 SendClick(405, 660);
@@ -120,15 +124,15 @@ namespace Agent.UI
         //Javascript hooks
         public void onParticipantLeave()
         {
-            Console.WriteLine("participant has left");
-            JObject body = new JObject();
+            System.Diagnostics.Debug.WriteLine("participant has left");
+            //JObject body = new JObject();
             endCall();
             //_remote.Send("callEnded",body);
         }
 
         public void onParticipantRequest()
         {
-            Console.WriteLine("got a participant request");
+            System.Diagnostics.Debug.WriteLine("got a participant request");
             JObject body = new JObject();
             body["id"] = "bob";
             _remote.Send("videoCall", body);
@@ -141,7 +145,7 @@ namespace Agent.UI
         {
             communicationURL = o.ToString();
             communicationURL = communicationURL.Trim();
-            Console.WriteLine(communicationURL);
+            System.Diagnostics.Debug.WriteLine(communicationURL);
             createCommunicationFunctions();
             //CleanUI
             clearUI();
@@ -149,7 +153,7 @@ namespace Agent.UI
 
         public void log(Object o)
         {
-            Console.WriteLine(o.ToString());
+            System.Diagnostics.Debug.WriteLine(o.ToString());
         }
 
         public void acceptCall()
@@ -161,6 +165,7 @@ namespace Agent.UI
 
         public void rejectCall()
         {
+            uc.webBrowser.Visible = true;
             activeCall = false;
             page.Document.InvokeScript("rejectCall");
             page.Visible = true;
@@ -168,12 +173,20 @@ namespace Agent.UI
 
         public void endCall()
         {
+            uc.webBrowser.Visible = true;
             activeCall = false;
             page.Visible = false;
             page.Navigate("");
-            page.Navigate("https://ragserver.ccs.neu.edu/hangoutTest/");
+            restartTimer.Enabled = true; // ensure we wait for camera release
             JObject body = new JObject();
             _remote.Send("callEnded", body);
+        }
+
+        //Put in a delay to ensure camera is released from the webpage.
+        private void onVideoCallerTimer(Object source, ElapsedEventArgs e)
+        {
+            restartTimer.Enabled = false;
+            page.Navigate("https://ragserver.ccs.neu.edu/hangoutTest/");
         }
 
         public void hideCall()

@@ -255,7 +255,7 @@ namespace Agent.UI
         {
             agent.Invoke((MethodInvoker)delegate
             {
-                agent.webBrowser.Visible = true;
+                //agent.webBrowser.Visible = true;
                 videoCaller.endCall();
             });
         }
@@ -264,7 +264,7 @@ namespace Agent.UI
         {
             agent.Invoke((MethodInvoker)delegate
             {
-                agent.webBrowser.Visible = true;
+                //agent.webBrowser.Visible = true;
                 videoCaller.rejectCall();
             });
         }
