@@ -80,7 +80,7 @@ namespace Agent.UI
 
         public void onVideoCallerDocumentComplete(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("onDocumentComplete Called");
+            //System.Diagnostics.Debug.WriteLine("onDocumentComplete Called");
             if (page.Url.ToString().Contains("plus.google.com/hangouts/"))
             {
                 SendClick(405, 660);
@@ -145,9 +145,15 @@ namespace Agent.UI
         {
             communicationURL = o.ToString();
             communicationURL = communicationURL.Trim();
-            System.Diagnostics.Debug.WriteLine(communicationURL);
+            System.Diagnostics.Debug.WriteLine("CommunicationURL: " + communicationURL);
             createCommunicationFunctions();
             //CleanUI
+            //Send id to server side
+            JObject body = new JObject();
+            body["id"] = o.ToString().Replace(".txt","");
+            _remote.Send("videoId", body);
+
+
             clearUI();
         }
 
