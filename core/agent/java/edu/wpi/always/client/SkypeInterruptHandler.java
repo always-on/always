@@ -26,8 +26,7 @@ public class SkypeInterruptHandler implements MessageHandler {
       CALLER_NAME = caller;
       boolean ignored = !SessionSchema.interrupt("_SkypeInterruption");
       if ( ignored ) { // see SessionSchema for message sent when user explicitly rejects
-         // TODO: uncomment line below when client can handle this message (otherwise crashes client)
-         //dispatcher.send(Message.builder(SkypeInterruptHandler.SKYPE_REJECTED_MESSAGE).build());
+         dispatcher.send(Message.builder(SkypeInterruptHandler.SKYPE_REJECTED_MESSAGE).build());
       }
       return !ignored;
    }
