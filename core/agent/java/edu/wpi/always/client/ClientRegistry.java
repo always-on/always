@@ -21,7 +21,7 @@ public class ClientRegistry implements ComponentRegistry {
             new SkypeInterruptHandler(dispatcher, container.getComponent(PeopleManager.class)));
       dispatcher.registerReceiveHandler(
               SkypeUserHandler.USER_MESSAGE, 
-              new SkypeUserHandler(dispatcher));
+              new SkypeUserHandler());
       container.addComponent(GazeRealizer.class);
       container.addComponent(FaceExpressionRealizer.class);
       container.addComponent(IdleBehaviorRealizer.class);

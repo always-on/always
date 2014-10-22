@@ -80,7 +80,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, UIMessageDispatcher dispatcher, ClientProxy proxy,
          SchemaManager schemaManager, Always always, DiscoRT.Interaction interaction) {
-      super(new Toplevel(interaction, dispatcher), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
+      super(new Toplevel(interaction), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
             always, interaction, Logger.Activity.SESSION);
       THIS = this;
       this.proxy = proxy;
@@ -312,11 +312,8 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    private static class Toplevel extends DiscoAdjacencyPair {
       
-      private final UIMessageDispatcher dispatcher;
-      
-      public Toplevel (DiscoRT.Interaction interaction, UIMessageDispatcher dispatcher) {
+      public Toplevel (DiscoRT.Interaction interaction) {
          super(interaction);
-         this.dispatcher = dispatcher;
       }
       
       @Override
