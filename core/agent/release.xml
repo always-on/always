@@ -14,6 +14,9 @@
         <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp">
           <fileset excludes="FaceDetection.dll,USBm2-64.dll" dir="lib/win32-x86-64"/>
         </copy>
+        <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp">
+          <fileset file="C:/Dropbox/FaceDetection/Shore140.dll"/>
+        </copy>
         <copy todir="C:/Dropbox/${env.COMPUTERNAME}/release.tmp/plugins/Plugins.Startup/bin">
           <fileset dir="../../plugins/Plugins.Startup/bin/Debug"/>
         </copy>  

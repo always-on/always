@@ -32,6 +32,7 @@ public class ClientProxy {
          hor = ReetiPIDController.translateReetiToAgentX(config.getNeckRotat());
          ver = ReetiPIDController.translateReetiToAgentY(config.getNeckTilt());
       }
+      setScreenVisible(false);
       // make sure client in default state
       showMenu(null, false, true);  // must be first
       showMenu(null, false, false);
