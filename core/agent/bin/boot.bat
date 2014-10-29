@@ -12,6 +12,6 @@ if not exist release.new\count.bat goto continue
 :continue 
 call release\bin\weather.bat
 cd C:\Dropbox\%COMPUTERNAME%
-always.bat
+always.bat %*
 
 
