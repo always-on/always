@@ -73,7 +73,12 @@ namespace Agent.UI
         private void agentCallbackListener(object sender, AgentEvent e)
         {
             if (e.value == "LoadComplete")
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml("<CAMERA ZOOM=\"1.6\"/>");
+                agent.perform(doc);
                 LoadComplete(this, null);
+            }
         }
 
         private void ttsCallbackListener(object sender, UnityUserControl.TTSEvent e)
