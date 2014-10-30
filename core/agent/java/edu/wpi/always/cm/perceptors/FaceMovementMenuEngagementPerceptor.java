@@ -76,12 +76,18 @@ public class FaceMovementMenuEngagementPerceptor
             Logger.THIS.logEngagement(oldState, newState);
          }
          // reset timing for new state
-         if ( lastMovementChange != null )
+         if ( lastMovementChange != null ) {
             lastMovementChange = new MovementTransition(lastMovementChange.isMoving);
-         if ( lastFaceChange != null )
+            if ( Always.TRACE ) System.out.print(" (Movement)");
+         }
+         if ( lastFaceChange != null ) {
             lastFaceChange = new FaceTransition(lastFaceChange.isFace, lastFaceChange.isNear);
-         if ( lastTouchChange != null )
+            if ( Always.TRACE ) System.out.print(" (Face)");
+         }
+         if ( lastTouchChange != null ) {
             lastTouchChange = new TouchTransition(lastTouchChange.timeStamp);
+            System.out.print(" (Touch)");
+         }
          lastStateChangeTime = System.currentTimeMillis();
          latest = new EngagementPerception(newState);
       }
