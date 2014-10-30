@@ -70,7 +70,7 @@ public class SkypeOutgoingSchema extends SkypeSchema {
          String body = person.getName() +",\n\n" +
         		 fName + " would like to have a video call with you using the AlwaysOn system.\n" +
         		 "You can call them by going to the following website:\n\n" +
-        		 "https://ragserver.ccs.neu/hangoutTest/login.html?id=" + id + "\n\n" +
+        		 "https://ragserver.ccs.neu.edu/hangoutTest/login.html?id=" + id + "\n\n" +
         		 "*This is an automatically generated email, if you have any questions about the AlwaysOn System please contact the study team at lring@ccs.neu.edu";
          String subject = "AlwaysOn: Video Call Request from " + fName;
          MailSender.sendEmail(body, subject, address);
