@@ -12,5 +12,8 @@ public interface CurrentWeather {
 
    String getLocationName ();
    
+   String getTitle ();
+   
    void setComment (String comment);
+   void setTitle (String title);
 }

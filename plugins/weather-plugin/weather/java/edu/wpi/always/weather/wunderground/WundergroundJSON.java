@@ -49,6 +49,9 @@ public class WundergroundJSON {
       forecast = new Forecast[forecastSize];
       for (int i = 0; i < forecastSize; i++)
          forecast[i] = new WundergroundForecast(zip, i);
+      
+      currentWeather.setTitle(new WundergroundHelper("forecast", zip).getData(
+            "/response/forecast/txt_forecast/forecastdays/forecastday[1]/title/text()"));
 
       // interest cities
       interestCities = new HashMap<String, CurrentWeather>();

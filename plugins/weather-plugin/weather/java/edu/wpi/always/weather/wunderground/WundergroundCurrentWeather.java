@@ -15,9 +15,13 @@ public class WundergroundCurrentWeather implements CurrentWeather {
    private final String locationName;
    private final String zip;
    private String comment;
+   private String title; // set later during forecast retrieval
    
    @Override
    public void setComment (String comment) { this.comment = comment; }
+   
+   @Override
+   public void setTitle (String title) { this.title = title; }
 
    WundergroundCurrentWeather (String zip) throws IOException,
          ParserConfigurationException, SAXException, XPathExpressionException {
@@ -65,5 +69,10 @@ public class WundergroundCurrentWeather implements CurrentWeather {
    @Override
    public String getLocationName () {
       return locationName;
+   }
+   
+   @Override
+   public String getTitle () { 
+      return title;
    }
 }
