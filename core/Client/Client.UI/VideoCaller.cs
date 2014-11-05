@@ -21,6 +21,7 @@ namespace Agent.UI
             this._remote = remote;
             //_remote.RegisterReceiveHandler("acceptCall", new MessageHandlerDelegateWrapper(m => acceptCall()));
             //_remote.RegisterReceiveHandler("endCall", new MessageHandlerDelegateWrapper(m => endCall()));
+
         }
 
         String communicationURL = "";
@@ -48,7 +49,18 @@ namespace Agent.UI
             page.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.onVideoCallerDocumentComplete);
             restartTimer = new System.Timers.Timer(100);
             restartTimer.Elapsed += onVideoCallerTimer;
+            //page.PreviewKeyDown += new PreviewKeyDownEventHandler(page_PreviewKeyDown);
         }
+
+        //Debug method to find mouse pos
+        /*
+        void page_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(e.KeyCode);
+            if (e.KeyCode == Keys.C)
+                MessageBox.Show(Cursor.Position.ToString());
+        }
+         */
 
         //Nasty workaround to google hangout blocking out javascript
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -59,10 +71,12 @@ namespace Agent.UI
 
         private const int WM_LEFTBUTTONDOWN = 0x0201;
         private const int WM_LEFTBUTTONUP = 0x0202;
+        private const int WM_MOUSEMOVE = 0x0200;
 
         public void SendClick(int x, int y)
         {
-            //get the browser pointer
+            //for debugging
+                //get the browser pointer
             IntPtr pControl;
             pControl = FindWindowEx(page.Handle, IntPtr.Zero, "Shell Embedding", IntPtr.Zero);
             pControl = FindWindowEx(pControl, IntPtr.Zero, "Shell DocObject View", IntPtr.Zero);
@@ -70,7 +84,7 @@ namespace Agent.UI
 
             PostMessage(pControl,(uint)WM_LEFTBUTTONDOWN,0,MAKELPARAM(x,y));
             PostMessage(pControl, (uint)WM_LEFTBUTTONUP, 0, MAKELPARAM(x, y));
-            //PostMessage(pControl, WM_MOUSEMOVE, 0, MAKELPARAM(x, y));
+            
         }
 
         private int MAKELPARAM(int p, int p_2)
@@ -83,9 +97,11 @@ namespace Agent.UI
             //System.Diagnostics.Debug.WriteLine("onDocumentComplete Called");
             if (page.Url.ToString().Contains("plus.google.com/hangouts/"))
             {
-                SendClick(405, 660);
-                //ClickOn(page.Handle, 405, 660);
-                //LeftMouseClick(405, 660);
+                //Check for debugging computer
+                if (Screen.PrimaryScreen.Bounds.Width == 1024)
+                    SendClick(405, 660);
+                else
+                    SendClick(340,600);
             }
         }
 
