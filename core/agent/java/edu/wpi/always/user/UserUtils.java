@@ -108,6 +108,10 @@ public abstract class UserUtils {
       return getTimeOfDay() == TimeOfDay.NIGHT;
    }
    
+   public static boolean isEvening () {
+      return getTimeOfDay() == TimeOfDay.EVENING;
+   }
+   
    public static int getDays (UserModel model) {
       return Days.daysBetween(new DateTime(model.getStartTime()), new DateTime()).getDays();
    }
