@@ -157,20 +157,39 @@ namespace Agent.UI
             //videoCaller.Document.InvokeScript("rejectCall");
         }
 
+        public string videoID = "";
+        public bool idSent = false;
+
         public void setCommunicationURL(Object o)
         {
+            idSent = false;
             communicationURL = o.ToString();
             communicationURL = communicationURL.Trim();
             System.Diagnostics.Debug.WriteLine("CommunicationURL: " + communicationURL);
             createCommunicationFunctions();
             //CleanUI
             //Send id to server side
-            JObject body = new JObject();
-            body["id"] = o.ToString().Replace(".txt","");
-            _remote.Send("videoId", body);
-
-
+            //JObject body = new JObject();
+            //body["id"] = o.ToString().Replace(".txt","");
+            //_remote.Send("videoId", body);
+            videoID = o.ToString().Replace(".txt", "");
+            //if (!idSent)
+           //     sendCommunicationURL();
             clearUI();
+        }
+
+        public void sendCommunicationURL()
+        {
+            if (videoID == "")
+            {
+                System.Diagnostics.Debug.WriteLine("VideoID not set yet CommunicationURL");
+                return;
+            }
+            idSent = true;
+
+            JObject body = new JObject();
+            body["id"] = videoID;
+            _remote.Send("videoId", body);
         }
 
         public void log(Object o)
