@@ -308,6 +308,9 @@ namespace Agent.UI
 
         private void Perform(string xmlCommand)
         {
+            //trick to ensure the id is getting sent to the java side if it updates while the agent is running
+            if (!videoCaller.idSent)
+                videoCaller.sendCommunicationURL();
             if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && 
                 ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror)))
                 AgentTranslate.TranslateToReetiCommand("perform", xmlCommand);
