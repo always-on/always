@@ -71,7 +71,32 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
             }
          });
       }
+      @Override
+      public void agentMoveOptionsReceived (String chosenMoveType) {
+         if (chosenMoveType.equals("draw"))
+            StartGamingSequence.receivedAgentDrawOptions = true;
+         else if(chosenMoveType.equals("discard"))
+            StartGamingSequence.receivedAgentDiscardOptions = true;
+         else if(chosenMoveType.equals("meld"))
+            StartGamingSequence.receivedAgentMeldOptions = true;
+         else if(chosenMoveType.equals("layoff"))
+            StartGamingSequence.receivedAgentLayoffOptions = true;
+      }
+
    }
+   
+   @Override
+   public void agentMoveOptionsReceived (String chosenMoveType) {
+      if (chosenMoveType.equals("draw"))
+         StartGamingSequence.receivedAgentDrawOptions = true;
+      else if(chosenMoveType.equals("discard"))
+         StartGamingSequence.receivedAgentDiscardOptions = true;
+      else if(chosenMoveType.equals("meld"))
+         StartGamingSequence.receivedAgentMeldOptions = true;
+      else if(chosenMoveType.equals("layoff"))
+         StartGamingSequence.receivedAgentLayoffOptions = true;
+   }
+
 
    public class Tutorial extends SrummyAdjacencyPairImpl{
       public Tutorial (SrummyStateContext context) {
@@ -117,6 +142,19 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
       }
       @Override
       public void enter () { explainingLine++; }
+      
+      @Override
+      public void agentMoveOptionsReceived (String chosenMoveType) {
+         if (chosenMoveType.equals("draw"))
+            StartGamingSequence.receivedAgentDrawOptions = true;
+         else if(chosenMoveType.equals("discard"))
+            StartGamingSequence.receivedAgentDiscardOptions = true;
+         else if(chosenMoveType.equals("meld"))
+            StartGamingSequence.receivedAgentMeldOptions = true;
+         else if(chosenMoveType.equals("layoff"))
+            StartGamingSequence.receivedAgentLayoffOptions = true;
+      }
+
    }
 
    public class LetsPlay extends SrummyAdjacencyPairImpl{
@@ -138,6 +176,19 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
                   }
                });
       }
+      
+      @Override
+      public void agentMoveOptionsReceived (String chosenMoveType) {
+         if (chosenMoveType.equals("draw"))
+            StartGamingSequence.receivedAgentDrawOptions = true;
+         else if(chosenMoveType.equals("discard"))
+            StartGamingSequence.receivedAgentDiscardOptions = true;
+         else if(chosenMoveType.equals("meld"))
+            StartGamingSequence.receivedAgentMeldOptions = true;
+         else if(chosenMoveType.equals("layoff"))
+            StartGamingSequence.receivedAgentLayoffOptions = true;
+      }
+
    }
 
 }
