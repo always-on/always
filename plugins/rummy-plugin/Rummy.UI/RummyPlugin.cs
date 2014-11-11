@@ -98,7 +98,6 @@ namespace AgentApp
 			uiThreadDispatcher.BlockingInvoke(() =>
 			{
 				game = new GameShape();
-				pluginContainer = new Viewbox();
 				pluginContainer.Child = game;
 			});
 

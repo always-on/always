@@ -12,10 +12,10 @@ public class StartGamingSequence extends SrummyAdjacencyPairImpl {
    private static String currentAgentComment = "";
    private static String currentAgentResponse = "";
    private static String WhatAgentSaysIfHumanDoesNotChooseAComment = "";
-   private static boolean receivedAgentDrawOptions = false;
-   private static boolean receivedAgentDiscardOptions = false;
-   private static boolean receivedAgentMeldOptions = false;
-   private static boolean receivedAgentLayoffOptions = false;
+   static boolean receivedAgentDrawOptions = false;
+   static boolean receivedAgentDiscardOptions = false;
+   static boolean receivedAgentMeldOptions = false;
+   static boolean receivedAgentLayoffOptions = false;
    private static List<String> humanResponseOptions = 
          new ArrayList<String>();
 
