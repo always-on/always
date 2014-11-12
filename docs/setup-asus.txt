@@ -119,7 +119,7 @@ recommit the file.)
 
         Personalization > Screen Saver
         Select "Blank" 
-        Select Wait 15 minutes
+        Select Wait 10 minutes
         Do not select On Resume Display Login Screen
 
     (d) To improve low speaker volume CHECK [ ]
