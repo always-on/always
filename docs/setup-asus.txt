@@ -155,6 +155,11 @@ recommit the file.)
         Unselect all options under "Choose where..."
         Apply
 
+    (h) Disable automatic muting 
+
+        Control Panel > Sounds > Communication
+        Select "Do Nothing"
+
 -----------------------------------------------------------------------
 
 (6) Registry Edit CHECK [ ]
