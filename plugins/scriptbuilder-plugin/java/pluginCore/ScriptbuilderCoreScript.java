@@ -36,12 +36,11 @@ public class ScriptbuilderCoreScript extends AdjacencyPairBase<RAGStateContext> 
 			   outputOnly = false;
 				try {
 					OutputText[] choices = context.getMenuPrompts();
-					if (choices == null) {
-						System.out.println("What? How are choices empty here?");
-					}
-					for (int i = 0; i < choices.length; i++) {
-						choice(choices[i].getOutput(),
-								new AADialogStateTransition(i, context));
+					if (choices != null) {
+						for (int i = 0; i < choices.length; i++) {
+							choice(choices[i].getOutput(),
+									new AADialogStateTransition(i, context));
+						}
 					}
 				} catch (Exception e) {
 				   Utils.rethrow(e);
