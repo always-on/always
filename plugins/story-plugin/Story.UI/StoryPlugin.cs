@@ -10,7 +10,10 @@ using System.Windows.Controls;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.IO;
-using System.Windows.Media.Imaging;
+using Microsoft.Expression.Encoder.Devices;
+using Microsoft.Expression.Encoder.Live;
+using System.Windows.Forms;
+
 
 namespace Story.UI
 {
@@ -21,9 +24,10 @@ namespace Story.UI
         IUIThreadDispatcher _uiThreadDispatcher;
         Viewbox pluginContainer;
 
-        private byte[] imageData;
-        private bool capturing = false;
-        private string filename = "";
+        LiveJob job = new LiveJob();
+        LiveDeviceSource liveSource;
+        EncoderDevice videoDevice;
+        EncoderDevice audioDevice;
 
 
         public StoryPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
@@ -40,13 +44,33 @@ namespace Story.UI
                 new MessageHandlerDelegateWrapper(m => endVideoCapture()));
             _remote.RegisterReceiveHandler("story.startRecording",
                 new MessageHandlerDelegateWrapper(m => startVideoCapture(m)));
+
+            foreach (EncoderDevice edv in EncoderDevices.FindDevices(EncoderDeviceType.Video))
+            {
+                //Console.WriteLine("found a video deviced named: " + edv.Name);
+                videoDevice = edv;
+            }
+            foreach (EncoderDevice edv in EncoderDevices.FindDevices(EncoderDeviceType.Audio))
+            {
+                //Console.WriteLine("found a audio deviced named: " + edv.Name);
+                if (edv.Name.ToLower().Contains("microphone"))
+                    audioDevice = edv;
+            }
+
+            story.SizeChanged += new System.Windows.SizeChangedEventHandler(story_SizeChanged);
+        }
+
+        void story_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            story.videoPreview.Height = int.Parse(story.Height.ToString());
+            story.videoPreview.Width = int.Parse(story.Width.ToString());
         }
 
         public void Dispose()
         {
             _remote.RemoveReceiveHandler("story.stopRecording");
             _remote.RemoveReceiveHandler("story.startRecording");
-            endCapture();
+            //endCapture();
         }
 
         public Viewbox GetPluginContainer()
@@ -54,72 +78,33 @@ namespace Story.UI
             return pluginContainer;
         }
 
-        Thread captureThread;
-
         private void startVideoCapture(JObject m)
         {
-            initCamera();
-            this.filename = "testVideo";
-            captureThread = new Thread(videoCaptureThread);
-            captureThread.Name = "CaptureThread";
-            captureThread.SetApartmentState(ApartmentState.STA);
-            captureThread.Start();
-        }
-
-        private void initCamera()
-        {
-            if (init() != 0)
-                Console.WriteLine("failed to call init");
-        }
-
-        public void videoCaptureThread()
-        {
-            capturing = true;
-            if (startCapture(filename) != 0)
+            liveSource = job.AddDeviceSource(videoDevice, audioDevice);
+            story.videoPreview.Invoke((MethodInvoker)delegate
             {
-                Console.WriteLine("Failed to start video capture");
-            }
-            imageData = new byte[921654];
-            Thread.Sleep(100);
-            MemoryStream ms;
-            BitmapImage bitmapImage;
-            while (capturing)
-            {
-                _uiThreadDispatcher.BlockingInvoke(() =>
-                {
-                    getImage(imageData);
-                    ms = new MemoryStream(imageData);
-                    bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.StreamSource = ms;
-                    bitmapImage.EndInit();
-                    story.captureImage.Source = bitmapImage;
-                });
-                Thread.Sleep(35);
-            }
+                Console.WriteLine(story.Height);
+                story.videoPreview.Height = int.Parse(story.Height.ToString());
+                story.videoPreview.Width = int.Parse(story.Width.ToString());
+                liveSource.PreviewWindow = new PreviewWindow(new HandleRef(story.videoPreview, story.videoPreview.Handle));
+            });
+            job.ActivateSource(liveSource);
+
+            FileArchivePublishFormat fileOut = new FileArchivePublishFormat();
+
+            fileOut.OutputFileName = "C:\\testXAMLVideo.wmv";
+
+            job.PublishFormats.Add(fileOut);
+
+            job.StartEncoding();
         }
 
         public void endVideoCapture()
         {
-            capturing = false;
-            endCapture();
-            if (captureThread.IsAlive)
-                captureThread.Join();
-            end();
+            job.StopEncoding();
+            job.RemoveDeviceSource(liveSource);
+            liveSource = null;
         }
-
-
-        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int init();
-        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int startCapture(string filename);
-        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int endCapture();
-        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void getImage(byte[] imageData);
-        [DllImport("STORYCAPTURE.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void end();
-
     }
 }
 

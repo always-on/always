@@ -31,6 +31,15 @@ public class AADBStore extends DBStore {
 	public void clearDB() {
 
 	}
+	
+	public void logAnecdotes(String scriptname){
+		//Placeholder, only records start of topic
+		AnecdotesSchema.log(AnecdotesSchema.Status.STARTED,scriptname);
+	}
+	
+	public void logStoryTelling(boolean saved, String topic){
+		//Placeholder
+	}
 
 	@Override
 	public int addSession(ServerConstants.Media media) {
