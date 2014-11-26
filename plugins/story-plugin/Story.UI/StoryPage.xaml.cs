@@ -12,16 +12,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Windows.Interop;
+
 namespace Story.UI
 {
     /// <summary>
     /// Interaction logic for StoryPage.xaml
     /// </summary>
+    /// 
     public partial class StoryPage : UserControl
     {
         public StoryPage()
         {
             InitializeComponent();
+
         }
     }
 }
