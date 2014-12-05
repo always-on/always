@@ -24,11 +24,11 @@ namespace Story.UI
         IUIThreadDispatcher _uiThreadDispatcher;
         Viewbox pluginContainer;
 
-        LiveJob job = new LiveJob();
+        LiveJob job;
         LiveDeviceSource liveSource;
         EncoderDevice videoDevice;
         EncoderDevice audioDevice;
-
+        FileArchivePublishFormat fileOut;
 
         public StoryPlugin(IMessageDispatcher remote, IUIThreadDispatcher uiThreadDispatcher)
         {
@@ -44,6 +44,8 @@ namespace Story.UI
                 new MessageHandlerDelegateWrapper(m => endVideoCapture()));
             _remote.RegisterReceiveHandler("story.startRecording",
                 new MessageHandlerDelegateWrapper(m => startVideoCapture(m)));
+            _remote.RegisterReceiveHandler("story.saveRecording",
+                new MessageHandlerDelegateWrapper(m => saveRecording(m)));
 
             foreach (EncoderDevice edv in EncoderDevices.FindDevices(EncoderDeviceType.Video))
             {
@@ -58,6 +60,12 @@ namespace Story.UI
             }
 
             story.SizeChanged += new System.Windows.SizeChangedEventHandler(story_SizeChanged);
+            job = new LiveJob();
+
+
+            fileOut = new FileArchivePublishFormat();
+
+            fileOut.OutputFileName = Directory.GetCurrentDirectory() + "\\tempVideo.wmv";
         }
 
         void story_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
@@ -70,6 +78,9 @@ namespace Story.UI
         {
             _remote.RemoveReceiveHandler("story.stopRecording");
             _remote.RemoveReceiveHandler("story.startRecording");
+            _remote.RemoveReceiveHandler("story.saveRecording");
+            if (File.Exists(Directory.GetCurrentDirectory() + "\\tempVideo.wmv"))
+                File.Delete(Directory.GetCurrentDirectory() + "\\tempVideo.wmv");
             //endCapture();
         }
 
@@ -81,29 +92,69 @@ namespace Story.UI
         private void startVideoCapture(JObject m)
         {
             liveSource = job.AddDeviceSource(videoDevice, audioDevice);
-            story.videoPreview.Invoke((MethodInvoker)delegate
+
+            while(!story.videoPreview.IsHandleCreated)
+                Thread.Sleep(100);
+
+            if (liveSource.PreviewWindow == null)
             {
-                Console.WriteLine(story.Height);
-                story.videoPreview.Height = int.Parse(story.Height.ToString());
-                story.videoPreview.Width = int.Parse(story.Width.ToString());
-                liveSource.PreviewWindow = new PreviewWindow(new HandleRef(story.videoPreview, story.videoPreview.Handle));
-            });
+                story.videoPreview.Invoke((MethodInvoker)delegate
+                {
+                    story.videoPreview = new System.Windows.Forms.Panel();
+                    story.videoPreview.Height = int.Parse(story.Height.ToString());
+                    story.videoPreview.Width = int.Parse(story.Width.ToString());
+                    story.FormHost.Child = story.videoPreview;
+                    liveSource.PreviewWindow = new PreviewWindow(new HandleRef(story.videoPreview, story.videoPreview.Handle));
+                    //job.OutputPreviewWindow = new PreviewWindow(new HandleRef(story.videoPreview, story.videoPreview.Handle));
+                    //liveSource.PreviewWindow.SetSize(new System.Drawing.Size((int)story.videoPreview.Width, (int)story.videoPreview.Height));
+                });
+            }
             job.ActivateSource(liveSource);
 
-            FileArchivePublishFormat fileOut = new FileArchivePublishFormat();
+            if (File.Exists(Directory.GetCurrentDirectory() + "\\tempVideo.wmv"))
+                File.Delete(Directory.GetCurrentDirectory() + "\\tempVideo.wmv");
 
-            fileOut.OutputFileName = "C:\\testXAMLVideo.wmv";
 
             job.PublishFormats.Add(fileOut);
 
             job.StartEncoding();
         }
 
+        private void saveRecording(JObject m)
+        {
+            try
+            {
+                string status = m["saved"].ToString();
+                string storyType = m["type"].ToString();
+                if (storyType == "")
+                    storyType = "misc";
+                storyType += "_" + DateTime.Now.ToString("M-d-yyyy-H-mm-ss");
+                if (status == "SAVED")
+                {
+                    //rename the video
+                    if (File.Exists(Directory.GetCurrentDirectory() + "\\tempVideo.wmv"))
+                        File.Move(Directory.GetCurrentDirectory() + "\\tempVideo.wmv", Directory.GetCurrentDirectory() + "\\" + storyType + ".wmv");
+                }
+                else
+                {
+                    if (File.Exists(Directory.GetCurrentDirectory() + "\\tempVideo.wmv"))
+                        File.Delete(Directory.GetCurrentDirectory() + "\\tempVideo.wmv");
+                    //delete the video
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception in saving recording:" + e);
+            }
+        }
+
         public void endVideoCapture()
         {
             job.StopEncoding();
             job.RemoveDeviceSource(liveSource);
-            liveSource = null;
+            //liveSource.Dispose();
+            //liveSource = null;
+            //job.Dispose();
         }
     }
 }
