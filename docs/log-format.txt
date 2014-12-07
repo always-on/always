@@ -172,10 +172,10 @@
 
 ---------------------------------------------------------
 
-<DATETIME>,STORY,<SAVED>,<DURATION>,<TITLE>
+<DATETIME>,STORY,<SAVED>,<TYPE>
 
 * <SAVED> = SAVED or NOT_SAVED
-* <TITLE> = "..."
+* <TYPE> = "..."
 ---------------------------------------------------------
 
 <DATETIME>,TTT,WON,<WHO>,<FIRST>
