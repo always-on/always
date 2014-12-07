@@ -32,13 +32,19 @@ public class AADBStore extends DBStore {
 
 	}
 	
-	public void logAnecdotes(String scriptname){
+	public void logAnecdotes(String scriptname, String status) {
 		//Placeholder, only records start of topic
-		AnecdotesSchema.log(AnecdotesSchema.Status.STARTED,scriptname);
+		if(status == "STARTED")
+			AnecdotesSchema.log(AnecdotesSchema.Status.STARTED,scriptname);
+		else
+			AnecdotesSchema.log(AnecdotesSchema.Status.FINISHED,scriptname);
 	}
 	
 	public void logStoryTelling(boolean saved, String topic){
-		//Placeholder
+		if(saved)
+			StorytellingSchema.log(StorytellingSchema.Saved.SAVED, topic);
+		else
+			StorytellingSchema.log(StorytellingSchema.Saved.NOT_SAVED, topic);
 	}
 
 	@Override

@@ -66,11 +66,10 @@ public class SkypeOutgoingSchema extends SkypeSchema {
          log(Direction.OUTGOING, person.getName());
          id = SkypeUserHandler.USER_ID;
          String address = person.getSkypeNumber();
-         // TODO send email to person.getSkypeName() and wait for incoming call?
-         String body = person.getName() +",\n\n" +
-        		 fName + " would like to have a video call with you using the AlwaysOn system.\n" +
-        		 "You can call them by going to the following website:\n\n" +
+         String body = "Dear " + person.getName() +",\n\n" +
+        		 fName + " has asked the AlwaysOn system to send you this email so that you can make video calls using Google Hangout. You can start a video call with " + fName + " now or at any later time by visiting the following website:\n\n" +
         		 "https://ragserver.ccs.neu.edu/hangoutTest/login.html?id=" + id + "\n\n" +
+        		 "If " + fName + " is not available, the system will let you know.\n\n" +
         		 "*This is an automatically generated email, if you have any questions about the AlwaysOn System please contact the study team at lring@ccs.neu.edu";
          String subject = "AlwaysOn: Video Call Request from " + fName;
          MailSender.sendEmail(body, subject, address);

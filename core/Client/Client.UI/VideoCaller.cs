@@ -53,14 +53,14 @@ namespace Agent.UI
         }
 
         //Debug method to find mouse pos
-        /*
+        
         void page_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine(e.KeyCode);
             if (e.KeyCode == Keys.C)
                 MessageBox.Show(Cursor.Position.ToString());
         }
-         */
+         
 
         //Nasty workaround to google hangout blocking out javascript
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -98,7 +98,7 @@ namespace Agent.UI
             if (page.Url.ToString().Contains("plus.google.com/hangouts/"))
             {
                 //Check for debugging computer
-                if (Screen.PrimaryScreen.Bounds.Width == 1024)
+                if (Screen.PrimaryScreen.Bounds.Width == 1280)
                     SendClick(405, 660);
                 else
                     SendClick(340,600);

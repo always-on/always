@@ -9,7 +9,7 @@
              >
     <!-- :DesignHeight="300" d:DesignWidth="300" -->
     <WindowsFormsHost Background="{x:Null}" Name="FormHost">
-            <wf:Panel Height="300" Width="300" x:Name="videoPreview"/>
-        </WindowsFormsHost>
+        <wf:Panel Height="300" Width="300" x:Name="videoPreview"/>
+    </WindowsFormsHost>
         <!--- <Image Height="300" HorizontalAlignment="Left" Name="captureImage" Stretch="Fill" VerticalAlignment="Top" Width="300" /> -->
 </UserControl>
