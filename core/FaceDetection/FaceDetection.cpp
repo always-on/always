@@ -32,7 +32,7 @@ using namespace std;
 using namespace cv;
 
 Communication Com;
-CvCapture* capture; //Alternative: VideoCapture capture(0);
+CvCapture* capture = NULL; //Alternative: VideoCapture capture(0);
 Shore::Engine* engine;
 Shore::Engine* ReetiEngine;
 
@@ -77,12 +77,20 @@ int initAgentShoreEngine( int intDebug ) {
 	capture = cvCaptureFromCAM( -1 );
 	cvSetCaptureProperty( capture, CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH);
 	cvSetCaptureProperty( capture, CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
-
+	
 	if ( !capture )
 	{
 		std::cerr << "Error: cvCapture structure initialization failed - exit!\n";
 		return -2;
 		//std::exit(1);
+	}
+
+	Mat frame;
+	frame = cvRetrieveFrame(capture);
+	if(frame.data == NULL)
+	{
+		cout << "Could not get the camera, returning" << endl;
+		return -2;
 	}
 
 	engine = Shore::CreateFaceEngine( timeBase,
@@ -187,10 +195,25 @@ int initReetiShoreEngine( char ** IP_ADDRESS, int intDebug ) {
 extern "C" __declspec(dllexport)
 
 void terminateAgentShoreEngine( int intDebug ) {
-	cvReleaseCapture( &capture );
-	if (intDebug == 1)
-			cvDestroyWindow( "Display window" );
-	Shore::DeleteEngine( engine );
+	try{
+		if(capture == NULL){
+			cout << "Capture is null, returning " << endl;
+			return;
+		}
+		Mat frame;
+		frame = cvRetrieveFrame(capture);
+		if(frame.data == NULL){
+			cout << "frame is null, returning " << endl;
+			return;
+		}
+		cvReleaseCapture( &capture );
+		if (intDebug == 1)
+				cvDestroyWindow( "Display window" );
+		Shore::DeleteEngine( engine );
+		cout << "RELEASED IT" << endl;
+	} catch(Exception e){
+		cout << "ERROR!" << endl;
+	}
 }
 
 extern "C" __declspec(dllexport)
@@ -235,7 +258,9 @@ FaceInfo getAgentFaceInfo( int intDebug )
 	//Capture Image using Asus Camera
 	if( capture ) //Alternative: if( capture.isOpened() )
 	{
-		frame = cvQueryFrame( capture ); //Alternative: capture >> frame;
+		//frame = cvQueryFrame( capture ); //Alternative: capture >> frame;
+
+		frame = cvRetrieveFrame(capture);
 
 		if(frame.data == NULL)
 		{
@@ -243,6 +268,7 @@ FaceInfo getAgentFaceInfo( int intDebug )
 			return invalidateFaceInfo(FRAME_CAPTURE_ERROR);
 			//std::exit(1);
 		}
+		//cout << frame.data << endl;
 
 		//Convert to Grayscale
 		cvtColor( frame , gray_frame , CV_RGB2GRAY );
@@ -266,9 +292,10 @@ FaceInfo getAgentFaceInfo( int intDebug )
 									image.Width(), //frame.cols+1 //frame.size().width
 									0,
 									"GRAYSCALE" );
-		
+		cout << "AFTER PROCES" << endl;		
 		if ( content->GetObjectCount() > 0 )
 		{
+			cout << "got a face" << endl;
 			for( int i = 0 ; i < content->GetObjectCount() ; i++ )
 			{
 				intCurrWidth = abs(content->GetObject(i)->GetRegion()->GetRight() - content->GetObject(i)->GetRegion()->GetLeft());
@@ -433,3 +460,13 @@ FaceInfo getReetiFaceInfo( int intDebug )
 	return faceInfo;
 }
 
+int main( int argc, const char* argv[] )
+{
+	initAgentShoreEngine(0);
+	for(int i = 0; i < 10; i++){
+	getAgentFaceInfo(0);
+	}
+	terminateAgentShoreEngine(0);
+	int i;
+	cin >> i;
+}
