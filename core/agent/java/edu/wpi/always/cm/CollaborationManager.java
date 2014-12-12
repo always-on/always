@@ -6,7 +6,7 @@ import org.picocontainer.*;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import edu.wpi.always.*;
 import edu.wpi.always.Always.AgentType;
-import edu.wpi.always.client.ClientProxy;
+import edu.wpi.always.client.*;
 import edu.wpi.always.client.reeti.*;
 import edu.wpi.always.cm.primitives.*;
 import edu.wpi.always.cm.schemas.*;
@@ -133,6 +133,9 @@ public class CollaborationManager extends DiscoRT {
       start(plugin == null ? "Session" : null);
       // after DiscoRT.start() so all registries done
       ClientProxy proxy = container.getComponent(ClientProxy.class);
+      // let client know it is safe to download Hangout app because
+      // ShoreFacePerceptor has already grabbed camera
+      //proxy.camera();
       // agent always starts not visible (and stays that way for Reeti-only mode)
       proxy.setAgentVisible(false);
       proxy.hidePlugin();

@@ -8,7 +8,7 @@ public class UIMessageDispatcherImpl implements UIMessageDispatcher,
       TcpConnectionObserver {
 
    private final UIMessagingJson json = new UIMessagingJson();
-   private TcpConnection conn;
+   private final TcpConnection conn;
    private final HashMap<String, MessageHandler> handlers = new HashMap<String, MessageHandler>();
    private final ExecutorService receivedMessageNotifierService = ThreadPools.newFixedThreadPool(1, true);
 
@@ -16,8 +16,6 @@ public class UIMessageDispatcherImpl implements UIMessageDispatcher,
       conn = connection;
       conn.addObserver(this);
    }
-
-   public UIMessageDispatcherImpl () {}  // see send
    
    @Override
    public void notifyMessageReceive (TcpConnection sender, String text) {
@@ -26,12 +24,6 @@ public class UIMessageDispatcherImpl implements UIMessageDispatcher,
 
    @Override
    public void send (Message message) {
-      // allow delay of opening connection to support ShoreFacePerceptor grabbing
-      // camera before Hangout app is loaded
-      if ( conn == null ) {
-         conn = new TcpConnection("localhost", 11000);
-         conn.addObserver(this);
-      }
       conn.beginSend(json.generate(message));
    }
 

@@ -73,6 +73,10 @@ public class ClientProxy {
       enqueue(new Message(messageType, body));
    }
 
+   public void camera () {
+      enqueue("camera");
+   }
+   
    public void say (String text) {
       String logText = text.trim();
       if ( !logText.isEmpty() ) Logger.logEvent(Logger.Event.SAY, logText);
