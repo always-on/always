@@ -13,8 +13,7 @@ public class ClientRegistry implements ComponentRegistry {
    @Override
    public void register (MutablePicoContainer container) {
       // NB: Realizers should *not* be cached, other components should
-      container.as(Characteristics.CACHE).addComponent(new UIMessageDispatcherImpl(new TcpConnection(
-            "localhost", 11000)));
+      container.as(Characteristics.CACHE).addComponent(new UIMessageDispatcherImpl());
       UIMessageDispatcher dispatcher = container.getComponent(UIMessageDispatcher.class);
       dispatcher.registerReceiveHandler(
             SkypeInterruptHandler.SKYPE_MESSAGE, 
