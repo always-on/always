@@ -82,14 +82,13 @@ int initAgentShoreEngine( int intDebug ) {
 	{
 		std::cerr << "Error: cvCapture structure initialization failed - exit!\n";
 		return -2;
-		//std::exit(1);
 	}
 
 	Mat frame;
 	frame = cvRetrieveFrame(capture);
 	if(frame.data == NULL)
 	{
-		cout << "Could not get the camera, returning" << endl;
+		std::cerr << "Error: Camera was in use, failed to start shore!\n";
 		return -2;
 	}
 
@@ -120,14 +119,9 @@ int initAgentShoreEngine( int intDebug ) {
 	{
 		std::cerr << "Error: Engine setup failed - exit!\n";
 		return -1;
-		//std::exit(1);
 	}
 	
 	return 0;
-	
-	//Alternative:
-	//capture.set(CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH);
-	//capture.set(CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
 
 }
 
@@ -185,7 +179,6 @@ int initReetiShoreEngine( char ** IP_ADDRESS, int intDebug ) {
 	{
 		std::cerr << "Error: Engine setup failed - exit!\n";
 		return -1;
-		//std::exit(1);
 	}
 
 	Com.initSocket(2, IP_ADDRESS);
@@ -197,12 +190,13 @@ extern "C" __declspec(dllexport)
 void terminateAgentShoreEngine( int intDebug ) {
 	try{
 		if(capture == NULL){
-			cout << "Capture is null, returning " << endl;
+			std::cerr << "Warning: Shore was never started, stop should not have been called!\n";
 			return;
 		}
 		Mat frame;
 		frame = cvRetrieveFrame(capture);
 		if(frame.data == NULL){
+			std::cerr << "Warning: Camera was in use by another application so no need to stop shore!\n";
 			cout << "frame is null, returning " << endl;
 			return;
 		}
@@ -210,9 +204,8 @@ void terminateAgentShoreEngine( int intDebug ) {
 		if (intDebug == 1)
 				cvDestroyWindow( "Display window" );
 		Shore::DeleteEngine( engine );
-		cout << "RELEASED IT" << endl;
 	} catch(Exception e){
-		cout << "ERROR!" << endl;
+		std::cerr << "Error: Uncaught exception in stop\n";
 	}
 }
 
@@ -268,7 +261,6 @@ FaceInfo getAgentFaceInfo( int intDebug )
 			return invalidateFaceInfo(FRAME_CAPTURE_ERROR);
 			//std::exit(1);
 		}
-		//cout << frame.data << endl;
 
 		//Convert to Grayscale
 		cvtColor( frame , gray_frame , CV_RGB2GRAY );
@@ -292,10 +284,10 @@ FaceInfo getAgentFaceInfo( int intDebug )
 									image.Width(), //frame.cols+1 //frame.size().width
 									0,
 									"GRAYSCALE" );
-		cout << "AFTER PROCES" << endl;		
+
 		if ( content->GetObjectCount() > 0 )
 		{
-			cout << "got a face" << endl;
+
 			for( int i = 0 ; i < content->GetObjectCount() ; i++ )
 			{
 				intCurrWidth = abs(content->GetObject(i)->GetRegion()->GetRight() - content->GetObject(i)->GetRegion()->GetLeft());
@@ -458,15 +450,4 @@ FaceInfo getReetiFaceInfo( int intDebug )
 	}
 
 	return faceInfo;
-}
-
-int main( int argc, const char* argv[] )
-{
-	initAgentShoreEngine(0);
-	for(int i = 0; i < 10; i++){
-	getAgentFaceInfo(0);
-	}
-	terminateAgentShoreEngine(0);
-	int i;
-	cin >> i;
 }
