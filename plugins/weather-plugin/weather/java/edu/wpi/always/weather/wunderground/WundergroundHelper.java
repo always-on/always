@@ -9,7 +9,7 @@ import javax.xml.xpath.*;
 
 public class WundergroundHelper {
 
-   private static final String API_KEY = "cd3b2dc51dd67e26";
+   private static final String API_KEY = "4dde73e9c5a73922";
    private final transient Document doc;  // transient to avoid circularity for Gson
 
    WundergroundHelper (String feature, String zip) throws IOException,
