@@ -32,7 +32,7 @@ using namespace std;
 using namespace cv;
 
 Communication Com;
-CvCapture* capture; //Alternative: VideoCapture capture(0);
+CvCapture* capture = NULL; //Alternative: VideoCapture capture(0);
 Shore::Engine* engine;
 Shore::Engine* ReetiEngine;
 
@@ -77,12 +77,19 @@ int initAgentShoreEngine( int intDebug ) {
 	capture = cvCaptureFromCAM( -1 );
 	cvSetCaptureProperty( capture, CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH);
 	cvSetCaptureProperty( capture, CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
-
+	
 	if ( !capture )
 	{
 		std::cerr << "Error: cvCapture structure initialization failed - exit!\n";
 		return -2;
-		//std::exit(1);
+	}
+
+	Mat frame;
+	frame = cvRetrieveFrame(capture);
+	if(frame.data == NULL)
+	{
+		std::cerr << "Error: Camera was in use, failed to start shore!\n";
+		return -2;
 	}
 
 	engine = Shore::CreateFaceEngine( timeBase,
@@ -112,14 +119,9 @@ int initAgentShoreEngine( int intDebug ) {
 	{
 		std::cerr << "Error: Engine setup failed - exit!\n";
 		return -1;
-		//std::exit(1);
 	}
 	
 	return 0;
-	
-	//Alternative:
-	//capture.set(CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH);
-	//capture.set(CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
 
 }
 
@@ -177,7 +179,6 @@ int initReetiShoreEngine( char ** IP_ADDRESS, int intDebug ) {
 	{
 		std::cerr << "Error: Engine setup failed - exit!\n";
 		return -1;
-		//std::exit(1);
 	}
 
 	Com.initSocket(2, IP_ADDRESS);
@@ -187,10 +188,25 @@ int initReetiShoreEngine( char ** IP_ADDRESS, int intDebug ) {
 extern "C" __declspec(dllexport)
 
 void terminateAgentShoreEngine( int intDebug ) {
-	cvReleaseCapture( &capture );
-	if (intDebug == 1)
-			cvDestroyWindow( "Display window" );
-	Shore::DeleteEngine( engine );
+	try{
+		if(capture == NULL){
+			std::cerr << "Warning: Shore was never started, stop should not have been called!\n";
+			return;
+		}
+		Mat frame;
+		frame = cvRetrieveFrame(capture);
+		if(frame.data == NULL){
+			std::cerr << "Warning: Camera was in use by another application so no need to stop shore!\n";
+			cout << "frame is null, returning " << endl;
+			return;
+		}
+		cvReleaseCapture( &capture );
+		if (intDebug == 1)
+				cvDestroyWindow( "Display window" );
+		Shore::DeleteEngine( engine );
+	} catch(Exception e){
+		std::cerr << "Error: Uncaught exception in stop\n";
+	}
 }
 
 extern "C" __declspec(dllexport)
@@ -235,7 +251,9 @@ FaceInfo getAgentFaceInfo( int intDebug )
 	//Capture Image using Asus Camera
 	if( capture ) //Alternative: if( capture.isOpened() )
 	{
-		frame = cvQueryFrame( capture ); //Alternative: capture >> frame;
+		//frame = cvQueryFrame( capture ); //Alternative: capture >> frame;
+
+		frame = cvRetrieveFrame(capture);
 
 		if(frame.data == NULL)
 		{
@@ -266,9 +284,10 @@ FaceInfo getAgentFaceInfo( int intDebug )
 									image.Width(), //frame.cols+1 //frame.size().width
 									0,
 									"GRAYSCALE" );
-		
+
 		if ( content->GetObjectCount() > 0 )
 		{
+
 			for( int i = 0 ; i < content->GetObjectCount() ; i++ )
 			{
 				intCurrWidth = abs(content->GetObject(i)->GetRegion()->GetRight() - content->GetObject(i)->GetRegion()->GetLeft());
@@ -432,4 +451,3 @@ FaceInfo getReetiFaceInfo( int intDebug )
 
 	return faceInfo;
 }
-
