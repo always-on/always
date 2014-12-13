@@ -8,7 +8,5 @@ public interface WeatherProvider {
 
    Alert getAlert (String zip);
 
-   Radar getRadar (String zip);
-
    Forecast getForecast (String zip, int howManyDaysLater);
 }

@@ -10,8 +10,6 @@ import java.util.*;
 public class WundergroundJSON {
    CurrentWeather currentWeather;
 
-   Radar radar;
-
    Alert alert;
 
    Almanac almanac;
@@ -41,7 +39,6 @@ public class WundergroundJSON {
 
    private void fillData (String zip) throws Exception {
       currentWeather = new WundergroundCurrentWeather(zip);
-      radar = new WundergroundRadar(zip);
       almanac = new WundergroundAlmanac(zip);
       alert = new WundergroundAlert(zip);
 

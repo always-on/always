@@ -33,15 +33,6 @@ public class WundergroundWeatherProvider implements WeatherProvider {
    }
 
    @Override
-   public Radar getRadar (String zip) {
-      try {
-         return new WundergroundRadar(zip);
-      } catch (Exception e) {
-         return null;
-      }
-   }
-
-   @Override
    public Forecast getForecast (String zip, int howManyDaysLater) {
       try {
          return new WundergroundForecast(zip, howManyDaysLater);

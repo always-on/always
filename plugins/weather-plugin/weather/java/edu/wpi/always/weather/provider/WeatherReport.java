@@ -8,7 +8,6 @@ public class WeatherReport {
 
    private static final int FORECAST_SIZE = 3;
    private CurrentWeather currentWeather;
-   private Radar radar;
    private Alert alert;
    private Almanac almanac;
    private List<Forecast> forecastList;
@@ -18,7 +17,6 @@ public class WeatherReport {
    public WeatherReport (WeatherProvider provider, String mainZip,
          Person[] interestWeatherPeople, Place[] interestPlaces) {
       currentWeather = provider.getCurrentWeather(mainZip);
-      radar = provider.getRadar(mainZip);
       almanac = provider.getAlmanac(mainZip);
       alert = provider.getAlert(mainZip);
       // forecast
@@ -55,10 +53,6 @@ public class WeatherReport {
 
    public CurrentWeather getCurrentWeather () {
       return currentWeather;
-   }
-
-   public Radar getRadar () {
-      return radar;
    }
 
    public Alert getAlert () {
