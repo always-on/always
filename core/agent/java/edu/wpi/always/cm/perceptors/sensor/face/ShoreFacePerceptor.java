@@ -99,7 +99,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
          running = startEngine(start);
          if ( !running ) {
             latest = null;
-            stopEngine();
+            //stopEngine();
          }
       }
    }
@@ -110,9 +110,11 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
    @Override
    public synchronized void stop () { // called on schema thread
       if ( running ) {
+         Utils.lnprint(System.out, "Stopping Shore engine...");
          latest = null;
          running = false; // before terminate
          stopEngine();
+         Utils.lnprint(System.out, "Shore engine stopped");
       }
    }
 
@@ -128,7 +130,7 @@ public abstract class ShoreFacePerceptor extends PerceptorBase<FacePerception>
          Utils.lnprint(System.out, "ShoreFacePerceptor.startEngine() return code: " +code);
          startCode = code;
       }
-      System.out.println(" started");
+      if ( code == 0) Utils.lnprint(System.out,"Shore engine successfully started");
       return code == 0;
    }
    
