@@ -40,7 +40,7 @@ public class SkypeIncomingSchema extends SkypeSchema {
       else super.runActivity();
    }
    
-   public static final long SHORE_START_DELAY_SECONDS = 120;
+   public static final long SHORE_START_DELAY_SECONDS = 90;
    
    @Override
    public void dispose () { 
