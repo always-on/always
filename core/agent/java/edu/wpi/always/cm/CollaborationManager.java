@@ -133,9 +133,6 @@ public class CollaborationManager extends DiscoRT {
       start(plugin == null ? "Session" : null);
       // after DiscoRT.start() so all registries done
       ClientProxy proxy = container.getComponent(ClientProxy.class);
-      // let client know it is safe to download Hangout app because
-      // ShoreFacePerceptor has already grabbed camera
-      //proxy.camera();
       // agent always starts not visible (and stays that way for Reeti-only mode)
       proxy.setAgentVisible(false);
       proxy.hidePlugin();
