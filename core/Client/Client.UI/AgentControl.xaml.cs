@@ -244,7 +244,7 @@ namespace Agent.UI
             videoCaller.addCaller(agent);
             dispatcher.RegisterReceiveHandler("acceptCall", new MessageHandlerDelegateWrapper(m => acceptCall()));
             dispatcher.RegisterReceiveHandler("endCall", new MessageHandlerDelegateWrapper(m => endCall()));
-            dispatcher.RegisterReceiveHandler("videoCallRejected", new MessageHandlerDelegateWrapper(m => endCall()));
+            dispatcher.RegisterReceiveHandler("videoCallRejected", new MessageHandlerDelegateWrapper(m => rejectCall()));
         }
 
         public void acceptCall()

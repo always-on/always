@@ -132,10 +132,9 @@ namespace Agent.UI
             //Create Communication Functions
             s = doc.CreateElement("script");
             s.SetAttribute("text",
-                "function rejectCall(){	$.ajax({url: 'https://ragserver.ccs.neu.edu/hangoutTest/saveURL.php',type: 'POST',data: {participantURL:\"" + communicationURL + "\",URL:\"reject\"},success: function(data) { console.log(data);}});};"
-                + "function acceptCall(){	$.ajax({url: 'https://ragserver.ccs.neu.edu/hangoutTest/saveURL.php',type: 'POST',data: {participantURL:\"" + communicationURL + "\",URL:\"accept\"},success: function(data) { console.log(data);}});};");
+                   "function rejectCall(){	$.ajax({url: 'https://ragserver.ccs.neu.edu/hangoutTest/saveURL.php',type: 'POST',data: {participantURL:\"" + communicationURL + "\",URL:\"reject\"},success: function(data) { console.log(data);}});};"
+                + " function acceptCall(){	$.ajax({url: 'https://ragserver.ccs.neu.edu/hangoutTest/saveURL.php',type: 'POST',data: {participantURL:\"" + communicationURL + "\",URL:\"accept\"},success: function(data) { console.log(data);}});};");
             head.AppendChild(s);
-
         }
         //Javascript hooks
         public void onParticipantLeave()
