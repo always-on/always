@@ -205,10 +205,12 @@ namespace Agent.UI
 
         public void rejectCall()
         {
+            page.Document.InvokeScript("rejectCall");
             uc.webBrowser.Visible = true;
             activeCall = false;
-            page.Document.InvokeScript("rejectCall");
-            page.Visible = true;
+            page.Visible = false;
+            page.Navigate("");
+            restartTimer.Enabled = true; // ensure we wait for camera release
         }
 
         public void endCall()
