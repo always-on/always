@@ -80,7 +80,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, UIMessageDispatcher dispatcher, ClientProxy proxy,
          SchemaManager schemaManager, Always always, DiscoRT.Interaction interaction) {
-      super(new Toplevel(interaction), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
+      super(new Toplevel(interaction, dispatcher), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
             always, interaction, Logger.Activity.SESSION);
       THIS = this;
       this.proxy = proxy;
@@ -313,8 +313,11 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    
    private static class Toplevel extends DiscoAdjacencyPair {
       
-      public Toplevel (DiscoRT.Interaction interaction) {
+      private final UIMessageDispatcher dispatcher;
+
+      private Toplevel (DiscoRT.Interaction interaction, UIMessageDispatcher dispatcher) {
          super(interaction);
+         this.dispatcher = dispatcher;
       }
       
       @Override
@@ -352,8 +355,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
                      Logger.Event event = utterance instanceof Accept ? Logger.Event.ACCEPTED : Logger.Event.REJECTED;
                      Logger.logActivity(loggerName, event); 
                      if ( loggerName == Logger.Activity.SKYPE && event == Logger.Event.REJECTED ) {
-                        // TODO: uncomment line below when client can handle this message (otherwise crashes client)
-                        // dispatcher.send(Message.builder(SkypeInterruptHandler.SKYPE_REJECTED_MESSAGE).build());
+                        dispatcher.send(Message.builder(SkypeInterruptHandler.SKYPE_REJECTED_MESSAGE).build());
                      }
                   }
                }

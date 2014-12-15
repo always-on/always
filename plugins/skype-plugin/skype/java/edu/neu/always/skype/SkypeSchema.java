@@ -6,7 +6,7 @@ import edu.wpi.disco.rt.ResourceMonitor;
 import edu.wpi.disco.rt.behavior.*;
 import edu.wpi.disco.rt.menu.*;
 
-abstract class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Context> {
+public abstract class SkypeSchema extends ActivityStateMachineSchema<AdjacencyPair.Context> {
    
    public final static Logger.Activity LOGGER_NAME = Logger.Activity.SKYPE;
    public enum Direction { INCOMING, OUTGOING }
