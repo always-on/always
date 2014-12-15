@@ -129,6 +129,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Microsoft.Expression.Encoder.Api2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Microsoft.Expression.Encoder.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
