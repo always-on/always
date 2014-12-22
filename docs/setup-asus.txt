@@ -128,6 +128,8 @@ recommit the file.)
         > Playback > Speakers > Properties > Enhancements > 
 
         Scroll down in menu and check Loudness Equalization, then Apply/Ok.
+
+        **NB** Set PC volume to max using desktop tray icon
   
     (e) Disable solution checking CHECK [ ]
 
