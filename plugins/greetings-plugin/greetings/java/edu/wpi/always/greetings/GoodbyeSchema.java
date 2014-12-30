@@ -16,6 +16,7 @@ public class GoodbyeSchema extends DiscoActivitySchema {
          MenuPerceptor menuPerceptor, Always always) {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
             GreetingsPlugin.greetingsInteraction, LOGGER_NAME);
+      interruptible = false;
       if ( behaviorReceiver == null ) return; // for always_disco testing
       interaction.clear();
       switch (UserUtils.getTimeOfDay()) {

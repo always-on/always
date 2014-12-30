@@ -27,6 +27,7 @@ public class GreetingsSchema extends DiscoActivitySchema {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
             GreetingsPlugin.greetingsInteraction, LOGGER_NAME);
       model = always.getUserModel();
+      interruptible = false;
       if ( behaviorReceiver == null ) return; // for always_disco testing
       if ( running ) throw new IllegalStateException("GreetingsSchema already running!");
       running = true;
