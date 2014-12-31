@@ -303,6 +303,7 @@ namespace Agent.UI
             agent.Invoke((System.Windows.Forms.MethodInvoker)delegate
             {
 				agent.Visible = status;
+				//agent.webBrowser.Visible = status;
             });
         }
 
@@ -340,6 +341,7 @@ namespace Agent.UI
                 //agent.Visible = false;
                 if (url != "")
                 {
+					if (agentType == AgentType.Reeti) agent.Visible = true; 
                     page.Visible = true;
                     page.Navigate(url);
                     //                page.Navigate(url);
@@ -347,6 +349,7 @@ namespace Agent.UI
                 }
                 else
                 {
+					if (agentType == AgentType.Reeti) agent.Visible = false; 
                     page.Visible = false;
                 }
             });
