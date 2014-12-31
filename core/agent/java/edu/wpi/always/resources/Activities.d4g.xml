@@ -113,8 +113,7 @@
     <d:user text="yes, let's stop now"> 
       <d:agent text="ok, talk to you later">
         <d:user text="goodbye"
-                eval="Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent();
-                      Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
+                eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
       </d:agent>
     </d:user>
     <d:user text="no, let's continue" 

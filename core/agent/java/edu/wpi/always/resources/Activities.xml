@@ -25,7 +25,7 @@
          <binding slot="$_d4e61_step.text" value="&#34;goodbye&#34;"/>
          <binding slot="$_d4e61_step.external" value="true"/>
          <binding slot="$_d4e61_step.eval"
-                  value="&#34;Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent();                       Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
       </subtasks>
       <subtasks id="_d4e62_subtasks">
          <step name="_d4e62_step" task="disco:Say$Eval"/>
