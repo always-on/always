@@ -241,3 +241,9 @@ BIOS, saving settings, and let the restart finish.
 
 ________________________________________________________________
 
+(11) Initialize Hangout
+
+In IE, go to google.com, select "Stay Signed In" and login
+as 'alwaysontesting@gmail.com' (with appropriate password).
+
+________________________________________________________________
