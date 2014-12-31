@@ -83,6 +83,9 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
       super(new Toplevel(interaction, dispatcher), behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor,
             always, interaction, Logger.Activity.SESSION);
       THIS = this;
+      // starts off not interruptible so do not interrupt right at start of
+      // session, but set back to true at first yield
+      interruptible = false;
       this.proxy = proxy;
       this.schemaManager = schemaManager;
       this.interaction = interaction;
@@ -266,6 +269,7 @@ public class SessionSchema extends DiscoAdjacencyPairSchema {
    }
    
    private void yield (Plan plan) {
+      interruptible = true; // see constructor
       if ( !current.isSelfStop() ) {
          stop.setPlan(plan);
          stop.update();
