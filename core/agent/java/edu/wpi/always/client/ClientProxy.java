@@ -114,13 +114,17 @@ public class ClientProxy {
    
    public void setAgentVisible (boolean visible) {
       // never make agent visible for Reeti-only mode
-      if ( !visible || Always.getAgentType() != AgentType.REETI ) {
-         if ( agentVisible == null || agentVisible.booleanValue() != visible ) {
-            HashMap<String, String> p = Maps.newHashMap();
-            p.put("status", Boolean.toString(visible));
-            enqueue("setVisible", p);
-            agentVisible = visible;
-         }
+      if ( !visible || Always.getAgentType() != AgentType.REETI ) 
+         setAgentVisibleReeti(visible);
+   }
+   
+   // special hack for Hangout calls
+   public void setAgentVisibleReeti (boolean visible) {
+      if ( agentVisible == null || agentVisible.booleanValue() != visible ) {
+         HashMap<String, String> p = Maps.newHashMap();
+         p.put("status", Boolean.toString(visible));
+         enqueue("setVisible", p);
+         agentVisible = visible;
       }
    }
    
