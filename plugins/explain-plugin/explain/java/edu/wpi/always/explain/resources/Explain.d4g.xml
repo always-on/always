@@ -319,7 +319,7 @@
   <agent id="_ExplainTellStory" text="You can tell me a story about your life and I will record it.  I will pay attention even though I won't understand most of what you say" 
          eval="Activity.ALL.TellStory.setFlag()">
     <user text="Then what?" >
-      <agent text="When you are done, you can save the story, and if you want, send it out to friends">
+      <agent text="When you are done, you can save the story, and if you want,I can send it out to friends">
 
         <user text="Sounds okay">
 	  <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; I think you may like it &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
@@ -345,14 +345,20 @@
 
   <agent id="_ExplainPlanExercise" text="Everyone can use more exercise.  Walking is a really good and easy type of exercise" > 
     <user text="Yes, I know">
-      <agent text="I can help you work out an exercise plan, including getting a walking buddy.  I can also follow up with you every day once you start walking."
+      <agent text="I can help you work out an exercise plan.  I can also follow up with you every day once you start walking."
              eval="Activity.ALL.PlanExercise.setFlag()">
         <user text="Ok"/>
         <user text="Oh, that sounds fun!">
           <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Good, we can have fun getting you started on exercise &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
            </agent>
         </user>
-        <user text="no thanks"/>
+        <user text="no thanks">
+          <agent text="you should just give it a try.">
+            <user text="I'll think about it."/>
+            <user text="okay, I will do that."/>
+            <user text="no thanks."/>
+          </agent>
+        </user>
         <user text="Maybe another time"/>
       </agent>
     </user>
