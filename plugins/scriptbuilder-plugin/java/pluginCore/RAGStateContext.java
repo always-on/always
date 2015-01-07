@@ -58,7 +58,7 @@ public class RAGStateContext extends AdjacencyPair.Context {
 		this.peopleManager = peopleManager;
 		this.userModel = always.getUserModel();
 		this.module = module;
-		this.shore = shore;
+		this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
 		if (firstRun) {
 			try {
 				documentBuilderFactory = DocumentBuilderFactory.newInstance();
