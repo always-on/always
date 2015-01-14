@@ -29,7 +29,8 @@ public class SrummyInitial extends SrummyAdjacencyPairImpl{
       prompts.add("A meld is also 3 cards of the same suit, in sequence.  For example, the 9, 10 and 11 of hearts makes a meld.");
       prompts.add("Your turn starts when you take a card from the deck or from the discard pile.");
       prompts.add("If you want to meld, you meld during your turn before you discard.");
-      prompts.add("During your turn you can also add to any meld on the table.  The meld can be your own or mine!");
+      prompts.add("During your turn you can also add to any meld on the table.  The meld can be your own or mine! ");
+      prompts.add("And remember: aces are low, so they meld with a 2 and 3 of a suit.  Not with the king and queen! ");
       prompts.add("It's a bit tricky to get cards to sit on the table as a meld.  If it doesn't work the first time, "
             + "just move the card around a bit til it sticks.");
       prompts.add("After you discard a card, it's my turn.  ");
