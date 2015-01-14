@@ -243,7 +243,15 @@ ________________________________________________________________
 
 (11) Initialize Hangout
 
-In IE, go to google.com, select "Stay Signed In" and login
-as 'alwaysontesting@gmail.com' (with appropriate password).
+(a) In IE, go to google.com, select "Stay Signed In" and login as
+'alwaysontesting@gmail.com' or gmail address of participant (with
+appropriate password).
 
+(b) **TEST** Make sure that Hangout is intializing properly by clicking
+on following file in machine's Dropbox folder:
+
+   release/bin/always-client.bat
+
+and watching to make sure that blue camera light comes on and then
+turns *OFF*.   If it doesn't do both, then something is wrong!
 ________________________________________________________________
