@@ -21,6 +21,18 @@
     
   </t:script>
 
+
+  <t:task id="_FirstGreetings">
+    <t:subtasks id="main">
+      <t:step name="init" task="_Initial"/>
+      <t:step name="how" task="_HowAreYou" />
+      <t:step name="setup" task="_TheSetup" />
+      <t:step name="home" task="_HomeStay" />
+      <t:step name="apps" task="_SomeApps" />
+      <t:step name="last" task="_LastThings" />
+    </t:subtasks>
+  </t:task>
+
   <t:task id="_MorningGreetings">
     <t:subtasks id="simple">
       <t:step name="greet" task="_Morning"/>
@@ -239,5 +251,95 @@
       </agent>
     </user>
   </agent>
+
+  
+  <agent id="_Initial"
+         text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Hi!  To talk to me, just touch one of the options on your right. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
+    <user text="Okay.">
+      <agent text="Excellent! My name is Karen. You are {getUserName()}, is that right?">	
+        <user text="Yes. Good to meet you Karen.">
+          <agent text="Great to meet you, {getUserName()}."/>
+        </user>
+      </agent>
+    </user>
+  </agent>
+
+  <agent id="_HowAreYou"
+         text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; How are you doing today? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
+    <user text="Good, thanks.">
+      <agent text="I am happy to hear that.">
+        <user text="thanks."/>
+      </agent>
+    </user>
+    <user text="Not good at all.">
+      <agent text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Really?  Do you think you need medical attention? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt; ">
+        <user text="No, I'll be all right."/>
+        <user text = "Maybe.  I'll think about it."/>
+        <user text="Yes, I'll call my doctor.">
+          <agent text="Good idea."/>
+        </user>
+      </agent>
+    </user>
+    <user text="Only okay.">
+      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt;Sorry to hear that. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; ">
+        <user text="Thanks."/>
+        <user text="Yeh, me too."/>
+      </agent>
+    </user>
+  </agent>
+
+  <agent id="_TheSetup"
+         text="OK,, I know this setup can &lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; be a little strange. &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;" >
+    <user text="It's okay"/>
+    <user text="Yeh, it's a bit unreal.">
+      <agent text="well, over time I hope you will get used to me.">
+        <user text="I suppose I will."/>
+        <user text="We'll see."/>
+      </agent>
+    </user>
+    <user text="Yes, you are something else.">
+      <agent text="&lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; Well, I will try to do something useful! &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt; ">
+        <user text="Ok"/>
+        <user text="Good, I look forward to that!"/>
+      </agent>
+    </user>
+  </agent>
+
+  <agent id="_HomeStay"
+         text="I'm going to be staying in your home with you for the next month. &lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; I hope that's OK with you. &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;" >
+    <user text="Yes, it's fine.">
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; That's wonderful. I really appreciate your hospitality. Thanks! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; ">
+        <user text="You are welcome."/>
+        <user text="I welcome your company."/>
+      </agent>
+    </user>
+  </agent>
+
+  <agent id="_SomeApps"
+         text="So, we are going to be spending time together, and I can help you out with some things." >
+    <user text="Go on.">
+      <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; We can play games and have fun, but I can also help you communicate with your friends and family, talk with you about the weather, help you keep your calendar, and more. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; "> 
+        <user text="Sounds good.">
+          <agent text="We are going to ease into this, so today we will just try a few activities. But, over time, I will gradually introduce you to more things we can do.">
+            <user text="Okay."/>
+          </agent> 
+        </user>
+      </agent>
+    </user>
+  </agent>
+
+  <agent id="_LastThings"
+         text="You know, &lt;EYEBROWS DIR=\&quot;UP\&quot;/&gt; I was just created by some researchers in Boston,, so I have a lot of rough edges. But, I hope you will give me a chance, and talk to me for a few days at least. Can you do that for me? &lt;EYEBROWS DIR=\&quot;DOWN\&quot;/&gt;"
+         >
+    <user text="Sure">
+      <do task="_Response"/>
+    </user>
+    <user text="I suppose so.">
+      <do task="_Response"/>
+    </user>
+
+  </agent>
+
+  <agent id="_Response" text="Good. So let's get started!"/>
   
 </model>
