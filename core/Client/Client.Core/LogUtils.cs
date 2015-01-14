@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace Agent.Core
 {
@@ -10,7 +11,7 @@ namespace Agent.Core
 		public static void LogWithTime(string message)
 		{
 			var dt = DateTime.Now;
-			Console.WriteLine(message + " @ " + dt.Minute + ":" + dt.Second + "." + dt.Millisecond);
+			Debug.WriteLine(message + " @ " + dt.Minute + ":" + dt.Second + "." + dt.Millisecond);
 		}
 	}
 }

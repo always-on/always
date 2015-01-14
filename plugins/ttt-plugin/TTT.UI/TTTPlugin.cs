@@ -60,7 +60,7 @@ namespace AgentApp
                 return;
             }
             int cellNum = int.Parse(cellNumAsJObj["cellNum"].ToString());
-            //Console.WriteLine(cellNum);
+            //Debug.WriteLine(cellNum);
             game.PlayAgentMove(cellNum);
 		}
 

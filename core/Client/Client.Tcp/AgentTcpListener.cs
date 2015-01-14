@@ -7,6 +7,7 @@ using System.Net;
 using Agent.Core;
 using System.Threading;
 using System.IO;
+using System.Diagnostics;
 
 namespace Agent.Tcp
 {
@@ -39,7 +40,7 @@ namespace Agent.Tcp
 			} 
 			catch(System.SystemException ex) // SocketException or IOException
 			{ 
-				Console.WriteLine("AgentTcpListener ignoring client crash: " + ex.Message);
+				Debug.WriteLine("AgentTcpListener ignoring client crash: " + ex.Message);
 				Start();				
 			} 
 		}
@@ -62,7 +63,7 @@ namespace Agent.Tcp
 			}
 			catch(IOException ex)
 			{
-				Console.WriteLine("AgentTcpListener ignoring client crash: " + ex.Message);
+				Debug.WriteLine("AgentTcpListener ignoring client crash: " + ex.Message);
 				Start();
 			}
 		}

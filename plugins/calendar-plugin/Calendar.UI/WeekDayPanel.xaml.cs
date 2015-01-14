@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Media.Effects;
+using System.Diagnostics;
 
 namespace Calendar.UI
 {
@@ -161,8 +162,8 @@ namespace Calendar.UI
                 diff = 0;
             row.Height = new GridLength(diff, GridUnitType.Star);
 			contentGrid.RowDefinitions.Add(row);
-			Console.WriteLine("--------");
-			Console.WriteLine(diff);
+			Debug.WriteLine("--------");
+			Debug.WriteLine(diff);
 
 			for (int i = 0; i < events.Count; ++i)
 			{
@@ -175,7 +176,7 @@ namespace Calendar.UI
 				diff = nextTime - e.RawTime;
 				if (diff < 1)
 					diff = 0;
-				Console.WriteLine(diff);
+				Debug.WriteLine(diff);
 
 				row = new RowDefinition();
 				row.Height = new GridLength(diff, GridUnitType.Star);
