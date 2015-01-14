@@ -157,37 +157,41 @@
   </agent>
   
 
-  <agent id="_ExplainAboutAgent" text="Let me tell you a bit about myself">
+  <agent id="_ExplainAboutAgent" text="Let me tell you a bit about myself and why I am in your home.">
     <user text="Ok, go ahead">
-    <agent text="I'm always happy to talk to you whenever you are around.">
+      <agent text="I'm always happy to talk to you whenever you are around.">
         <user text="Oh, fine">
             <agent text="I will give you with a list of activities we can do together." >
-                <user text="Alright.">
-    	           <agent text="In the late evening, I turn off my screen, so that I won't disturb you. I will talk to you, only if you touch the screen. Then I'll be happy to talk."
+              <user text="Alright.">
+                <agent text="These activities are meant to provide you with companionship, such as playing games and telling your stories.  Some are meant to be useful, like keeping your calendar and giving you health tips. Some are meant to connect you to your friends and family, like video calls and personal story telling. ">
+                  <user text="Ok.  Is that all?">
+                    <agent text="In the late evening, I turn off my screen, so that I won't disturb you. I will talk to you, only if you touch the screen. Then I'll be happy to talk."
     	eval="Activity.ALL.AboutAgent.setFlag()">
-    		<user text="ok, anything else?">
-    			<agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Yes, I can only see your face, when we talk.  I don't see anything else around you.  My sight is really limited! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
-    				<user text="Really?">
-    					<agent text="I protect your privacy by not keeping any images or videos of you, unless you want to record a story.  Even then, I will ask you after, if you want to keep the video story.">
+                      <user text="ok, anything else?">
+                        <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Yes, I can only see your face, when we talk.  I don't see anything else around you.  My sight is really limited! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
+                          <user text="Really?">
+                            <agent text="I protect your privacy by not keeping any images or videos of you, unless you want to record a story.  Even then, I will ask you after, if you want to keep the video story.">
     						<user text="ok, I see"/>
     						<user text="ok, that's good to know"/>
     						<user text="how can I be sure you won't save videos or pictures of me?">
-    							<agent text="You can talk to the people who made me and brought me to you.  They can explain about me a lot more.">
-                                                          <user text="okay, thanks"/>
-                                                          <user text="I think I will talk to them."/>
-                                                        </agent>
-                                                </user>
-                                        </agent>
-    				</user>
-    			</agent>
-    		</user>
-    	</agent>
-    	   </user>
-    	   </agent>
-    	   </user>
-    	   </agent>
+                              <agent text="You can talk to the people who made me and brought me to you.  They can explain about me a lot more.">
+                                <user text="okay, thanks"/>
+                                <user text="I think I will talk to them."/>
+                              </agent>
+                            </user>
+                            </agent>
+                          </user>
+                        </agent>
+                      </user>
+                    </agent>
+                  </user>
+                </agent>
+              </user>
+            </agent>
+        </user>
+      </agent>
     </user>
-    <user text="not right now"/>	
+   <user text="not right now"/>	
   </agent>
   
   <agent id="_ExplainPlayGames" text="We can play games together.  In particular we can play rummy, checkers or TicTacToe" 
