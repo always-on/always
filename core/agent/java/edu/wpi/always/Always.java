@@ -187,6 +187,7 @@ public class Always {
       // for convenient use in Disco scripts
       disco.setGlobal("$always", this);
       disco.eval("edu.wpi.always = Packages.edu.wpi.always;", "Always.init");
+      edu.wpi.disco.Disco.RANDOM_ALTERNATIVES = true;
    }
 
    private final List<OntologyRegistry> ontologyRegistries = new ArrayList<OntologyRegistry>();

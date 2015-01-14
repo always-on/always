@@ -49,6 +49,7 @@
   <agent id="_Morning" text=" Good morning, {getUserName()}. ">
     <user text="Good morning, Karen."/>
     <user text="oh morning already!  Good morning!"/>
+    <user text="hi, how are you today?"/>
   </agent>
 
   <agent id="_SleepWell" text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; Did you sleep well? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"
@@ -56,10 +57,10 @@
     <user id="affirm" text="Yes">
       <agent text="Are you feeling okay today?">
         <user text="yes">
-          <agent text="good, glad to hear it"/>
+          <agent text="good, glad to hear it| Excellent! | Good to know."/>
         </user>
         <user text="No but it's nothing.">
-          <agent text="glad to hear it."/>
+          <agent text="glad to hear it | That's good"/>
         </user>
         <user text="No, I am not feeling well">
           <do task="_CallDoc" />
@@ -85,9 +86,9 @@
     </user>
   </agent>
 
-  <agent id="_CallDoc" text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; do you think you should call your doctor? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+  <agent id="_CallDoc" text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; do you think you should call your doctor? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; | &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; how about calling your doctor? &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="yes">
-      <agent text="ok, might be a good idea">
+      <agent text="ok, it's a good idea">
         <user text="yes, I'll call"/> 
         <user text="well, I think I'll call the doc later if I still don't feel good.">
           <agent text="okay"/>  
@@ -103,10 +104,10 @@
     <user id="yup" text="yes">
       <agent text="Are you feeling okay?">
         <user text="yes">
-          <agent text="good"/>
+          <agent text="good | Excellent! | Good to know"/>
         </user>
         <user text="no but it's nothing.">
-          <agent text="glad to hear it."/>
+          <agent text="glad to hear it | That's good"/>
         </user>
         <user text="No I don't feel so great">
           <do task="_CallDoc" />
@@ -155,10 +156,10 @@
   <agent id="_AfternoonGreetings" 
   	text="How's your day going {getUserName()} ?">
     <user text="fine">  
-      <agent text="good, glad to hear it"/>
+      <agent text="good, glad to hear it | that's good"/>
     </user>
     <user text="Oh not so great">
-      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear it. Maybe it will improve&lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+      <agent text="&lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear it. Maybe it will improve&lt;FACE EXPR=\&quot;WARM\&quot;/&gt; | &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; That's too bad.  But it could get better!&lt;FACE EXPR=\&quot;WARM\&quot;/&gt; " >
         <user text="I hope so" />
         <user text="I think it will!" />
         <user text="Maybe so, maybe no" />
@@ -171,14 +172,14 @@
       <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; good, glad to hear it &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;"/>
     </user>
     <user text="no, not really">
-      <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear it. Maybe this evening will be better &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+      <agent text=" &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; sorry to hear it. Maybe this evening will be better &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; | &lt;FACE EXPR=\&quot;CONCERN\&quot;/&gt; That's a shame. But tomorrow will be better! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
         <user text="Hope so" />
         <user text="Possibly" />
         <user text="Definitely" />
       </agent>
     </user>
     <user text="nothing special">
-      <agent text="Some days are like that. There's still the evening to come!">
+      <agent text="Some days are like that. &lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; There's still the evening to come! &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; ">
         <user text="Yes, so there is"/>
         <user text="Not expecting much" />
         <user text="I'm looking forward to it" />
@@ -188,7 +189,7 @@
 
   <agent id="_NightGreetings" text="Good evening {getUserName()} ! Staying up late tonight?">
     <user text="For a while">
-      <agent text="Well, I'm here as long as you want">
+      <agent text="Well, I'm here as long as you want | I will keep you company">
         <user text="Thanks"/>
       </agent>
     </user>
@@ -198,7 +199,7 @@
   <!-- These last two dialogues are chosen when the user says "I'm done" to final menu
        based on time of day; see GoodbyeSchema.java -->
 
-  <agent id="_Goodbye" text="Ok, talk to you later. Goodbye.">
+  <agent id="_Goodbye" text="Ok, talk to you later. Goodbye | Ok, Bye for now. | OK, good bye!">
     <user text="Goodbye" eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
   </agent>
 
