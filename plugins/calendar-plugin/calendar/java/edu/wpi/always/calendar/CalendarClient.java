@@ -30,7 +30,7 @@ public class CalendarClient implements CalendarUI {
    private static final DateTimeFormatter WEEK_DATE_FORMAT = DateTimeFormat
          .forPattern("MMMM d, yyyy");
    private static final DateTimeFormatter DAY_DATE_FORMAT = DateTimeFormat
-         .forPattern("EEEE, MMMM d");
+         .forPattern("EEE, MMMM d");
    private static final DateTimeFormatter EVENT_TIME_FORMAT = DateTimeFormat
          .forPattern("h:mm");
    private static final DateTimeFormatter EVENT_DAY_FORMAT = DateTimeFormat
