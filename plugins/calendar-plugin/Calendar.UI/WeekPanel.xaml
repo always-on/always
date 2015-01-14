@@ -16,14 +16,14 @@
         <Label Name="weekLabel" Content="Week Label" Grid.Column="0" HorizontalContentAlignment="Center" FontWeight="Normal" FontSize="32" />
         <UniformGrid Name="grid1" Rows="2" Columns="4" Grid.Row="1">
 
-            <local:WeekDayPanel x:Name="day1"  Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" Date="Monday"/>
-            <local:WeekDayPanel x:Name="day2" Grid.Row="1" Grid.RowSpan="1" Date="Tuesday" Grid.Column="1"/>
-            <local:WeekDayPanel x:Name="day3" Grid.Row="1" Grid.RowSpan="1" Date="Wednesday" Grid.Column="2"/>
-            <local:WeekDayPanel x:Name="day4" Grid.Row="1" Grid.RowSpan="1" Date="Thurdsay" Grid.Column="3" />
+            <local:WeekDayPanel x:Name="day1"  Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" Date="Mon"/>
+            <local:WeekDayPanel x:Name="day2" Grid.Row="1" Grid.RowSpan="1" Date="Tue" Grid.Column="1"/>
+            <local:WeekDayPanel x:Name="day3" Grid.Row="1" Grid.RowSpan="1" Date="Wed" Grid.Column="2"/>
+            <local:WeekDayPanel x:Name="day4" Grid.Row="1" Grid.RowSpan="1" Date="Thur" Grid.Column="3" />
             
-            <local:WeekDayPanel x:Name="day5" Grid.Row="2" Grid.RowSpan="1" Date="Friday" Grid.Column="0"/>
-            <local:WeekDayPanel x:Name="day6" Grid.Row="2" Grid.RowSpan="1" Date="Saturday" Grid.Column="1" />
-            <local:WeekDayPanel x:Name="day7" Grid.Row="2" Grid.RowSpan="1" Date="Sunday" Grid.Column="2"/>
+            <local:WeekDayPanel x:Name="day5" Grid.Row="2" Grid.RowSpan="1" Date="Fri" Grid.Column="0"/>
+            <local:WeekDayPanel x:Name="day6" Grid.Row="2" Grid.RowSpan="1" Date="Sat" Grid.Column="1" />
+            <local:WeekDayPanel x:Name="day7" Grid.Row="2" Grid.RowSpan="1" Date="Sun" Grid.Column="2"/>
             <local:WeekDayPanel x:Name="nextWeek" Grid.Row="2" Grid.RowSpan="1" Date="Next Week" Grid.Column="3" MaxHour="6" MinHour="0"/>
         </UniformGrid>
     </Grid>
