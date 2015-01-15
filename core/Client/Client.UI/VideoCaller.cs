@@ -42,7 +42,7 @@ namespace Agent.UI
             page.Name = "videoCaller";
             this.uc.Controls.Add(page);
             page.BringToFront();
-            page.Visible = false;
+            //page.Visible = false;
             page.ScriptErrorsSuppressed = true;
             page.Navigate("https://ragserver.ccs.neu.edu/hangoutTest/");
             page.ObjectForScripting = this;
