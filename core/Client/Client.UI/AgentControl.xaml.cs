@@ -50,8 +50,8 @@ namespace Agent.UI
         //Agent Controls
         public AgentControl()
         {
-            Console.WriteLine("Starting AgentControl...");
-			Console.WriteLine("agentType = " + agentType);
+            Debug.WriteLine("Starting AgentControl...");
+			Debug.WriteLine("agentType = " + agentType);
             Buttons = new NullChoiceButtons();
 
             InitializeComponent();
@@ -63,7 +63,7 @@ namespace Agent.UI
 				if (agentType == AgentType.Unity)
 				{
 					agentType = AgentType.Reeti;
-					Console.WriteLine("Received REETI_IP "+Agent.Tcp.AgentControlJsonAdapter.REETI_IP+" (agentType = Reeti)");
+					Debug.WriteLine("Received REETI_IP "+Agent.Tcp.AgentControlJsonAdapter.REETI_IP+" (agentType = Reeti)");
 				}
                 if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
                     AgentTranslate = new ReetiTranslation();
@@ -303,6 +303,7 @@ namespace Agent.UI
             agent.Invoke((System.Windows.Forms.MethodInvoker)delegate
             {
 				agent.Visible = status;
+				//agent.webBrowser.Visible = status;
             });
         }
 
@@ -340,6 +341,7 @@ namespace Agent.UI
                 //agent.Visible = false;
                 if (url != "")
                 {
+					if (agentType == AgentType.Reeti) agent.Visible = true; 
                     page.Visible = true;
                     page.Navigate(url);
                     //                page.Navigate(url);
@@ -347,6 +349,7 @@ namespace Agent.UI
                 }
                 else
                 {
+					if (agentType == AgentType.Reeti) agent.Visible = false; 
                     page.Visible = false;
                 }
             });

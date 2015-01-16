@@ -2,6 +2,7 @@ package edu.neu.always.skype;
 
 import java.util.*;
 import edu.wpi.always.Always;
+import edu.wpi.always.Always.AgentType;
 import edu.wpi.always.client.*;
 import edu.wpi.always.cm.perceptors.*;
 import edu.wpi.always.cm.perceptors.sensor.face.ShoreFacePerceptor;
@@ -13,15 +14,17 @@ public class SkypeIncomingSchema extends SkypeSchema {
 
    protected final FacePerceptor shore;
    protected final UIMessageDispatcher dispatcher;
+   protected final ClientProxy proxy;
    
    public SkypeIncomingSchema (BehaviorProposalReceiver behaviorReceiver,
          BehaviorHistory behaviorHistory, ResourceMonitor resourceMonitor,
          MenuPerceptor menuPerceptor, FacePerceptor shore, UIMessageDispatcher dispatcher, 
-         Always always, SkypeClient client) {
-      super(new IncomingSkype(shore, dispatcher),
+         Always always, SkypeClient client, ClientProxy proxy) {
+      super(new IncomingSkype(shore, dispatcher, proxy),
             behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always);
       this.shore = shore instanceof ShoreFacePerceptor.Reeti ? null : shore;
       this.dispatcher = dispatcher;
+      this.proxy = proxy;
       // note client not used, but must be in argument list for creation
       interruptible = false;
    }
@@ -57,17 +60,21 @@ public class SkypeIncomingSchema extends SkypeSchema {
    
    private static class IncomingSkype extends MultithreadAdjacencyPair<AdjacencyPair.Context> {
    
-      protected final FacePerceptor shore;
-      protected final UIMessageDispatcher dispatcher;
+      private final FacePerceptor shore;
+      private final UIMessageDispatcher dispatcher;
+      private final ClientProxy proxy;
 
-      private IncomingSkype (FacePerceptor shore, final UIMessageDispatcher dispatcher) {
+      private IncomingSkype (FacePerceptor shore, final UIMessageDispatcher dispatcher,
+            final ClientProxy proxy) {
          super("", new AdjacencyPair.Context());
          this.shore = shore;
          this.dispatcher = dispatcher;
+         this.proxy = proxy;
          this.repeatOption = false;
          choice("Please end this call", new DialogStateTransition() {
              @Override
              public AdjacencyPair run () { 
+                proxy.setAgentVisible(false);
                 dispatcher.send(new Message("endCall"));
                 return null;
              }
@@ -80,6 +87,9 @@ public class SkypeIncomingSchema extends SkypeSchema {
          if ( shore != null ) shore.stop();
          EXIT = false;
          dispatcher.send(new Message("acceptCall"));
+         // see SkypeClient
+         if ( Always.getAgentType() == AgentType.REETI )
+            proxy.setAgentVisibleReeti(true);
          // NB: Safer to move following to someplace where it is only called 
          // once the video connection is successfully established!!!
          EngagementPerception.setRecoveringEnabled(false);

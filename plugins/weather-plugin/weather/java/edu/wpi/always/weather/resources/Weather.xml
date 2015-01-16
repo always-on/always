@@ -42,7 +42,7 @@
          <step name="__Ending_step" task="disco:Say"/>
          <step name="__Ending_ref" task="__Ending_tree"/>
          <binding slot="$__Ending_step.text"
-                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
+                  value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt; | &lt;FACE EXPR=\&#34;SMILE\&#34;/&gt; well, That's all the weather for now. &lt;FACE EXPR=\&#34;WARM\&#34;/&gt;&#34;"/>
          <binding slot="$__Ending_step.external" value="false"/>
       </subtasks>
    </task>
@@ -92,23 +92,20 @@
       </subtasks>
       <subtasks id="_d4e48_subtasks">
          <step name="_d4e48_step" task="disco:Say"/>
-         <step name="_d4e49_step" task="disco:Say"/>
          <binding slot="$_d4e48_step.text" value="&#34;no, definitely not!&#34;"/>
          <binding slot="$_d4e48_step.external" value="true"/>
-         <binding slot="$_d4e49_step.text" value="&#34;ok&#34;"/>
-         <binding slot="$_d4e49_step.external" value="false"/>
       </subtasks>
-      <subtasks id="_d4e50_subtasks">
-         <step name="_d4e50_step" task="disco:Say"/>
-         <step name="_d4e51_step" task="DoAlmanac"/>
-         <binding slot="$_d4e50_step.text" value="&#34;okay I guess&#34;"/>
-         <binding slot="$_d4e50_step.external" value="true"/>
+      <subtasks id="_d4e49_subtasks">
+         <step name="_d4e49_step" task="disco:Say"/>
+         <step name="_d4e50_step" task="DoAlmanac"/>
+         <binding slot="$_d4e49_step.text" value="&#34;okay I guess&#34;"/>
+         <binding slot="$_d4e49_step.external" value="true"/>
       </subtasks>
-      <subtasks id="_d4e52_subtasks">
-         <step name="_d4e52_step" task="disco:Say"/>
-         <step name="_d4e53_step" task="DoAlmanac"/>
-         <binding slot="$_d4e52_step.text" value="&#34;yes, tell me.&#34;"/>
-         <binding slot="$_d4e52_step.external" value="true"/>
+      <subtasks id="_d4e51_subtasks">
+         <step name="_d4e51_step" task="disco:Say"/>
+         <step name="_d4e52_step" task="DoAlmanac"/>
+         <binding slot="$_d4e51_step.text" value="&#34;yes, tell me.&#34;"/>
+         <binding slot="$_d4e51_step.external" value="true"/>
       </subtasks>
    </task>
    <task id="_d4e43_tree">
@@ -128,79 +125,79 @@
       </subtasks>
    </task>
    <task id="_DoAlmanac_tree">
-      <subtasks id="_d4e55_subtasks">
-         <step name="_d4e55_step" task="disco:Say"/>
-         <step name="_d4e56_step" task="disco:Say$Expression"/>
-         <step name="_d4e56_ref" task="_d4e56_tree"/>
-         <binding slot="$_d4e55_step.text" value="&#34;Wow, go on.&#34;"/>
-         <binding slot="$_d4e55_step.external" value="true"/>
-         <binding slot="$_d4e56_step.text"
+      <subtasks id="_d4e54_subtasks">
+         <step name="_d4e54_step" task="disco:Say"/>
+         <step name="_d4e55_step" task="disco:Say$Expression"/>
+         <step name="_d4e55_ref" task="_d4e55_tree"/>
+         <binding slot="$_d4e54_step.text" value="&#34;Wow, go on.&#34;"/>
+         <binding slot="$_d4e54_step.external" value="true"/>
+         <binding slot="$_d4e55_step.text"
                   value="&#34;\&#34;The record low is \&#34;+($W.almanac.recordLow.extremeTemp)+\&#34; fahrenheit. It happened in  \&#34;+($W.almanac.recordLow.year)+\&#34;.\&#34;&#34;"/>
-         <binding slot="$_d4e56_step.external" value="false"/>
-      </subtasks>
-      <subtasks id="_d4e62_subtasks">
-         <step name="_d4e62_step" task="disco:Say"/>
-         <binding slot="$_d4e62_step.text" value="&#34;uh-huh.  That's enough&#34;"/>
-         <binding slot="$_d4e62_step.external" value="true"/>
-      </subtasks>
-   </task>
-   <task id="_d4e56_tree">
-      <subtasks id="_d4e57_subtasks">
-         <step name="_d4e57_step" task="disco:Say"/>
-         <step name="_d4e58_step" task="disco:Say$Expression"/>
-         <step name="_d4e58_ref" task="_d4e58_tree"/>
-         <binding slot="$_d4e57_step.text" value="&#34;That's pretty cold.&#34;"/>
-         <binding slot="$_d4e57_step.external" value="true"/>
-         <binding slot="$_d4e58_step.text"
-                  value="&#34;\&#34;Yeah.  Compared to the average temperatures of \&#34;+($W.almanac.recordLow.averageTemp)+\&#34; (low) and \&#34;+($W.almanac.recordHigh.averageTemp)+\&#34; (high), you can judge the difference.\&#34;&#34;"/>
-         <binding slot="$_d4e58_step.external" value="false"/>
+         <binding slot="$_d4e55_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e61_subtasks">
          <step name="_d4e61_step" task="disco:Say"/>
-         <binding slot="$_d4e61_step.text" value="&#34;That sounds about right&#34;"/>
+         <binding slot="$_d4e61_step.text" value="&#34;uh-huh.  That's enough&#34;"/>
          <binding slot="$_d4e61_step.external" value="true"/>
       </subtasks>
    </task>
-   <task id="_d4e58_tree">
-      <subtasks id="_d4e59_subtasks">
-         <step name="_d4e59_step" task="disco:Say"/>
-         <binding slot="$_d4e59_step.text" value="&#34;yeh, thanks for telling me.&#34;"/>
-         <binding slot="$_d4e59_step.external" value="true"/>
+   <task id="_d4e55_tree">
+      <subtasks id="_d4e56_subtasks">
+         <step name="_d4e56_step" task="disco:Say"/>
+         <step name="_d4e57_step" task="disco:Say$Expression"/>
+         <step name="_d4e57_ref" task="_d4e57_tree"/>
+         <binding slot="$_d4e56_step.text" value="&#34;That's pretty cold.&#34;"/>
+         <binding slot="$_d4e56_step.external" value="true"/>
+         <binding slot="$_d4e57_step.text"
+                  value="&#34;\&#34;Yeah.  Compared to the average temperatures of \&#34;+($W.almanac.recordLow.averageTemp)+\&#34; (low) and \&#34;+($W.almanac.recordHigh.averageTemp)+\&#34; (high), you can judge the difference\&#34;&#34;"/>
+         <binding slot="$_d4e57_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e60_subtasks">
          <step name="_d4e60_step" task="disco:Say"/>
-         <binding slot="$_d4e60_step.text" value="&#34;Sure glad I'm here&#34;"/>
+         <binding slot="$_d4e60_step.text" value="&#34;That sounds about right&#34;"/>
          <binding slot="$_d4e60_step.external" value="true"/>
       </subtasks>
    </task>
+   <task id="_d4e57_tree">
+      <subtasks id="_d4e58_subtasks">
+         <step name="_d4e58_step" task="disco:Say"/>
+         <binding slot="$_d4e58_step.text" value="&#34;yeh, thanks for telling me.&#34;"/>
+         <binding slot="$_d4e58_step.external" value="true"/>
+      </subtasks>
+      <subtasks id="_d4e59_subtasks">
+         <step name="_d4e59_step" task="disco:Say"/>
+         <binding slot="$_d4e59_step.text" value="&#34;Sure glad I'm here&#34;"/>
+         <binding slot="$_d4e59_step.external" value="true"/>
+      </subtasks>
+   </task>
    <task id="__Ending_tree">
-      <subtasks id="_d4e83_subtasks">
+      <subtasks id="_d4e82_subtasks">
+         <step name="_d4e82_step" task="disco:Say"/>
          <step name="_d4e83_step" task="disco:Say"/>
-         <step name="_d4e84_step" task="disco:Say"/>
-         <binding slot="$_d4e83_step.text" value="&#34;yes. I love talking about weather&#34;"/>
-         <binding slot="$_d4e83_step.external" value="true"/>
-         <binding slot="$_d4e84_step.text"
+         <binding slot="$_d4e82_step.text" value="&#34;yes. I love talking about weather&#34;"/>
+         <binding slot="$_d4e82_step.external" value="true"/>
+         <binding slot="$_d4e83_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; yeh, me too.  &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
-         <binding slot="$_d4e84_step.external" value="false"/>
+         <binding slot="$_d4e83_step.external" value="false"/>
       </subtasks>
-      <subtasks id="_d4e85_subtasks">
+      <subtasks id="_d4e84_subtasks">
+         <step name="_d4e84_step" task="disco:Say"/>
          <step name="_d4e85_step" task="disco:Say"/>
-         <step name="_d4e86_step" task="disco:Say"/>
-         <binding slot="$_d4e85_step.text"
+         <binding slot="$_d4e84_step.text"
                   value="&#34;yes, I need to know the weather before I go out&#34;"/>
-         <binding slot="$_d4e85_step.external" value="true"/>
-         <binding slot="$_d4e86_step.text"
+         <binding slot="$_d4e84_step.external" value="true"/>
+         <binding slot="$_d4e85_step.text"
                   value="&#34;&lt;FACE EXPR=\&#34;SMILE\&#34;&gt; Feel free to ask me! &lt;FACE EXPR=\&#34;WARM\&#34;&gt;&#34;"/>
-         <binding slot="$_d4e86_step.external" value="false"/>
+         <binding slot="$_d4e85_step.external" value="false"/>
       </subtasks>
-      <subtasks id="_d4e87_subtasks">
+      <subtasks id="_d4e86_subtasks">
+         <step name="_d4e86_step" task="disco:Say"/>
          <step name="_d4e87_step" task="disco:Say"/>
-         <step name="_d4e88_step" task="disco:Say"/>
-         <binding slot="$_d4e87_step.text"
+         <binding slot="$_d4e86_step.text"
                   value="&#34;yes, but I only want to know about it sometimes&#34;"/>
-         <binding slot="$_d4e87_step.external" value="true"/>
-         <binding slot="$_d4e88_step.text" value="&#34;I'm ready to talk about it whenever you want&#34;"/>
-         <binding slot="$_d4e88_step.external" value="false"/>
+         <binding slot="$_d4e86_step.external" value="true"/>
+         <binding slot="$_d4e87_step.text" value="&#34;I'm ready to talk about it whenever you want&#34;"/>
+         <binding slot="$_d4e87_step.external" value="false"/>
       </subtasks>
    </task>
    <task id="_WeatherStranger">

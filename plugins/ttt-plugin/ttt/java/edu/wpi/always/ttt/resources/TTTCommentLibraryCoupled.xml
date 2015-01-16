@@ -43,6 +43,12 @@
 			<response>I couldn't let you win so easily</response>
 			<response>What is your next move?</response>
 		</comment>
+		<comment competitiveness='0.2' tags="AgentWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="human">
+			<content>Well, that's a way to block! </content>
+			<response>Thanks!</response>
+			<response>I didn't want to let you win.</response>
+			<response>Got any other moves?</response>
+		</comment>
 	</agent>
 	
 	<human>
@@ -64,6 +70,12 @@
 			<response>Exactly!</response>
 			<response>Oh yes!</response>
 			<response>Haha, might not be that important</response>
+		</comment>
+		<comment competitiveness='0.2' tags="HumanWinOppBlocked/compliment" gameType="board" gameName="ttt" madeOn="agent">
+			<content>Not a bad choice at all!</content>
+			<response>Thanks!</response>
+			<response>Yeh, but it was obvious!</response>
+			<response>Just doing my job!</response>
 		</comment>
 	</human>
 	

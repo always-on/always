@@ -92,9 +92,9 @@
     
   <agent id="WeatherAlert" text="Let me check to see if there's a severe weather alert in your area.">
       <user text="That would be helpful.">
-	<agent text="{$W.alert.alertMessage}">
-	  <user text="Good to know."/>
-	</agent>
+        <agent text="{$W.alert.alertMessage}">
+          <user text="Good to know."/>
+        </agent>
       </user>
       <user text="No, I don't want to know">
       </user>
@@ -112,12 +112,10 @@
       </agent>
     </user>
     <user text="no, definitely not!">
-      <agent text="ok"/>
     </user>		   
     <user text="okay I guess">
       <do task="DoAlmanac"/>
     </user>        
-		   
     <user text="yes, tell me.">
       <do task="DoAlmanac" />
     </user>
@@ -127,7 +125,7 @@
     	<user text="Wow, go on.">
 	  <agent text="The record low is {$W.almanac.recordLow.extremeTemp} fahrenheit. It happened in  {$W.almanac.recordLow.year}.">
 	    <user text="That's pretty cold.">
-	      <agent text="Yeah.  Compared to the average temperatures of {$W.almanac.recordLow.averageTemp} (low) and {$W.almanac.recordHigh.averageTemp} (high), you can judge the difference.">
+	      <agent text="Yeah.  Compared to the average temperatures of {$W.almanac.recordLow.averageTemp} (low) and {$W.almanac.recordHigh.averageTemp} (high), you can judge the difference">
 		<user text="yeh, thanks for telling me." />
 		<user text="Sure glad I'm here"/>
 	      </agent>
@@ -184,7 +182,7 @@
   </t:task>
 
   <agent id="_Ending" 
-  	text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
+  	text="&lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, weather sure is interesting. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt; | &lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, That's all the weather for now. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;">
     <user text="yes. I love talking about weather">
       <agent text="&lt;FACE EXPR=\&quot;SMILE\&quot;&gt; yeh, me too.  &lt;FACE EXPR=\&quot;WARM\&quot;&gt;"/>
     </user>

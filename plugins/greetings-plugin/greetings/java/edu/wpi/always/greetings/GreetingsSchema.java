@@ -27,12 +27,15 @@ public class GreetingsSchema extends DiscoActivitySchema {
       super(behaviorReceiver, behaviorHistory, resourceMonitor, menuPerceptor, always, 
             GreetingsPlugin.greetingsInteraction, LOGGER_NAME);
       model = always.getUserModel();
+      interruptible = false;
       if ( behaviorReceiver == null ) return; // for always_disco testing
       if ( running ) throw new IllegalStateException("GreetingsSchema already running!");
       running = true;
       setSelfStop(true);
       interaction.clear();
-      switch (UserUtils.getTimeOfDay()) {
+      if ( Always.THIS.getUserModel().getSessions() == 1 ) 
+         start("_FirstGreetings");
+      else switch (UserUtils.getTimeOfDay()) {
          case MORNING:
             switch (Always.THIS.getUserModel().getCloseness()) {
                case STRANGER: 

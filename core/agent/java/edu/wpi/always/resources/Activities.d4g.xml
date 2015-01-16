@@ -34,9 +34,7 @@
     <precondition> isExplained("PLAY_GAMES") || notStranger() || days() &gt; 1 </precondition>
   </task>
 
-  <task id="HearAnecdotes">
-    <precondition> isExplained("HEAR_ANECDOTES") || notStranger() </precondition>
-  </task>
+  <task id="HearAnecdotes"/>
 
   <task id="EnrollUser">
     <precondition> 
@@ -58,7 +56,7 @@
   </task>
   
   <task id="AdviseNutrition">
-    <precondition> isExplained("ADVISE_NUTRITION") || notStranger() </precondition>
+    <precondition> isExplained("ADVISE_NUTRITION") || notStranger() || days() &gt; 2 </precondition>
   </task>
   
   <task id="UseCalendar">
@@ -113,8 +111,7 @@
     <d:user text="yes, let's stop now"> 
       <d:agent text="ok, talk to you later">
         <d:user text="goodbye"
-                eval="Packages.edu.wpi.always.cm.schemas.SessionSchema.stopCurrent();
-                      Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
+                eval="Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true"/>
       </d:agent>
     </d:user>
     <d:user text="no, let's continue" 

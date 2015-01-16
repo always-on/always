@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using Agent.Core;
 using Newtonsoft.Json.Linq;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace AgentApp
 {
@@ -130,7 +131,7 @@ namespace AgentApp
 			int receivedHashCode = int.Parse(msg["hashcode"].ToString());
 
 			foreach (Move m in currentMoveSuggestions)
-				Console.WriteLine(m.GetHashCode());
+				Debug.WriteLine(m.GetHashCode());
 
 			foreach (Move m in game.AgentCardsController.possibleMoves.Moves())
 				if (m.GetHashCode() == receivedHashCode)

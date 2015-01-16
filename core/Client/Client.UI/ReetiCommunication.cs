@@ -6,6 +6,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Diagnostics;
 using AgentApp;
 
 namespace Agent.UI
@@ -67,7 +68,7 @@ namespace Agent.UI
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -88,7 +89,7 @@ namespace Agent.UI
                 // Complete the connection.
                 client.EndConnect(ar);
 
-                Console.WriteLine("Socket connected to {0}",
+                Debug.WriteLine("Socket connected to {0}",
                     client.RemoteEndPoint.ToString());
 
                 // Signal that the connection has been made.
@@ -98,13 +99,13 @@ namespace Agent.UI
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch (Exception) { }
-                Console.WriteLine("Could not connect to the server, retrying in 10s...");
+                Debug.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -123,13 +124,13 @@ namespace Agent.UI
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch (Exception) { }
-                Console.WriteLine("Could not connect to the server, retrying in 10s...");
+                Debug.WriteLine("Could not connect to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -168,18 +169,20 @@ namespace Agent.UI
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch (Exception) { }
-                Console.WriteLine("Could not receive from the server, retrying in 10s...");
+                Debug.WriteLine("Could not receive from the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
         public void Send(String data)
         {
+			Debug.WriteLine("Sending to Reeti: " + data);
+
             // Convert the string data to byte data using ASCII encoding.
             byte[] byteData = Encoding.ASCII.GetBytes(data);
 
@@ -192,13 +195,13 @@ namespace Agent.UI
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch(Exception){}
-                Console.WriteLine("Could not send to the server, retrying in 10s...");
+                Debug.WriteLine("Could not send to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -211,7 +214,7 @@ namespace Agent.UI
 
                 // Complete sending the data to the remote device.
                 int bytesSent = client.EndSend(ar);
-                Console.WriteLine("Sent {0} bytes to server.", bytesSent);
+                // Debug.WriteLine("Sent {0} bytes to server.", bytesSent);
 
                 // Signal that all bytes have been sent.
                 sendDone.Set();
@@ -219,13 +222,13 @@ namespace Agent.UI
             catch (SocketException)
             {
                 try { client.Disconnect(true); } catch (Exception) { }
-                Console.WriteLine("Could not send to the server, retrying in 10s...");
+                Debug.WriteLine("Could not send to the server, retrying in 10s...");
                 System.Threading.Thread.Sleep(10000);
                 StartClient();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
     }

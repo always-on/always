@@ -75,7 +75,8 @@ public abstract class ActivitySchema extends SchemaBase {
       this.selfStop = selfStop;
    }
    
-   protected boolean interruptible = true; 
+   // set in constructor and in schema thread
+   protected volatile boolean interruptible = true; 
    
    public boolean isInterruptible () { return interruptible; }
 }

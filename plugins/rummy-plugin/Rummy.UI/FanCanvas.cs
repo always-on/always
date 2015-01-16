@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Documents;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Rummy.UI
 {
@@ -98,7 +99,7 @@ namespace Rummy.UI
 
                 if (_isDrag)
                 {
-                    Console.WriteLine(currentPos);
+                    Debug.WriteLine(currentPos);
 
                     var p = this.TransformToVisual(AdornerLayerForDrag()).Transform(new Point(0, 0));
                     p += new Vector(cardLocations[_cardBeingDragged].X, cardLocations[_cardBeingDragged].Y);

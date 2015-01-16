@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 #endregion
 
@@ -148,8 +149,8 @@ namespace Rummy
         {
             int i = 0;
             foreach (Object obj in myList)
-                Console.WriteLine("\t[{0}]:\t{1}", i++, obj);
-            Console.WriteLine();
+                Debug.WriteLine("\t[{0}]:\t{1}", i++, obj);
+            Debug.WriteLine("");
         }
 
         private IList<Card> GetPlayerCards()

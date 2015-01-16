@@ -187,6 +187,7 @@ public class Always {
       // for convenient use in Disco scripts
       disco.setGlobal("$always", this);
       disco.eval("edu.wpi.always = Packages.edu.wpi.always;", "Always.init");
+      edu.wpi.disco.Disco.RANDOM_ALTERNATIVES = true;
    }
 
    private final List<OntologyRegistry> ontologyRegistries = new ArrayList<OntologyRegistry>();
@@ -278,8 +279,9 @@ public class Always {
       proxy.showMenu(null, false, false);
       Logger.logEvent(Logger.Event.END,
             code == 0 ? (EngagementSchema.EXIT ? Disengagement.GOODBYE : Disengagement.TIMEOUT ) : Disengagement.ERROR,
-            AdjacencyPairBase.REPEAT_COUNT,        
-            (int) ((System.currentTimeMillis() - SessionSchema.DATE.getTime())/1000L),
+            AdjacencyPairBase.REPEAT_COUNT,    
+            SessionSchema.DATE == null ? 0 :   
+               (int) ((System.currentTimeMillis() - SessionSchema.DATE.getTime())/1000L),
             (int) (Logger.TOTAL_ENGAGED_TIME/1000L));
       Utils.lnprint(System.out,  "EXITING WITH CODE "+code+" ...");
       // need to free resources held by Shore engine which block exit

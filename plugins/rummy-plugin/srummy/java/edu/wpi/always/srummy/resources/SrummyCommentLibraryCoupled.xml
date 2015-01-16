@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-	THE GAME SPECIFIC (TIC TAC TOE) COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
+	THE GAME SPECIFIC (Rummy) COMMENT LIBRARY FOR SOCIAL GAMEPLAY FRAMEWORK
 	AUTHOR: MORTEZA BEHROOZ
 	WORCESTER POLYTECHNIC INSTITUTE 
 -->
@@ -54,6 +54,18 @@
 			<response>Thanks</response>
 			<response>Well, try to learn from me!</response>
 		</comment>
+		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>Hey, that was a good meld!</content>
+			<response>Glad you noticed!</response>
+			<response>Yeh, thanks.</response>
+			<response>Well, show me yourse!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
+			<content>You are sure doing well on the melds.</content>
+			<response>Thanks</response>
+			<response>Practice makes perfect!</response>
+			<response>Melds are very satisfying!</response>
+		</comment>
 		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
 			<content>Good lay off!</content>
 			<response>Aha!</response>
@@ -81,7 +93,19 @@
 			<content>Found a meld</content>
 			<response>Good for you</response>
 			<response>Won't get you anywhere</response>
-			<response>Nice!</response>
+			<response>Cool!</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>I feel good about that one!</content>
+			<response>And you should.</response>
+			<response>Watch out for mine.</response>
+			<response>Can you do it again?</response>
+		</comment>
+		<comment competitiveness='0.2' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
+			<content>well, that puts me a little ahead in this game!</content>
+			<response>Good for you</response>
+			<response>yes, but there's more to go.</response>
+			<response>You are a good opponent!</response>
 		</comment>
 		<comment competitiveness='0.7' tags="agentMeld" gameType="board" gameName="srummy" madeOn="agent">
 			<content>Meld, here I go</content>
@@ -90,22 +114,22 @@
 			<response>Don't count your chickens yet!</response>
 		</comment>
 		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
-			<content>And that meld goes bigger</content>
-			<response>Nice</response>
+			<content>And that meld gets bigger</content>
+			<response>Pa yourself on the back!</response>
 			<response>Try melding, it's better!</response>
 			<response>It's just one card, take it easy!</response>
 		</comment>
 		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
 			<content>One less card for me</content>
-			<response>Nice</response>
+			<response>Good job</response>
 			<response>Interesting</response>
 			<response>It's just one card, take it easy!</response>
 		</comment>
 		<comment competitiveness='0.5' tags="agentLayOff/compliment" gameType="board" gameName="srummy" madeOn="agent">
-			<content>And that meld goes bigger</content>
+			<content>I like adding to a meld.</content>
 			<response>It can't beat my lay offs</response>
 			<response>Good job</response>
-			<response>Nice</response>
+			<response>Not bad at all.</response>
 		</comment>
 		<!--More instances of these -->
 		<comment competitiveness='0.2' tags="agentFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
@@ -121,7 +145,7 @@
 			<response>Wait for my moves</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
-			<content>Few cards to go for you</content>
+			<content>Just a few cards to go for you</content>
 			<response>I know</response>
 			<response>Fingers crossed</response>
 			<response>Too soon to say</response>
@@ -160,15 +184,15 @@
 	<human>
 		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
 			<content>How is your hand?</content>
-			<response>I am not gonna tell you!</response>
-			<response>Not so bad</response>
-			<response>Well, you'll see!</response>
+			<response>It could be better.</response>
+			<response>Do you really want to know?</response>
+			<response>Should I tell you?</response>
 		</comment>
 		<comment competitiveness='0.5' tags="firstRound" gameType="cards" gameName="srummy" madeOn="both">
 			<content>I have terrible cards!</content>
 			<response>Wow, I am sorry</response>
 			<response>You'll get better ones</response>
-			<response>Still too soon to say!</response>
+			<response>it is still too soon to give up!</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanMeld" gameType="board" gameName="srummy" madeOn="human">
 			<content>I got good cards!</content>
@@ -184,15 +208,15 @@
 		</comment>
 		<comment competitiveness='0.2' tags="humanMeld/compliment" gameType="board" gameName="srummy" madeOn="human">
 			<content>Here I go, a meld!</content>
-			<response>Nice</response>
+			<response>Not bad!</response>
 			<response>Good job</response>
 			<response>I just have to do more melds then</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
 			<content>Found a lay off, yes!</content>
-			<response>Nice</response>
+			<response>Clever</response>
 			<response>Good job</response>
-			<response>I should do more lay off too</response>
+			<response>I should do more lay offs too</response>
 		</comment>
 		<comment competitiveness='0.2' tags="humanLayOff/compliment" gameType="board" gameName="srummy" madeOn="human">
 			<content>I have lay offs!</content>
@@ -229,7 +253,7 @@
 			<response>I know</response>
 			<response>Thanks</response>
 		</comment>
-		<comment competitiveness='0.5' tags="agentLayOff" gameType="board" gameName="srummy" madeOn="agent">
+		<comment competitiveness='0.2' tags="agentLayOff" gameType="board" gameName="srummy" madeOn="agent">
 			<content>Lay offs are very helpful</content>
 			<response>I like them too </response>
 			<response>I know</response>
@@ -262,7 +286,7 @@
 		</comment>
 		<comment competitiveness='0.2' tags="humanFewCardsLeft" gameType="board" gameName="srummy" madeOn="both">
 			<content>I have a few cards left</content>
-			<response>I see, nice</response>
+			<response>I see, good</response>
 			<response>Not so soon</response>
 			<response>I should hurry up then!</response>
 		</comment>

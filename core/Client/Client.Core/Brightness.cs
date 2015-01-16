@@ -3,6 +3,7 @@ using System.Text;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Management;
+using System.Diagnostics;
 
 namespace Agent.Core
 {
@@ -34,7 +35,7 @@ namespace Agent.Core
                     }
                     catch (ManagementException ex)
                     {
-                        Console.WriteLine("Setting brightness failed: ", ex.Message);
+                        Debug.WriteLine("Setting brightness failed: ", ex.Message);
                     }
                 }
             }

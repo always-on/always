@@ -13,6 +13,7 @@ using System.IO;
 using Microsoft.Expression.Encoder.Devices;
 using Microsoft.Expression.Encoder.Live;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 
 namespace Story.UI
@@ -49,12 +50,12 @@ namespace Story.UI
 
             foreach (EncoderDevice edv in EncoderDevices.FindDevices(EncoderDeviceType.Video))
             {
-                //Console.WriteLine("found a video deviced named: " + edv.Name);
+                //Debug.WriteLine("found a video deviced named: " + edv.Name);
                 videoDevice = edv;
             }
             foreach (EncoderDevice edv in EncoderDevices.FindDevices(EncoderDeviceType.Audio))
             {
-                //Console.WriteLine("found a audio deviced named: " + edv.Name);
+                //Debug.WriteLine("found a audio deviced named: " + edv.Name);
                 if (edv.Name.ToLower().Contains("microphone"))
                     audioDevice = edv;
             }
@@ -144,7 +145,7 @@ namespace Story.UI
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception in saving recording:" + e);
+                Debug.WriteLine("Exception in saving recording:" + e);
             }
         }
 

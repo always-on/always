@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace Rummy.UI
 {
@@ -62,12 +63,12 @@ namespace Rummy.UI
 
         public void DoActionsPossible()
         {
-            Console.WriteLine("DoActionsPossible");
+            Debug.WriteLine("DoActionsPossible");
             var allMoves = possibleMoves.Moves();
 
             if (allMoves.Count == 0)
             {
-                Console.WriteLine("no move possible");
+                Debug.WriteLine("no move possible");
                 return;
             }
 
@@ -113,14 +114,14 @@ namespace Rummy.UI
             {
                 var m = PickRandomlyFrom(moves);
 
-                Console.WriteLine("A move selected: " + m);
+                Debug.WriteLine("A move selected: " + m);
                 try
                 {
                     m.Realize(GameState);
                 }
                 catch
                 {
-                    Console.WriteLine("move failed, trying another one");
+                    Debug.WriteLine("move failed, trying another one");
                     continue;
                 }
 

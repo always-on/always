@@ -41,11 +41,17 @@ addresses:
 IP address: 192.168.1.1
 Subnet mask: 255.255.255.0
 
-[NOTE: You need to add same DNS server addresses as the one WIFI connection 
-is using on the PC.]
+NOTE: You need to add same DNS server addresses as the WIFI connection
+is using on the PC, unless it is also using 192.168.1.1 (which is
+common on home routers), in which case the following Verizon DNS
+servers will work:
 
-Preferred DNS server: 130.215.32.18
-Alternate DNS server: 130.215.39.18
+Preferred DNS server: 71.252.0.12
+Alternate DNS server: 68.237.161.12
+
+To find out what DNS servers the PC is using do following in Windows shell:
+
+> ipconfig /all
 
 4. Try to ping the robot from the PC and vice versa.
 

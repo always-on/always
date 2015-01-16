@@ -557,6 +557,6 @@
     </user>
   </agent>
 
-  <agent id="_End" text="Well, it was nice talking about your friends and family with you." />
+  <agent id="_End" text="Well, it was nice talking about your friends and family with you. &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" />
 
 </model>
