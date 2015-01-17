@@ -64,9 +64,12 @@ namespace Story.UI
             job = new LiveJob();
 
 
-            fileOut = new FileArchivePublishFormat();
+            if (!System.IO.Directory.Exists("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\"))
+                System.IO.Directory.CreateDirectory("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\");
 
-            fileOut.OutputFileName = Directory.GetCurrentDirectory() + "\\tempVideo.wmv";
+            fileOut = new FileArchivePublishFormat();
+            fileOut.OutputFileName = "C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\tempVideo.wmv";
+            System.Console.WriteLine(fileOut.OutputFileName);
         }
 
         void story_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
@@ -80,8 +83,8 @@ namespace Story.UI
             _remote.RemoveReceiveHandler("story.stopRecording");
             _remote.RemoveReceiveHandler("story.startRecording");
             _remote.RemoveReceiveHandler("story.saveRecording");
-            if (File.Exists(Directory.GetCurrentDirectory() + "\\tempVideo.wmv"))
-                File.Delete(Directory.GetCurrentDirectory() + "\\tempVideo.wmv");
+            if (File.Exists("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\tempVideo.wmv"))
+                File.Delete("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\tempVideo.wmv");
             //endCapture();
         }
 
@@ -112,8 +115,8 @@ namespace Story.UI
             }
             job.ActivateSource(liveSource);
 
-            if (File.Exists(Directory.GetCurrentDirectory() + "\\tempVideo.wmv"))
-                File.Delete(Directory.GetCurrentDirectory() + "\\tempVideo.wmv");
+            if (File.Exists("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\tempVideo.wmv"))
+                File.Delete("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\tempVideo.wmv");
 
 
             job.PublishFormats.Add(fileOut);
@@ -133,13 +136,13 @@ namespace Story.UI
                 if (status == "SAVED")
                 {
                     //rename the video
-                    if (File.Exists(Directory.GetCurrentDirectory() + "\\tempVideo.wmv"))
-                        File.Move(Directory.GetCurrentDirectory() + "\\tempVideo.wmv", Directory.GetCurrentDirectory() + "\\" + storyType + ".wmv");
+                    if (File.Exists("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\tempVideo.wmv"))
+                        File.Move("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\tempVideo.wmv", "C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\" + storyType + ".wmv");
                 }
                 else
                 {
-                    if (File.Exists(Directory.GetCurrentDirectory() + "\\tempVideo.wmv"))
-                        File.Delete(Directory.GetCurrentDirectory() + "\\tempVideo.wmv");
+                    if (File.Exists("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\tempVideo.wmv"))
+                        File.Delete("C:\\Dropbox\\" + System.Windows.Forms.SystemInformation.ComputerName + "\\videos\\tempVideo.wmv");
                     //delete the video
                 }
             }
