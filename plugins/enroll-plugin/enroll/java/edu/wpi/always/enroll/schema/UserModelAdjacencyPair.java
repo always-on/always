@@ -450,13 +450,13 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
          choice("No", new DialogStateTransition() {
             @Override
             public AdjacencyPair run() {
-               return new UserSkypeNumberAdjacencyPair(getContext());
+               return new InitialEnroll(getContext());
             }
          });
          choice("Skip this information", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
-               return new UserSkypeNumberAdjacencyPair(getContext());
+               return new InitialEnroll(getContext());
             }
          });
       }
@@ -476,15 +476,16 @@ public class UserModelAdjacencyPair extends KeyboardAdjacencyPair<EnrollStateCon
          Person user = getContext().getPeopleManager().getUser(); 
          Spouse.setGender( user.getGender() == Gender.Male ? Gender.Female : Gender.Male);
          user.addRelated(Spouse, Person.Relationship.Spouse);
-         return new UserSkypeNumberAdjacencyPair(getContext());
+         return new InitialEnroll(getContext());
       }
 
       @Override
       public AdjacencyPair cancel() {
-         return new UserSkypeNumberAdjacencyPair(getContext());
+         return new InitialEnroll(getContext());
       }
    }
 
+   //unused
    public static class UserSkypeNumberAdjacencyPair extends
    KeyboardAdjacencyPair<EnrollStateContext> {
 
