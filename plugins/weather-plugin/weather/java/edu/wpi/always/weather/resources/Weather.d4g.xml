@@ -159,6 +159,7 @@
 
   <t:task id="WeatherFriend">
     <t:input name="friend" type="Friend"/>
+    <t:precondition> Object.keys($W.friendsCities).length == 0 ? false : undefined </t:precondition>
     <t:subtasks id="weatherFriend">
       <t:step name="say1" task="disco:Say.Eval"/>
       <t:step name="say2" task="disco:Say.User"/>
