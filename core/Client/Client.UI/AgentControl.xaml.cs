@@ -65,7 +65,7 @@ namespace Agent.UI
 					agentType = AgentType.Reeti;
 					Debug.WriteLine("Received REETI_IP "+Agent.Tcp.AgentControlJsonAdapter.REETI_IP+" (agentType = Reeti)");
 				}
-                if ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
+                if (AgentTranslate == null && (agentType == AgentType.Reeti) || (agentType == AgentType.Mirror))
                     AgentTranslate = new ReetiTranslation();
             };
         }
@@ -312,7 +312,7 @@ namespace Agent.UI
             //trick to ensure the id is getting sent to the java side if it updates while the agent is running
             if (!videoCaller.idSent)
                 videoCaller.sendCommunicationURL();
-            if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) && 
+            if ((Agent.Tcp.AgentControlJsonAdapter.REETI_IP != null) &&
                 ((agentType == AgentType.Reeti) || (agentType == AgentType.Mirror)))
                 AgentTranslate.TranslateToReetiCommand("perform", xmlCommand);
             xmlMessage.LoadXml(xmlCommand);

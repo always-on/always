@@ -54,7 +54,7 @@ namespace Agent.UI
         }
 
         private static void StartClient()
-        {
+		{
             // Connect to a remote device.
             IPAddress ipAddress = IPAddress.Parse(Agent.Tcp.AgentControlJsonAdapter.REETI_IP);
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
@@ -74,9 +74,13 @@ namespace Agent.UI
 
         private static void EndClient()
         {
-            // Release the socket.
-            client.Shutdown(SocketShutdown.Both);
-            client.Close();
+			try
+			{
+				// Release the socket.
+				client.Shutdown(SocketShutdown.Both);
+				client.Close();
+			}
+			catch (ObjectDisposedException e) { }
         }
 
         private static void ConnectCallback(IAsyncResult ar)
