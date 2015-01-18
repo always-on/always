@@ -39,13 +39,11 @@ public class UIMessageDispatcherImpl implements UIMessageDispatcher,
    public void handleMessage (String text) {
       for (String s : JsonBreakDown.stringsOfIndividualClsses(text)) {
          final Message msg = json.parse(s);
-         if ( msg == null )
-            continue;
-         if ( !handlers.containsKey(msg.getType()) )
+         if ( msg == null ) continue;
+         if ( !handlers.containsKey(msg.getType()) ) 
             Utils.lnprint(System.out, "Ignoring unhandled message: "+text);
             //throw new InvalidMessageTypeException(msg.getType());
-         receivedMessageNotifierService.execute(new Runnable() {
-
+         else receivedMessageNotifierService.execute(new Runnable() {
             @Override
             public void run () {
                handlers.get(msg.getType()).handleMessage(msg.getBody());
