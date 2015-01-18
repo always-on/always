@@ -62,7 +62,7 @@ public class EngagementSchema extends SchemaBase {
                      if ( EXIT && lastState != state && lastState != EngagementState.RECOVERING
                            && lastState != EngagementState.ENGAGED )
                         Logger.THIS.logEngagement(lastState, state);
-                     if ( reeti != null ) reeti.reboot(); 
+                     // if ( reeti != null ) reeti.reboot(); 
                      Always.exit(0);
                   } 
                   if ( !EXIT && lastState != EngagementState.IDLE ) { 
