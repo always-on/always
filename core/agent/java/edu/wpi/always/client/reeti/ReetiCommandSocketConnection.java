@@ -4,6 +4,7 @@ package edu.wpi.always.client.reeti;
 
 import java.io.*;
 import edu.wpi.always.client.RemoteConnection;
+import edu.wpi.disco.rt.util.Utils;
 
 public class ReetiCommandSocketConnection extends RemoteConnection {
 
@@ -25,8 +26,10 @@ public class ReetiCommandSocketConnection extends RemoteConnection {
       try {
          writer.println(message); 
          if ( writer.checkError() ) 
-            throw new IOException("ReetiCommandSocket println failed");
-      } catch (Exception e) { restart(e); } 
+//          ignore transient error?         
+//          throw new IOException("ReetiCommandSocket println error:"+message);
+            Utils.lnprint(System.out, "ReetiCommandSocket println error: "+message);
+      } catch (Exception e) { restart(e); }
    }
 
    public void close () {
