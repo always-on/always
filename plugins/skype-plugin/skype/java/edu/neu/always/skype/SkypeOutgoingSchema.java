@@ -1,7 +1,6 @@
 package edu.neu.always.skype;
 
 import edu.wpi.always.Always;
-import edu.wpi.always.client.SkypeUserHandler;
 import edu.wpi.always.user.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -64,7 +63,7 @@ public class SkypeOutgoingSchema extends SkypeSchema {
       @Override
       public void enter () {
          log(Direction.OUTGOING, person.getName());
-         id = SkypeUserHandler.USER_ID;
+         id = Always.THIS.getUserModel().getPeopleManager().getUser().getSkypeNumber();
          String address = person.getSkypeNumber();
          String body = "Dear " + person.getName() +",\n\n" +
         		 fName + " has asked the AlwaysOn system to send you this email so that you can make video calls using Google Hangout. You can start a video call with " + fName + " now or at any later time by visiting the following website:\n\n" +

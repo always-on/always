@@ -79,7 +79,10 @@
       <precondition> advanced(8, "TELL_STORY") </precondition>
    </task>
    <task id="UseSkypeOutgoing">
-      <precondition> advanced(9, "USE_SKYPE") </precondition>
+      <precondition>
+      Packages.edu.wpi.always.Always.THIS.getUserModel().getPeopleManager().getUser().getSkypeNumber() != null 
+      &amp;&amp; advanced(9, "USE_SKYPE") 
+    </precondition>
    </task>
    <task id="SayGoodbye"/>
    <task id="_CalendarImminent">
