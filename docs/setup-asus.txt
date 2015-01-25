@@ -157,10 +157,30 @@ recommit the file.)
         Unselect all options under "Choose where..."
         Apply
 
-    (h) Disable automatic muting 
+    (h) Disable automatic muting CHECK [ ]
 
         Control Panel > Sounds > Communication
         Select "Do Nothing"
+
+    (i) Disable Wake-Up Features (to prevent screensaver cancellation) CHECK [ ]
+
+        Control Panel > Search bar > "device manager"
+
+        For *each* entry under Network Devices *and* H-I Devices:
+
+        Right click and select the Properties display and see if there
+	is a Power Management tab (some devices have it; some don't).
+
+	If there is a Power Management tab, make sure the
+	"Allow this device to wake the computer" is *un*-checked.
+
+        When you are done with this step, in the DOS shell type the
+	following command:
+
+        > powercfg /devicequery wake_armed
+
+        This should only list the keyboard and mouse (which are not connected
+	during the study).
 
 -----------------------------------------------------------------------
 
