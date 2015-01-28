@@ -1,5 +1,6 @@
 package edu.neu.always.skype;
 
+import java.util.*;
 import edu.wpi.always.Always;
 import edu.wpi.always.user.*;
 import edu.wpi.always.user.people.Person;
@@ -19,24 +20,33 @@ public class SkypeOutgoingSchema extends SkypeSchema {
    private static class SkypeOutgoing extends MultithreadAdjacencyPair<AdjacencyPair.Context> {
 
       private SkypeOutgoing (UserModel model) {
-         super("please select the person you would like to arrange a video call with", new AdjacencyPair.Context());
+         super(getChoices(model).isEmpty() ? 
+            "in order to arrange a video call, you need to include an email address when you introduce me to someone you know" :
+            "please select the person you would like to arrange a video call with", 
+            new AdjacencyPair.Context());
          this.repeatOption = false;
          final String fName = model.getUserFirstName();
-         for (final Person person : model.getPeopleManager().getPeople(false)) {
-            if ( person.getSkypeNumber() != null )
-               choice(person.getName(), new DialogStateTransition() {
+         List<Person> choices = getChoices(model);
+         for (final Person person : choices)
+            choice(person.getName(), new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
                      return new SkypePerson(getContext(), person, fName);
                   };
                });
-         }
-         choice("Never mind", new DialogStateTransition() {
+         choice(choices.isEmpty() ? "Ok" : "Never mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                getContext().getSchema().stop();
                return null;
             }});
+      }
+      
+      private static List<Person> getChoices (UserModel model) {
+         List<Person> choices = new ArrayList<Person>();
+         for (Person person : model.getPeopleManager().getPeople(false))
+            if ( person.getSkypeNumber() != null ) choices.add(person);
+         return choices;
       }
    }
    
