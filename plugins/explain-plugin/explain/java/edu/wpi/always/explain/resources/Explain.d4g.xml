@@ -264,7 +264,7 @@
     <user text="Really? Tell me more">
       <agent text="You can talk to your family and friends and see them as you talk. It is like a phone and a TV combined into one!">
         <user text="Tell me more">
-          <agent text="I will set up the calls for you and tell you when someone is calling.  All you have to do is give me an email address for the person you want to reach by video calls.">
+          <agent text="I will set up the calls for you and tell you when someone is calling.  All you have to do is to give me an email address when you introduce me to a new person.  I use the email address to contact the person when you want to have a video call with them.">
             <user text="Ok, I definitely want to try that" />
             <user text="Gee, what if my family doesn't have a computer?">
               <agent text=" &lt;FACE EXPR=\&quot;SMILE\&quot;/&gt; well, if anyone does, you can try it &lt;FACE EXPR=\&quot;WARM\&quot;/&gt;" >
@@ -291,9 +291,9 @@
   <agent id="_ExplainTalkAbout" text="I'm interested in knowing about your friends and family.  The more I know about them, the more I can remember to ask you about them"
      eval="Activity.ALL.TalkAbout.setFlag()">
     <user text="Is that so?">
-     <agent text="Yes, but first, you must introduce me to a person by giving their name, where they live and so on.">
+     <agent text="Yes, but first, you must introduce me to a person by giving their name, where they live, their email address, and so on.">
      	<user text="Then what?">
-      		<agent text="When I know about your family and friends, I can give you weather information where they live, and I can include them in your calendar events."
+      		<agent text="When I know about your family and friends, I can give you weather information where they live, and I can include them in your calendar events. I can use their email address to arrange video calls with them."
            	  eval="Activity.ALL.TalkAbout.setFlag()">
         		<user text="Ok">
 	  				<agent text="I can also chat with you about your friends and family">

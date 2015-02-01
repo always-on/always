@@ -518,7 +518,7 @@
          <binding slot="$_d4e119_step.text" value="&#34;Tell me more&#34;"/>
          <binding slot="$_d4e119_step.external" value="true"/>
          <binding slot="$_d4e120_step.text"
-                  value="&#34;I will set up the calls for you and tell you when someone is calling.  All you have to do is give me an email address for the person you want to reach by video calls.&#34;"/>
+                  value="&#34;I will set up the calls for you and tell you when someone is calling.  All you have to do is to give me an email address when you introduce me to a new person.  I use the email address to contact the person when you want to have a video call with them.&#34;"/>
          <binding slot="$_d4e120_step.external" value="false"/>
       </subtasks>
       <subtasks id="_d4e127_subtasks">
@@ -598,12 +598,12 @@
          <binding slot="$_d4e134_step.text" value="&#34;Is that so?&#34;"/>
          <binding slot="$_d4e134_step.external" value="true"/>
          <binding slot="$_d4e135_step.text"
-                  value="&#34;Yes, but first, you must introduce me to a person by giving their name, where they live and so on.&#34;"/>
+                  value="&#34;Yes, but first, you must introduce me to a person by giving their name, where they live, their email address, and so on.&#34;"/>
          <binding slot="$_d4e135_step.external" value="false"/>
          <binding slot="$_d4e136_step.text" value="&#34;Then what?&#34;"/>
          <binding slot="$_d4e136_step.external" value="true"/>
          <binding slot="$_d4e137_step.text"
-                  value="&#34;When I know about your family and friends, I can give you weather information where they live, and I can include them in your calendar events.&#34;"/>
+                  value="&#34;When I know about your family and friends, I can give you weather information where they live, and I can include them in your calendar events. I can use their email address to arrange video calls with them.&#34;"/>
          <binding slot="$_d4e137_step.external" value="false"/>
          <binding slot="$_d4e137_step.eval" value="&#34;Activity.ALL.TalkAbout.setFlag()&#34;"/>
       </subtasks>
