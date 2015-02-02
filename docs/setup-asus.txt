@@ -244,9 +244,10 @@ ________________________________________________________________
     (a) The file c:\Dropbox\%MACHINENAME%\boot.bat should be run 
         whenever machine is rebooted (e.g., when power is turned on)  CHECK [ ]
 
-    (b) The machine should reboot itself at 3am every morning.  This
-        is needed to fetch new weather data. (If this is not a feature
-        of Kiosk Pro, use Windows native facility).                   CHECK [ ]
+    (b) The machine should reboot itself at 3am+N every morning (where
+        N is the number of the machine, e.g., 3 for Always3).  This is
+        needed to fetch new weather data. (If this is not a feature of
+        Kiosk Pro, use Windows native facility).  CHECK [ ]
 
     (c) Power cycle to test.
 ________________________________________________________________
@@ -261,7 +262,7 @@ BIOS, saving settings, and let the restart finish.
 
 ________________________________________________________________
 
-(11) Initialize Hangout
+(11) Initialize Hangout CHECK [ ]
 
 (a) In IE, go to google.com, select "Stay Signed In" and login as
 'alwaysontesting@gmail.com' or gmail address of participant (with
@@ -274,4 +275,16 @@ on following file in machine's Dropbox folder:
 
 and watching to make sure that blue camera light comes on and then
 turns *OFF*.   If it doesn't do both, then something is wrong!
+________________________________________________________________
+
+(12) Remove unneeded Startup items  CHECK [ ]
+
+Check
+
+Start > All Programs > Startup folder
+
+and make sure that DropBox is the *only* entry (other than Kiosk Pro,
+perhaps).  Delete (right click menu) any other entries, such as
+AsusVibeLauncher, etc.
+
 ________________________________________________________________
