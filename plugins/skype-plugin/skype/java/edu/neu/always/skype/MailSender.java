@@ -9,7 +9,7 @@ public class MailSender {
 	final static String username = "always.on.system@gmail.com";
 	final static String password = "stmpgmail";
 
-	public static void sendEmail(String body, String subject, String to) {
+	public static boolean sendEmail(String body, String subject, String to) {
 		Properties props = new Properties();		
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable","true");
@@ -34,9 +34,10 @@ public class MailSender {
 			Transport.send(message);
 			
 			System.out.println("done");
-			
+			return true;
 		} catch(MessagingException e){
 			System.out.println("failed to send message:" + e);
+			return false;
 		}
 	}
 	
