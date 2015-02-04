@@ -1,7 +1,7 @@
 package edu.neu.always.skype;
 
+import java.util.*;
 import edu.wpi.always.Always;
-import edu.wpi.always.client.SkypeUserHandler;
 import edu.wpi.always.user.*;
 import edu.wpi.always.user.people.Person;
 import edu.wpi.disco.rt.ResourceMonitor;
@@ -20,36 +20,42 @@ public class SkypeOutgoingSchema extends SkypeSchema {
    private static class SkypeOutgoing extends MultithreadAdjacencyPair<AdjacencyPair.Context> {
 
       private SkypeOutgoing (UserModel model) {
-         super("please select the person you would like to arrange a video call with", new AdjacencyPair.Context());
+         super(getChoices(model).isEmpty() ? 
+            "in order to arrange a video call, you need to include an email address when you introduce me to someone you know" :
+            "please select the person you would like to arrange a video call with", 
+            new AdjacencyPair.Context());
          this.repeatOption = false;
          final String fName = model.getUserFirstName();
-         for (final Person person : model.getPeopleManager().getPeople(false)) {
-            if ( person.getSkypeNumber() != null )
-               choice(person.getName(), new DialogStateTransition() {
+         List<Person> choices = getChoices(model);
+         for (final Person person : choices)
+            choice(person.getName(), new DialogStateTransition() {
                   @Override
                   public AdjacencyPair run () {
                      return new SkypePerson(getContext(), person, fName);
                   };
                });
-         }
-         choice("Never mind", new DialogStateTransition() {
+         choice(choices.isEmpty() ? "Ok" : "Never mind", new DialogStateTransition() {
             @Override
             public AdjacencyPair run () {
                getContext().getSchema().stop();
                return null;
             }});
       }
+     
+      private static List<Person> getChoices (UserModel model) {
+         List<Person> choices = new ArrayList<Person>();
+         for (Person person : model.getPeopleManager().getPeople(false))
+            if ( person.getSkypeNumber() != null ) choices.add(person);
+         return choices;
+      }
    }
    
    private static class SkypePerson extends MultithreadAdjacencyPair<AdjacencyPair.Context> {
       
       private final Person person;
-      private static String id; //TODO: Get this from the usermodel
-      private static boolean mailSent = false;
       
       private SkypePerson (Context context, Person person, String fName) { 
-         super(sendMail(person,fName),context);
-         
+         super(sendMail(person, fName),context);
          this.person = person;
          choice("Ok", new DialogStateTransition() {
             @Override
@@ -59,25 +65,19 @@ public class SkypeOutgoingSchema extends SkypeSchema {
             }});
       }
       
-      public static String sendMail(Person person,String fName){
-          id = person.getSkypeNumber();
+      private static String sendMail (Person person, String fName) {
           String address = person.getSkypeNumber();
           String body = "Dear " + person.getName() +",\n\n" +
          		 fName + " has asked the AlwaysOn system to send you this email so that you can make video calls using Google Hangout. You can start a video call with " + fName + " now or at any later time by visiting the following website:\n\n" +
-         		 "https://ragserver.ccs.neu.edu/hangoutTest/login.html?id=" + id + "\n\n" +
+         		 "https://ragserver.ccs.neu.edu/hangoutTest/login.html?id=" +
+         		 Always.THIS.getUserModel().getPeopleManager().getUser().getSkypeNumber() + "\n\n" +
          		 "If " + fName + " is not available, the system will let you know.\n\n" +
          		 "*This is an automatically generated email, if you have any questions about the AlwaysOn System please contact the study team at lring@ccs.neu.edu";
           String subject = "AlwaysOn: Video Call Request from " + fName;
-          mailSent = MailSender.sendEmail(body, subject, address);
-
-    	  String response = "";
-    	  if(mailSent){
-    		  response = "I have sent "+person.getName()+" an email asking for a video call if "
-    	               +UserUtils.getPronoun(person)+" is available.  While we are waiting for a call, we can do other things.";
-    	  } else {
-    		  response = "Sadly I was not able to send an email to " + person.getName() + ". Please try again later.";
-    	  }
-    	  return response;
+          return MailSender.sendEmail(body, subject, address) ?
+    	      ("I have sent "+person.getName()+" an email asking for a video call if "+UserUtils.getPronoun(person)+
+    	       " is available.  While we are waiting for a call, we can do other things.")
+    	      : ("Sadly I was not able to send an email to " + person.getName() + ". Please try again later.");
       }
       
       @Override
