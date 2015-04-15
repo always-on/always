@@ -51,19 +51,13 @@
     </precondition>
   </task>
 
-  <task id="GetHealthTips">
-    <precondition> notStranger() </precondition>
-  </task>
+  <task id="GetHealthTips"/>
   
   <task id="AdviseNutrition">
     <precondition> isExplained("ADVISE_NUTRITION") || notStranger() || days() &gt; 2 </precondition>
   </task>
   
-  <task id="UseCalendar">
-    <precondition>
-      isImminent() || isExplained("USE_CALENDAR") || notStranger() || days() &gt; 3 
-    </precondition>
-  </task>
+  <task id="UseCalendar"/>
 
   <task id="PlanExercise">
     <precondition> advanced(7, "PLAN_EXERCISE") </precondition>

@@ -14,24 +14,24 @@
       </subtasks>
    </task>
    <task id="__CalendarInterruption_tree">
-      <subtasks id="_d4e57_subtasks">
-         <step name="_d4e57_step" task="disco:Say"/>
-         <step name="_d4e58_step" task="disco:Say"/>
-         <step name="_d4e59_step" task="disco:Say$Eval"/>
-         <binding slot="$_d4e57_step.text" value="&#34;yes, let's stop now&#34;"/>
-         <binding slot="$_d4e57_step.external" value="true"/>
-         <binding slot="$_d4e58_step.text" value="&#34;ok, talk to you later&#34;"/>
-         <binding slot="$_d4e58_step.external" value="false"/>
-         <binding slot="$_d4e59_step.text" value="&#34;goodbye&#34;"/>
-         <binding slot="$_d4e59_step.external" value="true"/>
-         <binding slot="$_d4e59_step.eval"
+      <subtasks id="_d4e53_subtasks">
+         <step name="_d4e53_step" task="disco:Say"/>
+         <step name="_d4e54_step" task="disco:Say"/>
+         <step name="_d4e55_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e53_step.text" value="&#34;yes, let's stop now&#34;"/>
+         <binding slot="$_d4e53_step.external" value="true"/>
+         <binding slot="$_d4e54_step.text" value="&#34;ok, talk to you later&#34;"/>
+         <binding slot="$_d4e54_step.external" value="false"/>
+         <binding slot="$_d4e55_step.text" value="&#34;goodbye&#34;"/>
+         <binding slot="$_d4e55_step.external" value="true"/>
+         <binding slot="$_d4e55_step.eval"
                   value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
       </subtasks>
-      <subtasks id="_d4e60_subtasks">
-         <step name="_d4e60_step" task="disco:Say$Eval"/>
-         <binding slot="$_d4e60_step.text" value="&#34;no, let's continue&#34;"/>
-         <binding slot="$_d4e60_step.external" value="true"/>
-         <binding slot="$_d4e60_step.eval"
+      <subtasks id="_d4e56_subtasks">
+         <step name="_d4e56_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e56_step.text" value="&#34;no, let's continue&#34;"/>
+         <binding slot="$_d4e56_step.external" value="true"/>
+         <binding slot="$_d4e56_step.eval"
                   value="&#34;Packages.edu.wpi.always.calendar.CalendarClient.hideToday()&#34;"/>
       </subtasks>
    </task>
@@ -61,17 +61,11 @@
         (isExplained("TALK_ABOUT") || notStranger() || days() &gt; 2)
     </precondition>
    </task>
-   <task id="GetHealthTips">
-      <precondition> notStranger() </precondition>
-   </task>
+   <task id="GetHealthTips"/>
    <task id="AdviseNutrition">
       <precondition> isExplained("ADVISE_NUTRITION") || notStranger() || days() &gt; 2 </precondition>
    </task>
-   <task id="UseCalendar">
-      <precondition>
-      isImminent() || isExplained("USE_CALENDAR") || notStranger() || days() &gt; 3 
-    </precondition>
-   </task>
+   <task id="UseCalendar"/>
    <task id="PlanExercise">
       <precondition> advanced(7, "PLAN_EXERCISE") </precondition>
    </task>
