@@ -48,9 +48,8 @@ public abstract class UserUtils {
          if ( last != null ) USER_FILE = last.getName().toString();
       }
       Always always = new Always(true, true);
-      // to force loading of plugin classes 
-      for (TaskClass task : new TaskEngine().load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
-         Plugin.getPlugin(task);
+      Plugin.loadAll ( // to force loading of plugin classes used in JavaScript
+            new TaskEngine().load("/edu/wpi/always/resources/Activities.xml").getTaskClasses());
       UserModel model = always.getUserModel();
       if ( model.getUserName() == null )
          System.err.println("Could not load model from "+

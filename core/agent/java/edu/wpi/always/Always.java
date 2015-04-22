@@ -109,9 +109,8 @@ public class Always {
          // initialize duplicate interaction created above
          // before Activities so $always initialized
          new Always(true, false).init(interaction); 
-         // to force loading of plugin classes 
-         for (TaskClass top : new edu.wpi.disco.Disco(interaction).load("/edu/wpi/always/resources/Activities.xml").getTaskClasses())
-            if ( top.isTop() ) Plugin.getPlugin(top);
+         Plugin.loadAll( // to force loading of plugin classes used in JavaScript
+               new edu.wpi.disco.Disco(interaction).load("/edu/wpi/always/resources/Activities.xml").getTaskClasses());
          interaction.start(true);  
       }
    }

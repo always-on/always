@@ -2,12 +2,7 @@ package edu.wpi.always;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import org.joda.time.LocalTime;
 import org.picocontainer.Characteristics;
 import org.picocontainer.MutablePicoContainer;
@@ -366,6 +361,11 @@ public abstract class Plugin {
    private final static List<Class<? extends Plugin>> plugins = new ArrayList<Class<? extends Plugin>>();
    
    public static List<Class<? extends Plugin>> getPlugins () { return plugins; }
+   
+   public static void loadAll (Collection<TaskClass> tasks) {
+      for (TaskClass task : tasks) 
+         if ( task.isTop() ) Plugin.getPlugin(task);
+   }
    
    public static Class<? extends Plugin> getPlugin (TaskClass task) {
       String plugin = task.getEngine().getProperty(getActivity(task)+"@plugin");
