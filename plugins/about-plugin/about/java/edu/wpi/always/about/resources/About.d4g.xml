@@ -60,7 +60,7 @@
       famFriendName = famFriend.getName();
       famFriendRelationship = 
           (famFriend.getRelationship() == null ? " ": "your " + famFriend.getRelationship() );
-      if (genderFamFriend == "Male") {pronounObj = "him"; pronounSubj = "he"; pronounPossessive= "his" } 
+      if (genderFamFriend == Packages.edu.wpi.always.user.people.Person.Gender.Male) {pronounObj = "him"; pronounSubj = "he"; pronounPossessive= "his" } 
       else  {pronounObj = "her"; pronounSubj = "she"; pronounPossessive = "her" }; 
     </t:script>
   </t:task>
