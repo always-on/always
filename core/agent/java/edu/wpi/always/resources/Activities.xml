@@ -10,28 +10,28 @@
                   value="&#34;Please excuse the interruption, but you have a calendar event in less than twenty minutes.  Would you like to end this session now?&#34;"/>
          <binding slot="$__CalendarInterruption_step.external" value="false"/>
          <binding slot="$__CalendarInterruption_step.eval"
-                  value="&#34;Packages.edu.wpi.always.calendar.CalendarClient.showToday()&#34;"/>
+                  value="&#34;java.lang.Thread.sleep(3000);Packages.edu.wpi.always.calendar.CalendarClient.showToday()&#34;"/>
       </subtasks>
    </task>
    <task id="__CalendarInterruption_tree">
-      <subtasks id="_d4e53_subtasks">
-         <step name="_d4e53_step" task="disco:Say"/>
+      <subtasks id="_d4e54_subtasks">
          <step name="_d4e54_step" task="disco:Say"/>
-         <step name="_d4e55_step" task="disco:Say$Eval"/>
-         <binding slot="$_d4e53_step.text" value="&#34;yes, let's stop now&#34;"/>
-         <binding slot="$_d4e53_step.external" value="true"/>
-         <binding slot="$_d4e54_step.text" value="&#34;ok, talk to you later&#34;"/>
-         <binding slot="$_d4e54_step.external" value="false"/>
-         <binding slot="$_d4e55_step.text" value="&#34;goodbye&#34;"/>
-         <binding slot="$_d4e55_step.external" value="true"/>
-         <binding slot="$_d4e55_step.eval"
-                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
-      </subtasks>
-      <subtasks id="_d4e56_subtasks">
+         <step name="_d4e55_step" task="disco:Say"/>
          <step name="_d4e56_step" task="disco:Say$Eval"/>
-         <binding slot="$_d4e56_step.text" value="&#34;no, let's continue&#34;"/>
+         <binding slot="$_d4e54_step.text" value="&#34;yes, let's stop now&#34;"/>
+         <binding slot="$_d4e54_step.external" value="true"/>
+         <binding slot="$_d4e55_step.text" value="&#34;ok, talk to you later&#34;"/>
+         <binding slot="$_d4e55_step.external" value="false"/>
+         <binding slot="$_d4e56_step.text" value="&#34;goodbye&#34;"/>
          <binding slot="$_d4e56_step.external" value="true"/>
          <binding slot="$_d4e56_step.eval"
+                  value="&#34;Packages.edu.wpi.always.cm.schemas.EngagementSchema.EXIT = true&#34;"/>
+      </subtasks>
+      <subtasks id="_d4e57_subtasks">
+         <step name="_d4e57_step" task="disco:Say$Eval"/>
+         <binding slot="$_d4e57_step.text" value="&#34;no, let's continue&#34;"/>
+         <binding slot="$_d4e57_step.external" value="true"/>
+         <binding slot="$_d4e57_step.eval"
                   value="&#34;Packages.edu.wpi.always.calendar.CalendarClient.hideToday()&#34;"/>
       </subtasks>
    </task>

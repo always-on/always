@@ -101,10 +101,13 @@
   </task>
   
   <!-- following for interruptions -->
+  
+  <!-- note sleep below as hack fix to give time for disposal of
+       current plugin to complete before display of today's calendar -->
 
   <d:agent id="_CalendarInterruption"
            text="Please excuse the interruption, but you have a calendar event in less than twenty minutes.  Would you like to end this session now?"
-           eval="Packages.edu.wpi.always.calendar.CalendarClient.showToday()">
+           eval="java.lang.Thread.sleep(3000);Packages.edu.wpi.always.calendar.CalendarClient.showToday()">
     <d:user text="yes, let's stop now"> 
       <d:agent text="ok, talk to you later">
         <d:user text="goodbye"
