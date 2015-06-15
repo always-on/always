@@ -49,6 +49,7 @@
 
     // dialogue control variables
     var noThanks;
+    var allExplained;
     var $CHOICE;
 
     function isPreviousTalk () {
@@ -66,7 +67,8 @@
     </t:subtasks>
     <t:subtasks id="_knowssome">
       <t:step name="init" task="_Init"/>
-      <t:step name="start" task="_StartRest" />
+      <t:step name="start" task="_StartRest" minOccurs="0"/>
+      <t:step name="all" task="_AllExplained" minOccurs="0"/>
       <t:step name="double" task="_Double" />
       <t:applicable> isPreviousTalk() </t:applicable>
     </t:subtasks>
@@ -75,18 +77,34 @@
   <t:task id="_Init">
     <t:script>
      noThanks = false;
+     allExplained = true;
      for (var a in Activity.ALL) 
-       if ( !Activity.ALL[a].checkFlag() ) 
+       if ( !Activity.ALL[a].checkFlag() ) {
          Activity.ENUM[a] = Activity.ALL[a];
+         allExplained = false;
+         print(a);println(" unexplained");
+       }
+     println(allExplained);
     </t:script>
   </t:task>
 
   <agent id="_StartRest" 
-         text="I have told you about some of the activities we can do together.  There are a few more.  Want to hear about them?" >
+         text="I have told you about some of the activities we can do together.  There are a few more.  Want to hear about them?" 
+         precondition="!allExplained">
     <user text="yes, I do." />
     <user text="no thanks." eval="noThanks=true" >
     </user>
     <user text="I would rather hear about all the activities again" 
+          eval="Activity.ENUM = Activity.ALL"> 
+    </user>
+  </agent>
+
+  <agent id="_AllExplained" 
+         text="I have told you about all of the activities we can do together." 
+         precondition="allExplained">
+    <user text="ok, thanks." eval="noThanks=true" >
+    </user>
+    <user text="I would like to hear about some activities again" 
           eval="Activity.ENUM = Activity.ALL"> 
     </user>
   </agent>
