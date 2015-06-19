@@ -13,7 +13,6 @@ public interface CompoundBehavior {
     * its minions request PrimitiveBehaviors through the instance passed in here
     * 
     * @param primitiveControl
-    * @return
     */
    CompoundRealizer createRealizer (PrimitiveBehaviorControl primitiveControl);
 }

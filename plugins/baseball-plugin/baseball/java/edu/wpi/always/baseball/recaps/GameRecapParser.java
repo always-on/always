@@ -726,8 +726,6 @@ public class GameRecapParser {
    /**
     * This method returns the score of the game in the form of an array. [0]
     * contains boston's score. [1] contains the other team's score
-    * 
-    * @return
     */
    public int[] getScore () {
       int[] gameScore = new int[2];
@@ -745,7 +743,6 @@ public class GameRecapParser {
     * 
     * @param bosScore the number of runs boston scored in the game.
     * @param otherScore the number of runs the other team scored in the game.
-    * @return
     */
    public static String getTypeOfGameString (int bosScore, int otherScore,
          String otherTeam) {

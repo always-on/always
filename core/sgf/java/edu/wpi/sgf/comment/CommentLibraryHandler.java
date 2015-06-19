@@ -275,7 +275,6 @@ public class CommentLibraryHandler {
     * @param someComments
     * @param someTags
     * @param someGameSpecificTags
-    * @return
     */
 
    public List<Comment> prioritizeByTags(
