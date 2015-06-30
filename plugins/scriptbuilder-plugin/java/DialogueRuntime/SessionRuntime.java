@@ -103,7 +103,6 @@ import java.util.*;
 	    /**
 	     * Returns a reference to the global properties object. No other class
 	     * should instantiate another version of properties.
-	     * @return
 	     * @throws Exception
 	     */
 	    public Properties getProperties() throws Exception {

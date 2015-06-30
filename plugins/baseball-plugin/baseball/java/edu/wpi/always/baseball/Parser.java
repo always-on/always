@@ -73,7 +73,6 @@ public class Parser {
     * 
     * @param bosScore
     * @param otherScore
-    * @return
     */
    public String getWeNeededThatWinResponseString (StandingsParser aParser,
          int bosScore, int otherScore) {

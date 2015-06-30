@@ -44,7 +44,7 @@ Ontology(
 
   Declaration(DataProperty(<#ExplainHearAnecdotes>))
   DataPropertyDomain(<#ExplainHearAnecdotes> <#User>)
-  DataPropertyRange(<#ExplaiHearAnecdotes> xsd:boolean)
+  DataPropertyRange(<#ExplainHearAnecdotes> xsd:boolean)
   SubClassOf(<#User> DataExactCardinality(1 <#ExplainHearAnecdotes> xsd:boolean))
 
   Declaration(DataProperty(<#ExplainAdviseNutrition>))

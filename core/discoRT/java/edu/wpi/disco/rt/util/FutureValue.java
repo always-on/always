@@ -13,7 +13,6 @@ public class FutureValue<T> {
     * if the value is not set yet, it will block the thread and wait for it
     * indefinitely
     * 
-    * @return
     * @throws InterruptedException
     * @throws ExecutionException
     */
@@ -64,7 +63,6 @@ public class FutureValue<T> {
     * it (blocking the thread)
     * 
     * @param timeout in milliseconds
-    * @return
     * @throws InterruptedException
     * @throws ExecutionException
     * @throws TimeoutException

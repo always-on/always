@@ -17,7 +17,6 @@ public class Card implements Iterable<Card>{
 
 	/**
 	 * Constructor with Rank as rank
-	 * @param int value of card, suit
 	 */
 	public Card(Rank rank, Suit suit){
 
@@ -28,7 +27,6 @@ public class Card implements Iterable<Card>{
 
 	/**
 	 * Constructor with an Integer as the rank
-	 * @param int value of card, suit
 	 */
 	public Card(int rank, Suit suit){
 
