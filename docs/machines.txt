@@ -23,7 +23,7 @@ TOUCHSMART2-HP (HP) Development (NEU)
 ---MACHINES AT NEU (unpacked)---
 
 ** RAGTOUCH2 (ASUS) - Reeti Dori
-** ALWAYS3 (ASUS) - Reeti Fili (Dead)
+** ALWAYS3 (ASUS) - Reeti Kili (Dead)
 
 Following 3 machines were formerly at WPI
 
