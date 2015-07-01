@@ -101,7 +101,10 @@ namespace Agent.UI
                 if (Screen.PrimaryScreen.Bounds.Width == 1280)
                     SendClick(405, 660);
                 else
-                    SendClick(340,600);
+                {
+                    SendClick(340, 600); //click for if they have queit invite
+                    SendClick(350, 580); //click for if they dont
+                }
             }
         }
 
