@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry excluding="edu/wpi/always/weather/resources/schemas.xml" kind="src" path="java"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/agent"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 7 [1.7.0_79]"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>

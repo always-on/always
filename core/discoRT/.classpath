@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="java"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/joda-time-2.0.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://joda-time.sourceforge.net/apidocs/"/>
@@ -26,5 +25,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/discoRT/lib/disco1.6.10/lib/disco-api.zip!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 7 [1.7.0_79]"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>
